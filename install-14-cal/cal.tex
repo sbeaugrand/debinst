@@ -1,0 +1,352 @@
+% ---------------------------------------------------------------------------- %
+%% \file cal.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+% zypper install --no-recommends\
+%  texlive-latex\
+%  texlive-vmargin\
+%  texlive-babel-french\
+%  texlive-colortbl\
+%  texlive-psnfss\
+%  texlive-metafont-bin\
+%  texlive-times\
+%  texlive-dvips
+% ---------------------------------------------------------------------------- %
+\documentclass[a4paper]{article}
+\usepackage{vmargin}
+\setpapersize{custom}{297mm}{210mm}
+\setmarginsrb{8mm}{10mm}{8mm}{10mm}{0mm}{0mm}{0mm}{0mm}
+\renewcommand\normalsize{%
+ \usefont{T1}{ptm}{m}{n}\fontsize{8pt}{9pt}\selectfont}
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\pagestyle{empty}
+\usepackage{colortbl}
+\def\grey{\rowcolor[gray]{0.75}}
+\def\greyII{\rowcolor[gray]{0.85}}
+\definecolor{tgrey}{gray}{0.5}
+\usepackage{graphics}
+\tabcolsep=2pt
+\parindent0pt
+\parskip0pt
+
+% ---------------------------------------------------------------------------- %
+% Paramètres
+% ---------------------------------------------------------------------------- %
+% Année
+\input{year.tex}
+% Latitude et longitude
+\input{lat.tex}
+\input{lon.tex}
+% h0
+\input{h0.tex}
+% Vacances
+\input{vacances.tex}
+
+% ---------------------------------------------------------------------------- %
+% Lunes
+% ---------------------------------------------------------------------------- %
+\input{calendar/calend0.tex}
+\input{calendar/sun.tex}
+\setyear{\annee}
+% Saisons
+\newcount\winterday \linY 365.242.756+355784. \caldate \winterday=\Day
+\newcount\springday \linY 365.242.365+ 79573. \caldate \springday=\Day
+\newcount\summerday \linY 365.241.628+172405. \caldate \summerday=\Day
+\newcount\fallday   \linY 365.242.045+266014. \caldate   \fallday=\Day
+% Phases de la lune
+\input{calendar/moon.tex}
+\def\modulo#1#2{%
+  \count0=#1
+  \divide\count0 by #2
+  \multiply\count0 by #2
+  \multiply\count0 by -1
+  \advance\count0 by #1
+}
+\newcount\moon 
+\def\moonphasenumber{%
+  \count0=\moonno \count1=\moonno
+  \divide\count0 by4\multiply\count0 by4
+  \advance\count1 by-\count0
+  \global\moon=\count1
+}
+\def\nextmoonphasenumber{%
+  \moondate \moonphasenumber
+  \global\advance\moonno by1
+  \caldate
+}
+\def\initmoon{%
+  \firstmoon \moonphasenumber
+  \global\advance\moonno by1
+  \caldate
+  \ifnum\Month=12 \nextmoonphasenumber \fi
+}
+\initmoon
+\font\moonfont=moonphase at 7pt
+\setlength{\unitlength}{1pt}
+
+% ---------------------------------------------------------------------------- %
+% ligne
+% ---------------------------------------------------------------------------- %
+\newcommand\ligne{%
+  \ifnum\jour=7
+    \grey
+  \else
+    \ifnum\jourdumois=\paquesjour \ifnum\mois=\paquesmois \greyII \fi \fi
+    \ifnum\jourdumois=\ascensjour \ifnum\mois=\ascensmois \greyII \fi \fi
+    \ifnum\jourdumois=\pentecjour \ifnum\mois=\pentecmois \greyII \fi \fi
+    \ifnum\jourdumois=1  \ifnum\mois=1  \greyII \fi \fi
+    \ifnum\jourdumois=1  \ifnum\mois=5  \greyII \fi \fi
+    \ifnum\jourdumois=8  \ifnum\mois=5  \greyII \fi \fi
+    \ifnum\jourdumois=14 \ifnum\mois=7  \greyII \fi \fi
+    \ifnum\jourdumois=15 \ifnum\mois=8  \greyII \fi \fi
+    \ifnum\jourdumois=1  \ifnum\mois=11 \greyII \fi \fi
+    \ifnum\jourdumois=11 \ifnum\mois=11 \greyII \fi \fi
+    \ifnum\jourdumois=25 \ifnum\mois=12 \greyII \fi \fi
+  \fi
+  \number\jourdumois&
+  \ifcase\jour \or L \or M \or M \or J \or V \or S \or D \fi
+  &
+  % Numéros des semaines
+  \ifnum\jour=1
+    \textcolor{tgrey}{\number\week} \global\advance\week1
+  \else \ifnum\jourdumois=1 \ifnum\mois=1
+    \textcolor{tgrey}{1}
+  \fi \fi \fi
+  % Changements d'heure
+  \ifnum\mois=3  \ifnum\jour=7 \ifnum\jourdumois>24
+    +1h \global\summer=1 \fi \fi \fi
+  \ifnum\mois=10 \ifnum\jour=7 \ifnum\jourdumois>24
+    -1h \global\summer=0 \fi \fi \fi
+  % Fêtes païennes
+  \ifdim\dimjour<50pt \tiny \fi
+  \ifnum\jourdumois=\winterday \ifnum\mois=12 Jul    \fi \fi
+  \ifnum\jourdumois=\springday \ifnum\mois=3  Ostara \fi \fi
+  \ifnum\jourdumois=\summerday \ifnum\mois=6  Litha  \fi \fi
+  \ifnum\jourdumois=\fallday   \ifnum\mois=9  Mabon  \fi \fi
+  \ifnum\jourdumois=2  \ifnum\mois=2  Imbolc     \fi \fi
+  \ifnum\jourdumois=30 \ifnum\mois=4  Beltaine   \fi \fi
+  \ifnum\jourdumois=1  \ifnum\mois=8  Lughnasadh \fi \fi
+  \ifnum\jourdumois=31 \ifnum\mois=10 Samhain    \fi \fi
+  \ifnum\mois=\fetemmois \ifnum\fetemmois=5 \ifnum\jour=7 \ifnum\jourdumois>24
+    Fête des mères \fi \fi \fi \fi
+  \ifnum\mois=\fetemmois \ifnum\fetemmois=6 \ifnum\jour=7 \ifnum\jourdumois<8
+    Fête des mères \fi \fi \fi \fi
+  \ifnum\mois=6  \ifnum\jour=7 \ifnum\jourdumois>14 \ifnum\jourdumois<22
+    Fête des pères \fi \fi \fi \fi
+  \ifnum\mois=3  \ifnum\jour=7 \ifnum\jourdumois<8
+    Fête des grand-mères \fi \fi \fi
+  \ifnum\mois=10 \ifnum\jour=7 \ifnum\jourdumois<8
+    Fête des grand-pères \fi \fi \fi
+  \ifdim\dimjour<50pt \normalsize \fi
+  % Lever et coucher du soleil
+  \ifdim\dimjour>50pt
+  \tiny
+  \IfFileExists{sun}{%
+    \immediate\write18{sun
+      \number\annee-\number\mois-\number\jourdumois{}
+      \number\latitude{} \number\longitude{} \number\h0{}
+      | sed 's/:/$:$/g' >sun.txt}}{}
+  \IfFileExists{sun.txt}{%
+    \textcolor{tgrey}{~\vspace*{-3pt}\newline\input{sun.txt}}}{}
+  % Apogée, périgée, noeuds, et déclinaisons de la lune
+  \IfFileExists{moon}{%
+    \immediate\write18{moon
+      \number\annee-\number\mois-\number\jourdumois{}
+      | dd ibs=17 count=1 2>/dev/null
+      | sed 's/:/$:$/' >moon.txt && test -s moon.txt || rm moon.txt}}{}
+  \IfFileExists{moon.txt}{%
+    \input{moon.txt}
+  }{%
+    ~
+  }
+  \normalsize
+  \fi
+  &
+  % Phases de la lune
+  \ifnum\jourdumois=\Day \ifnum\mois=\Month
+    \hspace{\stretch{1}}
+    \begin{picture}(7,7)(0,1.5){\moonfont\char\moon}\end{picture}
+    $\nextmoonphasenumber$
+  \fi \fi
+  &
+
+  \ifnum\mois=\vOOIdmOOI \ifnum\jourdumois=\vOOIddOOI
+    \global\zoneOOI=1 \global\zoneOII=1 \global\zoneIII=1 \fi \fi
+
+  \ifnum\mois=\vOIIdmOOI \ifnum\jourdumois=\vOIIddOOI \global\zoneOOI=1 \fi \fi
+  \ifnum\mois=\vOIIdmOII \ifnum\jourdumois=\vOIIddOII \global\zoneOII=1 \fi \fi
+  \ifnum\mois=\vOIIdmIII \ifnum\jourdumois=\vOIIddIII \global\zoneIII=1 \fi \fi
+
+  \ifnum\mois=\vIIIdmOOI \ifnum\jourdumois=\vIIIddOOI \global\zoneOOI=1 \fi \fi
+  \ifnum\mois=\vIIIdmOII \ifnum\jourdumois=\vIIIddOII \global\zoneOII=1 \fi \fi
+  \ifnum\mois=\vIIIdmIII \ifnum\jourdumois=\vIIIddIII \global\zoneIII=1 \fi \fi
+
+  \ifnum\mois=\vOIVdmOOI \ifnum\jourdumois=\vOIVddOOI
+    \global\zoneOOI=1 \global\zoneOII=1 \global\zoneIII=1 \fi \fi
+
+  \ifnum\mois=\vOOVdmOOI \ifnum\jourdumois=\vOOVddOOI
+    \global\zoneOOI=1 \global\zoneOII=1 \global\zoneIII=1 \fi \fi
+
+  \ifnum\mois=\vOVIdmOOI \ifnum\jourdumois=\vOVIddOOI
+    \global\zoneOOI=1 \global\zoneOII=1 \global\zoneIII=1 \fi \fi
+
+  \ifnum\zoneOOI=1 \textcolor{red}  {\vline width 1pt}
+    \else \phantom{\textcolor{red}  {\vline width 1pt}} \fi
+  \ifnum\zoneOII=1 \textcolor{blue} {\vline width 1pt}
+    \else \phantom{\textcolor{blue} {\vline width 1pt}} \fi
+  \ifnum\zoneIII=1 \textcolor{green}{\vline width 1pt}
+    \else \phantom{\textcolor{green}{\vline width 1pt}} \fi
+
+  \ifnum\mois=\vOOIfmOOI \ifnum\jourdumois=\vOOIfdOOI
+    \global\zoneOOI=0 \global\zoneOII=0 \global\zoneIII=0 \fi \fi
+
+  \ifnum\mois=\vOIIfmOOI \ifnum\jourdumois=\vOIIfdOOI \global\zoneOOI=0 \fi \fi
+  \ifnum\mois=\vOIIfmOII \ifnum\jourdumois=\vOIIfdOII \global\zoneOII=0 \fi \fi
+  \ifnum\mois=\vOIIfmIII \ifnum\jourdumois=\vOIIfdIII \global\zoneIII=0 \fi \fi
+
+  \ifnum\mois=\vIIIfmOOI \ifnum\jourdumois=\vIIIfdOOI \global\zoneOOI=0 \fi \fi
+  \ifnum\mois=\vIIIfmOII \ifnum\jourdumois=\vIIIfdOII \global\zoneOII=0 \fi \fi
+  \ifnum\mois=\vIIIfmIII \ifnum\jourdumois=\vIIIfdIII \global\zoneIII=0 \fi \fi
+
+  \ifnum\mois=\vOIVfmOOI \ifnum\jourdumois=\vOIVfdOOI
+    \global\zoneOOI=0 \global\zoneOII=0 \global\zoneIII=0 \fi \fi
+
+  \ifnum\mois=\vOOVfmOOI \ifnum\jourdumois=\vOOVfdOOI
+    \global\zoneOOI=0 \global\zoneOII=0 \global\zoneIII=0 \fi \fi
+
+  \ifnum\mois=\vOVIfmOOI \ifnum\jourdumois=\vOVIfdOOI
+    \global\zoneOOI=0 \global\zoneOII=0 \global\zoneIII=0 \fi \fi
+
+  \global\advance\jourdumois1
+  \ifnum\jour<7 \global\advance\jour1 \else \global\advance\jour-6 \fi
+  \\ \hline
+}
+
+% ---------------------------------------------------------------------------- %
+% semestre
+% ---------------------------------------------------------------------------- %
+\newcommand\semestre[1]{%
+  \begin{minipage}{\dimseme}
+  \begin{center}
+  \loop
+  \newcount\jourdumois \jourdumois=1
+  \newcount\last
+  \ifcase\mois
+    \or \last=31 \or \last=28 \or \last=31 \or \last=30
+    \or \last=31 \or \last=30 \or \last=31 \or \last=31
+    \or \last=30 \or \last=31 \or \last=30 \or \last=31
+  \fi
+  \ifnum\mois=2
+    \tmp=\annee
+    \divide\tmp4 \multiply\tmp4
+    \ifnum\tmp=\annee \last=29 \fi
+  \fi
+  \begin{tabular}[t]{|c|c|p{\dimjour}r@{}r|}
+  \multicolumn{5}{p{\dimmois}}{}\\ \hline
+  \multicolumn{5}{|@{}c@{}|}{\textbf{
+    \ifcase\mois
+      \or JANVIER   \or FÉVRIER \or MARS     \or AVRIL
+      \or MAI       \or JUIN    \or JUILLET  \or AOÛT
+      \or SEPTEMBRE \or OCTOBRE \or NOVEMBRE \or DÉCEMBRE
+    \fi
+    \phantom{É}\annee}}\\ \hline \hline
+  \ligne \ligne \ligne \ligne \ligne \ligne \ligne
+  \ligne \ligne \ligne \ligne \ligne \ligne \ligne
+  \ligne \ligne \ligne \ligne \ligne \ligne \ligne
+  \ligne \ligne \ligne \ligne \ligne \ligne \ligne
+  \ifnum\last>28 \ligne \fi
+  \ifnum\last>29 \ligne \fi
+  \ifnum\last>30 \ligne \fi
+  \end{tabular}
+  \global\advance\mois1
+  \ifnum\mois<#1 \repeat\\
+
+  \textcolor{red}{Zone A :}
+  Besançon, Bordeaux, Clermont-Ferrand, Dijon,
+  Grenoble, Limoges, Lyon, Poitiers
+  \IfFileExists{moon}{
+  \hfill AL: Apogée lunaire, PL: Périgée lunaire
+  }{}
+  \ifdim\dimjour>50pt \\ \else -- \fi
+  \textcolor{blue}{Zone B :}
+  Aix-Marseille, Amiens, Caen, Lille, Nancy-Metz, Nantes,
+  Nice, Orléans-Tours, Reims, Rennes, Rouen, Strasbourg
+  \IfFileExists{moon}{
+  \hfill NA: N\oe{}ud ascendant, ND: N\oe{}ud descendant
+  }{}
+  \ifdim\dimjour>50pt \\ \else -- \fi
+  \textcolor{green}{Zone C :}
+  Créteil, Montpellier, Paris, Toulouse, Versailles --
+  Lundi de Pâques: \number\paquesjour/\number\paquesmois,
+  Lundi de Pentecôte: \number\pentecjour/\number\pentecmois
+  \IfFileExists{moon}{
+  \hfill LM: Lune montante, LD: Lune descendante
+  }{}\\
+  \end{center}
+  \end{minipage}
+}
+
+% ---------------------------------------------------------------------------- %
+% main
+% ---------------------------------------------------------------------------- %
+\begin{document}
+% Calcul du premier jour de la première semaine
+\newcount\jour \jour=2
+\newcount\tmp
+\tmp=\annee \advance\tmp-1 \multiply\tmp5 \divide\tmp4 \advance\jour\tmp
+\tmp=\annee \advance\tmp-1 \divide\tmp100 \advance\tmp-7 \multiply\tmp3
+\divide\tmp4 \advance\jour-\tmp
+\tmp=\jour \divide\tmp7 \multiply\tmp7 \advance\jour-\tmp
+\ifnum\jour=0 \jour=7 \fi
+
+% Lundi de paques, jeudi de l'ascension, lundi de pentecote
+\input paques.tex
+\paques
+\ascension
+\pentecote
+
+% Fête des mères
+\newcount\fetemmois \fetemmois=\pentecmois
+\newcount\fetemjour \fetemjour=\pentecjour
+\ifnum \fetemjour=1
+  \advance\fetemmois-1 \advance\fetemjour\fetemmois \advance\fetemjour25
+\else
+  \advance\fetemjour-1
+\fi
+\ifnum \fetemmois=5
+  \ifnum\fetemjour>24
+    \fetemmois=6
+  \fi
+\else
+  \fetemmois=5
+\fi
+
+\newcount\mois
+\newcount\week
+\newcount\zoneOOI
+\newcount\zoneOII
+\newcount\zoneIII
+\newcount\summer
+\newlength{\dimseme}
+\newlength{\dimmois}
+\newlength{\dimjour}
+
+\begin{center}
+\mois=1
+\week=1 \ifnum\jour>1 \advance\week1 \fi
+\zoneOOI=0
+\zoneOII=0
+\zoneIII=0
+\summer=0
+\setlength{\dimseme}{799pt}
+\setlength{\dimmois}{127pt}
+\setlength{\dimjour}{80pt}
+\semestre{7}
+\newpage
+\semestre{13}
+\end{center}
+\end{document}

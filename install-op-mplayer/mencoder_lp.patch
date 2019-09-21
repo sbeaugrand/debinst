@@ -1,0 +1,13 @@
+--- mplayer.old/libmpdemux/muxer_avi.c	2012-07-17 16:40:51.406232799 +0200
++++ mplayer/libmpdemux/muxer_avi.c	2012-07-17 16:50:35.562192707 +0200
+@@ -37,8 +37,8 @@
+ #include "help_mp.h"
+ 
+ /* #define ODML_CHUNKLEN    0x02000000 */ /* for testing purposes */
+-#define ODML_CHUNKLEN    0x40000000
+-#define ODML_NOTKEYFRAME 0x80000000U
++#define ODML_CHUNKLEN    0x400000000U
++#define ODML_NOTKEYFRAME 0x400000000U
+ #define MOVIALIGN        0x00001000
+ 
+ float avi_aspect_override = -1.0;

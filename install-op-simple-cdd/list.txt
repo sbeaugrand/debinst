@@ -1,0 +1,188 @@
+# ---------------------------------------------------------------------------- #
+## \file list.txt
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+xterm
+screen
+cryptsetup
+vim
+gcc
+#gcc-doc
+#manpages-fr-dev
+g++
+#colorgcc
+xvkbd
+libglib2.0-dev
+xorg-dev
+emacs24-lucid
+aspell-fr
+myspell-fr
+indent
+astyle
+universalindentgui
+mupdf
+poppler-utils
+evince
+gimp
+imagemagick
+icedax
+wodim
+aespipe
+make
+automake
+yasm
+libtool
+patch
+libmpg123-dev
+normalize-audio
+gocr
+libnetpbm10-dev
+libpng-dev
+libx264-dev
+libasound2-dev
+vlc
+mftrace
+fontforge
+avr-libc
+binutils-avr
+gcc-avr
+avrdude
+kicad
+usbutils
+libusb-dev
+libusb-1.0-0-dev
+libfftw3-dev
+gnuplot
+octave
+alsa-utils
+pulseaudio
+pavucontrol
+xmms2-plugin-m3u
+xmms2-plugin-musepack
+xmms2-plugin-ices
+xmms2-plugin-pulse
+libmad0
+xmms2-plugin-mad
+xmms2-dev
+libxmmsclient-dev
+xmms2
+sqlite3
+mpg123
+id3v2
+libreadline-dev
+sox
+timidity
+tuxguitar-alsa
+gdb
+strace
+valgrind
+colordiff
+uncrustify
+universalindentgui
+cppcheck
+#libqscintilla2-dev
+wine32
+wine
+cups
+libusb-0.1-4:i386
+libtiff5:i386
+libjpeg62-turbo:i386
+libieee1284-3:i386
+thunar
+gtkam
+gphotofs
+gphoto2
+keychain
+mutt
+fetchmail
+procmail
+w3m
+w3m-el
+qiv
+xli
+libreoffice
+upower
+numlockx
+sysv-rc-conf
+gnome-screenshot
+mtpaint
+texlive-latex-extra
+texlive-lang-french
+texlive-fonts-recommended
+texlive-pstricks
+texlive-extra-utils  # pdfjam
+texlive-generic-recommended  # multido
+texlive-science  # siunitx
+#musixtex
+ntpdate
+rsync
+hexedit
+curl
+curlftpfs
+icoutils
+inkscape
+fractalnow
+morse
+wavbreaker
+debconf-utils
+librsvg2-bin  # pyBar
+python-configparser  # pyBar
+python3-numpy  # pyBar
+python3-gi-cairo  # pyBar
+python-gi  # pyBar
+gir1.2-gtk-3.0  # pyBar
+pv
+libboost-dev
+aptitude
+wmctrl
+lame
+libmp3lame-dev
+libdvdread-dev
+libdvd-pkg  # libdvdcss
+libdvdnav-dev
+libfaac-dev
+lsdvd
+subversion
+git
+libncurses5-dev
+flex
+bison
+xorriso
+isolinux
+nmap
+lm-sensors
+simple-cdd
+mtools  # simple-cdd
+apache2
+php-gd
+php-cli
+gawk
+xscreensaver
+unzip
+telnet
+unrar-free
+firefox-esr-l10n-fr
+ftp
+ispell
+lsof
+#manpages-fr
+#manpages-fr-extra
+info
+netcat-traditional
+libc6-i386
+sudo
+network-manager-gnome
+dh-make
+help2man  # crosstool-ng
+mplayer
+openscad
+#camorama
+cpulimit
+firmware-amd-graphics
+firmware-misc-nonfree  # packard
+firmware-brcm80211  # vostro
+gramps
+pdfposter
+hplip

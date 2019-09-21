@@ -1,0 +1,50 @@
+#!/bin/bash
+# ---------------------------------------------------------------------------- #
+## \file voletd
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+# chkconfig: 35 85 15
+# description: Volet automatique
+# processname: volet-at.sh
+
+### BEGIN INIT INFO
+# Provides:          voletd
+# Required-Start:    $local_fs $network ntp
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Volet automatique
+# Description:       Volet automatique
+### END INIT INFO
+
+case "$1" in
+    start)
+        sleep 120
+        cd /home/pi/install/debinst/install-op-rpi/install-op-volet
+        touch /run/volet.log
+        date >>/run/volet.log
+        while ! /usr/sbin/ntpdate -u ntp.u-psud.fr; do
+            sleep 120
+        done
+        date >>/run/volet.log
+        sudo -u pi ./volet-at.sh >>/run/volet.log 2>&1
+        echo none >/sys/class/leds/led0/trigger
+        echo 0 >/sys/class/leds/led0/brightness
+        if [ -d /sys/class/leds/led1 ]; then
+            echo none >/sys/class/leds/led1/trigger
+            echo 0 >/sys/class/leds/led1/brightness
+        fi
+        llctl f0 l0 d0
+        ;;
+    stop)
+        ;;
+    status)
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|status}"
+        ;;
+esac
+
+exit 0

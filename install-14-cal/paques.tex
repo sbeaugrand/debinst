@@ -1,0 +1,58 @@
+% ---------------------------------------------------------------------------- %
+%% \file paques.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+% https://www.tondering.dk/claus/cal/easter.php
+% based in part on the algorithm of Oudin (1940)
+% ---------------------------------------------------------------------------- %
+\def\modulo#1#2{%
+  \count0=#1
+  \divide\count0 by #2
+  \multiply\count0 by #2
+  \multiply\count0 by -1
+  \advance\count0 by #1
+}
+
+\newcommand\paques{%
+  \newcount\pg
+  \modulo{\annee}{19} \pg=\count0
+  \newcount\ph \ph=\pg \multiply\ph19 \advance\ph24
+  \modulo{\ph}{30} \ph=\count0
+  \newcount\pi \pi=-\ph \divide\pi28
+  \advance\pi\ph
+  \newcount\pj \pj=\annee \divide\pj4
+  \advance\pj\annee \advance\pj\pi \advance\pj-13
+  \modulo{\pj}{7} \pj=\count0
+  % Jour de Pâques
+  \newcount\pl \pl=\pi \advance\pl-\pj
+  % Lundi de Pâques
+  \advance\pl1
+  % Mois du lundi de Pâques
+  \newcount\paquesmois \paquesmois=\pl \advance\paquesmois40
+  \divide\paquesmois44 \advance\paquesmois3
+  % Jour du lundi de Pâques
+  \newcount\paquesjour \paquesjour=\paquesmois \divide\paquesjour4
+  \multiply\paquesjour31 \paquesjour=-\paquesjour \advance\paquesjour\pl
+  \advance\paquesjour28
+}
+
+\newcommand\ascension{%
+  \newcount\ascensmois \ascensmois=\paquesmois \advance\ascensmois1
+  \newcount\ascensjour \ascensjour=\paquesjour
+  \advance\ascensjour\paquesmois \advance\ascensjour4
+  \newcount\nbrjours \nbrjours=\ascensmois \advance\nbrjours26
+  \ifnum\ascensjour>\nbrjours
+    \advance\ascensjour-\nbrjours \advance\ascensmois1
+  \fi
+}
+
+\newcommand\pentecote{%
+  \newcount\pentecmois \pentecmois=\ascensmois
+  \newcount\pentecjour \pentecjour=\ascensjour \advance\pentecjour11
+  \nbrjours=\pentecmois \advance\nbrjours26
+  \ifnum\pentecjour>\nbrjours
+    \advance\pentecjour-\nbrjours \advance\pentecmois1
+  \fi
+}

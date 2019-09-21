@@ -1,0 +1,59 @@
+% ---------------------------------------------------------------------------- %
+%% \file carte.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass[a4paper]{article}
+\usepackage{vmargin}
+\setmarginsrb{1.9cm}{1.3cm}{2cm}{1.4cm}{0cm}{0cm}{0cm}{0cm}
+\pagestyle{empty}
+\usepackage{pstricks}
+
+\newcommand{\coin}{%
+  \psline[linearc=0.15,linewidth=0.9mm]%
+    (0.5,2.7)(0.5,1.4)(0.7,1.2)(0.7,0.25)(0.25,0.25)
+    (0.25,0.7)(1.2,0.7)(1.4,0.5)(4.275,0.5)
+  \psline[linearc=0.15,linewidth=0.9mm]%
+    (0.3,2.7)(0.3,1.4)(0.5,1.2)(0.5,0.5)
+  \psline[linearc=0.15,linewidth=0.9mm]%
+    (0.5,0.5)(1.2,0.5)(1.4,0.3)(4.275,0.3)
+  \psline[linearc=0.15,linewidth=0.9mm]%
+    (0.5,0.5)(0.5,0.3)(0.3,0.3)
+  \psline[linearc=0.15,linewidth=0.9mm]%
+    (0.5,0.5)(0.3,0.5)(0.3,0.3)
+  \psline[linearc=0.15,linewidth=0.3mm,linecolor=white]%
+    (0.5,2.7)(0.5,1.4)(0.7,1.2)(0.7,0.25)(0.25,0.25)
+    (0.25,0.7)(1.2,0.7)(1.4,0.5)(4.275,0.5)
+  \psline[linearc=0.15,linewidth=0.3mm,linecolor=white]%
+    (0.3,2.7)(0.3,1.4)(0.5,1.2)(0.5,0.5)
+  \psline[linearc=0.15,linewidth=0.3mm,linecolor=white]%
+    (0.5,0.5)(1.2,0.5)(1.4,0.3)(4.275,0.3)
+  \psline[linearc=0.15,linewidth=0.3mm,linecolor=white]%
+    (0.5,0.5)(0.5,0.3)(0.3,0.3)
+  \psline[linearc=0.15,linewidth=0.3mm,linecolor=white]%
+    (0.5,0.5)(0.3,0.5)(0.3,0.3)
+}
+
+\newcommand{\carte}{%
+  \psframe[linestyle=dotted,linewidth=0.1mm](0,0)(8.55,5.4)
+  \coin
+  \rput(8.55,0){\psscalebox{-1 1}{\coin}}
+  \rput(0, 5.4){\psscalebox{1 -1}{\coin}}
+  \rput{180}(8.55,5.4){\coin}
+  \usefont{OT1}{ptm}{m}{n}\fontsize{10pt}{12pt}\selectfont
+  \rput(4.3,3.5){\begin{tabular}{p{6cm}}\bf{Pr\'enom NOM}\end{tabular}}
+  \usefont{OT1}{ptm}{m}{n}\fontsize{8pt}{10pt}\selectfont
+  \rput(4.3,1.7){%
+    \begin{tabular}{r@{}l}
+      \multicolumn{2}{p{6cm}}{\bf{123 rue Code postal Ville}}\\
+      \bf{T\'el}&\bf{ : 01 23 45 67 89}\\
+      \bf{M\'el}&\bf{ : azerty@uiop.fr}
+    \end{tabular}
+  }
+}
+
+\begin{document}
+\rput(-0.5,-5.1){\multirput(0,-5.4){5}{\carte}}
+\rput(8.05,-5.1){\multirput(0,-5.4){5}{\carte}}
+\end{document}

@@ -1,0 +1,63 @@
+# ---------------------------------------------------------------------------- #
+## \file ccpp.mk
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+TARDEPEND += makefiles/ccpp.mk
+WARNINGS   = -Wall -Wextra -Werror -O1 -D_FORTIFY_SOURCE=2
+CFLAGS    += $(WARNINGS)
+CXXFLAGS  += $(WARNINGS)
+ifeq "$(COBJECTS)" ""
+ COBJECTS = $(patsubst %.c,%.o,$(wildcard *.c))
+endif
+ifeq "$(CXXOBJECTS)" ""
+ CXXOBJECTS = $(patsubst %.cpp,%.o,$(wildcard *.cpp))
+endif
+COBJECTS   := $(addprefix build/,$(COBJECTS))
+CXXOBJECTS := $(addprefix build/,$(CXXOBJECTS))
+CDEP   = $(patsubst %.o,%.d,$(COBJECTS))
+CXXDEP = $(patsubst %.o,%.d,$(CXXOBJECTS))
+ifeq "$(OBJECTS)" ""
+ OBJECTS = $(COBJECTS) $(CXXOBJECTS)
+endif
+TARGETS += "| clean | mrproper | cppcheck | dep"
+
+.SUFFIXES:
+
+build:
+	@mkdir $@
+
+build/%.o: %.c
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
+
+build/%.o: %.cpp
+	$(COMPILE.cpp) $(OUTPUT_OPTION) $<
+
+.PHONY: clean
+clean:
+	@$(RM) build/*.o build/*.d build/*.elf *~
+
+.PHONY: mrproper
+mrproper: clean
+	@$(RM) -r build/
+
+.PHONY: cppcheck
+cppcheck:
+	cppcheck -q --enable=all\
+	 --suppressions-list=cppcheck.txt --std=posix $(CPPCHECKINC) .
+
+.PHONY: dep
+dep:
+	@for f in $(patsubst %.c,%,$(wildcard *.c)); do \
+		$(CC) $(CFLAGS) -MM -MF build/$$f.d -MT build/$$f.o $$f.c; \
+		cat build/$$f.d; \
+	done
+	@for f in $(patsubst %.cpp,%,$(wildcard *.cpp)); do \
+		$(CXX) $(CXXFLAGS) -MM -MF build/$$f.d -MT build/$$f.o $$f.cpp; \
+		cat build/$$f.d; \
+	done
+
+-include $(CDEP) $(CXXDEP)
+
+$(OBJECTS): $(MAKEFILE_LIST)

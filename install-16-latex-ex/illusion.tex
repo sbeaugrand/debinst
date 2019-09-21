@@ -1,0 +1,44 @@
+% ---------------------------------------------------------------------------- %
+%% \file illusion.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass[a4paper]{article}
+\usepackage{vmargin}
+\setmarginsrb{2cm}{2cm}{2cm}{2cm}{0cm}{0cm}{0cm}{0cm}
+\pagestyle{empty}
+\usepackage{multido}
+\usepackage{pstricks}
+
+\begin{document}
+\newrgbcolor{grey}{0.71 0.71 0.71}
+\def\w{0.45}
+\def\h{0.3}
+\rput(8,-12.35){%
+  \psframe[linestyle=none,fillstyle=solid,fillcolor=grey](-8.5,-8.5)(8.5,8.5)
+  \SpecialCoor
+  \degrees[360]
+  \qdisk(0,0){0.7mm}
+  \multido{\i=0+12}{30}{%
+    \rput{\i}(5.00;\i){%
+      \rput{ -56.31}(0,0){% 45+11.31 ou arctan(w/h)
+        \psline[linecolor=white](0, \h)(\w,0)
+        \psline[linecolor=black](-\w,0)(0,-\h)
+        \psline[linecolor=white](-\w,0)(0, \h)
+        \psline[linecolor=black](0,-\h)(\w,0)
+      }
+    }
+  }
+  \multido{\i=0+10}{36}{%
+    \rput{\i}(6.25;\i){%
+      \rput{-123.69}(0,0){% 90+45-11.31 ou 180-arctan(w/h)
+        \psline[linecolor=white](0, \h)(\w,0)
+        \psline[linecolor=black](-\w,0)(0,-\h)
+        \psline[linecolor=white](-\w,0)(0, \h)
+        \psline[linecolor=black](0,-\h)(\w,0)
+      }
+    }
+  }
+}
+\end{document}

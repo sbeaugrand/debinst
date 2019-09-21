@@ -1,0 +1,30 @@
+% ---------------------------------------------------------------------------- %
+%% \file testPaques.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass{minimal}
+
+\begin{document}
+
+\input paques.tex
+
+\newcount\annee
+\annee=1900
+\loop
+  \paques
+  \ifnum\paquesjour<10
+    \message{^^J0\number\paquesjour-0\number\paquesmois-\number\annee}
+  \else
+    \message{^^J\number\paquesjour-0\number\paquesmois-\number\annee}
+  \fi
+  \message{G=\number\pg}
+  \message{H=\number\ph}
+  \message{I=\number\pi}
+  \message{J=\number\pj}
+  \message{L=\number\pl^^J}
+  \advance\annee1
+\ifnum\annee<2100 \repeat
+
+\end{document}

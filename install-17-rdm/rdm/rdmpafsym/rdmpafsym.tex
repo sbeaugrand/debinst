@@ -1,0 +1,204 @@
+% ---------------------------------------------------------------------------- %
+%% \file rdmpafsym.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+%% \brief Poutre sur deux appuis avec porte-à-faux symétrique
+% ---------------------------------------------------------------------------- %
+\documentclass[a4paper]{article}
+\usepackage{vmargin}
+\setmarginsrb{10mm}{10mm}{10mm}{10mm}{0mm}{0mm}{0mm}{0mm}
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{EPB_SI/EPB_SI}
+\pagestyle{empty}
+\parindent0cm
+
+\begin{document}
+
+% ---------------------------------------------------------------------------- %
+% Effort tranchant et moment fléchissant
+% ---------------------------------------------------------------------------- %
+\begin{minipage}{9cm}
+\centerline{\textbf{Poutre chargée uniformément sur}}
+\centerline{\textbf{deux appuis avec porte-à-faux symétrique}}
+~\\
+~\\
+Appuis: $R_A = R_B = p(a + \frac{l}{2})$\\
+~\\
+~\\
+\small
+\begin{tabular}{|c|c|c|}\hline
+$x$&
+Effort tranchant&
+Moment fléchissant\\
+\hline
+$0$&
+$0$&
+$0$\\
+\hline
+$a^-$&
+$pa$&
+\\
+\hline
+$a^+$&
+$pa - p(a+\frac{l}{2}) = -p\frac{l}{2}$&
+$-p\frac{a^2}{2}$\\
+\hline
+$a+\frac{l}{2}$&
+$-p\frac{l}{2} + p\frac{l}{2} = 0$&
+$-p\frac{a^2}{2} + p\frac{l}{2}\frac{l}{4} = \frac{p}{8}(l^2 - 4a^2)$\\
+\hline
+$a+l^-$&
+$p\frac{l}{2}$&
+\\
+\hline
+$a+l^+$&
+$p\frac{l}{2} - p(a+\frac{l}{2}) = -pa$&
+$\frac{p}{8}(l^2 - 4a^2) - p\frac{l}{2}\frac{l}{4} = -p\frac{a^2}{2}$\\
+\hline
+$L$&
+$-pa + pa = 0$&
+$-p\frac{a^2}{2} + p\frac{a^2}{2} = 0$\\
+\hline
+\end{tabular}
+\normalsize
+\end{minipage}
+\begin{minipage}{10cm}
+\begin{tikzpicture}
+\def\L{6.0}
+\def\a{1.2}
+\def\l{3.6}
+\def\b{4.8}
+% ---------------------------------------------------------------------------- %
+% Tracé de la poutre
+% ---------------------------------------------------------------------------- %
+\PoutreAppuiSimple{\a}{0}
+\PoutreAppuiSimple{\b}{0}
+\PoutreBaseLocale{\L}{0.5}
+\PoutreChargeRepartie{0}{0}{\L}{$p$}
+\node at (\a+0.2,0)[below right] {$A$};
+\node at (\b+0.2,0)[below right] {$B$};
+\draw[line width=2.5pt] (0,0) -- (\L,0);
+\node at (0,0)[above, left=0.2] {$O$};
+\draw ( 0,-0.1) -- ( 0,-1.3);
+\draw (\a,-0.1) -- (\a,-1.3);
+\draw (\b,-0.1) -- (\b,-1.3);
+\draw (\L,-0.1) -- (\L,-1.3);
+\draw[<->,>=latex] ( 0,-1.1) -- (\a,-1.1) node [midway, above] {$a$};
+\draw[<->,>=latex] (\a,-1.1) -- (\b,-1.1) node [midway, above] {$l$};
+\draw[<->,>=latex] (\b,-1.1) -- (\L,-1.1) node [midway, above] {$a$};
+% ---------------------------------------------------------------------------- %
+% Diagrammes des efforts intérieurs
+% ---------------------------------------------------------------------------- %
+\begin{scope}[yshift=-3cm]
+\PoutreDiagAxesCfg[red]
+% ---------------------------------------------------------------------------- %
+% Diagramme Ty
+% ---------------------------------------------------------------------------- %
+\def\scaleT{0.3}
+\begin{scope}
+\filldraw[diagCourbe]
+ (0,0) --
+ plot [smooth,domain= 0:\a] (\x,{\scaleT*\x}) --
+ plot [smooth,domain=\a:\b] (\x,{\scaleT*(\x-\l/2-\a)}) --
+ plot [smooth,domain=\b:\L] (\x,{\scaleT*(\x-\a-\b)}) --
+ cycle;
+\PoutreDiagAxes{$T_y$}{\L}{-1}{1}
+\draw (-0.1,-\scaleT*\l/2)
+      node[left]{\small{-$p\frac{l}{2}$}} --
+      (0.1,-\scaleT*\l/2);
+\draw (-0.1,\scaleT*\a)
+      node[left]{\small{$pa$}} --
+      (0.1,\scaleT*\a);
+\end{scope}
+% ---------------------------------------------------------------------------- %
+% Diagramme Mfz
+% ---------------------------------------------------------------------------- %
+\def\scaleM{0.5}
+\begin{scope}[yshift=-3cm]
+\filldraw[diagCourbe]
+ plot [smooth,domain=0 :\a] (\x,{-\scaleM*\x^2/2)}) --
+ plot [smooth,domain=\a:\b]
+      (\x,{\scaleM*(-(\x-\a-\l/2)^2/2+(\l^2-4*\a^2)/8)}) --
+ plot [smooth,domain=\b:\L] (\x,{-\scaleM*(\x-\L)^2/2}) --
+ cycle;
+\PoutreDiagAxes{\Mfz}{\L}{-0.8}{1.2}
+\draw (-0.1,\scaleM*\l^2/8-\scaleM*4*\a^2/8)
+      node[left]{\small{$\frac{p}{8}(l^2 - 4a^2)$}} --
+      (0.1,\scaleM*\l^2/8-\scaleM*4*\a^2/8);
+\draw (-0.1,-\scaleM*\a^2/2)
+      node[left]{\small{$-\frac{pa^2}{2}$}} --
+      (0.1,-\scaleM*\a^2/2);
+\end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{minipage}\\
+~\\
+~\\
+~\\
+% ---------------------------------------------------------------------------- %
+% Déformée
+% ---------------------------------------------------------------------------- %
+\begin{minipage}[t]{9cm}
+Déformée:\\
+~\\
+$\frac{y^{''}}{EI_{Gz}} =
+- p\frac{a^2}{2}
++ p\frac{l}{2}x
+- p\frac{x^2}{2}$\\
+~\\
+$\frac{y^{'}}{EI_{Gz}} =
+- p\frac{x^3}{6}
++ p\frac{l}{4}x^2
+- p\frac{a^2}{2}x + c_1$\\
+~\\
+$\frac{y}{EI_{Gz}} =
+- p\frac{x^4}{24}
++ p\frac{l}{12}x^3
+- p\frac{a^2}{4}x^2 + c_1x + c_2$\\
+~\\
+$\begin{cases}
+y^{'}_{E(x=\frac{l}{2})} = 0\\
+~\\
+y_{A(x=0)} = 0
+\end{cases}
+\begin{cases}
+- p\frac{l^3}{48}
++ p\frac{l^3}{16}
+- p\frac{a^2l}{4} + c_1 = 0\\
+~\\
+c_2 = 0
+\end{cases}$
+\end{minipage}
+% ---------------------------------------------------------------------------- %
+% Flèche
+% ---------------------------------------------------------------------------- %
+\begin{minipage}[t]{10cm}
+Flèche en $E(x=\frac{l}{2})$\\
+~\\
+$\frac{y}{EI_{Gz}} = -p\frac{l^4}{16\times24}+p\frac{l^4}{16\times6}
+ -p\frac{a^2l^2}{16}-p\frac{l^4}{16\times3}+p\frac{a^2l^2}{8}$\\
+~\\
+$\phantom{\frac{y}{EI_{Gz}}} = -p\frac{5l^4}{16\times24}+p\frac{a^2l^2}{16}$\\
+~\\
+\hfill
+\fbox{$y_E = -\frac{pl^4}{16EI_{Gz}}(\frac{5}{24} - \frac{a^2}{l^2})$}\\
+~\\
+$y_E=0$ pour $L=2$ et $l=\frac{L}{1+2\sqrt\frac{5}{24}} \simeq 1.0455$
+\end{minipage}
+~\\
+~\\
+~\\
+% ---------------------------------------------------------------------------- %
+% pyBar
+% ---------------------------------------------------------------------------- %
+Déformée avec pyBar:\\
+\begin{center}
+\includegraphics[scale=0.35]{defo1.pdf}\\
+\includegraphics[scale=0.35]{defo2.pdf}\\
+\includegraphics[scale=0.35]{defo3.pdf}
+\end{center}
+
+\end{document}

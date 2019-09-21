@@ -1,0 +1,234 @@
+% ---------------------------------------------------------------------------- %
+%% \file rdmpaf.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+%% \brief Poutre sur deux appuis avec porte-à-faux
+% ---------------------------------------------------------------------------- %
+\documentclass[a4paper]{article}
+\usepackage{vmargin}
+\setmarginsrb{10mm}{10mm}{10mm}{10mm}{0mm}{0mm}{0mm}{0mm}
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{EPB_SI/EPB_SI}
+\pagestyle{empty}
+\parindent0cm
+
+\begin{document}
+
+% ---------------------------------------------------------------------------- %
+% Effort tranchant et moment fléchissant
+% ---------------------------------------------------------------------------- %
+\begin{minipage}{9cm}
+\centerline{\textbf{Poutre chargée uniformément sur}}
+\centerline{\textbf{deux appuis avec porte-à-faux}}
+~\\
+~\\
+Résultante: $R_{(\frac{l + b}{2})} = p(l + b)$\\
+Appuis:\\
+$\begin{cases}
+\sum{F} = 0\\
+~\\
+\sum{M_A} = 0
+\end{cases}
+\begin{cases}
+R_A + R_B = p(l + b)\\
+~\\
+R_Bl = p(l + b)\frac{l + b}{2}
+\end{cases}
+\begin{cases}
+R_A = p\frac{l^2 - b^2}{2l}\\
+~\\
+R_B = p\frac{(l + b)^2}{2l}
+\end{cases}$
+~\\
+~\\
+\small
+\begin{tabular}{|c|c|c|}\hline
+$x$&
+Effort tranchant&
+Moment fléchissant\\
+\hline
+$0-$&
+$0$&
+\\
+\hline
+$0+$&
+$-p\frac{l^2 - b^2}{2l}$&
+$0$\\
+\hline
+$\frac{l^2 - b^2}{2l}$&
+$0$&
+$p\frac{l^2 - b^2}{2l}\frac{l^2 - b^2}{4l}$\\
+\hline
+$l-$&
+$p(l - \frac{l^2 - b^2}{2l}) = p\frac{l^2 + b^2}{2l}$&
+\\
+\hline
+$l+$&
+$p\frac{l^2 + b^2}{2l} - p\frac{(l + b)^2}{2l} = -pb$&
+$p\frac{l^2 - b^2}{2l}\frac{l^2 - b^2}{4l} -
+ p\frac{l^2 + b^2}{2l}\frac{l^2 + b^2}{4l}$\\
+\hline
+$l + b$&
+$-pb + pb = 0$&
+$-p\frac{b^2}{2} + p\frac{b^2}{2} = 0$\\
+\hline
+\end{tabular}
+\normalsize
+\end{minipage}
+\begin{minipage}{10cm}
+\begin{tikzpicture}
+\def\L{6.0}
+\def\a{0}
+\def\l{4.8}
+\def\b{1.2}
+% ---------------------------------------------------------------------------- %
+% Tracé de la poutre
+% ---------------------------------------------------------------------------- %
+\PoutreAppuiSimple{\a}{0}
+\PoutreAppuiSimple{\l}{0}
+\PoutreBaseLocale{\L}{0.5}
+\PoutreChargeRepartie{0}{0}{\L}{$p$}
+\node at (\a+0.2,0)[below right] {$A$};
+\node at (\l+0.2,0)[below right] {$B$};
+\draw[line width=2.5pt] (0,0) -- (\L,0);
+\node at (0,0)[above, left=0.2] {$O$};
+\draw ( 0,-0.1) -- ( 0,-1.3);
+\draw (\a,-0.1) -- (\a,-1.3);
+\draw (\l,-0.1) -- (\l,-1.3);
+\draw (\L,-0.1) -- (\L,-1.3);
+\draw[<->,>=latex] (\a,-1.1) -- (\l,-1.1) node [midway, above] {$l$};
+\draw[<->,>=latex] (\l,-1.1) -- (\L,-1.1) node [midway, above] {$b$};
+% ---------------------------------------------------------------------------- %
+% Diagrammes des efforts intérieurs
+% ---------------------------------------------------------------------------- %
+\begin{scope}[yshift=-3cm]
+\PoutreDiagAxesCfg[red]
+% ---------------------------------------------------------------------------- %
+% Diagramme Ty
+% ---------------------------------------------------------------------------- %
+\def\scaleT{0.25}
+\begin{scope}
+\filldraw[diagCourbe]
+ (0,0) --
+ plot [smooth,domain=\a:\l] (\x,{\scaleT*(\x-(\l*\l-\b*\b)/(2*\l))}) --
+ plot [smooth,domain=\l:\L] (\x,{\scaleT*(\x-\l-\b)}) --
+ cycle;
+\PoutreDiagAxes{$T_y$}{\L}{-1}{1}
+\draw (-0.1,-\scaleT*\l/2+\scaleT*\b*\b/2/\l)
+      node[left]{\small{-$p\frac{l^2-b^2}{2l}$}} --
+      (0.1,-\scaleT*\l/2+\scaleT*\b*\b/2/\l);
+\draw (-0.1,-\scaleT*\b)
+      node[left]{\small{$-pb$}} --
+      (0.1,-\scaleT*\b);
+\draw (-0.1,\scaleT*\l/2+\scaleT*\b*\b/2/\l)
+      node[left]{\small{$p\frac{l^2+b^2}{2l}$}} --
+      (0.1,\scaleT*\l/2+\scaleT*\b*\b/2/\l);
+\end{scope}
+% ---------------------------------------------------------------------------- %
+% Diagramme Mfz
+% ---------------------------------------------------------------------------- %
+\def\scaleM{0.3}
+\begin{scope}[yshift=-3cm]
+\filldraw[diagCourbe]
+ plot [smooth,domain=0:\l]
+      (\x,{\scaleM*(-(\x-(\l^2-\b^2)/(2*\l))^2/2+(\l^2-\b^2)^2/(8*\l^2))}) --
+ plot [smooth,domain=\l:\L] (\x,{-\scaleM*(\x-\L)^2/2}) --
+ cycle;
+\PoutreDiagAxes{\Mfz}{\L}{-0.8}{\b}
+\draw (-0.1,\scaleM*\l^4/8/\l^2-\scaleM*\l^2*\b^2/4/\l^2+\scaleM*\b^4/8/\l^2)
+      node[left]{\small{$p\frac{(l^2-b^2)^2}{8l^2}$}} --
+      (0.1,\scaleM*\l^4/8/\l^2-\scaleM*\l^2*\b^2/4/\l^2+\scaleM*\b^4/8/\l^2);
+\draw (-0.1,-\scaleM*\b^2/2)
+      node[left]{\small{$-\frac{pb^2}{2}$}} --
+      (0.1,-\scaleM*\b^2/2);
+\end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{minipage}\\
+~\\
+~\\
+~\\
+% ---------------------------------------------------------------------------- %
+% Déformée
+% ---------------------------------------------------------------------------- %
+\begin{minipage}[t]{9cm}
+Déformée entre A et B:\\
+~\\
+$\frac{y^{''}}{EI_{Gz}} = - p\frac{l^2-b^2}{2l}x - p\frac{x^2}{2}$\\
+~\\
+$\frac{y^{'}}{EI_{Gz}} = -p\frac{x^3}{6} + p\frac{l^2-b^2}{4l}x^2 + c_1$\\
+~\\
+$\frac{y}{EI_{Gz}} = -p\frac{x^4}{24} + p\frac{l^2-b^2}{12l}x^3 + c_1x + c_2$\\
+~\\
+$\begin{cases}
+y_{A(x=0)} = 0\\
+~\\
+y_{B(x=l)} = 0
+\end{cases}
+\begin{cases}
+c_2 = 0\\
+~\\
+-p\frac{l^4}{24} + p\frac{l^2-b^2}{12}l^2 + c_1l = 0
+\end{cases}$
+~\\
+$\frac{y^{'}_{B(x=l)}}{EI_{Gz}} =
+ -p\frac{l^3}{6} + p\frac{l^2-b^2}{4}l + c_1 = c_3$
+\end{minipage}
+\begin{minipage}[t]{10cm}
+Déformée entre B et C:\\
+~\\
+$\frac{y^{''}}{EI_{Gz}} = -p\frac{b^2}{2} + pbx - p\frac{x^2}{2}$\\
+~\\
+$\frac{y^{'}}{EI_{Gz}} =
+ -p\frac{x^3}{6} + p\frac{b}{2}x^2 - p\frac{b^2}{2}x + c_3$\\
+~\\
+$\frac{y}{EI_{Gz}} =
+ -p\frac{x^4}{24} + p\frac{b}{6}x^3 - p\frac{b^2}{4}x^2 + c_3x + c_4$\\
+~\\
+$\begin{cases}
+y_{B(x=0)} = 0\\
+~\\
+y^{'}_{B(x=0)} = c_3 = -p\frac{l^3}{6} + p\frac{l^2-b^2}{4}l +
+ p\frac{l^3}{24} - p\frac{l^2-b^2}{12}l = p\frac{l^3}{24} - p\frac{b^2l}{6}
+\end{cases}$\\
+\end{minipage}
+~\\
+~\\
+% ---------------------------------------------------------------------------- %
+% Flèche
+% ---------------------------------------------------------------------------- %
+\begin{minipage}[t]{9cm}
+Flèche en $C(x = b)$:\\
+~\\
+$\frac{y}{EI_{Gz}} = -p\frac{b^4}{24} + p\frac{b^4}{6} - p\frac{b^4}{4} + c_3b$
+~\\
+$\phantom{\frac{y}{EI_{Gz}}} =
+ -p\frac{3b^4}{24} + p\frac{l^3b}{24} - p\frac{4b^3l}{24}$\\
+~\\
+\fbox{$y_C = -\frac{pb(l + b)}{24EI_{Gz}}(3b^2 + lb - l^2)$}
+\end{minipage}
+\begin{minipage}[t]{10cm}
+Calcul de $b$ pour $y_C=0$ et $L=1.25$:\\
+~\\
+$3b^2 + lb - l^2 = 0$\\
+$3b^2 + (L - b)b - (L - b)^2 = 0$\\
+$b^2 + 3Lb - L^2 = 0$\\
+~\\
+$b = \frac{-3L + \sqrt{13L^2}}{2} = \frac{\sqrt{13} - 3}{2}L \simeq 0.3785$
+\end{minipage}
+~\\
+~\\
+% ---------------------------------------------------------------------------- %
+% pyBar
+% ---------------------------------------------------------------------------- %
+Déformée avec pyBar:\\
+\begin{center}
+\includegraphics[scale=0.35]{defo1.pdf}\\
+\includegraphics[scale=0.35]{defo2.pdf}\\
+\includegraphics[scale=0.35]{defo3.pdf}
+\end{center}
+
+\end{document}

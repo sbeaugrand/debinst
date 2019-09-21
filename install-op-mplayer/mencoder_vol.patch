@@ -1,0 +1,23 @@
+--- mplayer.old/mencoder.c	2012-07-17 16:40:51.879232768 +0200
++++ mplayer/mencoder.c	2012-07-17 16:48:56.351199711 +0200
+@@ -1328,6 +1328,20 @@
+ 				len = aencoder->decode_buffer_size;
+ 
+ 			len = dec_audio(sh_audio, aencoder->decode_buffer, len);
++#define TEST_VOLUME
++#ifdef  TEST_VOLUME
++                        static short testv_max = 0;
++                        short* testv_in_buffer = mux_a->buffer;
++                        int testv_nsamples = len/2;
++                        int testv_i;
++                        for (testv_i=0; testv_i<testv_nsamples; ++testv_i) {
++                            if (abs(testv_in_buffer[testv_i]) > testv_max) {
++                                testv_max = abs(testv_in_buffer[testv_i]);
++                                printf("volume max=%d volume gain=%f\n",
++                                testv_max,32767.0/testv_max);
++                            }
++                        }
++#endif
+ 			mux_a->buffer_len += aencoder->encode(aencoder, mux_a->buffer + mux_a->buffer_len,
+ 				aencoder->decode_buffer, len, mux_a->buffer_size-mux_a->buffer_len);
+ 			if(mux_a->buffer_len < mux_a->wf->nBlockAlign)

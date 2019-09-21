@@ -1,0 +1,13 @@
+vim
+xmms2
+xmms2-plugin-m3u
+#xmms-plugin-musepack
+libxmmsclient6
+xmms2-dev
+libxmmsclient-dev
+git
+subversion
+python-dev
+ntp
+at
+libusb-dev

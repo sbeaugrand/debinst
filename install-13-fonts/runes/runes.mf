@@ -1,0 +1,233 @@
+% ---------------------------------------------------------------------------- %
+%% \file runes.mf
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+%% \note Source: Les runes et la tradition primordiale, Paul-Georges Sansonetti
+% ---------------------------------------------------------------------------- %
+font_identifier "runes";
+font_size 10pt#;
+font_normal_space 5pt#;
+ht#:=6pt#;
+dt#:=1pt#;
+tt#:=ht#+dt#;
+s#:=1pt#;
+px#:=0.7pt#;
+py#:=0.6pt#;
+
+mode_setup;
+
+leftstemloc#:=s#;
+
+define_pixels(tt,s);
+define_blacker_pixels(px,py);
+pickup pencircle xscaled px yscaled py;
+rune_pen:=savepen;
+define_good_x_pixels(leftstemloc);
+define_good_y_pixels(dt);
+
+picture last_char;
+
+def beginrunechar(expr code, width) =
+ beginchar(code, width*ht#+2s#, ht#, dt#);
+ pickup rune_pen
+enddef;
+
+def endrunechar(expr code, width) =
+ last_char:=currentpicture;
+ endchar;
+ beginrunechar(code, width);
+ currentpicture:=(last_char rotatedaround((0.5w, 0.5tt-dt), 180));
+ endchar;
+enddef;
+
+beginrunechar("F", 0.5);
+x1=x2=x3=x5=leftstemloc; x4=x1+0.25tt; x6=x1+0.5tt;
+y1=-dt; y3=0.75tt+y1; y5=tt/2+y1; y2=y4=y6=tt+y1;
+draw z1--z2;
+draw z3--z4;
+draw z5--z6;
+endrunechar("f", 0.5);
+
+beginrunechar("U", 0.5);
+x1=x2=leftstemloc; x3=x4=x1+0.5tt;
+y1=y4=-dt; y2=tt+y1; y3=tt/3+y1;
+draw z1--z2{dir -30}..{down}z3--z4;
+endrunechar("u", 0.5);
+
+beginrunechar("X", 0.25);
+x1=x2=x3=x5=leftstemloc; x4=x1+0.25tt;
+y1=-dt; y2=tt+y1; y3=0.25tt+y1; y4=0.5tt+y1; y5=0.75tt+y1;
+draw z1--z2;
+draw z3--z4--z5;
+endrunechar("x", 0.25);
+
+beginrunechar("A", 0.25);
+x1=x2=x4=leftstemloc; x3=x5=x1+0.25tt;
+y1=-dt; y2=tt+y1; y3=y4=y2-0.25tt; y5=y2-0.5tt;
+draw z1--z2--z3;
+draw z4--z5;
+endrunechar("a", 0.25);
+
+beginrunechar("R", 52/150);
+x1=x2=leftstemloc; x4=x1+tt/6; x5=x1+tt/3;
+y1=y5=-dt; y4=0.5tt+y1; y2=tt+y1;
+% Pour z3, plusieurs possibilites:
+% a=90-angle(3,1)-angle(4,3);
+% l=tt*2*sqrt(10)/15;
+% x3=x2+l*(cosd a);
+% y3=y2-l*(sind a);
+% a=angle(3,1)+angle(4,3);
+% l=tt*sqrt(10)/10;
+% x3=x4+l*(cosd a);
+% y3=y4+l*(sind a);
+% awk '{ print 2*sqrt(10)/15*cos(atan2(1,0)-atan2(1,3)-atan2(3,4))*150 }'
+% awk '{ print 2*sqrt(10)/15*sin(atan2(1,0)-atan2(1,3)-atan2(3,4))*150 }'
+x3=x2+52/150*tt;
+y3=y2-36/150*tt;
+% awk '{ print sqrt(10)/10*cos(atan2(1,3)+atan2(3,4))*150 }'
+% awk '{ print sqrt(10)/10*sin(atan2(1,3)+atan2(3,4))*150 }'
+% x3=x4+27/150*tt;
+% y3=y4+39/150*tt;
+% On verifie que 52*27-36*39=0, 36+39=150/2, 27+150/6=52,
+% et 3*3*(52*52+36*36)=4*4*(27*27+39*39)
+draw z1--z2--z3--z4--z5;
+endrunechar("r", 52/150);
+
+beginrunechar("K", 1/3);
+x2=leftstemloc; x1=x3=x2+tt/3;
+y2=0.5tt-dt; y1=y2-tt/3; y3=y2+tt/3;
+draw z1--z2--z3;
+endrunechar("k", 1/3);
+
+beginrunechar("G", 1/sqrt(3));
+x1=x2=leftstemloc; x3=x4=x1+tt/sqrt(3);
+y1=y3=-dt; y2=y4=tt+y1;
+draw z1--z4;
+draw z2--z3;
+endrunechar("g", 1/sqrt(3));
+
+beginrunechar("W", 0.25);
+x1=x2=x4=leftstemloc; x3=x1+0.25tt;
+y1=-dt; y2=tt+y1; y3=0.75tt+y1; y4=0.5tt+y1;
+draw z1--z2--z3--z4;
+endrunechar("w", 0.25);
+
+beginrunechar("H", sqrt(3)/3);
+x1=x2=x5=leftstemloc; x3=x4=x6=x1+tt*sqrt(3)/3;
+y1=y3=-dt; y2=y4=tt+y1; y5=y2-tt/3; y6=tt/3+y1;
+draw z1--z2;
+draw z3--z4;
+draw z5--z6;
+endrunechar("h", sqrt(3)/3);
+
+beginrunechar("N", sqrt(3)/3);
+x3=leftstemloc; x1=x2=x3+tt*sqrt(3)/6; x4=x3+tt*sqrt(3)/3;
+y1=-dt; y2=tt+y1; y3=y2-tt/3; y4=tt/3+y1;
+draw z1--z2;
+draw z3--z4;
+endrunechar("n", sqrt(3)/3);
+
+beginrunechar("I", 0);
+x1=x2=leftstemloc;
+y1=-dt; y2=tt+y1;
+draw z1--z2;
+endrunechar("i", 0);
+
+beginrunechar("J", 2/3);
+x2=leftstemloc; x1=x2+0.25tt; x3=x2+tt/3; x4=x1+tt/6; x5=x4+0.25tt; x6=x5-tt/3;
+y1=0.25tt+tt/12-dt; y2=y1+0.25tt; y3=y2+tt/3;
+y4=0.75tt-tt/12-dt; y5=y4-0.25tt; y6=y5-tt/3;
+draw z1--z2--z3;
+draw z4--z5--z6;
+endrunechar("j", 2/3);
+
+beginrunechar("Y", 0.5);
+x1=leftstemloc; x2=x3=x1+0.25tt; x4=x1+0.5tt;
+y2=-dt; y1=0.25tt+y2; y3=tt+y2; y4=0.75tt+y2;
+draw z1--z2--z3--z4;
+endrunechar("y", 0.5);
+
+beginrunechar("P", 0.5);
+x3=x4=leftstemloc; x1=x6=x3+0.5tt; x2=x5=x3+0.25tt;
+y1=y3=-dt; y2=0.25tt+y1; y4=y6=tt+y1; y5=0.75tt+y1;
+draw z1--z2--z3--z4--z5--z6;
+endrunechar("p", 0.5);
+
+beginrunechar("Z", 2/3);
+x3=leftstemloc; x1=x2=x4=x3+tt/3; x5=x3+2tt/3;
+y1=-dt; y2=y3=y5=tt+y1; y4=2tt/3+y1;
+draw z1--z2;
+draw z3--z4--z5;
+endrunechar("z", 2/3);
+
+beginrunechar("S", 1/3);
+x1=x3=leftstemloc; x2=x4=x1+tt/3;
+y1=-dt; y2=tt/3+y1; y3=y2+tt/3; y4=tt+y1;
+draw z1--z2--z3--z4;
+endrunechar("s", 1/3);
+
+beginrunechar("T", 0.5);
+x3=leftstemloc; x1=x2=x3+0.25tt; x4=x3+0.5tt;
+y1=-dt; y2=tt+y1; y3=y4=y1+0.75tt;
+draw z1--z2;
+draw z3--z2--z4;
+endrunechar("t", 0.5);
+
+beginrunechar("B", 0.25);
+x1=x2=x4=leftstemloc; x3=x5=x1+0.25tt;
+y1=-dt; y2=tt+y1; y3=0.75tt+y1; y4=0.5tt+y1; y5=0.25tt+y1;
+draw z1--z2--z3--z4--z5--z1;
+endrunechar("b", 0.25);
+
+beginrunechar("E", 0.5);
+x1=x2=leftstemloc; x3=x1+0.25tt; x4=x5=x1+0.5tt;
+y1=y5=-dt; y2=y4=tt+y1; y3=0.75tt+y1;
+draw z1--z2--z3--z4--z5;
+endrunechar("e", 0.5);
+
+beginrunechar("M", 0.5);
+x1=x2=x6=leftstemloc; x3=x4=x5=0.5tt+x1;
+y1=y4=-dt; y2=y5=tt+y1; y3=y6=0.5tt+y1;
+draw z1--z2--z3;
+draw z4--z5--z6;
+endrunechar("m", 0.5);
+
+beginrunechar("L", 0.25);
+x1=x2=leftstemloc; x3=x1+0.25tt;
+y1=-dt; y2=tt+y1; y3=0.75tt+y1;
+draw z1--z2--z3;
+endrunechar("l", 0.25);
+
+beginrunechar("Q", 2/3);
+x2=leftstemloc; x1=x3=x2+tt/3; x4=x1+tt/3;
+y2=y4=0.5tt-dt; y1=y2-tt/3; y3=y2+tt/3;
+draw z1--z2--z3--z4--z1;
+endrunechar("q", 2/3);
+
+beginrunechar("D", 1);
+x1=x2=leftstemloc; x3=x4=x1+tt;
+y1=y3=-dt; y2=y4=tt+y1;
+draw z1--z2--z3--z4--z1;
+endrunechar("d", 1);
+
+beginrunechar("O", 2/3);
+x1=x4=leftstemloc; x2=x5=x1+2tt/3; x3=x1+tt/3;
+y1=y5=-dt; y2=y4=2tt/3+y1; y3=tt+y1;
+draw z1--z2--z3--z4--z5;
+endrunechar("o", 2/3);
+
+k#:=1pt#;
+for i=65 upto 122:
+ligtable i:
+ 65 kern k#,  66 kern k#,  68 kern k#,  69 kern k#,  70 kern k#,  71 kern k#,
+ 72 kern k#,  73 kern k#,  74 kern k#,  75 kern k#,  76 kern k#,  77 kern k#,
+ 78 kern k#,  79 kern k#,  80 kern k#,  81 kern k#,  82 kern k#,  83 kern k#,
+ 84 kern k#,  85 kern k#,  87 kern k#,  88 kern k#,  89 kern k#,  90 kern k#,
+ 97 kern k#,  98 kern k#, 100 kern k#, 101 kern k#, 102 kern k#, 103 kern k#,
+104 kern k#, 105 kern k#, 106 kern k#, 107 kern k#, 108 kern k#, 109 kern k#,
+110 kern k#, 111 kern k#, 112 kern k#, 113 kern k#, 114 kern k#, 115 kern k#,
+116 kern k#, 117 kern k#, 119 kern k#, 120 kern k#, 121 kern k#, 122 kern k#;
+endfor;
+
+end

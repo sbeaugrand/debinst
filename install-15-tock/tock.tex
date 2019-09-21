@@ -1,0 +1,157 @@
+% ---------------------------------------------------------------------------- %
+%% \file tock.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+% #!/usr/bin/octave -q
+% global l = 19;
+% global n = str2num(argv(){1});
+% 
+% function y = f(x)
+%   global l;
+%   global n;
+%   h = (1 + 0.5/cos(pi/n))*l*tan(pi/n/2) + x*tan(pi/n);
+%   r = sqrt(h*h + x*x);
+%   y = r*sin(pi/2*(31/17 - 28/17/n) + 3/17*asin(x/r)) - (l/2+x)*tan(pi/n);
+% endfunction
+% 
+% [ecart, fval, info] = fzero(@f, [-5;10]);
+% printf("\\ecart=%.6fcm\n", ecart);
+% 
+% h = (1 + 0.5/cos(pi/n))*l*tan(pi/n/2) + ecart*tan(pi/n);
+% rayon = sqrt(h*h + ecart*ecart);
+% printf("\\rayon=%.6fcm\n", rayon);
+% 
+% ainit = pi/n + asin(ecart/rayon);
+% printf("\\def\\ainit{%.6f}\n", ainit*180/pi);
+% 
+% aincr = (pi - 2*ainit)/17;
+% printf("\\def\\aincr{%.6f}\n", aincr*180/pi);
+% 
+% hinit = (l/2 + ecart)/cos(pi/n) - l/2/cos(pi/n/2);
+% printf("\\hinit=%.6fcm\n", hinit);
+% 
+% hincr = rayon*tan(aincr);
+% printf("\\hincr=%.6fcm\n", hincr);
+% 
+% quinze = l/2*sin(pi/n/4);
+% printf("\\quinze=%.6fcm\n", quinze);
+% 
+% yorig = -(l/2+ecart)/cos(pi/n);
+% printf("\\yorig=%.6fcm\n", yorig);
+% ---------------------------------------------------------------------------- %
+% ./tock.m 4
+% ./tock.m 6
+% latex tock.tex
+% dvipdf -dAutoRotatePages=/None tock.dvi tock.pdf
+% pdfjam -o tockA3.pdf --paper a3paper tock.pdf
+% pdfjam -o tockA2.pdf --paper a2paper tock.pdf
+% ---------------------------------------------------------------------------- %
+\documentclass[a4paper]{article}
+\usepackage{vmargin}
+\setmarginsrb{5mm}{5mm}{5mm}{5mm}{0cm}{0cm}{0cm}{0cm}
+\pagestyle{empty}
+\usepackage{multido}
+\usepackage{pstricks}
+
+\begin{document}
+\newcount\numero
+\newcommand{\coin}{%
+  \numero=0
+  \multido{\r=\ainit+\aincr,\i=0+1}{18}{%
+    \ifnum\i<8
+      \rput{\r}(\the\rayon;\r){%
+        \ifnum\numero=0
+          \pscircle[linewidth=2pt](0,0){\the\cercle}
+          \rput(0,0){18}
+        \else
+          \ifnum\numero=7
+            \pscircle(0,0){\the\cercle}
+            \rput{-45}(0,0){\number\numero}
+          \else
+            \pscircle(0,0){\the\cercle}
+            \rput(0,0){\number\numero}
+          \fi
+        \fi
+        \global\advance\numero1
+      }
+    \fi
+    \ifnum\i>10
+      \rput{\r}(\the\rayon;\r){%
+        \pscircle(0,0){\the\cercle}
+        \rput{-180}{\number\numero}
+        \global\advance\numero1
+      }
+    \fi
+  }
+  \rput(\quinze,\the\hinit){%
+    \pscircle(0,0){\the\cercle}
+    \rput{\aquinze}(0,0){\number\numero}
+    \global\advance\numero1
+  }
+  \advance\hinit-\the\hincr
+  \rput(0,\the\hinit){%
+    \pscircle(0,0){\the\cercle}
+    \rput(0,0){\number\numero}
+    \global\advance\numero1
+  }
+  \advance\hinit2\hincr
+  \multido{\d=\the\hinit+\the\hincr}{4}{%
+    \rput(0,\d){%
+      \pscircle(0,0){\the\cercle}
+      \rput(0,0){\number\numero}
+      \global\advance\numero1
+    }
+  }
+  \advance\hinit-\the\hincr
+  \rput(-\quinze,\the\hinit){%
+    \pscircle(0,0){\the\cercle}
+    \rput{-\aquinze}(0,0){17}
+  }
+}
+\large
+\SpecialCoor
+\degrees[360]
+\newlength\taille \taille=19cm
+\newlength\centre \centre=\taille
+\divide\centre2
+\newlength\ecart
+\newlength\rayon
+\newlength\hinit
+\newlength\hincr
+\newlength\quinze
+\newlength\yorig
+\newlength\cercle
+\ecart=6.540213cm
+\rayon=21.018675cm
+\def\ainit{63.129273}
+\def\aincr{3.161262}
+\hinit=12.401561cm
+\hincr=1.160872cm
+\quinze=1.853358cm
+\yorig=-22.684287cm
+\def\aquinze{22.5}
+\cercle=0.5cm
+\rput(\the\centre,-13.85){%
+  \multido{\i=45+90}{4}{%
+    \rput{\i}(0,0){\rput(0,\yorig){\coin}}
+  }
+}
+\newpage
+\ecart=-0.712105cm
+\rayon=7.652416cm
+\def\ainit{24.660545}
+\def\aincr{7.686995}
+\hinit=0.312263cm
+\hincr=1.032879cm
+\quinze=1.239999cm
+\yorig=-10.147387cm
+\def\aquinze{15}
+\cercle=0.45cm
+\rput(\the\centre,-13.85){%
+  \multido{\i=0+60}{6}{%
+    \rput{\i}(0,0){\rput(0,\yorig){\coin}}
+  }
+}
+\end{document}

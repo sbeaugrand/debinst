@@ -1,0 +1,41 @@
+% ---------------------------------------------------------------------------- %
+%% \file exenv.cls
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass{enveloppe}
+\begin{document}
+
+\def\des{%
+  \destinataire{%
+    ART ET HISTOIRE D'EUROPE\\
+    10 RUE FRIANT\\
+    75014 PARIS}
+}
+\def\exp{%
+  \expediteur{%
+    Sébastien Beaugrand\\
+    rue Raymond Losserand\\
+    75014 Paris}
+}
+
+\makeatletter\def\e@c{black}\makeatother  % Option test
+\des\newpage\exp
+
+\newpage
+
+\makeatletter\def\e@a{flushright}\makeatother  % Option droite
+\des\newpage\exp
+
+\newpage
+
+\makeatletter\def\e@c{white}\makeatother  % Option normal
+\des\newpage\exp
+
+\newpage
+
+\makeatletter\def\e@a{center}\makeatother  % Option centre
+\des\newpage\exp
+
+\end{document}

@@ -1,0 +1,149 @@
+% ---------------------------------------------------------------------------- %
+%% \file noeuds.mf
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+font_identifier "noeuds";
+font_size 36pt#;
+font_normal_space 18pt#;
+ht#:=36pt#;
+bs#:=0.4pt#;
+
+mode_setup;
+
+define_pixels(ht);
+define_blacker_pixels(bs);
+
+def trb(expr a, u, v, aul, adl, aup, adp, lu, ld, aur, adr) =
+  z1=u rotatedaround((0.5w, 0.5ht), a);
+  z2=v rotatedaround((0.5w, 0.5ht), a);
+  penpos1(lu, aup+a);
+  penpos2(ld, adp+a);
+  unfill z1r{dir (aur+a+90)}..{dir (adr+a+90)}z2r--
+         z2l{dir (adl+a-90)}..{dir (aul+a-90)}z1l--cycle;
+  cullit;
+  draw   z1r{dir (aur+a+90)}..{dir (adr+a+90)}z2r;
+  draw   z2l{dir (adl+a-90)}..{dir (aul+a-90)}z1l;
+  clearxy;
+enddef;
+
+def tra(expr a, u, v, aul, adl, aup, adp, lu, ld) =
+    trb(     a, u, v, aul, adl, aup, adp, lu, ld, aul, adl);
+enddef;
+
+def noeud(expr angle) =
+pickup pencircle scaled bs;
+
+p01x:=5h/6+h/72; p01y:=h-h/18;        a01p:=195; a01t:=120;
+p02x:=h/2;       p02y:=h-(h/4+h/90);  a02p:=100; a02t:=100;
+p03x:=h/3;       p03y:=h-(h/4+h/60);  a03p:=90;  a03t:=90;
+p04x:=h/6;       p04y:=h-h/4;         a04p:=70;  a04t:=70;
+p05x:=h/24;      p05y:=h-h/12;        a05p:=0;   a05t:=0;
+p06x:=h/24;      p06y:=h-h/24;        a06p:=-45; a06t:=0;
+
+p11x:=h-p06y; p11y:=h-p06x; a11p:=-a06p-90; a11t:=-a06t-90;
+p12x:=h-p05y; p12y:=h-p05x; a12p:=-a05p-90; a12t:=-a05t-90;
+p13x:=h-p04y; p13y:=h-p04x; a13p:=-a04p-90; a13t:=-a04t-90;
+p14x:=h-p03y; p14y:=h-p03x; a14p:=-a03p-90; a14t:=-a03t-90;
+p15x:=h-p02y; p15y:=h-p02x; a15p:=-a02p-90; a15t:=-a02t-90;
+p16x:=h-p01y; p16y:=h-p01x; a16p:=-a01p-90; a16t:=-a01t-90;
+
+p21x:=h/24;       p21y:=5h/12;        a21p:=-5;   a21t:=a21p;
+p22x:=h/6+h/36;   p22y:=7h/12;        a22p:=-80;  a22t:=a22p;
+p23x:=h/3+h/72;   p23y:=7h/12-h/144;  a23p:=-100; a23t:=a23p;
+p24x:=7h/12;      p24y:=2h/3;         a24p:=-20;  a24t:=a24p;
+p25x:=7h/12-h/36; p25y:=h-h/6+h/72;   a25p:=35;   a25t:=a25p;
+p26x:=h/3;        p26y:=h-h/12+h/72;  a26p:=95;   a26t:=a26p;
+p27x:=h/6-h/60;   p27y:=h-(h/6-h/54); a27p:=135;  a27t:=a27p;
+
+p31x:=h-p27y; p31y:=h-p27x; a31p:=-a27p-90; a31t:=-a27t-90;
+p32x:=h-p26y; p32y:=h-p26x; a32p:=-a26p-90; a32t:=-a26t-90;
+p33x:=h-p25y; p33y:=h-p25x; a33p:=-a25p-90; a33t:=-a25t-90;
+p34x:=h-p24y; p34y:=h-p24x; a34p:=-a24p-90; a34t:=-a24t-90;
+p35x:=h-p23y; p35y:=h-p23x; a35p:=-a23p-90; a35t:=-a23t-90;
+p36x:=h-p22y; p36y:=h-p22x; a36p:=-a22p-90; a36t:=-a22t-90;
+p37x:=h-p21y; p37y:=h-p21x; a37p:=-a21p-90; a37t:=-a21t-90;
+
+a:=angle;
+
+trb(a, (p01x,p01y), (p02x,p02y), a01t, a02t, a01p, a02p, h/3,  h/12, 150, a02t);
+tra(a, (p24x,p24y), (p25x,p25y), a24t, a25t, a24p, a25p, h/12, h/12);
+
+tra(a, (p35x,p35y), (p36x,p36y), a35t, a36t, a35p, a36p, h/12, h/12);
+tra(a, (p02x,p02y), (p03x,p03y), a02t, a03t, a02p, a03p, h/12, h/12);
+
+tra(a, (p03x,p03y), (p04x,p04y), a03t, a04t, a03p, a04p, h/12, h/12);
+tra(a, (p13x,p13y), (p14x,p14y), a13t, a14t, a13p, a14p, h/12, h/12);
+
+tra(a, (p31x,p31y), (p32x,p32y), a31t, a32t, a31p, a32p, h/12, h/12);
+tra(a, (p04x,p04y), (p05x,p05y), a04t, a05t, a04p, a05p, h/12, h/12);
+
+tra(a, (p05x,p05y), (p06x,p06y), a05t, a06t, a05p, a06p, h/12, h/12*sqrt(2));
+
+tra(a, (p11x,p11y), (p12x,p12y), a11t, a12t, a11p, a12p, h/12*sqrt(2), h/12);
+
+tra(a, (p12x,p12y), (p13x,p13y), a12t, a13t, a12p, a13p, h/12, h/12);
+tra(a, (p26x,p26y), (p27x,p27y), a26t, a27t, a26p, a27p, h/12, h/12);
+
+tra(a, (p14x,p14y), (p15x,p15y), a14t, a15t, a14p, a15p, h/12, h/12);
+tra(a, (p22x,p22y), (p23x,p23y), a22t, a23t, a22p, a23p, h/12, h/12);
+
+tra(a, (p33x,p33y), (p34x,p34y), a33t, a34t, a33p, a34p, h/12, h/12);
+trb(a, (p15x,p15y), (p16x,p16y), a15t, a16t, a15p, a16p, h/12, h/3, a15t, -240);
+
+trb(a, (p16x,p16y), (p21x,p21y), -13,  a21t, a16p, a21p, h/3,  h/12, 20, a21t);
+
+tra(a, (p21x,p21y), (p22x,p22y), a21t, a22t, a21p, a22p, h/12, h/12);
+tra(a, (p32x,p32y), (p33x,p33y), a32t, a33t, a32p, a33p, h/12, h/12);
+
+tra(a, (p23x,p23y), (p24x,p24y), a23t, a24t, a23p, a24p, h/12, h/12);
+tra(a, (p34x,p34y), (p35x,p35y), a34t, a35t, a34p, a35p, h/12, h/12);
+
+tra(a, (p25x,p25y), (p26x,p26y), a25t, a26t, a25p, a26p, h/12, h/12);
+tra(a, (p36x,p36y), (p37x,p37y), a36t, a37t, a36p, a37p, h/12, h/12);
+
+trb(a, (p37x,p37y), (p01x,p01y), a37t,  -77, a37p, a01p, h/12, h/3, a37t, -110);
+
+enddef;
+
+beginchar("A", ht#, ht#, 0pt#);
+  noeud(0);
+endchar;
+
+beginchar("B", ht#, ht#, 0pt#);
+  noeud(45);
+endchar;
+
+beginchar("C", ht#, ht#, 0pt#);
+  noeud(90);
+endchar;
+
+beginchar("D", ht#, ht#, 0pt#);
+  noeud(135);
+endchar;
+
+beginchar("E", ht#, ht#, 0pt#);
+  noeud(180);
+endchar;
+
+beginchar("F", ht#, ht#, 0pt#);
+  noeud(225);
+endchar;
+
+beginchar("G", ht#, ht#, 0pt#);
+  noeud(270);
+endchar;
+
+beginchar("H", ht#, ht#, 0pt#);
+  noeud(315);
+endchar;
+
+k#:=10pt#;
+for i=65 upto 72:
+ligtable i:
+ 65 kern k#,  66 kern k#,  67 kern k#, 68 kern k#,
+ 69 kern k#,  70 kern k#,  71 kern k#, 72 kern k#;
+endfor;
+
+end

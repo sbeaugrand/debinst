@@ -1,0 +1,57 @@
+#!/bin/sh
+# ---------------------------------------------------------------------------- #
+## \file common.postinst
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+log=/var/log/postinst.log
+cat /dev/null >$log
+
+movePackage()
+{
+    name=$1
+    src=/usr/share/$name
+    dst=/home/$user/install/`echo $name | sed 's/^install-//'`
+    if [ ! -d $src ]; then
+        echo "warn: $src not found" >>$log
+        return 1
+    fi
+    if [ -d $dst ]; then
+        echo "warn: $dst already exists" >>$log
+        return 1
+    fi
+    mv $src $dst
+    chown -R $user.$user $dst
+}
+
+user=`ls /home | tail -n 1`
+if [ -z "$user" ]; then
+    echo "error: user not found" >>$log
+    return 1
+fi
+if [ ! -d /home/$user ]; then
+    echo "error: /home/$user not found" >>$log
+    return 1
+fi
+mkdir -p /home/$user/install
+chown $user.$user /home/$user/install
+
+movePackage debinst
+for i in `cat /home/$user/install/debinst/install-op-simple-cdd/list2.txt`; do
+    movePackage $i
+done
+
+cp /home/$user/install/libdvdcss/libdvdcss_*.orig.tar.bz2 /usr/src/libdvd-pkg/
+dpkg-reconfigure -pcritical libdvd-pkg
+
+cd /home/$user/install/debinst
+mkdir /home/$user/data
+chown $user.$user /home/$user/data
+./0install.sh\
+ install-02-bashrc.sh\
+ install-03-screen.sh
+
+if [ ! -s $log ]; then
+    rm $log
+fi
