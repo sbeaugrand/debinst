@@ -1,0 +1,3 @@
+- Fix mplayer compilation on buster
+- Create, install, configure a VM with packer and vagrant
+- Doc

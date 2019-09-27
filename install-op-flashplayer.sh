@@ -4,12 +4,16 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 ## \note https://get.adobe.com/flashplayer/
-##       rm ~/data/install-repo/flash_player_npapi_linux.x86_64.tar.gz
-##       rm -fr ~/data/install-build/flashplayer
-##       sudo rm /usr/lib/mozilla/plugins/libflashplayer.so
+##       ./0install.sh -r install-op-flashplayer.sh
 # ---------------------------------------------------------------------------- #
 file=flash_player_npapi_linux.x86_64.tar.gz
 url="https://fpdownload.adobe.com/get/flashplayer/pdc/32.0.0.255"
+
+if [ "$args" = "-r" ]; then
+    rm $repo/flash_player_npapi_linux.x86_64.tar.gz
+    rm -fr $bdir/flashplayer
+    rm /usr/lib/mozilla/plugins/libflashplayer.so
+fi
 
 download $url/$file || return 1
 untar $file flashplayer/libflashplayer.so flashplayer || return 1

@@ -9,10 +9,7 @@ screen
 cryptsetup
 vim
 gcc
-#gcc-doc
-#manpages-fr-dev
 g++
-#colorgcc
 xvkbd
 libglib2.0-dev
 xorg-dev
@@ -82,7 +79,6 @@ colordiff
 uncrustify
 universalindentgui
 cppcheck
-#libqscintilla2-dev
 wine32
 wine
 cups
@@ -115,7 +111,7 @@ texlive-pstricks
 texlive-extra-utils  # pdfjam
 texlive-generic-recommended  # multido
 texlive-science  # siunitx
-#musixtex
+texlive-music
 ntpdate
 rsync
 hexedit
@@ -167,8 +163,10 @@ firefox-esr-l10n-fr
 ftp
 ispell
 lsof
-#manpages-fr
+#manpages-fr-dev
 #manpages-fr-extra
+#gcc-doc
+manpages-dev
 info
 netcat-traditional
 libc6-i386
@@ -178,7 +176,6 @@ dh-make
 help2man  # crosstool-ng
 mplayer
 openscad
-#camorama
 cpulimit
 firmware-amd-graphics
 firmware-misc-nonfree  # packard

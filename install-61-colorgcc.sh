@@ -4,9 +4,11 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-file=/usr/bin/colorgcc
+file=$bdir/colorgcc/colorgcc.pl
+gitClone https://github.com/colorgcc/colorgcc.git || return 1
+
 if isFile $file; then
-    if [ ! -L $home/bin/gcc ]; then
+    if notLink $home/bin/gcc; then
         mkdir -p $home/bin
         pushd $home/bin || return 1
         ln -f $file g++

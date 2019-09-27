@@ -28,6 +28,7 @@ tar:
 	--exclude=*~ \
 	--exclude=.*.swp \
 	--exclude=build \
+	--exclude=.git \
 	$(PROJECT)
 
 .PHONY: dist
@@ -36,6 +37,7 @@ dist:
 	--exclude=*~ \
 	--exclude=.*.swp \
 	--exclude=build \
+	--exclude=.git \
 	--exclude=*.pdf \
 	--exclude=*.ttf \
 	--exclude=*.pfb \

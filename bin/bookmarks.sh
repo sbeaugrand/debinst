@@ -40,18 +40,19 @@ function dossier()
             echo -n " "
         done
         $sqlite "SELECT title FROM moz_bookmarks WHERE fk=$i" | tr -d '\n'
-        echo "</A></TD>"
+        echo "</A><BR/></TD>"
     done
     lv=$(($lv-2))
     for ((j = 0; $j < $lv; j++)); do
         echo -n " "
     done
-    echo "</DL></DT>"
+    echo "</DL></DT><BR/>"
 }
 
 # ---------------------------------------------------------------------------- #
 # main
 # ---------------------------------------------------------------------------- #
+echo '<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">'
 echo "<DL>"
 lv=0
 id=`$sqlite "SELECT id FROM moz_bookmarks WHERE title=\"$ti\""`
