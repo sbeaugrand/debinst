@@ -16,7 +16,7 @@ PATH=$PATH:.
 [ -z "$data" ] && data=$home/data
 [ -z "$repo" ] && repo=$data/install-repo
 [ -z "$bdir" ] && bdir=$data/install-build
-[ -z "$idir" ] && export idir=`pwd`
+[ -z "$idir" ] && export idir=$(dirname `readlink -f $0`)
 
 # ---------------------------------------------------------------------------- #
 # isDir

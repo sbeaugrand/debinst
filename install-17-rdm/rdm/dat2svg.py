@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 # Install:
 #
-# apt install python-configparser python3-numpy python3-gi-cairo gir1.2-gtk-3.0
+# apt install python-configparser python-numpy python-cairo gir1.2-gtk-3.0
 # ---------------------------------------------------------------------------- #
 # Debug:
 #

@@ -15,7 +15,7 @@
 #return 0
 
 name=ffmpeg
-version=4.1.3
+version=4.1.4
 pkg=$name-$version.tgz
 src=$name-apt-src
 

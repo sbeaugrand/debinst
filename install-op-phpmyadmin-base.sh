@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-version=4.9.0.1
+version=4.9.1
 dir=phpMyAdmin-$version-all-languages
 file=$dir.zip
 download https://files.phpmyadmin.net/phpMyAdmin/$version/$file || return 1
@@ -35,7 +35,7 @@ if notFile $file; then
     CustomLog /var/log/$serverName-access.log common
 </VirtualHost>
 EOF
-    service apache2 restart
+    /sbin/service apache2 restart
 fi
 
 if notGrep "$serverName" /etc/hosts; then

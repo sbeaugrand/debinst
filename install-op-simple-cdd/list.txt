@@ -125,13 +125,14 @@ wavbreaker
 debconf-utils
 librsvg2-bin  # pyBar
 python-configparser  # pyBar
-python3-numpy  # pyBar
-python3-gi-cairo  # pyBar
+python-numpy  # pyBar
+python-cairo  # pyBar
 python-gi  # pyBar
 gir1.2-gtk-3.0  # pyBar
 pv
 libboost-dev
 aptitude
+anacron
 wmctrl
 lame
 libmp3lame-dev
@@ -154,6 +155,7 @@ mtools  # simple-cdd
 apache2
 php-gd
 php-cli
+php-mysqli  # phpmyadmin
 gawk
 xscreensaver
 unzip

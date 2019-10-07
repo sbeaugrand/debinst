@@ -8,6 +8,7 @@ repo=$idir/../rdm
 [ -d $repo ] || sudo -u $user mkdir $repo
 
 gitClone https://github.com/Philippe-Lawrence/pyBar.git || return 1
+sed -i '/set_user_dir/D' $bdir/pyBar/pyBar.py
 
 file=EPB_SI.zip
 url=http://s2i.pinault-bigeard.com/telechargements/category/15-latex

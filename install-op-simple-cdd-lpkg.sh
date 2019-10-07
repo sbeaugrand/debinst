@@ -77,7 +77,7 @@ source install-op-emacs-php.sh
 source install-op-id3ed.sh
 source install-op-mp3gain.sh
 repo=$repoSav
-source install-op-sdcc.sh
+source install-op-sdcc-src.sh
 
 # libdvdcss
 /usr/lib/libdvd-pkg/b-i_libdvdcss.sh

@@ -15,5 +15,6 @@ install-op-upgrades.sh
 install-pr-alias.sh
 install-pr-bashrc.sh
 install-pr-swap.sh
-install-op-mplayer.sh
+install-op-skype.sh
+install-op-ctparent.sh
 "

@@ -11,5 +11,6 @@ install-op-meteo.sh
 install-op-upgrades.sh
 install-pr-bashrc.sh
 install-pr-swap.sh
-install-op-mplayer.sh
+install-op-lp-ts50000.sh
+install-op-ipod.sh
 "

@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-# sudo rm -fr ~/data/tmp/ffmpeg-3.2.9
+# sudo rm -fr ~/data/tmp/ffmpeg-4.1.4
 # sudo rm -fr ~/data/tmp/mplayer-1.3.0
 # sudo rm -f  ~/data/tmp/mplayer
 # sudo rm -f /usr/local/bin/ffmpeg
@@ -12,8 +12,7 @@
 # sudo rm -f /usr/local/bin/mencoder
 # ---------------------------------------------------------------------------- #
 mplayer=mplayer-1.3.0
-#ffmpeg=ffmpeg-3.2.9
-ffmpeg=ffmpeg-4.1.3
+ffmpeg=ffmpeg-4.1.4
 codecs=essential-20071007
 
 # ---------------------------------------------------------------------------- #
@@ -43,7 +42,7 @@ fi
 # ---------------------------------------------------------------------------- #
 if notFile /usr/local/bin/ffmpeg; then
     pushd $bdir/$mplayer
-    ./configure >>$log 2>&1
+    ./configure --disable-ffmpeg_a >>$log 2>&1
     popd
     pushd $bdir/$mplayer/ffmpeg
     ./configure --enable-gpl --enable-libx264 >>$log 2>&1

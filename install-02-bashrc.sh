@@ -20,6 +20,7 @@ export EMACS_TOOLKIT=x11
 export DVDCSS_METHOD=title
 
 alias l='ls'
+alias lrt='ls -lrt'
 alias ls='ls --color=always'
 alias ll='ls -l'
 alias cp='cp -i'
