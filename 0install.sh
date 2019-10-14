@@ -299,9 +299,14 @@ sourceList()
     done
 }
 
-if [ -z "$1" ]; then
-    installList=`ls install-[0-9][0-9][^0-9]*.sh`
-else
-    installList=$*
+# ---------------------------------------------------------------------------- #
+# main
+# ---------------------------------------------------------------------------- #
+if [ `basename $0` = "0install.sh" ]; then
+    if [ -z "$1" ]; then
+        installList=`ls install-[0-9][0-9][^0-9]*.sh`
+    else
+        installList=$*
+    fi
+    sourceList "$installList"
 fi
-sourceList "$installList"

@@ -47,14 +47,12 @@ cd debinst
 # Création d'une nouvelle debian sur clé USB
 
 ```
-./0install.sh install-op-simple-cdd-lpkg.sh
-cd install-op-simple-cdd
-make amd64-list
-make amd64
-pv ~/data/install-build/simple-cdd-amd64/images/debian-10-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
+./1buildpackage.sh buildpackage-op-1
+./2simplecdd.sh simplecdd-op-1amd64 buildpackage-op-1/build
+pv ~/data/install-build/simplecdd-1amd64/images/debian-10-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
-La liste des paquets debian sont dans: install-op-simple-cdd/list.txt
-La liste des paquets créés sont dans: install-op-simple-cdd/list2.txt
+La liste des paquets debian sont dans: simplecdd-op-1amd64/list.txt
+La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 
 # Installation sur Raspberry PI
 ```

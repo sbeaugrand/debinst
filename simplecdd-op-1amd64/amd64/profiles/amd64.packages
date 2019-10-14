@@ -1,9 +1,3 @@
-# ---------------------------------------------------------------------------- #
-## \file list.txt
-## \author Sebastien Beaugrand
-## \sa http://beaugrand.chez.com/
-## \copyright CeCILL 2.1 Free Software license
-# ---------------------------------------------------------------------------- #
 xterm
 screen
 cryptsetup
@@ -79,13 +73,7 @@ colordiff
 uncrustify
 universalindentgui
 cppcheck
-wine32
-wine
 cups
-libusb-0.1-4:i386
-libtiff5:i386
-libjpeg62-turbo:i386
-libieee1284-3:i386
 thunar
 gtkam
 gphotofs
@@ -108,9 +96,9 @@ texlive-latex-extra
 texlive-lang-french
 texlive-fonts-recommended
 texlive-pstricks
-texlive-extra-utils  # pdfjam
-texlive-generic-recommended  # multido
-texlive-science  # siunitx
+texlive-extra-utils
+texlive-generic-recommended
+texlive-science
 texlive-music
 ntpdate
 rsync
@@ -123,12 +111,12 @@ fractalnow
 morse
 wavbreaker
 debconf-utils
-librsvg2-bin  # pyBar
-python-configparser  # pyBar
-python-numpy  # pyBar
-python-cairo  # pyBar
-python-gi  # pyBar
-gir1.2-gtk-3.0  # pyBar
+librsvg2-bin
+python-configparser
+python-numpy
+python-cairo
+python-gi
+gir1.2-gtk-3.0
 pv
 libboost-dev
 aptitude
@@ -137,7 +125,7 @@ wmctrl
 lame
 libmp3lame-dev
 libdvdread-dev
-libdvd-pkg  # libdvdcss
+libdvd-pkg
 libdvdnav-dev
 libfaac-dev
 lsdvd
@@ -151,11 +139,12 @@ isolinux
 nmap
 lm-sensors
 simple-cdd
-mtools  # simple-cdd
+mtools
+dosfstools
 apache2
 php-gd
 php-cli
-php-mysqli  # phpmyadmin
+php-mysqli
 gawk
 xscreensaver
 unzip
@@ -165,9 +154,6 @@ firefox-esr-l10n-fr
 ftp
 ispell
 lsof
-#manpages-fr-dev
-#manpages-fr-extra
-#gcc-doc
 manpages-dev
 info
 netcat-traditional
@@ -175,13 +161,18 @@ libc6-i386
 sudo
 network-manager-gnome
 dh-make
-help2man  # crosstool-ng
+help2man
 mplayer
 openscad
 cpulimit
 firmware-amd-graphics
-firmware-misc-nonfree  # packard
-firmware-brcm80211  # vostro
+firmware-misc-nonfree
+firmware-brcm80211
 gramps
 pdfposter
 hplip
+task-lxde-desktop
+openbox-lxde-session
+perl-openssl-defaults
+dbus-x11
+libdebian-installer4

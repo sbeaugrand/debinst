@@ -4,26 +4,30 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-[ -d $idir/../sdcc ] || sudo -u $user mkdir $idir/../sdcc
+repo=$idir/../sdcc
+[ -d $repo ] || sudo -u $user mkdir $repo
 
-if notFile $idir/../sdcc/sdcc.tgz; then
-    if notDir $repo/sdcc; then
-        mkdir $repo/sdcc
+if notFile $repo/sdcc.tgz; then
+    if notDir $bdir/sdcc; then
+        mkdir $bdir/sdcc
     fi
-    if notDir $repo/sdcc/gputils; then
-        pushd $repo/sdcc || return 1
+    if notDir $bdir/sdcc/gputils; then
+        pushd $bdir/sdcc || return 1
         svn checkout svn://svn.code.sf.net/p/gputils/code/trunk gputils >>$log
         popd
+    else
+        return 1
     fi
-    if notDir $repo/sdcc/sdcc; then
-        pushd $repo/sdcc || return 1
+    if notDir $bdir/sdcc/sdcc; then
+        pushd $bdir/sdcc || return 1
         svn checkout svn://svn.code.sf.net/p/sdcc/code/trunk sdcc >>$log
         popd
+    else
+        return 1
     fi
-    pushd $repo || return 1
-    tar czf $idir/../sdcc/sdcc.tgz sdcc
+    pushd $bdir || return 1
+    tar czf $repo/sdcc.tgz sdcc
     popd
+elif notDir $bdir/sdcc; then
+    untar $repo/sdcc.tgz || return 1
 fi
-
-repo=$idir/../sdcc
-untar sdcc.tgz || return 1

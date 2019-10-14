@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------- #
-## \file Makefile
+## \file simplecdd.mk
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
@@ -10,26 +10,14 @@ DATATMP = $(HOME)/data/install-build
 
 .SUFFIXES:
 
-.PHONY: all
-all:
-
 .PHONY: amd64-list
-amd64-list: amd64/profiles/amd64.packages lpkg
+amd64-list: amd64/profiles/amd64.packages
 
 .PHONY: i386-list
-i386-list: i386/profiles/i386.packages lpkg
-
-.PHONY: lpkg
-lpkg:
-	@echo "Todo:"
-	@echo "  cd .. && ./0install.sh install-op-simple-cdd-lpkg.sh && cd -"
-	@echo -n "  make "
-	@echo $(MAKECMDGOALS)
-	@echo -n "  make "
-	@echo $(MAKECMDGOALS) | cut -d '-' -f 1
+i386-list: i386/profiles/i386.packages
 
 define add-extra-package
-	(test -f "../install-op-simple-cdd-lpkg/build/"$2"_1.0_all.deb" &&\
+	(test -f "$(LPKG)"$2"_1.0_all.deb" &&\
 	 echo $2 >>$1) || echo "warn: "$2"_1.0_all.deb not found"
 endef
 
@@ -39,11 +27,11 @@ define add-extra-packages
 	@echo perl-openssl-defaults >>$1
 	@echo dbus-x11 >>$1
 	@echo libdebian-installer4 >>$1
-	@for i in `cat list2.txt`; do $(call add-extra-package,$1,$$i); done
+	@for i in `cat $(LPKG)/list.txt`; do $(call add-extra-package,$1,$$i); done
 endef
 #@echo libreoffice-style-galaxy >>$1
 
-amd64/profiles/amd64.packages: list.txt list2.txt $(MAKEFILE_LIST) FORCE
+amd64/profiles/amd64.packages: list.txt $(LPKG)/list.txt $(MAKEFILE_LIST) FORCE
 	@cat $< |\
 	 sed '/:i386/D' |\
 	 sed '/wine/D' |\
@@ -52,7 +40,7 @@ amd64/profiles/amd64.packages: list.txt list2.txt $(MAKEFILE_LIST) FORCE
 	 cat >$@
 	$(call add-extra-packages,$@)
 
-i386/profiles/i386.packages: list.txt list2.txt $(MAKEFILE_LIST) FORCE
+i386/profiles/i386.packages: list.txt $(LPKG)/list.txt $(MAKEFILE_LIST) FORCE
 	@cat $< |\
 	 sed 's/:i386//' |\
 	 sed 's/libc6-i386//' |\

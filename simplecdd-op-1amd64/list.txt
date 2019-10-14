@@ -1,3 +1,9 @@
+# ---------------------------------------------------------------------------- #
+## \file list.txt
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
 xterm
 screen
 cryptsetup
@@ -73,7 +79,13 @@ colordiff
 uncrustify
 universalindentgui
 cppcheck
+wine32
+wine
 cups
+libusb-0.1-4:i386
+libtiff5:i386
+libjpeg62-turbo:i386
+libieee1284-3:i386
 thunar
 gtkam
 gphotofs
@@ -96,9 +108,10 @@ texlive-latex-extra
 texlive-lang-french
 texlive-fonts-recommended
 texlive-pstricks
-texlive-extra-utils
-texlive-generic-recommended
-texlive-science
+texlive-extra-utils  # pdfjam
+texlive-generic-recommended  # multido
+texlive-science  # siunitx
+texlive-music
 ntpdate
 rsync
 hexedit
@@ -110,20 +123,21 @@ fractalnow
 morse
 wavbreaker
 debconf-utils
-librsvg2-bin
-python-configparser
-python3-numpy
-python3-gi-cairo
-python-gi
-gir1.2-gtk-3.0
+librsvg2-bin  # pyBar
+python-configparser  # pyBar
+python-numpy  # pyBar
+python-cairo  # pyBar
+python-gi  # pyBar
+gir1.2-gtk-3.0  # pyBar
 pv
 libboost-dev
 aptitude
+anacron
 wmctrl
 lame
 libmp3lame-dev
 libdvdread-dev
-libdvd-pkg
+libdvd-pkg  # libdvdcss
 libdvdnav-dev
 libfaac-dev
 lsdvd
@@ -137,10 +151,12 @@ isolinux
 nmap
 lm-sensors
 simple-cdd
-mtools
+mtools  # simple-cdd
+dosfstools  # simple-cdd
 apache2
 php-gd
 php-cli
+php-mysqli  # phpmyadmin
 gawk
 xscreensaver
 unzip
@@ -150,37 +166,23 @@ firefox-esr-l10n-fr
 ftp
 ispell
 lsof
+#manpages-fr-dev
+#manpages-fr-extra
+#gcc-doc
+manpages-dev
 info
 netcat-traditional
 libc6-i386
 sudo
 network-manager-gnome
 dh-make
-help2man
+help2man  # crosstool-ng
 mplayer
 openscad
 cpulimit
 firmware-amd-graphics
-firmware-misc-nonfree
-firmware-brcm80211
+firmware-misc-nonfree  # packard
+firmware-brcm80211  # vostro
 gramps
 pdfposter
 hplip
-task-lxde-desktop
-openbox-lxde-session
-perl-openssl-defaults
-dbus-x11
-libdebian-installer4
-debinst
-install-bin
-install-codecs
-install-ffmpeg
-install-mplayer
-install-libdvdcss
-install-calendar
-install-arduino
-install-rdm
-install-php-mode
-install-id3ed
-install-mp3gain
-install-sdcc
