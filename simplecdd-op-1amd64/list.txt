@@ -156,7 +156,7 @@ dosfstools  # simple-cdd
 apache2
 php-gd
 php-cli
-php-mysqli  # phpmyadmin
+php-mysql  # phpmyadmin
 gawk
 xscreensaver
 unzip

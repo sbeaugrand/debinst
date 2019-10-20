@@ -7,6 +7,7 @@
 PROJECT = $(shell basename `readlink -f .`)
 BUILDCD = build-simple-cdd --conf simple-cdd.conf --dvd --logfile /tmp/scdd.log
 DATATMP = $(HOME)/data/install-build
+DESTDIR = $(DATATMP)/$(shell basename $(shell pwd))
 
 .SUFFIXES:
 
@@ -17,7 +18,7 @@ amd64-list: amd64/profiles/amd64.packages
 i386-list: i386/profiles/i386.packages
 
 define add-extra-package
-	(test -f "$(LPKG)"$2"_1.0_all.deb" &&\
+	(test -f "$(LPKG)/"$2"_1.0_all.deb" &&\
 	 echo $2 >>$1) || echo "warn: "$2"_1.0_all.deb not found"
 endef
 
@@ -51,9 +52,9 @@ i386/profiles/i386.packages: list.txt $(LPKG)/list.txt $(MAKEFILE_LIST) FORCE
 
 .PHONY: amd64 i386
 amd64 i386:
-	@mkdir -p $(DATATMP)/simple-cdd-$@
+	@mkdir -p $(DESTDIR)
 	@cd $@ &&\
-	 rsync -a -L -i profiles/ $(DATATMP)/simple-cdd-$@/profiles/ &&\
+	 rsync -a -L -i profiles/ $(DESTDIR)/profiles/ &&\
 	 $(BUILDCD)
 
 .PHONY: clean

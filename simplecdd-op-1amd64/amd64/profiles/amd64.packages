@@ -144,7 +144,7 @@ dosfstools
 apache2
 php-gd
 php-cli
-php-mysqli
+php-mysql
 gawk
 xscreensaver
 unzip
@@ -176,3 +176,16 @@ openbox-lxde-session
 perl-openssl-defaults
 dbus-x11
 libdebian-installer4
+debinst
+install-bin
+install-codecs
+install-ffmpeg
+install-mplayer
+install-libdvdcss
+install-calendar
+install-arduino
+install-rdm
+install-php-mode
+install-id3ed
+install-mp3gain
+install-sdcc
