@@ -30,12 +30,12 @@ EOF
 fi
 
 cat >>user.js <<EOF
-user_pref("browser.urlbar.placeholderName", "Qwant");
-user_pref("browser.download.dir", $home);
+user_pref("browser.urlbar.placeholderName", "Google");
+user_pref("browser.download.dir", "$home");
 user_pref("browser.download.useDownloadDir", false);
 
 // Vider l'historique lors de la fermeture
-user_pref("privacy.sanitize.pending", "[{\"id\":\"shutdown\",\"itemsToClear\":[\"cache\",\"cookies\",\"history\",\"formdata\",\"downloads\",\"sessions\"],\"options\":{}}]");
+user_pref("privacy.sanitize.pending", "[{\"id\":\"shutdown\",\"itemsToClear\":[\"cache\",\"cookies\",\"offlineApps\",\"history\",\"formdata\",\"downloads\",\"sessions\",\"siteSettings\"],\"options\":{}}]");
 user_pref("privacy.sanitize.sanitizeOnShutdown", true);
 
 // lockPref

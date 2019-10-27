@@ -1,0 +1,18 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Box
+  config.vm.box = "debian10vm"
+  config.vm.box_url = "./packer_virtualbox-iso_virtualbox.box"
+
+  # Shared folder
+  config.vm.synced_folder 'c:/debian10vm','/home/vagrant/windows',
+    disabled: false,
+    create: true,
+    owner: "vagrant",
+    group: "vagrant",
+    mount_options: ["dmode=777,fmode=777"]
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+end

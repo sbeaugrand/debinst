@@ -149,9 +149,9 @@ else
     min2=15
 fi
 if vacation; then
-    heure1=9
+    heure1=8
     mod1=30
-    min1=0
+    min1=30
 fi
 
 if [ "$1" = "haut" ]; then

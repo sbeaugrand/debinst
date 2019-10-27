@@ -9,5 +9,8 @@ git
 subversion
 python-dev
 ntp
+sntp
+ntpdate
+wiringpi
 at
 libusb-dev

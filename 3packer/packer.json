@@ -1,0 +1,40 @@
+{
+  "variables": {
+    "iso": ""
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "http_directory": "3packer",
+      "boot_command": [
+        "<esc><wait>",
+        "install<wait>",
+        " preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/preseed.cfg <wait>",
+	" debian-installer=en_US.UTF-8 <wait>",
+        " locale=en_US.UTF-8<wait>",
+        " netcfg/get_hostname=debian10vm<wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "5s",
+      "disk_size": 61440,
+      "guest_os_type": "Debian_64",
+      "iso_url": "{{user `iso`}}",
+      "iso_checksum_type": "none",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+      "vm_name": "packer-debian-10-amd64",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "1024"
+        ]
+      ]
+    }
+  ],
+  "post-processors": ["vagrant"]
+}

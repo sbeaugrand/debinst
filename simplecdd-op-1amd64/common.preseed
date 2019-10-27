@@ -8,7 +8,8 @@ d-i debian-installer/language string fr
 d-i debian-installer/country string  FR
 d-i debian-installer/locale string fr_FR.UTF-8
 d-i keyboard-configuration/xkb-keymap string fr(latin9)
-d-i netcfg/enable boolean false
+# Commented for packer :
+#d-i netcfg/enable boolean false
 d-i netcfg/get_domain string
 d-i passwd/root-login boolean true
 d-i passwd/make-user boolean true

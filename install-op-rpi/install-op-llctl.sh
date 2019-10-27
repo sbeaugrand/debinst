@@ -8,11 +8,11 @@ file=llctl.tgz
 if notFile $repo/$file; then
     cp install-op-llctl/$file $repo/
 fi
-untar $file || return 1
+untar $file llctl/llctl.c llctl || return 1
 
 file=/usr/local/bin/llctl
 if notFile $file; then
-    pushd $bdir || return 1
+    pushd $bdir/llctl || return 1
     make >>$log 2>&1
     cp llctl $file
     popd

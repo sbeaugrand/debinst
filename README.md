@@ -54,6 +54,20 @@ pv ~/data/install-build/simplecdd-1amd64/images/debian-10-amd64-DVD-1.iso | sudo
 La liste des paquets debian sont dans: simplecdd-op-1amd64/list.txt
 La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 
+# Création d'une machine virtuelle dans windows
+```
+https://www.virtualbox.org/wiki/Downloads
+https://www.packer.io/downloads.html
+https://git-scm.com/download/win
+git-bash.exe
+ls -l packer_*.zip 3packer.sh 3packer/packer.json 3packer/preseed.cfg
+unzip packer_1.4.4_windows_amd64.zip
+PATH="$PATH":. ./3packer.sh /c/debian-10-amd64-DVD-1.iso
+cp 3packer/Vagrantfile .  # ou
+vagrant init debian10vm ./packer_virtualbox-iso_virtualbox.box
+vagrant up
+```
+
 # Installation sur Raspberry PI
 ```
 unzip 2*-lite.zip
@@ -79,5 +93,6 @@ ssh pi@192.168.x.xx
 cd install/debinst/install-op-rpi
 rw
 ../0install.sh install-op-audio.sh
+../0install.sh install-op-llctl.sh install-op-volet.sh
 ro
 ```

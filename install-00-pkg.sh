@@ -4,6 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+listFile="simplecdd-op-1amd64/list.txt"
 sta=`lsb_release -sc`
 
 if [ "`dpkg --print-architecture`" = "amd64" ] &&
@@ -27,14 +28,14 @@ deb-src http://httpredir.debian.org/debian/ $sta-updates main contrib non-free
 #  deb http://httpredir.debian.org/debian $sta-backports main contrib non-free
 #  ex: sudo apt -t $sta-backports install kicad
 EOF
-    if ((`cat /proc/net/arp | wc -l` > 1)); then
+    if isOnline; then
         apt-get -q -y update >>$log
         apt-get -q -y dist-upgrade >>$log
     fi
 fi
 
-if ((`cat /proc/net/arp | wc -l` > 1)); then
-    list=`cat install-op-simple-cdd/list.txt | sed 's/ *#.*//' | tr '\n' ' '`
+if isOnline; then
+    list=`cat $listFile | sed 's/ *#.*//' | tr '\n' ' '`
     if [ `uname -m` != "x86_64" ]; then
         list=`echo $list | sed 's/libc6-i386//'`
     fi
