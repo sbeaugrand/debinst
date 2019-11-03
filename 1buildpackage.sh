@@ -63,8 +63,8 @@ makePackage()
     dpkg-buildpackage --no-sign >>$log 2>&1
     popd
 
-    removeInMirror $bdir/simple-cdd-amd64/tmp/mirror
-    removeInMirror $bdir/simple-cdd-i386/tmp/mirror
+    removeInMirror $bdir/simplecdd-op-1amd64/tmp/mirror
+    removeInMirror $bdir/simplecdd-op-1i386/tmp/mirror
 
     echo $pkg >>$buildpackage/build/list.txt
 }
@@ -76,6 +76,6 @@ rm -fr $buildpackage/build
 
 source $buildpackage/prepare.sh
 
-for i in `cat install-op-simple-cdd/list2.txt`; do
+for i in `cat $buildpackage/list.txt`; do
     makePackage $idir/../$i || echo " warn: package $i not completed"
 done

@@ -1,0 +1,12 @@
+debinst
+install-codecs
+install-ffmpeg
+install-mplayer
+install-calendar
+install-arduino
+install-rdm
+install-php-mode
+install-id3ed
+install-mp3gain
+install-sdcc
+install-libdvdcss

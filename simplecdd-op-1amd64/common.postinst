@@ -37,8 +37,7 @@ fi
 mkdir -p /home/$user/install
 chown $user.$user /home/$user/install
 
-movePackage debinst
-for i in `cat /home/$user/install/debinst/install-op-simple-cdd/list2.txt`; do
+for i in `cat /home/$user/install/debinst/buildpackage-op-1/list.txt`; do
     movePackage $i
 done
 

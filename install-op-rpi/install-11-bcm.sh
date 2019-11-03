@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-bcm=bcm2835-1.52
+bcm=bcm2835-1.60
 file=$bcm.tar.gz
 
 download http://www.airspayce.com/mikem/bcm2835/$file || return 1

@@ -14,3 +14,4 @@ ntpdate
 wiringpi
 at
 libusb-dev
+cryptsetup

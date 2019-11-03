@@ -9,6 +9,11 @@ if [ -z "$1" ]; then
 fi
 iso=$1
 
-packer build\
+cp -n $HOME/.ssh/id_pem_rsa.pub 3packer/authorized_keys
+
+#export PACKER_LOG=1
+
+PATH="$PATH":.\
+ packer build\
  -var "iso=$1"\
  3packer/packer.json

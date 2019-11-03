@@ -18,7 +18,7 @@ fake-hwclock save
 
 # ntp
 file=/var/lib/ntp/ntp.drift
-if isFile $file notLink $file; then
+if isFile $file && notLink $file; then
     mv $file $dest/
     ln -sf $dest/ntp.drift $file
 fi

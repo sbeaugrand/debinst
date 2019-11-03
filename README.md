@@ -62,7 +62,7 @@ https://git-scm.com/download/win
 git-bash.exe
 ls -l packer_*.zip 3packer.sh 3packer/packer.json 3packer/preseed.cfg
 unzip packer_1.4.4_windows_amd64.zip
-PATH="$PATH":. ./3packer.sh /c/debian-10-amd64-DVD-1.iso
+source 3packer.sh /c/debian-10-amd64-DVD-1.iso
 cp 3packer/Vagrantfile .  # ou
 vagrant init debian10vm ./packer_virtualbox-iso_virtualbox.box
 vagrant up
