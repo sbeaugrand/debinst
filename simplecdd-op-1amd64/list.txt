@@ -47,12 +47,14 @@ binutils-avr
 gcc-avr
 avrdude
 kicad
+ngspice
 usbutils
 libusb-dev
 libusb-1.0-0-dev
 libfftw3-dev
 gnuplot
 octave
+octave-signal
 alsa-utils
 pulseaudio
 pavucontrol

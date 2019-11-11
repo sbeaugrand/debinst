@@ -5,11 +5,34 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ -z "$2" ]; then
-    echo -n "Usage: `basename $0`"
-    echo " <simplecdd-...> <buildpackage-.../build>"
+    echo "Usage: `basename $0` <simplecdd-...> <buildpackage-...>"
+    exit 1
 fi
 simplecdd=$1
 lpkg=$2
 
+source 0install.sh
+
+# ---------------------------------------------------------------------------- #
+# removeInMirror
+# ---------------------------------------------------------------------------- #
+removeInMirror()
+{
+    pkg=$1
+    mirror=$2
+    if [ -d $mirror ]; then
+        pushd $mirror
+        reprepro remove stable $pkg >>$log 2>&1
+        popd
+    fi
+}
+
+# ---------------------------------------------------------------------------- #
+# main
+# ---------------------------------------------------------------------------- #
+for i in `cat $lpkg/list.txt`; do
+    removeInMirror $i $bdir/$simplecdd/tmp/mirror
+done
+
 cd $simplecdd
-make LPKG=../$lpkg
+sudo -u $user make LPKG=$lpkg

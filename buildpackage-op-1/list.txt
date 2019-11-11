@@ -1,4 +1,5 @@
 debinst
+install-bin
 install-codecs
 install-ffmpeg
 install-mplayer

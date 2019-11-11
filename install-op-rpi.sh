@@ -76,18 +76,20 @@ rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
 # ---------------------------------------------------------------------------- #
 # data
 # ---------------------------------------------------------------------------- #
-ssh pi@$RPI "test -d data/tmp || mkdir -p data/tmp"
+ssh pi@$RPI "test -d data/install-build || mkdir -p data/install-build"
+ssh pi@$RPI "test -d data/install-repo || mkdir -p data/install-repo"
 
 # ---------------------------------------------------------------------------- #
 # passwd
 # ---------------------------------------------------------------------------- #
 ssh pi@$RPI "
-test -f data/tmp/passwd ||
- (passwd && sudo passwd root && touch data/tmp/passwd)"
+test -f data/install-build/passwd ||
+ (passwd && sudo passwd root && touch data/install-build/passwd)"
 
 # ---------------------------------------------------------------------------- #
 # rasp-config
 # ---------------------------------------------------------------------------- #
 #ssh pi@$RPI "
-#test -f data/tmp/raspi-config ||
-# (sudo raspi-config nonint do_expand_rootfs && touch data/tmp/raspi-config)"
+#test -f data/install-build/raspi-config ||
+# (sudo raspi-config nonint do_expand_rootfs &&
+# touch data/install-build/raspi-config)"

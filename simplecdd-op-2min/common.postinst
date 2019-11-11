@@ -41,9 +41,6 @@ for i in `cat /home/$user/install/debinst/LPKG/list.txt`; do
     movePackage $i
 done
 
-cp /home/$user/install/libdvdcss/libdvdcss_*.orig.tar.bz2 /usr/src/libdvd-pkg/
-dpkg-reconfigure -pcritical libdvd-pkg
-
 cd /home/$user/install/debinst
 mkdir /home/$user/data
 chown $user.$user /home/$user/data

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # authorized_keys
 mkdir /home/vagrant/.ssh
@@ -12,6 +12,3 @@ chown -R vagrant /home/vagrant/.ssh
 # sudo
 echo "%vagrant ALL=NOPASSWD:ALL" >/etc/sudoers.d/vagrant
 chmod 440 /etc/sudoers.d/vagrant
-
-# update
-apt-get -y update

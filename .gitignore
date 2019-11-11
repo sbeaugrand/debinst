@@ -5,3 +5,9 @@ build
 *.ttf
 *.pfb
 *-pr-*
+*/amd64/profiles/amd64.packages
+*/amd64/profiles/amd64.postinst
+*/amd64/simple-cdd.conf
+*/i386/profiles/i386.packages
+*/i386/profiles/i386.postinst
+*/i386/simple-cdd.conf

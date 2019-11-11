@@ -9,20 +9,8 @@ if [ -z "$1" ]; then
     exit 1
 fi
 buildpackage=$1
-source 0install.sh
 
-# ---------------------------------------------------------------------------- #
-# removeInMirror
-# ---------------------------------------------------------------------------- #
-removeInMirror()
-{
-    mirror=$1
-    if [ -d $mirror ]; then
-        pushd $mirror
-        reprepro remove stable $pkg >>$log 2>&1
-        popd
-    fi
-}
+source 0install.sh
 
 # ---------------------------------------------------------------------------- #
 # makePackage
@@ -63,9 +51,6 @@ makePackage()
     dpkg-buildpackage --no-sign >>$log 2>&1
     popd
 
-    removeInMirror $bdir/simplecdd-op-1amd64/tmp/mirror
-    removeInMirror $bdir/simplecdd-op-1i386/tmp/mirror
-
     echo $pkg >>$buildpackage/build/list.txt
 }
 
@@ -74,7 +59,9 @@ makePackage()
 # ---------------------------------------------------------------------------- #
 rm -fr $buildpackage/build
 
-source $buildpackage/prepare.sh
+if [ -f $buildpackage/prepare.sh ]; then
+    source $buildpackage/prepare.sh
+fi
 
 for i in `cat $buildpackage/list.txt`; do
     makePackage $idir/../$i || echo " warn: package $i not completed"

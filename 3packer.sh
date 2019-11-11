@@ -6,10 +6,16 @@
 # ---------------------------------------------------------------------------- #
 if [ -z "$1" ]; then
     echo "Usage: `basename $0` <iso>"
+    return 1
 fi
 iso=$1
 
-cp -n $HOME/.ssh/id_pem_rsa.pub 3packer/authorized_keys
+if [ -d $HOME/.vagrant.d/boxes/debian10vm ]; then
+    echo "$HOME/.vagrant.d/boxes/debian10vm already exists"
+    return 1
+fi
+
+cp -n $HOME/.ssh/id_rsa.pub 3packer/authorized_keys
 
 #export PACKER_LOG=1
 

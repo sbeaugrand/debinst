@@ -15,14 +15,11 @@ Vagrant.configure("2") do |config|
   end
 
   # ssh
-  # fixme
-  #config.ssh.private_key_path = "$HOME/.ssh/id_pem_rsa"
-  config.ssh.username = 'vagrant'
-  config.ssh.password = 'vagrant'
   config.ssh.insert_key = false
+  config.ssh.private_key_path = "~/.ssh/id_rsa"
 
   # shared folder
-  config.vm.synced_folder 'c:/debian10vm','/home/vagrant/windows',
+  config.vm.synced_folder 'c:/install-repo','/home/vagrant/data/install-repo',
     disabled: false,
     create: true,
     owner: "vagrant",
