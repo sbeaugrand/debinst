@@ -48,11 +48,11 @@ fi
 file=/etc/init.d/fake-hwclock
 if notGrep "test" $file; then
     sed -i '
-s@fake-hwclock l@test -e /etc/fake-hwclock.data && fake-hwclock l@' $file
+s@fake-hwclock l@test -e /etc/fake-hwclock.data \&\& fake-hwclock l@' $file
 fi
 
 file=/etc/cron.hourly/fake-hwclock
 if notGrep "1970" $file; then
     sed -i '
-s@fake-hwclock s@((`date +%Y` > 1970)) && fake-hwclock s@' $file
+s@fake-hwclock s@((`date +%Y` > 1970)) \&\& fake-hwclock s@' $file
 fi

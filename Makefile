@@ -11,6 +11,11 @@ PROJECT = debinst
 .PHONY: all
 all:
 
+.PHONY: readme
+readme:
+	#cmark-gfm README.md | w3m -T text/html
+	@cmark-gfm README.md | lynx -stdin
+
 .PHONY: clean
 clean:
 	@$(RM) *~

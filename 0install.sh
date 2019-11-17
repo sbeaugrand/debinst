@@ -204,6 +204,9 @@ download()
 untar()
 {
     local file=$1
+    if ! isFile $repo/$file; then
+        return 1
+    fi
     local dir=${file%.*}
     if [ ${dir##*.} = "tar" ]; then
         dir=${dir%.*}
@@ -239,6 +242,13 @@ untar()
         chown -R $user.$user $bdir/$dir
         popd
     fi
+
+    # git checkout
+    if [ -d $bdir/$dir/.git ]; then
+        pushd $bdir/$dir || return 1
+        git checkout .
+        popd
+    fi
     return 0
 }
 
@@ -250,25 +260,34 @@ gitClone()
     url=$1
     name=`basename $url`
     name=${name%.*}
+    if [ -n "$2" ]; then
+        branch="-$2"
+        opt="-b $branch"
+    else
+        branch=
+        opt=
+    fi
+    file=$repo/$name$branch.tgz
 
     if notDir $bdir/$name; then
         if isOnline; then
             pushd $bdir || return 1
-            sudo -u $user git clone -q $url
+            sudo -u $user git clone -q $opt $url
             popd
-        elif isFile $repo/$name.tgz; then
+        elif isFile $file; then
             pushd $bdir || return 1
-            tar xzf $repo/$name.tgz
+            tar xzf $file
             popd
             pushd $bdir/$name
-            git checkout .
+            sudo -u $user git checkout .
             popd
         fi
     fi
 
-    if [ ! -f $repo/$name.tgz ] && isDir $bdir/$name; then
+    # tar
+    if [ ! -f $file ] && isDir $bdir/$name; then
         pushd $bdir || return 1
-        tar czf $repo/$name.tgz $name/.git
+        tar czf $file $name/.git
         popd
     fi
     return 0

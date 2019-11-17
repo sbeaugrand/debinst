@@ -37,8 +37,11 @@ fi
 mkdir -p /home/$user/install
 chown $user.$user /home/$user/install
 
+movePackage debinst
 for i in `cat /home/$user/install/debinst/LPKG/list.txt`; do
-    movePackage $i
+    if [ $i != "debinst" ]; then
+        movePackage $i
+    fi
 done
 
 cd /home/$user/install/debinst

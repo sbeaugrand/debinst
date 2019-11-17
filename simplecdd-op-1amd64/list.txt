@@ -18,7 +18,6 @@ aspell-fr
 myspell-fr
 indent
 astyle
-universalindentgui
 mupdf
 poppler-utils
 evince
@@ -148,7 +147,7 @@ git
 libncurses5-dev
 flex
 bison
-xorriso
+xorriso  # simple-cdd
 isolinux
 nmap
 lm-sensors
@@ -177,7 +176,7 @@ netcat-traditional
 libc6-i386
 sudo
 network-manager-gnome
-dh-make
+dh-make  # simple-cdd
 help2man  # crosstool-ng
 mplayer
 openscad
@@ -188,3 +187,4 @@ firmware-brcm80211  # vostro
 gramps
 pdfposter
 hplip
+cmark-gfm

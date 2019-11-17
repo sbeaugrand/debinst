@@ -38,7 +38,7 @@ makePackage()
     if [ -f $src/Makefile ]; then
         pushd $src || return 1
         make tar >>$log
-        mv ../$pkg.tgz /tmp/
+        mv $idir/../$pkg.tgz /tmp/
         popd
     else
         pushd $src/.. || return 1
