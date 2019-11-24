@@ -25,6 +25,7 @@ movePackage()
     chown -R $user.$user $dst
 }
 
+# user
 user=`ls /home | tail -n 1`
 if [ -z "$user" ]; then
     echo "error: user not found" >>$log
@@ -34,26 +35,35 @@ if [ ! -d /home/$user ]; then
     echo "error: /home/$user not found" >>$log
     return 1
 fi
-mkdir -p /home/$user/install
-chown $user.$user /home/$user/install
+
+# lpkg
+dir=/home/$user/install
+mkdir $dir
+chown $user.$user $dir
 
 movePackage debinst
-for i in `cat /home/$user/install/debinst/LPKG/list.txt`; do
+for i in `cat $dir/debinst/LPKG/list.txt`; do
     if [ $i != "debinst" ]; then
         movePackage $i
     fi
 done
 
+# libdvdcss
 cp /home/$user/install/libdvdcss/libdvdcss_*.orig.tar.bz2 /usr/src/libdvd-pkg/
 dpkg-reconfigure -pcritical libdvd-pkg
 
+# data
+dir=/home/$user/data
+mkdir $dir
+chown $user.$user $dir
+
+# install
 cd /home/$user/install/debinst
-mkdir /home/$user/data
-chown $user.$user /home/$user/data
 ./0install.sh\
  install-02-bashrc.sh\
  install-03-screen.sh
 
+# cleanup
 if [ ! -s $log ]; then
     rm $log
 fi

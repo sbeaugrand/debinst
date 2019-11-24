@@ -43,7 +43,7 @@ alias mutt='mutt.sh'
 alias gs='gs -dBATCH'
 alias halt='/sbin/shutdown now'
 
-xset -b
+test -n "$DISPLAY" && xset -b
 setxkbmap -option "nbsp:none"
 last -R | grep boot | head -n 2 | tail -n 1 | sed 's/.*boot/Last:/'
 cd

@@ -68,7 +68,8 @@ https://www.puttygen.com/download-putty#PuTTY_for_windows
 ```
 git-bash.exe
 ls -l packer_*.zip 3packer.sh 3packer
-cp 3packer/Vagrantfile 3packer/vagrantssh.sh .
+cp 3packer/Vagrantfile 3packer/vagrantup.sh 3packer/vagrantssh.sh .
+source 3packer/shortcut.sh
 unzip packer_1.4.4_windows_amd64.zip
 ssh-keygen.exe -t rsa
 cp $HOME/.ssh/id_rsa.pub 3packer/authorized_keys
@@ -81,10 +82,12 @@ Pageant => Add key id_rsa.ppk
 ./2simplecdd.sh simplecdd-op-2min buildpackage-op-2min
 git-bash.exe
 source 3packer.sh /c/debian-10-amd64-DVD-1.iso
-pageant.exe  # add id_rsa.ppk
-vagrant up
+source vagrantup.sh
 source vagrantssh.sh
 passwd
+sudo passwd
+cd install/debinst
+./0install.sh
 ```
 
 # Installation sur Raspberry PI

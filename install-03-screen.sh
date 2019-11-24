@@ -73,7 +73,9 @@ xterm*scrollBar: true
 xterm*rightScrollBar: true
 xterm*vt100*translations: #override <Key>F9: secure()
 EOF
-    xrdb $file
+    if [ -n "$DISPLAY" ]; then
+        xrdb $file
+    fi
 fi
 
 # ---------------------------------------------------------------------------- #

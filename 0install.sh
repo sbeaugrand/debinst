@@ -84,10 +84,12 @@ popd()
 # ---------------------------------------------------------------------------- #
 notGrep()
 {
-    if ! grep -q "$1" $2; then
+    if [ ! -f $2 ]; then
+        return 0
+    elif ! grep -q "$1" $2; then
         return 0
     else
-        echo " warn: $1 already in $2"
+        echo " warn: $1 already in $2" | tee -a $log
         return 1
     fi
 }
@@ -257,22 +259,21 @@ untar()
 # ---------------------------------------------------------------------------- #
 gitClone()
 {
-    url=$1
-    name=`basename $url`
+    local url=$1
+    local name=`basename $url`
     name=${name%.*}
+    local opt=
     if [ -n "$2" ]; then
-        branch="-$2"
-        opt="-b $branch"
-    else
-        branch=
-        opt=
+        name="$name-$2"
+        opt="-b $2"
     fi
-    file=$repo/$name$branch.tgz
+    local file=$repo/$name.tgz
 
     if notDir $bdir/$name; then
         if isOnline; then
             pushd $bdir || return 1
-            sudo -u $user git clone -q $opt $url
+            sudo -u $user --preserve-env=SSH_AUTH_SOCK\
+              git clone -q $opt $url $name
             popd
         elif isFile $file; then
             pushd $bdir || return 1
