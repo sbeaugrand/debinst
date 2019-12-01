@@ -13,12 +13,20 @@ if notDir $bdir/$name; then
 fi
 
 file=$bdir/$name/C/33_ds1302/rtc_ds1302.c
+
 if notGrep "ds1302setup(14, 13, 12)" $file; then
     sed -i 's/ds1302setup *(0, 1, 2)/ds1302setup(14, 13, 12)/' $file
 fi
-
 if ! grep -q "ds1302setup(14, 13, 12)" $file; then
     echo " error: ds1302setup error"
+    return 1
+fi
+
+if notGrep '%02d%02d"' $file; then
+    sed -i 's/%02d%02d.%02d"/%02d%02d"/' $file
+fi
+if ! grep '%02d%02d"' $file; then
+    echo " error: date format error"
     return 1
 fi
 
