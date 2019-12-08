@@ -35,6 +35,13 @@ if notFile $file; then
     CustomLog /var/log/$serverName-access.log common
 </VirtualHost>
 EOF
+    if ! /sbin/a2query -q -m php7.3; then
+        echo " warn: apache2 php mod is not enabled" | tee -a $log
+        if /sbin/a2query -q -m mpm_event; then
+            /sbin/a2dismod mpm_event
+        fi
+        /sbin/a2enmod php7.3
+    fi
     /sbin/service apache2 restart
 fi
 

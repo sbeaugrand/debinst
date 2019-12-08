@@ -136,7 +136,8 @@ if [ -f build/sun ]; then
     mod1=1
     min1=`echo $sun | cut -d ' ' -f 1 | cut -d ':' -f 2`
     heure1=`echo $heure1 | awk '{ print $1 + 0 }'`
-    if ((heure1 < 7)) || (((heure1 = 7)) && ((min1 < 30))); then
+    m1=`echo $min1 | awk '{ print $1 + 0 }'`
+    if ((heure1 < 7)) || (((heure1 == 7)) && ((m1 < 30))); then
         heure1=7
         min1=30
     fi

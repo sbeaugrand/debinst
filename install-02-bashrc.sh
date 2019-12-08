@@ -34,7 +34,7 @@ alias rpurge='find . -name \*~ -exec rm {} \;'
 alias grep='grep --color=auto'
 alias rgrep='grep -RI --exclude="*~" --color=auto'
 alias rkill='rkill.sh'
-alias sortdu=$'du -b | awk \'{ printf "%12d %s\\n", $1, $2 }\' | LC_ALL=C sort'
+alias sortdu=\$'du -b | awk \'{ printf "%12d %s\\\\n", \$1, \$2 }\' | LC_ALL=C sort'
 
 alias kc='keychain ~/.ssh/id_rsa'
 alias ntpdate='sudo /usr/sbin/ntpdate -u ntp.u-psud.fr'

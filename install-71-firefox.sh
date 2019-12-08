@@ -13,15 +13,14 @@ if [ ! -d $home/.mozilla/firefox ]; then
     fi
 fi
 
-cwd=`pwd`
 pushd $home/.mozilla/firefox/*.default || return 1
 # Firefox telemetry and spy removal
 # https://gist.github.com/MrYar
 sed 's/US/FR/' $idir/install-*-firefox.js >user.js || return 1
 
-file=$cwd/install-pr-firefox.html
+file=$idir/install-pr-firefox.html
 if [ ! -f $file ]; then
-    file=`ls $cwd/install*-71-firefox.html`
+    file=`ls $idir/install*-firefox.html`
 fi
 if [ -n "$file" ]; then
     cat >>user.js <<EOF

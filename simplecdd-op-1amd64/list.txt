@@ -155,6 +155,7 @@ simple-cdd
 mtools  # simple-cdd
 dosfstools  # simple-cdd
 apache2
+libapache2-mod-php
 php-gd
 php-cli
 php-mysql  # phpmyadmin

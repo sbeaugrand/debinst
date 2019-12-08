@@ -4,10 +4,19 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-vimdir=/usr/share/vim/vim80
+vimdir=`ls -d /usr/share/vim/vim[0-9][0-9]`
+if [ ! -d "$vimdir" ]; then
+    return 1
+fi
+
 gitClone https://github.com/rickhowe/diffchar.vim || return 1
 
-pushd $bdir/diffchar.vim || return 1
-cp autoload/diffchar.vim $vimdir/autoload/
-cp plugin/diffchar.vim $vimdir/plugin/
-popd
+file=$vimdir/autoload/diffchar.vim
+if notFile $file; then
+    cp $bdir/diffchar/autoload/diffchar.vim $file
+fi
+
+file=$vimdir/plugin/diffchar.vim
+if notFile $file; then
+    cp $bdir/diffchar/plugin/diffchar.vim $file
+fi
