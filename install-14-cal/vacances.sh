@@ -5,23 +5,45 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-vOOIddOOI=01; vOOIdmOOI=01; vOOIfdOOI=06; vOOIfmOOI=01;
+year=$1
+format=$2
+zone=$3
 
-vOIIddOOI=17; vOIIdmOOI=02; vOIIfdOOI=03; vOIIfmOOI=03;
-vOIIddOII=10; vOIIdmOII=02; vOIIfdOII=24; vOIIfmOII=02;
-vOIIddIII=24; vOIIdmIII=02; vOIIfdIII=10; vOIIfmIII=03;
+if [ "$year" = "2020" ]; then
+    vOOIddOOI=01; vOOIdmOOI=01; vOOIfdOOI=05; vOOIfmOOI=01;
 
-vIIIddOOI=14; vIIIdmOOI=04; vIIIfdOOI=28; vIIIfmOOI=04;
-vIIIddOII=07; vIIIdmOII=04; vIIIfdOII=21; vIIIfmOII=04;
-vIIIddIII=21; vIIIdmIII=04; vIIIfdIII=05; vIIIfmIII=05;
+    vOIIddOOI=23; vOIIdmOOI=02; vOIIfdOOI=08; vOIIfmOOI=03;
+    vOIIddOII=16; vOIIdmOII=02; vOIIfdOII=01; vOIIfmOII=03;
+    vOIIddIII=09; vOIIdmIII=02; vOIIfdIII=23; vOIIfmIII=02;
 
-vOIVddOOI=07; vOIVdmOOI=07; vOIVfdOOI=01; vOIVfmOOI=09;
+    vIIIddOOI=19; vIIIdmOOI=04; vIIIfdOOI=03; vIIIfmOOI=05;
+    vIIIddOII=12; vIIIdmOII=04; vIIIfdOII=26; vIIIfmOII=04;
+    vIIIddIII=05; vIIIdmIII=04; vIIIfdIII=19; vIIIfmIII=04;
 
-vOOVddOOI=20; vOOVdmOOI=10; vOOVfdOOI=03; vOOVfmOOI=11;
+    vOIVddOOI=05; vOIVdmOOI=07; vOIVfdOOI=31; vOIVfmOOI=08;
 
-vOVIddOOI=22; vOVIdmOOI=12; vOVIfdOOI=31; vOVIfmOOI=12;
+    vOOVddOOI=18; vOOVdmOOI=10; vOOVfdOOI=01; vOOVfmOOI=11;
 
-if [ "$1" = "tex" ]; then
+    vOVIddOOI=20; vOVIdmOOI=12; vOVIfdOOI=31; vOVIfmOOI=12;
+elif [ "$year" = "2019" ]; then
+    vOOIddOOI=01; vOOIdmOOI=01; vOOIfdOOI=06; vOOIfmOOI=01;
+
+    vOIIddOOI=17; vOIIdmOOI=02; vOIIfdOOI=03; vOIIfmOOI=03;
+    vOIIddOII=10; vOIIdmOII=02; vOIIfdOII=24; vOIIfmOII=02;
+    vOIIddIII=24; vOIIdmIII=02; vOIIfdIII=10; vOIIfmIII=03;
+
+    vIIIddOOI=14; vIIIdmOOI=04; vIIIfdOOI=28; vIIIfmOOI=04;
+    vIIIddOII=07; vIIIdmOII=04; vIIIfdOII=21; vIIIfmOII=04;
+    vIIIddIII=21; vIIIdmIII=04; vIIIfdIII=05; vIIIfmIII=05;
+
+    vOIVddOOI=07; vOIVdmOOI=07; vOIVfdOOI=01; vOIVfmOOI=09;
+
+    vOOVddOOI=20; vOOVdmOOI=10; vOOVfdOOI=03; vOOVfmOOI=11;
+
+    vOVIddOOI=22; vOVIdmOOI=12; vOVIfdOOI=31; vOVIfmOOI=12;
+fi
+
+if [ "$format" = "tex" ]; then
     cat <<EOF
 \def\vOOIddOOI{$vOOIddOOI} \def\vOOIdmOOI{$vOOIdmOOI} \
 \def\vOOIfdOOI{$vOOIfdOOI} \def\vOOIfmOOI{$vOOIfmOOI}
@@ -49,28 +71,28 @@ if [ "$1" = "tex" ]; then
 \def\vOVIddOOI{$vOVIddOOI} \def\vOVIdmOOI{$vOVIdmOOI} \
 \def\vOVIfdOOI{$vOVIfdOOI} \def\vOVIfmOOI{$vOVIfmOOI}
 EOF
-elif [ "$1" = "janvier" ]; then
+elif [ "$format" = "janvier" ]; then
     echo "$vOOIddOOI $vOOIdmOOI $vOOIfdOOI $vOOIfmOOI"
-elif [ "$1" = "hiver" ]; then
-    if [ "$2" = A ]; then
+elif [ "$format" = "hiver" ]; then
+    if [ "$zone" = A ]; then
         echo "$vOIIddOOI $vOIIdmOOI $vOIIfdOOI $vOIIfmOOI"
-    elif [ "$2" = B ]; then
+    elif [ "$zone" = B ]; then
         echo "$vOIIddOII $vOIIdmOII $vOIIfdOII $vOIIfmOII"
     else
         echo "$vOIIddIII $vOIIdmIII $vOIIfdIII $vOIIfmIII"
     fi
-elif [ "$1" = "printemps" ]; then
-    if [ "$2" = A ]; then
+elif [ "$format" = "printemps" ]; then
+    if [ "$zone" = A ]; then
         echo "$vIIIddOOI $vIIIdmOOI $vIIIfdOOI $vIIIfmOOI"
-    elif [ "$2" = B ]; then
+    elif [ "$zone" = B ]; then
         echo "$vIIIddOII $vIIIdmOII $vIIIfdOII $vIIIfmOII"
     else
         echo "$vIIIddIII $vIIIdmIII $vIIIfdIII $vIIIfmIII"
     fi
-elif [ "$1" = "ete" ]; then
+elif [ "$format" = "ete" ]; then
     echo "$vOIVddOOI $vOIVdmOOI $vOIVfdOOI $vOIVfmOOI"
-elif [ "$1" = "toussaint" ]; then
+elif [ "$format" = "toussaint" ]; then
     echo "$vOOVddOOI $vOOVdmOOI $vOOVfdOOI $vOOVfmOOI"
-elif [ "$1" = "noel" ]; then
+elif [ "$format" = "noel" ]; then
     echo "$vOVIddOOI $vOVIdmOOI $vOVIfdOOI $vOVIfmOOI"
 fi

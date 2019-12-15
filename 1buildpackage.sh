@@ -1,3 +1,4 @@
+#!/bin/bash
 # ---------------------------------------------------------------------------- #
 ## \file 1buildpackage.sh
 ## \author Sebastien Beaugrand

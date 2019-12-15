@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-YEAR = 2019
+YEAR = 2020
 include config.mk
 ifneq ($(MAKECMDGOALS),dist-cal)
  ifneq ($(MAKECMDGOALS),dist-cadran)
@@ -38,15 +38,15 @@ PPREFIX=install-14-
 include $(PROROOT)/makefiles/ccpp.mk
 
 .PHONY: cal
-cal: build cal.pdf
+cal: build cal$(YEAR).pdf
 
-cal.pdf: cal.tex\
+cal$(YEAR).pdf: cal.tex\
  build/sun build/moon\
  build/moonphase.mf build/calendar/calend0.tex\
- build/year.tex build/lat.tex build/lon.tex build/h0.tex build/vacances.tex
+ build/year.tex build/lat.tex build/lon.tex build/h0.tex build/vacances$(YEAR).tex
 	cd build && TEXINPUTS="calendar:..:"\
 	 pdflatex --halt-on-error --shell-escape ../cal.tex
-	mv build/$@ .
+	mv build/cal.pdf $@
 
 build/moonphase.mf: $(REPO)/moonphase.mf
 	@ln -sf $< $@
@@ -75,8 +75,8 @@ build/lon.tex: $(MAKEFILE_LIST)
 build/h0.tex: $(MAKEFILE_LIST)
 	@echo "\def\h0{$(H0)}" >$@
 
-build/vacances.tex: $(MAKEFILE_LIST)
-	vacances.sh tex >$@
+build/vacances$(YEAR).tex: vacances.sh $(MAKEFILE_LIST)
+	$< $(YEAR) tex >$@
 
 build/sun: build/algos.o build/sun.o
 	$(LINK.c) $^ -o $@

@@ -1,3 +1,4 @@
+#!/bin/bash
 # ---------------------------------------------------------------------------- #
 ## \file 2simplecdd.sh
 ## \author Sebastien Beaugrand

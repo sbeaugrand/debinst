@@ -221,6 +221,8 @@ untar()
         tar="tar xJf"
     elif [ $ext = "zip" ]; then
         tar="unzip -q"
+    elif [ $ext = "tar" ]; then
+        tar="tar xf"
     fi
 
     if [ -n "$2" ]; then
@@ -248,7 +250,7 @@ untar()
     # git checkout
     if [ -d $bdir/$dir/.git ]; then
         pushd $bdir/$dir || return 1
-        git checkout .
+        sudo -u $user git checkout .
         popd
     fi
     return 0

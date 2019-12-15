@@ -7,6 +7,7 @@
 ## \note Test: ipath=~/install/debinst ./volet-at.sh -t
 # ---------------------------------------------------------------------------- #
 year=`date +%Y`
+zone=C
 [ -z "$ipath" ] && ipath=/home/pi/install/debinst
 [ -z "$cpath" ] && cpath=$ipath/install-14-cal
 [ -z "$vpath" ] && vpath=$ipath/install-op-rpi/install-op-volet
@@ -83,12 +84,12 @@ vacation()
         nearVacation 01 11 || \
         nearVacation 11 11 || \
         nearVacation 25 12 || \
-        nearVacation `./vacances.sh janvier` || \
-        nearVacation `./vacances.sh hiver C` || \
-        nearVacation `./vacances.sh printemps C` || \
-        nearVacation `./vacances.sh ete` || \
-        nearVacation `./vacances.sh toussaint` || \
-        nearVacation `./vacances.sh noel`; then
+        nearVacation `./vacances.sh $year janvier` || \
+        nearVacation `./vacances.sh $year hiver $zone` || \
+        nearVacation `./vacances.sh $year printemps $zone` || \
+        nearVacation `./vacances.sh $year ete` || \
+        nearVacation `./vacances.sh $year toussaint` || \
+        nearVacation `./vacances.sh $year noel`; then
         return 0
     else
         return 1
