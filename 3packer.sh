@@ -19,7 +19,6 @@ cp -n $HOME/.ssh/id_rsa.pub 3packer/authorized_keys
 
 #export PACKER_LOG=1
 
-PATH="$PATH":.\
- packer build\
+packer build\
  -var "iso=$1"\
  3packer/packer.json

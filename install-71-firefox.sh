@@ -5,6 +5,10 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ ! -d $home/.mozilla/firefox ]; then
+    if [ -z "$DISPLAY" ]; then
+        echo " warn: DISPLAY is not set" | tee -a $log
+        return 0
+    fi
     sudo -u $user firefox >>$log 2>&1 &
     sleep 10
     pid=`pgrep firefox`
@@ -42,3 +46,10 @@ user_pref("privacy.sanitize.sanitizeOnShutdown", true);
 EOF
 chown $user.$user user.js
 popd
+
+dir=`ls -d $home/.mozilla/firefox/*.default-esr`
+if [ -n "$dir" ]; then
+    pushd $dir || return 1
+    cp -a ../*.default/user.js .
+    popd
+fi

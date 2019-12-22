@@ -56,39 +56,11 @@ La liste des paquets debian sont dans: simplecdd-op-1amd64/list.txt
 La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 
 # Création d'une machine virtuelle dans windows
-https://www.virtualbox.org/wiki/Downloads
-
-https://www.packer.io/downloads.html
-
-https://git-scm.com/download/win
-
-https://www.puttygen.com/download-putty#PuTTY_for_windows
-
-(https://www.puttygen.com/download.php?val=4)
-```
-git-bash.exe
-ls -l packer_*.zip 3packer.sh 3packer
-cp 3packer/Vagrantfile 3packer/vagrantup.sh 3packer/vagrantssh.sh .
-source 3packer/shortcut.sh
-unzip packer_1.4.4_windows_amd64.zip
-ssh-keygen.exe -t rsa
-cp $HOME/.ssh/id_rsa.pub 3packer/authorized_keys
-```
-PuTTYgen => Conversion => Import key id_rsa => Save private key id_rsa.ppk
-
-Pageant => Add key id_rsa.ppk
 ```
 ./1buildpackage.sh buildpackage-op-2min
 ./2simplecdd.sh simplecdd-op-2min buildpackage-op-2min
-git-bash.exe
-source 3packer.sh /c/debian-10-amd64-DVD-1.iso
-source vagrantup.sh
-source vagrantssh.sh
-passwd
-sudo passwd
-cd install/debinst
-./0install.sh
 ```
+Continuer avec 3packer/README.md (cmark-gfm 3packer/README.md | lynx -stdin)
 
 # Installation sur Raspberry PI
 ```
