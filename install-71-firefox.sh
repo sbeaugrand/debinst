@@ -9,8 +9,8 @@ if [ ! -d $home/.mozilla/firefox ]; then
         echo " warn: DISPLAY is not set" | tee -a $log
         return 0
     fi
-    sudo -u $user firefox >>$log 2>&1 &
-    sleep 10
+    sudo -u $user firefox --headless >>$log 2>&1 &
+    sleep 20
     pid=`pgrep firefox`
     if [ -n "$pid" ]; then
         kill -15 $pid
@@ -36,6 +36,10 @@ cat >>user.js <<EOF
 user_pref("browser.urlbar.placeholderName", "Google");
 user_pref("browser.download.dir", "$home");
 user_pref("browser.download.useDownloadDir", false);
+user_pref("browser.newtabpage.activity-stream.feeds.section.highlights", false);
+user_pref("browser.newtabpage.activity-stream.feeds.snippets", false);
+user_pref("browser.newtabpage.activity-stream.feeds.topsites", false);
+user_pref("browser.newtabpage.activity-stream.prerender", false);
 
 // Vider l'historique lors de la fermeture
 user_pref("privacy.sanitize.pending", "[{\"id\":\"shutdown\",\"itemsToClear\":[\"cache\",\"cookies\",\"offlineApps\",\"history\",\"formdata\",\"downloads\",\"sessions\",\"siteSettings\"],\"options\":{}}]");

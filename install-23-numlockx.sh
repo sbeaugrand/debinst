@@ -13,3 +13,7 @@ if notGrep numlockx $file; then
     fi
     echo "@/usr/bin/numlockx on" >>$file
 fi
+
+if ! numlockx status | grep -q on; then
+    numlockx on
+fi

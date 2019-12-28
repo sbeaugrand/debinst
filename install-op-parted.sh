@@ -5,7 +5,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-# root:~> sh ./install-op-parted.sh /dev/sdb 12 32 8 5
+# root:~> ./install-op-parted.sh /dev/sdb 12 32 8 5
 # sudo parted /dev/sdb rm 1
 # sudo parted /dev/sdb mkpart ext2 2048 25165823
 # sudo parted /dev/sdb mkpart ext2 25165824 92274687

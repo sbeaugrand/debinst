@@ -59,6 +59,7 @@ La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 ```
 ./1buildpackage.sh buildpackage-op-2min
 ./2simplecdd.sh simplecdd-op-2min buildpackage-op-2min
+cd 3packer && make tar
 ```
 Continuer avec 3packer/README.md (cmark-gfm 3packer/README.md | lynx -stdin)
 
@@ -89,4 +90,21 @@ rw
 ../0install.sh install-op-audio.sh
 ../0install.sh install-op-llctl.sh install-op-volet.sh
 ro
+```
+
+# Exemple de création d'un paquet debinst restreint
+```
+cp -a buildpackage-op-2min buildpackage-op-toto
+cp -a simplecdd-op-2min simplecdd-op-toto
+mkdir install-pr-toto
+ln -s ~/install/debinst/install-pr-toto ~/install/toto
+cd install-pr-toto
+ln -s ../buildpackage-pr-toto/list.txt
+cp ../0install.sh .  # or link
+cp ../install-*-res.sh .  # or link
+```
+
+# Exemple de récupération d'un dépôt git
+```
+untar $name-$branch.tgz || gitClone git@exemple.org:dir/$name.git $branch || return 1
 ```

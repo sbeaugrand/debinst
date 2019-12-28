@@ -35,6 +35,13 @@ Pageant => Add key id_rsa.ppk
 git-bash.exe
 source 3packer.sh /c/debian-10-amd64-DVD-1.iso
 source vagrantup.sh
+```
+Copie des clés :
+```
+vagrant provision --provision-with id_rsa
+```
+Installation en ssh :
+```
 source vagrantssh.sh
 passwd
 sudo passwd
@@ -49,8 +56,4 @@ Login vagrant
 ```
 cd install/<path>
 ./0install install-*-res.sh
-```
-Copy id_rsa :
-```
-vagrant provision --provision-with id_rsa
 ```
