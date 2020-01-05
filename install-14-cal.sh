@@ -29,7 +29,7 @@ if notLink $file; then
 fi
 
 pushd install-14-cal || return 1
-touch calendar/calend0.tex
+touch build/calendar/calend0.tex
 make cal >>$log 2>&1
 make cadran >>$log 2>&1
 popd

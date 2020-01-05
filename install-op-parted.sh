@@ -28,7 +28,8 @@ echo "size = $size"
 echo
 
 n=`parted $dev print | grep -c "^ [1-9]"`
-m=`parted $dev unit s print | grep "Disk /" | sed 's/[^0-9]//g'`
+m=`parted $dev unit s print |\
+ grep "Disk /" | cut -d ':' -f 2 | sed 's/[^0-9]//g'`
 ((m--))
 for ((i = n; i > 0; i--)); do
     echo "sudo parted $dev rm $i"

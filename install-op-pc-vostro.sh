@@ -11,6 +11,7 @@ install-op-framabee.sh
 install-op-lp-hpP1006.sh
 install-op-meteo.sh
 install-op-scan-mustekA3.sh
+install-op-ssaver-off.sh
 install-op-upgrades.sh
 install-pr-alias.sh
 install-pr-bashrc.sh

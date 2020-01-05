@@ -24,10 +24,6 @@ function dossier()
     done
     echo "<DT><H3>$ti</H3><DL>"
     lv=$(($lv+2))
-    fk=`$sqlite "SELECT id FROM moz_bookmarks WHERE parent=$1 AND type=2"`
-    for i in $fk; do
-        dossier $i
-    done
     fk=`$sqlite "SELECT fk FROM moz_bookmarks WHERE parent=$1 AND type=1"`
     for i in $fk; do
         for ((j = 0; $j < $lv; j++)); do
@@ -41,6 +37,10 @@ function dossier()
         done
         $sqlite "SELECT title FROM moz_bookmarks WHERE fk=$i" | tr -d '\n'
         echo "</A><BR/></TD>"
+    done
+    fk=`$sqlite "SELECT id FROM moz_bookmarks WHERE parent=$1 AND type=2"`
+    for i in $fk; do
+        dossier $i
     done
     lv=$(($lv-2))
     for ((j = 0; $j < $lv; j++)); do
