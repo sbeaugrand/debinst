@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-pushd install-16-latex-ex || return 1
+pushd latex/divers || return 1
 for f in illusion carte carte2 clarky; do
     if notFile $f.pdf; then
         if grep -q pstricks $f.tex; then
