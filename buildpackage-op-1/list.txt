@@ -11,3 +11,4 @@ install-id3ed
 install-mp3gain
 install-sdcc
 install-libdvdcss
+install-colorgcc

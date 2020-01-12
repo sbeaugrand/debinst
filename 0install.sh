@@ -279,11 +279,13 @@ gitClone()
             popd
         elif isFile $file; then
             pushd $bdir || return 1
-            tar xzf $file
+            sudo -u $user tar xzf $file
             popd
             pushd $bdir/$name
             sudo -u $user git checkout .
             popd
+        else
+            return 1
         fi
     fi
 

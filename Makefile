@@ -46,5 +46,6 @@ dist:
 	--exclude=*.pdf \
 	--exclude=*.ttf \
 	--exclude=*.pfb \
+	--exclude=*.tgz \
 	--exclude=*-pr-* \
 	$(PROJECT)

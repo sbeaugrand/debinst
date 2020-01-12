@@ -1,6 +1,9 @@
 #!/bin/bash
 # ---------------------------------------------------------------------------- #
-# bookmarks.sh
+## \file bookmarks.sh
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ -n "$1" ]; then
     ti=$1
