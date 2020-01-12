@@ -69,7 +69,7 @@ ssh pi@$RPI "test -d install/debinst || mkdir -p install/debinst"
 rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
  ~/install/debinst/0install.sh\
  ~/install/debinst/install-op-rpi\
- ~/install/debinst/install-14-cal\
+ ~/install/debinst/latex/cal\
  ~/install/debinst/makefiles\
  pi@$RPI:/home/pi/install/debinst/
 

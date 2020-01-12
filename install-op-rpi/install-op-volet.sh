@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-dir=../install-14-cal
+dir=../latex/cal
 file=build/sun
 if notFile $dir/$file; then
     pushd $dir || return 1

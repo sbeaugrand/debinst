@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------- #
-## \file install-17-rdm.sh
+## \file rdm.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
@@ -16,7 +16,7 @@ download $url?download=236:epb-si-zip $file || return 1
 untar $file || return 1
 touch $bdir/EPB_SI/EPB_SI.sty
 
-pushd install-17-rdm/rdm || return 1
+pushd latex/rdm || return 1
 make HOME=$home >>$log 2>&1
 chown -R $user.$user .
 popd

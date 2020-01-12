@@ -7,14 +7,14 @@
 source install-op-codecs.sh
 source install-op-ffmpeg-src.sh
 source install-op-mplayer-src.sh
-source install-14-cal.sh
 source install-op-arduino.sh
-source install-17-rdm.sh
 source install-op-emacs-php.sh
 source install-op-id3ed.sh
 source install-op-mp3gain.sh
 source install-op-sdcc-src.sh
 source install-61-colorgcc.sh
+source latex/cal.sh
+source latex/rdm.sh
 
 # libdvdcss
 /usr/lib/libdvd-pkg/b-i_libdvdcss.sh
