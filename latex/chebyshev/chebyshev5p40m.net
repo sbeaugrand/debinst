@@ -1,0 +1,16 @@
+.title KiCad schematic
+R1 Net-_C17-Pad1_ Net-_J1-Pad1_ <R1>
+C17 Net-_C17-Pad1_ GND <C17>
+C18 Net-_C18-Pad1_ GND <C18>
+C20 sortie GND <C20>
+R2 sortie GND <R2>
+L4 Net-_C17-Pad1_ Net-_C18-Pad1_ <L4>
+L5 Net-_C18-Pad1_ sortie <L5>
+VJ1 Net-_J1-Pad1_ GND dc 0 ac <VJ1>
+.control
+ac dec 100 6Meg 16Meg
+run
+wrdata build/<dst> db(abs(V(sortie)))
+.endc
+.end
+

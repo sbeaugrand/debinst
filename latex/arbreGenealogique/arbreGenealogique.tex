@@ -1,0 +1,42 @@
+\documentclass[a4paper]{article}
+\pagestyle{empty}
+\usepackage{vmargin}
+\setpapersize{custom}{841mm}{1189mm}
+\setmarginsrb{5mm}{5mm}{5mm}{5mm}{0mm}{0mm}{0mm}{0mm}
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\parindent0mm
+
+\def\beginPicture#1#2#3{%
+  \begin{tikzpicture}[%
+    edge from parent path={%
+        [draw=brown,very thick](\tikzparentnode)
+          to [out=#2,in=#3] (\tikzchildnode)
+    },
+    level 1/.style={sibling distance=288mm,level distance=30mm},
+    level 2/.style={sibling distance=144mm,level distance=50mm},
+    level 3/.style={sibling distance=72mm},
+    level 4/.style={sibling distance=72mm},
+    level 5/.style={sibling distance=36mm},
+    level 6/.style={sibling distance=18mm},
+    level 7/.style={sibling distance=9mm}]
+  \tikzset{%
+    individu/.style={draw=black,thick,fill=##1,rounded corners=3pt},
+    individu/.default=white,grow=#1
+  }
+}
+
+\begin{document}
+\tiny
+\beginPicture{left}{180}{0}
+\input export-pr-H2-9.tex
+\input enfants-pr-H1.tex
+\end{tikzpicture}
+\hspace*{-60mm}
+\beginPicture{right}{0}{180}
+\input export-pr-F2-9.tex
+\input enfants-pr-F1.tex
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,35 @@
+% ---------------------------------------------------------------------------- %
+%% \file frequences.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass[a5paper]{article}
+\usepackage{vmargin}
+\setpapersize{custom}{148mm}{210mm}
+\setmarginsrb{5mm}{10mm}{5mm}{10mm}{0cm}{0cm}{0cm}{0cm}
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage[outline]{contour}
+\pagestyle{empty}
+\parindent0cm
+
+\begin{document}
+\Huge
+\vspace*{\stretch{1}}
+\centerline{\color{white}\contour{black}{BAOFENG}}
+\vspace{2cm}
+\vspace*{\stretch{1}}
+\newpage
+\scriptsize
+\begin{tabular}{lllccrl}
+\input table1
+\end{tabular}\\
+\begin{tabular}{lllccrl}
+\input table2
+\end{tabular}\\
+\vfill
+\hfill Source: https://www.la-resilience.fr
+\end{document}
