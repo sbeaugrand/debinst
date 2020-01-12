@@ -41,7 +41,7 @@ cd install
 tar xzf debinst-dist.tgz
 cd debinst
 ./0install.sh
-./0install.sh install-op-pc-...
+./0install.sh hardware/install-op-pc-...
 ```
 
 # Création d'une nouvelle debian sur clé USB
