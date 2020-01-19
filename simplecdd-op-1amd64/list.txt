@@ -119,6 +119,7 @@ hexedit
 curl
 curlftpfs
 icoutils
+famfamfam-silk  # tux.png
 inkscape
 fractalnow
 morse

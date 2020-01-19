@@ -5,7 +5,10 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROJECT = chebyshev
+PROROOT = ../..
+PROPATH = latex
 CSVTRANSPOSE = $(HOME)/install/debinst/install-12-latex/csvtranspose.sh
+DST_EXT = .data# ngspice revision 30
 
 .PHONY: all
 all: $(PROJECT).pdf
@@ -108,7 +111,7 @@ build/chebyshevARRL1981.net: chebyshev5t80m.net
 	 -e "s/<L5>/`echo 29 | awk '{ print 49 * ($$1 / 100) ^ 2 }'`u/"\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshevARRL1981/'\
+	 -e 's/<dst>/chebyshevARRL1981$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshevARRL1990.net: chebyshev5t80m.net
@@ -121,7 +124,7 @@ build/chebyshevARRL1990.net: chebyshev5t80m.net
 	 -e "s/<L5>/`echo 25 | awk '{ print 49 * ($$1 / 100) ^ 2 }'`u/"\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshevARRL1990/'\
+	 -e 's/<dst>/chebyshevARRL1990$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5t80m50o.net: chebyshev5t80m.net
@@ -134,7 +137,7 @@ build/chebyshev5t80m50o.net: chebyshev5t80m.net
 	 -e 's/<L5>/7.29u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5t80m50o/'\
+	 -e 's/<dst>/chebyshev5t80m50o$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev6t80m50o.net: chebyshev6t80m.net
@@ -148,7 +151,7 @@ build/chebyshev6t80m50o.net: chebyshev6t80m.net
 	 -e 's/<L5>/9.348u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev6t80m50o/'\
+	 -e 's/<dst>/chebyshev6t80m50o$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev6t80m290o.net: chebyshev6t80m.net
@@ -162,7 +165,7 @@ build/chebyshev6t80m290o.net: chebyshev6t80m.net
 	 -e 's/<L5>/9.348u/'\
 	 -e 's/<R2>/290.474/'\
 	 -e "s/<VJ1>/`echo 50 290.474 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev6t80m290o/'\
+	 -e 's/<dst>/chebyshev6t80m290o$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5t80m560p.net: chebyshev5t80m.net
@@ -175,7 +178,7 @@ build/chebyshev5t80m560p.net: chebyshev5t80m.net
 	 -e 's/<L5>/8.49u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5t80m560p/'\
+	 -e 's/<dst>/chebyshev5t80m560p$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5t80m680p.net: chebyshev5t80m.net
@@ -188,7 +191,7 @@ build/chebyshev5t80m680p.net: chebyshev5t80m.net
 	 -e 's/<L5>/6.75u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5t80m680p/'\
+	 -e 's/<dst>/chebyshev5t80m680p$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5t80m820p.net: chebyshev5t80m.net
@@ -201,7 +204,7 @@ build/chebyshev5t80m820p.net: chebyshev5t80m.net
 	 -e 's/<L5>/5.27u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5t80m820p/'\
+	 -e 's/<dst>/chebyshev5t80m820p$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5t80m1000p.net: chebyshev5t80m.net
@@ -214,7 +217,7 @@ build/chebyshev5t80m1000p.net: chebyshev5t80m.net
 	 -e 's/<L5>/3.8u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5t80m1000p/'\
+	 -e 's/<dst>/chebyshev5t80m1000p$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5t80m1200p.net: chebyshev5t80m.net
@@ -227,7 +230,7 @@ build/chebyshev5t80m1200p.net: chebyshev5t80m.net
 	 -e 's/<L5>/2.09u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5t80m1200p/'\
+	 -e 's/<dst>/chebyshev5t80m1200p$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5p80m2700p.net: chebyshev5p80m.net
@@ -240,7 +243,7 @@ build/chebyshev5p80m2700p.net: chebyshev5p80m.net
 	 -e 's/<L5>/1.7u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5p80m2700p/'\
+	 -e 's/<dst>/chebyshev5p80m2700p$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5p80m2200p.net: chebyshev5p80m.net
@@ -253,7 +256,7 @@ build/chebyshev5p80m2200p.net: chebyshev5p80m.net
 	 -e 's/<L5>/2u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5p80m2200p/'\
+	 -e 's/<dst>/chebyshev5p80m2200p$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5p80m1800p.net: chebyshev5p80m.net
@@ -266,7 +269,7 @@ build/chebyshev5p80m1800p.net: chebyshev5p80m.net
 	 -e 's/<L5>/2.26u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5p80m1800p/'\
+	 -e 's/<dst>/chebyshev5p80m1800p$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5p80m1500p.net: chebyshev5p80m.net
@@ -279,7 +282,7 @@ build/chebyshev5p80m1500p.net: chebyshev5p80m.net
 	 -e 's/<L5>/2.52u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5p80m1500p/'\
+	 -e 's/<dst>/chebyshev5p80m1500p$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5p80m1200p.net: chebyshev5p80m.net
@@ -292,7 +295,7 @@ build/chebyshev5p80m1200p.net: chebyshev5p80m.net
 	 -e 's/<L5>/2.75u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5p80m1200p/'\
+	 -e 's/<dst>/chebyshev5p80m1200p$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5p40m470p.net: chebyshev5p40m.net
@@ -305,7 +308,7 @@ build/chebyshev5p40m470p.net: chebyshev5p40m.net
 	 -e 's/<L5>/1.024u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5p40m470p/'\
+	 -e 's/<dst>/chebyshev5p40m470p$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5p80mBingo.net: chebyshev5p80m.net
@@ -318,7 +321,7 @@ build/chebyshev5p80mBingo.net: chebyshev5p80m.net
 	 -e 's/<L5>/2u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5p80mBingo/'\
+	 -e 's/<dst>/chebyshev5p80mBingo$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev5p80mLibra.net: chebyshev5p80m.net
@@ -331,7 +334,7 @@ build/chebyshev5p80mLibra.net: chebyshev5p80m.net
 	 -e 's/<L5>/2.2u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev5p80mLibra/'\
+	 -e 's/<dst>/chebyshev5p80mLibra$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev3t40mPixie.net: chebyshev3t40m.net
@@ -342,7 +345,7 @@ build/chebyshev3t40mPixie.net: chebyshev3t40m.net
 	 -e 's/<L4>/1.2u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev3t40mPixie/'\
+	 -e 's/<dst>/chebyshev3t40mPixie$(DST_EXT)/'\
 	 | cat >$@
 
 build/chebyshev3p80mPixie.net: chebyshev3p80m.net
@@ -353,7 +356,7 @@ build/chebyshev3p80mPixie.net: chebyshev3p80m.net
 	 -e 's/<L4>/2.2u/'\
 	 -e 's/<R2>/50/'\
 	 -e "s/<VJ1>/`echo 50 50 | awk '{ print ($$1 + $$2) / $$2 }'`/"\
-	 -e 's/<dst>/chebyshev3p80mPixie/'\
+	 -e 's/<dst>/chebyshev3p80mPixie$(DST_EXT)/'\
 	 | cat >$@
 
 build/cauer935p.net: cauer.net
@@ -365,7 +368,7 @@ build/cauer935p.net: cauer.net
 	 -e 's/<C17>/935p/'\
 	 -e 's/<C18>/1396p/'\
 	 -e 's/<C20>/793p/'\
-	 -e 's/<dst>/cauer935p/'\
+	 -e 's/<dst>/cauer935p$(DST_EXT)/'\
 	 | cat >$@
 
 build/cauer1300p.net: cauer.net
@@ -377,7 +380,7 @@ build/cauer1300p.net: cauer.net
 	 -e 's/<C17>/1300p/'\
 	 -e 's/<C18>/2400p/'\
 	 -e 's/<C20>/1100p/'\
-	 -e 's/<dst>/cauer1300p/'\
+	 -e 's/<dst>/cauer1300p$(DST_EXT)/'\
 	 | cat >$@
 
 build/cauer1200p.net: cauer.net
@@ -389,13 +392,7 @@ build/cauer1200p.net: cauer.net
 	 -e 's/<C17>/1200p/'\
 	 -e 's/<C18>/2200p/'\
 	 -e 's/<C20>/1000p/'\
-	 -e 's/<dst>/cauer1200p/'\
+	 -e 's/<dst>/cauer1200p$(DST_EXT)/'\
 	 | cat >$@
 
-.PHONY: tar
-tar:
-	@cd .. && tar cvzf $(PROJECT).tgz \
-	--exclude=*~ \
-	--exclude=.*.swp \
-	--exclude=build \
-	$(PROJECT)
+include $(PROROOT)/makefiles/tar.mk

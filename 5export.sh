@@ -13,10 +13,10 @@ fi
 #FIXME: wip
 cat $1 |\
     sed 's/download  *\([^ ]*\)[^|]*/test -f \$file || curl -O $file \1 /' |\
-    sed 's/notDir/! test -d/' |\
-    sed 's/notFile/! test -f/' |\
-    sed 's/notGrep/! grep -q/' |\
-    sed 's#notWhich#! which >/dev/null#' |\
-    sed 's#\$repo/##' |\
-    sed 's/apt-get/sudo apt-get/' |\
+    sed 's/notDir/! test -d/g' |\
+    sed 's/notFile/! test -f/g' |\
+    sed 's/notGrep/! grep -q/g' |\
+    sed 's#notWhich#! which >/dev/null#g' |\
+    sed 's#\$repo/##g' |\
+    sed 's/apt-get/sudo apt-get/g' |\
 cat

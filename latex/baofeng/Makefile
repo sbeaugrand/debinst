@@ -22,6 +22,9 @@
 #   vi Makefile  # set IMG, PORT, RTYPE
 #   make upload
 # ---------------------------------------------------------------------------- #
+PROJECT = baofeng
+PROROOT = ../..
+PROPATH = latex
 CHIRP  = $(HOME)/data/install-build/chirp
 IMG    = baofeng-pr-uv9r+.img
 SRC    = baofeng
@@ -91,12 +94,4 @@ mrproper: clean
 	@rmdir build/
 	@$(RM) *.pdf
 
-.PHONY: tar
-tar:
-	@cd .. && tar cvzf $(SRC).tgz \
-	--exclude=*~ \
-	--exclude=.*.swp \
-	--exclude=build \
-	--exclude=.git \
-	--exclude=*.pdf \
-	$(SRC)
+include $(PROROOT)/makefiles/tar.mk

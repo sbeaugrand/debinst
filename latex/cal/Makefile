@@ -32,9 +32,9 @@ all:
 	@echo
 
 LDFLAGS = -lm
-PROROOT=..
+PROROOT=../..
 PROJECT=cal
-PPREFIX=install-14-
+PROPATH=latex
 include $(PROROOT)/makefiles/ccpp.mk
 
 .PHONY: cal

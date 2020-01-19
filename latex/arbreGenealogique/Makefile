@@ -6,8 +6,12 @@
 # ---------------------------------------------------------------------------- #
 # convert-im6 cache resources exhausted :
 #   sudo vi /etc/ImageMagick-6/policy.xml +57  # name="area" value="256MiB"
+# Photocopy filter :
+#   http://www.imagemagick.org/Usage/photos/#color-in
 # ---------------------------------------------------------------------------- #
-PROJET = arbreGenealogique
+PROJECT = arbreGenealogique
+PROROOT = ../..
+PROPATH = latex
 PHOTOS = /data/arbreGenealogiquePhotos
 PHOTO_W = 555
 PHOTO_H = 697
@@ -17,6 +21,10 @@ PHOTO_3W = 1771# 15cm
 PHOTO_3H = 2480# 21cm
 EXEMPLE =
 EXEMPLE3 =
+#EXEMPLE  = -colorspace gray \( +clone -blur 0x1 \) +swap\
+#		   -compose divide -composite -linear-stretch 2%x0%
+#EXEMPLE3 = -colorspace gray \( +clone -blur 0x2 \) +swap\
+#		   -compose divide -composite -linear-stretch 5%x0%
 #EXEMPLE = -blur 0x30
 #EXEMPLE3 = -resize $(PHOTO_W)x$(PHOTO_H)\! -blur 0x30\
 #		   -resize $(PHOTO_3W)x$(PHOTO_3H)\!
@@ -24,12 +32,12 @@ EXEMPLE3 =
 .SUFFIXES:
 
 .PHONY: all
-all: $(PROJET).pdf
+all: $(PROJECT).pdf
 
 build:
 	@mkdir $@
 
-$(PROJET).pdf: $(PROJET).tex\
+$(PROJECT).pdf: $(PROJECT).tex\
  export-pr-H2-9.tex\
  export-pr-F2-9.tex\
  enfants-pr-H1.tex\
@@ -65,7 +73,7 @@ $(PROJET).pdf: $(PROJET).tex\
  build/I1571.png\
 
 	@pdflatex --halt-on-error $<
-	@$(RM) $(PROJET).aux $(PROJET).log
+	@$(RM) $(PROJECT).aux $(PROJECT).log
 
 .PHONY: 10x15
 10x15:\
@@ -281,7 +289,7 @@ build/I0000I0009.png: build/I0000I0005.png build/I0008I0009.png
 .PHONY: a4
 a4: a4.pdf
 
-a4.pdf: $(PROJET).pdf
+a4.pdf: $(PROJECT).pdf
 	pdfposter -p4x4A4 $< $@
 
 .PHONY: testRGB
@@ -294,22 +302,8 @@ testRGB.pdf: testRGB.tex
 testRGB.tex: testRGB.php randomColor.php
 	@php $< >$@
 
-.PHONY: tar
-tar:
-	@cd .. && tar cvzf $(PROJET).tgz \
-	--exclude=*~ \
-	--exclude=build \
-    $(PROJET)
-
-.PHONY: dist
-dist:
-	@cd .. && tar cvzf $(PROJET)-dist.tgz \
-	--exclude=*~ \
-	--exclude=build \
-	--exclude=*-pr-* \
-	--exclude=*.pdf \
-    $(PROJET)
-
 .PHONY: clean
 clean:
-	@$(RM) *~ $(PROJET).aux $(PROJET).log
+	@$(RM) *~ $(PROJECT).aux $(PROJECT).log
+
+include $(PROROOT)/makefiles/tar.mk

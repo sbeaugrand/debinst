@@ -4,6 +4,9 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+PROJECT = rdm
+PROROOT = ../..
+PROPATH = latex
 SUBDIRS = \
 rdmpafsym \
 rdmpaf \
@@ -18,7 +21,7 @@ all:
 		$(MAKE) --no-print-directory -C $$dir all; \
 		files="$$files $$dir/$$dir.pdf"; \
 	done && \
-	pdfjam $$files -o rdm.pdf
+	pdfjam $$files -o $(PROJECT).pdf
 
 .PHONY: clean
 clean:
@@ -32,12 +35,4 @@ mrproper:
 		$(MAKE) --no-print-directory -C $$dir mrproper; \
 	done
 
-.PHONY: tar
-tar:
-	@cd .. && \
-	tar cvzf rdm.tgz \
-	--exclude=*~ \
-	--exclude=.*.swp \
-	--exclude=build \
-	--exclude=*.pdf \
-	rdm
+include $(PROROOT)/makefiles/tar.mk

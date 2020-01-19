@@ -7,6 +7,7 @@
 xterm
 screen
 vim
+xsel  # vim to clipboard
 sudo
 network-manager-gnome
 openssh-server  # packer
