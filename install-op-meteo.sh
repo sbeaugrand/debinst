@@ -19,14 +19,16 @@ if notGrep weather $file; then
 Plugin {
   type=weather
   Config {
-    alias=Rambouillet
-    city=Rambouillet
-    state=Ile-de-France
+    alias=Paris
+    city=Paris
+    state=Île-de-France
     country=France
-    woeid="618766"
     units=c
-    interval=15
+    interval=20
     enabled=1
+    latitude=48,856610
+    longitude=2,351499
+    provider=openweathermap
   }
 }
 EOF

@@ -274,6 +274,7 @@ gitClone()
     if notDir $bdir/$name; then
         if isOnline; then
             pushd $bdir || return 1
+            #sudo SSH_AUTH_SOCK=$SSH_AUTH_SOCK -u $user\
             sudo -u $user --preserve-env=SSH_AUTH_SOCK\
               git clone -q $opt $url $name
             popd

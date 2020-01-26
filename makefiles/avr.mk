@@ -60,7 +60,7 @@ all:
 include $(PROROOT)/makefiles/ccpp.mk
 
 .PHONY: hex
-hex: main.hex
+hex: build main.hex
 
 main.hex: build/main.elf
 	$(OBJCOPY) -O ihex -R .eeprom $< $@

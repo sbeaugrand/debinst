@@ -12,5 +12,7 @@ sudo aptitude install libnotify-bin iptables-persistent e2guardian privoxy
 sudo aptitude install libnss3-tools console-data dnsutils openssh-server
 sudo aptitude install gamin
 sudo dpkg -i ctparental_debian9_lighttpd_4.30.08-1.0_all.deb
+sudo CTparental -uhtml
+https://admin.ct.local/
 
 EOF

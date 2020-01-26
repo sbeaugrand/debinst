@@ -19,4 +19,6 @@ cat $1 |\
     sed 's#notWhich#! which >/dev/null#g' |\
     sed 's#\$repo/##g' |\
     sed 's/apt-get/sudo apt-get/g' |\
+    sed 's/sudo -u \$user //g' |\
+    sed '/chown/d' |\
 cat
