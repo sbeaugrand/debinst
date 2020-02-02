@@ -5,20 +5,20 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 TARDEPEND += makefiles/ccpp.mk
-WARNINGS   = -Wall -Wextra -Werror -O1 -D_FORTIFY_SOURCE=2
+WARNINGS   = -Wall -Wextra -O1 -D_FORTIFY_SOURCE=2
 CFLAGS    += $(WARNINGS)
 CXXFLAGS  += $(WARNINGS)
-ifeq "$(COBJECTS)" ""
+ifeq ($(COBJECTS),)
  COBJECTS = $(patsubst %.c,%.o,$(wildcard *.c))
 endif
-ifeq "$(CXXOBJECTS)" ""
+ifeq ($(CXXOBJECTS),)
  CXXOBJECTS = $(patsubst %.cpp,%.o,$(wildcard *.cpp))
 endif
 COBJECTS   := $(addprefix build/,$(COBJECTS))
 CXXOBJECTS := $(addprefix build/,$(CXXOBJECTS))
 CDEP   = $(patsubst %.o,%.d,$(COBJECTS))
 CXXDEP = $(patsubst %.o,%.d,$(CXXOBJECTS))
-ifeq "$(OBJECTS)" ""
+ifeq ($(OBJECTS),)
  OBJECTS = $(COBJECTS) $(CXXOBJECTS)
 endif
 TARGETS += "| clean | mrproper | cppcheck | dep"
@@ -33,6 +33,12 @@ build/%.o: %.c
 
 build/%.o: %.cpp
 	$(COMPILE.cpp) $(OUTPUT_OPTION) $<
+
+/%.o: /%.c
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
+
+/%.o: /%.cpp
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
 
 .PHONY: clean
 clean:

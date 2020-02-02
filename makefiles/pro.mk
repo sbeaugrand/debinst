@@ -6,9 +6,9 @@
 # ---------------------------------------------------------------------------- #
 TARDEPEND += makefiles/pro.mk
 
-ifeq "$(PROJECT)" ""
+ifeq ($(PROJECT),)
  PROJECT = $(shell basename `readlink -f .`)
 endif
-ifeq "$(wildcard kicad)" "kicad"
+ifeq ($(wildcard kicad),kicad)
  TARDEPEND += kicad
 endif

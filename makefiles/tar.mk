@@ -6,11 +6,11 @@
 # ---------------------------------------------------------------------------- #
 TARDEPEND += makefiles/tar.mk
 TARGETS += "| tar"
-ifneq "$(PROPATH)" ""
+ifneq ($(PROPATH),)
  TPREFIX = $(subst /,-,$(PROPATH))-
  PPREFIX = $(PROPATH)/
 endif
-TEXCLUDE = *~ *.d *.o *.so *.a *.out\
+TEXCLUDE += *~ *.d *.o *.so *.a *.out\
  *.000 *.bak *.bck *-cache.* .*.swp build portrait-*.pdf
 ifeq ($(MAKECMDGOALS),dist)
  TEXCLUDE += *-pr-* *.pdf
