@@ -20,6 +20,8 @@ CDEP   = $(patsubst %.o,%.d,$(COBJECTS))
 CXXDEP = $(patsubst %.o,%.d,$(CXXOBJECTS))
 ifeq ($(OBJECTS),)
  OBJECTS = $(COBJECTS) $(CXXOBJECTS)
+else
+ OBJECTS := $(subst build//,/,$(addprefix build/,$(OBJECTS)))
 endif
 TARGETS += "| clean | mrproper | cppcheck | dep"
 

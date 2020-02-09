@@ -12,9 +12,7 @@ ifeq ($(PROJECT),)
  PROJECT = $(shell basename `readlink -f .`)
 endif
 ifeq ($(OBJECTS),)
- OBJECTS = build/$(PROJECT).o
-else
- OBJECTS := $(subst build//,/,$(addprefix build/,$(OBJECTS)))
+ OBJECTS = $(PROJECT).o
 endif
 ifeq ($(ATMEL),)
  ATMEL = attiny2313

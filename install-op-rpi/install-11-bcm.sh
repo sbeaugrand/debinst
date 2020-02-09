@@ -8,12 +8,7 @@ bcm=bcm2835-1.62
 file=$bcm.tar.gz
 
 download http://www.airspayce.com/mikem/bcm2835/$file || return 1
-
-if notDir $bdir/$bcm; then
-    pushd $bdir || return 1
-    tar xzf $repo/$file
-    popd
-fi
+untar $file || return 1
 
 if notFile /usr/local/lib/libbcm2835.a; then
     pushd $bdir/$bcm || return 1
