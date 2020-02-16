@@ -13,7 +13,7 @@ download http://mirrors.ctan.org/fonts/morse.zip || return 1
 
 if notDir $bdir/morse; then
     pushd $bdir || return 1
-    unzip $repo/morse.zip
+    unzip -qq $repo/morse.zip
     popd
 fi
 

@@ -4,26 +4,23 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-# ftp://ftp.mustek.com.tw/pub/new/driver/0_Old%20Products/ScanExpress\
-# %20A3%20USB%201200%20Pro/Linux/1LV1019/
-# A3USB1200Pro-040B-20141209.zip
-# libsane_1.0.19-1_i386.deb
-# sane-backends-1.0.19-2.i386.rpm
-# ---------------------------------------------------------------------------- #
+file=A3USB1200Pro-040B-20141209.zip
+download http://ftp2.mustek.com.tw/pub/new/driver/ScanExpress%20A3%20USB%201200%20Pro/Linux/1LV1019/$file || return 1
+untar $file libsane_1.0.19-1_i386.deb || return 1
+
 if [ -e /usr/lib/i386-linux-gnu/libsane.so.1 ]; then
     apt-get remove libsane
 fi
 
 if notFile /usr/lib/sane/libsane-mustek_usb2.so.1.0.19; then
     pushd / || return 1
-    ar p $home/install/config/libsane_1.0.19-1_i386.deb data.tar.gz | tar xz
+    ar p $bdir/libsane_1.0.19-1_i386.deb data.tar.gz | tar xz
     popd
 fi
 
-if notFile /usr/lib/i386-linux-gnu/libtiff.so.4; then
-    ln -sf\
-      /usr/lib/i386-linux-gnu/libtiff.so.5\
-      /usr/lib/i386-linux-gnu/libtiff.so.4
+file=/usr/lib/i386-linux-gnu/libtiff.so
+if notFile $file.4; then
+    ln -sf $file.5 $file.4
 fi
 
 file=/etc/udev/rules.d/56-sane-backends-autoconfig.rules

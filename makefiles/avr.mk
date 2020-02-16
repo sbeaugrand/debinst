@@ -5,27 +5,13 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 TARDEPEND += makefiles/avr.mk
-ifeq ($(PROROOT),)
- PROROOT = ../..
-endif
-ifeq ($(PROJECT),)
- PROJECT = $(shell basename `readlink -f .`)
-endif
-ifeq ($(OBJECTS),)
- OBJECTS = $(PROJECT).o
-endif
-ifeq ($(ATMEL),)
- ATMEL = attiny2313
-endif
-ifeq ($(EFUSE),)
- EFUSE = 0xff
-endif
-ifeq ($(HFUSE),)
- HFUSE = 0xdf
-endif
-ifeq ($(PROG),)
- PROG = usbtiny
-endif
+PROROOT ?= ../..
+PROJECT ?= $(shell basename `readlink -f .`)
+OBJECTS ?= $(PROJECT).o
+ATMEL   ?= attiny2313
+EFUSE   ?= 0xff
+HFUSE   ?= 0xdf
+PROG    ?= usbtiny
 
 ifneq ($(HARDWARE),)
  TOOLS    = $(HARDWARE)/tools

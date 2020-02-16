@@ -4,20 +4,16 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-TARDEPEND += makefiles/ccpp.mk
-WARNINGS   = -Wall -Wextra -O1 -D_FORTIFY_SOURCE=2
-CFLAGS    += $(WARNINGS)
-CXXFLAGS  += $(WARNINGS)
-ifeq ($(COBJECTS),)
- COBJECTS = $(patsubst %.c,%.o,$(wildcard *.c))
-endif
-ifeq ($(CXXOBJECTS),)
- CXXOBJECTS = $(patsubst %.cpp,%.o,$(wildcard *.cpp))
-endif
+TARDEPEND  += makefiles/ccpp.mk
+WARNINGS    = -Wall -Wextra -O1 -D_FORTIFY_SOURCE=2
+CFLAGS     += $(WARNINGS)
+CXXFLAGS   += $(WARNINGS)
+COBJECTS   ?= $(patsubst %.c,%.o,$(wildcard *.c))
+CXXOBJECTS ?= $(patsubst %.cpp,%.o,$(wildcard *.cpp))
 COBJECTS   := $(addprefix build/,$(COBJECTS))
 CXXOBJECTS := $(addprefix build/,$(CXXOBJECTS))
-CDEP   = $(patsubst %.o,%.d,$(COBJECTS))
-CXXDEP = $(patsubst %.o,%.d,$(CXXOBJECTS))
+CDEP        = $(patsubst %.o,%.d,$(COBJECTS))
+CXXDEP      = $(patsubst %.o,%.d,$(CXXOBJECTS))
 ifeq ($(OBJECTS),)
  OBJECTS = $(COBJECTS) $(CXXOBJECTS)
 else

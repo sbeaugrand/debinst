@@ -29,5 +29,5 @@ if notFile $repo/sdcc.tgz; then
     tar czf $repo/sdcc.tgz sdcc
     popd
 elif notDir $bdir/sdcc; then
-    untar $repo/sdcc.tgz || return 1
+    untar sdcc.tgz || return 1
 fi

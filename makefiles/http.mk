@@ -4,11 +4,11 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-ifeq "$(INDEX_HTML)" ""
- ifeq "$(wildcard index.html)" "index.html"
+ifeq ($(INDEX_HTML),)
+ ifeq ($(wildcard index.html),index.html)
   INDEX_HTML = index.html
  else
-  ifeq "$(wildcard $(PROJECT).html)" "$(PROJECT).html"
+  ifeq ($(wildcard $(PROJECT).html),$(PROJECT).html)
    INDEX_HTML = $(PROJECT).html
   else
    INDEX_HTML = $(PROJECT).php

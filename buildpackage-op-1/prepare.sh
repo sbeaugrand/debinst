@@ -13,6 +13,7 @@ source install-op-id3ed.sh
 source install-op-mp3gain.sh
 source install-op-sdcc-src.sh
 source install-61-colorgcc.sh
+source install-op-fonts-morse.sh
 source latex/cal.sh
 source latex/rdm.sh
 

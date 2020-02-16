@@ -50,6 +50,10 @@ gcc-avr
 avrdude
 kicad
 ngspice
+libcairo2-dev  # eeplot
+libgit2-dev  # eeplot
+libgtk-3-dev  # eeplot
+transfig  # eeplot
 usbutils
 libusb-dev
 libusb-1.0-0-dev

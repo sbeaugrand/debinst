@@ -5,8 +5,8 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 file=/etc/modprobe.d/50-alsa.conf
-if nofFile $file || notGrep "options snd_hda_intel index" $file; then
+if notFile $file || notGrep "options snd_hda_intel index" $file; then
     echo "options snd_hda_intel index=1,0" >>$file
-    modprobe -r snd_hda_intel
-    modprobe snd_hda_intel
+    /sbin/modprobe -r snd_hda_intel
+    /sbin/modprobe snd_hda_intel
 fi

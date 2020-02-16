@@ -18,13 +18,15 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-if notGrep httpredir /etc/apt/sources.list; then
-    cat >>/etc/apt/sources.list <<EOF
+file=/etc/apt/sources.list.d/debian.list
+if notFile $file; then
+    cat >$file <<EOF
 deb http://httpredir.debian.org/debian $sta main contrib non-free
 deb http://httpredir.debian.org/debian/ $sta-updates main contrib non-free
 deb-src http://httpredir.debian.org/debian $sta main contrib non-free
 deb-src http://httpredir.debian.org/debian/ $sta-updates main contrib non-free
-# backports:
+
+# backports
 #  deb http://httpredir.debian.org/debian $sta-backports main contrib non-free
 #  ex: sudo apt -t $sta-backports install kicad
 EOF

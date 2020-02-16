@@ -12,3 +12,4 @@ install-mp3gain
 install-sdcc
 install-libdvdcss
 install-colorgcc
+install-fonts-morse
