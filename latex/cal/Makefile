@@ -32,9 +32,8 @@ all:
 	@echo
 
 LDFLAGS = -lm
-PROROOT=../..
+PROROOT=..
 PROJECT=cal
-PROPATH=latex
 include $(PROROOT)/makefiles/ccpp.mk
 
 .PHONY: cal

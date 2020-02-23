@@ -37,4 +37,5 @@ FLAGS =\
  -I$(ARDUINO)/cores/arduino
 CFLAGS   += $(FLAGS)
 CXXFLAGS += $(FLAGS)
+OBJECTS  += $(ARDUINO)/cores/arduino/main.o
 include $(PROROOT)/makefiles/avr.mk

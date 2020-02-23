@@ -15,7 +15,7 @@ PROG    ?= usbtiny
 
 ifneq ($(HARDWARE),)
  TOOLS    = $(HARDWARE)/tools
- PATH    := $(TOOLS)/avr/bin:$(PATH)
+ PATH    := $(HOME)/bin:$(TOOLS)/avr/bin:$(PATH)
  AVRDUDE  = $(TOOLS)/avrdude -C $(TOOLS)/avrdude.conf -p $(ATMEL) -c $(PROG)
 else
  AVRDUDE  = avrdude -p $(ATMEL) -c $(PROG)
@@ -24,8 +24,8 @@ ifeq ($(MAKECMDGOALS),hex)
  CC        = avr-gcc
  CXX       = avr-g++
  OBJCOPY   = avr-objcopy
- CFLAGS   += -Os -mmcu=$(ATMEL)
- CXXFLAGS += -Os -mmcu=$(ATMEL) -fno-exceptions
+ CFLAGS   += -g -Os -mmcu=$(ATMEL)
+ CXXFLAGS += -g -Os -mmcu=$(ATMEL) -fno-exceptions
 endif
 
 .SUFFIXES:

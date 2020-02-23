@@ -23,8 +23,7 @@
 #   make upload
 # ---------------------------------------------------------------------------- #
 PROJECT = baofeng
-PROROOT = ../..
-PROPATH = latex
+PROROOT = ..
 CHIRP  = $(HOME)/data/install-build/chirp
 IMG    = baofeng-pr-uv9r+.img
 SRC    = baofeng

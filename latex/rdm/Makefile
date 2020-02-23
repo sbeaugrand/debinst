@@ -5,8 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROJECT = rdm
-PROROOT = ../..
-PROPATH = latex
+PROROOT = ..
 SUBDIRS = \
 rdmpafsym \
 rdmpaf \

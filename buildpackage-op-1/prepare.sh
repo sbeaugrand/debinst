@@ -14,6 +14,7 @@ source install-op-mp3gain.sh
 source install-op-sdcc-src.sh
 source install-61-colorgcc.sh
 source install-op-fonts-morse.sh
+source install-op-eeplot.sh
 source latex/cal.sh
 source latex/rdm.sh
 

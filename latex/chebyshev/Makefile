@@ -5,8 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROJECT = chebyshev
-PROROOT = ../..
-PROPATH = latex
+PROROOT = ..
 CSVTRANSPOSE = $(HOME)/install/debinst/install-12-latex/csvtranspose.sh
 DST_EXT = .data# ngspice revision 30
 

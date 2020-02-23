@@ -1,0 +1,116 @@
+#!/bin/bash
+# ---------------------------------------------------------------------------- #
+## \file Makefile
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+# chkconfig: 35 85 15
+# description: MP3 server for the Raspberry PI
+# processname: mp3server
+
+### BEGIN INIT INFO
+# Provides:          mp3serverd
+# Required-Start:    $local_fs $network $remote_fs
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: MP3 server for the Raspberry PI
+# Description:       MP3 server for the Raspberry PI
+### END INIT INFO
+
+if [ -z "$MP3DIR" ]; then
+    export MP3DIR=/mnt/mp3
+fi
+logpath=$MP3DIR
+cpid=`pgrep -xf /usr/bin/mp3client`
+spid=`pgrep -xf /usr/bin/mp3server`
+
+# ---------------------------------------------------------------------------- #
+# logrotate
+# ---------------------------------------------------------------------------- #
+logrotate()
+{
+    log=$1
+    if [ -f $log ]; then
+        if [ -f $log.1 ]; then
+            if [ -f $log.2 ]; then
+                if [ -f $log.3 ]; then
+                    if [ -f $log.4 ]; then
+                        mv $log.4 $log.5
+                    fi
+                    mv $log.3 $log.4
+                fi
+                mv $log.2 $log.3
+            fi
+            mv $log.1 $log.2
+        fi
+        mv $log $log.1
+    fi
+}
+
+# ---------------------------------------------------------------------------- #
+# main
+# ---------------------------------------------------------------------------- #
+case "$1" in
+    start)
+        if [ -n "$cpid" ]; then
+            echo "already running $cpid (mp3client)"
+            exit 1
+        fi
+        if [ -n "$spid" ]; then
+            echo "already running $spid (mp3server)"
+            exit 1
+        fi
+        while [ ! -d $MP3DIR/mp3 ]; do
+            sleep 1
+        done
+        logrotate $logpath/xmms2d.log
+        logrotate $logpath/.mp3server.log
+        if [ -x /usr/bin/rtc ]; then
+            /usr/bin/rtc -slc >$log 2>&1
+        fi
+        chmod 1777 /run
+        export XMMS_PATH=unix:///run/xmms-ipc-ip
+        sudo --preserve-env=XMMS_PATH -b -H -u pi /usr/bin/mp3server >$log 2>&1
+        logrotate $logpath/.mp3client.log
+        sudo -b -H -u pi /usr/bin/mp3client >$log 2>&1
+        ;;
+    stop)
+        if [ -n "$cpid" ]; then
+            echo "stopping $cpid (mp3client)"
+            kill -9 $cpid
+        fi
+        if [ -n "$spid" ]; then
+            echo "stopping $spid (mp3server)"
+            echo "GET /kill " | nc localhost 8080 >/dev/null
+        fi
+        if [ -f $logpath/medialib.db ]; then
+            sqlite3 $logpath/medialib.db\
+              'DELETE FROM Media WHERE id + 99 < (SELECT MAX(id) FROM Media)'
+        fi
+        ;;
+    status)
+        if [ -n "$spid" ]; then
+            echo "running $spid (mp3server)"
+        fi
+        if [ -n "$cpid" ]; then
+            echo "running $cpid (mp3client)"
+        fi
+        ;;
+    kill)
+        if [ -n "$cpid" ]; then
+            echo "killing $cpid (mp3client)"
+            kill -9 $cpid
+        fi
+        if [ -n "$spid" ]; then
+            echo "killing $spid (mp3server)"
+            kill -9 $spid
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|status|kill}"
+        ;;
+esac
+
+exit 0

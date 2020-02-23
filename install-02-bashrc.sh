@@ -14,7 +14,7 @@ bashrc()
     cat >>$file <<EOF
 
 export PS1='\u:\w> '
-export PATH=\$PATH:$home/install/bin:$home/install/debinst/bin:$home/bin:.
+export PATH=$home/bin:/usr/local/bin:/usr/bin:/bin:$home/install/debinst/bin:$home/install/bin:.
 export LS_OPTIONS=--color
 export EMACS_TOOLKIT=x11
 export DVDCSS_METHOD=title

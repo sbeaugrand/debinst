@@ -14,10 +14,12 @@ if isFile $file; then
     if notLink $home/bin/gcc; then
         mkdir -p $home/bin
         pushd $home/bin || return 1
-        ln -f $file g++
-        ln -f $file gcc
-        ln -f $file c++
-        ln -f $file cc
+        cp $file g++
+        cp $file gcc
+        cp $file c++
+        cp $file cc
+        cp $file avr-g++
+        cp $file avr-gcc
         chown -R $user.$user .
         popd
     fi

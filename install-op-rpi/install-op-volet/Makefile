@@ -1,5 +1,6 @@
 PROJECT=volet
+PROROOT=../..
 
 reinstall:
 
-include daemon.mk
+include $(PROROOT)/makefiles/daemon.mk

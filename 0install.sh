@@ -309,7 +309,11 @@ sourceList()
         if [ "${iter:0:1}" = "#" ]; then
             continue
         elif [ "${iter:0:1}" = "-" ]; then
-            args="$args $iter"
+            if [ -z "$args" ]; then
+                args="$iter"
+            else
+                args="$args $iter"
+            fi
             continue
         fi
         echo $iter | tee -a $log

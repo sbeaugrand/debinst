@@ -10,8 +10,7 @@
 #   http://www.imagemagick.org/Usage/photos/#color-in
 # ---------------------------------------------------------------------------- #
 PROJECT = arbreGenealogique
-PROROOT = ../..
-PROPATH = latex
+PROROOT = ..
 PHOTOS = /data/arbreGenealogiquePhotos
 PHOTO_W = 555
 PHOTO_H = 697

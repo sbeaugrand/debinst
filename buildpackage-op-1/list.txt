@@ -13,3 +13,4 @@ install-sdcc
 install-libdvdcss
 install-colorgcc
 install-fonts-morse
+install-eeshow

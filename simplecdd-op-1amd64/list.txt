@@ -33,6 +33,7 @@ libtool
 #libtool-bin  # crosstool-ng
 #help2man  # crosstool-ng
 gcc-arm-linux-gnueabihf
+libc6-dev-armhf-cross
 patch
 libmpg123-dev
 normalize-audio
@@ -48,6 +49,8 @@ avr-libc
 binutils-avr
 gcc-avr
 avrdude
+simulavr
+gdb-avr
 kicad
 ngspice
 libcairo2-dev  # eeplot
