@@ -1,0 +1,279 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>d7seg.mf</title>
+<meta name="Generator" content="Vim/8.1">
+<meta name="plugin-version" content="vim8.1_v1">
+<meta name="syntax" content="mf">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="default">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.Constant { color: #ff6060; }
+.Identifier { color: #00ffff; }
+.Statement { color: #ffff00; }
+.Comment { color: #8080ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">%%% @mffile{</span>
+<span class="Comment">%%%     filename=&quot;7seg.mf&quot;,</span>
+<span class="Comment">%%%     version=&quot;&quot;,</span>
+<span class="Comment">%%%     date=&quot;&quot;,</span>
+<span class="Comment">%%%     filetype=&quot;mf fontcreator&quot;,</span>
+<span class="Comment">%%%     package=&quot;m-capbas.arj&quot;</span>
+<span class="Comment">%%%     author=&quot;Phons Bloemen (PhB)&quot;,</span>
+<span class="Comment">%%%     address=&quot;Eindhoven U. of Technology&quot;</span>
+<span class="Comment">%%%     email=&quot;Internet: phons@ei.ele.tue.nl&quot;,</span>
+<span class="Comment">%%%     codetable=&quot;ISO/ASCII&quot;,</span>
+<span class="Comment">%%%     checksumtype=&quot;none&quot;,</span>
+<span class="Comment">%%%     checksum=&quot;0&quot;,</span>
+<span class="Comment">%%%     keywords=&quot;&quot;,</span>
+<span class="Comment">%%%     abstract=&quot;</span>
+<span class="Comment">%%%        Input file defining the glyphs for 7 segmet display font.</span>
+<span class="Comment">%%%        The font is drawn onto a fixed 'grid' of points. By</span>
+<span class="Comment">%%%        deformation of this 'square' grid special effects can</span>
+<span class="Comment">%%%        be achieved.</span>
+<span class="Comment">%%%        Part of Capital Baseball package&quot;</span>
+<span class="Comment">%%%     copyright=&quot;Copyleft (L) Phons Bloemen (PhB),</span>
+<span class="Comment">%%%        according to GNU public licence version 2 or later.</span>
+<span class="Comment">%%%        (1) Do not change this file (even its name)</span>
+<span class="Comment">%%%        (2) if you do make changes, first rename it to some</span>
+<span class="Comment">%%%            other name, and mark your changes clearly.&quot;,</span>
+<span class="Comment">%%%     }</span>
+<span class="Comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+
+<span class="Comment">%if unknown cmbase: input cmbase fi</span>
+<span class="Comment">%def generate suffix t= enddef;</span>
+<span class="Comment">%input cmtt10; font_setup;</span>
+<span class="Comment">%% get some definitions from cmtt10 for proper setup</span>
+<span class="Comment">%% do not ask why this sequence is used, it works!</span>
+<span class="Identifier">mode_setup</span>;
+<span class="Statement">if</span> <span class="Statement">unknown</span> gensize: gensize := <span class="Constant">10</span>; <span class="Statement">fi</span>;
+em# := gensize * <span class="Constant">0.5pt#</span>;
+slant := <span class="Constant">0.1</span>;
+tpp := <span class="Constant">0.05</span>;
+tcr := <span class="Constant">0.22</span>;
+<span class="Identifier">font_coding_scheme</span>:=<span class="Constant">&quot;TeX text&quot;</span>;
+<span class="Identifier">font_identifier</span>:=<span class="Constant">&quot;D7SEG&quot;</span>;
+<span class="Identifier">font_size</span> gensize * <span class="Constant">1pt#</span>;
+body_height#:=<span class="Constant">1.6</span>em#;  <span class="Comment">% height of tallest characters</span>
+asc_height#:=<span class="Constant">1.6</span>em#;    <span class="Comment">% height of lowercase ascenders</span>
+cap_height#:=<span class="Constant">1.6</span>em#;    <span class="Comment">% height of caps</span>
+fig_height#:=<span class="Constant">1.6</span>em#;    <span class="Comment">% height of numerals</span>
+x_height#:=<span class="Constant">1.6</span>em#;    <span class="Comment">% height of lowercase without ascenders</span>
+math_axis#:=<span class="Constant">1.6</span>em#;    <span class="Comment">% axis of symmetry for math symbols</span>
+bar_height#:=<span class="Constant">1.6</span>em#;    <span class="Comment">% height of crossbar in lowercase e</span>
+comma_depth#:=<span class="Constant">0.1</span>em#;    <span class="Comment">% depth of comma below baseline</span>
+desc_depth#:=<span class="Constant">0</span>em#;    <span class="Comment">% depth of lowercase descenders</span>
+<span class="Comment">%% monospace := false;</span>
+<span class="Comment">%% font_setup;</span>
+<span class="Identifier">font_normal_space</span> <span class="Constant">1.5</span> * em#;
+<span class="Identifier">font_quad</span> <span class="Constant">6</span>em#;
+<span class="Identifier">font_extra_space</span> <span class="Constant">1.5</span> * em#;
+
+<span class="Comment">%%% definitions for the corners of the 7-segment display</span>
+
+<span class="Statement">def</span> cornern (<span class="Statement">suffix</span> $) =
+  <span class="Identifier">z</span>$n = <span class="Identifier">z</span>$ + (<span class="Constant">0</span>,tf)        + (<span class="Constant">0</span>,-tcr *tf)  ;
+  <span class="Identifier">z</span>$nl = <span class="Identifier">z</span>$ + (<span class="Constant">-1</span>*tf,<span class="Constant">2</span>*tf) + (-tcr * tf, <span class="Constant">0</span>);
+  <span class="Identifier">z</span>$nr = <span class="Identifier">z</span>$ + (<span class="Constant">1</span>*tf,<span class="Constant">2</span>*tf)  + (tcr *tf, <span class="Constant">0</span>)  ;
+  <span class="Identifier">labels</span>($n);
+<span class="Statement">enddef</span>;
+<span class="Statement">def</span> cornere (<span class="Statement">suffix</span> $) =
+  <span class="Identifier">z</span>$e = <span class="Identifier">z</span>$ + (<span class="Constant">1</span>*tf,<span class="Constant">0</span>)      + (-tcr *tf,<span class="Constant">0</span>)  ;
+  <span class="Identifier">z</span>$el = <span class="Identifier">z</span>$ + (<span class="Constant">2</span>*tf,<span class="Constant">1</span>*tf)  + (<span class="Constant">0</span>,tcr * tf);
+  <span class="Identifier">z</span>$er = <span class="Identifier">z</span>$ + (<span class="Constant">2</span>*tf,<span class="Constant">-1</span>*tf) + (<span class="Constant">0</span>,-tcr *tf)  ;
+  <span class="Identifier">labels</span>($e);
+<span class="Statement">enddef</span>;
+<span class="Statement">def</span> corners (<span class="Statement">suffix</span> $) =
+  <span class="Identifier">z</span>$s = <span class="Identifier">z</span>$ + (<span class="Constant">0</span>,<span class="Constant">-1</span>*tf)     + (<span class="Constant">0</span>,tcr *tf)  ;
+  <span class="Identifier">z</span>$sl = <span class="Identifier">z</span>$ + (<span class="Constant">1</span>*tf,<span class="Constant">-2</span>*tf) + (tcr * tf, <span class="Constant">0</span>);
+  <span class="Identifier">z</span>$sr = <span class="Identifier">z</span>$ + (<span class="Constant">-1</span>*tf,<span class="Constant">-2</span>*tf)+ (-tcr *tf, <span class="Constant">0</span>)  ;
+  <span class="Identifier">labels</span>($s);
+<span class="Statement">enddef</span>;
+<span class="Statement">def</span> cornerw (<span class="Statement">suffix</span> $) =
+  <span class="Identifier">z</span>$<span class="Identifier">w</span> = <span class="Identifier">z</span>$ + (<span class="Constant">-1</span>*tf,<span class="Constant">0</span>)     + (tcr *tf,<span class="Constant">0</span>)  ;
+  <span class="Identifier">z</span>$wl = <span class="Identifier">z</span>$ + (<span class="Constant">-2</span>*tf,<span class="Constant">-1</span>*tf)+ (<span class="Constant">0</span>,-tcr * tf);
+  <span class="Identifier">z</span>$wr = <span class="Identifier">z</span>$ + (<span class="Constant">-2</span>*tf,<span class="Constant">1</span>*tf) + (<span class="Constant">0</span>,tcr *tf)  ;
+  <span class="Identifier">labels</span>($<span class="Identifier">w</span>);
+<span class="Statement">enddef</span>;
+
+<span class="Statement">def</span> seg(<span class="Statement">expr</span> a) =
+<span class="Statement">if</span> a = <span class="Constant">1</span> :
+  cornere(<span class="Constant">1</span>); cornerw(<span class="Constant">2</span>);
+  <span class="Identifier">fill</span>(<span class="Identifier">z</span><span class="Constant">1</span>e -- <span class="Identifier">z</span><span class="Constant">1</span>el -- <span class="Identifier">z</span><span class="Constant">2</span>wr -- <span class="Identifier">z</span><span class="Constant">2</span><span class="Identifier">w</span> -- <span class="Identifier">z</span><span class="Constant">2</span>wl -- <span class="Identifier">z</span><span class="Constant">1</span>er -- <span class="Statement">cycle</span>);
+<span class="Statement">elseif</span> a = <span class="Constant">2</span> :
+  cornern(<span class="Constant">1</span>); corners(<span class="Constant">3</span>);
+  <span class="Identifier">fill</span>(<span class="Identifier">z</span><span class="Constant">1</span>n -- <span class="Identifier">z</span><span class="Constant">1</span>nl -- <span class="Identifier">z</span><span class="Constant">3</span>sr -- <span class="Identifier">z</span><span class="Constant">3</span>s -- <span class="Identifier">z</span><span class="Constant">3</span>sl -- <span class="Identifier">z</span><span class="Constant">1</span>nr -- <span class="Statement">cycle</span>);
+<span class="Statement">elseif</span> a = <span class="Constant">3</span> :
+  cornern(<span class="Constant">3</span>); corners(<span class="Constant">5</span>);
+  <span class="Identifier">fill</span>(<span class="Identifier">z</span><span class="Constant">3</span>n -- <span class="Identifier">z</span><span class="Constant">3</span>nl -- <span class="Identifier">z</span><span class="Constant">5</span>sr -- <span class="Identifier">z</span><span class="Constant">5</span>s -- <span class="Identifier">z</span><span class="Constant">5</span>sl -- <span class="Identifier">z</span><span class="Constant">3</span>nr -- <span class="Statement">cycle</span>);
+<span class="Statement">elseif</span> a = <span class="Constant">4</span> :
+  cornere(<span class="Constant">5</span>); cornerw(<span class="Constant">6</span>);
+  <span class="Identifier">fill</span>(<span class="Identifier">z</span><span class="Constant">5</span>e -- <span class="Identifier">z</span><span class="Constant">5</span>el -- <span class="Identifier">z</span><span class="Constant">6</span>wr -- <span class="Identifier">z</span><span class="Constant">6</span><span class="Identifier">w</span> -- <span class="Identifier">z</span><span class="Constant">6</span>wl -- <span class="Identifier">z</span><span class="Constant">5</span>er -- <span class="Statement">cycle</span>);
+<span class="Statement">elseif</span> a = <span class="Constant">5</span> :
+  cornern(<span class="Constant">4</span>); corners(<span class="Constant">6</span>);
+  <span class="Identifier">fill</span>(<span class="Identifier">z</span><span class="Constant">4</span>n -- <span class="Identifier">z</span><span class="Constant">4</span>nl -- <span class="Identifier">z</span><span class="Constant">6</span>sr -- <span class="Identifier">z</span><span class="Constant">6</span>s -- <span class="Identifier">z</span><span class="Constant">6</span>sl -- <span class="Identifier">z</span><span class="Constant">4</span>nr -- <span class="Statement">cycle</span>);
+<span class="Statement">elseif</span> a = <span class="Constant">6</span> :
+  cornern(<span class="Constant">2</span>); corners(<span class="Constant">4</span>);
+  <span class="Identifier">fill</span>(<span class="Identifier">z</span><span class="Constant">2</span>n -- <span class="Identifier">z</span><span class="Constant">2</span>nl -- <span class="Identifier">z</span><span class="Constant">4</span>sr -- <span class="Identifier">z</span><span class="Constant">4</span>s -- <span class="Identifier">z</span><span class="Constant">4</span>sl -- <span class="Identifier">z</span><span class="Constant">2</span>nr -- <span class="Statement">cycle</span>);
+<span class="Statement">elseif</span> a = <span class="Constant">7</span> :
+  cornere(<span class="Constant">3</span>); cornerw(<span class="Constant">4</span>);
+  <span class="Identifier">fill</span>(<span class="Identifier">z</span><span class="Constant">3</span>e -- <span class="Identifier">z</span><span class="Constant">3</span>el -- <span class="Identifier">z</span><span class="Constant">4</span>wr -- <span class="Identifier">z</span><span class="Constant">4</span><span class="Identifier">w</span> -- <span class="Identifier">z</span><span class="Constant">4</span>wl -- <span class="Identifier">z</span><span class="Constant">3</span>er -- <span class="Statement">cycle</span>);
+<span class="Statement">elseif</span> a = <span class="Constant">8</span> :
+  <span class="Identifier">pickup</span> <span class="Statement">pencircle</span> <span class="Statement">scaled</span> (<span class="Constant">3</span>*tf);
+  <span class="Identifier">z</span><span class="Constant">2</span>p = <span class="Identifier">z</span><span class="Constant">2</span> + (<span class="Constant">2</span> *tf,<span class="Constant">0</span>);
+  <span class="Identifier">drawdot</span>(<span class="Identifier">z</span><span class="Constant">2</span>p);
+<span class="Statement">elseif</span> a = <span class="Constant">9</span> :
+  <span class="Identifier">pickup</span> <span class="Statement">pencircle</span> <span class="Statement">scaled</span> (<span class="Constant">3</span>*tf);
+  <span class="Identifier">z</span><span class="Constant">2</span>p = <span class="Identifier">z</span><span class="Constant">2</span> + (<span class="Constant">3</span> *tf, <span class="Constant">0</span>);
+  <span class="Identifier">z</span><span class="Constant">2</span>p<span class="Constant">1</span> = <span class="Identifier">z</span><span class="Constant">2</span> + (<span class="Constant">1</span> *tf, <span class="Constant">0</span>);
+  <span class="Identifier">z</span><span class="Constant">2</span>p<span class="Constant">2</span> = <span class="Identifier">z</span><span class="Constant">2</span> + (<span class="Constant">3</span> *tf, <span class="Constant">-2</span> * tf);
+  <span class="Identifier">z</span><span class="Constant">2</span>p<span class="Constant">3</span> = <span class="Identifier">z</span><span class="Constant">2</span> + (<span class="Constant">0</span>, <span class="Constant">-5</span> * tf);
+  <span class="Identifier">fill</span>(<span class="Identifier">z</span><span class="Constant">2</span>p<span class="Constant">1</span> -- <span class="Identifier">z</span><span class="Constant">2</span>p<span class="Constant">2</span> -- <span class="Identifier">z</span><span class="Constant">2</span>p<span class="Constant">3</span> -- <span class="Statement">cycle</span>);
+  <span class="Identifier">drawdot</span>(<span class="Identifier">z</span><span class="Constant">2</span>p);
+<span class="Statement">fi</span>;
+<span class="Statement">enddef</span>;
+
+<span class="Statement">def</span> segchar(<span class="Statement">expr</span> c)(<span class="Statement">text</span> t) =
+<span class="Identifier">beginchar</span>((<span class="Statement">char</span> c), (<span class="Constant">1</span>+<span class="Constant">2</span>*slant)*em#, <span class="Constant">1.6</span> * em#,<span class="Constant">0</span>)
+  <span class="Identifier">clearit</span>;
+  tf := tpp * <span class="Identifier">w</span>;
+  <span class="Identifier">z</span><span class="Constant">1</span> = (tf,tf);
+  <span class="Identifier">z</span><span class="Constant">6</span> = (<span class="Identifier">w</span><span class="Constant">-2</span>*slant*<span class="Identifier">w</span>-tf-tf,<span class="Identifier">h</span>-tf);
+  <span class="Identifier">z</span><span class="Constant">5</span> = (slant*<span class="Identifier">w</span>+tf,<span class="Identifier">h</span>-tf);
+  <span class="Identifier">z</span><span class="Constant">2</span>-<span class="Identifier">z</span><span class="Constant">1</span> = <span class="Identifier">z</span><span class="Constant">6</span>-<span class="Identifier">z</span><span class="Constant">5</span>;
+  <span class="Identifier">z</span><span class="Constant">3</span> = <span class="Constant">0.5</span>[<span class="Identifier">z</span><span class="Constant">1</span>,<span class="Identifier">z</span><span class="Constant">5</span>];
+  <span class="Identifier">z</span><span class="Constant">4</span> = <span class="Constant">0.5</span>[<span class="Identifier">z</span><span class="Constant">2</span>,<span class="Identifier">z</span><span class="Constant">6</span>];
+  <span class="Statement">for</span> a = t:
+    seg(a);
+  <span class="Statement">endfor</span>;
+<span class="Identifier">endchar</span>;
+<span class="Statement">enddef</span>;
+
+<span class="Statement">def</span> segpoint(<span class="Statement">expr</span> c)(<span class="Statement">text</span> t) =
+<span class="Identifier">beginchar</span>((<span class="Statement">char</span> c), <span class="Constant">3</span> * tpp * em#, <span class="Constant">2</span> * tpp * em#, <span class="Constant">2</span> * tpp * em#)
+  <span class="Identifier">clearit</span>;
+  tf := <span class="Constant">0.3</span> * <span class="Identifier">w</span>;
+  <span class="Identifier">z</span><span class="Constant">2</span> = (<span class="Constant">-2</span>*<span class="Identifier">w</span>,<span class="Constant">0</span>);
+  <span class="Statement">for</span> a = t:
+    seg(a);
+  <span class="Statement">endfor</span>;
+<span class="Identifier">endchar</span>;
+<span class="Statement">enddef</span>;
+
+<span class="Comment">%%% The space character is special</span>
+
+<span class="Identifier">beginchar</span>(<span class="Constant">32</span>,<span class="Constant">1</span>*em#,<span class="Constant">2</span>*em#,<span class="Constant">0</span>);
+<span class="Identifier">endchar</span>;
+
+<span class="Comment">%%% The 'flychar' characters follow (upper and lower case!)</span>
+
+segchar(<span class="Constant">33</span>)(<span class="Constant">5</span>,<span class="Constant">8</span>);
+segchar(<span class="Constant">34</span>)(<span class="Constant">3</span>,<span class="Constant">5</span>);
+segchar(<span class="Constant">35</span>)(<span class="Constant">1</span>,<span class="Constant">4</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">36</span>)(<span class="Constant">1</span>,<span class="Constant">3</span>,<span class="Constant">7</span>,<span class="Constant">4</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">37</span>)(<span class="Constant">1</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">38</span>)(<span class="Constant">1</span>,<span class="Constant">3</span>,<span class="Constant">4</span>);
+segchar(<span class="Constant">39</span>)(<span class="Constant">5</span>);
+segchar(<span class="Constant">40</span>)(<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">41</span>)(<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">42</span>)(<span class="Constant">1</span>,<span class="Constant">3</span>,<span class="Constant">7</span>,<span class="Constant">5</span>);
+segchar(<span class="Constant">43</span>)(<span class="Constant">2</span>,<span class="Constant">7</span>,<span class="Constant">3</span>);
+segpoint(<span class="Constant">44</span>)(<span class="Constant">9</span>);
+segchar(<span class="Constant">45</span>)(<span class="Constant">7</span>);
+segpoint(<span class="Constant">46</span>)(<span class="Constant">8</span>);
+segchar(<span class="Constant">47</span>)(<span class="Constant">2</span>,<span class="Constant">7</span>,<span class="Constant">5</span>);
+segchar(<span class="Constant">48</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">49</span>)(<span class="Constant">5</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">50</span>)(<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">7</span>,<span class="Constant">2</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">51</span>)(<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">7</span>,<span class="Constant">6</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">52</span>)(<span class="Constant">3</span>,<span class="Constant">7</span>,<span class="Constant">5</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">53</span>)(<span class="Constant">4</span>,<span class="Constant">3</span>,<span class="Constant">7</span>,<span class="Constant">6</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">54</span>)(<span class="Constant">4</span>,<span class="Constant">3</span>,<span class="Constant">7</span>,<span class="Constant">6</span>,<span class="Constant">1</span>,<span class="Constant">2</span>);
+segchar(<span class="Constant">55</span>)(<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">56</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">57</span>)(<span class="Constant">1</span>,<span class="Constant">6</span>,<span class="Constant">5</span>,<span class="Constant">4</span>,<span class="Constant">3</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">58</span>)(<span class="Constant">1</span>,<span class="Constant">8</span>);
+segchar(<span class="Constant">59</span>)(<span class="Constant">1</span>,<span class="Constant">9</span>);
+segchar(<span class="Constant">60</span>)(<span class="Constant">4</span>,<span class="Constant">3</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">61</span>)(<span class="Constant">4</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">62</span>)(<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">63</span>)(<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">8</span>);
+segchar(<span class="Constant">64</span>)(<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">7</span>,<span class="Constant">1</span>,<span class="Constant">2</span>);
+segchar(<span class="Constant">65</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">66</span>)(<span class="Constant">3</span>,<span class="Constant">2</span>,<span class="Constant">1</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">67</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">68</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">69</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">70</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">71</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">72</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">73</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>);
+segchar(<span class="Constant">74</span>)(<span class="Constant">1</span>,<span class="Constant">5</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">75</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">5</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">76</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>);
+segchar(<span class="Constant">77</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">78</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">79</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">7</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">80</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">81</span>)(<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">82</span>)(<span class="Constant">2</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">83</span>)(<span class="Constant">4</span>,<span class="Constant">3</span>,<span class="Constant">7</span>,<span class="Constant">6</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">84</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">85</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">5</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">86</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">7</span>,<span class="Constant">5</span>);
+segchar(<span class="Constant">87</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">88</span>)(<span class="Constant">4</span>,<span class="Constant">2</span>,<span class="Constant">7</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">89</span>)(<span class="Constant">3</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">90</span>)(<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">7</span>,<span class="Constant">2</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">91</span>)(<span class="Constant">4</span>,<span class="Constant">3</span>,<span class="Constant">2</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">92</span>)(<span class="Constant">3</span>,<span class="Constant">7</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">93</span>)(<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">94</span>)(<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">5</span>);
+segchar(<span class="Constant">95</span>)(<span class="Constant">1</span>,<span class="Constant">8</span>);
+segchar(<span class="Constant">96</span>)(<span class="Constant">3</span>);
+segchar(<span class="Constant">97</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">98</span>)(<span class="Constant">3</span>,<span class="Constant">2</span>,<span class="Constant">1</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">99</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">100</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">101</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">102</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">103</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">104</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">105</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>);
+segchar(<span class="Constant">106</span>)(<span class="Constant">1</span>,<span class="Constant">5</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">107</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">5</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">108</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>);
+segchar(<span class="Constant">109</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">110</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">111</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">7</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">112</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">113</span>)(<span class="Constant">3</span>,<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">114</span>)(<span class="Constant">2</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">115</span>)(<span class="Constant">4</span>,<span class="Constant">3</span>,<span class="Constant">7</span>,<span class="Constant">6</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">116</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">117</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">5</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">118</span>)(<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">7</span>,<span class="Constant">5</span>);
+segchar(<span class="Constant">119</span>)(<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">7</span>);
+segchar(<span class="Constant">120</span>)(<span class="Constant">4</span>,<span class="Constant">2</span>,<span class="Constant">7</span>,<span class="Constant">6</span>);
+segchar(<span class="Constant">121</span>)(<span class="Constant">3</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">122</span>)(<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">7</span>,<span class="Constant">2</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">123</span>)(<span class="Constant">4</span>,<span class="Constant">3</span>,<span class="Constant">2</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">124</span>)(<span class="Constant">3</span>,<span class="Constant">2</span>);
+segchar(<span class="Constant">125</span>)(<span class="Constant">4</span>,<span class="Constant">5</span>,<span class="Constant">6</span>,<span class="Constant">1</span>);
+segchar(<span class="Constant">126</span>)(<span class="Constant">3</span>,<span class="Constant">5</span>);
+<span class="Statement">bye</span>.
+
+
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

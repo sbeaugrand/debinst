@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>enveloppe.cls</title>
+<meta name="Generator" content="Vim/8.1">
+<meta name="plugin-version" content="vim8.1_v1">
+<meta name="syntax" content="tex">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="default">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.Constant { color: #ff6060; }
+.Special { color: #ff40ff; }
+.Statement { color: #ffff00; }
+.Comment { color: #8080ff; }
+.Type { color: #00ff00; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">%% \file enveloppe.cls</span>
+<span class="Comment">%% \author Sebastien Beaugrand</span>
+<span class="Comment">%% \sa <a href="http://beaugrand.chez.com/">http://beaugrand.chez.com/</a></span>
+<span class="Comment">%% \copyright CeCILL 2.1 Free Software license</span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Statement">\NeedsTeXFormat</span><span class="Special">{</span>LaTeX2e<span class="Special">}</span>
+<span class="Statement">\ProvidesClass</span><span class="Special">{</span>enveloppe<span class="Special">}</span>
+<span class="Statement">\DeclareOption</span><span class="Special">{</span>C5<span class="Special">}{</span><span class="Statement">\def</span><span class="Statement">\e@w</span><span class="Special">{</span><span class="Constant">229mm</span><span class="Special">}</span><span class="Statement">\def</span><span class="Statement">\e@h</span><span class="Special">{</span><span class="Constant">162mm</span><span class="Special">}}</span>
+<span class="Statement">\DeclareOption</span><span class="Special">{</span>C6<span class="Special">}{</span><span class="Statement">\def</span><span class="Statement">\e@w</span><span class="Special">{</span><span class="Constant">162mm</span><span class="Special">}</span><span class="Statement">\def</span><span class="Statement">\e@h</span><span class="Special">{</span><span class="Constant">114mm</span><span class="Special">}}</span>
+<span class="Statement">\DeclareOption</span><span class="Special">{</span>DL<span class="Special">}{</span><span class="Statement">\def</span><span class="Statement">\e@w</span><span class="Special">{</span><span class="Constant">220mm</span><span class="Special">}</span><span class="Statement">\def</span><span class="Statement">\e@h</span><span class="Special">{</span><span class="Constant">110mm</span><span class="Special">}}</span>
+<span class="Statement">\DeclareOption</span><span class="Special">{</span>normal<span class="Special">}{</span><span class="Statement">\def</span><span class="Statement">\e@c</span><span class="Special">{</span>white<span class="Special">}}</span>
+<span class="Statement">\DeclareOption</span><span class="Special">{</span>test<span class="Special">}</span>  <span class="Special">{</span><span class="Statement">\def</span><span class="Statement">\e@c</span><span class="Special">{</span>black<span class="Special">}}</span>
+<span class="Statement">\DeclareOption</span><span class="Special">{</span>centre<span class="Special">}{</span><span class="Statement">\def</span><span class="Statement">\e@a</span><span class="Special">{</span>center<span class="Special">}}</span>
+<span class="Statement">\DeclareOption</span><span class="Special">{</span>droite<span class="Special">}{</span><span class="Statement">\def</span><span class="Statement">\e@a</span><span class="Special">{</span>flushright<span class="Special">}}</span>
+<span class="Statement">\ExecuteOptions</span><span class="Special">{</span>DL,normal,centre<span class="Special">}</span>
+<span class="Statement">\ProcessOptions</span>
+
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">% Mise en page</span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Statement">\RequirePackage</span><span class="Special">{</span>vmargin<span class="Special">}</span>
+<span class="Statement">\setmarginsrb</span><span class="Special">{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}</span>
+<span class="Statement">\renewcommand</span><span class="Type">\normalsize</span><span class="Special">{</span><span class="Statement">\@setfontsize</span><span class="Type">\normalsize</span><span class="Special">{</span><span class="Constant">14pt</span><span class="Special">}{</span><span class="Constant">22pt</span><span class="Special">}}</span>
+
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">% Langue</span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Statement">\RequirePackage</span><span class="Special">[</span>francais<span class="Special">]{</span>babel<span class="Special">}</span>
+<span class="Statement">\RequirePackage</span><span class="Special">[</span>utf8<span class="Special">]{</span>inputenc<span class="Special">}</span>
+<span class="Statement">\RequirePackage</span><span class="Special">[</span>T1<span class="Special">]{</span>fontenc<span class="Special">}</span>
+
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">% Init</span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Statement">\RequirePackage</span><span class="Special">{</span>graphics<span class="Special">}</span>
+<span class="Statement">\RequirePackage</span><span class="Special">{</span>xcolor<span class="Special">}</span>
+<span class="Statement">\newlength\longueur@texte</span>
+<span class="Statement">\setlength\longueur@texte</span><span class="Special">{</span><span class="Constant">100mm</span><span class="Special">}</span>
+<span class="Statement">\newlength\marge@basse</span>
+<span class="Statement">\setlength\marge@basse</span><span class="Special">{</span><span class="Constant">20mm</span><span class="Special">}</span>
+<span class="Statement">\newlength\marge@droite</span>
+<span class="Statement">\setlength\marge@droite</span><span class="Special">{</span><span class="Statement">\e@w</span><span class="Special">}</span>
+<span class="Statement">\advance\marge@droite</span>-<span class="Statement">\longueur@texte</span>
+
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">% Destinataire</span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Statement">\newcommand</span><span class="Statement">\destinataire</span><span class="Special">[</span>1<span class="Special">]{</span><span class="Comment">%</span>
+  <span class="Statement">\begin</span><span class="Special">{</span><span class="Statement">\e@a</span><span class="Special">}</span>
+    <span class="Statement">\fcolorbox</span><span class="Special">{</span><span class="Statement">\e@c</span><span class="Special">}{</span>white<span class="Special">}{</span>
+      <span class="Statement">\begin</span><span class="Special">{</span>minipage<span class="Special">}{</span><span class="Statement">\e@h</span><span class="Special">}</span>
+        <span class="Statement">\hfill</span>
+        <span class="Statement">\rotatebox</span><span class="Special">{</span>90<span class="Special">}{</span>
+          <span class="Statement">\begin</span><span class="Special">{</span>minipage<span class="Special">}{</span>  <span class="Statement">\marge@droite</span><span class="Special">}</span> ~<span class="Statement">\end</span><span class="Special">{</span>minipage<span class="Special">}</span>
+          <span class="Statement">\begin</span><span class="Special">{</span>minipage<span class="Special">}{</span><span class="Statement">\longueur@texte</span><span class="Special">}</span>#1<span class="Statement">\end</span><span class="Special">{</span>minipage<span class="Special">}</span>
+        <span class="Special">}</span>
+        <span class="Statement">\hspace</span><span class="Special">{</span><span class="Statement">\marge@basse</span><span class="Special">}</span>
+      <span class="Statement">\end</span><span class="Special">{</span>minipage<span class="Special">}</span>
+    <span class="Special">}</span>
+  <span class="Statement">\end</span><span class="Special">{</span><span class="Statement">\e@a</span><span class="Special">}</span>
+<span class="Special">}</span>
+
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">% Expediteur</span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Statement">\newcommand</span><span class="Statement">\expediteur</span><span class="Special">[</span>1<span class="Special">]{</span><span class="Comment">%</span>
+  <span class="Statement">\begin</span><span class="Special">{</span><span class="Statement">\e@a</span><span class="Special">}</span>
+    <span class="Statement">\fcolorbox</span><span class="Special">{</span><span class="Statement">\e@c</span><span class="Special">}{</span>white<span class="Special">}{</span>
+      <span class="Statement">\begin</span><span class="Special">{</span>minipage<span class="Special">}{</span><span class="Statement">\e@h</span><span class="Special">}</span>
+        <span class="Statement">\hspace</span><span class="Special">{</span><span class="Constant">3mm</span><span class="Special">}</span>
+        <span class="Statement">\rotatebox</span><span class="Special">{</span>90<span class="Special">}{</span>
+          <span class="Statement">\begin</span><span class="Special">{</span>minipage<span class="Special">}{</span><span class="Statement">\e@w</span><span class="Special">}</span>
+            <span class="Statement">\begin</span><span class="Special">{</span>center<span class="Special">}</span>
+              <span class="Statement">\@setfontsize</span><span class="Type">\normalsize</span><span class="Statement">\@xpt\@xiipt</span> <span class="Constant">#1</span>
+            <span class="Statement">\end</span><span class="Special">{</span>center<span class="Special">}</span>
+          <span class="Statement">\end</span><span class="Special">{</span>minipage<span class="Special">}</span>
+        <span class="Special">}</span>
+      <span class="Statement">\end</span><span class="Special">{</span>minipage<span class="Special">}</span>
+    <span class="Special">}</span>
+  <span class="Statement">\end</span><span class="Special">{</span><span class="Statement">\e@a</span><span class="Special">}</span>
+<span class="Special">}</span>
+
+<span class="Statement">\endinput</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

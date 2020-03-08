@@ -1,0 +1,1 @@
+../../install-12-latex/section.cls

@@ -10,8 +10,7 @@ keyfile=~mutt/.fetchmailrc.key
 
 if [ `whoami` != "mutt" ]; then
     cat $XAUTHORITY | sudo -u mutt tee ~mutt/.Xauthority >/dev/null
-    export XAUTHORITY=~mutt/.Xauthority
-    sudo -u mutt -i $0 $*
+    sudo XAUTHORITY=~mutt/.Xauthority -u mutt -i $0 $*
     exit $?
 fi
 

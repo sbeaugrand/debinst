@@ -66,14 +66,21 @@ grep -q '^PasswordAuthentication no' /etc/ssh/sshd_config ||\
 # install
 # ---------------------------------------------------------------------------- #
 ssh pi@$RPI "test -d install/debinst/latex || mkdir -p install/debinst/latex"
+ssh pi@$RPI "test -d install/debinst/projects || mkdir install/debinst/projects"
 rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
  ~/install/debinst/0install.sh\
  ~/install/debinst/install-op-rpi\
+ ~/install/debinst/bin\
  ~/install/debinst/makefiles\
  pi@$RPI:/home/pi/install/debinst/
 rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
  ~/install/debinst/latex/cal\
  pi@$RPI:/home/pi/install/debinst/latex/
+rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
+ ~/install/debinst/projects/mp3server\
+ ~/install/debinst/projects/debug\
+ ~/install/debinst/projects/makefiles\
+ pi@$RPI:/home/pi/install/debinst/projects/
 
 # ---------------------------------------------------------------------------- #
 # data

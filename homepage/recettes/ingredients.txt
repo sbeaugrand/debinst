@@ -1,0 +1,1436 @@
+Tarte au chèvre
+charcuterie pâte brisée
+laitage crème fraiche
+oeuf 3 oeufs
+surgelé épinard
+fromage 2 bûches de chèvre
+
+Ravioli à la Bolognaise
+conserve boite de ravioli
+fromage gruyère râpé
+
+Cannelloni
+conserve boite de cannelloni
+fromage gruyère râpé
+
+Tourte poireaux
+charcuterie 2 pates feuilletés
+charcuterie lardons
+laitage crème fraiche
+oeuf 3 oeufs
+surgelé poireaux
+
+Croque monsieur et salade
+boulangerie pain de mie
+charcuterie jambon
+laitage crème fraiche
+fromage gruyère
+légume salade
+
+Pizza
+gâteau farine
+gâteau levure à pain
+conserve coulis de tomates
+charcuterie jambon
+oeuf oeufs
+
+Tarte thon tomate
+charcuterie pâte brisée
+conserve 400g de thon
+conserve 250g de purée de tomates
+conserve chapelure
+oeuf 3 oeufs
+
+Escalope de dinde et riz
+viande escalope de dinde
+féculent riz
+
+Escalope de dinde et blé
+viande escalope de dinde
+féculent blé
+
+Escalope de dinde et pâtes
+viande escalope de dinde
+féculent pâtes
+
+Escalope de dinde et purée
+viande escalope de dinde
+féculent purée
+
+Poireaux au jambon
+légume poireaux
+laitage lait
+laitage beurre
+pâtisserie farine
+charcuterie jambon
+fromage gruyère
+
+Oeufs sur le plat et bacon et pâtes
+oeuf 5 oeufs
+charcuterie bacon
+féculent pâtes
+
+Oeufs brouillés et pâtes
+oeuf 7 oeufs
+féculent pâtes
+
+Quiche lorraine
+charcuterie pâte brisée
+charcuterie lardons
+oeuf 3 oeufs
+laitage crème fraiche
+laitage lait
+fromage gruyère
+
+Quiche aux fromages
+charcuterie pâte brisée
+charcuterie lardons
+oeuf 3 oeufs
+laitage crème fraiche
+fromage gruyère
+fromage 3 ou 4 fromages au choix
+
+Quiche à l'oseille
+charcuterie pâte brisée
+charcuterie lardons
+oeuf 3 oeufs
+laitage crème fraiche
+laitage lait
+fromage gruyère
+légume oseille
+
+Pâtes à la bolognaise
+viande viande hachée
+conserve purée de tomates
+féculent spaghettis
+épicerie origan
+épicerie basilic
+
+Pâtes à la carbonara
+féculent pâtes
+charcuterie lardons 200g
+laitage crème fraiche
+oeuf 1 oeuf par personne
+fromage parmesan
+
+Lasagnes à la Bolognaise
+viande viande hachée
+conserve purée de tomates
+féculent pâte à lasagne
+gâteau farine
+laitage beurre
+lait lait
+fromage gruyère rapé
+
+Buritos
+cuisine-du-monde kit buritos
+viande boeuf haché
+légume salade
+légume 2 tomates
+fromage gruyère
+
+Cordon bleu et petits pois
+viande 4 cordons bleus
+conserve petits pois
+
+Cordon bleu et pâtes
+viande 4 cordons bleus
+féculent pâtes
+
+Boudin et pommes
+charcuterie boudin
+légume pommes
+
+Boudin et purée
+charcuterie boudin
+féculent purée
+
+Galette complète et salade
+pâtisserie farine de zarrasin
+oeuf oeufs
+charcuterie jambon
+charcuterie bacon
+fromage gruyère
+fromage roquefort
+
+Quiche poireau roquefort boursin
+charcuterie pâte brisée
+fromage roquefort
+fromage boursin
+charcuterie lardons
+oeuf 3 oeufs
+laitage crème fraiche
+lait lait
+
+Gratin courgette
+légume 2 courgettes
+pâtisserie farine
+laitage beurre
+laitage lait
+fromage gruyère
+
+Gratin macaroni
+féculent pâtes
+conserve concentré de tomates
+pâtisserie farine
+laitage beurre
+laitage lait
+fromage gruyère
+surgelé champignons de paris
+
+Poulet et frites
+viande poulet
+surgelé frites ou pommes noisettes
+
+Poulet et pâtes
+viande poulet
+féculent pâtes
+
+Tarte au reblochon
+charcuterie pate brisée
+charcuterie lardons
+oeuf 3 oeufs
+laitage crème fraiche
+fromage reblochon
+
+Cassoulet
+conserve cassoulet
+
+Tartiflette
+légume pommes de terre
+vin vin blanc de savoie
+charcuterie lardons
+laitage crème fraiche
+fromage reblochon
+
+Légumes farcis viandes et fromage
+viande steack haché
+oeuf 1 oeuf
+épicerie mélange 4 épices
+fromage gruyère rapé
+légume aubergines/courgettes/tomates
+
+Légume farcis au fromage
+légume aubergines/courgettes
+fromage feta/chèvre
+condiment herbes de provence
+condiment huile d'olive
+viande rouges ou blanches
+
+Blanc de dinde aux épices et riz
+viande blanc de dinde
+épicerie paprika
+épicerie curry
+vin vin blanc sec 20cl
+épicerie bouillon de poule
+laitage crème fraiche
+féculent riz
+
+Choux rouge aux pommes et saucisses
+charcuterie saucisses
+légume choux rouge
+épicerie bouillon de poule
+fruit pommes
+
+Courgettes aux pommes et aux raisins et blanc de poulet
+légume courgettes
+fruit pommes
+fruit raisin secs
+viande blanc de poulet
+condiment persil
+condiment huile d'olive
+
+Courgettes aux pommes et aux raisins et poulet
+légume courgettes
+fruit pommes
+fruit raisin secs
+viande poulet
+condiment persil
+condiment huile d'olive
+
+Courgettes aux pommes et aux raisins et rôti de porc
+légume courgettes
+fruit pommes
+fruit raisin secs
+viande roti porc
+condiment persil
+condiment huile d'olive
+
+Cuisse de dinde au cidre et riz
+viande 1 cuisse de dinde
+légume 2 tomates
+légume champignons de paris
+vin 1l de cidre
+gâteau farine
+laitage beurre
+féculent riz
+
+Cuisse de dinde au cidre et pommes de terre
+viande 1 cuisse de dinde
+légume 2 tomates
+légume champignons de paris
+vin 1l de cidre
+gâteau farine
+laitage beurre
+légume PdT
+
+Cuisse de canard au miel et pommes de terre
+viande Canard
+vin cidre
+confiture miel
+épicerie mélange 4 épices
+
+Curry de pommes de terre et poulet
+légume PdT
+légume 1 tomate
+viande blanc de poulet
+laitage 1 yaourt nature
+épicerie curry
+fruit 1 pomme
+épicerie bouillon de poule
+
+Dinde à l'ananas et riz
+viande blanc  de dinde
+cuisine-du-monde sauce soja
+légume carottes
+légume 1 branche de céleri
+légume 1 poivron
+fruit ananas 300g
+conserve purée de tomates
+épicerie vinaigre balsamique
+gâteau farine
+cuisine-du-monde sauce nuoc mam
+
+Escalopes de porc aux pruneaux et pois cassés
+viande escalope de porc
+fruit pruneaux
+épicerie fond de volaille
+féculent pois cassés
+
+Escalopes de porc aux pruneaux et riz
+viande escalope de porc
+fruit pruneaux
+épicerie fond de volaille
+féculent riz
+
+Escalopes de porc aux pruneaux et blé
+viande escalope de porc
+fruit pruneaux
+épicerie fond de volaille
+féculent blé
+
+Filet mignon de porc au miel et riz
+viande filet mignon
+confiture meil
+épicerie vinaigre balsamique
+cuisine-du-monde sauce soja
+conserve tomate concassée
+féculent riz
+
+Filet mignon de porc au miel et pommes de terre
+viande filet mignon
+confiture miel
+épicerie vinaigre balsamique
+cuisine-du-monde sauce soja
+conserve tomate concassée
+légume PdT
+
+Flan de légumes et viande
+légume légume au choix
+laitage crème fraiche
+oeuf 6 oeufs
+épicerie romarin
+épicerie noix de muscade
+viande viande blanche
+
+Omelette aux champignons
+oeuf 7 oeufs
+légume champignons (cèpes, girolles...)
+
+Omelette aux asperges
+oeuf 7 oeufs
+laitage lait
+légume 8 asperges
+épicerie noix de muscade
+
+Omelette aux marrons
+oeuf 7 oeufs
+conserve marrons
+
+Pavé de saumon aux asperges
+poisson Saumon
+conserve asperges
+laitage crème fraiche
+
+Pleurottes à la tomate et tournedos
+viande tournedos
+légume 500g de pleurottes
+conserve tomates concassées
+vin vin blanc sec
+épicerie laurier
+
+Poelée de blé aux champignons
+féculent blé
+légume champignon
+laitage crème fraiche
+épicerie mélange 5 baies
+
+Potée de choux rouges
+légume 1 choux rouge
+légume 3 pommes de terre
+fruit 2 pommes
+épicerie vinaigre
+viande saucisse
+viande palette
+
+Poulet basquaise et riz
+viande poulet entier
+légume 4 poivrons
+légume 4 tomates
+épicerie thym
+épicerie laurier
+féculent riz
+
+Tarte au cresson
+légume 1 botte de cresson
+charcuterie pate brisée
+oeuf 4 oeufs
+laitage crème fraiche
+
+Tarte au saumon et légumes
+charcuterie pate brisée
+poisson 400g saumon
+légume 6 asperges
+légume 6 tomates cerises
+épicerie ciboulette
+oeuf 3 oeufs
+laitage crème fraiche
+
+Saumon en papillote et riz
+poisson pavé de saumon
+légume tomates
+condiment huile d'olive
+condiment jus de citron
+épicerie basilic
+épicerie persil
+épicerie poivre vert
+féculent riz
+
+Saumon en papillote et pommes de terre
+poisson pavé de saumon
+légume tomates
+condiment huile d'olive
+condiment jus de citron
+épicerie basilic
+épicerie persil
+épicerie poivre vert
+légume pomme de terre
+
+Émincé de boeuf aux dattes et raisins et riz
+viande steack
+fruit 50g dattes
+fruit 20g raisin secs
+vin 5cl vin blanc
+épicerie fond de veau
+épicerie bouquet garni
+épicerie marjolaine
+
+Fricassée de poulet et aubergines
+légume aubergine
+viande blanc de poulet
+confiture miel
+cuisine-du-monde sauce soja
+condiment huile d'olive
+
+Gratin de courges
+légume courge
+oeuf 2 oeufs
+laitage crème fraiche
+fromage gruyère 100g
+épicerie noix de muscade
+charcuterie lardons 200g
+
+Gratin de légume au fenouil
+légume 1 bulbe de fenouil
+légume 3 tomates
+légume 1 poivron
+fromage parmesan 40g
+oeuf 2 oeufs
+laitage crème fraiche
+épicerie noix de muscade
+
+Porc au caramel et riz
+viande sauté de porc
+gâteau sucre en poudre
+cuisine-du-monde sauce soja
+condiment huile
+
+Porc roti aux raisins et riz
+viande roti de porc
+fruit 4 pommes
+fruit raisin sec
+vin cidre 75cl
+laitage beurre
+féculent riz
+
+Roti de porc aux champignons et lardons
+viande roti de porc
+légume champignon de paris
+charcuterie lardons fumés 100g
+légume PdT 800g
+lait lait 30cl
+condiment huile d'olive
+condiment moutarde
+
+Saumon vapeur mariné et pommes de terre
+poisson pavé de saumon
+légume tomates
+condiment huile d'olive
+condiment jus de citron
+épicerie basilic
+épicerie persil
+épicerie poivre vert
+légume PdT
+
+Saumon vapeur mariné et riz
+poisson pavé de saumon
+légume tomates
+condiment huile d'olive
+condiment jus de citron
+épicerie basilic
+épicerie persil
+épicerie poivre vert
+féculet riz
+
+Tarte au potimarron
+charcuterie pâte brisée
+légume potimarron 1kg
+fromage gruyère rapé 50g
+oeuf 1 oeuf
+laitage crème fraiche
+épicerie noix de muscade
+
+Tian chèvre et miel
+viande viande blacnhe
+légume 1 courgette
+légume 1 aubergines
+légume 2 tomates
+légume 1 poivron
+fromage chèvre frais
+confiture miel
+épicerie huile d'olive
+épicerie herbes de provence
+
+Pot au feu
+légume mélange pour pot au feu
+
+Soupe de courgettes
+légume 1k de courgettes
+légume 3 oignons
+épicerie cumin
+fromage vache qui rit
+
+Soupe de carottes et coriandre
+légume 1kg carottes
+légume 3 oignons
+épicerie coriandre
+laitage crème fraiche
+
+Soupe de chataigne et pain d'épices
+conserve chataigne
+fromage cantal
+gâteau pain d'épice
+
+Vélouté de tomates
+légume 1 kg de tomates
+légume 1 oignon
+conserve concentré de tomates
+épicerie thym
+épicerie gingembre
+laitage crème fraiche
+
+Velouté de brocolis
+surgelé 400g brocolis
+légume 100g carottes
+légume pomme de terre
+
+Crème de champignons
+surgelé champignon
+laitage lait
+laitage crème fraiche
+
+Soupe de potiron à la cannelle
+légume 1.5 kg de potiron
+légume 2 oignons
+épicerie gingembre
+épicerie cannelle
+épicerie noix de muscade
+
+Velouté de potimarron
+légume 1kg de potimarron
+légume 2 oignons
+épicerie noix de muscade
+
+Soupe de pois cassés au lard
+légume poireaux
+légume carotte
+légume 2 oignons
+féculent pois cassés
+épicerie thym
+charcuterie poitrine fumé
+
+Soupe de célerie au roquefort
+légume 1 boule céleri rave
+légume 2 oignons
+fromage roquefort
+
+Spaghetti aux fèves, pois et asperges
+féculent spaghetti
+surgelé fèves
+conserve petits pois
+conserve asperges vertes
+fromage 125g ricotta
+laitage crème fraiche
+épicerie persil
+
+Pâtes à la sauge
+féculent tagliatelles
+fromage 125g mozarella
+fromage parmesan
+épicerie sauge
+conserve coulis de tomates
+épicerie basilic
+
+Ravioles farcies au fromage
+féculent pâtes à lasagne
+fromage 240g brebis ou chevre frais
+fromage parmesan
+oeuf 1 oeuf
+épicerie sauge
+épicerie thym
+conserve concentré de tomate
+
+Pâtes au gorgonzola et fines herbes
+conserve tomates concassées
+féculent pâtes
+épicerie basilic
+épicerie persil
+épicerie thym
+épicerie ciboulette
+épicerie sauge
+fromage gorgonzola
+laitage crème fraiche
+
+Ravioli au Poisson
+féculent pâte à lasagne
+poisson filet de saumon
+épicerie citron
+épicerie ciboulette
+laitage beurre
+
+Lasagnes au poulet
+féculent pâte à lasagne
+viande blanc de poulet
+oeuf 3 oeufs
+surgelé champignon
+fromage parmesan
+fromage mozzarella
+laitage crème fraiche
+
+Pâtes aux girolles
+féculent pâtes complètes
+conserve girolles
+épicerie persil
+épicerie huile d'olive
+
+Pennes aux légumes
+féculent pennes
+légume aubergine
+légume poivron
+épicerie huile d'olive
+laitage 1 yaourt nature
+
+Lasagnes de Légumes
+féculent pâte à lasagne
+légume courgette
+fromage ricotta
+fromage mozzarella
+oeuf 1 oeuf
+épicerie persil
+conserve coulis de tomate
+surgelé épinard
+
+Fusille aux morilles
+féculent pâte
+conserve morilles
+épicerie estragon
+vin vin blanc moelleux
+laitage crème fraiche
+laitage beurre
+
+Pennes aux cèpes
+féculent pâte
+conserve cèpes
+laitage beurre
+fromage comté
+fromage fontina ou tome de savoie
+laitage lait
+oeuf 2 oeufs
+vin vin blanc sec
+épicerie romarin
+
+Pâtes aux lardons, pleurottes et roquefort
+féculent spaghetti
+charcuterie lardons
+conserve pleurottes
+fromage roquefort
+fromage parmesan
+laitage crème fraiche
+
+Soupe de cresson
+légume 1 botte de cresson
+légume 5 pommes de terre
+laitage crème fraiche
+
+Tagliatelles au saumon et lieu jaune
+féculent tagliatelles
+poisson saumon
+poisson lieu jaune
+épicerie aneth
+épicerie ciboulette
+oeuf 1 oeuf
+laitage beurre
+condiment citron
+
+Poulet à la moutarde
+viande poulet
+vin vin blanc sec
+épicerie thym
+épicerie estragon
+épicerie moutarde
+laitage crème fraiche
+
+Canard au poivre vert et féculent
+viande magret de canard
+épicerie poivre vert
+laitage crème fraiche
+
+Salade franc-comtoise
+légume laitue
+légume 2 tomates
+légume noix
+fromage comté
+charcuterie dés de jambon
+
+Poulet au riesling et féculent
+viande 1 poulet
+vin riesling
+surgelé champignon
+épicerie bouillon de volaille
+épicerie persil
+épicerie noix de muscade
+oeuf 1 oeuf
+laitage crème fraiche
+
+Pintade à l'estragon
+viande pintade
+vin chablis
+épicerie  bouillon volaille
+épicerie estragon
+laitage crème fraiche
+charcuterie pâte fraiche
+
+Filet de lapin au poivre vert
+viande filet de lapin
+épicerie poivre vert
+laitage crème fraiche
+
+Magret de canard au miel et vinaigre balsamique et féculent
+viande magret de canard
+épicerie vinaigre balsamique
+confiture miel
+
+Canard aux légumes
+viande magret de canard
+légume 6 carottes
+fruit 10 pruneaux
+surgelé champignons
+épicerie thym
+
+Poulet et pennes au rubans de courgettes
+viande blanc de poulet
+féculent penne rigate
+légume courgette
+laitage crème fraihce
+fromage parmesan
+épicerie basilic
+épicerie curry
+
+Pommes de terre au champignon
+légume pommes de terre
+surgelé champignon
+oeuf 2 oeufs
+
+Gratin de pommes de terre au brebis
+légume pomme de terre
+laitage crème fraiche
+fromage roquefort
+fromage brebis sec
+oeuf 3 oeufs
+
+Pommes de terre farcies
+légume pomme de terre
+charcuterie lardons
+laitage crème fraiche
+fromage st nectaire
+épicerie thym
+
+Salade de lentilles
+féculent lentilles
+condiment vinaigre
+condiment huile
+condiment moutarde
+
+Poireaux à la vinaigrette
+légume poireaux
+condiment vinaigre
+condiment huile
+condiment moutarde
+
+Gratin de topinambours
+légume topinambours
+fromage gruyère
+gâteau farine
+laitage lait
+laitage beurre
+
+Purée de pois cassés et côte de porc
+féculent pois cassés
+viande côtes de porc
+
+Purée de pois cassés au jambon
+féculent pois cassés
+charcuterie jambon
+
+Gratin de salsifis coquillettes et poulet
+légume salsifis
+féculent coquilette
+laitage crème fraiche
+laitage lait
+fromage gruyère rapé
+oeuf 1 oeuf
+charcuterie blanc de poulet
+
+Riz fondant au champignon
+féculent riz
+surgelé champignon
+vin vin blanc sec
+cuisine-du-monde sauce soja
+
+Gratin de blé au courgette et tomate
+féculent blé
+légume 2 courgette
+légume 3 tomates
+fromage 150g parmesan
+
+Gratin de potiron
+légume 1kg de potiron
+laitage beurre
+laitage lait
+gâteau farine
+vin vin blanc
+fromage beaufort ou gruyère
+épicerie noix de muscade
+
+Carottes au cumin
+légume carottes
+épicerie cumin
+épicerie huile d'olive
+
+Fondue de poireaux et poisson
+poisson poisson
+surgelé poireaux
+laitage 100g beurre
+
+Gratin de légume
+surgelé épinard
+surgelé champignon
+légume pomme de terre
+fromage rapé
+
+Gratin de macaronis au chou romanesco
+féculent macaroni
+légume chou raomanesco
+fromage gruyère rapé
+épicerie noix de muscade
+
+Riz au pois chiche
+féculent riz
+conserve pois chiches
+épicerie cumin
+épicerie cannelle
+épicerie clou de girofle
+épicerie coriandre
+épicerie fond de veau
+
+Porc à l'asiatique
+viande filet de porc
+conserve tomates concassées
+conserve ananas
+cuisine-du-monde sauce soja
+épicerie vinaigre balsamic
+épicerie bouillon de volaille
+gâteau sucre en poudre
+
+Coquilles saint jacques à la tomate
+conserve tomates concassées
+surgelé coquille st jacques
+surgelé champignons
+épicerie sauce soja
+épicerie vinaigre xeres ou balsamique
+
+Saumon poelé aux champignons
+poisson filet de saumon
+légume champignon
+laitage beurre
+épicerie persil
+épicerie citron
+
+Truite à l'orange et riz
+poisson filet de truite
+vin vin blanc sec
+fruit orange
+laitage beurre
+
+Truite au vin blanc
+poisson filet de truite
+oeuf 2 oeufs
+fromage gruyère rapé
+vin vin blanc sec
+laitage crème fraiche
+
+Cabillaud à la méridionale
+poisson filet de cabillaud
+légume tomate
+légume pomme de terre
+épicerie bouillon de volaille
+épicerie moutarde
+épicerie  thym
+épicerie persil
+vin vin blanc sec
+
+Lieu aux girolles
+poisson filet de lieu jaune
+légume girolle
+épicerie ciboulette
+
+Boulettes de viandes et riz
+viande steack haché
+oeuf 1 oeuf
+épicerie mélange 4 épices
+fromage gruyère rapé
+
+Carré de porc au curry et pommes
+viande sauté de porc
+épicerie curry
+épicerie persil
+fruit pommes
+
+Choucroute
+charcuterie choucroute
+
+Filet mignon aux chataignes et girolles
+viande filet mignon
+conserve chataigne
+conserve girolles
+laitage beurre
+vin vin blanc sec
+épicerie  persil
+
+Lapin à la bière et féculent
+viande lapin
+gâteau cassonade
+vin 33cl bière blonde
+fruit pruneaux
+
+Lapin aux champignons et féculent
+viande lapin
+surgelé champignon
+vin vin blanc
+conserve concentré de tomates
+épicerie paprika
+
+Lapin aux pruneaux et féculent
+viande lapin
+fruit 400g pruneaux
+vin vin rouge
+charcuterie lardons fumés
+légume 2 carottes
+épicerie thym
+épicerie laurier
+
+Canard à l'orange et riz
+viande magret de canard
+fruit 4 oranges
+laitage crème fraiche
+
+Magret de canard au poivre vert et féculent
+viande magret de canard
+épicerie poivre vert
+laitage crème fraiche
+épicerie persil
+
+Cuisse de dinde à la moutarde et féculent
+viande cuisse de dinde
+légume pommes de terre
+légume tomates
+épicerie  moutarde
+laitage crème fraiche
+
+Cuisse de dinde aux pommes et pommes de terre
+viande cuisse de dinde
+légume pomme de terre
+légume oignon
+fruit pommes
+
+Rôti de dindonneau aux carottes
+viande roti de dinde
+légume 300g carottes
+légume 1 branche de céleri
+vin vin blanc sec
+épicerie thym
+épicerie laurier
+
+Blanquette de poulet et salsifis
+viande blanc de poulet
+conserve salsifis
+gâteau farine
+épicerie bouillon volaille
+épicerie estragon
+laitage crème fraiche
+laitage beurre
+
+Pâtes aux moules et basilic
+féculent pâtes
+laitage crème fraihce
+laitage beurre
+poisson 1kg moules
+vin vin blanc sec
+épicerie basilic
+
+Spaghetis au basilic
+féculent spaghetti
+épicerie huile d'olive
+épicerie basilic
+fromage parmesan
+légume 2 tomates
+
+Tagliatelles au saumon fumé et paprika
+féculent tagliatelle
+poisson saumon fumé
+épicerie paprika
+épicerie aneth
+épicerie citron
+laitage crème fraiche
+
+Aubergine au coulis de tomates
+légume aubergine
+conserve coulis de tomates
+épicerie huile d'olive
+épicerie persil
+
+Avocat à la mousse de roquefort
+légume avocat
+fromage roquefort
+laitage fromage blanc
+laitage crème fraiche
+épicerie paprika
+épicerie citron
+
+Avocat aux crevettes
+légume avocat
+légume tomates
+oeuf 2oeufs
+poisson 200g crevettes roses
+laitage fromage blanc
+épicerie citron
+
+Feuilleté de courgettes
+charcuterie pâte feuilletée
+charcuterie lardons
+oeuf 1 oeuf
+légume 1k de courgettes
+fromage fromage de hollande
+gâteau farine
+laitage beurre
+laitage lait
+épicerie bouillon de volaille
+épicerie ciboulette
+épicerie noix de muscade
+
+Purée de chataignes
+conserve 1k de chataigne
+épicerie fond de volaille
+laitage beurre
+laitage crème fraiche
+
+Patisson farci au fromage
+légume patisson
+charcuterie jambon
+fromage fromage de hollande
+épicerie persil
+
+Gratin savoyard
+légume pomme de terre
+laitage beurre
+fromage tome de savoie
+épicerie 2 cube de bouillon
+épicerie noix de muscade
+
+Gratin dauphinois
+légume pomme de terre
+laitage beurre
+laitage crème fraiche
+oeuf 2 oeufs
+
+Parmentier de cèpes
+légume pomme de terre
+légume cèpes
+laitage lait
+laitage crème fraiche
+fromage cantal
+épicerie ciboulette
+épicerie noix de muscade
+
+Pommes de terre au chèvre chaud
+légume pomme de terre
+fromage crottin de chèvre chavignol
+fromage gruyère rapé
+laitage crème fraiche
+
+Pommes de terre au roquefort
+légume pomme de terre
+fromage roquefort
+laitage crème fraiche
+laitage lait
+
+Gratiné aux cèpes
+légume cèpes
+vin vin blanc sec
+épicerie bouillon de poule
+fromage gruyère rapé
+
+Champignons farcis
+légume champignon
+charcuterie jambon de pays
+fromage parmesan
+chapelure
+
+Poule au pot
+viande poule
+
+Poule au riz
+viande poule
+féculent riz
+laitage lait
+laitage beurre
+gâteau farine
+
+Patate douce
+légume patate douce
+
+Pois cassés au miel et lard
+charcuterie lard
+féculent pois cassés
+confiture miel
+
+Fèves cassées au miel et lard
+charcuterie lard
+féculent fèves
+confiture miel
+
+Semoule au miel et côte de porc
+viande côtes de porc
+féculent semoule
+confiture miel
+épicerie basilic
+
+Semoule au miel et canard
+viande magret de canard
+féculent semoule
+confiture miel
+épicerie basilic
+
+Salsifis à la tomate
+conserve salsifis
+conserve tomates concassées
+
+Salade de patate et filet de hareng
+poisson filet de hareng fumé
+légume pomme de terre
+épicerie huile
+épicerie vinaigre
+épicerie moutarde
+épicerie ciboulette
+
+Poulet au citron
+viande blanc de poulet
+épicerie romarin
+épicerie coriandre
+épicerie huile d'olive
+épicerie citron
+épicerie blé
+
+Gratin de salsifis
+conserve salsifis
+laitage lait
+laitage beurre
+épicerie bouillon de poule
+gâteau farine
+
+Cocote oeuf tomate séchées
+oeuf 7 oeufs
+conserve tomtates séchées
+
+Cocote oeuf asperge coppa
+oeuf 7 oeufs
+conserve asperges
+fromage coppa
+
+Cocote oeuf trois fromages et noix
+oeuf 7 oeufs
+fromage 3 fromages au choix
+légume noix
+
+Cocote oeuf jambon cheddar
+oeuf 7 oeufs
+charcuterie jambon
+fromage cheddar
+
+Cocote oeuf meurette
+oeuf 7 oeufs
+charcuterie lardons
+vin vin rouge
+laitage beurre
+gâteau sucre en poudre
+
+Oeufs en cocote au chèvre
+oeuf 7 oeufs
+fromage 1 crottin de chèvre frais par personne
+fromage mascarpone
+
+Cocotte provencale
+légume aubergines
+légume courgettes
+légume tomates
+fromage mozzarella
+
+Poireaux en cocotte
+légume poireaux
+charcuterie jambon
+fromage gruyere
+
+Cocotte bleue
+légume courgettes
+légume céleri
+fromage roquefort
+
+Cocotte automne
+conserve artichaut
+conserve châtaigne
+légume pomme de terre
+
+Cocotte pomme de terre champignon épinard
+légume pomme de terre
+surgelé champignon
+surgelé épinard
+laitage beurre
+laitage crème fraiche
+épicerie noix de muscade
+
+Petite fondue de fromage aux légumes
+fromage comté
+fromage gruyère
+fromage cheddar
+vin vin blanc
+légume 1 kg de légume au choix
+
+Clafoutis de petits pois jambon boursin
+charcuterie jambon
+conserve petits pois
+fromage boursin
+laitage crème fraiche liquide
+laitage lait
+oeuf 5 oeufs
+gâteau maïzena
+
+Cocotte savoyarde
+légume pomme de terre
+fromage reblochon
+charcuterie lardon
+vin vin blanc
+laitage crème fraiche liquide
+épicerie noix de muscade
+
+Cocotte soufflée de pomme de terre au lard
+légume pomme de terre
+charcuterie poitrine fumée
+oeuf un oeuf par cocotte
+laitage beurre
+épicerie noix de muscade
+
+Cocotte de canard, citron et sauge
+viande canard confit
+légume citron frais ou confit
+gâteau sucre en poudre
+épicerie sauge
+épicerie chapelure
+laitage beurre
+
+Cocotte de potiron et chataigne
+légume potiron
+gâteau sucre en poudre
+conserve chataigne
+oeuf 3 oeufs
+laitage crème fraiche liquide
+laitage lait
+
+Soupe de légume aux lardons
+charcuterie lardons
+légume 10 pomme de terre
+légume 1 courgette
+légume 1 poireau
+légume 4 carottes
+laitage beurre
+laitage crème fraiche
+épicerie bouillon de poule
+
+Tarte brie courgettes
+charcuterie pate brisée
+fromage brie
+légume courgettes
+épicerie huile d'olive
+épicerie basilic
+oeuf 4 oeufs
+
+Curry d'oeufs à la crème
+oeuf 2 oeufs par personne
+épicerie gingembre
+épicerie coriandre
+épicerie concentré de tomates
+épicerie bouillon de poule
+épicerie huile
+épicerie graine de cumin
+légume citron
+laitage crème fraiche épaisse
+
+Taboulé
+légume sec boulghour
+légume 4 tomate
+légume 4 oignon nouveau avec tige
+légume 4 citrons
+épicerie persil
+épicerie huile d'olive
+
+Curry de poisson au lait de coco
+poisson filet de cabillaud
+légume tomate
+épicerie coriandre
+cuisine-du-monde lait de coco
+épicerie huile d'arachide
+épicerie curry
+épicerie cumin
+
+Curry de crevettes
+poisson crevettes cuites
+légume tomate
+épicerie gingembre
+laitage yaourt grec
+cuisine-du-monde lait de coco
+épicerie huile d'arachide
+épicerie curry
+
+Poulet chow mein
+viande blanc de poulet
+poisson crevettes crues
+cuisine-du-monde nouille asiatique
+légume carotte
+légume champignon
+légume poivron
+conserve soja
+épicerie gingembre
+épicerie huile d'arachide
+cuisine-du-monde sauce soja
+épicerie vinaigre de xeres
+
+Poulet tandoori et riz
+viande blanc de poulet
+laitage yaourt grec
+cuisine-du-monde pate à tandoori
+
+Poulet au curry et à l'ananas et riz
+viande blanc de poulet
+conserve ananas
+légume 1 poivron rouge
+légume 1 citron vert
+épicerie basilic
+épicerie gingembre
+cuisine-du-monde lait de coco
+épicerie huile d'arachide
+gâteau sucre roux
+épicerie curry
+féculent riz
+
+Porc au cumin, coriandre et citron vert
+viande filet de porc
+légume 2 citrons verts
+légume 1 poivron rouge
+épicerie coriandre
+gâteau sucre roux
+cuisine-du-monde sauce soja
+épicerie huile d'arachide
+épicerie graine de cumin
+
+Travers de porc grillés
+viande travers de porc grillés
+épicerie bouillon de volaille
+confiture miel liquide
+cuisine-du-monde sauce soja
+épicerie vinaigre de cidre
+épicerie huile d'arachide
+
+Pilon de poulet
+viande pilons de poulet
+
+Pate à la crème de thon et estragon
+épicerie pates
+épicerie thon
+laitage crème fraiche liquide
+fromage gruyère râpé
+oeuf 2 oeufs
+épicerie moutarde
+épicerie jus de citron
+épicerie noix de muscade
+épicerie estragon
+
+Magret de canard aux deux raisins
+viande magret de canard
+légume raisin blanc
+légume raisin sec
+confiture miel
+épicerie vinaigre balsamique
+
+Lasagnes ricotta épinard
+charcuterie jambon
+conserve épinard
+fromage ricotta
+fromage buche chèvre
+féculent pâte à lasagne
+épicerie noix de muscade
+laitage lait
+laitage beurre
+gâteau farine
+
+Poulet et pommes de terre
+viande poulet
+légume pommes de terre

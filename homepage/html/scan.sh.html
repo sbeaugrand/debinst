@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>scan.sh</title>
+<meta name="Generator" content="Vim/8.1">
+<meta name="plugin-version" content="vim8.1_v1">
+<meta name="syntax" content="bash">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="default">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.Constant { color: #ff6060; }
+.Special { color: #ff40ff; }
+.Identifier { color: #00ffff; }
+.Statement { color: #ffff00; }
+.Comment { color: #8080ff; }
+.PreProc { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">#!/bin/bash</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment">## \file scan.sh</span>
+<span class="Comment">## \author Sebastien Beaugrand</span>
+<span class="Comment">## \sa <a href="http://beaugrand.chez.com/">http://beaugrand.chez.com/</a></span>
+<span class="Comment">## \copyright CeCILL 2.1 Free Software license</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># udev :</span>
+<span class="Comment">#</span>
+<span class="Comment"># lsusb</span>
+<span class="Comment"># sudo vi /etc/udev/rules.d/56-sane-backends-autoconfig.rules</span>
+<span class="Comment"># ATTR{idVendor}==&quot;055f&quot;, ATTR{idProduct}==&quot;040b&quot;, MODE=&quot;0666&quot;</span>
+<span class="Comment"># sudo udevadm control --reload-rules</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Exemple de fichier tex pour creer un pdf avec les valeurs par defaut :</span>
+<span class="Comment">#</span>
+<span class="Comment"># \documentclass[a4paper]{article}</span>
+<span class="Comment"># \usepackage{vmargin}</span>
+<span class="Comment"># \setmarginsrb{5mm}{5mm}{5mm}{5mm}{0mm}{0mm}{0mm}{0mm}</span>
+<span class="Comment"># \usepackage{graphics}</span>
+<span class="Comment"># \pagestyle{empty}</span>
+<span class="Comment"># \parindent0mm</span>
+<span class="Comment"># \pdfimageresolution150</span>
+<span class="Comment">#</span>
+<span class="Comment"># \begin{document}</span>
+<span class="Comment"># \includegraphics{01.png}\\</span>
+<span class="Comment"># \includegraphics{02.png}</span>
+<span class="Comment"># \end{document}</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$1</span><span class="Statement">&quot;</span> <span class="Statement">=</span> <span class="Constant">&quot;-k&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">kill</span> <span class="Constant">-15</span> <span class="Special">`ps </span><span class="Special">-C</span><span class="Special"> scanimage </span><span class="Special">-o</span><span class="Special"> </span><span class="Identifier">pid</span>=<span class="Special">`</span>
+    <span class="Statement">kill</span> <span class="Constant">-15</span> <span class="Special">`ps </span><span class="Special">-C</span><span class="Special"> scanimage </span><span class="Special">-o</span><span class="Special"> </span><span class="Identifier">pid</span>=<span class="Special">`</span>
+    <span class="Statement">shift</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$1</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">exit</span> <span class="Constant">0</span>
+    <span class="Statement">fi</span>
+<span class="Statement">fi</span>
+
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$1</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">Usage: </span><span class="Special">`basename </span><span class="PreProc">$0</span><span class="Special">`</span><span class="Constant"> [-k] &lt;image-name&gt;</span><span class="Statement">&quot;</span>
+    <span class="Statement">exit</span> <span class="Constant">0</span>
+<span class="Statement">fi</span>
+
+<span class="Identifier">image</span>=<span class="PreProc">$1</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># dimensions</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">1: 210 297</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">2: 297 210</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">3: 297 420</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">? [1] </span><span class="Statement">&quot;</span>
+<span class="Statement">read</span> ret
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">ret</span>=<span class="Constant">1</span>
+<span class="Statement">fi</span>
+<span class="Statement">case</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">in</span>
+    1<span class="Statement">)</span> <span class="Identifier">lx</span>=<span class="Constant">210</span><span class="Statement">;</span> <span class="Identifier">ly</span>=<span class="Constant">297</span><span class="Statement">;;</span>
+    2<span class="Statement">)</span> <span class="Identifier">lx</span>=<span class="Constant">297</span><span class="Statement">;</span> <span class="Identifier">ly</span>=<span class="Constant">210</span><span class="Statement">;;</span>
+    3<span class="Statement">)</span> <span class="Identifier">lx</span>=<span class="Constant">297</span><span class="Statement">;</span> <span class="Identifier">ly</span>=<span class="Constant">420</span><span class="Statement">;;</span>
+    *<span class="Statement">)</span> <span class="Identifier">lx</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ret</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant"> </span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">1</span><span class="Special">`</span><span class="Statement">;</span> <span class="Identifier">ly</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ret</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant"> </span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span><span class="Statement">;;</span>
+<span class="Statement">esac</span>
+<span class="Statement">if </span><span class="Special">((</span>lx <span class="Statement">&gt;</span> ly<span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">rotation ? (0/n) </span><span class="Statement">&quot;</span>
+    <span class="Statement">read</span> ret
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> n <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">aconv</span>=<span class="Statement">&quot;</span><span class="Constant">-rotate 90</span><span class="Statement">&quot;</span>
+    <span class="Statement">fi</span>
+<span class="Statement">fi</span>
+<span class="Identifier">ascan</span>=<span class="Statement">&quot;</span><span class="Constant">-x </span><span class="PreProc">$lx</span><span class="Constant"> -y </span><span class="PreProc">$ly</span><span class="Statement">&quot;</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># marges</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">marges en mm ? [5] </span><span class="Statement">&quot;</span>
+<span class="Statement">read</span> ret
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">ret</span>=<span class="Constant">5</span>
+<span class="Statement">fi</span>
+<span class="Statement">if </span><span class="Special">((</span>ret <span class="Statement">&gt;</span> <span class="Constant">0</span><span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Special">((</span>lx <span class="Statement">=</span> <span class="Constant">lx</span> - ret * <span class="Constant">2</span><span class="Special">))</span>
+    <span class="Special">((</span>ly <span class="Statement">=</span> <span class="Constant">ly</span> - ret * <span class="Constant">2</span><span class="Special">))</span>
+    <span class="Identifier">ascan</span>=<span class="Statement">&quot;</span><span class="Constant">-x </span><span class="PreProc">$lx</span><span class="Constant"> -y </span><span class="PreProc">$ly</span><span class="Constant"> -l </span><span class="PreProc">$ret</span><span class="Constant"> -t </span><span class="PreProc">$ret</span><span class="Statement">&quot;</span>
+<span class="Statement">fi</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># resolution</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">resolution ? [150] </span><span class="Statement">&quot;</span>
+<span class="Statement">read</span> ret
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">ret</span>=<span class="Constant">150</span>
+<span class="Statement">fi</span>
+<span class="Identifier">ascan</span>=<span class="Statement">&quot;</span><span class="PreProc">$ascan</span><span class="Constant"> --resolution </span><span class="PreProc">$ret</span><span class="Statement">&quot;</span>
+<span class="Identifier">aconv</span>=<span class="Statement">&quot;</span><span class="PreProc">$aconv</span><span class="Constant"> -density </span><span class="PreProc">$ret</span><span class="Statement">&quot;</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># couleurs</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">1: Gray8</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">2: Color24</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">? [1] </span><span class="Statement">&quot;</span>
+<span class="Statement">read</span> ret
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">ret</span>=<span class="Constant">1</span>
+<span class="Statement">fi</span>
+<span class="Statement">case</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">in</span>
+    1<span class="Statement">)</span> <span class="Identifier">ascan</span>=<span class="Statement">&quot;</span><span class="PreProc">$ascan</span><span class="Constant"> --mode Gray8</span><span class="Statement">&quot;</span><span class="Statement">;;</span>
+    2<span class="Statement">)</span> <span class="Identifier">ascan</span>=<span class="Statement">&quot;</span><span class="PreProc">$ascan</span><span class="Constant"> --mode Color24</span><span class="Statement">&quot;</span><span class="Statement">;;</span>
+    *<span class="Statement">)</span> <span class="Identifier">ascan</span>=<span class="Statement">&quot;</span><span class="PreProc">$ascan</span><span class="Constant"> --mode </span><span class="PreProc">$ret</span><span class="Statement">&quot;</span><span class="Statement">;;</span>
+<span class="Statement">esac</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># format</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">1: png</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">2: jpg</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">? [1] </span><span class="Statement">&quot;</span>
+<span class="Statement">read</span> ret
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">ret</span>=<span class="Constant">1</span>
+<span class="Statement">fi</span>
+<span class="Statement">case</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">in</span>
+    1<span class="Statement">)</span> <span class="Identifier">ext</span>=png<span class="Statement">;;</span>
+    2<span class="Statement">)</span> <span class="Identifier">ext</span>=jpg<span class="Statement">;;</span>
+    *<span class="Statement">)</span> <span class="Identifier">ext</span>=<span class="PreProc">$ret</span><span class="Statement">;;</span>
+<span class="Statement">esac</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-f</span> <span class="PreProc">$image</span>.<span class="PreProc">$ext</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">attention: </span><span class="PreProc">$image</span><span class="Constant">.</span><span class="PreProc">$ext</span><span class="Constant"> existe</span><span class="Statement">&quot;</span>
+<span class="Statement">fi</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># white-threshold</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">white-threshold ? (o/N) </span><span class="Statement">&quot;</span>
+<span class="Statement">read</span> ret
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">=</span> <span class="Constant">o</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">white-threshold ? [55000] </span><span class="Statement">&quot;</span>
+    <span class="Statement">read</span> ret
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">ret</span>=<span class="Constant">55000</span>
+    <span class="Statement">fi</span>
+    <span class="Identifier">aconv</span>=<span class="Statement">&quot;</span><span class="PreProc">$aconv</span><span class="Constant"> -white-threshold </span><span class="PreProc">$ret</span><span class="Statement">&quot;</span>
+<span class="Statement">fi</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># quality</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">quality ? [100] </span><span class="Statement">&quot;</span>
+<span class="Statement">read</span> ret
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">aconv</span>=<span class="Statement">&quot;</span><span class="PreProc">$aconv</span><span class="Constant"> -quality </span><span class="PreProc">$ret</span><span class="Statement">&quot;</span>
+<span class="Statement">fi</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># main</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">scanimage </span><span class="PreProc">$ascan</span><span class="Constant"> | convert - </span><span class="PreProc">$aconv</span><span class="Constant"> </span><span class="PreProc">$image</span><span class="Constant">.</span><span class="PreProc">$ext</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">? (O/n) </span><span class="Statement">&quot;</span>
+<span class="Statement">read</span> ret
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> n <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    scanimage <span class="PreProc">$ascan</span> <span class="Statement">|</span> convert - <span class="PreProc">$aconv</span> <span class="PreProc">$image</span>.<span class="PreProc">$ext</span>
+<span class="Statement">fi</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

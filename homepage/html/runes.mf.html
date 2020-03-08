@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>runes.mf</title>
+<meta name="Generator" content="Vim/8.1">
+<meta name="plugin-version" content="vim8.1_v1">
+<meta name="syntax" content="mf">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="default">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.Constant { color: #ff6060; }
+.Identifier { color: #00ffff; }
+.Statement { color: #ffff00; }
+.Comment { color: #8080ff; }
+.Type { color: #00ff00; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">%% \file runes.mf</span>
+<span class="Comment">%% \author Sebastien Beaugrand</span>
+<span class="Comment">%% \sa <a href="http://beaugrand.chez.com/">http://beaugrand.chez.com/</a></span>
+<span class="Comment">%% \copyright CeCILL 2.1 Free Software license</span>
+<span class="Comment">%% \note Source: Les runes et la tradition primordiale, Paul-Georges Sansonetti</span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Identifier">font_identifier</span> <span class="Constant">&quot;runes&quot;</span>;
+<span class="Identifier">font_size</span> <span class="Constant">10pt#</span>;
+<span class="Identifier">font_normal_space</span> <span class="Constant">5pt#</span>;
+ht#:=<span class="Constant">6pt#</span>;
+dt#:=<span class="Constant">1pt#</span>;
+tt#:=ht#+dt#;
+s#:=<span class="Constant">1pt#</span>;
+px#:=<span class="Constant">0.7pt#</span>;
+py#:=<span class="Constant">0.6pt#</span>;
+
+<span class="Identifier">mode_setup</span>;
+
+leftstemloc#:=s#;
+
+<span class="Identifier">define_pixels</span>(tt,s);
+<span class="Identifier">define_blacker_pixels</span>(px,py);
+<span class="Identifier">pickup</span> <span class="Statement">pencircle</span> <span class="Statement">xscaled</span> px <span class="Statement">yscaled</span> py;
+rune_pen:=<span class="Identifier">savepen</span>;
+<span class="Identifier">define_good_x_pixels</span>(leftstemloc);
+<span class="Identifier">define_good_y_pixels</span>(dt);
+
+<span class="Type">picture</span> last_char;
+
+<span class="Statement">def</span> beginrunechar(<span class="Statement">expr</span> code, width) =
+ <span class="Identifier">beginchar</span>(code, width*ht#+<span class="Constant">2</span>s#, ht#, dt#);
+ <span class="Identifier">pickup</span> rune_pen
+<span class="Statement">enddef</span>;
+
+<span class="Statement">def</span> endrunechar(<span class="Statement">expr</span> code, width) =
+ last_char:=<span class="Identifier">currentpicture</span>;
+ <span class="Identifier">endchar</span>;
+ beginrunechar(code, width);
+ <span class="Identifier">currentpicture</span>:=(last_char <span class="Identifier">rotatedaround</span>((<span class="Constant">0.5</span><span class="Identifier">w</span>, <span class="Constant">0.5</span>tt-dt), <span class="Constant">180</span>));
+ <span class="Identifier">endchar</span>;
+<span class="Statement">enddef</span>;
+
+beginrunechar(<span class="Constant">&quot;F&quot;</span>, <span class="Constant">0.5</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">5</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">0.25</span>tt; <span class="Identifier">x</span><span class="Constant">6</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">0.5</span>tt;
+<span class="Identifier">y</span><span class="Constant">1</span>=-dt; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Constant">0.75</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">5</span>=tt/<span class="Constant">2</span>+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">2</span>=<span class="Identifier">y</span><span class="Constant">4</span>=<span class="Identifier">y</span><span class="Constant">6</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">5</span>--<span class="Identifier">z</span><span class="Constant">6</span>;
+endrunechar(<span class="Constant">&quot;f&quot;</span>, <span class="Constant">0.5</span>);
+
+beginrunechar(<span class="Constant">&quot;U&quot;</span>, <span class="Constant">0.5</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">0.5</span>tt;
+<span class="Identifier">y</span><span class="Constant">1</span>=<span class="Identifier">y</span><span class="Constant">4</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">3</span>=tt/<span class="Constant">3</span>+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>{<span class="Identifier">dir</span> <span class="Constant">-30</span>}..{<span class="Constant">down</span>}<span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>;
+endrunechar(<span class="Constant">&quot;u&quot;</span>, <span class="Constant">0.5</span>);
+
+beginrunechar(<span class="Constant">&quot;X&quot;</span>, <span class="Constant">0.25</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">5</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">0.25</span>tt;
+<span class="Identifier">y</span><span class="Constant">1</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Constant">0.25</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">4</span>=<span class="Constant">0.5</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">5</span>=<span class="Constant">0.75</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>--<span class="Identifier">z</span><span class="Constant">5</span>;
+endrunechar(<span class="Constant">&quot;x&quot;</span>, <span class="Constant">0.25</span>);
+
+beginrunechar(<span class="Constant">&quot;A&quot;</span>, <span class="Constant">0.25</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">4</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">5</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">0.25</span>tt;
+<span class="Identifier">y</span><span class="Constant">1</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Identifier">y</span><span class="Constant">4</span>=<span class="Identifier">y</span><span class="Constant">2-0.25</span>tt; <span class="Identifier">y</span><span class="Constant">5</span>=<span class="Identifier">y</span><span class="Constant">2-0.5</span>tt;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">4</span>--<span class="Identifier">z</span><span class="Constant">5</span>;
+endrunechar(<span class="Constant">&quot;a&quot;</span>, <span class="Constant">0.25</span>);
+
+beginrunechar(<span class="Constant">&quot;R&quot;</span>, <span class="Constant">52</span>/<span class="Constant">150</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">1</span>+tt/<span class="Constant">6</span>; <span class="Identifier">x</span><span class="Constant">5</span>=<span class="Identifier">x</span><span class="Constant">1</span>+tt/<span class="Constant">3</span>;
+<span class="Identifier">y</span><span class="Constant">1</span>=<span class="Identifier">y</span><span class="Constant">5</span>=-dt; <span class="Identifier">y</span><span class="Constant">4</span>=<span class="Constant">0.5</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">2</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Comment">% Pour z3, plusieurs possibilites:</span>
+<span class="Comment">% a=90-angle(3,1)-angle(4,3);</span>
+<span class="Comment">% l=tt*2*sqrt(10)/15;</span>
+<span class="Comment">% x3=x2+l*(cosd a);</span>
+<span class="Comment">% y3=y2-l*(sind a);</span>
+<span class="Comment">% a=angle(3,1)+angle(4,3);</span>
+<span class="Comment">% l=tt*sqrt(10)/10;</span>
+<span class="Comment">% x3=x4+l*(cosd a);</span>
+<span class="Comment">% y3=y4+l*(sind a);</span>
+<span class="Comment">% awk '{ print 2*sqrt(10)/15*cos(atan2(1,0)-atan2(1,3)-atan2(3,4))*150 }'</span>
+<span class="Comment">% awk '{ print 2*sqrt(10)/15*sin(atan2(1,0)-atan2(1,3)-atan2(3,4))*150 }'</span>
+<span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">2</span>+<span class="Constant">52</span>/<span class="Constant">150</span>*tt;
+<span class="Identifier">y</span><span class="Constant">3</span>=<span class="Identifier">y</span><span class="Constant">2-36</span>/<span class="Constant">150</span>*tt;
+<span class="Comment">% awk '{ print sqrt(10)/10*cos(atan2(1,3)+atan2(3,4))*150 }'</span>
+<span class="Comment">% awk '{ print sqrt(10)/10*sin(atan2(1,3)+atan2(3,4))*150 }'</span>
+<span class="Comment">% x3=x4+27/150*tt;</span>
+<span class="Comment">% y3=y4+39/150*tt;</span>
+<span class="Comment">% On verifie que 52*27-36*39=0, 36+39=150/2, 27+150/6=52,</span>
+<span class="Comment">% et 3*3*(52*52+36*36)=4*4*(27*27+39*39)</span>
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>--<span class="Identifier">z</span><span class="Constant">5</span>;
+endrunechar(<span class="Constant">&quot;r&quot;</span>, <span class="Constant">52</span>/<span class="Constant">150</span>);
+
+beginrunechar(<span class="Constant">&quot;K&quot;</span>, <span class="Constant">1</span>/<span class="Constant">3</span>);
+<span class="Identifier">x</span><span class="Constant">2</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">2</span>+tt/<span class="Constant">3</span>;
+<span class="Identifier">y</span><span class="Constant">2</span>=<span class="Constant">0.5</span>tt-dt; <span class="Identifier">y</span><span class="Constant">1</span>=<span class="Identifier">y</span><span class="Constant">2</span>-tt/<span class="Constant">3</span>; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Identifier">y</span><span class="Constant">2</span>+tt/<span class="Constant">3</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>;
+endrunechar(<span class="Constant">&quot;k&quot;</span>, <span class="Constant">1</span>/<span class="Constant">3</span>);
+
+beginrunechar(<span class="Constant">&quot;G&quot;</span>, <span class="Constant">1</span>/<span class="Statement">sqrt</span>(<span class="Constant">3</span>));
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">1</span>+tt/<span class="Statement">sqrt</span>(<span class="Constant">3</span>);
+<span class="Identifier">y</span><span class="Constant">1</span>=<span class="Identifier">y</span><span class="Constant">3</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=<span class="Identifier">y</span><span class="Constant">4</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">4</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>;
+endrunechar(<span class="Constant">&quot;g&quot;</span>, <span class="Constant">1</span>/<span class="Statement">sqrt</span>(<span class="Constant">3</span>));
+
+beginrunechar(<span class="Constant">&quot;W&quot;</span>, <span class="Constant">0.25</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">4</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">0.25</span>tt;
+<span class="Identifier">y</span><span class="Constant">1</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Constant">0.75</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">4</span>=<span class="Constant">0.5</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>;
+endrunechar(<span class="Constant">&quot;w&quot;</span>, <span class="Constant">0.25</span>);
+
+beginrunechar(<span class="Constant">&quot;H&quot;</span>, <span class="Statement">sqrt</span>(<span class="Constant">3</span>)/<span class="Constant">3</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">5</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">6</span>=<span class="Identifier">x</span><span class="Constant">1</span>+tt*<span class="Statement">sqrt</span>(<span class="Constant">3</span>)/<span class="Constant">3</span>;
+<span class="Identifier">y</span><span class="Constant">1</span>=<span class="Identifier">y</span><span class="Constant">3</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=<span class="Identifier">y</span><span class="Constant">4</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">5</span>=<span class="Identifier">y</span><span class="Constant">2</span>-tt/<span class="Constant">3</span>; <span class="Identifier">y</span><span class="Constant">6</span>=tt/<span class="Constant">3</span>+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">5</span>--<span class="Identifier">z</span><span class="Constant">6</span>;
+endrunechar(<span class="Constant">&quot;h&quot;</span>, <span class="Statement">sqrt</span>(<span class="Constant">3</span>)/<span class="Constant">3</span>);
+
+beginrunechar(<span class="Constant">&quot;N&quot;</span>, <span class="Statement">sqrt</span>(<span class="Constant">3</span>)/<span class="Constant">3</span>);
+<span class="Identifier">x</span><span class="Constant">3</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">3</span>+tt*<span class="Statement">sqrt</span>(<span class="Constant">3</span>)/<span class="Constant">6</span>; <span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">3</span>+tt*<span class="Statement">sqrt</span>(<span class="Constant">3</span>)/<span class="Constant">3</span>;
+<span class="Identifier">y</span><span class="Constant">1</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Identifier">y</span><span class="Constant">2</span>-tt/<span class="Constant">3</span>; <span class="Identifier">y</span><span class="Constant">4</span>=tt/<span class="Constant">3</span>+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>;
+endrunechar(<span class="Constant">&quot;n&quot;</span>, <span class="Statement">sqrt</span>(<span class="Constant">3</span>)/<span class="Constant">3</span>);
+
+beginrunechar(<span class="Constant">&quot;I&quot;</span>, <span class="Constant">0</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=leftstemloc;
+<span class="Identifier">y</span><span class="Constant">1</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>;
+endrunechar(<span class="Constant">&quot;i&quot;</span>, <span class="Constant">0</span>);
+
+beginrunechar(<span class="Constant">&quot;J&quot;</span>, <span class="Constant">2</span>/<span class="Constant">3</span>);
+<span class="Identifier">x</span><span class="Constant">2</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>+<span class="Constant">0.25</span>tt; <span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">2</span>+tt/<span class="Constant">3</span>; <span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">1</span>+tt/<span class="Constant">6</span>; <span class="Identifier">x</span><span class="Constant">5</span>=<span class="Identifier">x</span><span class="Constant">4</span>+<span class="Constant">0.25</span>tt; <span class="Identifier">x</span><span class="Constant">6</span>=<span class="Identifier">x</span><span class="Constant">5</span>-tt/<span class="Constant">3</span>;
+<span class="Identifier">y</span><span class="Constant">1</span>=<span class="Constant">0.25</span>tt+tt/<span class="Constant">12</span>-dt; <span class="Identifier">y</span><span class="Constant">2</span>=<span class="Identifier">y</span><span class="Constant">1</span>+<span class="Constant">0.25</span>tt; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Identifier">y</span><span class="Constant">2</span>+tt/<span class="Constant">3</span>;
+<span class="Identifier">y</span><span class="Constant">4</span>=<span class="Constant">0.75</span>tt-tt/<span class="Constant">12</span>-dt; <span class="Identifier">y</span><span class="Constant">5</span>=<span class="Identifier">y</span><span class="Constant">4-0.25</span>tt; <span class="Identifier">y</span><span class="Constant">6</span>=<span class="Identifier">y</span><span class="Constant">5</span>-tt/<span class="Constant">3</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">4</span>--<span class="Identifier">z</span><span class="Constant">5</span>--<span class="Identifier">z</span><span class="Constant">6</span>;
+endrunechar(<span class="Constant">&quot;j&quot;</span>, <span class="Constant">2</span>/<span class="Constant">3</span>);
+
+beginrunechar(<span class="Constant">&quot;Y&quot;</span>, <span class="Constant">0.5</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">0.25</span>tt; <span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">0.5</span>tt;
+<span class="Identifier">y</span><span class="Constant">2</span>=-dt; <span class="Identifier">y</span><span class="Constant">1</span>=<span class="Constant">0.25</span>tt+<span class="Identifier">y</span><span class="Constant">2</span>; <span class="Identifier">y</span><span class="Constant">3</span>=tt+<span class="Identifier">y</span><span class="Constant">2</span>; <span class="Identifier">y</span><span class="Constant">4</span>=<span class="Constant">0.75</span>tt+<span class="Identifier">y</span><span class="Constant">2</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>;
+endrunechar(<span class="Constant">&quot;y&quot;</span>, <span class="Constant">0.5</span>);
+
+beginrunechar(<span class="Constant">&quot;P&quot;</span>, <span class="Constant">0.5</span>);
+<span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">4</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">6</span>=<span class="Identifier">x</span><span class="Constant">3</span>+<span class="Constant">0.5</span>tt; <span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">5</span>=<span class="Identifier">x</span><span class="Constant">3</span>+<span class="Constant">0.25</span>tt;
+<span class="Identifier">y</span><span class="Constant">1</span>=<span class="Identifier">y</span><span class="Constant">3</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=<span class="Constant">0.25</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">4</span>=<span class="Identifier">y</span><span class="Constant">6</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">5</span>=<span class="Constant">0.75</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>--<span class="Identifier">z</span><span class="Constant">5</span>--<span class="Identifier">z</span><span class="Constant">6</span>;
+endrunechar(<span class="Constant">&quot;p&quot;</span>, <span class="Constant">0.5</span>);
+
+beginrunechar(<span class="Constant">&quot;Z&quot;</span>, <span class="Constant">2</span>/<span class="Constant">3</span>);
+<span class="Identifier">x</span><span class="Constant">3</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">3</span>+tt/<span class="Constant">3</span>; <span class="Identifier">x</span><span class="Constant">5</span>=<span class="Identifier">x</span><span class="Constant">3</span>+<span class="Constant">2</span>tt/<span class="Constant">3</span>;
+<span class="Identifier">y</span><span class="Constant">1</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=<span class="Identifier">y</span><span class="Constant">3</span>=<span class="Identifier">y</span><span class="Constant">5</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">4</span>=<span class="Constant">2</span>tt/<span class="Constant">3</span>+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>--<span class="Identifier">z</span><span class="Constant">5</span>;
+endrunechar(<span class="Constant">&quot;z&quot;</span>, <span class="Constant">2</span>/<span class="Constant">3</span>);
+
+beginrunechar(<span class="Constant">&quot;S&quot;</span>, <span class="Constant">1</span>/<span class="Constant">3</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">3</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">1</span>+tt/<span class="Constant">3</span>;
+<span class="Identifier">y</span><span class="Constant">1</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=tt/<span class="Constant">3</span>+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Identifier">y</span><span class="Constant">2</span>+tt/<span class="Constant">3</span>; <span class="Identifier">y</span><span class="Constant">4</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>;
+endrunechar(<span class="Constant">&quot;s&quot;</span>, <span class="Constant">1</span>/<span class="Constant">3</span>);
+
+beginrunechar(<span class="Constant">&quot;T&quot;</span>, <span class="Constant">0.5</span>);
+<span class="Identifier">x</span><span class="Constant">3</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">3</span>+<span class="Constant">0.25</span>tt; <span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">3</span>+<span class="Constant">0.5</span>tt;
+<span class="Identifier">y</span><span class="Constant">1</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Identifier">y</span><span class="Constant">4</span>=<span class="Identifier">y</span><span class="Constant">1</span>+<span class="Constant">0.75</span>tt;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">4</span>;
+endrunechar(<span class="Constant">&quot;t&quot;</span>, <span class="Constant">0.5</span>);
+
+beginrunechar(<span class="Constant">&quot;B&quot;</span>, <span class="Constant">0.25</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">4</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">5</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">0.25</span>tt;
+<span class="Identifier">y</span><span class="Constant">1</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Constant">0.75</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">4</span>=<span class="Constant">0.5</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">5</span>=<span class="Constant">0.25</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>--<span class="Identifier">z</span><span class="Constant">5</span>--<span class="Identifier">z</span><span class="Constant">1</span>;
+endrunechar(<span class="Constant">&quot;b&quot;</span>, <span class="Constant">0.25</span>);
+
+beginrunechar(<span class="Constant">&quot;E&quot;</span>, <span class="Constant">0.5</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">0.25</span>tt; <span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">5</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">0.5</span>tt;
+<span class="Identifier">y</span><span class="Constant">1</span>=<span class="Identifier">y</span><span class="Constant">5</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=<span class="Identifier">y</span><span class="Constant">4</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Constant">0.75</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>--<span class="Identifier">z</span><span class="Constant">5</span>;
+endrunechar(<span class="Constant">&quot;e&quot;</span>, <span class="Constant">0.5</span>);
+
+beginrunechar(<span class="Constant">&quot;M&quot;</span>, <span class="Constant">0.5</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">6</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">5</span>=<span class="Constant">0.5</span>tt+<span class="Identifier">x</span><span class="Constant">1</span>;
+<span class="Identifier">y</span><span class="Constant">1</span>=<span class="Identifier">y</span><span class="Constant">4</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=<span class="Identifier">y</span><span class="Constant">5</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Identifier">y</span><span class="Constant">6</span>=<span class="Constant">0.5</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">4</span>--<span class="Identifier">z</span><span class="Constant">5</span>--<span class="Identifier">z</span><span class="Constant">6</span>;
+endrunechar(<span class="Constant">&quot;m&quot;</span>, <span class="Constant">0.5</span>);
+
+beginrunechar(<span class="Constant">&quot;L&quot;</span>, <span class="Constant">0.25</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">0.25</span>tt;
+<span class="Identifier">y</span><span class="Constant">1</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Constant">0.75</span>tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>;
+endrunechar(<span class="Constant">&quot;l&quot;</span>, <span class="Constant">0.25</span>);
+
+beginrunechar(<span class="Constant">&quot;Q&quot;</span>, <span class="Constant">2</span>/<span class="Constant">3</span>);
+<span class="Identifier">x</span><span class="Constant">2</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">2</span>+tt/<span class="Constant">3</span>; <span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">1</span>+tt/<span class="Constant">3</span>;
+<span class="Identifier">y</span><span class="Constant">2</span>=<span class="Identifier">y</span><span class="Constant">4</span>=<span class="Constant">0.5</span>tt-dt; <span class="Identifier">y</span><span class="Constant">1</span>=<span class="Identifier">y</span><span class="Constant">2</span>-tt/<span class="Constant">3</span>; <span class="Identifier">y</span><span class="Constant">3</span>=<span class="Identifier">y</span><span class="Constant">2</span>+tt/<span class="Constant">3</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>--<span class="Identifier">z</span><span class="Constant">1</span>;
+endrunechar(<span class="Constant">&quot;q&quot;</span>, <span class="Constant">2</span>/<span class="Constant">3</span>);
+
+beginrunechar(<span class="Constant">&quot;D&quot;</span>, <span class="Constant">1</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">2</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">4</span>=<span class="Identifier">x</span><span class="Constant">1</span>+tt;
+<span class="Identifier">y</span><span class="Constant">1</span>=<span class="Identifier">y</span><span class="Constant">3</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=<span class="Identifier">y</span><span class="Constant">4</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>--<span class="Identifier">z</span><span class="Constant">1</span>;
+endrunechar(<span class="Constant">&quot;d&quot;</span>, <span class="Constant">1</span>);
+
+beginrunechar(<span class="Constant">&quot;O&quot;</span>, <span class="Constant">2</span>/<span class="Constant">3</span>);
+<span class="Identifier">x</span><span class="Constant">1</span>=<span class="Identifier">x</span><span class="Constant">4</span>=leftstemloc; <span class="Identifier">x</span><span class="Constant">2</span>=<span class="Identifier">x</span><span class="Constant">5</span>=<span class="Identifier">x</span><span class="Constant">1</span>+<span class="Constant">2</span>tt/<span class="Constant">3</span>; <span class="Identifier">x</span><span class="Constant">3</span>=<span class="Identifier">x</span><span class="Constant">1</span>+tt/<span class="Constant">3</span>;
+<span class="Identifier">y</span><span class="Constant">1</span>=<span class="Identifier">y</span><span class="Constant">5</span>=-dt; <span class="Identifier">y</span><span class="Constant">2</span>=<span class="Identifier">y</span><span class="Constant">4</span>=<span class="Constant">2</span>tt/<span class="Constant">3</span>+<span class="Identifier">y</span><span class="Constant">1</span>; <span class="Identifier">y</span><span class="Constant">3</span>=tt+<span class="Identifier">y</span><span class="Constant">1</span>;
+<span class="Identifier">draw</span> <span class="Identifier">z</span><span class="Constant">1</span>--<span class="Identifier">z</span><span class="Constant">2</span>--<span class="Identifier">z</span><span class="Constant">3</span>--<span class="Identifier">z</span><span class="Constant">4</span>--<span class="Identifier">z</span><span class="Constant">5</span>;
+endrunechar(<span class="Constant">&quot;o&quot;</span>, <span class="Constant">2</span>/<span class="Constant">3</span>);
+
+k#:=<span class="Constant">1pt#</span>;
+<span class="Statement">for</span> i=<span class="Constant">65</span> <span class="Identifier">upto</span> <span class="Constant">122</span>:
+<span class="Statement">ligtable</span> i:
+ <span class="Constant">65</span> <span class="Statement">kern</span> k#,  <span class="Constant">66</span> <span class="Statement">kern</span> k#,  <span class="Constant">68</span> <span class="Statement">kern</span> k#,  <span class="Constant">69</span> <span class="Statement">kern</span> k#,  <span class="Constant">70</span> <span class="Statement">kern</span> k#,  <span class="Constant">71</span> <span class="Statement">kern</span> k#,
+ <span class="Constant">72</span> <span class="Statement">kern</span> k#,  <span class="Constant">73</span> <span class="Statement">kern</span> k#,  <span class="Constant">74</span> <span class="Statement">kern</span> k#,  <span class="Constant">75</span> <span class="Statement">kern</span> k#,  <span class="Constant">76</span> <span class="Statement">kern</span> k#,  <span class="Constant">77</span> <span class="Statement">kern</span> k#,
+ <span class="Constant">78</span> <span class="Statement">kern</span> k#,  <span class="Constant">79</span> <span class="Statement">kern</span> k#,  <span class="Constant">80</span> <span class="Statement">kern</span> k#,  <span class="Constant">81</span> <span class="Statement">kern</span> k#,  <span class="Constant">82</span> <span class="Statement">kern</span> k#,  <span class="Constant">83</span> <span class="Statement">kern</span> k#,
+ <span class="Constant">84</span> <span class="Statement">kern</span> k#,  <span class="Constant">85</span> <span class="Statement">kern</span> k#,  <span class="Constant">87</span> <span class="Statement">kern</span> k#,  <span class="Constant">88</span> <span class="Statement">kern</span> k#,  <span class="Constant">89</span> <span class="Statement">kern</span> k#,  <span class="Constant">90</span> <span class="Statement">kern</span> k#,
+ <span class="Constant">97</span> <span class="Statement">kern</span> k#,  <span class="Constant">98</span> <span class="Statement">kern</span> k#, <span class="Constant">100</span> <span class="Statement">kern</span> k#, <span class="Constant">101</span> <span class="Statement">kern</span> k#, <span class="Constant">102</span> <span class="Statement">kern</span> k#, <span class="Constant">103</span> <span class="Statement">kern</span> k#,
+<span class="Constant">104</span> <span class="Statement">kern</span> k#, <span class="Constant">105</span> <span class="Statement">kern</span> k#, <span class="Constant">106</span> <span class="Statement">kern</span> k#, <span class="Constant">107</span> <span class="Statement">kern</span> k#, <span class="Constant">108</span> <span class="Statement">kern</span> k#, <span class="Constant">109</span> <span class="Statement">kern</span> k#,
+<span class="Constant">110</span> <span class="Statement">kern</span> k#, <span class="Constant">111</span> <span class="Statement">kern</span> k#, <span class="Constant">112</span> <span class="Statement">kern</span> k#, <span class="Constant">113</span> <span class="Statement">kern</span> k#, <span class="Constant">114</span> <span class="Statement">kern</span> k#, <span class="Constant">115</span> <span class="Statement">kern</span> k#,
+<span class="Constant">116</span> <span class="Statement">kern</span> k#, <span class="Constant">117</span> <span class="Statement">kern</span> k#, <span class="Constant">119</span> <span class="Statement">kern</span> k#, <span class="Constant">120</span> <span class="Statement">kern</span> k#, <span class="Constant">121</span> <span class="Statement">kern</span> k#, <span class="Constant">122</span> <span class="Statement">kern</span> k#;
+<span class="Statement">endfor</span>;
+
+<span class="Statement">end</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

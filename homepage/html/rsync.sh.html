@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>rsync.sh</title>
+<meta name="Generator" content="Vim/8.1">
+<meta name="plugin-version" content="vim8.1_v1">
+<meta name="syntax" content="bash">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="default">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.PreProc { color: #ff40ff; }
+.Constant { color: #ff6060; }
+.Special { color: #ff40ff; }
+.Identifier { color: #00ffff; }
+.Statement { color: #ffff00; }
+.Comment { color: #8080ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">#!/bin/bash</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment">## \file rsync.sh</span>
+<span class="Comment">## \author Sebastien Beaugrand</span>
+<span class="Comment">## \sa <a href="http://beaugrand.chez.com/">http://beaugrand.chez.com/</a></span>
+<span class="Comment">## \copyright CeCILL 2.1 Free Software license</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">log</span>=/tmp/rsync.log
+<span class="Identifier">quit()</span>
+<span class="Identifier">{</span>
+    shred <span class="Special">-u</span> <span class="Special">-z</span> <span class="PreProc">$log</span><span class="Statement">;</span>
+    <span class="Statement">exit</span> <span class="PreProc">$1</span>
+<span class="Identifier">}</span>
+<span class="Statement">trap</span> <span class="Statement">&quot;</span><span class="Constant">echo; quit 0</span><span class="Statement">&quot;</span> SIGINT
+
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$2</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">Usage: </span><span class="Special">`basename </span><span class="PreProc">$0</span><span class="Special">`</span><span class="Constant"> &lt;src&gt; &lt;dst&gt; &lt;options&gt;</span><span class="Statement">&quot;</span>
+    quit <span class="Constant">1</span>
+<span class="Statement">fi</span>
+<span class="Identifier">src</span>=<span class="PreProc">${</span><span class="PreProc">1</span><span class="Statement">%%</span>/<span class="PreProc">}</span>
+<span class="Statement">shift</span>
+<span class="Identifier">dst</span>=<span class="PreProc">${</span><span class="PreProc">1</span><span class="Statement">%%</span>/<span class="PreProc">}</span>
+<span class="Statement">shift</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-d</span> <span class="PreProc">$src</span> <span class="Statement">]</span> <span class="Statement">&amp;&amp;</span> <span class="PreProc">(</span><span class="Statement">[</span> <span class="Statement">!</span> <span class="Statement">-e</span> <span class="PreProc">$dst</span> <span class="Statement">]</span> <span class="Statement">||</span> <span class="Statement">[</span> <span class="Statement">-d</span> <span class="PreProc">$dst</span> <span class="Statement">]</span><span class="PreProc">)</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">src</span>=<span class="PreProc">$src</span>/
+    <span class="Identifier">dst</span>=<span class="PreProc">$dst</span>/
+<span class="Statement">elif</span> <span class="Statement">[</span> <span class="Statement">!</span> <span class="Statement">-f</span> <span class="PreProc">$src</span> <span class="Statement">]</span> <span class="Statement">||</span> <span class="PreProc">(</span><span class="Statement">[</span> <span class="Statement">-e</span> <span class="PreProc">$dst</span> <span class="Statement">]</span> <span class="Statement">&amp;&amp;</span> <span class="Statement">[</span> <span class="Statement">!</span> <span class="Statement">-f</span> <span class="PreProc">$dst</span> <span class="Statement">]</span><span class="PreProc">)</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">erreur: fichiers ou dossiers mais pas les deux</span><span class="Statement">&quot;</span>
+    quit <span class="Constant">1</span>
+<span class="Statement">fi</span>
+
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$1</span><span class="Statement">&quot;</span> <span class="Statement">=</span> <span class="Constant">&quot;--no-delete&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">shift</span>
+    <span class="Identifier">sync</span>=<span class="Statement">&quot;</span><span class="Constant">rsync --checksum -aO -f '- *~' </span><span class="PreProc">$*</span><span class="Statement">&quot;</span>
+<span class="Statement">else</span>
+    <span class="Identifier">sync</span>=<span class="Statement">&quot;</span><span class="Constant">rsync --checksum --delete -aO -f '- *~' </span><span class="PreProc">$*</span><span class="Statement">&quot;</span>
+<span class="Statement">fi</span>
+
+<span class="Statement">eval</span> <span class="PreProc">$sync</span> <span class="Special">-ni</span> <span class="PreProc">$src</span> <span class="PreProc">$dst</span> <span class="Statement">&gt;</span><span class="PreProc">$log</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">!</span> <span class="Statement">-s</span> <span class="PreProc">$log</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    quit <span class="Constant">0</span>
+<span class="Statement">fi</span>
+<span class="Statement">sort</span> <span class="Special">-k</span> <span class="Constant">2</span> <span class="PreProc">$log</span> | more
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Special">`cat </span><span class="PreProc">$log</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> wc </span><span class="Special">-l</span><span class="Special">`</span><span class="Constant"> files</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant"> - proceed ? [Y/n/p/a] </span><span class="Statement">&quot;</span>
+<span class="Statement">read</span> ret
+
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> p <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">sync</span>=<span class="Statement">&quot;</span><span class="PreProc">$sync</span><span class="Constant"> -i</span><span class="Statement">&quot;</span>
+<span class="Statement">fi</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">=</span> <span class="Constant">p</span> <span class="Statement">]</span> <span class="Statement">||</span> <span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">=</span> <span class="Constant">a</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">if </span>which colordiff <span class="Statement">&gt;</span>/dev/null <span class="Constant">2</span><span class="Statement">&gt;</span><span class="Statement">&amp;</span><span class="Constant">1</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">colordiff</span>=colordiff
+    <span class="Statement">else</span>
+        <span class="Identifier">colordiff</span>=cat
+    <span class="Statement">fi</span>
+    <span class="Identifier">n</span>=<span class="Special">`cat </span><span class="PreProc">$log</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> wc </span><span class="Special">-l</span><span class="Special">`</span>
+    <span class="Statement">for ((</span><span class="Statement">i</span><span class="Statement">=</span><span class="Constant">1</span><span class="Statement">;</span><span class="PreProc">$i</span><span class="Statement">&lt;=</span><span class="PreProc">$n</span><span class="Statement">;i++</span><span class="Statement">))</span><span class="Statement">;</span> <span class="Statement">do</span>
+        <span class="Identifier">f</span>=<span class="Special">`head </span><span class="Special">-n</span><span class="Special"> </span><span class="PreProc">$i</span><span class="Special"> </span><span class="PreProc">$log</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> </span><span class="Statement">tail</span><span class="Special"> </span><span class="Special">-n</span><span class="Special"> </span><span class="Constant">1</span><span class="Special">`</span>
+        <span class="Statement">if </span><span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="PreProc">$f</span><span class="Statement">&quot;</span><span class="Constant"> </span><span class="Statement">|</span> <span class="Statement">grep</span> deleting <span class="Statement">&gt;</span>/dev/null<span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Statement">continue</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">if </span><span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="PreProc">$f</span><span class="Statement">&quot;</span><span class="Constant"> </span><span class="Statement">|</span> <span class="Statement">grep</span> delete <span class="Statement">&gt;</span>/dev/null<span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Statement">continue</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> a <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="PreProc">$f</span><span class="Constant"> ? [Y/n/d/a] </span><span class="Statement">&quot;</span>
+            <span class="Statement">read</span> ret
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">=</span> <span class="Constant">n</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                <span class="Statement">continue</span>
+            <span class="Statement">fi</span>
+        <span class="Statement">fi</span>
+        <span class="Identifier">f</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="PreProc">$f</span><span class="Statement">&quot;</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant"> </span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> 2- </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Special">-F</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant"> -&gt; </span><span class="Statement">'</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">{ print $1 }</span><span class="Statement">'</span><span class="Special">`</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">=</span> <span class="Constant">d</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-d</span> <span class="PreProc">$src</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                diff <span class="Statement">&quot;</span><span class="PreProc">$dst</span><span class="Constant">/</span><span class="PreProc">$f</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="PreProc">$src</span><span class="Constant">/</span><span class="PreProc">$f</span><span class="Statement">&quot;</span> <span class="Statement">|</span> <span class="PreProc">$colordiff</span>
+            <span class="Statement">else</span>
+                diff <span class="PreProc">$dst</span> <span class="PreProc">$src</span> <span class="Statement">|</span> <span class="PreProc">$colordiff</span>
+            <span class="Statement">fi</span>
+            <span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="PreProc">$f</span><span class="Constant"> ? [Y/n] </span><span class="Statement">&quot;</span>
+            <span class="Statement">read</span> ret
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">=</span> <span class="Constant">n</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                <span class="Statement">continue</span>
+            <span class="Statement">fi</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-d</span> <span class="PreProc">$src</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Statement">eval</span> <span class="PreProc">$sync</span> <span class="Statement">&quot;</span><span class="PreProc">$src</span><span class="Constant">/</span><span class="PreProc">$f</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="PreProc">$dst</span><span class="Constant">/</span><span class="PreProc">$f</span><span class="Statement">&quot;</span>
+        <span class="Statement">else</span>
+            <span class="Statement">eval</span> <span class="PreProc">$sync</span> <span class="PreProc">$src</span> <span class="PreProc">$dst</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">done</span>
+    <span class="Identifier">ret</span>=n
+<span class="Statement">fi</span>
+<span class="Statement">echo</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> n <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">eval</span> <span class="PreProc">$sync</span> <span class="PreProc">$src</span> <span class="PreProc">$dst</span>
+<span class="Statement">fi</span>
+quit <span class="PreProc">$?</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

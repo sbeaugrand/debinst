@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>livret.cls</title>
+<meta name="Generator" content="Vim/8.1">
+<meta name="plugin-version" content="vim8.1_v1">
+<meta name="syntax" content="tex">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="default">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.Constant { color: #ff6060; }
+.Special { color: #ff40ff; }
+.Statement { color: #ffff00; }
+.Comment { color: #8080ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">%% \file livret.cls</span>
+<span class="Comment">%% \author Sebastien Beaugrand</span>
+<span class="Comment">%% \sa <a href="http://beaugrand.chez.com/">http://beaugrand.chez.com/</a></span>
+<span class="Comment">%% \copyright CeCILL 2.1 Free Software license</span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Statement">\NeedsTeXFormat</span><span class="Special">{</span>LaTeX2e<span class="Special">}</span>
+<span class="Statement">\ProvidesClass</span><span class="Special">{</span>cls/livret<span class="Special">}</span>
+<span class="Statement">\LoadClass</span><span class="Special">[</span>a5paper,twoside<span class="Special">]{</span>article<span class="Special">}</span>
+<span class="Statement">\RequirePackage</span><span class="Special">{</span>times<span class="Special">}</span>
+
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">% Langue</span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Statement">\RequirePackage</span><span class="Special">[</span>francais<span class="Special">]{</span>babel<span class="Special">}</span>
+<span class="Statement">\RequirePackage</span><span class="Special">[</span>utf8<span class="Special">]{</span>inputenc<span class="Special">}</span>
+<span class="Statement">\RequirePackage</span><span class="Special">[</span>T1<span class="Special">]{</span>fontenc<span class="Special">}</span>
+
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">% Mise en page</span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Statement">\RequirePackage</span><span class="Special">{</span>vmargin<span class="Special">}</span>
+<span class="Statement">\setpapersize</span><span class="Special">{</span>custom<span class="Special">}{</span><span class="Constant">148mm</span><span class="Special">}{</span><span class="Constant">210mm</span><span class="Special">}</span>
+<span class="Statement">\setmarginsrb</span><span class="Special">{</span><span class="Constant">10mm</span><span class="Special">}{</span><span class="Constant">10mm</span><span class="Special">}{</span><span class="Constant">10mm</span><span class="Special">}{</span><span class="Constant">5mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">5mm</span><span class="Special">}</span>
+<span class="Statement">\renewcommand</span><span class="Special">{</span><span class="Statement">\@evenfoot</span><span class="Special">}</span> <span class="Special">{</span><span class="Statement">\ifnum\thepage</span>&gt;1<span class="Special">{</span><span class="Statement">\thepage\hfil</span><span class="Special">}</span><span class="Statement">\fi</span><span class="Special">}</span>
+<span class="Statement">\renewcommand</span><span class="Special">{</span><span class="Statement">\@oddfoot</span><span class="Special">}</span>  <span class="Special">{</span><span class="Statement">\ifnum\thepage</span>&gt;1<span class="Special">{</span><span class="Statement">\hfil\thepage</span><span class="Special">}</span><span class="Statement">\fi</span><span class="Special">}</span>
+<span class="Statement">\parindent</span>0cm
+
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">% Paquets</span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Statement">\RequirePackage</span><span class="Special">{</span>verbatim<span class="Special">}</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

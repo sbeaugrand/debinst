@@ -1,0 +1,1081 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>makedivx.sh</title>
+<meta name="Generator" content="Vim/8.1">
+<meta name="plugin-version" content="vim8.1_v1">
+<meta name="syntax" content="bash">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="default">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.Constant { color: #ff6060; }
+.Special { color: #ff40ff; }
+.Identifier { color: #00ffff; }
+.Statement { color: #ffff00; }
+.PreProc { color: #ff40ff; }
+.Comment { color: #8080ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">#!/bin/bash</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment">## \file makedivx.sh</span>
+<span class="Comment">## \author Sebastien Beaugrand</span>
+<span class="Comment">## \sa <a href="http://beaugrand.chez.com/">http://beaugrand.chez.com/</a></span>
+<span class="Comment">## \copyright CeCILL 2.1 Free Software license</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># This is an interactive shell script to rip DVD and encode DIVX.</span>
+<span class="Comment"># It can :</span>
+<span class="Comment"># - rip, encode audio, encode video, separately into different sessions</span>
+<span class="Comment"># - crop the black bars with autodetection</span>
+<span class="Comment"># - choose the best resolution for the 16:9 or 4:3 format</span>
+<span class="Comment"># - maximize volume (with a mencoder patch)</span>
+<span class="Comment"># - extract subtitle into a separated text file (with transcode tools)</span>
+<span class="Comment"># - split the AVI</span>
+<span class="Comment"># The video bitrate is a bit different from the mencoder recommendation, it's</span>
+<span class="Comment"># for a maximum filling for one CD, or to leave a margin to split the AVI.</span>
+<span class="Comment"># Type makedivx.sh --help for options.</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Date        Author               Comments</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># 25/02/2003  Sebastien Beaugrand  Creation</span>
+<span class="Comment"># 20/04/2004  Sebastien Beaugrand  Add crop autodetection process</span>
+<span class="Comment"># 30/07/2004  Sebastien Beaugrand  Add volume maximization and AVI spliting</span>
+<span class="Comment"># 17/08/2004  Sebastien Beaugrand  Add volume maximization with normalize</span>
+<span class="Comment"># 21/09/2004  Sebastien Beaugrand  Add automatic title with lsdvd</span>
+<span class="Comment"># 24/09/2006  Sebastien Beaugrand  Encode audio and video at the same time to</span>
+<span class="Comment">#                                    avoid desynchronization</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Gray format : ffmpeg -i 01.avi -vf format=gray -pix_fmt yuv420p 01.mp4</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">gnu</span>=true
+<span class="Identifier">lang</span>=fr
+<span class="Identifier">ratemin</span>=<span class="Constant">800</span>
+<span class="Identifier">marginbr</span>=<span class="Constant">6</span>
+<span class="Identifier">splitmarginsize</span>=<span class="Constant">30</span>
+<span class="Identifier">tcpath</span>=~/tmp/transcode
+<span class="Comment">#mpeg4opt=vhq:v4mv:trell:vqmin=2:vlelim=-4:vcelim=9:lumi_mask=0.05:dark_mask=0.01</span>
+<span class="Identifier">mpeg4opt</span>=vhq:v4mv:trell:vqmin<span class="Statement">=</span>2:o<span class="Statement">=</span><span class="Identifier">luma_elim_threshold</span>=<span class="Constant">-4</span>
+<span class="Identifier">mpeg4opt</span>=<span class="PreProc">$mpeg4opt</span>:o<span class="Statement">=</span><span class="Identifier">chroma_elim_threshold</span>=9:lumi_mask<span class="Statement">=</span><span class="Constant">0</span>.05:dark_mask<span class="Statement">=</span><span class="Constant">0</span>.<span class="Constant">01</span>
+<span class="Identifier">red</span>=<span class="Statement">&quot;</span><span class="Special">\033</span><span class="Constant">[31;1m</span><span class="Statement">&quot;</span>
+<span class="Identifier">green</span>=<span class="Statement">&quot;</span><span class="Special">\033</span><span class="Constant">[32;1m</span><span class="Statement">&quot;</span>
+<span class="Identifier">blue</span>=<span class="Statement">&quot;</span><span class="Special">\033</span><span class="Constant">[34;1m</span><span class="Statement">&quot;</span>
+<span class="Identifier">reset</span>=<span class="Statement">&quot;</span><span class="Special">\033</span><span class="Constant">[0m</span><span class="Statement">&quot;</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Print a fatal error</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">fatal()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">$blue$1</span><span class="Special">\n</span><span class="Constant">press enter to quit</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+    <span class="Statement">read</span>
+    <span class="Statement">exit</span> <span class="Constant">-1</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Read from standard input</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">myRead()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">echo</span><span class="Constant"> -ne </span><span class="Statement">&quot;</span><span class="PreProc">$green$1</span><span class="Constant"> [</span><span class="PreProc">$2</span><span class="Constant">] </span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$auto</span> <span class="Statement">=</span> <span class="Constant">no</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">read</span> ret
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Identifier">ret</span>=<span class="PreProc">$2</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">else</span>
+        <span class="Statement">echo</span>
+        <span class="Identifier">ret</span>=<span class="PreProc">$2</span>
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Read lsdvd</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">readLsdvd()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">!</span> <span class="Statement">-r</span> lsdvd.txt <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">if </span><span class="Statement">type</span> lsdvd <span class="Statement">&amp;</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">;</span> <span class="Statement">then</span>
+            lsdvd <span class="Statement">-q</span> <span class="PreProc">$dev</span> <span class="Statement">|</span> <span class="Statement">grep</span> a <span class="Statement">&gt;</span>lsdvd.txt
+        <span class="Statement">else</span>
+            <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">$blue</span><span class="Statement">&quot;</span>
+            <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">for automatic value of the title install lsdvd</span><span class="Statement">&quot;</span>
+            <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Select title</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">selectTitle()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$title</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">title</span>=<span class="Constant">1</span>
+        readLsdvd
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-r</span> lsdvd.txt <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            cat lsdvd.txt
+            <span class="Identifier">title</span>=<span class="Special">`</span><span class="Statement">tail</span><span class="Special"> </span><span class="Special">-n</span><span class="Special"> </span><span class="Constant">1</span><span class="Special"> lsdvd.txt`</span>
+            <span class="Identifier">title</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">${</span><span class="PreProc">title</span><span class="Statement">:0-2</span><span class="Statement">:2</span><span class="PreProc">}</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">{ print $0+0 }</span><span class="Statement">'</span><span class="Special">`</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$title</span> <span class="Statement">=</span> <span class="Constant">0</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">lsdvd error</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+            <span class="Identifier">title</span>=<span class="Constant">1</span>
+        <span class="Statement">fi</span>
+        myRead <span class="Statement">&quot;</span><span class="Constant">title ?</span><span class="Statement">&quot;</span> <span class="PreProc">$title</span>
+        checkNumericValue <span class="PreProc">$ret</span> <span class="Statement">&quot;</span><span class="Constant">title</span><span class="Statement">&quot;</span> <span class="Constant">1</span>
+        <span class="Identifier">title</span>=dvd://<span class="PreProc">$ret</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$dev</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Identifier">title</span>=<span class="Statement">&quot;</span><span class="Constant">-dvd-device </span><span class="PreProc">$dev</span><span class="Constant"> </span><span class="PreProc">$title</span><span class="Statement">&quot;</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Read the DVD structure</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">readStructure()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">!</span> <span class="Statement">-r</span> structure.txt <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        selectTitle
+        mplayer <span class="PreProc">$title</span> <span class="Statement">-v</span> <span class="Special">-nosound</span> <span class="Special">-novideo</span> <span class="Statement">&gt;</span>structure.txt <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Select title and angle</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">selectTitleAndAngle()</span>
+<span class="Identifier">{</span>
+    selectTitle
+    readStructure
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$angle</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">n</span>=<span class="Special">`</span><span class="Statement">grep</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant">angles</span><span class="Statement">&quot;</span><span class="Special"> structure.txt`</span>
+        <span class="Identifier">n</span>=<span class="PreProc">${</span><span class="PreProc">n</span><span class="Statement">:10</span><span class="Statement">:1</span><span class="PreProc">}</span>
+        <span class="Statement">if </span><span class="Special">((</span>n <span class="Statement">&gt;</span> <span class="Constant">1</span><span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">angle ?</span><span class="Statement">&quot;</span> <span class="Constant">1</span>
+            checkNumericValue <span class="PreProc">$ret</span> <span class="Statement">&quot;</span><span class="Constant">angle</span><span class="Statement">&quot;</span> <span class="Constant">1</span>
+            <span class="Identifier">angle</span>=<span class="Statement">&quot;</span><span class="Constant">-dvdangle </span><span class="PreProc">$ret</span><span class="Statement">&quot;</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Select chapters</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">selectChapters()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$first</span><span class="Statement">&quot;</span> <span class="Statement">]</span> <span class="Statement">||</span> <span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$last</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        selectTitle
+        readLsdvd
+        myRead <span class="Statement">&quot;</span><span class="Constant">first chapter ?</span><span class="Statement">&quot;</span> <span class="Constant">1</span>
+        <span class="Identifier">first</span>=<span class="PreProc">$ret</span>
+        <span class="Identifier">last</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$title</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">BEGIN { FS=&quot;//&quot; } { print $2 }</span><span class="Statement">'</span><span class="Special">`</span>
+        <span class="Identifier">last</span>=<span class="Special">`head </span><span class="Special">-n</span><span class="Special"> </span><span class="PreProc">$last</span><span class="Special"> lsdvd.txt </span><span class="Statement">|</span><span class="Special"> </span><span class="Statement">tail</span><span class="Special"> </span><span class="Special">-n</span><span class="Special"> </span><span class="Constant">1</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant"> </span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">6</span><span class="Special"> </span><span class="Statement">|</span><span class="Special">\</span>
+<span class="Special">          tr </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">,\n</span><span class="Statement">'</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">{ print $0+0 }</span><span class="Statement">'</span><span class="Special">`</span>
+        myRead <span class="Statement">&quot;</span><span class="Constant">last chapter ?</span><span class="Statement">&quot;</span> <span class="PreProc">$last</span>
+        <span class="Identifier">last</span>=<span class="PreProc">$ret</span>
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Rip the DVD</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">makeDump()</span>
+<span class="Identifier">{</span>
+    <span class="Identifier">list</span>=
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-f</span> dump.<span class="Constant">01</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        myRead <span class="Statement">&quot;</span><span class="Constant">do you want to delete dump files ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">n</span><span class="Statement">&quot;</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Statement">rm</span> <span class="Statement">-f</span> dump.*
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+    selectTitleAndAngle
+    selectChapters
+    for <span class="Special">((</span>i<span class="Statement">=</span><span class="PreProc">$first</span><span class="Statement">;</span><span class="PreProc">$i</span><span class="Statement">&lt;=</span><span class="PreProc">$last</span><span class="Statement">;</span>i++<span class="Special">))</span><span class="Statement">;</span> <span class="Statement">do</span>
+        <span class="Identifier">file</span>=dump.<span class="Special">`</span><span class="Statement">printf</span><span class="Special"> %02d </span><span class="PreProc">$i</span><span class="Special">`</span>
+        <span class="Identifier">list</span>=<span class="Statement">&quot;</span><span class="PreProc">$list</span><span class="Constant"> </span><span class="PreProc">$file</span><span class="Statement">&quot;</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-f</span> <span class="PreProc">$file</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">do you want to overwrite </span><span class="PreProc">$file</span><span class="Constant"> ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">n</span><span class="Statement">&quot;</span>
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">n</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                <span class="Statement">continue</span>
+            <span class="Statement">fi</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">writing </span><span class="PreProc">$file$reset</span><span class="Statement">&quot;</span>
+        <span class="Comment"># With mencoder it doesn't work well, then we use mplayer to dump.</span>
+        <span class="Comment"># On some DVD the volume can be different when we select a chapter,</span>
+        <span class="Comment"># in this case it's better to encode directly from the DVD (this</span>
+        <span class="Comment"># problem was encountered only once on &quot;Rammstein Live Aus Berlin&quot;).</span>
+        mplayer <span class="PreProc">$title</span> <span class="PreProc">$angle</span> <span class="Special">-chapter</span> <span class="PreProc">$i</span>-<span class="PreProc">$i</span> <span class="Special">-dumpstream</span> <span class="Special">-dumpfile</span> <span class="PreProc">$file</span>
+    <span class="Statement">done</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Select input</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">selectInput()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$direct</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        selectTitleAndAngle
+    <span class="Statement">elif</span> <span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$list</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">list</span>=
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$first</span><span class="Statement">&quot;</span> <span class="Statement">]</span> <span class="Statement">||</span> <span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$last</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">first chapter ?</span><span class="Statement">&quot;</span> <span class="Constant">1</span>
+            <span class="Identifier">first</span>=<span class="PreProc">$ret</span>
+            <span class="Identifier">last</span>=<span class="Special">`</span><span class="Statement">ls</span><span class="Special"> </span><span class="Constant">-1</span><span class="Special"> </span><span class="Special">--indicator-style=none</span><span class="Special"> dump.* </span><span class="Constant">2</span><span class="Statement">&gt;</span><span class="Special">/dev/null </span><span class="Statement">|</span><span class="Special"> </span><span class="Statement">tail</span><span class="Special"> </span><span class="Special">-n</span><span class="Special"> </span><span class="Constant">1</span><span class="Special">`</span>
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$last</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                <span class="Identifier">last</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">${</span><span class="PreProc">last</span><span class="Statement">:0-2</span><span class="Statement">:2</span><span class="PreProc">}</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">{ print $0+0 }</span><span class="Statement">'</span><span class="Special">`</span>
+            <span class="Statement">else</span>
+                fatal <span class="Statement">&quot;</span><span class="Constant">cannot access to any dump file</span><span class="Statement">&quot;</span>
+            <span class="Statement">fi</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">last chapter ?</span><span class="Statement">&quot;</span> <span class="PreProc">$last</span>
+            <span class="Identifier">last</span>=<span class="PreProc">$ret</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">for ((</span><span class="Statement">i</span><span class="Statement">=</span><span class="PreProc">$first</span><span class="Statement">;</span><span class="PreProc">$i</span><span class="Statement">&lt;=</span><span class="PreProc">$last</span><span class="Statement">;i++</span><span class="Statement">))</span><span class="Statement">;</span> <span class="Statement">do</span>
+            <span class="Identifier">file</span>=dump.<span class="Special">`</span><span class="Statement">printf</span><span class="Special"> %02d </span><span class="PreProc">$i</span><span class="Special">`</span>
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">!</span> <span class="Statement">-r</span> <span class="PreProc">$file</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                fatal <span class="Statement">&quot;</span><span class="Constant">cannot access to </span><span class="PreProc">$file</span><span class="Statement">&quot;</span>
+            <span class="Statement">fi</span>
+            <span class="Identifier">list</span>=<span class="Statement">&quot;</span><span class="PreProc">$list</span><span class="Constant"> </span><span class="PreProc">$file</span><span class="Statement">&quot;</span>
+        <span class="Statement">done</span>
+        <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">using the files : </span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+        <span class="Statement">echo</span><span class="Constant"> -e </span><span class="PreProc">$list</span>
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Maximize volume</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">maximizeVolume()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$volume</span> <span class="Statement">!=</span> <span class="Constant">1</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">return</span>
+    <span class="Statement">fi</span>
+
+    myRead <span class="Statement">&quot;</span><span class="Constant">maximize volume ? (y/n)</span><span class="Statement">&quot;</span> y
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$normalize</span> <span class="Statement">=</span> <span class="Constant">&quot;true&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$direct</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                mplayer <span class="PreProc">$title</span> <span class="PreProc">$angle</span> <span class="Special">-vo</span> null\
+                  <span class="Special">-ao</span> pcm:file<span class="Statement">=</span><span class="Constant">sound</span>.wav <span class="Special">-alang</span> <span class="PreProc">$lang</span>
+                <span class="Identifier">volume</span>=<span class="Special">`normalize </span><span class="Special">-n</span><span class="Special"> </span><span class="Special">-a</span><span class="Special"> </span><span class="Constant">1</span><span class="Special"> </span><span class="Special">--fractions</span><span class="Special"> sound.wav`</span>
+                <span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$volume</span>
+                <span class="Identifier">volume</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$volume</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">BEGIN { FS = &quot; &quot; } { print 1/$2 }</span><span class="Statement">'</span><span class="Special">`</span>
+            <span class="Statement">else</span>
+                myRead <span class="Statement">&quot;</span><span class="Constant">only one temporary sound file ? (y/n)</span><span class="Statement">&quot;</span> y
+                <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-f</span> sound.wav <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                        myRead <span class="Statement">&quot;</span><span class="Constant">do you want to overwrite sound.wav ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">n</span><span class="Statement">&quot;</span>
+                        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                            cat <span class="PreProc">$list</span> <span class="Statement">|</span>\
+                             mplayer <span class="Special">-vo</span> null <span class="Special">-ao</span> pcm:file<span class="Statement">=</span><span class="Constant">sound</span>.wav <span class="Special">-aid</span> <span class="PreProc">$aid</span> -
+                        <span class="Statement">fi</span>
+                    <span class="Statement">else</span>
+                        cat <span class="PreProc">$list</span> <span class="Statement">|</span>\
+                          mplayer <span class="Special">-vo</span> null <span class="Special">-ao</span> pcm:file<span class="Statement">=</span><span class="Constant">sound</span>.wav <span class="Special">-aid</span> <span class="PreProc">$aid</span> -
+                    <span class="Statement">fi</span>
+                    <span class="Identifier">volume</span>=<span class="Special">`normalize </span><span class="Special">-n</span><span class="Special"> </span><span class="Special">-a</span><span class="Special"> </span><span class="Constant">1</span><span class="Special"> </span><span class="Special">--fractions</span><span class="Special"> sound.wav`</span>
+                    <span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$volume</span>
+                    <span class="Identifier">volume</span>=\
+                      <span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$volume</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">BEGIN { FS = &quot; &quot; } { print 1/$2 }</span><span class="Statement">'</span><span class="Special">`</span>
+                <span class="Statement">else</span>
+                    <span class="Identifier">list2</span>=
+                    <span class="Statement">for ((</span><span class="Statement">i</span><span class="Statement">=</span><span class="PreProc">$first</span><span class="Statement">;</span><span class="PreProc">$i</span><span class="Statement">&lt;=</span><span class="PreProc">$last</span><span class="Statement">;i++</span><span class="Statement">))</span><span class="Statement">;</span> <span class="Statement">do</span>
+                        <span class="Identifier">file1</span>=dump.<span class="Special">`</span><span class="Statement">printf</span><span class="Special"> %02d </span><span class="PreProc">$i</span><span class="Special">`</span>
+                        <span class="Identifier">file2</span>=sound<span class="Special">`</span><span class="Statement">printf</span><span class="Special"> %02d </span><span class="PreProc">$i</span><span class="Special">`</span>.wav
+                        <span class="Identifier">list2</span>=<span class="Statement">&quot;</span><span class="PreProc">$list2</span><span class="Constant"> </span><span class="PreProc">$file2</span><span class="Statement">&quot;</span>
+                        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-f</span> <span class="PreProc">$file2</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                            myRead <span class="Statement">&quot;</span><span class="Constant">do you want to overwrite </span><span class="PreProc">$file2</span><span class="Constant"> ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">n</span><span class="Statement">&quot;</span>
+                            <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">n</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                                <span class="Statement">continue</span>
+                            <span class="Statement">fi</span>
+                        <span class="Statement">fi</span>
+                        <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">writing </span><span class="PreProc">$file2$reset</span><span class="Statement">&quot;</span>
+                        mplayer <span class="PreProc">$file1</span> <span class="Special">-vo</span> null <span class="Special">-ao</span> pcm:file<span class="Statement">=</span><span class="PreProc">$file2</span> <span class="Special">-aid</span> <span class="PreProc">$aid</span>
+                    <span class="Statement">done</span>
+                    normalize <span class="Statement">-n</span> <span class="Statement">-a</span> <span class="Constant">1</span> <span class="Special">--fractions</span> <span class="Statement">--</span> <span class="PreProc">$list2</span> <span class="Statement">|</span>\
+                      <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">sound</span><span class="Statement">&quot;</span> <span class="Statement">&gt;</span>normalize.txt
+                    cat normalize.txt
+                    <span class="Identifier">volume</span>=<span class="Special">`awk </span><span class="Statement">'</span><span class="Constant">\</span>
+<span class="Constant">                      BEGIN { FS = &quot; &quot;; m = 0 }\</span>
+<span class="Constant">                      { v = strtonum($2); if (v &gt; m) m = v }\</span>
+<span class="Constant">                      END { if (m &gt; 0) print 1/m; else print 1 }</span><span class="Statement">'</span><span class="Special"> normalize.txt`</span>
+                <span class="Statement">fi</span>
+            <span class="Statement">fi</span>
+        <span class="Statement">else</span>
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">!</span> <span class="Statement">-r</span> volume.txt <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">warning: mencoder must be patched for this</span><span class="Statement">&quot;</span>
+                <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="Constant">see <a href="http://beaugrand.chez.com/">http://beaugrand.chez.com/</a></span><span class="Statement">&quot;</span>
+                <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="Constant">or use normalize with -n option</span><span class="Statement">&quot;</span>
+                <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="Constant">please wait, it takes a few minutes...</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+                <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$direct</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                    mencoder <span class="PreProc">$title</span> <span class="PreProc">$angle</span> <span class="Special">-ovc</span> frameno <span class="Statement">-o</span> /dev/null <span class="Special">-oac</span> pcm\
+                      <span class="Special">-alang</span> <span class="PreProc">$lang</span> <span class="Special">-quiet</span> <span class="PreProc">$mencOpt</span> <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">|</span>\
+                      <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">gain=</span><span class="Statement">&quot;</span> <span class="Statement">&gt;</span>volume.txt
+                <span class="Statement">else</span>
+                    <span class="Statement">echo</span><span class="Constant">\</span>
+<span class="Constant">                    mencoder -ovc frameno -o /dev/null -oac pcm\</span>
+<span class="Constant">                      -aid </span><span class="PreProc">$aid</span><span class="Constant"> -quiet </span><span class="PreProc">$mencOpt</span><span class="Constant"> </span><span class="PreProc">$list</span>
+                    mencoder <span class="Special">-ovc</span> frameno <span class="Statement">-o</span> /dev/null <span class="Special">-oac</span> pcm\
+                      <span class="Special">-aid</span> <span class="PreProc">$aid</span> <span class="Special">-quiet</span> <span class="PreProc">$mencOpt</span> <span class="PreProc">$list</span> <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">|</span>\
+                      <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">gain=</span><span class="Statement">&quot;</span> <span class="Statement">&gt;</span>volume.txt
+                <span class="Statement">fi</span>
+            <span class="Statement">fi</span>
+            <span class="Statement">tail</span> <span class="Statement">-n</span> <span class="Constant">1</span> volume.txt
+            <span class="Identifier">volume</span>=<span class="Special">`</span><span class="Statement">tail</span><span class="Special"> </span><span class="Special">-n</span><span class="Special"> </span><span class="Constant">1</span><span class="Special"> volume.txt </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant">=</span><span class="Statement">&quot;</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">3</span><span class="Special">`</span>
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$volume</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">it seems mencoder is not patched for this</span><span class="Statement">&quot;</span>
+                <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="Constant">please see <a href="http://beaugrand.chez.com/">http://beaugrand.chez.com/</a></span><span class="Statement">&quot;</span>
+                <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="Constant">or use normalize with -n option</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+                <span class="Identifier">volume</span>=<span class="Constant">1</span>
+            <span class="Statement">fi</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">echo</span><span class="Constant"> -ne </span><span class="PreProc">$bel</span>
+        myRead <span class="Statement">&quot;</span><span class="Constant">volume ?</span><span class="Statement">&quot;</span> <span class="PreProc">$volume</span>
+        <span class="Identifier">volume</span>=<span class="PreProc">$ret</span>
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Select the subtitle</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">selectSubtitleId()</span>
+<span class="Identifier">{</span>
+    readStructure
+    <span class="Identifier">sid</span>=`<span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">sid</span><span class="Statement">&quot;</span> structure.txt <span class="Statement">|</span> <span class="Statement">grep</span> <span class="PreProc">$lang</span> <span class="Statement">|</span> <span class="Statement">tail</span> <span class="Special">-n</span> <span class="Constant">1</span>`
+    <span class="Identifier">sid</span>=<span class="PreProc">${</span><span class="PreProc">sid</span><span class="Statement">:18</span><span class="Statement">:2</span><span class="PreProc">}</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$sid</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">sid</span>=<span class="Special">`</span><span class="Statement">grep</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant">sid</span><span class="Statement">&quot;</span><span class="Special"> structure.txt </span><span class="Statement">|</span><span class="Special"> head </span><span class="Special">-n</span><span class="Special"> </span><span class="Constant">1</span><span class="Special">`</span>
+        <span class="Identifier">sid</span>=<span class="PreProc">${</span><span class="PreProc">sid</span><span class="Statement">:18</span><span class="Statement">:2</span><span class="PreProc">}</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$sid</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">no subtitle found</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+            <span class="Statement">return</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+    myRead <span class="Statement">&quot;</span><span class="Constant">sid ?</span><span class="Statement">&quot;</span> <span class="PreProc">$sid</span>
+    <span class="Identifier">sid</span>=<span class="Statement">&quot;</span><span class="Constant">-sid </span><span class="PreProc">$ret</span><span class="Statement">&quot;</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Select scale</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">selectScale()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$res</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Comment"># Dimensions are adapted to the majority of the resolutions used</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$aspect</span> <span class="Statement">=</span> <span class="Constant">'1'</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">resolution :\</span>
+<span class="Constant">              </span><span class="Special">\n</span><span class="Constant"> (1) 720:400</span><span class="Special">\n</span><span class="Constant"> (2) 640:352</span><span class="Special">\n</span><span class="Constant"> (3) 576:320</span><span class="Special">\n</span><span class="Constant"> (4) 512:288</span><span class="Special">\n</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">1</span><span class="Statement">&quot;</span>
+            <span class="Statement">case</span> <span class="PreProc">$ret</span> <span class="Statement">in</span>
+                1<span class="Statement">)</span> <span class="Identifier">res</span>=720:400 <span class="Statement">;;</span>  <span class="Comment"># 720x405</span>
+                2<span class="Statement">)</span> <span class="Identifier">res</span>=640:352 <span class="Statement">;;</span>  <span class="Comment"># 640x360</span>
+                3<span class="Statement">)</span> <span class="Identifier">res</span>=576:320 <span class="Statement">;;</span>  <span class="Comment"># 576x324</span>
+                4<span class="Statement">)</span> <span class="Identifier">res</span>=512:288 <span class="Statement">;;</span>
+            <span class="Statement">esac</span>
+        <span class="Statement">elif</span> <span class="Statement">[</span> <span class="PreProc">$aspect</span> <span class="Statement">=</span> <span class="Constant">'2'</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">resolution :\</span>
+<span class="Constant">              </span><span class="Special">\n</span><span class="Constant"> (1) 720:528</span><span class="Special">\n</span><span class="Constant"> (2) 640:480</span><span class="Special">\n</span><span class="Constant"> (3) 576:432</span><span class="Special">\n</span><span class="Constant"> (4) 512:384</span><span class="Special">\n</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">2</span><span class="Statement">&quot;</span>
+            <span class="Statement">case</span> <span class="PreProc">$ret</span> <span class="Statement">in</span>
+                1<span class="Statement">)</span> <span class="Identifier">res</span>=720:528 <span class="Statement">;;</span>  <span class="Comment"># 720x540</span>
+                2<span class="Statement">)</span> <span class="Identifier">res</span>=640:480 <span class="Statement">;;</span>
+                3<span class="Statement">)</span> <span class="Identifier">res</span>=576:432 <span class="Statement">;;</span>
+                4<span class="Statement">)</span> <span class="Identifier">res</span>=512:384 <span class="Statement">;;</span>
+            <span class="Statement">esac</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+    <span class="Comment"># The 4:3 videos are often interlaced</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$aspect</span> <span class="Statement">!=</span> <span class="Statement">'</span><span class="Constant">1</span><span class="Statement">'</span> <span class="Statement">]</span> <span class="Statement">&amp;&amp;</span> <span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$deinterlace</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        myRead <span class="Statement">&quot;</span><span class="Constant">deinterlace ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">n</span><span class="Statement">&quot;</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Identifier">deinterlace</span>=<span class="Statement">&quot;</span><span class="Constant">pp=fd,</span><span class="Statement">&quot;</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$res</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$crop</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Identifier">resx</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$res</span><span class="Constant">  </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">:</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">1</span><span class="Special">`</span>
+            <span class="Identifier">resy</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$res</span><span class="Constant">  </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">:</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span>
+            <span class="Identifier">width</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$crop</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">:</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">1</span><span class="Special">`</span>
+            <span class="Identifier">height</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$crop</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">:</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span>
+            <span class="Special">((</span>resy <span class="Statement">=</span> <span class="Constant">resy</span> * <span class="Constant">720</span> * height / <span class="Constant">576</span> / width<span class="Special">))</span>
+            <span class="Statement">if </span><span class="Special">((</span>resy / <span class="Constant">16</span> * <span class="Constant">16</span> <span class="Statement">!=</span> resy<span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+                <span class="Special">((</span>resy <span class="Statement">=</span> (resy / <span class="Constant">16</span> + <span class="Constant">1</span>) * <span class="Constant">16</span><span class="Special">))</span>
+            <span class="Statement">fi</span>
+            <span class="Identifier">res</span>=<span class="PreProc">$resx</span>:<span class="PreProc">$resy</span>
+        <span class="Statement">fi</span>
+        <span class="Identifier">scale</span>=<span class="Statement">&quot;</span><span class="Constant">scale=</span><span class="PreProc">$res</span><span class="Statement">&quot;</span>
+        <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">$blue$scale$reset</span><span class="Statement">&quot;</span>
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Select crop and scale</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">selectCropAndScale()</span>
+<span class="Identifier">{</span>
+    <span class="Identifier">aspect</span>=<span class="Constant">3</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$res</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        myRead <span class="Statement">&quot;</span><span class="Constant">aspect :</span><span class="Special">\n</span><span class="Constant"> (1) 16:9</span><span class="Special">\n</span><span class="Constant"> (2)  4:3</span><span class="Special">\n</span><span class="Constant"> (3) no scale</span><span class="Special">\n</span><span class="Statement">&quot;</span> <span class="Constant">1</span>
+        <span class="Identifier">aspect</span>=<span class="PreProc">$ret</span>
+    <span class="Statement">fi</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$crop</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$aspect</span> <span class="Statement">=</span> <span class="Constant">'1'</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">crop ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">y</span><span class="Statement">&quot;</span>
+        <span class="Statement">else</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">crop ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">n</span><span class="Statement">&quot;</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">n</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            selectScale
+            <span class="Statement">return</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">!</span> <span class="Statement">-r</span> crop.txt <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">cropdetect ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">y</span><span class="Statement">&quot;</span>
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                <span class="Identifier">detect</span>=<span class="Statement">&quot;</span><span class="Constant">-quiet -nosound -vo null -speed 100 -vf cropdetect=24:1</span><span class="Statement">&quot;</span>
+                <span class="Identifier">detect</span>=<span class="Statement">&quot;</span><span class="PreProc">$detect</span><span class="Constant"> -nocache -nozoom -nolirc</span><span class="Statement">&quot;</span>
+                <span class="Statement">echo</span>
+                <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$direct</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$gnu</span> <span class="Statement">=</span> <span class="Constant">&quot;true&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                        mplayer <span class="PreProc">$title</span> <span class="PreProc">$angle</span> <span class="PreProc">$detect</span> <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">|</span>\
+                          <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">CROP</span><span class="Statement">&quot;</span> <span class="Statement">|</span> tee crop.txt <span class="Statement">|</span>\
+                          <span class="Statement">sed</span> <span class="Statement">-n</span> <span class="Statement">'</span><span class="Constant">99~100s/^.*$/\o033[2A/p;100~100=</span><span class="Statement">'</span>
+                    <span class="Statement">else</span>
+                        mplayer <span class="PreProc">$title</span> <span class="PreProc">$angle</span> <span class="PreProc">$detect</span> <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">|</span>\
+                         <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">CROP</span><span class="Statement">&quot;</span> <span class="Statement">&gt;</span>crop.txt
+                    <span class="Statement">fi</span>
+                <span class="Statement">else</span>
+                    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$gnu</span> <span class="Statement">=</span> <span class="Constant">&quot;true&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                        cat <span class="PreProc">$list</span> <span class="Statement">|</span> mplayer <span class="PreProc">$detect</span> - <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">|</span>\
+                          <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">CROP</span><span class="Statement">&quot;</span> <span class="Statement">|</span> tee crop.txt <span class="Statement">|</span>\
+                          <span class="Statement">sed</span> <span class="Statement">-n</span> <span class="Statement">'</span><span class="Constant">99~100s/^.*$/\o033[2A/p;100~100=</span><span class="Statement">'</span>
+                    <span class="Statement">else</span>
+                        cat <span class="PreProc">$list</span> <span class="Statement">|</span> mplayer <span class="PreProc">$detect</span> - <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">|</span>\
+                          <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">CROP</span><span class="Statement">&quot;</span> <span class="Statement">&gt;</span>crop.txt
+                    <span class="Statement">fi</span>
+                <span class="Statement">fi</span>
+            <span class="Statement">fi</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-r</span> crop.txt <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Identifier">crop</span>=<span class="Special">`</span><span class="Statement">tail</span><span class="Special"> </span><span class="Special">-n</span><span class="Special"> </span><span class="Constant">1</span><span class="Special"> crop.txt </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">)</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">1</span><span class="Special">`</span>
+        <span class="Statement">else</span>
+            <span class="Identifier">crop</span>=720:576:0:0
+        <span class="Statement">fi</span>
+        <span class="Statement">echo</span><span class="Constant"> -ne </span><span class="PreProc">$bel</span>
+        myRead <span class="Statement">&quot;</span><span class="Constant">crop ?</span><span class="Statement">&quot;</span> <span class="PreProc">$crop</span>
+        <span class="Identifier">crop</span>=<span class="PreProc">$ret</span>
+    <span class="Statement">fi</span>
+    <span class="Comment"># Scale</span>
+    selectScale
+    <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">crop=</span><span class="PreProc">$crop$reset</span><span class="Statement">&quot;</span>
+    <span class="Identifier">crop</span>=<span class="Statement">&quot;</span><span class="Constant">crop=</span><span class="PreProc">$crop</span><span class="Constant">,</span><span class="Statement">&quot;</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Select rate</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">selectRate()</span>
+<span class="Identifier">{</span>
+    <span class="Comment"># With 800kbps we can encode a 1h45 DVD on a 700MB CD</span>
+    selectTitle
+    readLsdvd
+    <span class="Identifier">time</span>=`<span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$title</span><span class="Constant"> </span><span class="Statement">|</span> awk <span class="Statement">'</span><span class="Constant">BEGIN { FS=&quot;//&quot; } { print $2 }</span><span class="Statement">'</span>`
+    <span class="Identifier">time</span>=`head <span class="Special">-n</span> <span class="PreProc">$time</span> lsdvd.txt <span class="Statement">|</span> <span class="Statement">tail</span> <span class="Special">-n</span> <span class="Constant">1</span> <span class="Statement">|</span> cut <span class="Special">-c</span> 20-27`
+    <span class="Identifier">hour</span>=`<span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">${</span><span class="PreProc">time</span><span class="Statement">:0</span><span class="Statement">:2</span><span class="PreProc">}</span><span class="Constant"> </span><span class="Statement">|</span> awk <span class="Statement">'</span><span class="Constant">{ print $0+0 }</span><span class="Statement">'</span>`
+     <span class="Identifier">min</span>=`<span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">${</span><span class="PreProc">time</span><span class="Statement">:3</span><span class="Statement">:2</span><span class="PreProc">}</span><span class="Constant"> </span><span class="Statement">|</span> awk <span class="Statement">'</span><span class="Constant">{ print $0+0 }</span><span class="Statement">'</span>`
+     <span class="Identifier">sec</span>=`<span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">${</span><span class="PreProc">time</span><span class="Statement">:6</span><span class="Statement">:2</span><span class="PreProc">}</span><span class="Constant"> </span><span class="Statement">|</span> awk <span class="Statement">'</span><span class="Constant">{ print $0+0 }</span><span class="Statement">'</span>`
+    <span class="Special">((</span>time <span class="Statement">=</span> <span class="Constant">hour</span> * <span class="Constant">3600</span> + min * <span class="Constant">60</span> + sec<span class="Special">))</span>
+    <span class="Special">((</span>rate1 <span class="Statement">=</span> (cdrsize - <span class="Constant">5</span>) * <span class="Constant">1024</span> * <span class="Constant">1024</span> / <span class="Constant">125</span> / time - audiobr - marginbr<span class="Special">))</span>
+    <span class="Special">((</span>rate2 <span class="Statement">=</span> ((cdrsize - <span class="Constant">5</span>) * <span class="Constant">2</span> - splitmarginsize) *\
+     <span class="Constant">1024</span> * <span class="Constant">1024</span> / <span class="Constant">125</span> / time - audiobr<span class="Special">))</span>
+    <span class="Statement">echo</span><span class="Constant"> -ne </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">try </span><span class="PreProc">$rate1</span><span class="Constant"> for </span><span class="PreProc">${</span><span class="PreProc">cdrsize</span><span class="PreProc">}</span><span class="Constant">MB CD,</span><span class="Statement">&quot;</span>
+    <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="Constant"> </span><span class="PreProc">$rate2</span><span class="Constant"> for 2 x </span><span class="PreProc">${</span><span class="PreProc">cdrsize</span><span class="PreProc">}</span><span class="Constant">MB CD</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+    <span class="Statement">if </span><span class="Special">((</span>rate2 <span class="Statement">&gt;</span> <span class="Constant">900</span><span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">rate2</span>=<span class="Constant">900</span>
+    <span class="Statement">fi</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$nbcd</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">if </span><span class="Special">((</span>rate1 <span class="Statement">&gt;=</span> ratemin<span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">video bitrate ?</span><span class="Statement">&quot;</span> <span class="PreProc">$rate1</span>
+        <span class="Statement">else</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">video bitrate ?</span><span class="Statement">&quot;</span> <span class="PreProc">$rate2</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">else</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$nbcd</span> <span class="Statement">=</span> <span class="Constant">'1'</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">video bitrate ?</span><span class="Statement">&quot;</span> <span class="PreProc">$rate1</span>
+        <span class="Statement">else</span>
+            myRead <span class="Statement">&quot;</span><span class="Constant">video bitrate ?</span><span class="Statement">&quot;</span> <span class="PreProc">$rate2</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+    <span class="Identifier">rate</span>=<span class="PreProc">$ret</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Select audio</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">selectAudio()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$direct</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">return</span>
+    <span class="Statement">fi</span>
+
+    <span class="Statement">echo</span><span class="Constant"> -ne </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">audio channel</span><span class="Statement">&quot;</span>
+    <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="Constant"> to be check with mplayer dump.* -aid &lt;id&gt; :</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+    <span class="Identifier">aid</span>=<span class="Constant">0</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-r</span> structure.txt <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">aid</span><span class="Statement">&quot;</span> structure.txt
+        <span class="Identifier">aid</span>=<span class="Special">`</span><span class="Statement">grep</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant">aid</span><span class="Statement">&quot;</span><span class="Special"> structure.txt </span><span class="Statement">|</span><span class="Special"> </span><span class="Statement">grep</span><span class="Special"> </span><span class="PreProc">$lang</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> head </span><span class="Special">-n</span><span class="Special"> </span><span class="Constant">1</span><span class="Special">`</span>
+        <span class="Identifier">aid</span>=<span class="PreProc">${</span><span class="PreProc">aid</span><span class="Statement">:0-4</span><span class="Statement">:3</span><span class="PreProc">}</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$aid</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Identifier">aid</span>=<span class="Special">`</span><span class="Statement">grep</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant">aid</span><span class="Statement">&quot;</span><span class="Special"> structure.txt </span><span class="Statement">|</span><span class="Special"> head </span><span class="Special">-n</span><span class="Special"> </span><span class="Constant">1</span><span class="Special">`</span>
+            <span class="Identifier">aid</span>=<span class="PreProc">${</span><span class="PreProc">aid</span><span class="Statement">:0-4</span><span class="Statement">:3</span><span class="PreProc">}</span>
+        <span class="Statement">fi</span>
+        <span class="Comment"># Case for the zero value</span>
+        <span class="Identifier">aid</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="PreProc">$aid</span><span class="Statement">&quot;</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span>
+    <span class="Statement">fi</span>
+    myRead <span class="Statement">&quot;</span><span class="Constant">audio channel ?</span><span class="Statement">&quot;</span> <span class="PreProc">$aid</span>
+    <span class="Identifier">aid</span>=<span class="PreProc">$ret</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Encode the video</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">makeVideo()</span>
+<span class="Identifier">{</span>
+    myRead <span class="Statement">&quot;</span><span class="Constant">pass :</span><span class="Special">\n</span><span class="Constant"> (1) 1</span><span class="Special">\n</span><span class="Constant"> (2) 2</span><span class="Special">\n</span><span class="Constant"> (3) 1&amp;2</span><span class="Special">\n</span><span class="Statement">&quot;</span> <span class="Constant">3</span>
+    <span class="Identifier">pass</span>=<span class="PreProc">$ret</span>
+    selectInput
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$name</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">name</span>=<span class="Special">`</span><span class="Statement">ls</span><span class="Special"> </span><span class="Constant">-1</span><span class="Special"> </span><span class="Special">--indicator-style=none</span><span class="Special"> *.avi </span><span class="Constant">2</span><span class="Statement">&gt;</span><span class="Special">/dev/null </span><span class="Statement">|</span><span class="Special">\</span>
+<span class="Special">          </span><span class="Statement">grep</span><span class="Special"> </span><span class="Special">-v</span><span class="Special"> frameno </span><span class="Special">-m</span><span class="Special"> </span><span class="Constant">1</span><span class="Special">`</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$pass</span> <span class="Statement">!=</span> <span class="Statement">'</span><span class="Constant">2</span><span class="Statement">'</span> <span class="Statement">]</span> <span class="Statement">||</span> <span class="PreProc">(</span><span class="Statement">[</span> <span class="PreProc">$pass</span> <span class="Statement">=</span> <span class="Constant">'2'</span> <span class="Statement">]</span> <span class="Statement">&amp;&amp;</span> <span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$name</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="PreProc">)</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Identifier">name</span>=video
+            <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">current directory :</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+            <span class="Statement">ls</span>
+        <span class="Statement">fi</span>
+        myRead <span class="Statement">&quot;</span><span class="Constant">enter a name</span><span class="Statement">&quot;</span> <span class="PreProc">$name</span>
+        <span class="Identifier">name</span>=<span class="PreProc">$ret</span>
+    <span class="Statement">fi</span>
+    <span class="Identifier">ext</span>=<span class="PreProc">${</span><span class="PreProc">name</span><span class="Statement">##</span>*.<span class="PreProc">}</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ext</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> avi <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">name</span>=<span class="PreProc">${</span><span class="PreProc">name</span><span class="PreProc">}</span>.avi
+    <span class="Statement">fi</span>
+    <span class="Statement">if </span><span class="Special">((</span>pass <span class="Statement">&amp;</span> <span class="Constant">1</span><span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-f</span> <span class="PreProc">$name</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            fatal <span class="Statement">&quot;</span><span class="PreProc">$name</span><span class="Constant"> is already exist !</span><span class="Statement">&quot;</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">else</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">!</span> <span class="Statement">-f</span> divx2pass.log <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            fatal <span class="Statement">&quot;</span><span class="Constant">divx2pass.log do not exist !</span><span class="Statement">&quot;</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$rate</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        selectRate
+    <span class="Statement">fi</span>
+    <span class="Comment"># Crop and scale</span>
+    selectCropAndScale
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$deinterlace</span><span class="Statement">&quot;</span> <span class="Statement">]</span> <span class="Statement">||</span> <span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$crop</span><span class="Statement">&quot;</span> <span class="Statement">]</span> <span class="Statement">||</span> <span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$res</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">filters</span>=<span class="Statement">&quot;</span><span class="Constant">-vf </span><span class="PreProc">$deinterlace$crop$scale</span><span class="Statement">&quot;</span>
+    <span class="Statement">fi</span>
+    <span class="Comment"># Additionnal subtitle</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$sid</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">sid</span><span class="Statement">&quot;</span> structure.txt
+        myRead <span class="Statement">&quot;</span><span class="Constant">additionnal subtitle ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">n</span><span class="Statement">&quot;</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            selectSubtitleId
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$sid</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                myRead <span class="Statement">&quot;</span><span class="Constant">continue ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">y</span><span class="Statement">&quot;</span>
+                <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">n</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                    <span class="Statement">exit</span> <span class="Constant">0</span>
+                <span class="Statement">fi</span>
+                <span class="Identifier">sid</span>=<span class="Statement">&quot;</span><span class="Constant">-nosub</span><span class="Statement">&quot;</span>
+            <span class="Statement">fi</span>
+        <span class="Statement">else</span>
+            <span class="Identifier">sid</span>=<span class="Statement">&quot;</span><span class="Constant">-nosub</span><span class="Statement">&quot;</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+    <span class="Comment"># Audio</span>
+    selectAudio
+    <span class="Comment"># Volume</span>
+    maximizeVolume
+    <span class="Comment"># Encode</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$direct</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">if </span><span class="Special">((</span>pass <span class="Statement">&amp;</span> <span class="Constant">1</span><span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+            mencoder <span class="PreProc">$title</span> <span class="PreProc">$angle</span> <span class="PreProc">$filters</span> <span class="PreProc">$sid</span>\
+              <span class="Special">-ovc</span> lavc <span class="Special">-lavcopts</span> <span class="Identifier">vcodec</span>=mpeg4:vpass<span class="Statement">=</span><span class="Constant">1</span>:vbitrate<span class="Statement">=</span><span class="PreProc">$rate</span>:<span class="PreProc">$mpeg4opt</span>\
+              <span class="Special">-oac</span> mp3lame <span class="Special">-lameopts</span> cbr:br<span class="Statement">=</span><span class="PreProc">$audiobr</span>:vol<span class="Statement">=</span><span class="PreProc">$volume</span>:aq<span class="Statement">=</span><span class="Constant">9</span>\
+              <span class="Special">-alang</span> <span class="PreProc">$lang</span> <span class="Special">-ffourcc</span> DIVX <span class="Statement">-o</span> <span class="PreProc">$name</span> <span class="PreProc">$mencOpt</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">if </span><span class="Special">((</span>pass <span class="Statement">&amp;</span> <span class="Constant">2</span><span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Identifier">info</span>=<span class="Statement">&quot;</span><span class="PreProc">$title</span><span class="Constant"> </span><span class="PreProc">$angle</span><span class="Constant"> </span><span class="PreProc">$filters</span><span class="Constant"> </span><span class="PreProc">$sid</span><span class="Constant"> vbitrate=</span><span class="PreProc">$rate</span><span class="Constant">:</span><span class="PreProc">$mpeg4opt</span><span class="Statement">&quot;</span>
+            <span class="Identifier">info</span>=<span class="Statement">&quot;</span><span class="PreProc">$info</span><span class="Constant"> cbr:br=</span><span class="PreProc">$audiobr</span><span class="Constant">:vol=</span><span class="PreProc">$volume</span><span class="Constant">:aq=0 </span><span class="PreProc">$mencOpt</span><span class="Constant"> -alang </span><span class="PreProc">$lang</span><span class="Statement">&quot;</span>
+            <span class="Identifier">info</span>=<span class="Statement">&quot;</span><span class="Constant">%</span><span class="Statement">&quot;</span><span class="Special">`</span><span class="Statement">expr</span><span class="Special"> length </span><span class="Statement">&quot;</span><span class="PreProc">$info</span><span class="Statement">&quot;</span><span class="Special">`</span><span class="Statement">&quot;</span><span class="Constant">%</span><span class="PreProc">$info</span><span class="Statement">&quot;</span>
+            mencoder <span class="PreProc">$title</span> <span class="PreProc">$angle</span> <span class="PreProc">$filters</span> <span class="PreProc">$sid</span>\
+              <span class="Special">-ovc</span> lavc <span class="Special">-lavcopts</span> <span class="Identifier">vcodec</span>=mpeg4:vpass<span class="Statement">=</span><span class="Constant">2</span>:vbitrate<span class="Statement">=</span><span class="PreProc">$rate</span>:<span class="PreProc">$mpeg4opt</span>\
+              <span class="Special">-oac</span> mp3lame <span class="Special">-lameopts</span> cbr:br<span class="Statement">=</span><span class="PreProc">$audiobr</span>:vol<span class="Statement">=</span><span class="PreProc">$volume</span>:aq<span class="Statement">=</span><span class="Constant">0</span>\
+              <span class="Special">-alang</span> <span class="PreProc">$lang</span> <span class="Special">-ffourcc</span> DIVX <span class="Statement">-o</span> <span class="PreProc">$name</span> <span class="Special">-info</span> <span class="Identifier">comment</span>=<span class="Statement">&quot;</span><span class="PreProc">$info</span><span class="Statement">&quot;</span> <span class="PreProc">$mencOpt</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">else</span>
+        <span class="Statement">if </span><span class="Special">((</span>pass <span class="Statement">&amp;</span> <span class="Constant">1</span><span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+            mencoder <span class="PreProc">$filters</span> <span class="PreProc">$sid</span>\
+              <span class="Special">-ovc</span> lavc <span class="Special">-lavcopts</span> <span class="Identifier">vcodec</span>=mpeg4:vpass<span class="Statement">=</span><span class="Constant">1</span>:vbitrate<span class="Statement">=</span><span class="PreProc">$rate</span>:<span class="PreProc">$mpeg4opt</span>\
+              <span class="Special">-oac</span> mp3lame <span class="Special">-lameopts</span> cbr:br<span class="Statement">=</span><span class="PreProc">$audiobr</span>:vol<span class="Statement">=</span><span class="PreProc">$volume</span>:aq<span class="Statement">=</span><span class="Constant">9</span> <span class="Special">-aid</span> <span class="PreProc">$aid</span>\
+              <span class="Special">-ffourcc</span> DIVX <span class="Statement">-o</span> <span class="PreProc">$name</span> <span class="PreProc">$mencOpt</span> <span class="PreProc">$list</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">if </span><span class="Special">((</span>pass <span class="Statement">&amp;</span> <span class="Constant">2</span><span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Identifier">info</span>=<span class="Statement">&quot;</span><span class="PreProc">$filters</span><span class="Constant"> </span><span class="PreProc">$sid</span><span class="Constant"> vbitrate=</span><span class="PreProc">$rate</span><span class="Constant">:</span><span class="PreProc">$mpeg4opt</span><span class="Statement">&quot;</span>
+            <span class="Identifier">info</span>=<span class="Statement">&quot;</span><span class="PreProc">$info</span><span class="Constant"> cbr:br=</span><span class="PreProc">$audiobr</span><span class="Constant">:vol=</span><span class="PreProc">$volume</span><span class="Constant">:aq=0 </span><span class="PreProc">$mencOpt</span><span class="Constant"> -aid </span><span class="PreProc">$aid</span><span class="Statement">&quot;</span>
+            <span class="Identifier">info</span>=<span class="Statement">&quot;</span><span class="Constant">%</span><span class="Statement">&quot;</span><span class="Special">`</span><span class="Statement">expr</span><span class="Special"> length </span><span class="Statement">&quot;</span><span class="PreProc">$info</span><span class="Statement">&quot;</span><span class="Special">`</span><span class="Statement">&quot;</span><span class="Constant">%</span><span class="PreProc">$info</span><span class="Statement">&quot;</span>
+            mencoder <span class="PreProc">$filters</span> <span class="PreProc">$sid</span>\
+              <span class="Special">-ovc</span> lavc <span class="Special">-lavcopts</span> <span class="Identifier">vcodec</span>=mpeg4:vpass<span class="Statement">=</span><span class="Constant">2</span>:vbitrate<span class="Statement">=</span><span class="PreProc">$rate</span>:<span class="PreProc">$mpeg4opt</span>\
+              <span class="Special">-oac</span> mp3lame <span class="Special">-lameopts</span> cbr:br<span class="Statement">=</span><span class="PreProc">$audiobr</span>:vol<span class="Statement">=</span><span class="PreProc">$volume</span>:aq<span class="Statement">=</span><span class="Constant">0</span> <span class="Special">-aid</span> <span class="PreProc">$aid</span>\
+              <span class="Special">-ffourcc</span> DIVX <span class="Statement">-o</span> <span class="PreProc">$name</span> <span class="Special">-info</span> <span class="Identifier">comment</span>=<span class="Statement">&quot;</span><span class="PreProc">$info</span><span class="Statement">&quot;</span> <span class="PreProc">$mencOpt</span> <span class="PreProc">$list</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Extract subtitle</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">extractSubtitle()</span>
+<span class="Identifier">{</span>
+    <span class="Comment"># It needs transcode tools :</span>
+    <span class="Comment"># tcextract, subtitle2pgm, pgm2txt, srttool</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$direct</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        fatal <span class="Statement">&quot;</span><span class="Constant">sorry, you must rip the DVD</span><span class="Statement">&quot;</span>
+    <span class="Statement">fi</span>
+    selectInput
+    <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">sid</span><span class="Statement">&quot;</span> structure.txt
+    selectSubtitleId
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$sid</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        fatal
+    <span class="Statement">fi</span>
+    <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">please wait...</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+    <span class="Identifier">sid</span>=0x2<span class="PreProc">$ret</span>
+    cat <span class="PreProc">$list</span> <span class="Statement">|</span> <span class="PreProc">${</span><span class="PreProc">tcpath</span><span class="PreProc">}</span>/import/tcextract <span class="Special">-x</span> ps1 <span class="Special">-t</span> vob <span class="Special">-a</span> <span class="PreProc">$sid</span> <span class="Statement">&gt;</span>subs
+    <span class="Statement">echo</span><span class="Constant"> -ne </span><span class="PreProc">$bel</span>
+    myRead <span class="Statement">&quot;</span><span class="Constant">language ?</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">francais</span><span class="Statement">&quot;</span>
+    <span class="Identifier">lang</span>=<span class="PreProc">$ret</span>
+    <span class="PreProc">${</span><span class="PreProc">tcpath</span><span class="PreProc">}</span>/contrib/subrip/subtitle2pgm <span class="Special">-o</span> <span class="PreProc">$lang</span> <span class="Special">-c</span> <span class="PreProc">$subgreylevels</span> <span class="Statement">&lt;</span> subs
+    <span class="PreProc">${</span><span class="PreProc">tcpath</span><span class="PreProc">}</span>/contrib/subrip/pgm2txt <span class="PreProc">$lang</span>
+    myRead <span class="Statement">&quot;</span><span class="Constant">check spelling ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">n</span><span class="Statement">&quot;</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        ispell <span class="Statement">-d</span> <span class="PreProc">$lang</span> <span class="PreProc">$lang</span>*txt
+    <span class="Statement">fi</span>
+    <span class="PreProc">${</span><span class="PreProc">tcpath</span><span class="PreProc">}</span>/contrib/subrip/srttool <span class="Special">-s</span> <span class="Special">-w</span> <span class="Statement">&lt;</span> <span class="PreProc">$lang</span>.srtx <span class="Statement">&gt;</span><span class="PreProc">$lang</span>.srt
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Extract wav</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">extractWav()</span>
+<span class="Identifier">{</span>
+    selectInput
+    myRead <span class="Statement">&quot;</span><span class="Constant">number of files :</span><span class="Special">\n</span><span class="Constant"> (1) one per chapter</span><span class="Special">\n</span><span class="Constant"> (2) only one</span><span class="Special">\n</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">1</span><span class="Statement">&quot;</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">1</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$direct</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            selectChapters
+        <span class="Statement">else</span>
+            selectAudio
+        <span class="Statement">fi</span>
+        <span class="Statement">for ((</span><span class="Statement">i</span><span class="Statement">=</span><span class="PreProc">$first</span><span class="Statement">;</span><span class="PreProc">$i</span><span class="Statement">&lt;=</span><span class="PreProc">$last</span><span class="Statement">;i++</span><span class="Statement">))</span><span class="Statement">;</span> <span class="Statement">do</span>
+            <span class="Identifier">n</span>=<span class="Special">`</span><span class="Statement">printf</span><span class="Special"> %02d </span><span class="PreProc">$i</span><span class="Special">`</span>
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$direct</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                mplayer <span class="PreProc">$title</span> <span class="PreProc">$angle</span> <span class="Special">-chapter</span> <span class="PreProc">$i</span>-<span class="PreProc">$i</span>\
+                  <span class="Special">-vo</span> null <span class="Special">-ao</span> pcm:file<span class="Statement">=</span><span class="Constant">audio_</span><span class="PreProc">$n</span>.wav
+            <span class="Statement">else</span>
+                mplayer dump.<span class="PreProc">$n</span> <span class="Special">-vo</span> null <span class="Special">-aid</span> <span class="PreProc">$aid</span> <span class="Special">-ao</span> pcm:file<span class="Statement">=</span><span class="Constant">audio_</span><span class="PreProc">$n</span>.wav
+            <span class="Statement">fi</span>
+        <span class="Statement">done</span>
+    <span class="Statement">else</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$direct</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            mplayer <span class="PreProc">$title</span> <span class="PreProc">$angle</span> <span class="Special">-vo</span> null <span class="Special">-ao</span> pcm:file<span class="Statement">=</span><span class="Constant">audio</span>.wav
+        <span class="Statement">else</span>
+            selectAudio
+            cat <span class="PreProc">$list</span> <span class="Statement">|</span> mplayer <span class="Special">-vo</span> null <span class="Special">-aid</span> <span class="PreProc">$aid</span> <span class="Special">-ao</span> pcm:file<span class="Statement">=</span><span class="Constant">audio</span>.wav -
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Check a numeric value</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">checkNumericValue()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$1</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> </span><span class="Statement">grep</span><span class="Special"> </span><span class="Statement">[</span>^0<span class="Statement">-9</span>,<span class="Statement">]</span><span class="Special">`</span><span class="Statement">&quot;</span> <span class="Statement">]</span> <span class="Statement">||</span>\
+      <span class="PreProc">(</span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$3</span><span class="Statement">&quot;</span> <span class="Statement">]</span> <span class="Statement">&amp;&amp;</span> <span class="Statement">(</span><span class="PreProc">(</span><span class="PreProc">$1</span> <span class="Statement">&lt;</span> <span class="PreProc">$3</span><span class="PreProc">)</span><span class="Statement">)</span><span class="PreProc">)</span> <span class="Statement">||</span>\
+      <span class="PreProc">(</span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$4</span><span class="Statement">&quot;</span> <span class="Statement">]</span> <span class="Statement">&amp;&amp;</span> <span class="Statement">(</span><span class="PreProc">(</span><span class="PreProc">$1</span> <span class="Statement">&gt;</span> <span class="PreProc">$4</span><span class="PreProc">)</span><span class="Statement">)</span><span class="PreProc">)</span><span class="Statement">;</span> <span class="Statement">then</span>
+        fatal <span class="Statement">&quot;</span><span class="Constant">bad value for: </span><span class="PreProc">$2</span><span class="Statement">&quot;</span>
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># Read options</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">readOptions()</span>
+<span class="Identifier">{</span>
+    <span class="Comment"># Initialize some variables set by options.</span>
+    <span class="Identifier">dir</span>=
+    <span class="Identifier">auto</span>=no
+    <span class="Identifier">sid</span>=
+    <span class="Identifier">subgreylevels</span>=<span class="Constant">255</span>,<span class="Constant">255</span>,<span class="Constant">0</span>,<span class="Constant">255</span>
+    <span class="Identifier">title</span>=
+    <span class="Identifier">angle</span>=
+    <span class="Identifier">first</span>=
+    <span class="Identifier">last</span>=
+    <span class="Identifier">normalize</span>=false
+    <span class="Identifier">nbcd</span>=
+    <span class="Identifier">crop</span>=
+    <span class="Identifier">subtitle</span>=no
+    <span class="Identifier">split</span>=no
+    <span class="Identifier">ipod</span>=no
+    <span class="Identifier">res</span>=
+    <span class="Identifier">rate</span>=
+    <span class="Identifier">audiobr</span>=<span class="Constant">128</span>
+    <span class="Identifier">volume</span>=<span class="Constant">1</span>
+    <span class="Identifier">wav</span>=no
+    <span class="Identifier">deinterlace</span>=
+    <span class="Identifier">dev</span>=
+    <span class="Identifier">cdrsize</span>=<span class="Constant">700</span>
+    <span class="Identifier">verbose</span>=no
+    <span class="Identifier">bel</span>=<span class="Statement">&quot;</span><span class="Special">\a</span><span class="Statement">&quot;</span>
+    <span class="Identifier">mencOpt</span>=
+
+    <span class="Identifier">ac_prev</span>=
+    <span class="Statement">for</span> ac_option
+    <span class="Statement">do</span>
+        <span class="Comment"># If the previous option needs an argument, assign it.</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$ac_prev</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Statement">case</span> <span class="Statement">&quot;</span><span class="PreProc">$ac_prev</span><span class="Statement">&quot;</span> <span class="Statement">in</span>
+                rate<span class="Statement">)</span>
+                    checkNumericValue <span class="PreProc">$ac_option</span> <span class="Statement">&quot;</span><span class="PreProc">$ac_prev</span><span class="Statement">&quot;</span> <span class="Constant">4</span> <span class="Constant">24000000</span> <span class="Statement">;;</span>
+                audiobr<span class="Statement">)</span>
+                    checkNumericValue <span class="PreProc">$ac_option</span> <span class="Statement">&quot;</span><span class="PreProc">$ac_prev</span><span class="Statement">&quot;</span> <span class="Constant">32</span> <span class="Constant">320</span> <span class="Statement">;;</span>
+                title <span class="Statement">|</span> angle <span class="Statement">|</span> first<span class="Statement">)</span>
+                    checkNumericValue <span class="PreProc">$ac_option</span> <span class="Statement">&quot;</span><span class="PreProc">$ac_prev</span><span class="Statement">&quot;</span> <span class="Constant">1</span> <span class="Statement">;;</span>
+                nbcd<span class="Statement">)</span>
+                    checkNumericValue <span class="PreProc">$ac_option</span> <span class="Statement">&quot;</span><span class="PreProc">$ac_prev</span><span class="Statement">&quot;</span> <span class="Constant">1</span> <span class="Constant">2</span> <span class="Statement">;;</span>
+                cdrsize<span class="Statement">)</span>
+                    checkNumericValue <span class="PreProc">$ac_option</span> <span class="Statement">&quot;</span><span class="PreProc">$ac_prev</span><span class="Statement">&quot;</span> <span class="Constant">0</span> <span class="Constant">2048</span> <span class="Statement">;;</span>
+            <span class="Statement">esac</span>
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ac_prev</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> <span class="Statement">&quot;</span><span class="Constant">--</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                <span class="Statement">eval</span> <span class="Statement">&quot;</span><span class="PreProc">$ac_prev</span><span class="Constant">=</span><span class="Special">\$</span><span class="Constant">ac_option</span><span class="Statement">&quot;</span>
+                <span class="Identifier">ac_prev</span>=
+            <span class="Statement">else</span>
+                <span class="Identifier">mencOpt</span>=<span class="Statement">&quot;</span><span class="PreProc">$mencOpt</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Statement">&quot;</span>
+            <span class="Statement">fi</span>
+            <span class="Statement">continue</span>
+        <span class="Statement">fi</span>
+
+        <span class="Statement">case</span> <span class="Statement">&quot;</span><span class="PreProc">$ac_option</span><span class="Statement">&quot;</span> <span class="Statement">in</span>
+            -d <span class="Statement">|</span> -dir <span class="Statement">|</span> --dir<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=dir <span class="Statement">;;</span>
+            -d=* <span class="Statement">|</span> -dir=* <span class="Statement">|</span> --dir=*<span class="Statement">)</span>
+                <span class="Identifier">dir</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span> <span class="Statement">;;</span>
+            -A <span class="Statement">|</span> -auto <span class="Statement">|</span> --auto<span class="Statement">)</span>
+                <span class="Identifier">auto</span>=yes
+                <span class="Identifier">bel</span>=
+                <span class="Statement">;;</span>
+            -f <span class="Statement">|</span> -sid <span class="Statement">|</span> --sid<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=sid <span class="Statement">;;</span>
+            -f=* <span class="Statement">|</span> -sid=* <span class="Statement">|</span> --sid=*<span class="Statement">)</span>
+                <span class="Identifier">sid</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span> <span class="Statement">;;</span>
+            -g <span class="Statement">|</span> -subgreylevels <span class="Statement">|</span> --subgreylevels<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=subgreylevels <span class="Statement">;;</span>
+            -g=* <span class="Statement">|</span> -subgreylevels=* <span class="Statement">|</span> --subgreylevels=*<span class="Statement">)</span>
+                <span class="Identifier">subgreylevels</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span> <span class="Statement">;;</span>
+            -l <span class="Statement">|</span> -crop <span class="Statement">|</span> --crop<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=crop <span class="Statement">;;</span>
+            -l=* <span class="Statement">|</span> -crop=* <span class="Statement">|</span> --crop=*<span class="Statement">)</span>
+                <span class="Identifier">crop</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span> <span class="Statement">;;</span>
+            -T <span class="Statement">|</span> -chapter <span class="Statement">|</span> --chapter<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=first <span class="Statement">;;</span>
+            -T=* <span class="Statement">|</span> -chapter=* <span class="Statement">|</span> --chapter=*<span class="Statement">)</span>
+                <span class="Identifier">first</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span>
+                <span class="Identifier">last</span>=<span class="PreProc">$first</span>
+                checkNumericValue <span class="PreProc">$first</span> <span class="Statement">&quot;</span><span class="Constant">chapter</span><span class="Statement">&quot;</span> <span class="Constant">1</span>
+                <span class="Statement">;;</span>
+            -t <span class="Statement">|</span> -title <span class="Statement">|</span> --title<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=title <span class="Statement">;;</span>
+            -t=* <span class="Statement">|</span> -title=* <span class="Statement">|</span> --title=*<span class="Statement">)</span>
+                <span class="Identifier">title</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span>
+                checkNumericValue <span class="PreProc">$title</span> <span class="Statement">&quot;</span><span class="Constant">titre</span><span class="Statement">&quot;</span> <span class="Constant">1</span>
+                <span class="Statement">;;</span>
+            -a <span class="Statement">|</span> -angle <span class="Statement">|</span> --angle<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=angle <span class="Statement">;;</span>
+            -a=* <span class="Statement">|</span> -angle=* <span class="Statement">|</span> --angle=*<span class="Statement">)</span>
+                <span class="Identifier">angle</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span>
+                checkNumericValue <span class="PreProc">$angle</span> <span class="Statement">&quot;</span><span class="Constant">angle</span><span class="Statement">&quot;</span> <span class="Constant">1</span>
+                <span class="Statement">;;</span>
+            -n <span class="Statement">|</span> -normalize <span class="Statement">|</span> --normalize<span class="Statement">)</span>
+                <span class="Identifier">normalize</span>=true <span class="Statement">;;</span>
+            -N <span class="Statement">|</span> -nbcd <span class="Statement">|</span> --nbcd<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=nbcd <span class="Statement">;;</span>
+            -N=* <span class="Statement">|</span> -nbcd=* <span class="Statement">|</span> --nbcd=*<span class="Statement">)</span>
+                <span class="Identifier">angle</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span>
+                checkNumericValue <span class="PreProc">$nbcd</span> <span class="Statement">&quot;</span><span class="Constant">nbcd</span><span class="Statement">&quot;</span> <span class="Constant">1</span> <span class="Constant">2</span>
+                <span class="Statement">;;</span>
+            -D <span class="Statement">|</span> -deinterlace <span class="Statement">|</span> --deinterlace<span class="Statement">)</span>
+                <span class="Identifier">deinterlace</span>=<span class="Statement">&quot;</span><span class="Constant">pp=fd,</span><span class="Statement">&quot;</span> <span class="Statement">;;</span>
+            -s <span class="Statement">|</span> -subtitle <span class="Statement">|</span> --subtitle<span class="Statement">)</span>
+                <span class="Identifier">subtitle</span>=yes <span class="Statement">;;</span>
+            -S <span class="Statement">|</span> -split <span class="Statement">|</span> --split<span class="Statement">)</span>
+                <span class="Identifier">split</span>=yes <span class="Statement">;;</span>
+            -p <span class="Statement">|</span> -ipod <span class="Statement">|</span> --ipod<span class="Statement">)</span>
+                <span class="Identifier">ipod</span>=yes <span class="Statement">;;</span>
+            -r <span class="Statement">|</span> -res <span class="Statement">|</span> --res<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=res <span class="Statement">;;</span>
+            -r=* <span class="Statement">|</span> -res=* <span class="Statement">|</span> --res=*<span class="Statement">)</span>
+                <span class="Identifier">res</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span>
+                <span class="Statement">;;</span>
+            -B <span class="Statement">|</span> -videobr <span class="Statement">|</span> --videobr<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=rate <span class="Statement">;;</span>
+            -B=* <span class="Statement">|</span> -videobr=* <span class="Statement">|</span> --videobr=*<span class="Statement">)</span>
+                <span class="Identifier">rate</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span>
+                checkNumericValue <span class="PreProc">$rate</span> <span class="Statement">&quot;</span><span class="Constant">videobr</span><span class="Statement">&quot;</span> <span class="Constant">4</span> <span class="Constant">24000000</span>
+                <span class="Statement">;;</span>
+            -b <span class="Statement">|</span> -audiobr <span class="Statement">|</span> --audiobr<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=audiobr <span class="Statement">;;</span>
+            -b=* <span class="Statement">|</span> -audiobr=* <span class="Statement">|</span> --audiobr=*<span class="Statement">)</span>
+                <span class="Identifier">audiobr</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span>
+                checkNumericValue <span class="PreProc">$audiobr</span> <span class="Statement">&quot;</span><span class="Constant">audiobr</span><span class="Statement">&quot;</span> <span class="Constant">32</span> <span class="Constant">320</span>
+                <span class="Statement">;;</span>
+            -V <span class="Statement">|</span> -vol <span class="Statement">|</span> --vol<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=volume <span class="Statement">;;</span>
+            -V=* <span class="Statement">|</span> -vol=* <span class="Statement">|</span> --vol=*<span class="Statement">)</span>
+                <span class="Identifier">volume</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span> <span class="Statement">;;</span>
+            -w <span class="Statement">|</span> -wav <span class="Statement">|</span> --wav<span class="Statement">)</span>
+                <span class="Identifier">wav</span>=yes <span class="Statement">;;</span>
+            -i <span class="Statement">|</span> -dev <span class="Statement">|</span> --dev<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=dev <span class="Statement">;;</span>
+            -i=* <span class="Statement">|</span> -dev=* <span class="Statement">|</span> --dev=*<span class="Statement">)</span>
+                <span class="Identifier">dev</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span> <span class="Statement">;;</span>
+            -c <span class="Statement">|</span> -nocolors <span class="Statement">|</span> --nocolors<span class="Statement">)</span>
+                <span class="Identifier">red</span>=
+                <span class="Identifier">green</span>=
+                <span class="Identifier">blue</span>=
+                <span class="Identifier">reset</span>=
+                <span class="Statement">;;</span>
+            -C <span class="Statement">|</span> -cdrsize <span class="Statement">|</span> --cdrsize<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=cdrsize <span class="Statement">;;</span>
+            -C=* <span class="Statement">|</span> -cdrsize=* <span class="Statement">|</span> --cdrsize=*<span class="Statement">)</span>
+                <span class="Identifier">cdrsize</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ac_option</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span>
+                checkNumericValue <span class="PreProc">$cdrsize</span> <span class="Statement">&quot;</span><span class="Constant">cdrsize</span><span class="Statement">&quot;</span> <span class="Constant">0</span> <span class="Constant">2048</span>
+                <span class="Statement">;;</span>
+            -v <span class="Statement">|</span> -verbose <span class="Statement">|</span> --verbose<span class="Statement">)</span>
+                <span class="Identifier">verbose</span>=yes <span class="Statement">;;</span>
+            -h <span class="Statement">|</span> -help <span class="Statement">|</span> --help<span class="Statement">)</span>
+                <span class="Identifier">this</span>=<span class="PreProc">${</span><span class="PreProc">0</span><span class="Statement">##</span>*/<span class="PreProc">}</span>
+                cat <span class="Statement">&lt;&lt; EOF</span>
+
+<span class="PreProc">$this</span><span class="Constant"> is a shell script to rip DVD and encode to DIVX</span>
+<span class="Constant">It can :</span>
+<span class="Constant"> - rip, encode audio, encode video, separately into different sessions</span>
+<span class="Constant"> - crop the black bars with autodetection</span>
+<span class="Constant"> - choose the best resolution for the 16:9 or 4:3 format</span>
+<span class="Constant"> - maximize volume (with a mencoder patch)</span>
+<span class="Constant"> - extract subtitle into a separated text file (with transcode tools)</span>
+<span class="Constant"> - split the AVI</span>
+<span class="Constant">The video bitrate is a bit different from the mencoder recommendation, it's</span>
+<span class="Constant">for a maximum filling for one CD, or to leave a margin to split the AVI.</span>
+
+<span class="Constant">Usage: </span><span class="PreProc">$this</span><span class="Constant"> [options]</span>
+<span class="Constant">Options:</span>
+<span class="Constant">  -A, --auto                 use automatic values</span>
+<span class="Constant">  -a, --angle=N              set angle</span>
+<span class="Constant">  -B, --videobr=&lt;4-24000000&gt; set video bitrate</span>
+<span class="Constant">  -b, --audiobr=&lt;32-320&gt;     change audio bitrate for lame [</span><span class="PreProc">$audiobr</span><span class="Constant">]</span>
+<span class="Constant">  -C, --cdrsize=SIZE         change the size of a CD [</span><span class="PreProc">$cdrsize</span><span class="Constant">]</span>
+<span class="Constant">  -c, --nocolors             do not use colors</span>
+<span class="Constant">  -D, --deinterlace          use deinterlace filter</span>
+<span class="Constant">  -d, --dir=DIR              change directory [./]</span>
+<span class="Constant">  -f, --sid=FILE|0-31        set subtitle file or sid</span>
+<span class="Constant">  -g, --subgreylevels=LEVEL  set subgrey levels [</span><span class="PreProc">$subgreylevels</span><span class="Constant">]</span>
+<span class="Constant">  -h, --help                 print this help message</span>
+<span class="Constant">  -i, --dev=DEV              change dvd device [/dev/dvd]</span>
+<span class="Constant">  -l, --crop=CROP            set crop (ex: 720:576:0:0)</span>
+<span class="Constant">  -N, --nbcd=&lt;1-2&gt;           set number of CD</span>
+<span class="Constant">  -n, --normalize            use normalize to maximize volume</span>
+<span class="Constant">  -p, --ipod                 make an ipod video</span>
+<span class="Constant">  -r, --res=XXX:YYY          set resolution</span>
+<span class="Constant">  -S, --split                split AVI</span>
+<span class="Constant">  -s, --subtitle             extract text subtitle</span>
+<span class="Constant">  -T, --chapter=N            set chapter</span>
+<span class="Constant">  -t, --title=N              set title</span>
+<span class="Constant">  -V, --vol=&lt;0-10&gt;           change audio input gain for lame [</span><span class="PreProc">$volume</span><span class="Constant">]</span>
+<span class="Constant">  -w, --wav                  extract audio to wav file(s)</span>
+<span class="Constant">  --                         options passed to mencoder (ex: -- -ni)</span>
+
+<span class="Constant">For more info type : vi </span><span class="PreProc">$this</span>
+
+<span class="Statement">EOF</span>
+                <span class="Statement">exit</span> <span class="Constant">0</span> <span class="Statement">;;</span>
+            --<span class="Statement">)</span>
+                <span class="Identifier">ac_prev</span>=-- <span class="Statement">;;</span>
+            *<span class="Statement">)</span>
+                fatal <span class="Statement">&quot;</span><span class="Constant">unknown parameter: </span><span class="PreProc">$ac_option</span><span class="Statement">&quot;</span> <span class="Statement">;;</span>
+        <span class="Statement">esac</span>
+    <span class="Statement">done</span>
+
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$ac_prev</span><span class="Statement">&quot;</span> <span class="Statement">]</span> <span class="Statement">&amp;&amp;</span> <span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ac_prev</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> <span class="Statement">&quot;</span><span class="Constant">--</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        fatal <span class="Statement">&quot;</span><span class="Constant">bad value for: </span><span class="PreProc">$ac_prev</span><span class="Statement">&quot;</span>
+    <span class="Statement">fi</span>
+
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$sid</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-f</span> <span class="PreProc">$sid</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Identifier">sid</span>=<span class="Statement">&quot;</span><span class="Constant">-sub </span><span class="PreProc">$sid</span><span class="Constant"> -subfont-text-scale 3</span><span class="Statement">&quot;</span>
+        <span class="Statement">else</span>
+            <span class="Identifier">sid</span>=<span class="Statement">&quot;</span><span class="Constant">-sid </span><span class="PreProc">$sid</span><span class="Statement">&quot;</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$dir</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">!</span> <span class="Statement">-d</span> <span class="PreProc">$dir</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            myRead <span class="Statement">&quot;</span><span class="PreProc">$dir</span><span class="Constant"> does not exist, create it ? (y/n)</span><span class="Statement">&quot;</span> y
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                <span class="Statement">mkdir</span> <span class="Statement">-p</span> <span class="PreProc">$dir</span>
+                <span class="Statement">cd</span> <span class="PreProc">$dir</span>
+            <span class="Statement">fi</span>
+        <span class="Statement">else</span>
+            <span class="Statement">cd</span> <span class="PreProc">$dir</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$title</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">title</span>=dvd://<span class="PreProc">$title</span>
+    <span class="Statement">fi</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$angle</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">angle</span>=<span class="Statement">&quot;</span><span class="Constant">-dvdangle </span><span class="PreProc">$angle</span><span class="Statement">&quot;</span>
+    <span class="Statement">fi</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$first</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">last</span>=<span class="PreProc">$first</span>
+    <span class="Statement">fi</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># splitAVI</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">splitAVI()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-f</span> frameno.avi <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Statement">mv</span> frameno.avi frameno.avi.sav
+    <span class="Statement">fi</span>
+    <span class="Identifier">name</span>=`<span class="Statement">ls</span> <span class="Constant">-1</span> <span class="Special">--indicator-style=none</span> *.avi <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">|</span> <span class="Statement">tail</span> <span class="Special">-n</span> <span class="Constant">1</span>`
+    myRead <span class="Statement">&quot;</span><span class="Constant">avi to split ?</span><span class="Statement">&quot;</span> <span class="PreProc">$name</span>
+    <span class="Identifier">name</span>=<span class="PreProc">$ret</span>
+    <span class="Identifier">n0</span>=`mplayer <span class="Statement">&quot;</span><span class="PreProc">$name</span><span class="Statement">&quot;</span> <span class="Special">-v</span> <span class="Special">-frames</span> <span class="Constant">0</span> <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">|</span> <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">frames  total</span><span class="Statement">&quot;</span> <span class="Statement">|</span>\
+        awk <span class="Statement">'</span><span class="Constant">{ print $3 }</span><span class="Statement">'</span>`
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$n0</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        myRead <span class="Statement">&quot;</span><span class="Constant">frames total ?</span><span class="Statement">&quot;</span>
+        <span class="Identifier">n0</span>=<span class="PreProc">$ret</span>
+    <span class="Statement">fi</span>
+    <span class="Identifier">ret</span>=n
+    <span class="Statement">while </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">n</span> <span class="Statement">]</span><span class="Statement">;</span><span class="Statement"> </span><span class="Statement">do</span>
+        myRead <span class="Statement">&quot;</span><span class="Constant">offset (secondes) ?</span><span class="Statement">&quot;</span> <span class="Constant">-60</span>
+        <span class="Identifier">offset</span>=<span class="PreProc">$ret</span>
+        <span class="Statement">(</span><span class="PreProc">(</span>time <span class="Statement">=</span> n0 / <span class="Constant">50</span> + offset<span class="PreProc">)</span><span class="Statement">)</span>
+        <span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$n0</span>
+        <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">press return to start playing,</span><span class="Statement">&quot;</span>
+        <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="Constant">then press escape where to split</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+        <span class="Statement">read</span> ret
+        mplayer <span class="Statement">&quot;</span><span class="PreProc">$name</span><span class="Statement">&quot;</span> <span class="Special">-vf</span> <span class="Identifier">framestep</span>=I <span class="Special">-ss</span> <span class="PreProc">$time</span> <span class="Special">-nofs</span> <span class="Special">-xy</span> <span class="Constant">1</span> <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">|</span>\
+          <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">ct:</span><span class="Statement">&quot;</span> <span class="Statement">|</span> tee keyframes.txt
+        <span class="Identifier">frame</span>=<span class="Special">`</span><span class="Statement">tail</span><span class="Special"> </span><span class="Special">-n</span><span class="Special"> </span><span class="Constant">1</span><span class="Special"> keyframes.txt </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant">/</span><span class="Statement">&quot;</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">1</span><span class="Special">`</span>
+        myRead <span class="Statement">&quot;</span><span class="Constant">frame=</span><span class="PreProc">$frame</span><span class="Constant"> (y/n)</span><span class="Statement">&quot;</span> y
+    <span class="Statement">done</span>
+    <span class="Identifier">name</span>=`<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="PreProc">$name</span><span class="Statement">&quot;</span><span class="Constant"> </span><span class="Statement">|</span> <span class="Statement">sed</span> <span class="Statement">'</span><span class="Constant">s/\.avi//</span><span class="Statement">'</span>`
+    <span class="Identifier">info</span>=`mplayer <span class="Special">-novideo</span> <span class="Special">-nosound</span> <span class="Special">-v</span> <span class="PreProc">$name</span>.avi <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">|</span>\
+      <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">Comments  :</span><span class="Statement">&quot;</span> <span class="Statement">|</span> <span class="Statement">sed</span> <span class="Statement">&quot;</span><span class="Constant">s/Comments  ://</span><span class="Statement">&quot;</span>`
+    <span class="Identifier">info</span>=<span class="Statement">&quot;</span><span class="Constant">%</span><span class="Statement">&quot;</span>`<span class="Statement">expr</span> length <span class="Statement">&quot;</span><span class="PreProc">$info</span><span class="Statement">&quot;</span>`<span class="Statement">&quot;</span><span class="Constant">%</span><span class="PreProc">$info</span><span class="Statement">&quot;</span>
+    mencoder <span class="Statement">&quot;</span><span class="PreProc">$name</span><span class="Constant">.avi</span><span class="Statement">&quot;</span> <span class="Special">-ovc</span> copy <span class="Special">-oac</span> copy <span class="Special">-frames</span> <span class="PreProc">$((</span><span class="Special">frame - </span><span class="Constant">1</span><span class="PreProc">))</span>\
+      <span class="Special">-o</span> <span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">name</span><span class="PreProc">}</span><span class="Constant">_1.avi</span><span class="Statement">&quot;</span> <span class="Special">-info</span> <span class="Identifier">comment</span>=<span class="Statement">&quot;</span><span class="Constant">split </span><span class="PreProc">$info</span><span class="Statement">&quot;</span> <span class="PreProc">$mencOpt</span>
+    <span class="Identifier">time</span>=`<span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$frame</span><span class="Constant"> </span><span class="Statement">|</span> awk <span class="Statement">'</span><span class="Constant">{ print $0/25 }</span><span class="Statement">'</span>`
+    mencoder <span class="Statement">&quot;</span><span class="PreProc">$name</span><span class="Constant">.avi</span><span class="Statement">&quot;</span> <span class="Special">-ovc</span> copy <span class="Special">-oac</span> copy <span class="Special">-ss</span> <span class="PreProc">$time</span>\
+      <span class="Special">-o</span> <span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">name</span><span class="PreProc">}</span><span class="Constant">_2.avi</span><span class="Statement">&quot;</span> <span class="Special">-info</span> <span class="Identifier">comment</span>=<span class="Statement">&quot;</span><span class="Constant">split </span><span class="PreProc">$info</span><span class="Statement">&quot;</span> <span class="PreProc">$mencOpt</span>
+    <span class="Identifier">n1</span>=`mplayer <span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">name</span><span class="PreProc">}</span><span class="Constant">_1.avi</span><span class="Statement">&quot;</span> <span class="Special">-v</span> <span class="Special">-frames</span> <span class="Constant">0</span> <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">|</span>\
+        <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">frames  total</span><span class="Statement">&quot;</span> <span class="Statement">|</span> awk <span class="Statement">'</span><span class="Constant">{ print $3 }</span><span class="Statement">'</span>`
+    <span class="Identifier">n2</span>=`mplayer <span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">name</span><span class="PreProc">}</span><span class="Constant">_2.avi</span><span class="Statement">&quot;</span> <span class="Special">-v</span> <span class="Special">-frames</span> <span class="Constant">0</span> <span class="Constant">2</span><span class="Statement">&gt;</span>/dev/null <span class="Statement">|</span>\
+        <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">frames  total</span><span class="Statement">&quot;</span> <span class="Statement">|</span> awk <span class="Statement">'</span><span class="Constant">{ print $3 }</span><span class="Statement">'</span>`
+    <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">name</span><span class="PreProc">}</span><span class="Constant">_1.avi: </span><span class="PreProc">$n1</span><span class="Constant"> frames</span><span class="Statement">&quot;</span>
+    <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">name</span><span class="PreProc">}</span><span class="Constant">_2.avi: </span><span class="PreProc">$n2</span><span class="Constant"> frames</span><span class="Statement">&quot;</span>
+    <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="PreProc">$((</span><span class="Special">n1 + n2</span><span class="PreProc">))</span><span class="Constant">/</span><span class="PreProc">$n0</span><span class="Constant"> frames</span><span class="Statement">&quot;</span>
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># makeIpod</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Identifier">makeIpod()</span>
+<span class="Identifier">{</span>
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$direct</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        fatal <span class="Statement">&quot;</span><span class="Constant">sorry, you must rip the DVD</span><span class="Statement">&quot;</span>
+    <span class="Statement">fi</span>
+    selectInput
+    selectAudio
+    for <span class="Special">((</span>i<span class="Statement">=</span><span class="PreProc">$first</span><span class="Statement">;</span><span class="PreProc">$i</span><span class="Statement">&lt;=</span><span class="PreProc">$last</span><span class="Statement">;</span>i++<span class="Special">))</span><span class="Statement">;</span> <span class="Statement">do</span>
+        <span class="Identifier">num</span>=<span class="Special">`</span><span class="Statement">printf</span><span class="Special"> %02d </span><span class="PreProc">$i</span><span class="Special">`</span>
+        <span class="Identifier">file</span>=dump.<span class="PreProc">$num</span>
+        mencoder <span class="PreProc">$file</span> <span class="Special">-aid</span> <span class="PreProc">$aid</span> <span class="Special">-oac</span> pcm <span class="Special">-ovc</span> copy <span class="Statement">-o</span> dump.tmp <span class="PreProc">$mencOpt</span>
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-r</span> titles.txt <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Identifier">title</span>=<span class="Special">`head </span><span class="Special">-n</span><span class="Special"> </span><span class="PreProc">$i</span><span class="Special"> titles.txt </span><span class="Statement">|</span><span class="Special"> </span><span class="Statement">tail</span><span class="Special"> </span><span class="Special">-n</span><span class="Special"> </span><span class="Constant">1</span><span class="Special">`</span>
+            <span class="Identifier">title</span>=<span class="Statement">&quot;</span><span class="Constant"> - </span><span class="PreProc">$title</span><span class="Statement">&quot;</span>
+        <span class="Statement">fi</span>
+        ffmpeg <span class="Statement">-f</span> dvd <span class="Statement">-i</span> dump.tmp <span class="Statement">-f</span> mp4 <span class="Special">-vcodec</span> mpeg4 <span class="Special">-maxrate</span> <span class="Constant">1000</span>\
+          <span class="Statement">-b</span> <span class="Constant">700</span> <span class="Special">-qmin</span> <span class="Constant">3</span> <span class="Special">-qmax</span> <span class="Constant">5</span> <span class="Special">-bufsize</span> <span class="Constant">4096</span> <span class="Statement">-g</span> <span class="Constant">300</span> <span class="Special">-acodec</span> libfaac\
+          <span class="Special">-ab</span> <span class="Constant">192</span> <span class="Statement">-s</span> 320x180 <span class="Special">-aspect</span> 16:9 <span class="Statement">&quot;</span><span class="PreProc">$num$title</span><span class="Constant">.mov</span><span class="Statement">&quot;</span>
+    <span class="Statement">done</span>
+    <span class="Statement">rm</span> <span class="Special">-f</span> dump.tmp
+<span class="Identifier">}</span>
+
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment"># main</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+readOptions <span class="PreProc">$*</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$split</span> <span class="Statement">=</span> <span class="Constant">yes</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    splitAVI
+    <span class="Statement">exit</span> <span class="Constant">0</span>
+<span class="Statement">fi</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-r</span> structure.txt <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">warning : structure.txt exist, it will be used</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+<span class="Statement">fi</span>
+<span class="Identifier">dir</span>=<span class="Special">`</span><span class="Statement">pwd</span><span class="Special">`</span>
+<span class="Identifier">size</span>=<span class="Special">`df </span><span class="Special">-Pk</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="PreProc">$dir</span><span class="Statement">&quot;</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> </span><span class="Statement">tail</span><span class="Special"> </span><span class="Special">-n</span><span class="Special"> </span><span class="Constant">1</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">BEGIN { FS = &quot; &quot; } { print $4 }</span><span class="Statement">'</span><span class="Special">`</span>
+<span class="Statement">echo</span><span class="Constant"> -e </span><span class="Statement">&quot;</span><span class="PreProc">${</span><span class="PreProc">blue</span><span class="PreProc">}</span><span class="Constant">disk space left in </span><span class="PreProc">$dir</span><span class="Constant"> : </span><span class="PreProc">$size</span><span class="Constant"> Kbytes</span><span class="PreProc">$reset</span><span class="Statement">&quot;</span>
+myRead <span class="Statement">&quot;</span><span class="Constant">continue ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">y</span><span class="Statement">&quot;</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">n</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">exit</span> <span class="Constant">0</span>
+<span class="Statement">fi</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-f</span> dump.<span class="Constant">01</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    myRead <span class="Statement">&quot;</span><span class="Constant">rip the DVD ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">n</span><span class="Statement">&quot;</span>
+<span class="Statement">else</span>
+    myRead <span class="Statement">&quot;</span><span class="Constant">rip the DVD ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">y</span><span class="Statement">&quot;</span>
+<span class="Statement">fi</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    makeDump
+    <span class="Identifier">direct</span>=n
+<span class="Statement">else</span>
+    myRead <span class="Statement">&quot;</span><span class="Constant">encode directly from the DVD ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">n</span><span class="Statement">&quot;</span>
+    <span class="Identifier">direct</span>=<span class="PreProc">$ret</span>
+<span class="Statement">fi</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$subtitle</span> <span class="Statement">=</span> <span class="Constant">yes</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    extractSubtitle
+    <span class="Statement">exit</span> <span class="Constant">0</span>
+<span class="Statement">fi</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$wav</span> <span class="Statement">=</span> <span class="Constant">yes</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    extractWav
+    <span class="Statement">exit</span> <span class="Constant">0</span>
+<span class="Statement">fi</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ipod</span> <span class="Statement">=</span> <span class="Constant">yes</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    makeIpod
+    <span class="Statement">exit</span> <span class="Constant">0</span>
+<span class="Statement">fi</span>
+myRead <span class="Statement">&quot;</span><span class="Constant">encode video ? (y/n)</span><span class="Statement">&quot;</span> <span class="Statement">&quot;</span><span class="Constant">y</span><span class="Statement">&quot;</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="PreProc">$ret</span> <span class="Statement">=</span> <span class="Constant">y</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    makeVideo
+<span class="Statement">fi</span>
+<span class="Statement">echo</span><span class="Constant"> -ne </span><span class="Statement">&quot;</span><span class="Special">\a</span><span class="Statement">&quot;</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

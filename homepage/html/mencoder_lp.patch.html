@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>mencoder_lp.patch</title>
+<meta name="Generator" content="Vim/8.1">
+<meta name="plugin-version" content="vim8.1_v1">
+<meta name="syntax" content="diff">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="default">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.Special { color: #ff40ff; }
+.Identifier { color: #00ffff; }
+.Statement { color: #ffff00; }
+.Type { color: #00ff00; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Type">--- mplayer.old/libmpdemux/muxer_avi.c  2012-07-17 16:40:51.406232799 +0200</span>
+<span class="Type">+++ mplayer/libmpdemux/muxer_avi.c  2012-07-17 16:50:35.562192707 +0200</span>
+<span class="Statement">@@ -37,8 +37,8 @@</span>
+ #include &quot;help_mp.h&quot;
+
+ /* #define ODML_CHUNKLEN    0x02000000 */ /* for testing purposes */
+<span class="Special">-#define ODML_CHUNKLEN    0x40000000</span>
+<span class="Special">-#define ODML_NOTKEYFRAME 0x80000000U</span>
+<span class="Identifier">+#define ODML_CHUNKLEN    0x400000000U</span>
+<span class="Identifier">+#define ODML_NOTKEYFRAME 0x400000000U</span>
+ #define MOVIALIGN        0x00001000
+
+ float avi_aspect_override = -1.0;
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

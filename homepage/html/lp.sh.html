@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>lp.sh</title>
+<meta name="Generator" content="Vim/8.1">
+<meta name="plugin-version" content="vim8.1_v1">
+<meta name="syntax" content="bash">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="default">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.Constant { color: #ff6060; }
+.Special { color: #ff40ff; }
+.Identifier { color: #00ffff; }
+.Statement { color: #ffff00; }
+.Comment { color: #8080ff; }
+.PreProc { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">#!/bin/bash</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Comment">## \file lp.sh</span>
+<span class="Comment">## \author Sebastien Beaugrand</span>
+<span class="Comment">## \sa <a href="http://beaugrand.chez.com/">http://beaugrand.chez.com/</a></span>
+<span class="Comment">## \copyright CeCILL 2.1 Free Software license</span>
+<span class="Comment"># ---------------------------------------------------------------------------- #</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$1</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">Usage: </span><span class="Special">`basename </span><span class="PreProc">$0</span><span class="Special">`</span><span class="Constant"> &lt;pdf&gt; [pages] [options]</span><span class="Statement">&quot;</span>
+    <span class="Statement">exit</span> <span class="Constant">0</span>
+<span class="Statement">fi</span>
+<span class="Identifier">doc</span>=<span class="Statement">&quot;</span><span class="PreProc">$1</span><span class="Statement">&quot;</span>
+<span class="Statement">shift</span>
+
+<span class="Identifier">dev</span>=<span class="Special">`lpstat </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> </span><span class="Statement">grep</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant">^system default destination:</span><span class="Statement">&quot;</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant"> </span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">4</span><span class="Special">`</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$dev</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">todo: lpoptions -d &lt;dev&gt;</span><span class="Statement">&quot;</span>
+    <span class="Statement">exit</span> <span class="Constant">1</span>
+<span class="Statement">fi</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">dev = </span><span class="PreProc">$dev</span><span class="Statement">&quot;</span>
+
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-n</span> <span class="Statement">&quot;</span><span class="PreProc">$1</span><span class="Statement">&quot;</span> <span class="Statement">]</span> <span class="Statement">&amp;&amp;</span> <span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$1</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> <span class="Statement">&quot;</span><span class="Constant">-o</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">pages</span>=<span class="Statement">&quot;</span><span class="Constant">-P </span><span class="PreProc">$1</span><span class="Statement">&quot;</span>
+    <span class="Statement">shift</span>
+<span class="Statement">else</span>
+    <span class="Statement">echo</span>
+    pdfinfo <span class="Statement">&quot;</span><span class="PreProc">$doc</span><span class="Statement">&quot;</span> <span class="Statement">|</span> <span class="Statement">grep</span> <span class="Statement">&quot;</span><span class="Constant">^Pages:</span><span class="Statement">&quot;</span> <span class="Statement">|</span> <span class="Statement">sed</span> <span class="Statement">'</span><span class="Constant">s/[ \t]\+/ /</span><span class="Statement">'</span>
+    <span class="Statement">echo</span>
+<span class="Statement">fi</span>
+<span class="Identifier">options</span>=<span class="Statement">&quot;</span><span class="PreProc">$*</span><span class="Statement">&quot;</span>
+
+<span class="Identifier">s</span>=<span class="Statement">&quot;</span><span class="Constant">210 297 </span><span class="Statement">&quot;</span><span class="Special">`pdfinfo </span><span class="Statement">&quot;</span><span class="PreProc">$doc</span><span class="Statement">&quot;</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> </span><span class="Statement">grep</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant">^Page size:</span><span class="Statement">&quot;</span><span class="Special">`</span>
+<span class="Identifier">l</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="PreProc">$s</span><span class="Statement">&quot;</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">{ a=$1*72/25.4; print (int(a)&gt;$5)?(a-$5)/2:0 }</span><span class="Statement">'</span><span class="Special">`</span>
+<span class="Identifier">t</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="PreProc">$s</span><span class="Statement">&quot;</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">{ a=$2*72/25.4; print (int(a)&gt;$7)?(a-$7)/2:0 }</span><span class="Statement">'</span><span class="Special">`</span>
+
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$l</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> <span class="Constant">0</span> <span class="Statement">]</span> <span class="Statement">||</span> <span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$t</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> <span class="Constant">0</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">m</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$l</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">{ printf &quot;%.1f&quot;,$0*2.54/72 }</span><span class="Statement">'</span><span class="Special">`</span><span class="Statement">;</span> <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">left = </span><span class="PreProc">$l</span><span class="Constant"> (</span><span class="PreProc">$m</span><span class="Constant"> cm)</span><span class="Statement">&quot;</span>
+    <span class="Identifier">m</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$t</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">{ printf &quot;%.1f&quot;,$0*2.54/72 }</span><span class="Statement">'</span><span class="Special">`</span><span class="Statement">;</span> <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant"> top = </span><span class="PreProc">$t</span><span class="Constant"> (</span><span class="PreProc">$m</span><span class="Constant"> cm)</span><span class="Statement">&quot;</span>
+    <span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">marges ? (O/n) </span><span class="Statement">&quot;</span>
+    <span class="Statement">read</span> ret
+    <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> n <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+        <span class="Identifier">margins</span>=<span class="Statement">&quot;</span><span class="Constant">-o page-left=</span><span class="PreProc">$l</span><span class="Constant"> -o page-top=</span><span class="PreProc">$t</span><span class="Statement">&quot;</span>
+    <span class="Statement">else</span>
+        <span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">fitplot ? (o/N) </span><span class="Statement">&quot;</span>
+        <span class="Statement">read</span> ret
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">=</span> <span class="Constant">o</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Identifier">fitplot</span>=<span class="Statement">&quot;</span><span class="Constant">-o fitplot</span><span class="Statement">&quot;</span>
+        <span class="Statement">fi</span>
+        <span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">marges ? (mmleft:mmtop/n) [10:10] </span><span class="Statement">&quot;</span>
+        <span class="Statement">read</span> ret
+        <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> n <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+            <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+                <span class="Identifier">ret</span>=10:10
+            <span class="Statement">fi</span>
+            <span class="Identifier">l</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ret</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Special">-F</span><span class="Special"> : </span><span class="Statement">'</span><span class="Constant">{ printf &quot;%.1f&quot;,$1*72/25.4 }</span><span class="Statement">'</span><span class="Special">`</span>
+            <span class="Identifier">t</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ret</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Special">-F</span><span class="Special"> : </span><span class="Statement">'</span><span class="Constant">{ printf &quot;%.1f&quot;,$2*72/25.4 }</span><span class="Statement">'</span><span class="Special">`</span>
+            <span class="Identifier">margins</span>=<span class="Statement">&quot;</span><span class="Constant">-o page-left=</span><span class="PreProc">$l</span><span class="Constant"> -o page-top=</span><span class="PreProc">$t</span><span class="Statement">&quot;</span>
+        <span class="Statement">fi</span>
+    <span class="Statement">fi</span>
+<span class="Statement">fi</span>
+
+<span class="Statement">echo</span><span class="Constant"> lp -d </span><span class="PreProc">$dev</span><span class="Constant"> </span><span class="PreProc">$pages</span><span class="Constant"> </span><span class="PreProc">$margins</span><span class="Constant"> </span><span class="PreProc">$fitplot</span><span class="Constant"> </span><span class="PreProc">$options</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="PreProc">$doc</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">? (O/n) </span><span class="Statement">&quot;</span>
+<span class="Statement">read</span> ret
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> n <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    lp <span class="Statement">-d</span> <span class="PreProc">$dev</span> <span class="PreProc">$pages</span> <span class="PreProc">$margins</span> <span class="PreProc">$fitplot</span> <span class="PreProc">$options</span> <span class="Statement">&quot;</span><span class="PreProc">$doc</span><span class="Statement">&quot;</span>
+<span class="Statement">fi</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

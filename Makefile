@@ -48,4 +48,5 @@ dist:
 	--exclude=*.pfb \
 	--exclude=*.tgz \
 	--exclude=*-pr-* \
+	--exclude=php \
 	$(PROJECT)

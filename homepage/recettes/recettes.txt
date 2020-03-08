@@ -1,0 +1,216 @@
+5   ta 2 Tarte au chèvre
+5   pa 1 Ravioli à la Bolognaise
+5   pa 1 Cannelloni
+5   ta 2 Tourte poireaux
+5   le 1 Croque monsieur et salade
+5   ta 1 Pizza
+5   ta 2 Tarte thon tomate
+5   fe 1 Escalope de dinde et riz
+5   fe 1 Escalope de dinde et blé
+5   pa 1 Escalope de dinde et pâtes
+5   pt 1 Escalope de dinde et purée
+5   le 1 Poireaux au jambon
+5   oe 1 Oeufs sur le plat et bacon et pâtes
+5   oe 1 Oeufs brouillés et pâtes
+5   ta 2 Quiche lorraine
+5   ta 2 Quiche à l'oseille
+5   pa 1 Pâtes à la bolognaise
+5   pa 1 Pâtes à la carbonara
+1   pa 1 Lasagnes à la Bolognaise
+5   fe 1 Buritos
+5   le 1 Cordon bleu et petits pois
+5   pa 1 Cordon bleu et pâtes
+3   le 1 Boudin et pommes
+3   pt 1 Boudin et purée
+4   le 1 Galette complète et salade
+5   ta 2 Quiche poireau roquefort boursin
+5 2 le 1 Gratin courgette
+1   le 1 Gratin courgette
+5   pa 1 Gratin macaroni
+6   pt 2 Poulet et frites
+6   pa 2 Poulet et pâtes
+6   pt 2 Poulet et pommes de terre
+5   ta 2 Tarte au reblochon
+5 1 fe 1 Cassoulet
+1   fe 1 Cassoulet
+5 1 pt 1 Tartiflette
+1   pt 1 Tartiflette
+5   le 1 Légumes farcis viandes et fromage
+5   le 1 Légume farcis au fromage
+5   fe 1 Blanc de dinde aux épices et riz
+5   le 1 Choux rouge aux pommes et saucisses
+5 2 le 1 Courgettes aux pommes et aux raisins et blanc de poulet
+1   le 1 Courgettes aux pommes et aux raisins et blanc de poulet
+5 2 le 1 Courgettes aux pommes et aux raisins et poulet
+1   le 1 Courgettes aux pommes et aux raisins et poulet
+5 2 le 1 Courgettes aux pommes et aux raisins et rôti de porc
+1   le 1 Courgettes aux pommes et aux raisins et rôti de porc
+9   fe 1 Cuisse de dinde au cidre et riz
+9   pt 1 Cuisse de dinde au cidre et pommes de terre
+9   pt 1 Cuisse de canard au miel et pommes de terre
+6   pt 1 Curry de pommes de terre et poulet
+2   fe 1 Dinde à l'ananas et riz
+7   fe 1 Escalopes de porc aux pruneaux et pois cassés
+7   fe 1 Escalopes de porc aux pruneaux et riz
+7   fe 1 Escalopes de porc aux pruneaux et blé
+9   fe 1 Filet mignon de porc au miel et riz
+9   pt 1 Filet mignon de porc au miel et pommes de terre
+5   le 1 Flan de légumes et viande
+6 4 oe 1 Omelette aux champignons
+5   oe 1 Omelette aux champignons
+2   oe 1 Omelette aux asperges
+4 4 oe 1 Omelette aux marrons
+3   oe 1 Omelette aux marrons
+5 2 le 1 Pavé de saumon aux asperges
+1   le 1 Pavé de saumon aux asperges
+5   le 1 Pleurottes à la tomate et tournedos
+5   fe 1 Poelée de blé aux champignons
+5   le 1 Potée de choux rouges
+5   fe 1 Poulet basquaise et riz
+5 2 ta 2 Tarte au cresson
+5   ta 2 Tarte au saumon et légumes
+4   fe 1 Saumon en papillote et riz
+6   pt 1 Saumon en papillote et pommes de terre
+5   fe 1 Émincé de boeuf aux dattes et raisins et riz
+5 3 le 1 Fricassée de poulet et aubergines
+5 2 le 1 Fricassée de poulet et aubergines
+5   fe 1 Porc au caramel et riz
+5   fe 2 Porc roti aux raisins et riz
+5   le 2 Roti de porc aux champignons et lardons
+5   po 1 Saumon vapeur mariné et pommes de terre
+5   po 1 Saumon vapeur mariné et riz
+5 4 ta 2 Tarte au potimarron
+5   le 1 Tian chèvre et miel
+4 4 le 2 Pot au feu
+6 1 le 2 Soupe de courgettes
+6 1 le 2 Soupe de carottes et coriandre
+6 1 le 2 Soupe de chataigne et pain d'épices
+6 1 le 2 Vélouté de tomates
+6 1 le 2 Velouté de brocolis
+6 1 le 2 Crème de champignons
+6 4 le 2 Soupe de potiron à la cannelle
+6 4 le 2 Velouté de potimarron
+6 1 le 3 Soupe de pois cassés au lard
+6 1 le 3 Soupe de célerie au roquefort
+5   pa 1 Spaghetti aux fèves, pois et asperges
+5   pa 1 Pâtes à la sauge
+5   pa 1 Ravioles farcies au fromage
+5   pa 1 Pâtes au gorgonzola et fines herbes
+5   pa 1 Ravioli au Poisson
+5   pa 1 Lasagnes au poulet
+5   pa 1 Pâtes aux girolles
+5   pa 1 Pennes aux légumes
+5   pa 1 Lasagnes de Légumes
+5   pa 1 Fusille aux morilles
+5   pa 1 Pennes aux cèpes
+5   pa 1 Pâtes aux lardons, pleurottes et roquefort
+5 2 le 1 Soupe de cresson
+5   pa 1 Tagliatelles au saumon et lieu jaune
+5   fe 1 Poulet à la moutarde
+5   fe 1 Canard au poivre vert et féculent
+5 3 le 1 Salade franc-comtoise
+5   fe 2 Poulet au riesling et féculent
+5   pa 2 Pintade à l'estragon
+5   fe 1 Filet de lapin au poivre vert
+5   fe 1 Magret de canard au miel et vinaigre balsamique et féculent
+5   le 1 Canard aux légumes
+5   pa 1 Poulet et pennes au rubans de courgettes
+5   pt 1 Pommes de terre au champignon
+8   pt 1 Gratin de pommes de terre au brebis
+5   pt 1 Pommes de terre farcies
+5 3 fe 1 Salade de lentilles
+5 3 le 1 Poireaux à la vinaigrette
+5 4 le 1 Gratin de topinambours
+5 1 le 1 Gratin de topinambours
+5   fe 1 Purée de pois cassés et côte de porc
+5   fe 1 Purée de pois cassés au jambon
+5   pa 1 Gratin de salsifis coquillettes et poulet
+5   fe 1 Riz fondant au champignon
+5 2 fe 1 Gratin de blé au courgette et tomate
+5 3 fe 1 Gratin de blé au courgette et tomate
+5 4 le 1 Gratin de potiron
+5   le 1 Carottes au cumin
+5   po 1 Fondue de poireaux et poisson
+5   pa 1 Gratin de macaronis au chou romanesco
+5   fe 1 Riz au pois chiche
+5   fe 1 Porc à l'asiatique
+5   po 1 Coquilles saint jacques à la tomate
+5   po 1 Saumon poelé aux champignons
+5   po 1 Truite à l'orange et riz
+5   po 1 Truite au vin blanc
+5   po 1 Cabillaud à la méridionale
+1   po 1 Lieu aux girolles
+5   fe 1 Boulettes de viandes et riz
+5   le 1 Carré de porc au curry et pommes
+5 1 fe 1 Choucroute
+5 4 fe 2 Filet mignon aux chataignes et girolles
+4   fe 1 Lapin à la bière et féculent
+4   fe 1 Lapin aux champignons et féculent
+4   fe 1 Lapin aux pruneaux et féculent
+5   fe 1 Canard à l'orange et riz
+5   fe 1 Magret de canard au poivre vert et féculent
+5   fe 1 Cuisse de dinde à la moutarde et féculent
+5   pt 1 Cuisse de dinde aux pommes et pommes de terre
+5   le 1 Rôti de dindonneau aux carottes
+7   le 1 Blanquette de poulet et salsifis
+5   pa 1 Pâtes aux moules et basilic
+5   pa 1 Spaghetis au basilic
+5   pa 1 Tagliatelles au saumon fumé et paprika
+5 4 le 1 Aubergine au coulis de tomates
+5 4 le 1 Avocat à la mousse de roquefort
+5 4 le 1 Avocat aux crevettes
+5 2 ta 2 Feuilleté de courgettes
+5 1 fe 1 Purée de chataignes
+1   fe 1 Purée de chataignes
+3 4 le 1 Patisson farci au fromage
+5   pt 1 Gratin savoyard
+5   pt 1 Gratin dauphinois
+5   pt 1 Parmentier de cèpes
+5   pt 1 Pommes de terre au chèvre chaud
+5   pt 1 Pommes de terre au roquefort
+5   le   Gratiné aux cèpes
+5   le   Champignons farcis
+5 4 le 1 Poule au pot
+5 1 le 1 Poule au pot
+5 4 fe 1 Poule au riz
+5 1 fe 1 Poule au riz
+6 4 le 1 Patate douce
+5   le 1 Pois cassés au miel et lard
+5   le 1 Fèves cassées au miel et lard
+5   le 1 Semoule au miel et côte de porc
+7   le 1 Semoule au miel et canard
+6   le 1 Salsifis à la tomate
+6 4 po 1 Salade de patate et filet de hareng
+5   le   Poulet au citron
+5   le   Gratin de salsifis
+5   oe   Cocote oeuf tomate séchées
+5   oe   Cocote oeuf asperge coppa
+5   oe   Cocote oeuf trois fromages et noix
+5   oe   Cocote oeuf jambon cheddar
+5   oe   Cocote oeuf meurette
+5   oe   Oeufs en cocote au chèvre
+5   le   Cocotte provencale
+5   le   Poireaux en cocotte
+5   le   Cocotte bleue
+5 4 le   Cocotte automne
+5   le   Cocotte pomme de terre champignon épinard
+5   le   Petite fondue de fromage aux légumes
+5   le   Clafoutis de petits pois jambon boursin
+5   pt   Cocotte savoyarde
+5   pt   Cocotte soufflée de pomme de terre au lard
+5        Cocotte de canard, citron et sauge
+5   le   Cocotte de potiron et chataigne
+5   le   Soupe de légume aux lardons
+5   ta   Tarte brie courgettes
+5   oe   Curry d'oeufs à la crème
+5 3 le   Taboulé
+5   po   Curry de poisson au lait de coco
+5   po   Curry de crevettes
+5   le   Poulet chow mein
+5   fe   Poulet tandoori et riz
+5   fe   Poulet au curry et à l'ananas et riz
+5   fe   Porc au cumin, coriandre et citron vert
+5        Pilon de poulet
+5   po   Pate à la crème de thon et estragon
+5   fe   Magret de canard aux deux raisins
+5   le   Lasagnes ricotta épinard

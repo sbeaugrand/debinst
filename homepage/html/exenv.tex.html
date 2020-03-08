@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>exenv.tex</title>
+<meta name="Generator" content="Vim/8.1">
+<meta name="plugin-version" content="vim8.1_v1">
+<meta name="syntax" content="tex">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="default">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.Special { color: #ff40ff; }
+.Statement { color: #ffff00; }
+.Comment { color: #8080ff; }
+.PreProc { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">%% \file exenv.cls</span>
+<span class="Comment">%% \author Sebastien Beaugrand</span>
+<span class="Comment">%% \sa <a href="http://beaugrand.chez.com/">http://beaugrand.chez.com/</a></span>
+<span class="Comment">%% \copyright CeCILL 2.1 Free Software license</span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Statement">\documentclass</span><span class="Special">{</span><span class="PreProc">enveloppe</span><span class="Special">}</span>
+<span class="PreProc">\begin{document}</span>
+
+<span class="Statement">\def</span><span class="Statement">\des</span><span class="Special">{</span><span class="Comment">%</span>
+  <span class="Statement">\destinataire</span><span class="Special">{</span><span class="Comment">%</span>
+    ART ET HISTOIRE D'EUROPE<span class="Special">\\</span>
+    10 RUE FRIANT<span class="Special">\\</span>
+    75014 PARIS<span class="Special">}</span>
+<span class="Special">}</span>
+<span class="Statement">\def</span><span class="Statement">\exp</span><span class="Special">{</span><span class="Comment">%</span>
+  <span class="Statement">\expediteur</span><span class="Special">{</span><span class="Comment">%</span>
+    Sébastien Beaugrand<span class="Special">\\</span>
+    rue Raymond Losserand<span class="Special">\\</span>
+    75014 Paris<span class="Special">}</span>
+<span class="Special">}</span>
+
+<span class="Statement">\makeatletter</span><span class="Statement">\def</span><span class="Statement">\e</span>@c<span class="Special">{</span>black<span class="Special">}</span><span class="Statement">\makeatother</span>  <span class="Comment">% Option test</span>
+<span class="Statement">\des\newpage\exp</span>
+
+<span class="Statement">\newpage</span>
+
+<span class="Statement">\makeatletter</span><span class="Statement">\def</span><span class="Statement">\e</span>@a<span class="Special">{</span>flushright<span class="Special">}</span><span class="Statement">\makeatother</span>  <span class="Comment">% Option droite</span>
+<span class="Statement">\des\newpage\exp</span>
+
+<span class="Statement">\newpage</span>
+
+<span class="Statement">\makeatletter</span><span class="Statement">\def</span><span class="Statement">\e</span>@c<span class="Special">{</span>white<span class="Special">}</span><span class="Statement">\makeatother</span>  <span class="Comment">% Option normal</span>
+<span class="Statement">\des\newpage\exp</span>
+
+<span class="Statement">\newpage</span>
+
+<span class="Statement">\makeatletter</span><span class="Statement">\def</span><span class="Statement">\e</span>@a<span class="Special">{</span>center<span class="Special">}</span><span class="Statement">\makeatother</span>  <span class="Comment">% Option centre</span>
+<span class="Statement">\des\newpage\exp</span>
+
+<span class="PreProc">\end{document}</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

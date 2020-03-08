@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>clarky.tex</title>
+<meta name="Generator" content="Vim/8.1">
+<meta name="plugin-version" content="vim8.1_v1">
+<meta name="syntax" content="tex">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="default">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.Constant { color: #ff6060; }
+.Special { color: #ff40ff; }
+.Statement { color: #ffff00; }
+.Comment { color: #8080ff; }
+.Type { color: #00ff00; }
+.PreProc { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">%% \file clarky.tex</span>
+<span class="Comment">%% \author Sebastien Beaugrand</span>
+<span class="Comment">%% \sa <a href="http://beaugrand.chez.com/">http://beaugrand.chez.com/</a></span>
+<span class="Comment">%% \copyright CeCILL 2.1 Free Software license</span>
+<span class="Comment">%% \note Source: <a href="http://www.texample.net/tikz/examples/airfoil-profiles/">http://www.texample.net/tikz/examples/airfoil-profiles/</a></span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Comment">% Airfoil profiles from the UIUC Airfoil Coordinates Database</span>
+<span class="Comment">% <a href="http://www.ae.uiuc.edu/m-selig/ads/coord_database.html">http://www.ae.uiuc.edu/m-selig/ads/coord_database.html</a></span>
+<span class="Comment">% Data is released under the GNU General Public Licence. See</span>
+<span class="Comment">% <a href="http://www.ae.uiuc.edu/m-selig/pd/gpl.html">http://www.ae.uiuc.edu/m-selig/pd/gpl.html</a> for more details. </span>
+<span class="Comment">% ---------------------------------------------------------------------------- %</span>
+<span class="Statement">\documentclass</span><span class="Special">[</span><span class="Constant">a4paper</span><span class="Special">]{</span><span class="PreProc">article</span><span class="Special">}</span>
+<span class="Statement">\pagestyle</span><span class="Special">{</span>empty<span class="Special">}</span>
+<span class="Statement">\usepackage</span><span class="Special">{</span><span class="Special">vmargin</span><span class="Special">}</span>
+<span class="Statement">\setpapersize</span><span class="Special">{</span>custom<span class="Special">}{</span><span class="Constant">297mm</span><span class="Special">}{</span><span class="Constant">210mm</span><span class="Special">}</span>
+<span class="Statement">\setmarginsrb</span><span class="Special">{</span><span class="Constant">10mm</span><span class="Special">}{</span><span class="Constant">10mm</span><span class="Special">}{</span><span class="Constant">10mm</span><span class="Special">}{</span><span class="Constant">10mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}{</span><span class="Constant">0mm</span><span class="Special">}</span>
+<span class="Statement">\usepackage</span><span class="Special">{</span><span class="Special">tikz</span><span class="Special">}</span>
+
+<span class="PreProc">\begin{document}</span>
+<span class="Statement">\centering</span>
+<span class="Statement">\vspace</span>*<span class="Special">{</span><span class="Constant">4cm</span><span class="Special">}</span>
+
+<span class="Type">\Huge</span> CLARK Y<span class="Special">\\</span>
+<span class="Statement">\vspace</span>*<span class="Special">{</span><span class="Constant">0.5cm</span><span class="Special">}</span>
+
+<span class="Type">\normalsize</span> <span class="Constant">270 mm</span><span class="Special">\\</span>
+<span class="Statement">\vspace</span>*<span class="Special">{</span><span class="Constant">4cm</span><span class="Special">}</span>
+
+<span class="Statement">\begin</span><span class="Special">{</span><span class="PreProc">tikzpicture</span><span class="Special">}</span>
+  <span class="Statement">\draw</span><span class="Special">[</span>scale=27<span class="Special">]</span> plot file<span class="Special">{</span>clarky.dat<span class="Special">}</span>; <span class="Comment">% -- cycle;</span>
+<span class="Statement">\end</span><span class="Special">{</span><span class="PreProc">tikzpicture</span><span class="Special">}</span>
+
+<span class="PreProc">\end{document}</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->
