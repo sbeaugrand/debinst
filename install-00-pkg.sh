@@ -28,6 +28,7 @@ deb-src http://httpredir.debian.org/debian/ $sta-updates main contrib non-free
 
 # backports
 #  deb http://httpredir.debian.org/debian $sta-backports main contrib non-free
+#  deb http://httpredir.debian.org/debian $sta-backports-sloppy main contrib non-free
 #  ex: sudo apt -t $sta-backports install kicad
 EOF
     if isOnline; then

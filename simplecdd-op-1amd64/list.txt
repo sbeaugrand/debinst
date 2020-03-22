@@ -143,6 +143,7 @@ python-gi  # pyBar
 gir1.2-gtk-3.0  # pyBar
 python3-venv
 python3-tk
+python3-matplotlib
 pv
 libboost-dev
 aptitude

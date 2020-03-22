@@ -19,6 +19,8 @@ readme:
 .PHONY: clean
 clean:
 	@$(RM) *~
+	@find . -name "livret-*.pdf" -exec rm -f {} \;
+	@find . -name "portrait-*.pdf" -exec rm -f {} \;
 
 .PHONY: mrproper
 mrproper: clean
@@ -34,6 +36,8 @@ tar:
 	--exclude=.*.swp \
 	--exclude=build \
 	--exclude=.git \
+	--exclude=livret-*.pdf \
+	--exclude=portrait-*.pdf \
 	$(PROJECT)
 
 .PHONY: dist

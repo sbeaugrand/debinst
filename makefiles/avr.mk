@@ -20,13 +20,11 @@ ifneq ($(HARDWARE),)
 else
  AVRDUDE  = avrdude -p $(ATMEL) -c $(PROG)
 endif
-ifeq ($(MAKECMDGOALS),hex)
- CC        = avr-gcc
- CXX       = avr-g++
- OBJCOPY   = avr-objcopy
- CFLAGS   += -g -Os -mmcu=$(ATMEL)
- CXXFLAGS += -g -Os -mmcu=$(ATMEL) -fno-exceptions
-endif
+CC        = avr-gcc
+CXX       = avr-g++
+OBJCOPY   = avr-objcopy
+CFLAGS   += -g -Os -mmcu=$(ATMEL)
+CXXFLAGS += -g -Os -mmcu=$(ATMEL) -fno-exceptions
 
 .SUFFIXES:
 
@@ -45,13 +43,17 @@ all:
 include $(PROROOT)/makefiles/ccpp.mk
 
 .PHONY: hex
-hex: build $(PROJECT).hex
+hex: build $(PROJECT).hex checksize
 
 $(PROJECT).hex: build/$(PROJECT).elf
 	$(OBJCOPY) -O ihex -R .eeprom $< $@
 
 build/$(PROJECT).elf: $(OBJECTS)
 	$(LINK.o) -o $@ $^ -Wl,--gc-sections -mmcu=$(ATMEL)
+
+.PHONY: checksize
+checksize: build/$(PROJECT).elf
+	@! avr-size -C --mcu=$(ATMEL) build/$(PROJECT).elf | grep '([0-9]\{3\}'
 
 .PHONY: fuse
 fuse:

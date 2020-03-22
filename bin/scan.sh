@@ -155,9 +155,9 @@ fi
 # ---------------------------------------------------------------------------- #
 # main
 # ---------------------------------------------------------------------------- #
-echo "scanimage $ascan | convert - $aconv $image.$ext"
+echo "scanimage $ascan | convert -units PixelsPerInch - $aconv $image.$ext"
 echo -n "? (O/n) "
 read ret
 if [ "$ret" != n ]; then
-    scanimage $ascan | convert - $aconv $image.$ext
+    scanimage $ascan | convert -units PixelsPerInch - $aconv $image.$ext
 fi
