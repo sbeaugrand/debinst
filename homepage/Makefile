@@ -69,6 +69,7 @@ tgz:\
  tgz/arbreGenealogique.tgz\
  tgz/baofeng.tgz\
  tgz/chebyshev.tgz\
+ tgz/cornemuse.tgz\
 
 tgz/src.tgz: $(SRC)
 	@tar chvzf $@ $^

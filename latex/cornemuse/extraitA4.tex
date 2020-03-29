@@ -1,0 +1,43 @@
+% ---------------------------------------------------------------------------- %
+%% \file extraitA4.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass[a4paper,twoside]{article}
+\usepackage{vmargin}
+% echo | awk '{ print (210-148)/2+13 }'  # 44
+% echo | awk '{ print (297-210)/2+10 }'  # 53.5
+\setmarginsrb{44mm}{54mm}{44mm}{5mm}{0mm}{0mm}{0mm}{48mm}
+\usepackage[francais]{babel}
+\makeatletter
+\renewcommand{\@evenfoot} {}%\ifnum\thepage>1{\thepage\hfil}\fi}
+\renewcommand{\@oddfoot}  {}%\ifnum\thepage>1{\hfil\thepage}\fi}
+\renewcommand{\thesection}{}
+\renewcommand{\section}{%
+ \@startsection{section}{10}{0pt}{0pt}{1pt}{\Bigfont\centerline}}
+\newcount\ligne \ligne=0
+\renewcommand*{\l@section}[2]{%
+ \advance\ligne1
+ \ifnum\ligne=1 ~\\ \fi
+ \ifnum\ligne<10 \phantom{0}\fi
+ \number\ligne. #1\hfill#2\\}
+\makeatother
+\parindent0cm
+\parskip0cm
+\usepackage{musixtex}
+
+\def\siecle#1{\textsc{\romannumeral #1}\textsuperscript{e}~si\`ecle}
+
+\begin{document}
+\nobarnumbers
+
+\begin{music}
+
+\input saintpatricksandro
+\vspace*{1.5cm}
+\input drunkensailor
+
+\end{music}
+
+\end{document}
