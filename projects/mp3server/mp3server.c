@@ -356,6 +356,7 @@ const char* mp3serverGetRelativeDate(const char* ymd)
     y = gTmOfTheDay->tm_year + 1900 - y;
     m = gTmOfTheDay->tm_mon + 1 - m;
     d = gTmOfTheDay->tm_mday - d;
+    DEBUG("y = %d, m = %d, d = %d", y, m, d);
     if (d < 0) {
         d += 30;
         m -= 1;
@@ -364,7 +365,7 @@ const char* mp3serverGetRelativeDate(const char* ymd)
         m += 12;
         y -= 1;
     }
-    d += m * 30 + y * 365;
+    d += m * 31 + y * 372;
     DEBUG("d = %d", d);
     if (d == 0) {
         mp3serverTmOfTheDay();

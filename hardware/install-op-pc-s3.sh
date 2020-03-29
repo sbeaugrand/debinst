@@ -5,7 +5,6 @@ sourceList "
 install-op-emacs-php.sh
 install-op-diffchar.sh
 install-op-firefox-vdh.sh
-install-op-framabee.sh
 install-op-id3ed.sh
 install-op-meteo.sh
 install-op-mp3gain.sh

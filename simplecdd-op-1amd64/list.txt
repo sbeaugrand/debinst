@@ -57,6 +57,7 @@ libcairo2-dev  # eeplot
 libgit2-dev  # eeplot
 libgtk-3-dev  # eeplot
 transfig  # eeplot
+python3-pip  # kiplot
 usbutils
 libusb-dev
 libusb-1.0-0-dev
@@ -101,6 +102,8 @@ thunar
 gtkam
 gphotofs
 gphoto2
+gvfs-backends  # thunar + gphoto
+gvfs-fuse  # thunar + gphoto
 keychain
 mutt
 fetchmail
@@ -196,8 +199,9 @@ mplayer
 openscad
 cpulimit
 firmware-amd-graphics
-firmware-misc-nonfree  # packard
-firmware-brcm80211  # vostro
+firmware-misc-nonfree  # b1
+firmware-brcm80211  # a1
+firmware-realtek  # a1
 gramps
 pdfposter
 hplip

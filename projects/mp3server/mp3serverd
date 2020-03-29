@@ -69,10 +69,12 @@ case "$1" in
         logrotate $logpath/.mp3server.log
         if [ -x /usr/bin/rtc ]; then
             /usr/bin/rtc -slc >$log 2>&1
+        else
+            touch $log
         fi
         chmod 1777 /run
         export XMMS_PATH=unix:///run/xmms-ipc-ip
-        sudo --preserve-env=XMMS_PATH -b -H -u pi /usr/bin/mp3server >$log 2>&1
+        sudo --preserve-env=XMMS_PATH -b -H -u pi /usr/bin/mp3server >>$log 2>&1
         logrotate $logpath/.mp3client.log
         sudo -b -H -u pi /usr/bin/mp3client >$log 2>&1
         ;;

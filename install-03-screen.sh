@@ -20,7 +20,7 @@ if notFile $file; then
 [Desktop Entry]
 Name=Screen
 Comment=Ligne de commande
-Exec=xterm -maximized -title screen -e "$wmctrl screen -t localhost"
+Exec=xterm -maximized -title screen -e "$wmctrl SCREENDIR=$home/.screen screen -t localhost"
 Icon=lxterminal
 Terminal=false
 Type=Application

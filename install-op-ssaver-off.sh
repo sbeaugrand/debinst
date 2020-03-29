@@ -10,7 +10,7 @@ if [ -z "$DISPLAY" ]; then
 fi
 
 file=$home/.xscreensaver
-if notGrep "mode:..off" $file; then
+if [ -f $file ] && notGrep "mode:..off" $file; then
     sed -i 's/^mode:.*/mode:\t\toff/' $file
 fi
 
@@ -19,6 +19,13 @@ if pgrep xscreensaver >/dev/null; then
 fi
 
 file=/etc/xdg/lxsession/LXDE/autostart
+if grep -q "xscreensaver" $file; then
+    sed -i '/xscreensaver/d' $file
+else
+    echo " warn: xscreensaver not found in $file" | tee -a $log
+fi
+
+file=$home/.config/lxsession/LXDE/autostart
 if grep -q "xscreensaver" $file; then
     sed -i '/xscreensaver/d' $file
 else

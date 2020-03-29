@@ -181,11 +181,11 @@ body { font-family: monospace; color: #ffffff; background-color: #000000; }
 <span class="Comment"># ---------------------------------------------------------------------------- #</span>
 <span class="Comment"># main</span>
 <span class="Comment"># ---------------------------------------------------------------------------- #</span>
-<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">scanimage </span><span class="PreProc">$ascan</span><span class="Constant"> | convert - </span><span class="PreProc">$aconv</span><span class="Constant"> </span><span class="PreProc">$image</span><span class="Constant">.</span><span class="PreProc">$ext</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">scanimage </span><span class="PreProc">$ascan</span><span class="Constant"> | convert -units PixelsPerInch - </span><span class="PreProc">$aconv</span><span class="Constant"> </span><span class="PreProc">$image</span><span class="Constant">.</span><span class="PreProc">$ext</span><span class="Statement">&quot;</span>
 <span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">? (O/n) </span><span class="Statement">&quot;</span>
 <span class="Statement">read</span> ret
 <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> n <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
-    scanimage <span class="PreProc">$ascan</span> <span class="Statement">|</span> convert - <span class="PreProc">$aconv</span> <span class="PreProc">$image</span>.<span class="PreProc">$ext</span>
+    scanimage <span class="PreProc">$ascan</span> <span class="Statement">|</span> convert <span class="Special">-units</span> PixelsPerInch - <span class="PreProc">$aconv</span> <span class="PreProc">$image</span>.<span class="PreProc">$ext</span>
 <span class="Statement">fi</span>
 </pre>
 </body>

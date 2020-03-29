@@ -9,4 +9,6 @@
 #download https://update.adblockplus.org/latest/$file || return 1
 #sudo -u $user firefox $repo/$file
 
+sudo -u $user firefox &
+sleep 5
 sudo -u $user firefox https://eyeo.to/adblockplus/firefox_install/
