@@ -14,3 +14,6 @@ install-libdvdcss
 install-colorgcc
 install-fonts-morse
 install-eeshow
+install-kiplot
+install-bcm2835
+install-avrusb

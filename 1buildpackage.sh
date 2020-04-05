@@ -58,12 +58,26 @@ makePackage()
 # ---------------------------------------------------------------------------- #
 # main
 # ---------------------------------------------------------------------------- #
+list=`find . -name "*.sh" -exec grep -q '^repo=\$idir' {} \; -print | cut -c3-`
+for f in $list; do
+    if echo "$f" | grep -q "buildpackage-"; then
+        continue
+    fi
+    if ! grep -q "^source $f" $buildpackage/prepare.sh; then
+        echo "warn: $buildpackage/prepare.sh: missing source $f"
+    fi
+    pkg="install-"`grep '^repo=\$idir' "$f" | awk -F / '{ print $NF }'`
+    if ! grep -q "$pkg" $buildpackage/list.txt; then
+        echo "warn: $buildpackage/list.txt: missing $pkg"
+    fi
+done
+
 rm -fr $buildpackage/build
 
 if [ -f $buildpackage/prepare.sh ]; then
-    source $buildpackage/prepare.sh
+    source $buildpackage/prepare.sh || echo "error"
 fi
 
 for i in `cat $buildpackage/list.txt`; do
-    makePackage $idir/../$i || echo " warn: package $i not completed"
+    makePackage $idir/../$i || echo "warn: package $i not completed"
 done

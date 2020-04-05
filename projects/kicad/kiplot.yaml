@@ -1,0 +1,41 @@
+kiplot:
+  version: 1
+
+preflight:
+
+  check_zone_fills: false
+  run_drc: false
+
+outputs:
+
+  - name: postscript
+    comment: "Postscript files"
+    type: ps
+    dir: .
+    options:
+      exclude_edge_layer: false
+      exclude_pads_from_silkscreen: false
+      use_aux_axis_as_origin: false
+      plot_sheet_reference: false
+      plot_footprint_refs: false
+      plot_footprint_values: false
+      force_plot_invisible_refs_vals: false
+      tent_vias: true
+      check_zone_fills: true
+
+      # PS options
+      line_width: 0.15
+      drill_marks: full
+      scaling: 1
+      sketch_plot: true
+      scale_adjust_x: 1.0
+      scale_adjust_y: 1.0
+      width_adjust: 0
+      mirror_plot: false
+      negative_plot: false
+      a4_output: false
+    layers:
+      - layer: B.Cu
+        suffix: B_Cu
+      - layer: F.SilkS
+        suffix: F_SilkS

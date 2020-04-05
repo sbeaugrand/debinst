@@ -9,7 +9,7 @@ version=1.3.0
 pkg=$name-$version.tgz
 src=$name-apt-src
 
-repo=$idir/../$name
+repo=$idir/../mplayer
 [ -d $repo ] || sudo -u $user mkdir $repo
 
 if notFile $repo/$pkg; then

@@ -37,3 +37,5 @@ done
 
 cd $simplecdd
 sudo -u $user make LPKG=$lpkg
+stat -c '%s' $bdir/$simplecdd/images/debian-10-amd64-DVD-1.iso |\
+ awk '{ printf "%.1f GB\n",$0 / 1e9 }'

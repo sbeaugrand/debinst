@@ -1,0 +1,39 @@
+\documentclass[a5paper]{article}
+\usepackage{vmargin}
+\setpapersize{custom}{148mm}{210mm}
+\setmarginsrb{10mm}{10mm}{10mm}{5mm}{0mm}{0mm}{0mm}{5mm}
+\pagestyle{empty}
+\usepackage{times}
+\usepackage{graphics}
+\usepackage{siunitx}
+\setlength{\unitlength}{2.54mm}
+
+\begin{document}
+
+\begin{center}
+\Large
+Oscilloscope\\
+\normalsize
+~\\
+~\\
+\includegraphics{kicad/usbscopeSchema}\\
+~\\
+~\\
+\begin{tabular}{ll}
+C1 = 100 \si{\nano\farad} & R1 - R2 = 68 \si{\ohm}\\
+C2 = 47 \si{\micro\farad} 10 \si{\volt} & R3 = 470 \si{\ohm}\\
+D1 - D2 = 3.6 \si{\volt} & R4 = 2.2 \si{\kilo\ohm}\\
+& R5 = 10 \si{\kilo\ohm}\\
+\end{tabular}\\
+\vspace{5mm}
+\rotatebox{270}{%
+ \begin{picture}(10,0)
+ \leavevmode\makebox(0,0){\put(0,0){\includegraphics{kicad/usbscope-B_Cu}}}%
+ \leavevmode\makebox(0,0){\put(0,0){\includegraphics{kicad/usbscope-F_SilkS}}}%
+ \leavevmode\makebox(0,0){%
+  \multiput(1,0)(1,0){10}{\multiput(0,0)(0,1){19}{\line(0,0){0.06}}}}
+ \end{picture}
+}
+\end{center}
+
+\end{document}

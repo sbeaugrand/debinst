@@ -4,9 +4,11 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-bcm=bcm2835-1.62
-file=$bcm.tar.gz
+bcm=bcm2835-1.63
+repo=$idir/../bcm2835
+[ -d $repo ] || sudo -u $user mkdir $repo
 
+file=$bcm.tar.gz
 download http://www.airspayce.com/mikem/bcm2835/$file || return 1
 untar $file || return 1
 

@@ -19,7 +19,7 @@ version=4.1.4
 pkg=$name-$version.tgz
 src=$name-apt-src
 
-repo=$idir/../$name
+repo=$idir/../ffmpeg
 [ -d $repo ] || sudo -u $user mkdir $repo
 
 if notFile $repo/$pkg; then

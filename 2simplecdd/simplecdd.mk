@@ -81,7 +81,7 @@ amd64 i386:
 	@mkdir -p $(DESTDIR)
 	@cd $@ &&\
 	 rsync -a -L -i profiles/ $(DESTDIR)/profiles/ &&\
-	 $(BUILDCD)
+	 $(BUILDCD) || (echo "logfile = /tmp/scdd.log" && false)
 
 .PHONY: clean
 clean:

@@ -6,14 +6,13 @@
 # ---------------------------------------------------------------------------- #
 PROJECT = chebyshev
 PROROOT = ..
-CSVTRANSPOSE = $(HOME)/install/debinst/install-12-latex/csvtranspose.sh
 DST_EXT = .data# ngspice revision 30
 
 .PHONY: all
 all: $(PROJECT).pdf
 
 $(SRCDIR)/%Simulation.csv: $(SRCDIR)/%.csv
-	$(CSVTRANSPOSE) $< $@
+	$(PROROOT)/makefiles/csvtranspose.sh $< $@
 
 $(PROJECT).pdf: chebyshev.tex build\
  chebyshev.m\

@@ -2,9 +2,16 @@
 .*.swp
 build
 *.pdf
+*.ps
 *.ttf
 *.pfb
 *.toc
+*.a
+*.hex
+*-bak
+*-cache.*
+*-rescue.*
+fp-info-cache
 *-pr-*
 */amd64/profiles/amd64.packages
 */amd64/profiles/amd64.postinst

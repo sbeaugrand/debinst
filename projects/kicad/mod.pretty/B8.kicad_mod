@@ -1,0 +1,9 @@
+(module B8 (layer F.Cu) (tedit 5369BA04)
+  (fp_text reference B8 (at 0 1000) (layer F.SilkS) hide
+    (effects (font (size 600 600) (thickness 120)))
+  )
+  (fp_text value P** (at 0 -1000) (layer F.SilkS)
+    (effects (font (size 600 600) (thickness 120)))
+  )
+  (pad 1 thru_hole circle (at 0 0) (size 787 787) (drill 315) (layers *.Cu *.Mask F.SilkS))
+)

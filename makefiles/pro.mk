@@ -5,10 +5,10 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 TARDEPEND += makefiles/pro.mk
+PROJECT   ?= $(shell basename `readlink -f .`)
 
-ifeq ($(PROJECT),)
- PROJECT = $(shell basename `readlink -f .`)
-endif
 ifeq ($(wildcard kicad),kicad)
+ TARDEPEND += makefiles/kicad.mk
+ TARDEPEND += makefiles/csvtranspose.sh
  TARDEPEND += kicad
 endif

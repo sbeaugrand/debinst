@@ -1,6 +1,13 @@
 #!/bin/bash
-if [ -z "$1" ]; then
+# ---------------------------------------------------------------------------- #
+## \file csvtranspose.sh
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+if [ -z "$2" ]; then
     echo "Usage: `basename $0` <src> <dst>"
+    exit 1
 fi
 src=$1
 dst=$2
