@@ -10,8 +10,9 @@ if [ -n "$1" ]; then
 else
     dev=/dev/sda
 fi
-
 export LANG=en
+export PATH=$PATH:/sbin
+
 sectors=`fdisk -l $dev | grep " $dev" | awk '{ print $(NF-1) }'`
 echo "sectors = $sectors"
 ((size = sectors/1024/2048))

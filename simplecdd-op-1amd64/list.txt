@@ -81,6 +81,8 @@ sqlite3
 mpg123
 id3v2
 libreadline-dev
+net-tools  # arietta G25
+nftables  # arietta G25
 sox
 timidity
 tuxguitar-alsa

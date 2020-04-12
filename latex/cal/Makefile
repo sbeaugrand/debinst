@@ -15,11 +15,11 @@ CFLAGS += -DWITH_EQUATION_OF_TIME
 #CFLAGS += -DWITH_ALTITUDE
 
 ifeq ($(idir),)
- REPO  = $(HOME)/install/calendar
+ REPO = $(HOME)/install/calendar
 else
- REPO  = $(idir)/../calendar
+ REPO = $(idir)/../calendar
 endif
-BDIR   = $(HOME)/data/install-build
+BDIR  = $(HOME)/data/install-build
 
 .PHONY: all
 all:
@@ -27,17 +27,17 @@ all:
 	@echo -n "Usage: make { cal | cadran | testAlgos | testPaques | testSun "
 	@echo -n $(TARGETS)
 	@echo -n " | portrait-cal.pdf | portrait-cadran.pdf"
-	@echo -n " | dist-clean | dist | dist-cal | dist-cadran }"
+	@echo -n " | dist-clean | dist-cal | dist-cadran }"
 	@echo " [WIDTH=61.0 HEIGHT=29.7 STRAIGHT_STYLUS_LENGTH=6.5]"
 	@echo
 
 LDFLAGS = -lm
-PROROOT=..
-PROJECT=cal
+PROROOT = ..
+PROJECT = cal
 include $(PROROOT)/makefiles/ccpp.mk
 
-.PHONY: cal
-cal: build cal$(YEAR).pdf
+.PHONY: cal dist-cal
+cal dist-cal: build cal$(YEAR).pdf
 
 cal$(YEAR).pdf: cal.tex\
  build/sun build/moon\
@@ -105,8 +105,8 @@ testPaques:
 testSun: build build/sun
 	@build/sun `date +%Y-%m-%d` $(LAT) $(LON) $(H0)
 
-.PHONY: cadran
-cadran: build cadran.pdf
+.PHONY: cadran dist-cadran
+cadran dist-cadran: build cadran.pdf
 
 build/config.tex: $(MAKEFILE_LIST)
 	@echo -n "\def\sousStylaire" >$@
@@ -176,11 +176,5 @@ portrait-%.pdf: %.pdf
 .PHONY: dist-clean
 dist-clean:
 	@$(RM) *.pdf build/*.tex build/*.dat
-
-.PHONY: dist-cal
-dist-cal: build cal.pdf
-
-.PHONY: dist-cadran
-dist-cadran: build cadran.pdf
 
 include $(PROROOT)/makefiles/tar.mk

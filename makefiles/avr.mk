@@ -53,6 +53,7 @@ build/$(PROJECT).elf: $(OBJECTS)
 
 .PHONY: checksize
 checksize: build/$(PROJECT).elf
+	@avr-size -C --mcu=$(ATMEL) build/$(PROJECT).elf | sed '/^$$/d'
 	@! avr-size -C --mcu=$(ATMEL) build/$(PROJECT).elf | grep '([0-9]\{3\}'
 
 .PHONY: fuse

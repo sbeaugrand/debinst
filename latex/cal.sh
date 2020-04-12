@@ -29,9 +29,8 @@ if notLink $file; then
 fi
 
 pushd latex/cal || return 1
-touch build/calendar/calend0.tex
-make cal >>$log 2>&1
-make cadran >>$log 2>&1
+make >>$log 2>&1 cal
+make >>$log 2>&1 cadran
 popd
 
 chown -R $user.$user latex/cal

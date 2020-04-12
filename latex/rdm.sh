@@ -14,7 +14,6 @@ file=EPB_SI.zip
 url=http://s2i.pinault-bigeard.com/telechargements/category/15-latex
 download $url?download=236:epb-si-zip $file || return 1
 untar $file || return 1
-touch $bdir/EPB_SI/EPB_SI.sty
 
 pushd latex/rdm || return 1
 make HOME=$home >>$log 2>&1

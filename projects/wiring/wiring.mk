@@ -22,22 +22,26 @@ ifeq ($(GPIO),avr)
 endif
 ifeq ($(ADC),bcm)
  OBJECTS += wiring_analog-bcm.o
- CFLAGS += -DADC -I/usr/local/include
+ CFLAGS += -DRPI -I/usr/local/include
  LDFLAGS += -lbcm2835 -L/usr/local/lib
  SUDO = sudo
 endif
 ifeq ($(ADC),wpi)
  OBJECTS += wiring_analog-wpi.o
- CFLAGS += -DWIRING_PI -I/usr/local/include
+ CFLAGS += -DRPI -DWIRING_PI -I/usr/local/include
  LDFLAGS += -lpthread -lwiringPi
  SUDO = sudo
 endif
 ifeq ($(ADC),g25)
  OBJECTS += wiring_analog-g25.o
- CFLAGS += -DADC
+ CFLAGS += -DARIETTA
 endif
 ifeq ($(ADC),avr)
  OBJECTS += wiring_analog-avr.o
+endif
+ifeq ($(ADC),sinus)
+ OBJECTS += wiring_analog-sinus.o
+ CFLAGS += -DSINUS
 endif
 
 build/%.o: $(PROROOT)/wiring/%.c
