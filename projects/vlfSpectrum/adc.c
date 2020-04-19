@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
     if (argc > 1) {
         sleep = 1 << atoi(argv[1]);
     } else {
-        sleep = 1 << 13;
+        sleep = 1 << 18;
     }
 #   else
     struct timespec ts;

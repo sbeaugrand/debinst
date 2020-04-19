@@ -17,3 +17,4 @@ install-eeshow
 install-kiplot
 install-bcm2835
 install-avrusb
+install-usbtinyisp

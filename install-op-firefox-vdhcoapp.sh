@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-version=1.2.3
+version=1.5.0
 file=net.downloadhelper.coapp-$version-1_amd64.deb
 
 if notFile $repo/$file; then
@@ -12,5 +12,5 @@ if notFile $repo/$file; then
 fi
 
 if notDir /opt/net.downloadhelper.coapp; then
-    dpkg -i $repo/$file >>$log
+    PATH=$PATH:/sbin dpkg -i $repo/$file >>$log
 fi

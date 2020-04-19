@@ -170,6 +170,8 @@ xorriso  # simple-cdd
 isolinux
 nmap
 lm-sensors
+hdparm
+parted
 simple-cdd
 mtools  # simple-cdd
 dosfstools  # simple-cdd

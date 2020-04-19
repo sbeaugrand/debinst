@@ -20,6 +20,7 @@ source install-op-rpi/install-11-bcm.sh || return 1
 source latex/cal.sh || return 1
 source latex/rdm.sh || return 1
 source projects/avr/avrusb.sh || return 1
+source projects/avr/usbtinyisp/usbtinyisp.sh || return 1
 
 # libdvdcss
 /usr/lib/libdvd-pkg/b-i_libdvdcss.sh

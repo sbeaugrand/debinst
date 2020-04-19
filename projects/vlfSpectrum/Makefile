@@ -32,13 +32,13 @@ all:
 	@echo "raspberry Pi"
 	@echo "  remote> make adc ADC=[bcm|wpi]"
 	@echo "  locale> make fft-tcp"
-	@echo "  remote> build/adc"
+	@echo "  remote> build/adc [rate]"
 	@echo "  locale> build/fft-tcp 0 110 192.168.0.??"
 	@echo
 	@echo "arietta G25"
 	@echo "  remote> make adc ADC=g25"
 	@echo "  locale> make fft-tcp"
-	@echo "  remote> build/adc [13]"
+	@echo "  remote> build/adc [18]"
 	@echo "  locale> build/fft-tcp 0 110 192.168.10.10"
 	@echo
 	@echo "usbscope"

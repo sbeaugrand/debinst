@@ -38,6 +38,11 @@ tar:
 	--exclude=.git \
 	--exclude=livret-*.pdf \
 	--exclude=portrait-*.pdf \
+	--exclude=*.bck \
+	--exclude=*-bak \
+	--exclude=*rescue* \
+	--exclude=*-cache* \
+	--exclude=*.ps \
 	$(PROJECT)
 
 .PHONY: dist
@@ -48,6 +53,11 @@ dist:
 	--exclude=build \
 	--exclude=.git \
 	--exclude=*.pdf \
+	--exclude=*.bck \
+	--exclude=*-bak \
+	--exclude=*rescue* \
+	--exclude=*-cache* \
+	--exclude=*.ps \
 	--exclude=*.ttf \
 	--exclude=*.pfb \
 	--exclude=*.tgz \

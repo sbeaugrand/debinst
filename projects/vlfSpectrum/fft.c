@@ -103,13 +103,8 @@ int main(int argc, char* argv[])
     const unsigned int SAMPLE_SIZE = 1 << (int) log2(TCP_MSS_DEFAULT -
                                                      HEADER_SIZE);
     const unsigned int PACKET_SIZE = HEADER_SIZE + SAMPLE_SIZE;
-#   ifdef RPI
-    const unsigned int SAMPLES_SIZE = SAMPLE_SIZE << 3;
-#   elif ARIETTA
-    const unsigned int SAMPLES_SIZE = SAMPLE_SIZE << 3;
-#   else
-    const unsigned int SAMPLES_SIZE = SAMPLE_SIZE << 3;
-#   endif
+    const unsigned int SAMPLES_SIZE = SAMPLE_SIZE;  // ariettaG25: build/adc 18
+    //const unsigned int SAMPLES_SIZE = SAMPLE_SIZE << 3;  // G25: build/adc 13
 
     uint16_t buff[SAMPLES_SIZE >> 1];
     int pos;

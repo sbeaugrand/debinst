@@ -358,7 +358,7 @@ const char* mp3serverGetRelativeDate(const char* ymd)
     d = gTmOfTheDay->tm_mday - d;
     DEBUG("y = %d, m = %d, d = %d", y, m, d);
     if (d < 0) {
-        d += 30;
+        d += 31;
         m -= 1;
     }
     if (m < 0) {
@@ -367,6 +367,9 @@ const char* mp3serverGetRelativeDate(const char* ymd)
     }
     d += m * 31 + y * 372;
     DEBUG("d = %d", d);
+    if (d < 0) {  // When DS1302 is frozen
+        d = 0;
+    }
     if (d == 0) {
         mp3serverTmOfTheDay();
     }
@@ -374,7 +377,7 @@ const char* mp3serverGetRelativeDate(const char* ymd)
     if (d > 9) {
         d /= 7;
         if (d > 9) {
-            d = dInit / 30;
+            d = dInit / 31;
             if (d > 9) {
                 d /= 12;
                 dateR[1] = 'A';

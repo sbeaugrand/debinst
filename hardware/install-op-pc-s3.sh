@@ -14,7 +14,6 @@ install-op-phpmyadmin-base.sh
 install-op-phpmyadmin-extra.sh
 install-op-redis.sh
 install-op-sdcc.sh
-install-op-ssaver-off.sh
 install-op-tor.sh
 install-op-upgrades.sh
 install-pr-bashrc.sh
