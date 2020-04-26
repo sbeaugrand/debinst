@@ -10,21 +10,30 @@
 # ---------------------------------------------------------------------------- #
 if [ "$1" = "-i" ]; then
     interactive=1
+    shift
 else
     interactive=0
 fi
-
-if ! which id3ed >/dev/null 2>&1; then
-    echo "error: id3ed not found"
-    exit 1
-fi
-if ! which mpg123 >/dev/null 2>&1; then
-    echo "error: mpg123 not found"
-    exit 1
-fi
-if ! which id3v2 >/dev/null 2>&1; then
-    echo "error: id3v2 not found"
-    exit 1
+if [ "$1" = "m4a" ]; then
+    ext="m4a"
+    if ! which boxdumper >/dev/null 2>&1; then
+        echo "error: boxdumper not found"
+        exit 1
+    fi
+else
+    ext="mp3"
+    if ! which id3ed >/dev/null 2>&1; then
+        echo "error: id3ed not found"
+        exit 1
+    fi
+    if ! which mpg123 >/dev/null 2>&1; then
+        echo "error: mpg123 not found"
+        exit 1
+    fi
+    if ! which id3v2 >/dev/null 2>&1; then
+        echo "error: id3v2 not found"
+        exit 1
+    fi
 fi
 
 if find . -print | grep -P "[^a-zA-Z0-9()',./ [\]_%+-]"; then
@@ -42,7 +51,7 @@ trap "rm $dirs; echo; exit 0" SIGINT
 # ---------------------------------------------------------------------------- #
 rdexec()
 {
-    for ((rj=1;$rj<=$ndir;rj++)); do
+    for ((rj = 1; rj <= ndir; rj++)); do
         rd=`head -n $rj $dirs | tail -n 1`
         eval $1 \""$rd"\" \""$2"\"
     done
@@ -54,9 +63,9 @@ rdexec()
 rfexec()
 {
     cd "$1"
-    find . -maxdepth 1 -name "*.mp3" -print | LC_ALL=C sort >$mp3s
+    find . -maxdepth 1 -name "*.$ext" -print | LC_ALL=C sort >$mp3s
     nmp3=`cat $mp3s | wc -l`
-    for ((ri=1;$ri<=$nmp3;ri++)); do
+    for ((ri = 1; ri <= nmp3; ri++)); do
         rf=`head -n $ri $mp3s | tail -n 1`
         eval $2 \""$rf"\"
     done
@@ -73,7 +82,7 @@ fffb()
     s=`hexdump -e '/1 "%02X"' -v "$1" | grep -b -o FFFB | \
         head -n 1 | cut -d ':' -f 1`
     if [ -n "$s" ] && ((s > 1)); then
-        s=`echo $s | awk '{ print rshift($0,1) }'`
+        s=`echo $s | awk '{ print rshift($0, 1) }'`
         echo -n " $s"
         dd status=noxfer if="$1" ibs=$s skip=1 of=mp3.tmp 2>/dev/null
         mv mp3.tmp "$1"
@@ -88,24 +97,29 @@ ucfirst()
 {
     echo "$1"
     echo "$1" | cut -c3- |\
-    awk 'BEGIN { FS = " *|_" } {
-      printf "mv \"%s\" \"", $0
-      for(j=1;j<=NF;j++) {
-        size = length($j)
-        printf "%c",toupper(substr($j,1,1))
-        for(i=2;i<=size;i++) {
-          if (substr($j,i-1,1) == "(") {
-            printf "%s",toupper(substr($j,i,1))
-          } else {
-            printf "%c",tolower(substr($j,i,1))
-          }
+    awk 'BEGIN { FS = " *|_" }
+    {
+        printf "mv \"%s\" \"", $0;
+        for(j = 1; j <= NF; j++) {
+            if (j == 2 && $j != "-") {
+                printf "- ";
+            }
+            size = length($j);
+            printf "%c",toupper(substr($j, 1, 1));
+            for(i = 2; i <= size; i++) {
+                if (substr($j, i - 1, 1) == "(") {
+                    printf "%s",toupper(substr($j, i, 1));
+                } else {
+                    printf "%c",tolower(substr($j, i, 1));
+                }
+            }
+            if (j < NF) {
+                printf " ";
+            }
         }
-        if (j<NF)
-          printf " "
-      }
-      printf "\"\n"
-    }' |\
-    awk '{ system($0) }' 2>/dev/null
+        printf "\"\n";
+    }
+    ' | awk '{ system($0) }' 2>/dev/null
 }
 
 # ---------------------------------------------------------------------------- #
@@ -119,9 +133,9 @@ tag()
         return
     fi
     f=`basename "$1"`
-    i=`echo ${f:0:2} | awk '{ print $0+0 }'`
+    i=`echo ${f:0:2} | awk '{ print $0 + 0 }'`
     id3v2 -D "$f" >/dev/null
-    title=`echo "${f%.mp3}" | cut -c6-`
+    title=`echo "${f%.$ext}" | cut -c6-`
     id3ed -n "$artist" -a "$album" -y "$year" -k $i -s "$title" -q "$f" \
         >/dev/null
 }
@@ -158,12 +172,18 @@ list()
         return
     fi
     f=`basename "$1"`
-    i=`echo ${f:0:2} | awk '{ print $0+0 }'`
-    title=`echo "${f%.mp3}" | cut -c6-`
-    mp3=`printf %02d $i`" - $title.mp3"
-    time=`mpg123 -t "$mp3" 2>&1 | tail -n 1`
-    time=`echo $time | cut -d ']' -f 1 | cut -d '[' -f 2 |\
-        awk -F ':' '{ print $1 * 60 + $2 }'`
+    i=`echo ${f:0:2} | awk '{ print $0 + 0 }'`
+    title=`echo "${f%.$ext}" | cut -c6-`
+    mp3=`printf %02d $i`" - $title.$ext"
+    if [ $ext = "mp3" ]; then
+        time=`mpg123 -t "$mp3" 2>&1 | tail -n 1`
+        time=`echo $time | cut -d ']' -f 1 | cut -d '[' -f 2 |\
+            awk -F ':' '{ print $1 * 60 + $2 }'`
+    else
+        time=`boxdumper "$mp3" | grep duration | head -1`
+        time=`echo $time | cut -d '.' -f 1 | cut -d '(' -f 2 |\
+            awk -F ':' '{ print $1 * 3600 + $2 * 60 + $3 }'`
+    fi
     if ((time == 0)); then
         echo "warn: time = 0"
         return
@@ -215,12 +235,16 @@ myRead()
 # main
 # ---------------------------------------------------------------------------- #
 myRead "rchmod644" && find . -type f -exec chmod 644 {} \;
-myRead "fffb"      && rdexec rfexec fffb
+if [ $ext = "mp3" ]; then
+    myRead "fffb" && rdexec rfexec fffb
+fi
 myRead "dirnames"  && rdexec ucfirst
 find . -type d -print | LC_ALL=C sort >$dirs
 myRead "filenames" && rdexec rfexec ucfirst
-myRead "tags"      && rdexec rtag
-myRead "lists"     && rdexec rlist
+if [ $ext = "mp3" ]; then
+    myRead "tags" && rdexec rtag
+fi
+myRead "lists" && rdexec rlist
 
 rm $dirs
 

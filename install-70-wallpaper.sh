@@ -61,12 +61,16 @@ loglog
 0 0x39a0 0.25 0xffffff 0.5 0xfffe43 0.75 0xbf0800 1 0x39a0
 EOF
     fractalnow -c $name.config -x $w -y $h -o $bdir/fractal.png >>$log
+    ((hue = RANDOM * 255 / 32768 + 1))
+    echo " info: random hue = $hue" | tee -a $log
     convert $bdir/fractal.png\
       -fill blue -opaque black\
-      -modulate 50,25,50\
+      -modulate 50,25,$hue\
       -flop\
       $name.png
     mv $name.png install-*-wallpaper/build/
+else
+    echo " warn: $file already exists" | tee -a $log
 fi
 
 file=`ls install-*-wallpaper/*-${width}x${height}.png 2>/dev/null | tail -n 1`
@@ -80,6 +84,8 @@ if [ -z "$file" ]; then
       $bdir/fractal-${width}x${height}.png
     mv $bdir/fractal-${width}x${height}.png install-*-wallpaper/build/
     file=`ls install-*-wallpaper/build/*-${width}x${height}.png 2>/dev/null`
+else
+    echo " warn: $file already exists" | tee -a $log
 fi
 
 su -c "pcmanfm --set-wallpaper=$idir/$file --wallpaper-mode=$mode" $user

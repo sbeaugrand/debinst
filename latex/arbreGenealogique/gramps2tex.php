@@ -133,23 +133,17 @@ class Individu
     /**************************************************************************!
      * \fn construct
      **************************************************************************/
-    function __construct($i) {
+    function __construct($i, $lieu, $departement) {
         $this->nom = strtoupper($i[1]);
         $this->prenom = $i[2];
         $this->dateNaissance = $i[8];
         $this->dateMort = $i[14];
-        if (strpos($i[9], ',') > 0) {
-            list($this->villeNaissance,
-                 $this->depNaissance) = explode(',', $i[9]);
-        } else {
-            $this->villeNaissance = $i[9];
+        if (array_key_exists($i[9], $lieu)) {
+            $this->villeNaissance = $lieu[$i[9]];
+            $this->depNaissance = $departement[$i[9]];
         }
-        $this->depNaissance = trim($this->depNaissance);
-        $virgule = strpos($i[15], ',');
-        if ($virgule > 0) {
-            $this->villeMort = substr($i[15], 0, $virgule);
-        } else {
-            $this->villeMort = $i[15];
+        if (array_key_exists($i[15], $lieu)) {
+            $this->villeMort = $lieu[$i[15]];
         }
         $this->titre = $i[6];
         $this->label = str_replace('[', '', $i[0]);
@@ -219,6 +213,8 @@ class Individu
  ******************************************************************************/
 class Arbre
 {
+    var $lieu;
+    var $departement;
     var $departementList;
     var $individus;
     var $mariage;
@@ -273,34 +269,37 @@ class Arbre
                 switch (trim($d[0])) {
                 case 'Lieu':
                     $table = LIEU;
-                    continue;
+                    break;
                 case 'Individu':
                     $table = INDIVIDU;
-                    continue;
+                    break;
                 case 'Mariage':
                     $table = MARIAGE;
-                    continue;
+                    break;
                 case 'Famille':
                     $table = FAMILLE;
-                    continue;
+                    break;
                 default:
                     switch ($table) {
                     case LIEU:
                         if ($d[3] == 'Département') {
                             $this->departementList->add($d[2]);
+                            $tmpDepartement[$d[0]] = $d[2];
                         } else {
                             $this->lieu[$d[0]] = $d[2];
+                            $this->departement[$d[0]] = $tmpDepartement[$d[7]];
                         }
-                        continue;
+                        break;
                     case INDIVIDU:
-                        $this->individus[$d[0]] = new Individu($d);
-                        continue;
+                        $this->individus[$d[0]] =
+                            new Individu($d, $this->lieu, $this->departement);
+                        break;
                     case MARIAGE:
                         $this->mariage[$d[0]] = $d;
-                        continue;
+                        break;
                     case FAMILLE:
                         $this->famille[$d[1]] = $d[0];
-                        continue;
+                        break;
                     }
                 }
             }
@@ -348,8 +347,12 @@ class Arbre
         if ($this->niveau == 0 && $this->anneeMariage == 0) {
             $this->anneeMariage =
                 substr($this->mariage[$this->famille[$n]][3], 0, 4);
-            $this->villeMariage =
-                explode(',', $this->mariage[$this->famille[$n]][4])[0];
+            $index = $this->mariage[$this->famille[$n]][4];
+            if (array_key_exists($index, $this->lieu)) {
+                $this->villeMariage = $this->lieu[$index];
+            } else {
+                $this->villeMariage = '';
+            }
         }
         ++$this->niveau;
         if ($this->niveau < $this->lmax) {
@@ -365,13 +368,9 @@ class Arbre
                     $s = substr($this->mariage[$this->famille[$n]][3], 0, 4);
                 } else {
                     $s = $this->mariage[$this->famille[$n]][3].' ';
-                    $virgule = strpos($this->mariage[$this->famille[$n]][4],
-                                      ',');
-                    if ($virgule > 0) {
-                        $s .= substr($this->mariage[$this->famille[$n]][4],
-                                     0, $virgule);
-                    } else {
-                        $s .= $this->mariage[$this->famille[$n]][4];
+                    $index = $this->mariage[$this->famille[$n]][4];
+                    if (array_key_exists($index, $this->lieu)) {
+                        $s .= $this->lieu[$index];
                     }
                 }
                 print 'edge from parent node[';
@@ -463,6 +462,10 @@ if ($argv[1] == 'tests') {
 } else {
     $a = new Arbre($parent, $lmax, $below, $left, $right);
     $a->readCSV($filename);
+    fwrite(STDERR, 'Lieux: '.count($a->lieu)."\n");
+    fwrite(STDERR, 'Individus: '.count($a->individus)."\n");
+    fwrite(STDERR, 'Mariages: '.count($a->mariage)."\n");
+    fwrite(STDERR, 'Familles: '.count($a->famille)."\n");
     if ($parent == 1) {
         $genre = GENRE_M;
     } else {

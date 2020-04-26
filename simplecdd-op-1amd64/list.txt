@@ -74,6 +74,7 @@ xmms2-plugin-ices
 xmms2-plugin-pulse
 libmad0
 xmms2-plugin-mad
+xmms2-plugin-faad
 xmms2-dev
 libxmmsclient-dev
 xmms2

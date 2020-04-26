@@ -108,7 +108,7 @@ define photo
 	@convert -units PixelsPerInch $< $3 -crop $(PHOTO_W)x$(PHOTO_H)+$1+$2 \
 	-normalize $(EXEMPLE) -density 300 tmp.png
 	@convert tmp.png build/ellipse.png -compose Screen -composite +repage \
-	-pointsize 18 -draw "text \
+	-font Liberation-Sans -pointsize 18 -draw "text \
 	$(shell echo "$(PHOTO_W) - 45" | bc),\
 	$(shell echo "$(PHOTO_H) - 5" | bc) '$4'" $@
 	@rm tmp.png
@@ -119,7 +119,7 @@ define photo3
 	@convert -units PixelsPerInch $< $3 -crop $(PHOTO_3W)x$(PHOTO_3H)+$1+$2 \
 	-normalize $(EXEMPLE3) -density 300 tmp.png
 	@convert tmp.png build/ellipse3.png -compose Screen -composite +repage \
-	-pointsize 18 -draw "text \
+	-font Liberation-Sans -pointsize 18 -draw "text \
 	$(shell echo "$(PHOTO_3W) - 45" | bc),\
 	$(shell echo "$(PHOTO_3H) - 5" | bc) '$4'" $@
 	@rm tmp.png
@@ -220,7 +220,7 @@ define photoExtent2
 	@for file in $(notdir $^); do \
 		$(call photoExtent,$$file); \
 	done; \
-	convert $(addprefix build/tmp,$(notdir $^)) +append\
+	convert $(addprefix build/tmp,$(notdir $^)) +append -font Liberation-Sans\
 	 -pointsize 18 -draw "text 250,850 '$1'" -draw "text 850,850 '$2'" $@; \
 	rm $(addprefix build/tmp,$(notdir $^))
 endef
