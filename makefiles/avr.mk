@@ -25,6 +25,7 @@ CXX       = avr-g++
 OBJCOPY   = avr-objcopy
 CFLAGS   += -g -Os -mmcu=$(ATMEL)
 CXXFLAGS += -g -Os -mmcu=$(ATMEL) -fno-exceptions
+WARNINGS  = -Wall -Wextra
 
 .SUFFIXES:
 

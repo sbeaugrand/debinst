@@ -29,6 +29,12 @@ K inductor choke coil reactor magnetic
 F ~
 $ENDCMP
 #
+$CMP Microphone
+D Microphone
+K microphone
+F ~
+$ENDCMP
+#
 $CMP R
 D Resistor
 K R res resistor

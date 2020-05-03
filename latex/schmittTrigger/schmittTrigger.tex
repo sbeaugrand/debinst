@@ -1,0 +1,45 @@
+% ---------------------------------------------------------------------------- %
+%% \file schmittTrigger.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass{../../projects/kicad/kicad}
+\usepackage{pgfplots}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{center}
+\titre{Bascule de Schmitt}
+~\\
+~\\
+\schema{schmittTrigger}
+~\\
+~\\
+\begin{tikzpicture}
+\begin{axis}[
+    scale only axis,
+    xmin=0, xmax=240, ymin=0, ymax=5,
+    xlabel=s,
+    xtick={0,30,...,240},
+    ylabel=V,
+    ytick={0,1,...,5},
+    tick align=outside,
+    legend style={at={(0.5,-0.15)},anchor=north},
+    legend columns=5]
+    \addplot[blue]
+     table[x=Time, y=V/entree, col sep=space] {build/schmittTrigger.dat};
+    \addplot[green]
+     table[x=Time, y=V/diviseur, col sep=space] {build/schmittTrigger.dat};
+    \addplot[red]
+     table[x=Time, y=V/bascule, col sep=space] {build/schmittTrigger.dat};
+    \addplot[black]
+     table[x=Time, y=V/sortie, col sep=space] {build/schmittTrigger.dat};
+    \legend{entree,diviseur,bascule,sortie}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\end{document}
+

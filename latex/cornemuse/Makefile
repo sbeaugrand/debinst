@@ -23,7 +23,9 @@ PROJECT = cornemuse
 .SUFFIXES:
 
 .PHONY: all
-all:
+all: $(PROJECT).pdf
+
+$(PROJECT).pdf: $(PROJECT).tex
 	@mv $(PROJECT).toc $(PROJECT).toc.sav; true
 	@pdflatex --halt-on-error $(PROJECT).tex
 	@musixflx $(PROJECT).mx1

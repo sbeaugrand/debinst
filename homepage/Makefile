@@ -69,6 +69,7 @@ tgz:\
  tgz/arbreGenealogique.tgz\
  tgz/baofeng.tgz\
  tgz/chebyshev.tgz\
+ tgz/schmittTrigger.tgz\
  tgz/cornemuse.tgz\
 
 tgz/src.tgz: $(SRC)

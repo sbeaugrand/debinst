@@ -9,6 +9,8 @@ install-op-firefox-safesearch.sh
 install-op-firefox-vdh.sh
 install-op-firefox-vdhcoapp.sh
 install-op-flashplayer.sh
+install-op-id3ed.sh
+install-op-m4acut.sh
 install-op-meteo.sh
 install-op-rpi-xc.sh
 install-op-upgrades.sh

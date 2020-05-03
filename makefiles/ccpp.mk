@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 TARDEPEND  += makefiles/ccpp.mk
-WARNINGS    = -Wall -Wextra -O1 -D_FORTIFY_SOURCE=2
+WARNINGS   ?= -Wall -Wextra -O1 -D_FORTIFY_SOURCE=2
 CFLAGS     += $(WARNINGS)
 CXXFLAGS   += $(WARNINGS)
 COBJECTS   ?= $(patsubst %.c,%.o,$(wildcard *.c))

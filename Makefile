@@ -61,6 +61,7 @@ dist:
 	--exclude=*.ttf \
 	--exclude=*.pfb \
 	--exclude=*.tgz \
+	--exclude=*.a \
 	--exclude=*-pr-* \
 	--exclude=php \
 	$(PROJECT)

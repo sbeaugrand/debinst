@@ -52,6 +52,7 @@ avrdude
 simulavr
 gdb-avr
 kicad
+kicad-symbols
 ngspice
 libcairo2-dev  # eeplot
 libgit2-dev  # eeplot
@@ -201,6 +202,8 @@ sudo
 network-manager-gnome
 dh-make  # simple-cdd
 mplayer
+mencoder
+ffmpeg
 openscad
 cpulimit
 firmware-amd-graphics

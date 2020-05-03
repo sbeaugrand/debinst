@@ -1,0 +1,368 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L kicad:R Rb1
+U 1 1 5C4200FC
+P 1850 1250
+F 0 "Rb1" V 1850 1250 50  0000 C CNN
+F 1 "100Meg" H 1900 1300 50  0000 L CNN
+F 2 "" V 1780 1250 50  0001 C CNN
+F 3 "~" H 1850 1250 50  0001 C CNN
+	1    1850 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L kicad:R Rb2
+U 1 1 5C42018E
+P 1850 2350
+F 0 "Rb2" V 1850 2350 50  0000 C CNN
+F 1 "470k" H 1920 2305 50  0000 L CNN
+F 2 "" V 1780 2350 50  0001 C CNN
+F 3 "~" H 1850 2350 50  0001 C CNN
+	1    1850 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L kicad:R Re1
+U 1 1 5C4201C6
+P 2750 2350
+F 0 "Re1" V 2750 2350 50  0000 C CNN
+F 1 "560" H 2820 2305 50  0000 L CNN
+F 2 "" V 2680 2350 50  0001 C CNN
+F 3 "~" H 2750 2350 50  0001 C CNN
+	1    2750 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L kicad:R Rc1
+U 1 1 5C420202
+P 2750 1250
+F 0 "Rc1" V 2750 1250 50  0000 C CNN
+F 1 "2.2k" H 2820 1205 50  0000 L CNN
+F 2 "" V 2680 1250 50  0001 C CNN
+F 3 "~" H 2750 1250 50  0001 C CNN
+	1    2750 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L kicad:R R1
+U 1 1 5C420240
+P 3100 1800
+F 0 "R1" V 3100 1800 50  0000 C CNN
+F 1 "27k" V 3000 1800 50  0000 C CNN
+F 2 "" V 3030 1800 50  0001 C CNN
+F 3 "~" H 3100 1800 50  0001 C CNN
+	1    3100 1800
+	0    1    1    0   
+$EndComp
+$Comp
+L kicad:R R2
+U 1 1 5C4202DD
+P 3250 2200
+F 0 "R2" V 3250 2250 50  0000 R CNN
+F 1 "22k" H 3450 2150 50  0000 R CNN
+F 2 "" V 3180 2200 50  0001 C CNN
+F 3 "~" H 3250 2200 50  0001 C CNN
+	1    3250 2200
+	1    0    0    -1  
+$EndComp
+$Comp
+L kicad:R Rc2
+U 1 1 5C42033E
+P 3550 1250
+F 0 "Rc2" V 3550 1250 50  0000 C CNN
+F 1 "3.9k" H 3500 1200 50  0000 R CNN
+F 2 "" V 3480 1250 50  0001 C CNN
+F 3 "~" H 3550 1250 50  0001 C CNN
+	1    3550 1250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2750 1800 2950 1800
+Wire Wire Line
+	3250 1800 3250 2050
+Wire Wire Line
+	3250 2500 3250 2350
+Wire Wire Line
+	3550 2000 3550 2200
+Wire Wire Line
+	3550 2200 2750 2200
+$Comp
+L kicad:Conn_01x02 J1
+U 1 1 5C421A6E
+P 1150 1100
+F 0 "J1" H 1150 900 50  0000 C CNN
+F 1 "Conn_01x02" H 1070 1226 50  0001 C CNN
+F 2 "" H 1150 1100 50  0001 C CNN
+F 3 "~" H 1150 1100 50  0001 C CNN
+F 4 "V" H 1150 1100 50  0001 C CNN "Spice_Primitive"
+F 5 "pwl(0 0 60 500 120 0 180 500 240 0)" H 450 1250 50  0000 C CNN "Spice_Model"
+F 6 "Y" H 1150 1100 50  0001 C CNN "Spice_Netlist_Enabled"
+	1    1150 1100
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	1350 1100 1600 1100
+Text Notes 3050 1000 0    50   ~ 0
+.tran 0.5 240
+Text Label 3600 1600 0    50   ~ 0
+bascule
+$Comp
+L kicad:GND #PWR01
+U 1 1 5C43147D
+P 4800 2300
+F 0 "#PWR01" H 4800 2050 50  0001 C CNN
+F 1 "GND" H 4805 2127 50  0000 C CNN
+F 2 "" H 4800 2300 50  0001 C CNN
+F 3 "" H 4800 2300 50  0001 C CNN
+	1    4800 2300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2750 1400 2750 1800
+Wire Wire Line
+	2150 1100 2450 1100
+Wire Wire Line
+	2450 1600 2450 1100
+$Comp
+L kicad:Conn_01x02 J2
+U 1 1 5C422B39
+P 4900 1100
+F 0 "J2" H 4850 900 50  0000 L CNN
+F 1 "Conn_01x02" H 4980 1001 50  0001 L CNN
+F 2 "" H 4900 1100 50  0001 C CNN
+F 3 "~" H 4900 1100 50  0001 C CNN
+F 4 "V" H 4900 1100 50  0001 C CNN "Spice_Primitive"
+F 5 "pwl(0 4 119 4 120 3.6)" H 4500 1250 50  0000 C CNN "Spice_Model"
+F 6 "Y" H 4900 1100 50  0001 C CNN "Spice_Netlist_Enabled"
+	1    4900 1100
+	1    0    0    -1  
+$EndComp
+Connection ~ 2450 1100
+$Comp
+L kicad:R R3
+U 1 1 5C43B05F
+P 1600 1450
+F 0 "R3" V 1600 1400 50  0000 L CNN
+F 1 "99Meg" H 1450 1300 50  0000 L CNN
+F 2 "" V 1530 1450 50  0001 C CNN
+F 3 "~" H 1600 1450 50  0001 C CNN
+	1    1600 1450
+	1    0    0    -1  
+$EndComp
+Connection ~ 1600 1100
+Wire Wire Line
+	1600 1100 1850 1100
+$Comp
+L kicad:R R4
+U 1 1 5C43B09B
+P 1600 2350
+F 0 "R4" V 1600 2300 50  0000 L CNN
+F 1 "1Meg" H 1500 2500 50  0000 L CNN
+F 2 "" V 1530 2350 50  0001 C CNN
+F 3 "~" H 1600 2350 50  0001 C CNN
+	1    1600 2350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1600 1100 1600 1300
+Wire Wire Line
+	1600 1600 1600 2200
+Text Label 1600 1900 0    50   ~ 0
+entree
+$Comp
+L kicad:R R7
+U 1 1 5C4491BF
+P 4450 1250
+F 0 "R7" V 4450 1300 50  0000 R CNN
+F 1 "1.2k" H 4400 1200 50  0000 R CNN
+F 2 "" V 4380 1250 50  0001 C CNN
+F 3 "~" H 4450 1250 50  0001 C CNN
+	1    4450 1250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 2500 4450 1800
+$Comp
+L kicad:R R5
+U 1 1 5C44F355
+P 4000 1600
+F 0 "R5" V 4000 1600 50  0000 C CNN
+F 1 "3.9k" V 3900 1600 50  0000 C CNN
+F 2 "" V 3930 1600 50  0001 C CNN
+F 3 "~" H 4000 1600 50  0001 C CNN
+	1    4000 1600
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3550 1600 3850 1600
+$Comp
+L kicad:R R6
+U 1 1 5C450B24
+P 4150 2050
+F 0 "R6" V 4150 2100 50  0000 R CNN
+F 1 "2.2k" H 4100 2000 50  0000 R CNN
+F 2 "" V 4080 2050 50  0001 C CNN
+F 3 "~" H 4150 2050 50  0001 C CNN
+	1    4150 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4150 1600 4150 1900
+Wire Wire Line
+	4150 2200 4150 2500
+Text Label 4450 1400 0    50   ~ 0
+sortie
+Text Label 1850 1450 0    50   ~ 0
+diviseur
+Wire Wire Line
+	2150 1100 2150 1400
+Connection ~ 3250 2500
+Wire Wire Line
+	3250 2500 4150 2500
+Wire Wire Line
+	4700 1200 4700 2300
+Wire Wire Line
+	4700 2500 4450 2500
+Connection ~ 4450 2500
+Wire Wire Line
+	3550 1400 3550 1600
+Connection ~ 4150 2500
+Wire Wire Line
+	4150 2500 4450 2500
+$Comp
+L kicad:NPN Q1
+U 1 1 5CC1C2DE
+P 2050 1600
+F 0 "Q1" H 2100 1600 50  0000 L CNN
+F 1 "NPN" H 2250 1600 50  0001 L CNN
+F 2 "TO-92" H 2250 1525 50  0001 L CIN
+F 3 "" H 2050 1600 50  0000 L CNN
+F 4 "Q" H 2050 1600 50  0001 C CNN "Spice_Primitive"
+F 5 "QBC337-40" H 2050 1600 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 2050 1600 50  0001 C CNN "Spice_Netlist_Enabled"
+F 7 "../../../projects/kicad/bc337-40-300.lib" H 2050 1600 50  0001 C CNN "Spice_Lib_File"
+	1    2050 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L kicad:NPN Q2
+U 1 1 5CC1C683
+P 2350 1800
+F 0 "Q2" H 2400 1800 50  0000 L CNN
+F 1 "NPN" H 2550 1800 50  0001 L CNN
+F 2 "TO-92" H 2550 1725 50  0001 L CIN
+F 3 "" H 2350 1800 50  0000 L CNN
+F 4 "Q" H 2350 1800 50  0001 C CNN "Spice_Primitive"
+F 5 "QBC337-40" H 2350 1800 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 2350 1800 50  0001 C CNN "Spice_Netlist_Enabled"
+F 7 "../../../projects/kicad/bc337-40-300.lib" H 2350 1800 50  0001 C CNN "Spice_Lib_File"
+	1    2350 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L kicad:NPN Q3
+U 1 1 5CC1C6C9
+P 2650 2000
+F 0 "Q3" H 2700 2000 50  0000 L CNN
+F 1 "NPN" H 2850 2000 50  0001 L CNN
+F 2 "TO-92" H 2850 1925 50  0001 L CIN
+F 3 "" H 2650 2000 50  0000 L CNN
+F 4 "Q" H 2650 2000 50  0001 C CNN "Spice_Primitive"
+F 5 "QBC337-40" H 2650 2000 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 2650 2000 50  0001 C CNN "Spice_Netlist_Enabled"
+F 7 "../../../projects/kicad/bc337-40-300.lib" H 2650 2000 50  0001 C CNN "Spice_Lib_File"
+	1    2650 2000
+	1    0    0    -1  
+$EndComp
+$Comp
+L kicad:NPN Q4
+U 1 1 5CC1C717
+P 3450 1800
+F 0 "Q4" H 3500 1800 50  0000 L CNN
+F 1 "NPN" H 3650 1800 50  0001 L CNN
+F 2 "TO-92" H 3650 1725 50  0001 L CIN
+F 3 "" H 3450 1800 50  0000 L CNN
+F 4 "Q" H 3450 1800 50  0001 C CNN "Spice_Primitive"
+F 5 "QBC337-40" H 3450 1800 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 3450 1800 50  0001 C CNN "Spice_Netlist_Enabled"
+F 7 "../../../projects/kicad/bc337-40-300.lib" H 3450 1800 50  0001 C CNN "Spice_Lib_File"
+	1    3450 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L kicad:NPN Q5
+U 1 1 5CC1C76B
+P 4350 1600
+F 0 "Q5" H 4400 1600 50  0000 L CNN
+F 1 "NPN" H 4550 1600 50  0001 L CNN
+F 2 "TO-92" H 4550 1525 50  0001 L CIN
+F 3 "" H 4350 1600 50  0000 L CNN
+F 4 "Q" H 4350 1600 50  0001 C CNN "Spice_Primitive"
+F 5 "QBC337-40" H 4350 1600 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 4350 1600 50  0001 C CNN "Spice_Netlist_Enabled"
+F 7 "../../../projects/kicad/bc337-40-300.lib" H 4350 1600 50  0001 C CNN "Spice_Lib_File"
+	1    4350 1600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1350 1200 1350 2500
+Wire Wire Line
+	4800 2300 4700 2300
+Connection ~ 4700 2300
+Wire Wire Line
+	4700 2300 4700 2500
+Text Label 3550 2000 0    50   ~ 0
+E4
+Text Label 3250 1800 0    50   ~ 0
+B4
+Text Label 2750 1800 0    50   ~ 0
+C3
+Text Label 2450 2000 0    50   ~ 0
+B3
+Wire Wire Line
+	1850 1400 1850 1600
+Wire Wire Line
+	2450 1100 2750 1100
+Wire Wire Line
+	1350 2500 1600 2500
+Connection ~ 1600 2500
+Wire Wire Line
+	1600 2500 1850 2500
+Connection ~ 1850 1600
+Wire Wire Line
+	1850 1600 1850 2200
+Connection ~ 1850 2500
+Wire Wire Line
+	1850 2500 2750 2500
+Connection ~ 2750 1100
+Wire Wire Line
+	2750 1100 3550 1100
+Connection ~ 2750 1800
+Connection ~ 2750 2200
+Connection ~ 2750 2500
+Wire Wire Line
+	2750 2500 3250 2500
+Connection ~ 3250 1800
+Connection ~ 3550 1100
+Wire Wire Line
+	3550 1100 4450 1100
+Connection ~ 3550 1600
+Connection ~ 4150 1600
+Connection ~ 4450 1100
+Wire Wire Line
+	4450 1100 4700 1100
+$EndSCHEMATC

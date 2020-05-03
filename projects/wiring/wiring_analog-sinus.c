@@ -15,6 +15,8 @@ extern struct timespec gOffset;
 
 int gArgc;
 char** gArgv;
+double gVPeak = 511.0;
+double gVOffs = 511.0;
 
 /******************************************************************************!
  * \fn analogSetFrequencies
@@ -53,7 +55,7 @@ int analogRead(__attribute__((__unused__)) uint8_t pin)
                     (double) gTimeval.tv_nsec / 1000000000L));
     }
     //val = fabs(val) * 2.0 - 1.0;  // Sinus redresse'
-    return (uint16_t) ((val * (511.0 / (gArgc - 1))) + 511.0);
+    return (uint16_t) ((val * (gVPeak / (gArgc - 1))) + gVOffs);
 }
 
 /******************************************************************************!

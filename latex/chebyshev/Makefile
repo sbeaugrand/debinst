@@ -11,9 +11,6 @@ DST_EXT = .data# ngspice revision 30
 .PHONY: all
 all: $(PROJECT).pdf
 
-$(SRCDIR)/%Simulation.csv: $(SRCDIR)/%.csv
-	$(PROROOT)/makefiles/csvtranspose.sh $< $@
-
 $(PROJECT).pdf: chebyshev.tex build\
  chebyshev.m\
  chebyshev.py\
@@ -92,12 +89,6 @@ build:
 	 printf('Fondamentale: %.1f dbV\\\\\\', f(7000000));\
 	 printf('Harmonique: %.1f dbV\\\\\\', f(7000000 * 2));\
 	" >$@
-
-build/chebyshev5t80m50o.in : build/chebyshev5t80m50o.dat
-	@sed 1d $< >$@
-
-chebyshev5t80m.net:
-chebyshev6t80m.net:
 
 build/chebyshevARRL1981.net: chebyshev5t80m.net
 	@cat $< | sed\
