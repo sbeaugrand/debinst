@@ -48,6 +48,7 @@ dorsync:
 	 --exclude=php/compteur.txt\
 	 --exclude='*~'\
 	 --exclude='*.swp'\
+	 --exclude='*.a'\
 	 --exclude='*-pr-*'\
 	 --exclude=build\
 	 --exclude=debinst/homepage/debinst\

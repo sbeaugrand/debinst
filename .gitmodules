@@ -1,0 +1,3 @@
+[submodule "projects/avr/fftAlarm/fix_fft"]
+	path = projects/avr/fftAlarm/fix_fft
+	url = https://github.com/kosme/fix_fft

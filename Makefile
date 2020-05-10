@@ -36,13 +36,13 @@ tar:
 	--exclude=.*.swp \
 	--exclude=build \
 	--exclude=.git \
-	--exclude=livret-*.pdf \
-	--exclude=portrait-*.pdf \
+	--exclude=*.pdf \
 	--exclude=*.bck \
 	--exclude=*-bak \
 	--exclude=*rescue* \
 	--exclude=*-cache* \
 	--exclude=*.ps \
+	--exclude=homepage/tgz \
 	$(PROJECT)
 
 .PHONY: dist
@@ -58,9 +58,9 @@ dist:
 	--exclude=*rescue* \
 	--exclude=*-cache* \
 	--exclude=*.ps \
+	--exclude=*.tgz \
 	--exclude=*.ttf \
 	--exclude=*.pfb \
-	--exclude=*.tgz \
 	--exclude=*.a \
 	--exclude=*-pr-* \
 	--exclude=php \
