@@ -8,6 +8,9 @@
 #   sudo vi /etc/ImageMagick-6/policy.xml +57  # name="area" value="256MiB"
 # Photocopy filter :
 #   http://www.imagemagick.org/Usage/photos/#color-in
+#   make F=photocopy
+# Blur filter :
+#   make F=blur
 # ---------------------------------------------------------------------------- #
 PROJECT = arbreGenealogique
 PROROOT = ..
@@ -18,15 +21,22 @@ PHOTO_WM1 = $(shell echo "$(PHOTO_W) - 1" | bc)
 PHOTO_HM1 = $(shell echo "$(PHOTO_H) - 1" | bc)
 PHOTO_3W = 1771# 15cm
 PHOTO_3H = 2480# 21cm
-EXEMPLE =
-EXEMPLE3 =
-#EXEMPLE  = -colorspace gray \( +clone -blur 0x1 \) +swap\
-#		   -compose divide -composite -linear-stretch 2%x0%
-#EXEMPLE3 = -colorspace gray \( +clone -blur 0x2 \) +swap\
-#		   -compose divide -composite -linear-stretch 5%x0%
-#EXEMPLE = -blur 0x30
-#EXEMPLE3 = -resize $(PHOTO_W)x$(PHOTO_H)\! -blur 0x30\
-#		   -resize $(PHOTO_3W)x$(PHOTO_3H)\!
+ifeq ($(F),photocopy)
+ EXEMPLE  = -colorspace gray \( +clone -blur 0x1 \) +swap\
+            -compose divide -composite -linear-stretch 2%x0%
+ EXEMPLE3 = -colorspace gray \( +clone -blur 0x2 \) +swap\
+            -compose divide -composite -linear-stretch 5%x0%
+else
+ ifeq ($(F),blur)
+  EXEMPLE = -blur 0x30
+  EXEMPLE3 = -resize $(PHOTO_W)x$(PHOTO_H)\! -blur 0x30\
+             -resize $(PHOTO_3W)x$(PHOTO_3H)\!
+ else
+  ifneq ($(F),)
+   $(error Unknown filter $(F))
+  endif
+ endif
+endif
 
 .SUFFIXES:
 
@@ -90,14 +100,16 @@ export-pr-F%.tex: export-pr-%.csv gramps2tex.php randomColor.php
 	@php gramps2tex.php $< 2 8 576 50 >$@
 
 build/ellipse.png:
-	@convert -size $(PHOTO_W)x$(PHOTO_H) xc:white -fill black -draw "ellipse "\
+	@convert -size $(PHOTO_W)x$(PHOTO_H) xc:white -fill black\
+	 -draw "ellipse "\
 	"$(shell echo "$(PHOTO_W) / 2 + 1" | bc),"\
 	"$(shell echo "$(PHOTO_H) / 2 + 1" | bc) "\
 	"$(shell echo "$(PHOTO_W) / 2" | bc),"\
 	"$(shell echo "$(PHOTO_H) / 2" | bc) 0,360" $@
 
 build/ellipse3.png:
-	@convert -size $(PHOTO_3W)x$(PHOTO_3H) xc:white -fill black -draw "ellipse "\
+	@convert -size $(PHOTO_3W)x$(PHOTO_3H) xc:white -fill black\
+	 -draw "ellipse "\
 	"$(shell echo "$(PHOTO_3W) / 2 + 1" | bc),"\
 	"$(shell echo "$(PHOTO_3H) / 2 + 1" | bc) "\
 	"$(shell echo "$(PHOTO_3W) / 2" | bc),"\
@@ -220,8 +232,9 @@ define photoExtent2
 	@for file in $(notdir $^); do \
 		$(call photoExtent,$$file); \
 	done; \
-	convert $(addprefix build/tmp,$(notdir $^)) +append -font Liberation-Sans\
-	 -pointsize 18 -draw "text 250,850 '$1'" -draw "text 850,850 '$2'" $@; \
+	convert $(addprefix build/tmp,$(notdir $^)) +append\
+	 -font Liberation-Sans -pointsize 18\
+	 -draw "text 250,850 '$1'" -draw "text 850,850 '$2'" $@; \
 	rm $(addprefix build/tmp,$(notdir $^))
 endef
 
@@ -291,8 +304,8 @@ a4: a4.pdf
 a4.pdf: $(PROJECT).pdf
 	pdfposter -p4x4A4 $< $@
 
-.PHONY: testRGB
-testRGB: testRGB.pdf
+.PHONY: test-rgb
+test-rgb: testRGB.pdf
 
 testRGB.pdf: testRGB.tex
 	@pdflatex --halt-on-error $<
@@ -300,6 +313,12 @@ testRGB.pdf: testRGB.tex
 
 testRGB.tex: testRGB.php randomColor.php
 	@php $< >$@
+
+.PHONY: check-notes
+check-notes:
+	@./grampsCheckNotes.py\
+	 `grep '^\[I0000' export-pr-2-9.csv | cut -d ',' -f 2` 9 |\
+	 cut -c-`tput cols`
 
 .PHONY: clean
 clean:

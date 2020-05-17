@@ -141,7 +141,7 @@ set uncollapse_jump = yes
 set pager_stop      = yes
 set delete          = ask-no
 set help            = no
-macro browser m <toggle-mailboxes><search>brouillons<enter><select-entry><mail>
+macro browser,index m <toggle-mailboxes><search>brouillons<enter><select-entry><mail>
 macro browser q <exit><quit>
 macro index   q <change-folder>?<toggle-mailboxes>
 macro index   C <enter-command>push<enter><tag-prefix><copy-message>

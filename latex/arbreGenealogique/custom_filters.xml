@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<filters>
+  <object type="Person">
+    <filter name="csv" function="and">
+      <rule class="IsLessThanNthGenerationAncestorOf" use_regex="False">
+        <arg value="I0001"/>
+        <arg value="9"/>
+      </rule>
+    </filter>
+    <filter name="gedom" function="or">
+      <rule class="IsLessThanNthGenerationAncestorOf" use_regex="False">
+        <arg value="I0001"/>
+        <arg value="9"/>
+      </rule>
+      <rule class="HasIdOf" use_regex="False">
+        <arg value="I0001"/>
+      </rule>
+    </filter>
+  </object>
+  <object type="Media">
+    <filter name="sansRef" function="and">
+      <rule class="HasReferenceCountOf" use_regex="False">
+        <arg value="equal to"/>
+        <arg value="0"/>
+      </rule>
+    </filter>
+  </object>
+</filters>
