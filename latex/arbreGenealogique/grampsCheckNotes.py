@@ -27,12 +27,13 @@ def checkEvent(eventRef):
             return 1
         note = db.get_note_from_handle(
             event.get_note_list()[0]).get().replace("\n", " ")
-        if not is_int(note.split("/")[0]):
+        if not is_int(note.split("/")[0]) or\
+           not is_int(note.split()[0].split("/")[1]):
             print(db.get_media_from_handle(
                 event.get_media_list()[0].get_reference_handle()).get_path(),
                 note)
             return 1
-        if note.split(" ")[1][:4] != "http":
+        if note.split()[1][:4] != "http":
             print(db.get_media_from_handle(
                 event.get_media_list()[0].get_reference_handle()).get_path(),
                 note)

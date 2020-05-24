@@ -14,7 +14,7 @@
 % ---------------------------------------------------------------------------- %
 % Langue
 % ---------------------------------------------------------------------------- %
-\RequirePackage[francais]{babel}
+\RequirePackage[french]{babel}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
 

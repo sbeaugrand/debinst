@@ -25,4 +25,20 @@
       </rule>
     </filter>
   </object>
+  <object type="Event">
+    <filter name="avecDesc" function="and">
+      <rule class="HasData" use_regex="True">
+        <arg value=""/>
+        <arg value=""/>
+        <arg value=""/>
+        <arg value="."/>
+      </rule>
+    </filter>
+    <filter name="sansRef" function="and">
+      <rule class="HasReferenceCountOf" use_regex="False">
+        <arg value="equal to"/>
+        <arg value="0"/>
+      </rule>
+    </filter>
+  </object>
 </filters>
