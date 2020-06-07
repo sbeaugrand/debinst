@@ -7,6 +7,10 @@
         <arg value="9"/>
       </rule>
     </filter>
+    <filter name="deconnectes" function="and">
+      <rule class="Disconnected" use_regex="False">
+      </rule>
+    </filter>
     <filter name="gedom" function="or">
       <rule class="IsLessThanNthGenerationAncestorOf" use_regex="False">
         <arg value="I0001"/>
@@ -32,6 +36,78 @@
         <arg value=""/>
         <arg value=""/>
         <arg value="."/>
+      </rule>
+    </filter>
+    <filter name="mediaSansNote" function="and">
+      <rule class="HasGallery" use_regex="False">
+        <arg value="0"/>
+        <arg value="greater than"/>
+      </rule>
+      <rule class="HasNote" use_regex="False">
+        <arg value="0"/>
+        <arg value="equal to"/>
+      </rule>
+      <rule class="MatchesPersonFilter" use_regex="False">
+        <arg value="gedom"/>
+        <arg value="0"/>
+      </rule>
+    </filter>
+    <filter name="noteSansMedia" function="and">
+      <rule class="HasNote" use_regex="False">
+        <arg value="0"/>
+        <arg value="greater than"/>
+      </rule>
+      <rule class="HasGallery" use_regex="False">
+        <arg value="0"/>
+        <arg value="equal to"/>
+      </rule>
+      <rule class="MatchesPersonFilter" use_regex="False">
+        <arg value="gedom"/>
+        <arg value="0"/>
+      </rule>
+    </filter>
+    <filter name="sansRef" function="and">
+      <rule class="HasReferenceCountOf" use_regex="False">
+        <arg value="equal to"/>
+        <arg value="0"/>
+      </rule>
+    </filter>
+  </object>
+  <object type="Note">
+    <filter name="sansRef" function="and">
+      <rule class="HasReferenceCountOf" use_regex="False">
+        <arg value="equal to"/>
+        <arg value="0"/>
+      </rule>
+    </filter>
+  </object>
+  <object type="Place">
+    <filter name="sansRef" function="and">
+      <rule class="HasReferenceCountOf" use_regex="False">
+        <arg value="equal to"/>
+        <arg value="0"/>
+      </rule>
+    </filter>
+  </object>
+  <object type="Family">
+    <filter name="mediaSansNote" function="and">
+      <rule class="HasGallery" use_regex="False">
+        <arg value="0"/>
+        <arg value="greater than"/>
+      </rule>
+      <rule class="HasNote" use_regex="False">
+        <arg value="0"/>
+        <arg value="equal to"/>
+      </rule>
+    </filter>
+    <filter name="noteSansMedia" function="and">
+      <rule class="HasNote" use_regex="False">
+        <arg value="0"/>
+        <arg value="greater than"/>
+      </rule>
+      <rule class="HasGallery" use_regex="False">
+        <arg value="0"/>
+        <arg value="equal to"/>
       </rule>
     </filter>
     <filter name="sansRef" function="and">

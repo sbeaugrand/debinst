@@ -24,10 +24,11 @@ for ((i = 1; i <= nbraw; i++)); do
         cat t.txt | wc -l
     fi
     raw=`ls *.raw | head -n $i | tail -1`
-    echo -n "split $raw ? (o/N) "
+    rate=`ffprobe -show_streams $raw 2>/dev/null | grep sample_rate | cut -d '=' -f 2`
+    echo -n "split $raw at $rate Hz ? (o/N) "
     read ret
     if [ "$ret" = o ]; then
-        sox -t s16 -c 2 -r 44100 $raw 0.wav silence \
+        sox -t s16 -c 2 -r $rate $raw 0.wav silence \
             1 $silence_duration 0% 1 $silence_duration 0% : newfile : restart
         tmp=/tmp/wav2mp3.tmp
         ls 0???.wav >$tmp
@@ -88,5 +89,5 @@ for ((i = 1; i <= nbwav; i++)); do
         fi
     fi
     echo "$wav ==> $mp3"
-    lame -s 44.1 -q 0 -b $bitrate --cbr -S "$wav" "$mp3"
+    lame -q 0 -b $bitrate --cbr -S "$wav" "$mp3"
 done

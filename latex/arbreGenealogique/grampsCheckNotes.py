@@ -19,24 +19,37 @@ def checkEvent(eventRef):
     if eventRef is None:
         return 0
     event = db.get_event_from_handle(eventRef.get_reference_handle())
+    id = event.get_gramps_id()
     if len(event.get_media_list()) > 0:
         if len(event.get_note_list()) == 0:
-            print(db.get_media_from_handle(
-                event.get_media_list()[0].get_reference_handle()).get_path(),
-                "(media sans note)")
+            print(id, "(media sans note)", db.get_media_from_handle(
+                event.get_media_list()[0].get_reference_handle()).get_path())
             return 1
         note = db.get_note_from_handle(
             event.get_note_list()[0]).get().replace("\n", " ")
         if not is_int(note.split("/")[0]) or\
            not is_int(note.split()[0].split("/")[1]):
-            print(db.get_media_from_handle(
-                event.get_media_list()[0].get_reference_handle()).get_path(),
-                note)
+            print(id, note)
             return 1
         if note.split()[1][:4] != "http":
-            print(db.get_media_from_handle(
-                event.get_media_list()[0].get_reference_handle()).get_path(),
-                note)
+            print(id, note)
+            return 1
+        if len(event.get_note_list()) > 1:
+            note = db.get_note_from_handle(
+                event.get_note_list()[1]).get().replace("\n", " ")
+            print(id, "(plusieurs notes)", note)
+            return 1
+    else:
+        if len(event.get_note_list()) > 0:
+            note = db.get_note_from_handle(
+                event.get_note_list()[0]).get().replace("\n", " ")
+            print(id, "(note sans media)", note)
+            return 1
+        if event.place:
+            print(id, "(lieu sans note)", event.description)
+            return 1
+        if event.date.is_valid():
+            print(id, "(date sans note)", event.description)
             return 1
     return 0
 
