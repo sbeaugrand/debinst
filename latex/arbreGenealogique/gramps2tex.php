@@ -345,8 +345,7 @@ class Arbre
         }
         $i->print($this->niveau);
         if ($this->niveau == 0 && $this->anneeMariage == 0) {
-            $this->anneeMariage =
-                substr($this->mariage[$this->famille[$n]][3], 0, 4);
+            $this->anneeMariage = $this->mariage[$this->famille[$n]][3];
             $index = $this->mariage[$this->famille[$n]][4];
             if (array_key_exists($index, $this->lieu)) {
                 $this->villeMariage = $this->lieu[$index];
@@ -365,7 +364,12 @@ class Arbre
         if ($this->niveau > 0 && $this->niveau < $this->lmax - 1) {
             if (! empty($this->famille[$n])) {
                 if ($this->niveau > 5) {
-                    $s = substr($this->mariage[$this->famille[$n]][3], 0, 4);
+                    $s = $this->mariage[$this->famille[$n]][3];
+                    if (substr($s, 0, 6) == 'avant ') {
+                        $s = 'av. '.substr($s, 6, 4);
+                    } else {
+                        $s = substr($s, 0, 4);
+                    }
                 } else {
                     $s = $this->mariage[$this->famille[$n]][3].' ';
                     $index = $this->mariage[$this->famille[$n]][4];
@@ -409,7 +413,7 @@ class Arbre
         if ($this->niveau == 1 && $this->anneeMariage != 0) {
             print 'edge from parent node[';
             print 'above='.$this->below.'mm,';
-            print 'left='.(-20 * $this->sens).'mm';
+            print 'left='.(-30 * $this->sens).'mm';
             print ']{'."$this->anneeMariage $this->villeMariage}";
             $this->anneeMariage = 0;
         }

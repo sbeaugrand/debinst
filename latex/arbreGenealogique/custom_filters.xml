@@ -38,6 +38,12 @@
         <arg value="."/>
       </rule>
     </filter>
+    <filter name="gedcom9" function="and">
+      <rule class="MatchesPersonFilter" use_regex="False">
+        <arg value="gedom"/>
+        <arg value="0"/>
+      </rule>
+    </filter>
     <filter name="mediaSansNote" function="and">
       <rule class="HasGallery" use_regex="False">
         <arg value="0"/>
@@ -58,6 +64,16 @@
         <arg value="greater than"/>
       </rule>
       <rule class="HasGallery" use_regex="False">
+        <arg value="0"/>
+        <arg value="equal to"/>
+      </rule>
+      <rule class="MatchesPersonFilter" use_regex="False">
+        <arg value="gedom"/>
+        <arg value="0"/>
+      </rule>
+    </filter>
+    <filter name="sansNote" function="and">
+      <rule class="HasNote" use_regex="False">
         <arg value="0"/>
         <arg value="equal to"/>
       </rule>

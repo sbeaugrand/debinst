@@ -317,8 +317,7 @@ testRGB.tex: testRGB.php randomColor.php
 .PHONY: check-notes
 check-notes:
 	@./grampsCheckNotes.py\
-	 `grep '^\[I0000' export-pr-2-9.csv | cut -d ',' -f 2` 9 |\
-	 cut -c-`tput cols`
+	 `grep '^\[I0000' export-pr-2-9.csv | cut -d ',' -f 2` 9
 
 .PHONY: clean
 clean:
