@@ -11,6 +11,8 @@
 #   make F=photocopy
 # Blur filter :
 #   make F=blur
+# Suppression file :
+#   make check-notes | sort -k2 >gramps-pr-checkNotes.supp
 # ---------------------------------------------------------------------------- #
 PROJECT = arbreGenealogique
 PROROOT = ..
@@ -318,6 +320,38 @@ testRGB.tex: testRGB.php randomColor.php
 check-notes:
 	@./grampsCheckNotes.py\
 	 `grep '^\[I0000' export-pr-2-9.csv | cut -d ',' -f 2` 9
+
+.PHONY: check-supp
+check-supp:
+	@sort -k2 gramps-pr-checkNotes.supp | diff gramps-pr-checkNotes.supp -
+
+.PHONY: todo
+todo: GP1.pdf GP2.pdf GP3.pdf GP4.pdf
+
+GP%.pdf: build/GP%.tex
+	@pdflatex --halt-on-error $<
+	@$(RM) `basename $@ .pdf`.aux `basename $@ .pdf`.log
+
+build/GP%.tex: gramps-pr-checkNotes.supp header.tex
+	@cat header.tex >$@
+	@grep `basename $@ .tex` $< >>$@
+	@printf '\\end{lstlisting}\n' >>$@
+	@printf '\\end{document}\n' >>$@
+
+portrait-%.pdf: %.pdf
+	@pdf90 -q -o $@ $<
+
+.PHONY: clean-gedcom
+clean-gedcom: geneanet-pr-gedcom9.ged
+
+geneanet-pr-gedcom9.ged: export-pr-gedcom9.ged\
+ export-pr-2-9.csv grampsGedcomFamc.py
+	@cp $< $@
+	@./grampsGedcomFamc.py\
+	 `grep '^\[I0000' export-pr-2-9.csv | cut -d ',' -f 2` 9 |\
+	 xargs -I {} sed -i -e '/0 @{}@ FAM/,/^0/{/^0/!d}' -e '/@{}@/d' $@
+	@diff $< $@ | grep -c '< 1 FAMC'
+	@diff $< $@ | grep -c '< 0'
 
 .PHONY: clean
 clean:

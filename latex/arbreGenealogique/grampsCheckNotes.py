@@ -29,7 +29,7 @@ def checkEvent(eventRef):
     id = event.get_gramps_id()
     if len(event.get_media_list()) > 0:
         if len(event.get_note_list()) == 0:
-            str = "{0} (media sans note) {1}".format(id,
+            str = "{0} GP{1} (media sans note) {2}".format(id, gp,
                 db.get_media_from_handle(
                     event.get_media_list(
                         )[0].get_reference_handle()).get_path())
@@ -43,7 +43,7 @@ def checkEvent(eventRef):
             event.get_note_list()[0]).get().replace("\n", " ")
         if not is_int(note.split("/")[0]) or\
            not is_int(note.split()[0].split("/")[1]):
-            str = "{0} {1}".format(id, note)
+            str = "{0} GP{1} {2}".format(id, gp, note)
             if not str in supp:
                 print(str)
                 return 1
@@ -51,7 +51,7 @@ def checkEvent(eventRef):
                 supp.remove(str)
                 return 0
         if note.split()[1][:4] != "http":
-            str = "{0} {1}".format(id, note)
+            str = "{0} GP{1} {2}".format(id, gp, note)
             if not str in supp:
                 print(str)
                 return 1
@@ -61,7 +61,7 @@ def checkEvent(eventRef):
         if len(event.get_note_list()) > 1:
             note = db.get_note_from_handle(
                 event.get_note_list()[1]).get().replace("\n", " ")
-            str = "{0} (plusieurs notes) {1}".format(id, note)
+            str = "{0} GP{1} (plusieurs notes) {2}".format(id, gp, note)
             if not str in supp:
                 print(str)
                 return 1
@@ -72,7 +72,7 @@ def checkEvent(eventRef):
         if len(event.get_note_list()) > 0:
             note = db.get_note_from_handle(
                 event.get_note_list()[0]).get().replace("\n", " ")
-            str = "{0} (note sans media) {1}".format(id, note)
+            str = "{0} GP{1} (note sans media) {2}".format(id, gp, note)
             if not str in supp:
                 print(str)
                 return 1
@@ -80,7 +80,7 @@ def checkEvent(eventRef):
                 supp.remove(str)
                 return 0
         if event.place:
-            str = "{0} (lieu sans note) {1} {2}".format(id,
+            str = "{0} GP{1} (lieu sans note) {2} {3}".format(id, gp,
                 db.get_place_from_handle(event.place).name.value,
                 event.date.text)
             if event.description:
@@ -92,7 +92,8 @@ def checkEvent(eventRef):
                 supp.remove(str)
                 return 0
         if not event.date.is_empty():
-            str = "{0} (date sans note) {1}".format(id, event.date.text)
+            str = "{0} GP{1} (date sans note) {2}".format(id, gp,
+                event.date.text)
             if event.description:
                 str += " ({0})".format(event.description)
             if not str in supp:
@@ -107,6 +108,9 @@ def checkEvent(eventRef):
 ## \fn checkParent
 # ---------------------------------------------------------------------------- #
 def checkParent(handle, level, depth):
+    global gp
+    if level == 2:
+        gp += 1;
     if db.has_person_handle(handle):
         return checkPerson(db.get_person_from_handle(handle), level + 1, depth)
     return 0
@@ -142,6 +146,7 @@ if path.isfile("gramps-pr-checkNotes.supp"):
     suppFile.close()
 else:
     supp = list()
+gp = 0
 print(" nb of notes to check:", checkPerson(person, 1, int(sys.argv[2])))
 db.close()
 if len(supp) > 0:

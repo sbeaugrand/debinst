@@ -42,6 +42,7 @@ tar:
 	--exclude=*rescue* \
 	--exclude=*-cache* \
 	--exclude=*.ps \
+	--exclude=*.ged \
 	--exclude=homepage/tgz \
 	$(PROJECT)
 
@@ -58,6 +59,7 @@ dist:
 	--exclude=*rescue* \
 	--exclude=*-cache* \
 	--exclude=*.ps \
+	--exclude=*.ged \
 	--exclude=*.tgz \
 	--exclude=*.ttf \
 	--exclude=*.pfb \
