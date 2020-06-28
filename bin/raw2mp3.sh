@@ -79,7 +79,7 @@ for ((i = 1; i <= nbwav; i++)); do
         k=`echo $j | awk '{ print $0+0 }'`
         mp3="$j - `head -n $k t.txt | tail -1`.mp3"
     else
-        mp3=`basename "$wav" .wav`.mp3
+        mp3=${wav/%.wav/.mp3}
     fi
     if [ -f "$mp3" ]; then
         echo -n "$mp3 existe, ecraser ? (o/N) "

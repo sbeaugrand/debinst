@@ -92,6 +92,24 @@ rw
 ro
 ```
 
+# Installation sur Rock PI S
+```
+gunzip -k rockpis_debian_buster_minimal_arm64_20200615_1225-gpt.img.gz
+# umount /media/$USER/*
+pv rockpis*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
+```
+Démarrer sur Rock PI S
+```
+ssh rock@192.168.x.xx  # password: rock
+sudo apt-get install apt-utils
+sudo apt-get install rsync
+exit
+HOST=192.168.x.xx ./install-op-rockpi.sh
+ssh rock@192.168.x.xx
+cd install/debinst/install-op-rockpi
+./0install.sh
+```
+
 # Exemple de création d'un paquet debinst restreint
 ```
 cp -a buildpackage-op-2min buildpackage-op-toto

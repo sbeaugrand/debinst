@@ -1,0 +1,21 @@
+# ---------------------------------------------------------------------------- #
+## \file ledctl.service
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+[Unit]
+Description=Led Control
+Wants=network.target
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/bin/bash -c "echo 0 >/sys/class/leds/rockpis:blue:user/brightness"
+ExecStart=/bin/bash -c "echo 0 >/sys/class/leds/rockpis:green:power/brightness"
+ExecStop=/bin/bash -c "echo 1 >/sys/class/leds/rockpis:green:power/brightness"
+
+[Install]
+WantedBy=multi-user.target
+WantedBy=shutdown.target

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <filters>
   <object type="Person">
-    <filter name="csv" function="and">
+    <filter name="csv9" function="and">
       <rule class="IsLessThanNthGenerationAncestorOf" use_regex="False">
         <arg value="I0001"/>
         <arg value="9"/>
@@ -11,7 +11,7 @@
       <rule class="Disconnected" use_regex="False">
       </rule>
     </filter>
-    <filter name="gedom" function="or">
+    <filter name="gedom9" function="or">
       <rule class="IsLessThanNthGenerationAncestorOf" use_regex="False">
         <arg value="I0001"/>
         <arg value="9"/>
