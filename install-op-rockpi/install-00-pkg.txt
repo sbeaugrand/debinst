@@ -1,5 +1,6 @@
 vim
 alsa-utils
+gcc
 make
 xmms2
 xmms2-plugin-m3u
@@ -18,3 +19,4 @@ at
 libusb-dev
 cryptsetup
 sqlite3
+libmraa

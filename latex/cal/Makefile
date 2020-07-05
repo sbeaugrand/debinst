@@ -26,7 +26,7 @@ all:
 	@echo
 	@echo -n "Usage: make { cal | cadran | testAlgos | testPaques | testSun "
 	@echo -n $(TARGETS)
-	@echo -n " | portrait-cal.pdf | portrait-cadran.pdf"
+	@echo -n " | portrait-cal$(YEAR).pdf | portrait-cadran.pdf"
 	@echo -n " | dist-clean | dist-cal | dist-cadran }"
 	@echo " [WIDTH=61.0 HEIGHT=29.7 STRAIGHT_STYLUS_LENGTH=6.5]"
 	@echo

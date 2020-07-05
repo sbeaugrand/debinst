@@ -79,10 +79,12 @@ rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
 rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
  ~/install/debinst/latex/cal\
  $uri:/home/$user/install/debinst/latex/
-rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
+rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf --exclude=*.a\
  ~/install/debinst/projects/mp3server\
  ~/install/debinst/projects/debug\
  ~/install/debinst/projects/makefiles\
+ ~/install/debinst/projects/wiring\
+ ~/install/debinst/projects/arm\
  $uri:/home/$user/install/debinst/projects/
 
 # ---------------------------------------------------------------------------- #

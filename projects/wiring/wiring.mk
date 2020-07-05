@@ -20,6 +20,11 @@ ifeq ($(GPIO),avr)
  OBJECTS += wiring_digital-avr.o
  include $(PROROOT)/avr/arduino/avr-arduino.mk
 endif
+ifeq ($(GPIO),mraa)
+ OBJECTS += wiring_digital-mraa.o
+ CFLAGS += -I/usr/local/include
+ LDFLAGS += -lmraa
+endif
 ifeq ($(ADC),bcm)
  OBJECTS += wiring_analog-bcm.o
  CFLAGS += -DRPI -I/usr/local/include

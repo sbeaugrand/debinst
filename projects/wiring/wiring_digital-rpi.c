@@ -105,7 +105,7 @@ void digitalWrite(uint8_t pin, uint8_t val)
  ******************************************************************************/
 int digitalQuit(uint8_t pin)
 {
-    char buf[3];
+    char buf[4];
     int fd;
 
     if ((fd = open("/sys/class/gpio/unexport", O_WRONLY)) == -1) {

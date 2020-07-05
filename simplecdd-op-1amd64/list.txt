@@ -26,6 +26,7 @@ imagemagick
 icedax
 wodim
 aespipe
+cmake
 make
 automake
 yasm
@@ -33,6 +34,7 @@ libtool
 #libtool-bin  # crosstool-ng
 #help2man  # crosstool-ng
 gcc-arm-linux-gnueabihf
+g++-arm-linux-gnueabihf
 libc6-dev-armhf-cross
 patch
 libmpg123-dev
