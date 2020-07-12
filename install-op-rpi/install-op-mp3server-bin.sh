@@ -6,7 +6,8 @@
 # ---------------------------------------------------------------------------- #
 if notWhich mp3server; then
     pushd $idir/projects/mp3server || return 1
-    sudo -u pi make C=rpi
+    sudo -u pi\
+    make C=rpi
     make C=rpi install
     popd
 fi

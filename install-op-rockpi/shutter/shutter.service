@@ -1,17 +1,18 @@
 # ---------------------------------------------------------------------------- #
-## \file Makefile
+## \file shutter.service
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-SERVICE = ledctl
+[Unit]
+Description=Shutter Control
+Wants=network.target
+After=network.target
 
-.SUFFIXES:
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/home/rock/install/debinst/install-op-rockpi/shutter/shutterd start
 
-.PHONY: all
-all:
-
-.PHONY: reinstall
-reinstall:
-
-include ../../makefiles/service.mk
+[Install]
+WantedBy=multi-user.target

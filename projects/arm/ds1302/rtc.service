@@ -1,17 +1,18 @@
 # ---------------------------------------------------------------------------- #
-## \file Makefile
+## \file rtc.service
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-SERVICE = ledctl
+[Unit]
+Description=Real Time Clock
+Wants=network.target
+After=network.target
 
-.SUFFIXES:
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/bin/bash -c "/usr/bin/rtc"
 
-.PHONY: all
-all:
-
-.PHONY: reinstall
-reinstall:
-
-include ../../makefiles/service.mk
+[Install]
+WantedBy=multi-user.target

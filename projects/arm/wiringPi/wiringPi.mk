@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 TARDEPEND += arm/wiringPi
 OBJECTS += ${PROROOT}/arm/wiringPi/wiringPi.a
-CFLAGS += -I$(PROROOT)/arm/wiringPi
+CFLAGS := -I$(PROROOT)/arm/wiringPi $(CFLAGS)# Before -I/usr/local/include
 
 $(PROROOT)/arm/wiringPi/wiringPi.a:
 	@cd $(PROROOT)/arm/wiringPi && make --no-print-directory

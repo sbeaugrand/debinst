@@ -9,29 +9,47 @@
 ##   make vserver
 ##   make vclient
 ##
-##  Raspberry PI example
+##  Rock Pi S example
+##   make C=rps
+##   make C=rps install
+##   make start
+##
+##  Raspberry Pi example
 ##   make C=rpi
 ##   make C=rpi install
 ##   make start
 # ---------------------------------------------------------------------------- #
 PROROOT = ..
 include ${PROROOT}/makefiles/pro.mk
+ifeq ($(C),)
+ $(error "Usage: make C=<term|rpi|rps>")
+endif
 
 SERVER = mp3server
 CLIENT = mp3client
 CFLAGS = -g -DNDEBUG
-ifeq ($C,rpi)
- ifeq ($(shell uname -m),x86_64)
-  CC = arm-linux-gnueabihf-gcc
- endif
- CFLAGS += -DRPI -I/usr/local/include
- RPIFLAGS = -lwiringPi -lwiringPiDev -lpthread
-endif
 
 .PHONY: all
 all: server client
 
-include $(PROROOT)/makefiles/ccpp.mk
+ifeq ($(C),term)
+ include $(PROROOT)/makefiles/ccpp.mk
+endif
+ifeq ($(C),rps)
+ GPIO = mraa
+ DEVLIB = $(HOME)/data/install-build/WiringPi/devLib
+ CFLAGS += -I$(DEVLIB) -DROCKPIS
+ OBJECTS = $(DEVLIB)/lcd.o
+ include $(PROROOT)/wiring/wiring.mk
+ include $(PROROOT)/makefiles/arm.mk
+ include $(PROROOT)/arm/wiringPi/wiringPi.mk
+ DEVOBJ = $(OBJECTS)
+endif
+ifeq ($(C),rpi)
+ CFLAGS += -DRPI -I/usr/local/include
+ DEVFLAGS = -lwiringPi -lwiringPiDev -lpthread
+ include $(PROROOT)/makefiles/arm.mk
+endif
 include $(PROROOT)/debug/debug.mk
 
 .PHONY: reinstall
@@ -59,18 +77,13 @@ build/player.o: player.c
 .PHONY: client
 client: build build/$(CLIENT)
 
-build/$(CLIENT): build/$(CLIENT).o build/$(CLIENT)-$(C).o build/common.o
-ifeq ($(C),rpi)
-	$(CC) $^ $(LDFLAGS) $(RPIFLAGS) -o $@
-else
+build/$(CLIENT): \
+	build/$(CLIENT).o build/$(CLIENT)-$(C).o build/common.o $(DEVOBJ)
+ifeq ($(C),term)
 	$(CC) $^ $(LDFLAGS) -o $@
+else
+	$(CC) $^ $(LDFLAGS) $(DEVFLAGS) -o $@
 endif
-
-build/$(CLIENT)-.o:
-	@echo
-	@echo "Usage: make C=<term|rpi>"
-	@echo
-	@false
 
 .PHONY: test-buffer
 test-buffer: build build/test-buffer

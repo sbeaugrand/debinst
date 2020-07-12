@@ -59,8 +59,12 @@ logrotate()
         mv $log $log.1
     fi
 }
-logrotate $log
-cat /dev/null >$log
+if ! grep " / ext4 ro," /proc/mounts; then
+    logrotate $log
+    cat /dev/null >$log
+else
+    log=/dev/stderr
+fi
 
 # ---------------------------------------------------------------------------- #
 # pushd

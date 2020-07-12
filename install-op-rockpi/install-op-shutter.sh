@@ -1,17 +1,19 @@
 # ---------------------------------------------------------------------------- #
-## \file Makefile
+## \file install-op-shutter.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-SERVICE = ledctl
+dir=../latex/cal
+file=build/sun
+if notFile $dir/$file; then
+    pushd $dir || return 1
+    mkdir -p build
+    make $file >>$log
+    popd
+fi
 
-.SUFFIXES:
-
-.PHONY: all
-all:
-
-.PHONY: reinstall
-reinstall:
-
-include ../../makefiles/service.mk
+pushd install-op-shutter || return 1
+make install
+make start
+popd

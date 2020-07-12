@@ -6,30 +6,58 @@
  ******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
-#include "arm/wiringPi/wiringPi.h"
+#include "wiringPi.h"
 
 int main(int argc, char* argv[])
 {
-    int pin;
+    int led;
+    int button;
     int i;
 
-    if (argc != 2) {
+    if (argc < 2) {
         printf("Usage: blink <pin>\n");
         return EXIT_FAILURE;
     }
-    pin = atoi(argv[1]);
+    led = atoi(argv[1]);
 
-    if (pinMode(pin, OUTPUT)) {
-        printf("error: pinMode(%d, OUTPUT) failed\n", pin);
+    if (pinMode(led, OUTPUT)) {
+        printf("error: pinMode(%d, OUTPUT) failed\n", led);
         return EXIT_FAILURE;
     }
-    for (i = 0; i < 8; ++i) {
-        digitalWrite(pin, HIGH);
-        delayMicroseconds(1000000);
-        digitalWrite(pin, LOW);
-        delayMicroseconds(1000000);
+    for (i = 0; i < 5; ++i) {
+        digitalWrite(led, HIGH);
+        delay(1000);
+        digitalWrite(led, LOW);
+        delay(1000);
     }
-    digitalQuit(pin);
 
-    return EXIT_FAILURE;
+    if (argc != 3) {
+        digitalQuit(led);
+        return EXIT_SUCCESS;
+    }
+
+    button = atoi(argv[2]);
+    if (pinMode(button, INPUT)) {
+        printf("error: pinMode(%d, INPUT) failed\n", button);
+        return EXIT_FAILURE;
+    }
+
+    for (i = 0; i < 100; ++i) {
+        if (digitalRead(button) == LOW) {
+            digitalQuit(button);
+            for (i = 0; i < 5; ++i) {
+                digitalWrite(led, HIGH);
+                delay(500);
+                digitalWrite(led, LOW);
+                delay(500);
+            }
+            digitalQuit(led);
+            return EXIT_SUCCESS;
+        }
+        delay(100);
+    }
+
+    digitalQuit(led);
+    digitalQuit(button);
+    return EXIT_SUCCESS;
 }
