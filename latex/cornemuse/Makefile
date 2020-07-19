@@ -19,29 +19,16 @@
 #  make PROJECT=extraitA4
 # ---------------------------------------------------------------------------- #
 PROJECT = cornemuse
+PROROOT = ..
+include $(PROROOT)/makefiles/livret.mk
 
-.SUFFIXES:
-
-.PHONY: all
-all: $(PROJECT).pdf
-
-$(PROJECT).pdf: $(PROJECT).tex
-	@mv $(PROJECT).toc $(PROJECT).toc.sav; true
-	@pdflatex --halt-on-error $(PROJECT).tex
-	@musixflx $(PROJECT).mx1
-	@mv $(PROJECT).toc.sav $(PROJECT).toc; true
-	@pdflatex --halt-on-error $(PROJECT).tex
-	@$(RM) $(PROJECT).mx* $(PROJECT).aux $(PROJECT).log
-
-.PHONY: livret
-livret: livret-$(PROJECT).pdf
-livret-$(PROJECT).pdf: $(PROJECT).pdf
-	@pdfbook -q -o $@ $< $(P)
-
-.PHONY: portrait
-portrait: portrait-$(PROJECT).pdf
-portrait-$(PROJECT).pdf: livret-$(PROJECT).pdf
-	@pdf90 -q -o $@ $<
+%.pdf: build %.tex
+	@mv build/$(PROJECT).toc build/$(PROJECT).toc.sav; true
+	@cd build && pdflatex --halt-on-error ../$(PROJECT).tex
+	@cd build && musixflx $(PROJECT).mx1
+	@mv build/$(PROJECT).toc.sav build/$(PROJECT).toc; true
+	@cd build && pdflatex --halt-on-error ../$(PROJECT).tex
+	@mv build/$@ .
 
 .PHONY: verif
 verif: verif.pdf
@@ -51,9 +38,4 @@ verif: verif.pdf
 verif.pdf: $(PROJECT).pdf
 	@pdfjam -q --nup 2x1 --landscape -o $@ $< {},1-
 
-.PHONY: clean
-clean:
-	@$(RM) *~
-
-PROROOT = ..
 include $(PROROOT)/makefiles/tar.mk

@@ -33,8 +33,8 @@ echo
 echo "su"
 echo "export PATH=\$PATH:/sbin"
 
-n=`parted $dev print | grep -c "^ [1-9]"`
-m=`parted $dev unit s print |\
+n=`parted -s $dev print | grep -c "^ [1-9]"`
+m=`parted -s $dev unit s print |\
  grep "Disk /" | cut -d ':' -f 2 | sed 's/[^0-9]//g'`
 ((m--))
 for ((i = n; i > 0; i--)); do

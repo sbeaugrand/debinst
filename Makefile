@@ -16,6 +16,11 @@ readme:
 	@#cmark-gfm README.md | w3m -T text/html
 	@cmark-gfm README.md | lynx -stdin
 
+.PHONY: not-often-used
+not-often-used:
+	@ls -1 --color=no install-op-*.sh |\
+	 xargs -I {} bash -c "grep -q {} hardware/*.sh || echo {}"
+
 .PHONY: clean
 clean:
 	@$(RM) *~

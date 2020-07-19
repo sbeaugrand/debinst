@@ -4,7 +4,8 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-file=essential-20071007.tar.bz2
+codecs=essential-20071007
+file=$codecs.tar.bz2
 
 repo=$idir/../codecs
 [ -d $repo ] || sudo -u $user mkdir $repo

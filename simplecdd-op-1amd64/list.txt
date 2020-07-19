@@ -216,3 +216,17 @@ gramps
 pdfposter
 hplip
 cmark-gfm
+live-boot  # live-build
+live-config  # live-build
+live-config-systemd  # live-build
+firmware-linux  # live-build
+squashfs-tools  # live-build
+shim-signed  # live-build
+grub-efi-amd64-signed  # live-build
+grub-efi-ia32-bin  # live-build
+dpkg  # live-build
+zsync  # live-build
+live-tools  # live-build
+user-setup  # live-build
+eject  # live-build
+live-build

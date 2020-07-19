@@ -7,12 +7,10 @@
 ifeq ($(INDEX_HTML),)
  ifeq ($(wildcard index.html),index.html)
   INDEX_HTML = index.html
+ else ifeq ($(wildcard $(PROJECT).html),$(PROJECT).html)
+  INDEX_HTML = $(PROJECT).html
  else
-  ifeq ($(wildcard $(PROJECT).html),$(PROJECT).html)
-   INDEX_HTML = $(PROJECT).html
-  else
-   INDEX_HTML = $(PROJECT).php
-  endif
+  INDEX_HTML = $(PROJECT).php
  endif
 endif
 

@@ -63,6 +63,23 @@ cd 3packer && make tar
 ```
 Continuer avec 3packer/README.md (cmark-gfm 3packer/README.md | lynx -stdin)
 
+# Création d'une debian live
+Mettre à jour le mirroir local
+```
+./2simplecdd.sh simplecdd-op-1amd64 buildpackage-op-1
+cd 5livebuild
+make mirror
+make http
+```
+Configurer et créer
+```
+cd 5livebuild
+make config
+make sync
+make clean
+make lb-build
+```
+
 # Installation sur Raspberry PI
 ```
 unzip 2*-lite.zip
@@ -112,12 +129,12 @@ cd install/debinst/install-op-rockpi
 
 # Exemple de création d'un paquet debinst restreint
 ```
-cp -a buildpackage-op-2min buildpackage-op-toto
-cp -a simplecdd-op-2min simplecdd-op-toto
-mkdir install-pr-toto
-ln -s ~/install/debinst/install-pr-toto ~/install/toto
-cd install-pr-toto
-ln -s ../buildpackage-pr-toto/list.txt
+cp -a buildpackage-op-2min buildpackage-op-spam
+cp -a simplecdd-op-2min simplecdd-op-spam
+mkdir install-pr-spam
+ln -s ~/install/debinst/install-pr-spam ~/install/spam
+cd install-pr-spam
+ln -s ../buildpackage-pr-spam/list.txt
 cp ../0install.sh .  # or link
 cp ../install-*-res.sh .  # or link
 ```

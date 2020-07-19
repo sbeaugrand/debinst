@@ -20,3 +20,4 @@ libusb-dev
 cryptsetup
 sqlite3
 libmraa
+lirc

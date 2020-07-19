@@ -1,3 +1,4 @@
+ao=alsa
 vo=x11
 stop-xscreensaver=yes
 heartbeat-cmd="xscreensaver-command -deactivate"

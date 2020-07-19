@@ -34,6 +34,7 @@ fi
 file=$home/.screenrc
 if notGrep "%-w" $file; then
     cat >>$file <<EOF
+startup_message off
 altscreen on
 bindkey ^[[1;2D prev
 bindkey ^[[1;2C next

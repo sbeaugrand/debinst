@@ -28,16 +28,12 @@ ifeq ($(F),photocopy)
             -compose divide -composite -linear-stretch 2%x0%
  EXEMPLE3 = -colorspace gray \( +clone -blur 0x2 \) +swap\
             -compose divide -composite -linear-stretch 5%x0%
-else
- ifeq ($(F),blur)
-  EXEMPLE = -blur 0x30
-  EXEMPLE3 = -resize $(PHOTO_W)x$(PHOTO_H)\! -blur 0x30\
-             -resize $(PHOTO_3W)x$(PHOTO_3H)\!
- else
-  ifneq ($(F),)
-   $(error Unknown filter $(F))
-  endif
- endif
+else ifeq ($(F),blur)
+ EXEMPLE = -blur 0x30
+ EXEMPLE3 = -resize $(PHOTO_W)x$(PHOTO_H)\! -blur 0x30\
+            -resize $(PHOTO_3W)x$(PHOTO_3H)\!
+else ifneq ($(F),)
+ $(error Unknown filter $(F))
 endif
 
 .SUFFIXES:
