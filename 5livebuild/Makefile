@@ -10,6 +10,7 @@ MIRROR = $(HOME)/data/install-build/simplecdd-op-1amd64/tmp/mirror
 CHROOTDIR = build/config/includes.chroot
 SKELDIR = $(CHROOTDIR)/etc/skel
 RSYNC = rsync --delete -aO -f '-s_build/***' -i
+DST=build/live-image-amd64.hybrid.iso
 
 .SUFFIXES:
 
@@ -47,7 +48,7 @@ config: build
 	 --debian-installer-distribution $(CODENAME)\
 	 --iso-volume "Debian buster `date +%Y%m%d-%H:%M`"\
 	 --archive-areas "main contrib non-free"\
-	 --bootappend-live "boot=live components locales=fr_FR.UTF-8 keyboard-layouts=fr"\
+	 --bootappend-live "boot=live persistence components locales=fr_FR.UTF-8 keyboard-layouts=fr timezone=Europe/Paris"\
 	 --apt-recommends false\
 	 --update false\
 	 --security false\
@@ -89,6 +90,8 @@ $(SKELDIR)/install: FORCE
 	@$(RSYNC) ~/install/ $@/
 $(SKELDIR)/.%: $(HOME)/.% FORCE
 	@$(RSYNC) $< $@
+$(SKELDIR)/.bashrc: $(HOME)/.bashrc FORCE
+	@sed "s@$(HOME)@/home/user@g" $< >$@
 $(SKELDIR)/.mplayer/config: $(HOME)/.mplayer/config
 	@mkdir -p $(SKELDIR)/.mplayer
 	@$(RSYNC) $< $@
@@ -108,14 +111,28 @@ $(CHROOTDIR)/usr/lib/codecs: FORCE
 	@mkdir -p $@
 	@$(RSYNC) /usr/lib/codecs/ $@/
 
+.PHONY: aptsources
+aptsources: build/chroot/etc/apt/sources.list.d/debian.list build/chroot/etc/apt/sources.list
+build/chroot/etc/apt/sources.list.d/debian.list: FORCE
+	@echo "deb http://httpredir.debian.org/debian $(CODENAME) main contrib non-free" | sudo tee $@ >/dev/null
+	@echo "deb http://httpredir.debian.org/debian/ $(CODENAME)-updates main contrib non-free" | sudo tee -a $@ >/dev/null
+build/chroot/etc/apt/sources.list: FORCE
+	@sudo sed -i 's/^/#/' $@
+
 .PHONY: clean
 clean:
 	@cd build && sudo lb clean
 
-.PHONY: lb-build
-lb-build: build/live-image-amd64.hybrid.iso
-build/live-image-amd64.hybrid.iso: FORCE
-	@cd build && sudo lb build
+.PHONY: installer
+installer:
+	@cd build && sudo lb bootstrap
+	@cd build && sudo lb chroot
+	@cd build && sudo lb installer
+
+.PHONY: binary
+binary: $(DST)
+$(DST): FORCE
+	@cd build && sudo lb binary
 	@stat -c '%s' $@ | awk '{ printf "%.1f GB\n",$$0 / 1e9 }'
 
 .PHONY: FORCE

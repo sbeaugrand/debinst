@@ -77,7 +77,30 @@ cd 5livebuild
 make config
 make sync
 make clean
-make lb-build
+make installer
+make aptsources
+make binary
+pv build/live-image-amd64.hybrid.iso | sudo dd bs=4M oflag=dsync of=/dev/sdb
+```
+Persistance (optionnel) et quatrième partition (optionnel)
+```
+/sbin/fdisk /dev/sdb
+n
+p
+3
+16777216  # echo " 8 GB" | awk '{ print $1 * 1024 * 2048 }'
+67108863  # echo "32 GB" | awk '{ print $1 * 1024 * 2048 }' | awk '{ print $0 - 1 }'
+n
+p
+67108864  # echo "32 GB" | awk '{ print $1 * 1024 * 2048 }'
+134217727 # echo "64 GB" | awk '{ print $1 * 1024 * 2048 }' | awk '{ print $0 - 1 }'
+w
+/sbin/mkfs.ext2 /dev/sdb3
+/sbin/mkfs.ext2 /dev/sdb4
+/sbin/e2label /dev/sdb3 persistence
+mount /mnt/b3
+echo "/ union" >/mnt/b3/persistence.conf
+umount /mnt/b3
 ```
 
 # Installation sur Raspberry PI
