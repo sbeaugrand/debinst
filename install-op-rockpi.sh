@@ -97,5 +97,6 @@ ssh $uri "test -d data/install-repo || mkdir -p data/install-repo"
 # passwd
 # ---------------------------------------------------------------------------- #
 ssh -t $uri "
-test -f data/install-build/passwd ||
- (passwd && sudo passwd root && touch data/install-build/passwd)"
+test -f data/install-build/passwd || (passwd &&
+ echo Changing password for root. && sudo passwd root &&
+ touch data/install-build/passwd)"

@@ -7,7 +7,8 @@
 ##       ./0install.sh -r install-op-flashplayer.sh
 # ---------------------------------------------------------------------------- #
 file=flash_player_npapi_linux.x86_64.tar.gz
-url="https://fpdownload.adobe.com/get/flashplayer/pdc/32.0.0.363"
+version=32.0.0.403
+url="https://fpdownload.adobe.com/get/flashplayer/pdc/$version"
 
 if [ "$args" = "-r" ]; then
     rm $repo/flash_player_npapi_linux.x86_64.tar.gz

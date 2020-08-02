@@ -12,9 +12,15 @@ PROJECT = debinst
 all:
 
 .PHONY: readme
-readme:
-	@#cmark-gfm README.md | w3m -T text/html
-	@cmark-gfm README.md | lynx -stdin
+readme: README.html
+	@lynx $<
+
+%.html: %.md
+	@cmark-gfm $< >$@
+
+.PHONY: versions
+versions:
+	@grep --color "^version=" *.sh */*.sh
 
 .PHONY: not-often-used
 not-often-used:

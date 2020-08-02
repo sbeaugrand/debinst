@@ -1,0 +1,5 @@
+begin
+    prog   = irexec
+    button = KEY_PLAYPAUSE
+    config = sudo -u rock /usr/bin/xmms2 toggle
+end

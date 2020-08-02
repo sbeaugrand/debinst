@@ -106,7 +106,7 @@ umount /mnt/b3
 # Installation sur Raspberry PI
 ```
 unzip 2*-lite.zip
-# umount /media/$USER/*
+umount /media/$USER/*
 pv 2*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 sync
 ```
@@ -135,20 +135,21 @@ ro
 # Installation sur Rock PI S
 ```
 gunzip -k rockpis_debian_buster_minimal_arm64_20200615_1225-gpt.img.gz
-# umount /media/$USER/*
+umount /media/$USER/*
 pv rockpis*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
 Démarrer sur Rock PI S
 ```
 ssh rock@192.168.x.xx  # password: rock
-sudo apt-get install apt-utils
+sudo apt-get update
 sudo apt-get install rsync
 exit
 HOST=192.168.x.xx ./install-op-rockpi.sh
 ssh rock@192.168.x.xx
 cd install/debinst/install-op-rockpi
-./0install.sh
+../0install.sh
 ```
+Optionnel: [Réception infra rouge](install-op-rockpi/lirc/README.md) 
 
 # Exemple de création d'un paquet debinst restreint
 ```

@@ -19,4 +19,5 @@ alias mv='mv -i'
 alias rw='sudo mount -o rw,remount /'
 alias ro='sudo mount -o ro,remount /'
 export MP3DIR=/mnt/mp3/mp3
+export LC_ALL=C
 EOF

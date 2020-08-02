@@ -40,6 +40,7 @@ alias kc='TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa && sou
 alias ntpdate='sudo /usr/sbin/ntpdate -u ntp.u-psud.fr'
 alias aspire='wget -nd -r -k -p -np'
 alias mutt='mutt.sh'
+alias goto='goto.sh'
 alias gs='gs -dBATCH'
 alias halt='/sbin/shutdown now'
 

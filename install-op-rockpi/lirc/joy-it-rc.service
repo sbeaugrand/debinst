@@ -1,0 +1,11 @@
+[Unit]
+Description=Joy-IT Remote Control
+Wants=lircd.service
+After=lircd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ir-keytable -c -w /lib/udev/rc_keymaps/joyit_nec.toml
+
+[Install]
+WantedBy=multi-user.target

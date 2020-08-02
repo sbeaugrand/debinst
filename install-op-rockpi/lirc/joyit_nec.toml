@@ -1,0 +1,13 @@
+[[protocols]]
+name = "joyit"
+protocol = "nec"
+[protocols.scancodes]
+0x0d = "KEY_BACK"
+0x19 = "KEY_DOWN"
+0x07 = "KEY_LEFT"
+0x43 = "KEY_MODE"
+0x15 = "KEY_OK"
+0x46 = "KEY_PLAYPAUSE"
+0x09 = "KEY_RIGHT"
+0x44 = "KEY_SETUP"
+0x40 = "KEY_UP"

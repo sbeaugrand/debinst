@@ -6,6 +6,8 @@ build
 *.pfb
 *.toc
 *.a
+*.ko
+*.dtbo
 *.hex
 *.bck
 *-bak
@@ -19,3 +21,4 @@ build
 */i386/profiles/i386.packages
 */i386/profiles/i386.postinst
 */i386/simple-cdd.conf
+README.html
