@@ -6,4 +6,5 @@
 # ---------------------------------------------------------------------------- #
 TARDEPEND += debug
 CFLAGS += -I$(PROROOT)/debug
+CXXFLAGS += -I$(PROROOT)/debug
 CPPCHECKINC += -I$(PROROOT)/debug

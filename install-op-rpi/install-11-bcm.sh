@@ -19,4 +19,3 @@ if notFile /usr/local/lib/libbcm2835.a; then
     make install >>$log 2>&1
     popd
 fi
-

@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 if notWhich mp3server; then
     pushd $idir/projects/mp3server || return 1
-    sudo -u pi\
+    sudo -u $user\
     make C=rpi
     make C=rpi install
     popd

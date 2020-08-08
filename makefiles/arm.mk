@@ -8,6 +8,7 @@ TARDEPEND += makefiles/arm.mk
 
 ifeq ($(shell uname -m),x86_64)
  CC = arm-linux-gnueabihf-gcc
+ CXX = arm-linux-gnueabihf-g++
 endif
 
 include $(PROROOT)/makefiles/ccpp.mk

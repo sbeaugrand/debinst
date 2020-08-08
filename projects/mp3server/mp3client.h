@@ -10,8 +10,14 @@
 #define LINE_SIZE 256
 #define LCD_COLS 16
 
-void updateDisplay(const char* line1, const char* line2);
-void initDisplay();
+void displayInit();
+void displayWrite(const char* line1, const char* line2);
+void displayQuit();
+
+void keypadInit();
+void keypadRead();
+void keypadQuit();
+
 int leftButton();
 int downButton();
 int rightButton();

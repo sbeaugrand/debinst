@@ -1,5 +1,5 @@
 begin
     prog   = irexec
     button = KEY_PLAYPAUSE
-    config = sudo -u rock /usr/bin/xmms2 toggle
+    config = sudo -u rock XMMS_PATH=unix:///run/xmms-ipc-ip /usr/bin/xmms2 toggle
 end

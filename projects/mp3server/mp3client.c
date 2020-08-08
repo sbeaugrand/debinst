@@ -52,12 +52,12 @@ void mp3clientWaitMp3rootDir(const char* root)
     i = 0;
     while (stat(filename, &sstat) != 0) {
         sprintf(line, "%d", i);
-        updateDisplay("DISQUE", line);
+        displayWrite("DISQUE", line);
         ++i;
         sleep(1);
     }
     if (i) {
-        updateDisplay("", "");
+        displayWrite("", "");
     }
 }
 
@@ -225,7 +225,7 @@ void sendRequestAndReceive(const char* action)
         return;
     }
 
-#   if ! defined(__arm__)
+#   if ! defined(__arm__) && ! defined(__aarch64__)
     fprintf(stderr, "%s\n", bufferGet(gBuffer));
 #   endif
 }
@@ -267,7 +267,7 @@ unsigned int getBufferLine(int pos, char (*line)[LINE_SIZE])
         if (i < 0) {
             strncpy(gAlbumLine, buffPtr, LINE_SIZE - 1);
             gAlbumLine[LINE_SIZE - 1] = '\0';
-            updateDisplay(gArtistLine, gAlbumLine);
+            displayWrite(gArtistLine, gAlbumLine);
             return 0;
         }
     } else if (pos == 1) {
@@ -287,7 +287,7 @@ unsigned int getBufferLine(int pos, char (*line)[LINE_SIZE])
     }
     if (i < 0 || i == m) {
         strcpy(gAlbumLine, "err getBufferLine");
-        updateDisplay(gArtistLine, gAlbumLine);
+        displayWrite(gArtistLine, gAlbumLine);
         return 0;
     }
     for (c = buffPtr + i, j = 0; j < LINE_SIZE - 1 &&
@@ -333,7 +333,7 @@ int drawDate()
     }
     snprintf(line1, 11, "%s", buffPtr);
     snprintf(line2, 9, "%s", buffPtr + 11);
-    updateDisplay(line1, line2);
+    displayWrite(line1, line2);
 
     return 1;
 }
@@ -391,7 +391,7 @@ void drawAlbum()
             gAlbumLine[LINE_SIZE - 1] = '\0';
         }
     }
-    updateDisplay(line1, line2);
+    displayWrite(line1, line2);
 }
 
 /******************************************************************************!
@@ -471,7 +471,7 @@ unsigned int drawBuffer(int albumPos)
     }
     if (line[i] != '-' || line[i + 1] != ' ' || line[i - 1] != ' ') {
         strcpy(gAlbumLine, "err tiret 1");
-        updateDisplay(gArtistLine, gAlbumLine);
+        displayWrite(gArtistLine, gAlbumLine);
         return 0;
     }
     if (albumPos) {
@@ -489,7 +489,7 @@ unsigned int drawBuffer(int albumPos)
     }
     if (line[i] != '-' || line[i + 1] != ' ' || line[i - 1] != ' ') {
         strcpy(gAlbumLine, "err tiret 2");
-        updateDisplay(gArtistLine, gAlbumLine);
+        displayWrite(gArtistLine, gAlbumLine);
         return 0;
     }
     sprintf(gAlbumLine, "%s", line + i + 2);
@@ -523,14 +523,14 @@ void drawTitle()
 void signalFromServer(int sig)
 {
     if (sig == SIGUSR1) {
-#       if ! defined(__arm__)
+#       if ! defined(__arm__) && ! defined(__aarch64__)
         fprintf(stderr, "\n");
 #       endif
         gClientState = STATE0_NORMAL;
         gTempo.tv_sec = 0;
         sendRequestAndReceive("info");
         drawBuffer(0);
-#       if ! defined(__arm__)
+#       if ! defined(__arm__) && ! defined(__aarch64__)
         fprintf(stderr, "mp3client> ");
 #       endif
     }
@@ -557,9 +557,11 @@ void deletePartList(struct part_list* part)
 void controlC(int sig)
 {
     if (sig == SIGINT) {
+        keypadQuit();
         deletePartList(gPartRoot);
         bufferQuit(gBuffer);
         free(gBuffer);
+        displayQuit();
         fprintf(stderr, "\nok");
         exit(EXIT_SUCCESS);
     }
@@ -573,7 +575,7 @@ void state1forAlbum()
     if (leftButton()) {
         // Changement d'artiste
         gClientState = STATE2_ARTISTE;
-        updateDisplay(SHIFT_A "           A", "         F K P U");
+        displayWrite(SHIFT_A "           A", "         F K P U");
         *gArtistLine = '\0';
         gettimeofday(&gTempo, NULL);
     } else if (gTempo.tv_sec != 0) {
@@ -625,23 +627,23 @@ char state2forArtist()
         }
     } else {
         if (upButton()) {
-            updateDisplay(SHIFT_A "           A", "         B C D E");
+            displayWrite(SHIFT_A "           A", "         B C D E");
             gClientState = STATE3_ARTISTE;
             charPrev = 'A';
         } else if (randButton()) {
-            updateDisplay(SHIFT_A "           F", "         G H I J");
+            displayWrite(SHIFT_A "           F", "         G H I J");
             gClientState = STATE3_ARTISTE;
             charPrev = 'F';
         } else if (leftButton()) {
-            updateDisplay(SHIFT_A "           K", "         L M N O");
+            displayWrite(SHIFT_A "           K", "         L M N O");
             gClientState = STATE3_ARTISTE;
             charPrev = 'K';
         } else if (okButton()) {
-            updateDisplay(SHIFT_A "           P", "         Q R S T");
+            displayWrite(SHIFT_A "           P", "         Q R S T");
             gClientState = STATE3_ARTISTE;
             charPrev = 'P';
         } else if (rightButton()) {
-            updateDisplay(SHIFT_A "           U", "         V W Y Z");
+            displayWrite(SHIFT_A "           U", "         V W Y Z");
             gClientState = STATE3_ARTISTE;
             charPrev = 'U';
         }
@@ -724,7 +726,7 @@ void state3forArtist(char charPrev)
         for (i = strlen(gArtistLine) - 1; i >= 0; --i) {
             line[i] = gArtistLine[i];
         }
-        updateDisplay(line, "         F K P U");
+        displayWrite(line, "         F K P U");
         gClientState = STATE2_ARTISTE;
         gettimeofday(&gTempo, NULL);
     }
@@ -777,7 +779,7 @@ int state4date()
 int state0normal()
 {
     if (haltButton()) {
-        updateDisplay("ARRET", "");
+        displayWrite("ARRET", "");
         sendRequestAndReceive("halt");
         return 1;
     }
@@ -829,7 +831,7 @@ int state0normal()
             gettimeofday(&gTempo, NULL);
         } else {
             // Chagement de titre
-#           if defined(__arm__)
+#           if defined(__arm__) || defined(__aarch64__)
             sendRequestAndReceive("ok");
 #           endif
             sendRequestAndReceive("next");
@@ -848,7 +850,7 @@ int state0normal()
             gettimeofday(&gTempo, NULL);
         } else {
             // Chagement de titre
-#           if defined(__arm__)
+#           if defined(__arm__) || defined(__aarch64__)
             sendRequestAndReceive("ok");
 #           endif
             sendRequestAndReceive("prev");
@@ -865,14 +867,14 @@ int state0normal()
  ******************************************************************************/
 int main()
 {
-#   if ! defined(__arm__)
+#   if ! defined(__arm__) && ! defined(__aarch64__)
     char* getInput();
     char* input;
 #   endif
     struct timeval tv;
     char charPrev = '\0';
 
-    initDisplay();
+    displayInit();
     loadAbrev();
 
     gBuffer = bufferNew();
@@ -894,8 +896,10 @@ int main()
 
     gTempo.tv_sec = 0;
 
+    keypadInit();
     for (;;) {
-#       if defined(__arm__)
+        keypadRead();
+#       if defined(__arm__) || defined(__aarch64__)
         nanoSleep(100000000);
 #       else
         fprintf(stderr, "mp3client> ");
@@ -906,7 +910,7 @@ int main()
             if (tv.tv_sec > gTempo.tv_sec + 30) {
                 gClientState = STATE0_NORMAL;
                 gTempo.tv_sec = 0;
-                updateDisplay("", "");
+                displayWrite("", "");
                 nanoSleep(500000000);
                 sendRequestAndReceive("info");
                 drawBuffer(0);
@@ -925,7 +929,7 @@ int main()
             if (state0normal()) {
                 continue;
             }
-#           if ! defined(__arm__)
+#           if ! defined(__arm__) && ! defined(__aarch64__)
             gPosDisplay = 0;
             if (strcmp(input, "prev") == 0 ||
                 strcmp(input, "next") == 0) {

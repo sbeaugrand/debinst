@@ -7,7 +7,7 @@
 # ---------------------------------------------------------------------------- #
 if [ `whoami` = "root" ] || [ -z "$RPI" ]; then
     echo "Usage: RPI=192.168.x.xx ./install-op-rpi.sh"
-    echo "Ex:    RPI=192.168.0.16 ./install-op-rpi.sh"
+    echo "                RPI=rpi ./install-op-rpi.sh"
     exit 1
 fi
 

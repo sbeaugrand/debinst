@@ -6,11 +6,7 @@
 # ---------------------------------------------------------------------------- #
 name=SunFounder_SensorKit_for_RPi2
 
-if notDir $bdir/$name; then
-    pushd $bdir || return 1
-    gitClone https://github.com/sunfounder/$name.git || return 1
-    popd
-fi
+gitClone https://github.com/sunfounder/$name.git || return 1
 
 file=$bdir/$name/C/33_ds1302/rtc_ds1302.c
 

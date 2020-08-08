@@ -15,16 +15,16 @@
 char gInput[LINE_SIZE];
 
 /******************************************************************************!
- * \fn initDisplay
+ * \fn displayInit
  ******************************************************************************/
-void initDisplay()
+void displayInit()
 {
 }
 
 /******************************************************************************!
- * \fn updateDisplay
+ * \fn displayWrite
  ******************************************************************************/
-void updateDisplay(const char* line1, const char* line2)
+void displayWrite(const char* line1, const char* line2)
 {
     char l1[LCD_COLS + 1];
     char l2[LCD_COLS + 1];

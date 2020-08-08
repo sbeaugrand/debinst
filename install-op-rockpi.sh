@@ -7,8 +7,7 @@
 # ---------------------------------------------------------------------------- #
 if [ `whoami` = "root" ] || [ -z "$HOST" ]; then
     echo "Usage: HOST=192.168.x.xx ./install-op-rockpi.sh"
-    echo "Ex:    HOST=192.168.0.14 ./install-op-rockpi.sh"
-    echo "Ex:             HOST=rps ./install-op-rockpi.sh"
+    echo "                HOST=rps ./install-op-rockpi.sh"
     exit 1
 fi
 user=rock

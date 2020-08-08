@@ -19,6 +19,7 @@
 # Description:       MP3 server for the Raspberry PI
 ### END INIT INFO
 
+user=rock
 if [ -z "$MP3DIR" ]; then
     export MP3DIR=/mnt/mp3
 fi
@@ -67,21 +68,19 @@ case "$1" in
         done
         logrotate $logpath/xmms2d.log
         logrotate $logpath/.mp3server.log
-        if [ -x /usr/bin/rtc ]; then
-            /usr/bin/rtc -slc >$log 2>&1
-        else
-            touch $log
-        fi
+        touch $log
         chmod 1777 /run
         export XMMS_PATH=unix:///run/xmms-ipc-ip
-        sudo --preserve-env=XMMS_PATH -b -H -u pi /usr/bin/mp3server >>$log 2>&1
+        sudo --preserve-env=MP3DIR,XMMS_PATH\
+         -b -H -u $user /usr/bin/mp3server >>$log 2>&1
         logrotate $logpath/.mp3client.log
-        sudo -b -H -u pi /usr/bin/mp3client >$log 2>&1
+        sudo --preserve-env=MP3DIR\
+         -b -H -u $user /usr/bin/mp3client >$log 2>&1
         ;;
     stop)
         if [ -n "$cpid" ]; then
             echo "stopping $cpid (mp3client)"
-            kill -9 $cpid
+            kill -2 $cpid
         fi
         if [ -n "$spid" ]; then
             echo "stopping $spid (mp3server)"

@@ -16,10 +16,7 @@ fi
 
 if notFile /usr/local/lib/libmraa.so; then
     pushd $dir || return 1
-    cmake\
-     -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc\
-     -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++\
-     .. >>$log 2>&1
+    cmake >>$log 2>&1 $CMAKE_OPT ..
     make >>$log 2>&1
     make >>$log 2>&1 install
     popd
