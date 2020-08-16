@@ -29,13 +29,19 @@ all:
 	@echo "  build/adc 125 1 50"
 	@echo "  build/fft-tcp 0 60 127.0.0.1"
 	@echo
-	@echo "raspberry Pi"
+	@echo "RockpiS"
+	@echo "  remote> make adc ADC=mraa"
+	@echo "  locale> make fft-tcp"
+	@echo "  remote> build/adc [rate]"
+	@echo "  locale> build/fft-tcp 0 110 192.168.0.??"
+	@echo
+	@echo "Raspberry Pi"
 	@echo "  remote> make adc ADC=[bcm|wpi]"
 	@echo "  locale> make fft-tcp"
 	@echo "  remote> build/adc [rate]"
 	@echo "  locale> build/fft-tcp 0 110 192.168.0.??"
 	@echo
-	@echo "arietta G25"
+	@echo "Arietta G25"
 	@echo "  remote> make adc ADC=g25"
 	@echo "  locale> make fft-tcp"
 	@echo "  remote> build/adc [18]"

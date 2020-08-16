@@ -84,6 +84,7 @@ rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf --excl
  ~/install/debinst/projects/makefiles\
  ~/install/debinst/projects/wiring\
  ~/install/debinst/projects/arm\
+ ~/install/debinst/projects/vlfSpectrum\
  $uri:/home/$user/install/debinst/projects/
 
 # ---------------------------------------------------------------------------- #

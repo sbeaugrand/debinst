@@ -1,0 +1,12 @@
+build/test-timer2313 4000000 0 5000: TCCR0B = 4
+build/test-timer2313 4000000 0 5000: OCR0A = 77
+build/test-timer2313 4000000 1 200000: TCCR1B = 3
+build/test-timer2313 4000000 1 200000: OCR1A = 12499
+build/test-timer45 4000000 0 5000: TCCR0B = 4
+build/test-timer45 4000000 0 5000: OCR0A = 77
+build/test-timer45 4000000 1 200000: TCCR1 = 13
+build/test-timer45 4000000 1 200000: OCR1A = 194
+build/test-timer45 4000000 1 347: TCCR1 = 4
+build/test-timer45 4000000 1 347: OCR1A = 172
+build/test-timer45 4000000 1 348: TCCR1 = 4
+build/test-timer45 4000000 1 348: OCR1A = 173

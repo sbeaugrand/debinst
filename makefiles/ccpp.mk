@@ -48,8 +48,7 @@ mrproper: clean
 
 .PHONY: cppcheck
 cppcheck:
-	cppcheck -q --enable=all\
-	 --suppressions-list=cppcheck.txt --std=posix $(CPPCHECKINC) .
+	cppcheck -q --enable=all --suppressions-list=cppcheck.txt --std=posix $(CPPCHECKINC) .
 
 .PHONY: dep
 dep:

@@ -54,6 +54,9 @@ tar:
 	--exclude=*-cache* \
 	--exclude=*.ps \
 	--exclude=*.ged \
+	--exclude=*.hex \
+	--exclude=*.a \
+	\
 	--exclude=homepage/tgz \
 	$(PROJECT)
 
@@ -71,10 +74,12 @@ dist:
 	--exclude=*-cache* \
 	--exclude=*.ps \
 	--exclude=*.ged \
+	--exclude=*.hex \
+	--exclude=*.a \
+	\
 	--exclude=*.tgz \
 	--exclude=*.ttf \
 	--exclude=*.pfb \
-	--exclude=*.a \
 	--exclude=*-pr-* \
 	--exclude=php \
 	$(PROJECT)

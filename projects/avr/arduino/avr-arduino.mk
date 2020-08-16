@@ -5,6 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 TARDEPEND += avr/arduino
+CPPCHECKINC += -I$(PROROOT)/avr/arduino
 
 ifeq ($(ATMEL),attiny2313)
  VARIANT = tinyX313

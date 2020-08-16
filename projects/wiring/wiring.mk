@@ -6,6 +6,8 @@
 # ---------------------------------------------------------------------------- #
 TARDEPEND += wiring/*
 CFLAGS += -I$(PROROOT)/wiring
+CPPCHECKINC += -I$(PROROOT)/wiring -I/usr/local/include
+
 ifeq ($(GPIO),rpi)
  OBJECTS += wiring_digital-rpi.o
  SUDO = sudo
@@ -22,7 +24,7 @@ ifeq ($(GPIO),avr)
 endif
 ifeq ($(GPIO),mraa)
  OBJECTS += wiring_digital-mraa.o
- CFLAGS += -I/usr/local/include
+ CFLAGS += -DROCKPIS -I/usr/local/include
  LDFLAGS += -lmraa
 endif
 ifeq ($(ADC),bcm)
@@ -43,6 +45,11 @@ ifeq ($(ADC),g25)
 endif
 ifeq ($(ADC),avr)
  OBJECTS += wiring_analog-avr.o
+endif
+ifeq ($(ADC),mraa)
+ OBJECTS += wiring_analog-mraa.o
+ CFLAGS += -DROCKPIS -I/usr/local/include
+ LDFLAGS += -lmraa
 endif
 ifeq ($(ADC),sinus)
  OBJECTS += wiring_analog-sinus.o
