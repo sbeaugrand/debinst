@@ -67,6 +67,7 @@ i386/profiles/i386.packages: list.txt ../$(LPKG)/build/list.txt
 	 sed 's/libc6-i386//' |\
 	 sed 's/ *#.*//' |\
 	 sed '/^$$/D' |\
+	 sed '/amd64/D' |\
 	 cat >$@
 	$(call add-extra-packages,$@)
 

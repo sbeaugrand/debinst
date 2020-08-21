@@ -10,11 +10,11 @@
 #  T ;C ;d
 # ---------------------------------------------------------------------------- #
 if notDir /home/mutt; then
-    adduser mutt
+    /sbin/adduser mutt
 fi
 user=mutt
 home=/home/$user
-mkdir $home/tmp
+sudo -u $user mkdir -p $home/tmp
 
 # ---------------------------------------------------------------------------- #
 # .muttinstrc
@@ -81,6 +81,7 @@ if notFile $file; then
     cat >$file <<EOF
 poll $SERVER proto $PROTO
  user '$USER' pass '$PASS'
+ #keep
 EOF
     if [ -n "$SSLFP" ]; then
         echo " ssl sslfingerprint \"$SSLFP\"" >>$file

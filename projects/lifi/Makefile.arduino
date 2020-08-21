@@ -1,0 +1,22 @@
+# ---------------------------------------------------------------------------- #
+## \file Makefile.arduino
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+PROROOT = ..
+
+BDIR     = $(HOME)/data/install-build
+HARDWARE = $(BDIR)/arduino-1.0.6/hardware
+ARDUINO  = $(HARDWARE)/arduino
+
+OBJECTS =\
+ $(ARDUINO)/cores/arduino/wiring.o\
+ $(ARDUINO)/cores/arduino/Print.o\
+ $(ARDUINO)/cores/arduino/HardwareSerial.o\
+ $(BDIR)/TimerOne/TimerOne.o\
+ $(PROJECT).o
+
+CFLAGS   = -I$(BDIR)/TimerOne
+CXXFLAGS = -I$(BDIR)/TimerOne
+include $(PROROOT)/makefiles/arduino.mk

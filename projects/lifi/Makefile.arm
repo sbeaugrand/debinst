@@ -1,0 +1,27 @@
+# ---------------------------------------------------------------------------- #
+## \file Makefile.arm
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+ifeq ($(GPIO),)
+ $(error GPIO is not set)
+endif
+PROJECT = receiver-$(GPIO)
+PROROOT = ..
+
+CFLAGS = -g# -DNDEBUG -DNERROR
+
+.PHONY: all
+all: build build/$(PROJECT)
+
+OBJECTS = receiver.o
+include $(PROROOT)/wiring/wiring.mk
+include $(PROROOT)/timer/timer.mk
+include $(PROROOT)/makefiles/arm64.mk
+include $(PROROOT)/debug/debug.mk
+
+build/$(PROJECT): $(OBJECTS)
+	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
+
+receiver.o: lifi.h

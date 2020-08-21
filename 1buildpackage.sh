@@ -58,7 +58,8 @@ makePackage()
 # ---------------------------------------------------------------------------- #
 # main
 # ---------------------------------------------------------------------------- #
-list=`find . -name "*.sh" -exec grep -q '^repo=\$idir' {} \; -print | cut -c3-`
+list=`find . -name "*.sh" -exec grep -q '^repo=\$idir' {} \; -print |\
+ grep -v build | cut -c3-`
 for f in $list; do
     if echo "$f" | grep -q "buildpackage-"; then
         continue

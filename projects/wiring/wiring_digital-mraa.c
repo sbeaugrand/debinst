@@ -25,11 +25,11 @@ int digitalInit(uint8_t pin, uint8_t mode)
         return 1;
     }
     if ((gpio = mraa_gpio_init(pin)) == NULL) {
-        return 1;
+        return 2;
     }
     if (mraa_gpio_dir(gpio, (mode == INPUT) ?
         MRAA_GPIO_IN : MRAA_GPIO_OUT) != MRAA_SUCCESS) {
-        return 1;
+        return 3;
     }
     mraa_gpios[pin - 1] = gpio;
 

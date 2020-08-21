@@ -22,6 +22,17 @@ readme: README.html
 versions:
 	@grep --color "^version=" *.sh */*.sh
 
+.PHONY: pull
+pull:
+	@grep -r --color=always\
+	 --exclude-dir=build\
+	 --exclude-dir=install-op-rpi\
+	 --exclude-dir=install-pr*\
+	 --exclude=README.*\
+	 --exclude=Makefile\
+	 "gitClone " | tee /dev/stderr |\
+	 sed 's#.*/\(.*\)\..*#repo=$(HOME)/install/repo ./4updaterepo.sh \1#'
+
 .PHONY: not-often-used
 not-often-used:
 	@ls -1 --color=no install-op-*.sh |\

@@ -4,10 +4,10 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-repo=$idir/../eeshow
+repo=$idir/../repo
 [ -d $repo ] || sudo -u $user mkdir $repo
 
-gitClone https://neo900.org/git/eeshow || return 1
+gitClone https://neo900.org/git/eeshow.git || return 1
 
 file=$bdir/eeshow/kicad/pl-render.c
 if notGrep "suppress_page_layout = 1" $file; then

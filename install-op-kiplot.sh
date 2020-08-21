@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-repo=$idir/../kiplot
+repo=$idir/../repo
 [ -d $repo ] || sudo -u $user mkdir $repo
 
 gitClone https://github.com/johnbeard/kiplot.git || return 1

@@ -1,0 +1,19 @@
+# ---------------------------------------------------------------------------- #
+## \file Makefile.avr
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+PROJECT = emitter-avr
+PROROOT = ..
+
+ATMEL=attiny45
+OBJECTS = $(PROJECT).o
+GPIO=avr
+include ${PROROOT}/avr/arduino/avr-arduino.mk
+
+LFUSE = 0xed# quartz 4 MHz
+CFLAGS += -std=c99
+include $(PROROOT)/makefiles/avr.mk
+include ${PROROOT}/timer/timer.mk
+include $(PROROOT)/makefiles/tar.mk

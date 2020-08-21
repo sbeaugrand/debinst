@@ -12,7 +12,9 @@ TARDEPEND += makefiles/livret.mk
 all: $(PROJECT).pdf
 
 %.pdf: build %.tex
-	@cd build && pdflatex --halt-on-error ../$(PROJECT).tex
+	@echo TEXINPUTS=$(TEXINPUTS)
+	@cd build && export TEXINPUTS=$(TEXINPUTS) &&\
+	 pdflatex --halt-on-error ../$(PROJECT).tex
 	@mv build/$@ .
 
 build:

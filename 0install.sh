@@ -273,7 +273,7 @@ gitClone()
         name="$name-$2"
         opt="-b $2"
     fi
-    local file=$repo/$name.tgz
+    local file=$repo/$name.tar
 
     if notDir $bdir/$name; then
         if isOnline; then
@@ -297,7 +297,7 @@ gitClone()
     # tar
     if [ ! -f $file ] && isDir $bdir/$name; then
         pushd $bdir || return 1
-        tar czf $file $name/.git
+        tar cf $file $name/.git
         popd
     fi
     return 0

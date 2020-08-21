@@ -4,7 +4,7 @@
 %% \sa http://beaugrand.chez.com/
 %% \copyright CeCILL 2.1 Free Software license
 % ---------------------------------------------------------------------------- %
-\documentclass{../../projects/kicad/kicad}
+\documentclass{kicad}
 \usepackage{pgfplots}
 \usepackage{tikz}
 
@@ -29,17 +29,20 @@
     legend style={at={(0.5,-0.15)},anchor=north},
     legend columns=5]
     \addplot[blue]
-     table[x=Time, y=V/entree, col sep=space] {build/schmittTrigger.dat};
+     table[x=Time, y=V/entree, col sep=space] {schmittTrigger.dat};
     \addplot[green]
-     table[x=Time, y=V/diviseur, col sep=space] {build/schmittTrigger.dat};
+     table[x=Time, y=V/diviseur, col sep=space] {schmittTrigger.dat};
     \addplot[red]
-     table[x=Time, y=V/bascule, col sep=space] {build/schmittTrigger.dat};
+     table[x=Time, y=V/bascule, col sep=space] {schmittTrigger.dat};
     \addplot[black]
-     table[x=Time, y=V/sortie, col sep=space] {build/schmittTrigger.dat};
+     table[x=Time, y=V/sortie, col sep=space] {schmittTrigger.dat};
     \legend{entree,diviseur,bascule,sortie}
 \end{axis}
 \end{tikzpicture}
+\\
+\vfill
+\scriptsize
+\copyright 2020 Sébastien Beaugrand -- CeCILL 2.1
 \end{center}
 
 \end{document}
-

@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-repo=$idir/../upm
+repo=$idir/../repo
 [ -d $repo ] || sudo -u $user mkdir $repo
 
 gitClone git://github.com/eclipse/upm.git || return 1

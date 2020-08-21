@@ -47,7 +47,7 @@ $(PYBAR)/pyBar.py:
 	@sed -i '/set_user_dir/D' $@
 
 $(EPB_SI)/EPB_SI.sty: $(REPO)/EPB_SI.zip
-	@unzip $< -d $(BDIR)
+	@unzip -o $< -d $(BDIR)
 	@touch $@
 
 $(REPO)/EPB_SI.zip:

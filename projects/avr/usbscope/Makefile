@@ -11,8 +11,6 @@ include $(PROROOT)/makefiles/pro.mk
 OBJECTS = $(PROJECT).o x11Scope.o
 FIRMWARE_TARGETS = hex fuse flash verify install
 
-.SUFFIXES:
-
 .PHONY: all
 all:
 	@echo

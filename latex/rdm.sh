@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-repo=$idir/../rdm
+repo=$idir/../repo
 [ -d $repo ] || sudo -u $user mkdir $repo
 
 gitClone https://github.com/Philippe-Lawrence/pyBar.git || return 1

@@ -5,19 +5,13 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROJECT = schmittTrigger
-PROROOT = ..
+PROROOT = ../..
 DST_EXT = .data# ngspice revision 30
+TEXINPUTS = $(shell readlink -f $(PROROOT)/projects/kicad):
 
-.PHONY: all
-all: $(PROJECT).pdf
+include $(PROROOT)/makefiles/livret.mk
 
-$(PROJECT).pdf: $(PROJECT).tex build build/$(PROJECT).dat\
- kicad/$(PROJECT)Schema.pdf
-	pdflatex --halt-on-error $<
-	@$(RM) $(PROJECT).aux $(PROJECT).log
-
-build:
-	@mkdir $@
+$(PROJECT).pdf: build/$(PROJECT).dat kicad/$(PROJECT)Schema.pdf
 
 %.dat: %.data
 	@cat $< |\

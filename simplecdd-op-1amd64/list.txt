@@ -102,10 +102,10 @@ cppcheck
 wine32
 wine
 cups
-libusb-0.1-4:i386
-libtiff5:i386
-libjpeg62-turbo:i386
-libieee1284-3:i386
+libusb-0.1-4:i386  # mustekA3
+libtiff5:i386  # mustekA3
+libjpeg62-turbo:i386  # mustekA3
+libieee1284-3:i386  # mustekA3
 thunar
 gtkam
 gphotofs
