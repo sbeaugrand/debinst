@@ -63,6 +63,7 @@ libgit2-dev  # eeplot
 libgtk-3-dev  # eeplot
 fig2dev  # eeplot
 python3-pip  # kiplot
+python3-setuptools  # kiplot
 usbutils
 libusb-dev
 libusb-1.0-0-dev

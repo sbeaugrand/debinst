@@ -7,12 +7,14 @@
  ******************************************************************************/
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include "lifi.h"
 #include "wiring.h"
 #include "timer1.h"
 #include "debug.h"
 
 #define PIN_LED 11
+unsigned int gCount;
 
 enum receiver_state
 {
@@ -142,7 +144,9 @@ void sample_signal_edge()
 {
     char edge_val;
     int sensorValue = digitalRead(PIN_LED);
+#   ifndef NDEBUG
     fprintf(stderr, "%d", sensorValue);
+#   endif
     if ((sensorValue - oldValue) > EDGE_THRESHOLD) {
         edge_val = -1;
     } else if ((oldValue - sensorValue) > EDGE_THRESHOLD) {
@@ -255,7 +259,8 @@ void loop()
                                    &frame_state,
                                    received_data)) > 0) {
             frame_buffer[frame_size - 1] = '\0';
-            DEBUG("%s", &frame_buffer[1]);
+            fprintf(stdout, "%s\n", &frame_buffer[1]);
+            --gCount;
         }
         if (frame_state != IDLE) {
             DEBUG("%x", received_data);
@@ -266,10 +271,17 @@ void loop()
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main()
+int main(int argc, char* argv[])
 {
     setup();
-    for (;;) {
-        loop();
+    if (argc > 1) {
+        gCount = atoi(argv[1]);
+        while (gCount) {
+            loop();
+        }
+    } else {
+        for (;;) {
+            loop();
+        }
     }
 }

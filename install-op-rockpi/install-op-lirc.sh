@@ -37,6 +37,9 @@ copyFile joyit_nec.toml /lib/udev/rc_keymaps || return 1
 copyFile joy-it-rc.service /usr/lib/systemd/system || return 1
 
 file=/etc/lirc/irexec.lircrc
-if notGrep "xmms2" $file; then
+if notGrep "toggle" $file; then
     cp lirc/$file /etc/lirc/
+fi
+if ! systemctl -q is-enabled irexec; then
+    systemctl enable irexec
 fi

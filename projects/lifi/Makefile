@@ -47,9 +47,13 @@ avr:
 arm:
 	@$(MAKE) --no-print-directory -f Makefile.arm GPIO=$(GPIO)
 
+.PHONY: debug
+debug:
+	@sudo ./build/receiver-mraa
+
 .PHONY: test
 test:
-	sudo ./build/receiver-mraa
+	@sudo build/receiver-mraa 2 | tr -d '\n' && echo
 
 .PHONY: reinstall
 reinstall: $(PROJECT)

@@ -76,6 +76,9 @@ $(PROJECT).pdf: $(PROJECT).tex\
  build/I0054.png\
  build/I0105.png\
  build/I0393.png\
+ build/I0888.png\
+ build/I0889.png\
+ build/I0891.png\
  build/I1570.png\
  build/I1571.png\
 
@@ -174,8 +177,8 @@ build/I0011.png: $(PHOTOS)/jeanine.png build/ellipse.png
 build/I0012.png: $(PHOTOS)/rene.png build/ellipse.png
 	$(call photo,70,90,-resize 80%,1954)
 
-build/I0013.png: $(PHOTOS)/denise.png build/ellipse.png
-	$(call photo,120,170,-resize 90%,1953)
+build/I0013.png: $(PHOTOS)/denise.jpg build/ellipse.png
+	$(call photo,700,650,-resize 175%,)
 
 build/I0015.png: $(PHOTOS)/jeanne.png build/ellipse.png
 	$(call photo,90,70,-resize 45%,)
@@ -212,6 +215,15 @@ build/I0105.png: $(PHOTOS)/louis-ernestine.png build/ellipse.png
 
 build/I0393.png: $(PHOTOS)/marie.png build/ellipse.png
 	$(call photo,200,140,-resize 60%,)
+
+build/I0888.png: $(PHOTOS)/jean-marcel.png build/ellipse.png
+	$(call photo,420,250,-resize 400%,1953)
+
+build/I0889.png: $(PHOTOS)/antoinette.jpg build/ellipse.png
+	$(call photo,280,200,-resize 100%,)
+
+build/I0891.png: $(PHOTOS)/lazarette.jpg build/ellipse.png
+	$(call photo,1250,1200,-resize 250%,)
 
 build/I1570.png: $(PHOTOS)/andre-marie.png build/ellipse.png
 	$(call photo,1100,700,-resize 75%,1923)

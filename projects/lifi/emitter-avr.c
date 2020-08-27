@@ -11,6 +11,10 @@
 #include "timer1.h"
 #include "lifi.h"
 
+#ifdef MESSAGE
+const char* gMessage = MESSAGE;
+#endif
+
 unsigned char frame_buffer[DATA_SIZE_MAX + 6];  // Buffer for frame
 volatile int8_t frame_index = -1;  // Index in frame
 int8_t frame_size = -1;  // Size of the frame to be sent
@@ -70,7 +74,7 @@ ISR(TIMER1_COMPA_vect)
 /******************************************************************************!
  * \fn write
  ******************************************************************************/
-int write(char* data, int data_size)
+int write(const char* data, int data_size)
 {
     if (frame_index >= 0) {
         return -1;
@@ -101,6 +105,19 @@ void setup()
 
     // Timer
     timer1SetPeriod(SYMBOL_PERIOD);
+
+#   ifdef MESSAGE
+    int len = strlen(gMessage);
+    int pos = 0;
+    while (len > 0) {
+        if (write(gMessage + pos,
+                  (len < DATA_SIZE_MAX) ? len : DATA_SIZE_MAX) < 0) {
+        } else {
+            len -= DATA_SIZE_MAX;
+            pos += DATA_SIZE_MAX;
+        }
+    }
+#   endif
 }
 
 /******************************************************************************!
@@ -108,10 +125,12 @@ void setup()
  ******************************************************************************/
 void loop()
 {
+#   ifndef MESSAGE
     static char* msg = "Hello World";
 
     if (write(msg, 11) < 0) {
     }
+#   endif
 }
 
 /******************************************************************************!

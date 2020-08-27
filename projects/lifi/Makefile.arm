@@ -10,7 +10,7 @@ endif
 PROJECT = receiver-$(GPIO)
 PROROOT = ..
 
-CFLAGS = -g# -DNDEBUG -DNERROR
+CFLAGS = -g -DNDEBUG -DNERROR
 
 .PHONY: all
 all: build build/$(PROJECT)

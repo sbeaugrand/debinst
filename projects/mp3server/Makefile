@@ -83,11 +83,12 @@ else
 endif
 build/$(CLIENT)-oled.o: $(CLIENT)-oled.cpp
 
-.PHONY: oled-clear
+.PHONY: oled-clear oled-message
 oled-clear: build build/oled-clear
-build/oled-clear: build/oled-clear.o
+oled-message: build build/oled-message
+build/oled-%: build/oled-%.o
 	$(CXX) $^ $(LDFLAGS) -lupm-lcd -o $@
-build/oled-clear.o: oled-clear.cpp
+build/oled-%.o: oled-%.cpp
 
 .PHONY: test-buffer
 test-buffer: build build/test-buffer
