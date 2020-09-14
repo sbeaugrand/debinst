@@ -67,6 +67,7 @@ tar:
 	--exclude=*.ged \
 	--exclude=*.hex \
 	--exclude=*.a \
+	--exclude=*.ko \
 	\
 	--exclude=homepage/tgz \
 	$(PROJECT)
@@ -87,6 +88,7 @@ dist:
 	--exclude=*.ged \
 	--exclude=*.hex \
 	--exclude=*.a \
+	--exclude=*.ko \
 	\
 	--exclude=*.tgz \
 	--exclude=*.ttf \

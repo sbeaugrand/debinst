@@ -93,6 +93,7 @@ nftables  # arietta G25
 sox
 timidity
 tuxguitar-alsa
+fluid-soundfont-gm  # timidity
 gdb
 strace
 valgrind
@@ -182,6 +183,7 @@ parted
 simple-cdd
 mtools  # simple-cdd
 dosfstools  # simple-cdd
+ntfs-3g
 apache2
 libapache2-mod-php
 php-gd
@@ -233,3 +235,4 @@ live-tools  # live-build
 user-setup  # live-build
 eject  # live-build
 live-build
+grub-pc-bin

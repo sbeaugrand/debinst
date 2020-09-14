@@ -54,6 +54,7 @@ dorsync:
 	 --exclude=debinst/homepage/php\
 	 --exclude='livret-*.pdf'\
 	 --exclude='portrait-*.pdf'\
+	 -f'-s_*.a'\
 	 $(PWD)/ /tmp/$(URL)/
 
 .PHONY: umount

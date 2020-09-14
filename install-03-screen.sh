@@ -60,7 +60,7 @@ xterm*faceSize: 6
 EOF
     elif ((`xrdb -symbols | grep DWIDTH  | cut -d '=' -f 2` == 1920)); then
         cat >>$file <<EOF
-xterm*font: 7x14
+xterm*font: 9x15
 EOF
     else
         cat >>$file <<EOF

@@ -20,11 +20,11 @@ fi
 pushd $home/.mozilla/firefox/*.default || return 1
 # Firefox telemetry and spy removal
 # https://gist.github.com/MrYar
-sed 's/US/FR/' $idir/install-*-firefox.js >user.js || return 1
+sed 's/US/FR/' $idir/install-*-firefox/install-*-firefox.js >user.js || return 1
 
-file=$idir/install-pr-firefox.html
+file=$idir/install-*-firefox/install-pr-firefox.html
 if [ ! -f $file ]; then
-    file=`ls $idir/install*-firefox.html`
+    file=`ls $idir/install-*-firefox/install-*-firefox.html`
 fi
 if [ -n "$file" ]; then
     cat >>user.js <<EOF
@@ -49,11 +49,17 @@ user_pref("privacy.sanitize.sanitizeOnShutdown", true);
 
 EOF
 chown $user.$user user.js
+file=`ls $idir/install-*-firefox/key4-pr-.db`
+[ -n $file ] && sudo -u $user cp $file key4.db
+file=`ls $idir/install-*-firefox/logins-pr-.json`
+[ -n $file ] && sudo -u $user cp $file logins.json
 popd
 
 dir=`ls -d $home/.mozilla/firefox/*.default-esr`
 if [ -n "$dir" ]; then
     pushd $dir || return 1
-    cp -a ../*.default/user.js .
+    sudo -u $user cp -a ../*.default/user.js .
+    sudo -u $user cp -a ../*.default/key4.db .
+    sudo -u $user cp -a ../*.default/logins.json .
     popd
 fi

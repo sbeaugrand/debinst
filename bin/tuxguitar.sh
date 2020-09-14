@@ -12,7 +12,10 @@
 # }
 # timidity -Os fichier.mid
 # ---------------------------------------------------------------------------- #
+if ! lsmod | grep -q '^snd_seq '; then
+    sudo /sbin/modprobe snd_seq
+fi
 timidity -iA -Os >/tmp/timidity.log 2>&1 &
 tuxguitar >/tmp/tuxguitar.log 2>&1
 # Outils/Parametres/Son/Port
-kill -15 `ps -C "timidity -iA -Os" -o pid=`
+kill -n 15 `ps -C "timidity -iA -Os" -o pid=`

@@ -1,0 +1,51 @@
+% ---------------------------------------------------------------------------- %
+%% \file geiger.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass{kicad}
+
+\begin{document}
+
+\begin{center}
+\titre{Compteur Geiger à transistors}
+~\\
+~\\
+\hspace*{-4mm}\schema{geiger}\\
+~\\
+~\\
+\begin{tabular}{llll}
+C1 - C6  = 3.3 \si{\micro\farad} 400\si{\volt}&
+L1, L2 = 8 tr $\simeq$ 25 \si{\centi\meter}&
+R6 = 560 \si{\ohm}&
+R15 = 10 \si{\kilo\ohm}\\
+C7 - C8  = 200 \si{\nano\farad}&
+R1, R2, R12 = 1.2 \si{\kilo\ohm}&
+R7 = 27 \si{\kilo\ohm}&
+R17 = 3.3 \si{\kilo\ohm}\\
+C9 = 22 \si{\nano\farad}&
+R4, R16 = 470 \si{\kilo\ohm}&
+R8 = 22 \si{\kilo\ohm}&
+R18 = 18 \si{\ohm}\\
+D1 - D6  = 1N4007&
+R5, R11 = 2.2 \si{\kilo\ohm}&
+R13 = 10 \si{\mega\ohm}&
+LS1 = 8 \si{\ohm}\\
+D8 = 1N4148&
+R9, R10 = 3.9 \si{\kilo\ohm}&
+R14 = 100 \si{\kilo\ohm}&
+LA1 = $J302\beta\gamma$\\
+Q1 - Q12 = BC337-40&
+R3 = 100 \si{\mega\ohm}
+\end{tabular}
+\\
+~\\
+\planche{geiger}{39}{29}
+\\
+\vfill
+\scriptsize
+\copyright 2020 Sébastien Beaugrand -- CeCILL 2.1
+\end{center}
+
+\end{document}

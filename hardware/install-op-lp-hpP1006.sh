@@ -8,7 +8,6 @@ cat <<EOF
 
 Todo:
 
-sudo apt install hplip
 hp-setup -i -a -x -pHP_LaserJet_P1006
 lpoptions -d HP_LaserJet_P1006
 
