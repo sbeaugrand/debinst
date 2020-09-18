@@ -25,10 +25,10 @@ elif notGrep "ir-nec-decoder" /lib/modules/$(uname -r)/modules.dep; then
     /sbin/depmod
 fi
 
-copyFile rockpis-gpio-ir-recv.dtbo /boot/dtbs/$(uname -r)/rockchip/overlay || return 1
 file=/boot/uEnv.txt
 if notGrep rockpis-gpio-ir-recv $file; then
     mount -o remount,rw /boot
+    copyFile rockpis-gpio-ir-recv.dtbo /boot/dtbs/$(uname -r)/rockchip/overlay || return 1
     sed -i 's/\(overlays=.*\)/\1 rockpis-gpio-ir-recv/' $file || return 1
     mount -o remount,ro /boot
 fi

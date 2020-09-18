@@ -1,0 +1,26 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	model = "Radxa ROCK Pi S";
+	compatible = "radxa,rockpis-rk3308", "rockchip,rk3308";
+
+	fragment@0 {
+		target-path = "/";
+		__overlay__ {
+            ir_recv: ir-receiver {
+				status = "okay";
+                compatible = "gpio-ir-receiver";
+                gpios = <&gpio2 4 1>;  /* GPIO2_A4 1=GPIO_ACTIVE_LOW */
+            };
+		};
+	};
+
+	fragment@1 {
+		target = <&pdm_8ch>;
+		__overlay__ {
+			status = "disable";
+		};
+	};
+
+};

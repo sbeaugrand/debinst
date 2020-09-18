@@ -15,13 +15,18 @@ HTML = $(addprefix html/,$(addsuffix .html,$(notdir $(SRC))))
 .SUFFIXES:
 
 .PHONY: all
-all: html png/tux.png favicon.ico http
+all: html pdf png/tux.png favicon.ico http
 
 .PHONY: html
 html: $(HTML)
 
 html/%.html: src/%
 	src2html.sh $< $@
+
+.PHONY: pdf
+pdf:
+	@grep 'pdf/' index.html |\
+	 cut -d '"' -f 2 | xargs -I {} ls -l --color {} || true
 
 png/tux.png: /usr/share/icons/silk/16x16/tux.png
 	@cp -a $< $@
@@ -46,15 +51,19 @@ dorsync:
 	 --copy-links --size-only --delete\
 	 --exclude=php/adresses.txt\
 	 --exclude=php/compteur.txt\
-	 --exclude='*~'\
-	 --exclude='*.swp'\
-	 --exclude='*-pr-*'\
-	 --exclude=build\
-	 --exclude=debinst/homepage/debinst\
-	 --exclude=debinst/homepage/php\
-	 --exclude='livret-*.pdf'\
-	 --exclude='portrait-*.pdf'\
+	 -f'-s_*~'\
+	 -f'-s_*.swp'\
+	 -f'-s_*-pr-*'\
+	 -f'-s_build'\
+	 -f'-s_debinst/homepage/debinst'\
+	 -f'-s_debinst/homepage/php'\
+	 -f'-s_livret-*.pdf'\
+	 -f'-s_portrait-*.pdf'\
 	 -f'-s_*.a'\
+	 -f'-s_debinst/latex/projects'\
+	 -f'-s_debinst/latex/makefiles'\
+	 -f'-s_debinst/projects/makefiles'\
+	 -f'-s_debinst/homepage/tgz'\
 	 $(PWD)/ /tmp/$(URL)/
 
 .PHONY: umount
@@ -71,6 +80,7 @@ tgz:\
  tgz/baofeng.tgz\
  tgz/chebyshev.tgz\
  tgz/schmittTrigger.tgz\
+ tgz/geiger.tgz\
  tgz/cornemuse.tgz\
 
 tgz/src.tgz: $(SRC)

@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROJECT = schmittTrigger
-PROROOT = ../..
+PROROOT = ..
 DST_EXT = .data# ngspice revision 30
 TEXINPUTS = $(shell readlink -f $(PROROOT)/projects/kicad):
 

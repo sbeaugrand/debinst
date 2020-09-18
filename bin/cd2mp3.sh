@@ -5,11 +5,6 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-if ! which mpg123 >/dev/null 2>&1; then
-    echo zypper install mpg123
-    sudo zypper install mpg123 || exit 1
-fi
-
 dev="cdrom"
 bitrate=192
 m3u="00.m3u"
@@ -18,18 +13,23 @@ cddb="audio.cddb"
 # ---------------------------------------------------------------------------- #
 # icedax + cddb
 # ---------------------------------------------------------------------------- #
-size=0
-if [ -f $cddb ]; then
-    size=`stat -c%s $cddb`
-fi
-echo -n "icedax + cddb ? (O/n) "
+echo -n "icedax ? (O/n) "
 read ret
 if [ "$ret" != n ]; then
-    which icedax >/dev/null 2>&1 || sudo zypper install icedax
-    icedax -interface cooked_ioctl -D/dev/$dev -x -B -L0 -d99999 -Owav\
-      2>&1 | tee diskid.txt
-elif [ $size = 0 ]; then
-    discid=`cat diskid.txt | grep "CDDB discid" | cut -dx -f2`
+    icedax -D/dev/$dev -x -B -d99999 -Owav 2>&1 | tee discid.txt
+fi
+
+title=`grep DTITLE $cddb | cut -d '=' -f 2`
+if [ -z "$title" ]; then
+    discid=`cat discid.txt | grep "CDINDEX discid" | cut -d ' ' -f3`
+    echo
+    echo firefox https://musicbrainz.org/cdtoc/$discid
+    echo
+    exit 0
+fi
+
+if false; then
+    discid=`cat discid.txt | grep "CDDB discid" | cut -dx -f2`
     genres="rock misc folk classical country blues\
             jazz newage reggae soundtrack data"
     n=1

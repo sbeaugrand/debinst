@@ -5,9 +5,9 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROJECT = geiger
-PROROOT = ../../projects
+PROROOT = ..
 
-include $(PROROOT)/kicad/doc.mk
+include $(PROROOT)/projects/kicad/doc.mk
 
 build:
 	@mkdir $@

@@ -4,6 +4,10 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+if ! lpoptions | grep -q HP_LaserJet_P1006; then
+    echo " warn: HP_LaserJet_P1006 already exists" | tee -a $log
+    return 0
+fi
 cat <<EOF
 
 Todo:
