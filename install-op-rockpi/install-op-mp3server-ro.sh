@@ -22,6 +22,13 @@ if isFile $file && notLink $file; then
     ln -sf $dest/xmms2d.log $file
 fi
 
+file=$home/.config/xmms2/xmms2.conf
+if isFile $file && notLink $file; then
+    $xmms2server shutdown
+    mv $file $dest/
+    ln -sf $dest/xmms2d.log $file
+fi
+
 file=$home/.config/xmms2/medialib.db
 if isFile $file; then
     $xmms2server shutdown

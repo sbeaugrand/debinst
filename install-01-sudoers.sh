@@ -17,6 +17,7 @@ $user ALL=(root) NOPASSWD:/sbin/cryptsetup
 $user ALL=(root) NOPASSWD:/sbin/dd
 $user ALL=(root) NOPASSWD:/sbin/mount
 $user ALL=(root) NOPASSWD:/sbin/umount
+$user ALL=(root) NOPASSWD:/sbin/modprobe snd_seq
 $user ALL=(mutt) ALL
 mutt ALL=(root) ALL
 EOF

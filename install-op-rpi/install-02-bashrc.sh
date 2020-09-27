@@ -19,4 +19,5 @@ alias mv='mv -i'
 alias rw='sudo mount -o rw,remount /'
 alias ro='sudo mount -o ro,remount /'
 export MP3DIR=/mnt/mp3/mp3
+export XMMS_PATH=unix:///run/xmms-ipc-ip
 EOF

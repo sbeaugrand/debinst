@@ -57,6 +57,7 @@ simulavr
 gdb-avr
 kicad
 kicad-symbols
+kicad-libraries
 ngspice
 libcairo2-dev  # eeplot
 libgit2-dev  # eeplot
@@ -184,6 +185,7 @@ simple-cdd
 mtools  # simple-cdd
 dosfstools  # simple-cdd
 ntfs-3g
+exfat-fuse
 apache2
 libapache2-mod-php
 php-gd

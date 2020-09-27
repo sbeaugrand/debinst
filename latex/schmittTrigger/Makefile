@@ -11,7 +11,7 @@ TEXINPUTS = $(shell readlink -f $(PROROOT)/projects/kicad):
 
 include $(PROROOT)/makefiles/livret.mk
 
-$(PROJECT).pdf: build/$(PROJECT).dat kicad/$(PROJECT)Schema.pdf
+$(PROJECT).pdf: kicad/$(PROJECT)Schema.pdf build/thresholds.tex
 
 %.dat: %.data
 	@cat $< |\
@@ -24,5 +24,15 @@ build/$(PROJECT).net: $(PROJECT).net
 	@cat $< | sed\
 	 -e 's/<dst>/$(PROJECT)$(DST_EXT)/'\
 	 | cat >$@
+
+build/thresholds.tex: build/$(PROJECT).dat
+	@sed '1d' $< | awk 'BEGIN { l = 4 } {\
+		e = $$6;\
+		s = $$8;\
+		if (s - l > 3 || l - s > 3) {\
+			printf "%dV~~~", e * 100;\
+			l = s;\
+		}\
+	}' >$@
 
 include $(PROROOT)/makefiles/tar.mk
