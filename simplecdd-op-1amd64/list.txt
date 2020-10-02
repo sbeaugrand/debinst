@@ -23,6 +23,7 @@ poppler-utils
 evince
 gimp
 imagemagick
+fonts-liberation
 icedax
 wodim
 aespipe

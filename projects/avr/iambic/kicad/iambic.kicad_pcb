@@ -133,7 +133,7 @@
     (add_net "Net-(R6-Pad1)")
   )
 
-  (module kicad:PIN_ARRAY_3X1 (layer F.Cu) (tedit 5D336E9E) (tstamp 5C69CC5D)
+  (module kicad:POT_V (layer F.Cu) (tedit 5D336E9E) (tstamp 5C69CC5D)
     (at 157.48 116.84 90)
     (descr "Connecteurs 2 pins")
     (tags "CONN DEV")
@@ -161,7 +161,7 @@
     )
   )
 
-  (module kicad:PIN_ARRAY_3X1 (layer F.Cu) (tedit 5D336E9E) (tstamp 5D336E8C)
+  (module kicad:POT_V (layer F.Cu) (tedit 5D336E9E) (tstamp 5D336E8C)
     (at 129.54 104.14 180)
     (descr "Connecteurs 2 pins")
     (tags "CONN DEV")
