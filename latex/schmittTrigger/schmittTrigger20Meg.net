@@ -1,8 +1,8 @@
 .title KiCad schematic
 .include "../../projects/kicad/bc337-40-300.lib"
-Rb1 Net-_J1-Pad1_ diviseur 100Meg
-Rb2 diviseur GND 470k
-Re1 /E4 GND 560
+Rb1 Net-_J1-Pad1_ diviseur 20Meg
+Rb2 diviseur GND 100k
+Re1 /E4 GND 1.2k
 Rc1 Net-_J2-Pad1_ /C3 2.2k
 R1 /B4 /C3 27k
 R2 /B4 GND 22k
@@ -22,6 +22,6 @@ Q5 sortie Net-_Q5-Pad2_ GND QBC337-40
 .control
 tran 0.5 240
 run
-wrdata build/<dst> V(bascule) V(diviseur) V(entree) V(sortie)
+wrdata build/schmittTrigger20Meg.data V(bascule) V(diviseur) V(entree) V(sortie)
 .endc
 .end

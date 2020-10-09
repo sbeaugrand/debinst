@@ -4,6 +4,7 @@
 sourceList "
 install-op-arduino.sh
 install-op-autologin.sh
+install-op-autowhite.sh
 install-op-eeplot.sh
 install-op-emacs-php.sh
 install-op-fonts-morse.sh
@@ -19,3 +20,7 @@ hardware/install-op-alsa-order.sh
 hardware/install-op-lp-hpP1006.sh
 hardware/install-op-scan-mustekA3.sh
 "
+
+if notLink $home/.gramps && isDir $data/gramps; then
+    ln -s $data/gramps $home/.gramps
+fi

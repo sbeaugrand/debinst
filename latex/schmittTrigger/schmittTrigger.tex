@@ -16,7 +16,7 @@
 ~\\
 \scalebox{1.5}{\schema{schmittTrigger}}\\
 ~\\
-~\\
+\scalebox{0.9}{%
 \begin{tikzpicture}
 \begin{axis}[
     scale only axis,
@@ -39,9 +39,16 @@
     \legend{entree,diviseur,bascule,sortie}
 \end{axis}
 \end{tikzpicture}
+}
 \\
 ~\\
-Seuils pour 4\si{\volt} et 3.6\si{\volt}: \input{thresholds.tex}
+\begin{tabular}{|l|r@{}r|r|}\hline
+Seuils pour 4\si{\volt} et 3.6\si{\volt} & & Rb1 & Rb2\\ \hline\hline
+\input{thresholds940Meg.tex} & $2 \times$ & $470$ \si{\mega\ohm} & 4.7 \si{\mega\ohm}\\ \hline
+\input{thresholds20Meg.tex}  & $2 \times$ & $ 10$ \si{\mega\ohm} & 100 \si{\kilo\ohm}\\ \hline
+\input{thresholds200Meg.tex} & $2 \times$ & $100$ \si{\mega\ohm} &   1 \si{\mega\ohm}\\ \hline
+\input{thresholds2g.tex}     & $2 \times$ & $  1$ \si{\giga\ohm} &  10 \si{\mega\ohm}\\ \hline
+\end{tabular}
 \vfill
 \scriptsize
 \copyright 2020 Sébastien Beaugrand -- CeCILL 2.1
