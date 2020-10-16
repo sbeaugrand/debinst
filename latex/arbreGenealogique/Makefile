@@ -226,7 +226,7 @@ build/I0393.png: $(PHOTOS)/marie.png build/ellipse2.png
 	$(call photo,2,200,140,-resize 60%,,-normalize,)
 
 build/I0888.png: $(PHOTOS)/jean-marcel.png build/ellipse2.png
-	$(call photo,2,420,250,-resize 400%,,-normalize,1953)
+	$(call photo,2,120,150,-resize 50%,,-normalize,)
 
 build/I0889.png: $(PHOTOS)/antoinette.png build/ellipse2.png
 	$(call photo,2,75,90,,autowhite,-normalize,)
