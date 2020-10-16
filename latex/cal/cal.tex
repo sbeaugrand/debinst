@@ -4,16 +4,6 @@
 %% \sa http://beaugrand.chez.com/
 %% \copyright CeCILL 2.1 Free Software license
 % ---------------------------------------------------------------------------- %
-% zypper install --no-recommends\
-%  texlive-latex\
-%  texlive-vmargin\
-%  texlive-babel-french\
-%  texlive-colortbl\
-%  texlive-psnfss\
-%  texlive-metafont-bin\
-%  texlive-times\
-%  texlive-dvips
-% ---------------------------------------------------------------------------- %
 \documentclass[a4paper]{article}
 \usepackage{vmargin}
 \setpapersize{custom}{297mm}{210mm}
@@ -29,6 +19,7 @@
 \def\greyII{\rowcolor[gray]{0.85}}
 \definecolor{tgrey}{gray}{0.5}
 \usepackage{graphics}
+\usepackage{setspace}
 \tabcolsep=2pt
 \parindent0pt
 \parskip0pt
@@ -107,8 +98,29 @@
     \ifnum\jourdumois=11 \ifnum\mois=11 \greyII \fi \fi
     \ifnum\jourdumois=25 \ifnum\mois=12 \greyII \fi \fi
   \fi
-  \number\jourdumois&
-  \ifcase\jour \or L \or M \or M \or J \or V \or S \or D \fi
+  \centerline{\number\jourdumois}
+  \tiny
+  \setstretch{0}
+  \IfFileExists{sun}{%
+    \immediate\write18{sun
+      \number\annee-\number\mois-\number\jourdumois{}
+      \number\latitude{} \number\longitude{} \number\h0{} h
+      | sed 's/:/$:$/g' >meridien-h.txt}}{}
+  \IfFileExists{meridien-h.txt}{%
+    \textcolor{tgrey}{\vspace*{-3pt}\hspace*{3.5pt}\input{meridien-h.txt}}}{}
+  \normalsize
+  &
+  \centerline{\ifcase\jour \or L \or M \or M \or J \or V \or S \or D \fi}
+  \tiny
+  \setstretch{0}
+  \IfFileExists{sun}{%
+    \immediate\write18{sun
+      \number\annee-\number\mois-\number\jourdumois{}
+      \number\latitude{} \number\longitude{} \number\h0{} m
+      | sed 's/:/$:$/g' >meridien-m.txt}}{}
+  \IfFileExists{meridien-m.txt}{%
+    \textcolor{tgrey}{\vspace*{-3pt}\hspace*{-1pt}\input{meridien-m.txt}}}{}
+  \normalsize
   &
   % Numéros des semaines
   \ifnum\jour=1
@@ -122,7 +134,6 @@
   \ifnum\mois=10 \ifnum\jour=7 \ifnum\jourdumois>24
     -1h \global\summer=0 \fi \fi \fi
   % Fêtes païennes
-  \ifdim\dimjour<50pt \tiny \fi
   \ifnum\jourdumois=\winterday \ifnum\mois=12 Jul    \fi \fi
   \ifnum\jourdumois=\springday \ifnum\mois=3  Ostara \fi \fi
   \ifnum\jourdumois=\summerday \ifnum\mois=6  Litha  \fi \fi
@@ -141,9 +152,7 @@
     Fête des grand-mères \fi \fi \fi
   \ifnum\mois=10 \ifnum\jour=7 \ifnum\jourdumois<8
     Fête des grand-pères \fi \fi \fi
-  \ifdim\dimjour<50pt \normalsize \fi
   % Lever et coucher du soleil
-  \ifdim\dimjour>50pt
   \tiny
   \IfFileExists{sun}{%
     \immediate\write18{sun
@@ -164,7 +173,6 @@
     ~
   }
   \normalsize
-  \fi
   &
   % Phases de la lune
   \ifnum\jourdumois=\Day \ifnum\mois=\Month
@@ -245,7 +253,7 @@
     \divide\tmp4 \multiply\tmp4
     \ifnum\tmp=\annee \last=29 \fi
   \fi
-  \begin{tabular}[t]{|c|c|p{\dimjour}r@{}r|}
+  \begin{tabular}[t]{|p{8pt}|p{8pt}|p{\dimjour}r@{}r|}
   \multicolumn{5}{p{\dimmois}}{}\\ \hline
   \multicolumn{5}{|@{}c@{}|}{\textbf{
     \ifcase\mois
@@ -270,15 +278,13 @@
   Grenoble, Limoges, Lyon, Poitiers
   \IfFileExists{moon}{
   \hfill AL: Apogée lunaire, PL: Périgée lunaire
-  }{}
-  \ifdim\dimjour>50pt \\ \else -- \fi
+  }{}\\
   \textcolor{blue}{Zone B :}
   Aix-Marseille, Amiens, Caen, Lille, Nancy-Metz, Nantes,
   Nice, Orléans-Tours, Reims, Rennes, Rouen, Strasbourg
   \IfFileExists{moon}{
   \hfill NA: N\oe{}ud ascendant, ND: N\oe{}ud descendant
-  }{}
-  \ifdim\dimjour>50pt \\ \else -- \fi
+  }{}\\
   \textcolor{green}{Zone C :}
   Créteil, Montpellier, Paris, Toulouse, Versailles --
   Lundi de Pâques: \number\paquesjour/\number\paquesmois,

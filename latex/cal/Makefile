@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-YEAR = 2020
+YEAR = 2021
 include config.mk
 ifneq ($(MAKECMDGOALS),dist-cal)
  ifneq ($(MAKECMDGOALS),dist-cadran)

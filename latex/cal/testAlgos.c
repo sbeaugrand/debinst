@@ -227,6 +227,7 @@ int main()
     d1 = 18.64229;
     d3 = 18.48835;
     double H1 = t1 - lon - a1;
+    double H2 = t2 - lon - a2;
     double H3 = t3 - lon - a3;
     test("H1", H1, -108.56577);
     test("H3", H3, 108.52570);
@@ -239,8 +240,10 @@ int main()
     h1 = -0.44393;
     h3 = -0.52711;
     double dm1 = (h1 - h0) / (360 * COS(d1) * COS(lat) * SIN(H1));
+    double dm2 = -H2 / 360;
     double dm3 = (h3 - h0) / (360 * COS(d3) * COS(lat) * SIN(H3));
     test("dm1", dm1, -0.00051359492);  // -0.00051
+    test("dm2", dm2, 0.00014604733);  // 0.00015
     test("dm3", dm3, 0.00016543225);  // 0.00017
 
     // 7.c

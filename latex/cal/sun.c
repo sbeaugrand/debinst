@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     double lon;
     double h0;
 
-    if (argc != 4 && argc != 5) {
+    if (argc != 4 && argc != 5 && argc != 6) {
         printf("Usage: %s <YYYY-MM-DD> <latitude> <longitude> [h0]\n",
                argv[0]);
         return EXIT_FAILURE;
@@ -84,6 +84,7 @@ int main(int argc, char* argv[])
     sunApparentRightAscensionAndDeclination(jd + 1, &a3, &d3,
                                             &nutationInLongitude, &eps);
     double t1 = reduceAngle(theta0 + 360.985647 * m1);
+    double t2 = reduceAngle(theta0 + 360.985647 * m0);
     double t3 = reduceAngle(theta0 + 360.985647 * m2);
     // deltaT
     // https://www.iers.org/IERS/EN/DataProducts/EarthOrientationData/eop.html
@@ -98,24 +99,32 @@ int main(int argc, char* argv[])
     b = a3 - a2;
     c = b - a;
     a1 = a2 + n1 * (a + b + n1 * c) / 2;
-    a3 = a2 + n2 * (a + b + n2 * c) / 2;
     a2 = a2 + n0 * (a + b + n0 * c) / 2;
+    a3 = a2 + n2 * (a + b + n2 * c) / 2;
     a = d2 - d1;
     b = d3 - d2;
     c = b - a;
     d1 = d2 + n1 * (a + b + n1 * c) / 2;
     d3 = d2 + n2 * (a + b + n2 * c) / 2;
     double H1 = t1 + lon - a1;
+    double H2 = t2 + lon - a2;
     double H3 = t3 + lon - a3;
     double h1 = DEG(asin(SIN(lat) * SIN(d1) + COS(lat) * COS(d1) * COS(H1)));
     double h3 = DEG(asin(SIN(lat) * SIN(d3) + COS(lat) * COS(d3) * COS(H3)));
+    m0 += - H2 / 360;
     m1 += (h1 - h0) / (360 * COS(d1) * COS(lat) * SIN(H1));
     m2 += (h3 - h0) / (360 * COS(d3) * COS(lat) * SIN(H3));
 #   endif
+    double hr0 = m0 * 24 + gmtoff;
     double hr1 = m1 * 24 + gmtoff;
     double hr2 = m2 * 24 + gmtoff;
+    int mi0 = round((hr0 - ((int) hr0)) * 60);
     int mi1 = round((hr1 - ((int) hr1)) * 60);
     int mi2 = round((hr2 - ((int) hr2)) * 60);
+    if (mi0 == 60) {
+        mi0 = 0;
+        hr0 += 1;
+    }
     if (mi1 == 60) {
         mi1 = 0;
         hr1 += 1;
@@ -124,7 +133,13 @@ int main(int argc, char* argv[])
         mi2 = 0;
         hr2 += 1;
     }
-    printf("%02d:%02d - %02d:%02d\n", (int) hr1, mi1, (int) hr2, mi2);
+    /*  */ if (argc == 6 && *argv[5] == 'h') {
+        printf("%02d", (int) hr0);
+    } else if (argc == 6 && *argv[5] == 'm') {
+        printf("%02d", mi0);
+    } else {
+        printf("%02d:%02d - %02d:%02d\n", (int) hr1, mi1, (int) hr2, mi2);
+    }
 
     return EXIT_SUCCESS;
 }
