@@ -17,7 +17,7 @@ CFLAGS += -DWITH_EQUATION_OF_TIME
 ifeq ($(idir),)
  REPO = $(HOME)/install/calendar
 else
- REPO = $(idir)/../calendar
+ REPO = $(idir)/../repo
 endif
 BDIR  = $(HOME)/data/install-build
 

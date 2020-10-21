@@ -5,7 +5,6 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 repo=$idir/../repo
-[ -d $repo ] || sudo -u $user mkdir $repo
 
 gitClone https://github.com/l-smash/l-smash.git || return 1
 gitClone https://github.com/nu774/m4acut.git || return 1

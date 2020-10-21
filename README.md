@@ -47,8 +47,8 @@ cd debinst
 # Création d'une nouvelle debian sur clé USB
 
 ```
-./1buildpackage.sh buildpackage-op-1
-./2simplecdd.sh simplecdd-op-1amd64 buildpackage-op-1
+make pkgs
+make iso
 pv ~/data/install-build/simplecdd-1amd64/images/debian-10-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
 La liste des paquets debian sont dans: simplecdd-op-1amd64/list.txt
@@ -57,7 +57,7 @@ La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 
 # Création d'une machine virtuelle dans windows
 ```
-./1buildpackage.sh buildpackage-op-2min
+./1buildpackage.sh buildpackage-op-2min dist
 ./2simplecdd.sh simplecdd-op-2min buildpackage-op-2min
 cd 3packer && make tar
 ```

@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 bcm=bcm2835-1.63
-repo=$idir/../bcm2835
+repo=$idir/../repo
 [ -d $repo ] || sudo -u $user mkdir $repo
 
 file=$bcm.tar.gz

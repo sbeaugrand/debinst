@@ -6,9 +6,7 @@
 # ---------------------------------------------------------------------------- #
 version=1.10.4
 file=id3ed-$version.tar.gz
-
-repo=$idir/../id3ed
-[ -d $repo ] || sudo -u $user mkdir $repo
+repo=$idir/../repo
 
 download http://distfiles.gentoo.org/distfiles/$file || return 1
 untar $file || return 1

@@ -4,9 +4,9 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-# sudo rm -fr ~/data/tmp/ffmpeg-4.1.4
-# sudo rm -fr ~/data/tmp/mplayer-1.3.0
-# sudo rm -f  ~/data/tmp/mplayer
+# sudo rm -fr ~/data/install-build/ffmpeg-4.1.6
+# sudo rm -fr ~/data/install-build/mplayer-1.3.0
+# sudo rm -f  ~/data/install-build/mplayer
 # sudo rm -f /usr/local/bin/ffmpeg
 # sudo rm -f /usr/local/bin/mplayer
 # sudo rm -f /usr/local/bin/mencoder
@@ -45,7 +45,7 @@ if notFile /usr/local/bin/ffmpeg; then
     ./configure --disable-ffmpeg_a >>$log 2>&1
     popd
     pushd $bdir/$mplayer/ffmpeg
-    ./configure --enable-gpl --enable-libx264 --enable-libmp3lame >>$log 2>&1
+    ./configure --enable-gpl --enable-libx264 --enable-libmp3lame --enable-libaom >>$log 2>&1
     make >>$log 2>&1
     make install >>$log 2>&1
     popd

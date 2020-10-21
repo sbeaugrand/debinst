@@ -45,7 +45,7 @@ normalize-audio
 gocr
 libnetpbm10-dev
 libpng-dev
-libx264-dev
+libx264-dev  # ffmpeg
 libasound2-dev
 vlc
 mftrace
@@ -165,11 +165,12 @@ aptitude
 anacron
 wmctrl
 lame
-libmp3lame-dev
+libmp3lame-dev  # ffmpeg
 libdvdread-dev
 libdvd-pkg  # libdvdcss
 libdvdnav-dev
 libfaac-dev
+libaom-dev  # ffmpeg
 lsdvd
 subversion
 git

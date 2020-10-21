@@ -11,7 +11,7 @@ ifneq ($(PROPATH),)
  PPREFIX = $(PROPATH)/
 endif
 TEXCLUDE = *~ *.d *.o *.so *.a *.out\
- *.bck *-bak *-cache.* *-rescue.* .*.swp build portrait-*.pdf
+ *.bck *-bak *-cache.* *-rescue.* .*.swp build portrait-*.pdf *.ps
 ifeq ($(MAKECMDGOALS),dist)
  TEXCLUDE += *-pr-* *.pdf
 endif

@@ -6,13 +6,16 @@
 # ---------------------------------------------------------------------------- #
 url=https://www.acmesystems.it/download/microsd/Arietta-03aug2017
 dev=/dev/mmcblk0
+repo=~/data/install-repo
 
-download $url/boot.tar.bz2 || return 1
-download $url/rootfs.tar.bz2 || return 1
+file=$repo/boot.tar.bz2
+[ -f $file ] || curl -s $url/boot.tar.bz2 -o $file || return 1
+file=$repo/rootfs.tar.bz2
+[ -f $file ] || curl -s $url/rootfs.tar.bz2 -o $file || return 1
 
 if [ ! -b $dev ]; then
     echo " error: $dev not found"
-    return 1
+    exit 1
 fi
 
 export PATH=$PATH:/sbin

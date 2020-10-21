@@ -34,8 +34,9 @@ isDir()
 log=/dev/stderr
 isDir $data || exit 1
 log=$bdir/0install.log
-[ -d $repo ] || sudo -u $user mkdir $repo
 [ -d $bdir ] || sudo -u $user mkdir $bdir
+[ -d $repo ] || sudo -u $user mkdir $repo
+[ -d $idir/../repo ] || sudo -u $user mkdir $idir/../repo
 
 # ---------------------------------------------------------------------------- #
 # logrotate

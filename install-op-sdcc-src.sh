@@ -4,8 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-repo=$idir/../sdcc
-[ -d $repo ] || sudo -u $user mkdir $repo
+repo=$idir/../repo
 
 if notFile $repo/sdcc.tgz; then
     if notDir $bdir/sdcc; then

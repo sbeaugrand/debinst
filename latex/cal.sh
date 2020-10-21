@@ -4,7 +4,8 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-repo=$idir/../calendar
+repo=$idir/../repo
+[ -d $repo ] || sudo -u $user mkdir $repo
 url=ftp://dante.ctan.org/tex-archive
 
 file=calendar.zip
@@ -20,7 +21,7 @@ if notDir $dir; then
     mkdir $dir
 fi
 dir=latex/cal/build/calendar
-if notLink $dir; then
+if notDir $dir; then
     ln -s $bdir/calendar $dir
 fi
 file=latex/cal/build/moonphase.mf

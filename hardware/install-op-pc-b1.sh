@@ -6,6 +6,7 @@ install-op-autologin.sh
 install-op-autowhite.sh
 install-op-dafont.sh
 install-op-firefox-abp.sh
+install-op-firefox-cookies.sh
 install-op-flashplayer.sh
 install-op-meteo.sh
 install-op-ssh-server.sh

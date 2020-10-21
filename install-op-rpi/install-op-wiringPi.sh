@@ -7,8 +7,6 @@
 #repo=$idir/../wiringPi
 #untar wiringPi.tgz ||\
 # gitClone git://git.drogon.net/wiringPi || return 1
-repo=$idir/../WiringPi
-[ -d $repo ] || sudo -u $user mkdir $repo
 
 gitClone git://github.com/WiringPi/WiringPi.git || return 1
 

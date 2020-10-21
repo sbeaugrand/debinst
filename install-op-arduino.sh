@@ -6,9 +6,7 @@
 # ---------------------------------------------------------------------------- #
 version=1.0.6
 file=arduino-$version-linux64.tgz
-
 repo=$idir/../repo
-[ -d $repo ] || sudo -u $user mkdir $repo
 
 download https://downloads.arduino.cc/$file || return 1
 untar $file arduino-$version/arduino || return 1

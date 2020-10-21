@@ -11,12 +11,14 @@ install-op-firefox-abp.sh
 install-op-firefox-safesearch.sh
 install-op-firefox-vdh.sh
 install-op-firefox-vdhcoapp.sh
+install-op-firefox-cookies.sh
 install-op-flashplayer.sh
 install-op-id3ed.sh
 install-op-kiplot.sh
 install-op-m4acut.sh
 install-op-meteo.sh
 install-op-rpi-xc.sh
+install-op-rockpi-xc.sh
 install-op-uncrustify.sh
 install-op-upgrades.sh
 install-pr-alias.sh

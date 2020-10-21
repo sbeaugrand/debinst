@@ -5,11 +5,12 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-if [ -z "$1" ]; then
-    echo "Usage: `basename $0` <buildpackage-...>"
+if [ -z "$2" ]; then
+    echo "Usage: `basename $0` <buildpackage-...> <tar|dist>"
     exit 1
 fi
 buildpackage=$1
+tardist=$2
 
 source 0install.sh
 
@@ -38,8 +39,12 @@ makePackage()
     dir=`basename $src`
     if [ -f $src/Makefile ]; then
         pushd $src || return 1
-        make tar >>$log
-        mv $idir/../$pkg.tgz /tmp/
+        make $tardist >>$log
+        if [ $tardist = "dist" ]; then
+            mv $idir/../$pkg-dist.tgz /tmp/$pkg.tgz
+        else
+            mv $idir/../$pkg.tgz /tmp/
+        fi
         popd
     else
         pushd $src/.. || return 1
@@ -64,7 +69,7 @@ for f in $list; do
     if echo "$f" | grep -q "buildpackage-"; then
         continue
     fi
-    if ! grep -q "^source $f" $buildpackage/prepare.sh; then
+    if ! grep -q "source $f" $buildpackage/prepare.sh; then
         echo "warn: $buildpackage/prepare.sh: missing source $f"
     fi
     pkg="install-"`grep '^repo=\$idir' "$f" | awk -F / '{ print $NF }'`
@@ -80,5 +85,8 @@ if [ -f $buildpackage/prepare.sh ]; then
 fi
 
 for i in `cat $buildpackage/list.txt`; do
+    if [ "${i:0:1}" = '#' ]; then
+        continue
+    fi
     makePackage $idir/../$i || echo "warn: package $i not completed"
 done

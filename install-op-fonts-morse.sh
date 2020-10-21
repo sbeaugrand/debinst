@@ -5,9 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 texdir=/usr/share/texmf
-
-repo=$idir/../fonts-morse
-[ -d $repo ] || sudo -u $user mkdir $repo
+repo=$idir/../repo
 
 download http://mirrors.ctan.org/fonts/morse.zip || return 1
 

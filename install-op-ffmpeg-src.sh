@@ -5,9 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 #file=ffmpeg-3.2.9.tar.xz
-
-#repo=$idir/../ffmpeg
-#[ -d $repo ] || sudo -u $user mkdir $repo
+#repo=$idir/../repo
 
 #download https://ffmpeg.org/releases/$file || return 1
 #untar $file || return 1
@@ -18,9 +16,7 @@ name=ffmpeg
 version=4.1.6
 pkg=$name-$version.tgz
 src=$name-apt-src
-
-repo=$idir/../ffmpeg
-[ -d $repo ] || sudo -u $user mkdir $repo
+repo=$idir/../repo
 
 if notFile $repo/$pkg; then
     if notDir $bdir/$src; then

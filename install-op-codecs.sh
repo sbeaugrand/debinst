@@ -6,9 +6,7 @@
 # ---------------------------------------------------------------------------- #
 codecs=essential-20071007
 file=$codecs.tar.bz2
-
-repo=$idir/../codecs
-[ -d $repo ] || sudo -u $user mkdir $repo
+repo=$idir/../repo
 
 download http://www.mplayerhq.hu/MPlayer/releases/codecs/$file || return 1
 untar $file || return 1

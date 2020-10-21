@@ -21,10 +21,14 @@ source latex/cal.sh || return 1
 source latex/rdm.sh || return 1
 source projects/avr/avrusb.sh || return 1
 source projects/avr/usbtinyisp/usbtinyisp.sh || return 1
-source install-op-rockpi-xc.sh || return 1
 source install-op-rockpi/install-10-WiringPi.sh || return 1
 source install-op-m4acut.sh || return 1
 source install-op-diffchar.sh || return 1
+source install-op-autowhite.sh || return 1
+
+# source projects/arm/mraa.sh
+# source install-op-rockpi/install-11-upm.sh
+source install-op-rockpi-xc.sh || return 1
 
 # libdvdcss
 /usr/lib/libdvd-pkg/b-i_libdvdcss.sh

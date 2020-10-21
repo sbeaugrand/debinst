@@ -31,11 +31,6 @@ body { font-family: monospace; color: #ffffff; background-color: #000000; }
 <span class="Comment">## \sa <a href="http://beaugrand.chez.com/">http://beaugrand.chez.com/</a></span>
 <span class="Comment">## \copyright CeCILL 2.1 Free Software license</span>
 <span class="Comment"># ---------------------------------------------------------------------------- #</span>
-<span class="Statement">if </span><span class="Statement">!</span> which mpg123 <span class="Statement">&gt;</span>/dev/null <span class="Constant">2</span><span class="Statement">&gt;</span><span class="Statement">&amp;</span><span class="Constant">1</span><span class="Statement">;</span> <span class="Statement">then</span>
-    <span class="Statement">echo</span><span class="Constant"> zypper install mpg123</span>
-    sudo zypper install mpg123 <span class="Statement">||</span> <span class="Statement">exit</span> <span class="Constant">1</span>
-<span class="Statement">fi</span>
-
 <span class="Identifier">dev</span>=<span class="Statement">&quot;</span><span class="Constant">cdrom</span><span class="Statement">&quot;</span>
 <span class="Identifier">bitrate</span>=<span class="Constant">192</span>
 <span class="Identifier">m3u</span>=<span class="Statement">&quot;</span><span class="Constant">00.m3u</span><span class="Statement">&quot;</span>
@@ -44,18 +39,23 @@ body { font-family: monospace; color: #ffffff; background-color: #000000; }
 <span class="Comment"># ---------------------------------------------------------------------------- #</span>
 <span class="Comment"># icedax + cddb</span>
 <span class="Comment"># ---------------------------------------------------------------------------- #</span>
-<span class="Identifier">size</span>=<span class="Constant">0</span>
-<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-f</span> <span class="PreProc">$cddb</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
-    <span class="Identifier">size</span>=<span class="Special">`stat </span><span class="Special">-c</span><span class="Special">%s </span><span class="PreProc">$cddb</span><span class="Special">`</span>
-<span class="Statement">fi</span>
-<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">icedax + cddb ? (O/n) </span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">icedax ? (O/n) </span><span class="Statement">&quot;</span>
 <span class="Statement">read</span> ret
 <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">!=</span> n <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
-    which icedax <span class="Statement">&gt;</span>/dev/null <span class="Constant">2</span><span class="Statement">&gt;</span><span class="Statement">&amp;</span><span class="Constant">1</span> <span class="Statement">||</span> sudo zypper install icedax
-    icedax <span class="Special">-interface</span> cooked_ioctl <span class="Statement">-D</span>/dev/<span class="PreProc">$dev</span> <span class="Statement">-x</span> <span class="Statement">-B</span> <span class="Special">-L</span>0 <span class="Special">-d</span>99999 <span class="Special">-Owav</span>\
-      <span class="Constant">2</span><span class="Statement">&gt;</span><span class="Statement">&amp;</span><span class="Constant">1</span> <span class="Statement">|</span> tee diskid.txt
-<span class="Statement">elif</span> <span class="Statement">[</span> <span class="PreProc">$size</span> <span class="Statement">=</span> <span class="Constant">0</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
-    <span class="Identifier">discid</span>=<span class="Special">`cat diskid.txt </span><span class="Statement">|</span><span class="Special"> </span><span class="Statement">grep</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant">CDDB discid</span><span class="Statement">&quot;</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-dx</span><span class="Special"> </span><span class="Special">-f</span><span class="Special">2`</span>
+    icedax <span class="Statement">-D</span>/dev/<span class="PreProc">$dev</span> <span class="Statement">-x</span> <span class="Statement">-B</span> <span class="Special">-d</span>99999 <span class="Special">-Owav</span> <span class="Constant">2</span><span class="Statement">&gt;</span><span class="Statement">&amp;</span><span class="Constant">1</span> <span class="Statement">|</span> tee discid.txt
+<span class="Statement">fi</span>
+
+<span class="Identifier">title</span>=<span class="Special">`</span><span class="Statement">grep</span><span class="Special"> DTITLE </span><span class="PreProc">$cddb</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant">=</span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special"> </span><span class="Constant">2</span><span class="Special">`</span>
+<span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$title</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">discid</span>=<span class="Special">`cat discid.txt </span><span class="Statement">|</span><span class="Special"> </span><span class="Statement">grep</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant">CDINDEX discid</span><span class="Statement">&quot;</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-d</span><span class="Special"> </span><span class="Statement">'</span><span class="Constant"> </span><span class="Statement">'</span><span class="Special"> </span><span class="Special">-f</span><span class="Special">3`</span>
+    <span class="Statement">echo</span>
+    <span class="Statement">echo</span><span class="Constant"> firefox <a href="https://musicbrainz.org/cdtoc/">https://musicbrainz.org/cdtoc/</a></span><span class="PreProc">$discid</span>
+    <span class="Statement">echo</span>
+    <span class="Statement">exit</span> <span class="Constant">0</span>
+<span class="Statement">fi</span>
+
+<span class="Statement">if </span><span class="Statement">false</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">discid</span>=<span class="Special">`cat discid.txt </span><span class="Statement">|</span><span class="Special"> </span><span class="Statement">grep</span><span class="Special"> </span><span class="Statement">&quot;</span><span class="Constant">CDDB discid</span><span class="Statement">&quot;</span><span class="Special"> </span><span class="Statement">|</span><span class="Special"> cut </span><span class="Special">-dx</span><span class="Special"> </span><span class="Special">-f</span><span class="Special">2`</span>
     <span class="Identifier">genres</span>=<span class="Statement">&quot;</span><span class="Constant">rock misc folk classical country blues\</span>
 <span class="Constant">            jazz newage reggae soundtrack data</span><span class="Statement">&quot;</span>
     <span class="Identifier">n</span>=<span class="Constant">1</span>

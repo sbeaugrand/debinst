@@ -6,9 +6,7 @@
 # ---------------------------------------------------------------------------- #
 version=1.5.2
 file=mp3gain-1_5_2-src.zip
-
-repo=$idir/../mp3gain
-[ -d $repo ] || sudo -u $user mkdir $repo
+repo=$idir/../repo
 
 download http://distfiles.gentoo.org/distfiles/$file || return 1
 

@@ -36,7 +36,16 @@ pull:
 .PHONY: not-often-used
 not-often-used:
 	@ls -1 --color=no install-op-*.sh |\
-	 xargs -I {} bash -c "grep -q {} hardware/*.sh || echo {}"
+	 xargs -I {} bash -c "grep -q {} hardware/*.sh || test -x {} || echo {}" |\
+	 grep -v '\(-src.sh\|codecs\|-res.sh\)'
+
+.PHONY: pkgs
+pkgs:
+	@./1buildpackage.sh buildpackage-op-1 dist
+
+.PHONY: iso
+iso:
+	@./2simplecdd.sh simplecdd-op-1amd64 buildpackage-op-1
 
 .PHONY: clean
 clean:

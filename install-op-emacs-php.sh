@@ -7,9 +7,7 @@
 dir=/usr/share/emacs/site-lisp
 file=php-mode.el
 url=https://raw.githubusercontent.com/ejmr/php-mode/master
-
-repo=$idir/../php-mode
-[ -d $repo ] || sudo -u $user mkdir $repo
+repo=$idir/../repo
 
 download $url/$file || return 1
 

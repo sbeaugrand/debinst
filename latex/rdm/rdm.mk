@@ -5,9 +5,9 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ifeq ($(idir),)
- REPO  = $(HOME)/install/rdm
+ REPO  = $(HOME)/install/repo
 else
- REPO  = $(idir)/../rdm
+ REPO  = $(idir)/../repo
 endif
 BDIR   = $(HOME)/data/install-build
 PYBAR  = $(BDIR)/pyBar

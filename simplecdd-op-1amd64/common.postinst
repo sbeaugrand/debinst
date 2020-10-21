@@ -49,7 +49,7 @@ for i in `cat $dir/debinst/LPKG/list.txt`; do
 done
 
 # libdvdcss
-cp /home/$user/install/libdvdcss/libdvdcss_*.orig.tar.bz2 /usr/src/libdvd-pkg/
+cp /home/$user/install/repo/libdvdcss_*.orig.tar.bz2 /usr/src/libdvd-pkg/
 dpkg-reconfigure -pcritical libdvd-pkg
 
 # data
