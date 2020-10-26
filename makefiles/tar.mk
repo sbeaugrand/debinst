@@ -16,9 +16,10 @@ ifeq ($(MAKECMDGOALS),dist)
  TEXCLUDE += *-pr-* *.pdf
 endif
 TEXCLUDE := $(addprefix --exclude=,$(TEXCLUDE))
+TARROOT ?= $(PROROOT)
 
 .PHONY: tar dist
 tar dist:
-	@cd $(PROROOT) && \
+	@cd $(TARROOT) && \
 	ls -d $(PPREFIX)$(PROJECT) $(TARDEPEND) | sort -u | \
 	tar cvzf $(TPREFIX)$(PROJECT).tgz $(TEXCLUDE) -T-

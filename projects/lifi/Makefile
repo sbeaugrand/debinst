@@ -63,11 +63,16 @@ include $(PROROOT)/makefiles/daemon.mk
 
 .PHONY: clean
 clean:
-	@$(RM) build/*.o build/*.d build/*.elf *~
+	$(RM) build/*.o build/*.elf
+
+.PHONY: mrproper
+mrproper: clean
+	@rm -r build
+	$(RM) *.hex
 
 TARDEPEND += makefiles/*
 TARDEPEND += wiring/*
 TARDEPEND += debug/*
 TARDEPEND += avr/arduino/*
-TARDEPEND += avr/timer/*
+TARDEPEND += timer/*
 include $(PROROOT)/makefiles/tar.mk

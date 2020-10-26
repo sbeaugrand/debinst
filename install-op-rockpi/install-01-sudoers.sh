@@ -1,18 +1,14 @@
 # ---------------------------------------------------------------------------- #
-## \file install-20-rtc.sh
+## \file install-01-sudoers.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-file=/sbin/rtc
+file=/etc/sudoers.d/$user
 if notFile $file; then
-    pushd $idir/projects/arm/ds1302 || return 1
-    make HOME=$home >>$log 2>&1
-    make HOME=$home >>$log 2>&1 install
-    popd
-fi
-
-if isFile $file; then
-    /usr/sbin/ntpdate -u ntp.u-psud.fr
-    $file `date +%FT%Tw%w`
+    cat >$file <<EOF
+$user ALL=(root) NOPASSWD:/sbin/halt
+$user ALL=(root) NOPASSWD:/sbin/rtc
+EOF
+    chmod 440 $file
 fi

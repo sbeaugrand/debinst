@@ -10,7 +10,13 @@ CPPCHECKINC += -I$(PROROOT)/avr/arduino
 ifeq ($(ATMEL),attiny2313)
  VARIANT = tinyX313
 endif
+ifeq ($(ATMEL),attiny25)
+ VARIANT = tinyX5
+endif
 ifeq ($(ATMEL),attiny45)
+ VARIANT = tinyX5
+endif
+ifeq ($(ATMEL),attiny85)
  VARIANT = tinyX5
 endif
 

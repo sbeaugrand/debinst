@@ -8,19 +8,22 @@ PROJECT = emitter-avr
 PROROOT = ..
 $(info Message:)
 MESSAGE := $(shell read line && echo $$line)
+ifeq ($(MESSAGE),)
+ MESSAGE := Hello World
+endif
 
-ATMEL = attiny45
+ATMEL = attiny25
 OBJECTS = $(PROJECT).o
 GPIO = avr
 CFLAGS = -DMESSAGE="\"$(MESSAGE)\""
 include ${PROROOT}/avr/arduino/avr-arduino.mk
 
-build/$(PROJECT).o: FORCE
+build/$(PROJECT).o: build FORCE
 
 .PHONY: FORCE
 FORCE:
 
-LFUSE = 0xed# quartz 4 MHz
+LFUSE = 0x52# internal 8 MHz / 8
 CFLAGS += -std=c99
 include $(PROROOT)/makefiles/avr.mk
 include ${PROROOT}/timer/timer.mk

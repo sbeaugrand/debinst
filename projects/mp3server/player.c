@@ -438,7 +438,7 @@ struct Buffer* playerCurrentTitle(struct Buffer* buffer)
     int pos;
     int count = 0;
     const char* strval = NULL;
-#   if defined(__arm__)
+#   if defined(__arm__) || defined(__aarch64__)
     const char* c;
 #   endif
 
@@ -490,7 +490,7 @@ struct Buffer* playerCurrentTitle(struct Buffer* buffer)
         xmmsc_result_wait(infores);
         infoval = xmmsv_propdict_to_dict(xmmsc_result_get_value(infores), NULL);
         if ((xmmsv_dict_entry_get_string) (infoval, "title", &strval)) {
-#           if defined(__arm__)
+#           if defined(__arm__) || defined(__aarch64__)
             for (c = strval; *c != '\0'; ++c) {
                 if (c[0] == ' ' &&
                     c[1] == '-' &&

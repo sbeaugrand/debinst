@@ -51,6 +51,7 @@ int setDSclock(char* date)
     clock[RTC_DAY] = date[20] - '0';
 
     ds1302clockWrite(clock);
+    ds1302rtcWrite(RTC_WP, 1);
 
     return 0;
 }
@@ -60,21 +61,20 @@ int setDSclock(char* date)
  ******************************************************************************/
 int setLinuxClock()
 {
-    char dateTime[16];
     char command[32];
     int clock[8];
 
     ds1302clockRead(clock);
 
     // MMDDhhmm[[CC]YY][.ss]
-    sprintf(dateTime, "%02d%02d%02d%02d20%02d",
+    sprintf(command, "/bin/date %02d%02d%02d%02d20%02d",
             BCD2HEX(clock[RTC_MONTH], 0x1F),
             BCD2HEX(clock[RTC_DATE], 0x3F),
             BCD2HEX(clock[RTC_HOURS], 0x3F),
             BCD2HEX(clock[RTC_MINS], 0x7F),
             BCD2HEX(clock[RTC_YEAR], 0xFF));
 
-    sprintf(command, "/bin/date %s", dateTime);
+    fprintf(stdout, "%s\n", command);
 
     return system(command);
 }
@@ -97,7 +97,6 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    ds1302rtcWrite(RTC_WP, 1);
     digitalQuit(PIN_CLK);
     digitalQuit(PIN_DAT);
     digitalQuit(PIN_RST);

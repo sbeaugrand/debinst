@@ -9,7 +9,7 @@
 ##   make C=term vserver
 ##   make C=term vclient
 ##
-##  Rock Pi S example
+##  RockpiS example
 ##   make C=rps
 ##   make C=rps install
 ##   make C=rps start

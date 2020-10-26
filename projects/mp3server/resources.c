@@ -236,7 +236,7 @@ sendResourcePrev(int sockClient,
                  enum tFormat __attribute__((__unused__)) format)
 {
     playerStartRel(-1);
-#   if defined(__arm__)
+#   if defined(__arm__) || defined(__aarch64__)
     nanoSleep(500000000);
 #   endif
     sendMessage(sockClient, playerCurrentTitle(buffer));
@@ -252,7 +252,7 @@ sendResourceNext(int sockClient,
                  enum tFormat __attribute__((__unused__)) format)
 {
     playerStartRel(1);
-#   if defined(__arm__)
+#   if defined(__arm__) || defined(__aarch64__)
     nanoSleep(500000000);
 #   endif
     sendMessage(sockClient, playerCurrentTitle(buffer));
@@ -450,8 +450,9 @@ sendResourceHalt(int sockClient, struct Buffer* buffer, enum tFormat format)
         ERROR("close");
     }
     mp3serverSavePlaytime(playerGetPlaytime());
-#   if defined(__arm__)
-    if (system("sudo halt") != EXIT_SUCCESS) {
+#   if defined(__arm__) || defined(__aarch64__)
+    if (system("sudo /sbin/halt") != EXIT_SUCCESS) {
+        ERROR("halt");
     }
 #   endif
     mp3serverQuit(EXIT_SUCCESS);

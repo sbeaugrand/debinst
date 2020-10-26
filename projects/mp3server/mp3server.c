@@ -833,12 +833,12 @@ void mp3serverSavePlaytime(int32_t playtime)
  ******************************************************************************/
 void mp3serverSignalToClient(int sig)
 {
-#   if defined(__arm__)
+#   if defined(__arm__) || defined(__aarch64__)
     char cmd[32];
 #   endif
 
     if (gClientPid != 0) {
-#       if defined(__arm__)
+#       if defined(__arm__) || defined(__aarch64__)
         sprintf(cmd, "sudo kill -%d %u", sig, gClientPid);
         if (system(cmd) != EXIT_SUCCESS) {
         }

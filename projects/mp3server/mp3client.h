@@ -12,6 +12,7 @@
 
 void displayInit();
 void displayWrite(const char* line1, const char* line2);
+void displayScreenSaver();
 void displayQuit();
 
 void keypadInit();
@@ -25,6 +26,7 @@ int upButton();
 int okButton();
 int randButton();
 int haltButton();
+int backButton();
 
 struct part_list {
     char abrev[3];

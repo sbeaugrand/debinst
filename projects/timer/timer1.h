@@ -50,7 +50,9 @@ void timer1AttachInterrupt(void (*isr)())
 
 #if defined (__AVR_ATtiny2313__)
 # define TIMER1_RESOLUTION 65536UL
-#elif defined (__AVR_ATtiny45__)
+#elif defined (__AVR_ATtiny25__) ||\
+      defined (__AVR_ATtiny45__) ||\
+      defined (__AVR_ATtiny85__)
 # define TIMER1_RESOLUTION 256UL
 #endif
 
@@ -65,7 +67,9 @@ void timer1SetPeriod(unsigned long microseconds)
     for (prescaler = 1;
 #        if defined (__AVR_ATtiny2313__)
          prescaler < 6;
-#        elif defined (__AVR_ATtiny45__)
+#        elif defined (__AVR_ATtiny25__) ||\
+              defined (__AVR_ATtiny45__) ||\
+              defined (__AVR_ATtiny85__)
          prescaler < 16;
 #        endif
          ++prescaler) {
@@ -79,7 +83,9 @@ void timer1SetPeriod(unsigned long microseconds)
             ocr = 3;
         }
         ocr = ((F_CPU / 1000000 * microseconds) >> ocr) - 1;
-#       elif defined (__AVR_ATtiny45__)
+#       elif defined (__AVR_ATtiny25__) ||\
+             defined (__AVR_ATtiny45__) ||\
+             defined (__AVR_ATtiny85__)
         ocr = ((F_CPU / 1000000 * microseconds) >> (prescaler - 1)) - 1;
 #       endif
         if (ocr <= TIMER1_RESOLUTION) {
@@ -94,7 +100,9 @@ void timer1SetPeriod(unsigned long microseconds)
 #   if defined (__AVR_ATtiny2313__)
     TCCR1A = 0;
     TCCR1B = (TCCR1B & ~((1 << CS12) | (1 << CS11) | (1 << CS10))) | prescaler;
-#   elif defined (__AVR_ATtiny45__)
+#   elif defined (__AVR_ATtiny25__) ||\
+         defined (__AVR_ATtiny45__) ||\
+         defined (__AVR_ATtiny85__)
     TCCR1 = (TCCR1 & ~((1 << CS13) | (1 << CS12) |
                        (1 << CS11) | (1 << CS10))) | prescaler;
 #   endif

@@ -188,6 +188,7 @@ mtools  # simple-cdd
 dosfstools  # simple-cdd
 ntfs-3g
 exfat-fuse
+testdisk
 apache2
 libapache2-mod-php
 php-gd

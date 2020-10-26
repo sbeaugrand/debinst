@@ -36,6 +36,10 @@ unsigned int gAlbumPos = 1;
 struct timeval gTempo = {
     0, 0
 };
+enum displayMode {
+    INFO_MODE,
+    SCREEN_SAVER_MODE
+} gDisplayMode = INFO_MODE;
 
 /******************************************************************************!
  * \fn mp3clientWaitMp3rootDir
@@ -745,27 +749,27 @@ int state4date()
     } else if (randButton()) {
         //gClientState = STATE0_NORMAL;
         //return (system("/usr/sbin/service dcf77d start") == 0) ? 1 : 0;
-        if (system("sudo /usr/bin/rtc -slc") == 0) {
+        if (system("sudo /sbin/rtc") == 0) {
             drawDate();
         }
     } else if (upButton()) {
-        if (system("date --date='+1 day' +%Y%m%d%n%H%M%S%n%w |"
-            " sudo /usr/bin/rtc -sdsc; sudo /usr/bin/rtc -slc") == 0) {
+        if (system("sudo /sbin/rtc `date --date='+1 day' +%FT%Tw%w`;"
+                   " sudo /sbin/rtc") == 0) {
             drawDate();
         }
     } else if (downButton()) {
-        if (system("date --date='-1 day' +%Y%m%d%n%H%M%S%n%w |"
-            " sudo /usr/bin/rtc -sdsc; sudo /usr/bin/rtc -slc") == 0) {
+        if (system("sudo /sbin/rtc `date --date='-1 day' +%FT%Tw%w`;"
+                   " sudo /sbin/rtc") == 0) {
             drawDate();
         }
     } else if (leftButton()) {
-        if (system("date --date='-1 hour' +%Y%m%d%n%H%M%S%n%w |"
-            " sudo /usr/bin/rtc -sdsc; sudo /usr/bin/rtc -slc") == 0) {
+        if (system("sudo /sbin/rtc `date --date='-1 hour' +%FT%Tw%w`;"
+                   " sudo /sbin/rtc") == 0) {
             drawDate();
         }
     } else if (rightButton()) {
-        if (system("date --date='+1 hour' +%Y%m%d%n%H%M%S%n%w |"
-            " sudo /usr/bin/rtc -sdsc; sudo /usr/bin/rtc -slc") == 0) {
+        if (system("sudo /sbin/rtc `date --date='+1 hour' +%FT%Tw%w`;"
+                   " sudo /sbin/rtc") == 0) {
             drawDate();
         }
     }
@@ -858,6 +862,16 @@ int state0normal()
         }
         return 1;
     }
+    if (backButton()) {
+        if (gDisplayMode == INFO_MODE) {
+            gDisplayMode = SCREEN_SAVER_MODE;
+            displayScreenSaver();
+            gettimeofday(&gTempo, NULL);
+        } else {
+            gDisplayMode = INFO_MODE;
+            drawAlbum();
+        }
+    }
 
     return 0;
 }
@@ -908,6 +922,11 @@ int main()
         if (gTempo.tv_sec != 0) {
             gettimeofday(&tv, NULL);
             if (tv.tv_sec > gTempo.tv_sec + 30) {
+                if (gDisplayMode == SCREEN_SAVER_MODE) {
+                    displayScreenSaver();
+                    gettimeofday(&gTempo, NULL);
+                    continue;
+                }
                 gClientState = STATE0_NORMAL;
                 gTempo.tv_sec = 0;
                 displayWrite("", "");

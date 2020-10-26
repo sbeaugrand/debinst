@@ -26,7 +26,7 @@ build/rtc: $(OBJECTS)
 
 .PHONY: install
 install: all
-	sudo cp build/rtc /usr/bin/
+	sudo cp build/rtc /sbin/
 
 .PHONY: next
 next:

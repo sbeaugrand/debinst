@@ -7,7 +7,7 @@
  ******************************************************************************/
 #include <util/atomic.h>
 #include "tinyX5.h"
-#define F_CPU 4000000UL
+#define F_CPU 1000000UL
 #include "timer1.h"
 #include "lifi.h"
 
@@ -56,8 +56,6 @@ ISR(TIMER1_COMPA_vect)
     bit_counter--;
     manchester_data >>= 1;
     if (bit_counter == 0) {
-        // Is there still bytes to send in the frame ?
-        manchester_data = 0xAAAAAAAA;  // Keep sending ones if nothing to send
         if (frame_index >= 0) {
             if (frame_index < frame_size) {
                 toManchester(frame_buffer[frame_index], &manchester_data);

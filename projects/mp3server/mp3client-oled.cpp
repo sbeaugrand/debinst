@@ -21,7 +21,7 @@ extern "C" {
 #include "common.h"
 
 char gDisplayBuff[LCD_COLS + 1] = {
-        0
+    0
 };
 
 /******************************************************************************!
@@ -37,6 +37,7 @@ void displayInit()
         return;
     }
     gOled->clear();
+    gOled->dim(true);
     gDisplayBuff[LCD_COLS] = '\0';
 }
 
@@ -51,12 +52,47 @@ void displayWrite(const char* line1, const char* line2)
     gOled->clear();
 
     strncpy(gDisplayBuff, line1, LCD_COLS);
-    gOled->setCursor(2, 0);
-    gOled->write(gDisplayBuff);
-    strncpy(gDisplayBuff, line2, LCD_COLS);
     gOled->setCursor(3, 0);
     gOled->write(gDisplayBuff);
+    strncpy(gDisplayBuff, line2, LCD_COLS);
+    gOled->setCursor(4, 0);
+    gOled->write(gDisplayBuff);
     nanoSleep(500000000);
+}
+
+/******************************************************************************!
+ * \fn displayScreenSaver
+ ******************************************************************************/
+void displayScreenSaver()
+{
+    time_t tOfTheDay;
+    struct tm* tmOfTheDay;
+    char dateOfTheDay[12];
+    static int r = -1;
+    int x;
+    int y;
+
+    if (gOled == nullptr) {
+        return;
+    }
+    gOled->clear();
+
+    tOfTheDay = time(NULL);
+    tmOfTheDay = localtime(&tOfTheDay);
+    strftime(dateOfTheDay, sizeof(dateOfTheDay), "%d-%m %H:%M", tmOfTheDay);
+
+    if (r == -1) {
+        srand(tOfTheDay);
+    }
+    r = rand() % 72;
+    x = r % 12;
+    y = r / 12;
+
+    dateOfTheDay[5] = '\0';
+    gOled->setCursor(y, x);
+    gOled->write(dateOfTheDay);
+    gOled->setCursor(y + 2, x);
+    gOled->write(dateOfTheDay + 6);
 }
 
 /******************************************************************************!
