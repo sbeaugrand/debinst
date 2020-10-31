@@ -908,11 +908,15 @@ int main()
     sendRequestAndReceive("info");
     drawBuffer(0);
 
-    gTempo.tv_sec = 0;
-
     keypadInit();
     for (;;) {
         keypadRead();
+        if (! undefinedButton() &&
+            ! backButton() &&
+            gDisplayMode == SCREEN_SAVER_MODE) {
+            gDisplayMode = INFO_MODE;
+            gTempo.tv_sec = 0;
+        }
 #       if defined(__arm__) || defined(__aarch64__)
         nanoSleep(100000000);
 #       else

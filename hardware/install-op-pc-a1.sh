@@ -4,7 +4,7 @@
 sourceList "
 install-op-arduino.sh
 install-op-autologin.sh
-install-op-autowhite.sh
+install-op-imscripts.sh
 install-op-dafont.sh
 install-op-eeplot.sh
 install-op-firefox-abp.sh

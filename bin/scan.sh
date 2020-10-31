@@ -86,13 +86,26 @@ fi
 # ---------------------------------------------------------------------------- #
 # resolution
 # ---------------------------------------------------------------------------- #
-echo -n "resolution ? [150] "
+echo "resolution / resize / density "
+echo "ex : 150 100 150"
+echo "     600  25 150"
+echo -n "resolution / resize / density ? [150 100 150] "
 read ret
 if [ -z "$ret" ]; then
-    ret=150
+    ret="150 100 150"
 fi
-ascan="$ascan --resolution $ret"
-aconv="$aconv -density $ret"
+resolution=`echo $ret | awk '{ print $1 }'`
+resize=`echo $ret | awk '{ print $2 }'`
+density=`echo $ret | awk '{ print $3 }'`
+if (($resolution * $resize / 100 != $density)); then
+    echo "erreur: resolution * resize / 100 != density"
+    exit 1
+fi
+ascan="$ascan --resolution $resolution"
+if (($resize < 100)); then
+    aconv="$aconv -resize $resize"
+fi
+aconv="$aconv -density $density"
 
 # ---------------------------------------------------------------------------- #
 # couleurs
@@ -135,10 +148,10 @@ fi
 echo -n "white-threshold ? (o/N) "
 read ret
 if [ "$ret" = o ]; then
-    echo -n "white-threshold ? [55000] "
+    echo -n "white-threshold ? [90%] "
     read ret
     if [ -z "$ret" ]; then
-        ret=55000
+        ret="90%"
     fi
     aconv="$aconv -white-threshold $ret"
 fi

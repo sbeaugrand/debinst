@@ -142,8 +142,8 @@ define photo
 	 convert tmp.png $(EXEMPLE$1) tmp2.png && mv tmp2.png tmp.png; fi
 	@convert tmp.png build/ellipse$1.png -compose Screen -composite +repage \
 	-font Liberation-Sans -pointsize 18 -draw "text \
-	$(shell echo "$1 - 45" | bc),\
-	$(shell echo "$2 - 5" | bc) '$8'" $@
+	$(shell echo "$(PHOTO_W$1) - 45" | bc),\
+	$(shell echo "$(PHOTO_H$1) - 5" | bc) '$7'" $@
 	@rm tmp.png
 endef
 
@@ -165,11 +165,11 @@ build/I0004.png: $(PHOTOS)/eline.png build/ellipse1.png
 build/I0005.png: $(PHOTOS)/audrey.jpg build/ellipse2.png
 	$(call photo,2,100,50,-resize 200%,,-normalize,2016)
 
-build/I0006.png: $(PHOTOS)/bernard.png build/ellipse2.png
-	$(call photo,2,80,60,-resize 95%,autowhite,,)
+build/I0006.png: $(PHOTOS)/bernardEtDanielle.png build/ellipse2.png
+	$(call photo,2,70,160,-resize 75%,autowhite,,1983)
 
-build/I0007.png: $(PHOTOS)/danielle.jpg build/ellipse2.png
-	$(call photo,2,570,350,-resize 175%,autowhite,,2004)
+build/I0007.png: $(PHOTOS)/danielle.png build/ellipse2.png
+	$(call photo,2,130,160,-resize 75%,autowhite,,1975)
 
 build/I0008.png: $(PHOTOS)/patrice.png build/ellipse2.png
 	$(call photo,2,140,120,-resize 95%,,-normalize,)

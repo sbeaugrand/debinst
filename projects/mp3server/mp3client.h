@@ -19,6 +19,7 @@ void keypadInit();
 void keypadRead();
 void keypadQuit();
 
+int undefinedButton();
 int leftButton();
 int downButton();
 int rightButton();
