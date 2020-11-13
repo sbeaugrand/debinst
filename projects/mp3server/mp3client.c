@@ -26,7 +26,6 @@
 struct part_list* gPartRoot = NULL;
 struct Buffer* gBuffer = NULL;
 
-enum clientState gClientState = STATE0_NORMAL;
 char gArtistLine[LINE_SIZE];
 char gAlbumLine[LINE_SIZE];
 char gPart[3];
@@ -36,6 +35,16 @@ unsigned int gAlbumPos = 1;
 struct timeval gTempo = {
     0, 0
 };
+
+enum clientState {
+    STATE0_NORMAL,
+    STATE1_ALBUM,
+    STATE2_ARTISTE,
+    STATE3_ARTISTE,
+    STATE4_HEURE,
+    STATE5_DATE
+} gClientState = STATE0_NORMAL;
+
 enum displayMode {
     INFO_MODE,
     SCREEN_SAVER_MODE
@@ -324,7 +333,7 @@ void changeAlbum(int albumPos)
 /******************************************************************************!
  * \fn drawDate
  ******************************************************************************/
-int drawDate()
+int drawDate(int isDay)
 {
     char line1[11];
     char line2[9];
@@ -335,8 +344,13 @@ int drawDate()
     if (gBuffer->size != 19) {
         return 0;
     }
-    snprintf(line1, 11, "%s", buffPtr);
-    snprintf(line2, 9, "%s", buffPtr + 11);
+    if (isDay) {
+        snprintf(line1, 11, "%s", buffPtr);
+        *line2 = '\0';
+    } else {
+        snprintf(line2, 9, "%s", buffPtr + 11);
+        *line1 = '\0';
+    }
     displayWrite(line1, line2);
 
     return 1;
@@ -357,8 +371,8 @@ void drawAlbum()
     if (gPosDisplay >= (ssize_t) artistSize &&
         gPosDisplay >= (ssize_t) albumSize) {
         gPosDisplay = -5;
-        if (drawDate()) {
-            gClientState = STATE4_DATE;
+        if (drawDate(0)) {
+            gClientState = STATE4_HEURE;
             return;
         }
     }
@@ -561,11 +575,13 @@ void deletePartList(struct part_list* part)
 void controlC(int sig)
 {
     if (sig == SIGINT) {
-        keypadQuit();
         deletePartList(gPartRoot);
         bufferQuit(gBuffer);
         free(gBuffer);
+#       if defined(__arm__) || defined(__aarch64__)
+        keypadQuit();
         displayQuit();
+#       endif
         fprintf(stderr, "\nok");
         exit(EXIT_SUCCESS);
     }
@@ -598,8 +614,13 @@ void state1forAlbum()
             gettimeofday(&gTempo, NULL);
         } else if (okButton()) {
             gClientState = STATE0_NORMAL;
-            gTempo.tv_sec = 0;
             changeAlbum(gAlbumPos);
+#           if defined(__arm__) || defined(__aarch64__)
+            gDisplayMode = SCREEN_SAVER_MODE;
+            gettimeofday(&gTempo, NULL);
+#           else
+            gTempo.tv_sec = 0;
+#           endif
         }
     }
 }
@@ -737,44 +758,80 @@ void state3forArtist(char charPrev)
 }
 
 /******************************************************************************!
- * \fn state4date
+ * \fn state4heure
  ******************************************************************************/
-int state4date()
+void state4heure()
 {
     if (okButton()) {
-        gClientState = STATE0_NORMAL;
-        gPosDisplay = 0;
-        drawAlbum();
-        return 1;
+        gClientState = STATE5_DATE;
+        drawDate(1);
     } else if (randButton()) {
-        //gClientState = STATE0_NORMAL;
-        //return (system("/usr/sbin/service dcf77d start") == 0) ? 1 : 0;
         if (system("sudo /sbin/rtc") == 0) {
-            drawDate();
+            drawDate(0);
         }
     } else if (upButton()) {
-        if (system("sudo /sbin/rtc `date --date='+1 day' +%FT%Tw%w`;"
-                   " sudo /sbin/rtc") == 0) {
-            drawDate();
-        }
-    } else if (downButton()) {
-        if (system("sudo /sbin/rtc `date --date='-1 day' +%FT%Tw%w`;"
-                   " sudo /sbin/rtc") == 0) {
-            drawDate();
-        }
-    } else if (leftButton()) {
-        if (system("sudo /sbin/rtc `date --date='-1 hour' +%FT%Tw%w`;"
-                   " sudo /sbin/rtc") == 0) {
-            drawDate();
-        }
-    } else if (rightButton()) {
         if (system("sudo /sbin/rtc `date --date='+1 hour' +%FT%Tw%w`;"
                    " sudo /sbin/rtc") == 0) {
-            drawDate();
+            drawDate(0);
+        }
+    } else if (downButton()) {
+        if (system("sudo /sbin/rtc `date --date='-1 hour' +%FT%Tw%w`;"
+                   " sudo /sbin/rtc") == 0) {
+            drawDate(0);
+        }
+    } else if (leftButton()) {
+        if (system("sudo /sbin/rtc `date --date='-1 min' +%FT%Tw%w`;"
+                   " sudo /sbin/rtc") == 0) {
+            drawDate(0);
+        }
+    } else if (rightButton()) {
+        if (system("sudo /sbin/rtc `date --date='+1 min' +%FT%Tw%w`;"
+                   " sudo /sbin/rtc") == 0) {
+            drawDate(0);
         }
     }
+}
 
-    return 0;
+/******************************************************************************!
+ * \fn state5date
+ ******************************************************************************/
+void state5date()
+{
+    if (okButton()) {
+        gPosDisplay = 0;
+        gClientState = STATE0_NORMAL;
+        drawAlbum();
+#       if defined(__arm__) || defined(__aarch64__)
+        gDisplayMode = SCREEN_SAVER_MODE;
+        gettimeofday(&gTempo, NULL);
+#       else
+        gTempo.tv_sec = 0;
+#       endif
+    } else if (randButton()) {
+        if (system("sudo /sbin/rtc") == 0) {
+            drawDate(1);
+        }
+    } else if (upButton()) {
+        if (system("sudo /sbin/rtc `date --date='+1 month' +%FT%Tw%w`;"
+                   " sudo /sbin/rtc") == 0) {
+            drawDate(1);
+        }
+    } else if (downButton()) {
+        if (system("sudo /sbin/rtc `date --date='-1 month' +%FT%Tw%w`;"
+                   " sudo /sbin/rtc") == 0) {
+            drawDate(1);
+        }
+    } else if (leftButton()) {
+        if (system("sudo /sbin/rtc `date --date='-1 day' +%FT%Tw%w`;"
+                   " sudo /sbin/rtc") == 0) {
+            drawDate(1);
+        }
+    } else if (rightButton()) {
+        if (system("sudo /sbin/rtc `date --date='+1 day' +%FT%Tw%w`;"
+                   " sudo /sbin/rtc") == 0) {
+            drawDate(1);
+        }
+    }
 }
 
 /******************************************************************************!
@@ -810,18 +867,19 @@ int state0normal()
         gPosDisplay = 0;
         sendRequestAndReceive("rand");
         drawBuffer(0);
+        gettimeofday(&gTempo, NULL);
         return 1;
     }
     if (okButton()) {
         gPosDisplay = 0;
-        if (gTempo.tv_sec != 0) {
-            gTempo.tv_sec = 0;
-            // Changement d'album
-            changeAlbum(gAlbumPos);
-        } else {
-            sendRequestAndReceive("ok");
-            drawBuffer(0);
-        }
+        sendRequestAndReceive("ok");
+        drawBuffer(0);
+#       if defined(__arm__) || defined(__aarch64__)
+        gDisplayMode = SCREEN_SAVER_MODE;
+        gettimeofday(&gTempo, NULL);
+#       else
+        gTempo.tv_sec = 0;
+#       endif
         return 1;
     }
     if (downButton()) {
@@ -862,6 +920,7 @@ int state0normal()
         }
         return 1;
     }
+#   if defined(__arm__) || defined(__aarch64__)
     if (backButton()) {
         if (gDisplayMode == INFO_MODE) {
             gDisplayMode = SCREEN_SAVER_MODE;
@@ -872,6 +931,7 @@ int state0normal()
             drawAlbum();
         }
     }
+#   endif
 
     return 0;
 }
@@ -881,14 +941,16 @@ int state0normal()
  ******************************************************************************/
 int main()
 {
+    struct timeval tv;
+    char charPrev = '\0';
 #   if ! defined(__arm__) && ! defined(__aarch64__)
     char* getInput();
     char* input;
-#   endif
-    struct timeval tv;
-    char charPrev = '\0';
-
+#   else
     displayInit();
+    keypadInit();
+#   endif
+
     loadAbrev();
 
     gBuffer = bufferNew();
@@ -907,36 +969,45 @@ int main()
     sendPid(getpid());
     sendRequestAndReceive("info");
     drawBuffer(0);
+#   if defined(__arm__) || defined(__aarch64__)
+    gDisplayMode = SCREEN_SAVER_MODE;
+    gettimeofday(&gTempo, NULL);
+#   endif
 
-    keypadInit();
     for (;;) {
+#       if defined(__arm__) || defined(__aarch64__)
         keypadRead();
+        nanoSleep(100000000);
         if (! undefinedButton() &&
             ! backButton() &&
             gDisplayMode == SCREEN_SAVER_MODE) {
             gDisplayMode = INFO_MODE;
             gTempo.tv_sec = 0;
         }
-#       if defined(__arm__) || defined(__aarch64__)
-        nanoSleep(100000000);
+        if (gDisplayMode == SCREEN_SAVER_MODE && gTempo.tv_sec != 0) {
+            gettimeofday(&tv, NULL);
+            if (tv.tv_sec > gTempo.tv_sec + 30) {
+                displayScreenSaver();
+                gTempo.tv_sec = tv.tv_sec;
+                continue;
+            }
+        }
 #       else
         fprintf(stderr, "mp3client> ");
         input = getInput();
 #       endif
-        if (gTempo.tv_sec != 0) {
+        if (gDisplayMode == INFO_MODE && gTempo.tv_sec != 0) {
             gettimeofday(&tv, NULL);
             if (tv.tv_sec > gTempo.tv_sec + 30) {
-                if (gDisplayMode == SCREEN_SAVER_MODE) {
-                    displayScreenSaver();
-                    gettimeofday(&gTempo, NULL);
-                    continue;
-                }
                 gClientState = STATE0_NORMAL;
-                gTempo.tv_sec = 0;
-                displayWrite("", "");
-                nanoSleep(500000000);
                 sendRequestAndReceive("info");
                 drawBuffer(0);
+#               if defined(__arm__) || defined(__aarch64__)
+                gDisplayMode = SCREEN_SAVER_MODE;
+                gTempo.tv_sec = tv.tv_sec;
+#               else
+                gTempo.tv_sec = 0;
+#               endif
                 continue;
             }
         }
@@ -946,8 +1017,10 @@ int main()
             charPrev = state2forArtist();
         } else if (gClientState == STATE3_ARTISTE) {
             state3forArtist(charPrev);
-        } else if (gClientState == STATE4_DATE) {
-            state4date();
+        } else if (gClientState == STATE4_HEURE) {
+            state4heure();
+        } else if (gClientState == STATE5_DATE) {
+            state5date();
         } else {
             if (state0normal()) {
                 continue;

@@ -39,6 +39,9 @@ g++-arm-linux-gnueabihf
 libc6-dev-armhf-cross
 gcc-aarch64-linux-gnu
 g++-aarch64-linux-gnu
+device-tree-compiler
+u-boot-tools
+libssl-dev  # armbian
 patch
 libmpg123-dev
 normalize-audio

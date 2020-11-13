@@ -12,10 +12,11 @@ TEXINPUTS = $(shell readlink -f $(PROROOT)/projects/kicad):
 include $(PROROOT)/makefiles/livret.mk
 
 $(PROJECT).pdf: kicad/$(PROJECT)Schema.pdf\
+ build/$(PROJECT)940Meg.dat\
+ build/thresholds940Meg.tex\
  build/thresholds20Meg.tex\
  build/thresholds200Meg.tex\
  build/thresholds2g.tex\
- build/thresholds940Meg.tex
 
 build/%.dat: build/%.data
 	@cat $< |\

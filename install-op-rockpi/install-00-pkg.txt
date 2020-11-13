@@ -23,7 +23,7 @@ at
 libusb-dev
 cryptsetup
 sqlite3
-libmraa
+#libmraa
 lirc
 ir-keytable
 liblircclient-dev

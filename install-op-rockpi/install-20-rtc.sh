@@ -14,5 +14,6 @@ fi
 
 if isFile $file; then
     /usr/sbin/ntpdate -u ntp.u-psud.fr
+    ldconfig /usr/local/lib
     $file `date +%FT%Tw%w`
 fi

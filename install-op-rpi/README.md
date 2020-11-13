@@ -32,62 +32,31 @@ Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
 pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 
-# Création d'une machine virtuelle dans windows
-https://www.virtualbox.org/wiki/Downloads
+# Installation sur Raspberry PI
 ```
-choco install -y --version=6.0.14 virtualbox
+unzip 2*-lite.zip
+umount /media/$USER/*
+pv 2*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
+sync
 ```
-https://www.packer.io/downloads.html
+Enlever et remettre la carte SD
 ```
-choco install -y packer
+touch /media/$USER/boot/ssh
+umount /media/$USER/*
 ```
-https://www.vagrantup.com/downloads.html
+Démarrer sur Raspberry PI
 ```
-choco install -y vagrant
-```
-https://git-scm.com/download/win
-```
-choco install -y git
-```
-https://www.puttygen.com/download-putty#PuTTY_for_windows
-```
-choco install -y putty
-```
-(https://www.puttygen.com/download.php?val=4)
-```
-git-bash.exe
-ls -l 3packer.sh 3packer
-cp 3packer/Vagrantfile 3packer/vagrantup.sh 3packer/vagrantssh.sh .
-source 3packer/shortcut.sh
-ssh-keygen.exe -t rsa
-cp $HOME/.ssh/id_rsa.pub 3packer/authorized_keys
-```
-PuTTYgen => Conversion => Import key id_rsa => Save private key id_rsa.ppk
-
-Pageant => Add key id_rsa.ppk
-```
-git-bash.exe
-source 3packer.sh /c/debian-10-amd64-DVD-1.iso
-source vagrantup.sh
-```
-Copie des clés :
-```
-vagrant provision --provision-with id_rsa
-```
-Installation en ssh :
-```
-source vagrantssh.sh
-passwd
-sudo passwd
-cd install/<path>
-./0install.sh
-```
-Resolution :
-
-Uncheck View => Auto-resize Guest Display
-
-Login vagrant
-```
-cd install/<path>
-./0install install-*-res.sh
+ssh-keygen -f ~/.ssh/known_hosts -R 192.168.x.xx
+keychain ~/.ssh/id_rsa
+RPI=192.168.x.xx ./install-op-rpi.sh  # password: raspberry
+ssh pi@192.168.x.xx
+cd install/debinst/install-op-rpi
+../0install.sh
+sudo reboot
+ssh pi@192.168.x.xx
+cd install/debinst/install-op-rpi
+rw
+../0install.sh install-op-audio.sh
+../0install.sh install-op-llctl.sh install-op-volet.sh
+ro
 ```

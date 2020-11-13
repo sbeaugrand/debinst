@@ -6,13 +6,13 @@ Re1 /E4 GND 1.2k
 Rc1 Net-_J2-Pad1_ /C3 2.2k
 R1 /B4 /C3 27k
 R2 /B4 GND 22k
-Rc2 Net-_J2-Pad1_ bascule 3.9k
+Rc2 Net-_J2-Pad1_ bascule 3.3k
 VJ1 Net-_J1-Pad1_ GND pwl(0 0 60 500 120 0 180 500 240 0)
 VJ2 Net-_J2-Pad1_ GND pwl(0 4 119 4 120 3.6)
 R3 Net-_J1-Pad1_ entree 99Meg
 R4 entree GND 1Meg
 R7 Net-_J2-Pad1_ sortie 1.2k
-R5 Net-_Q5-Pad2_ bascule 3.9k
+R5 Net-_Q5-Pad2_ bascule 3.3k
 R6 Net-_Q5-Pad2_ GND 2.2k
 Q1 Net-_J2-Pad1_ diviseur Net-_Q1-Pad3_ QBC337-40
 Q2 Net-_J2-Pad1_ Net-_Q1-Pad3_ /B3 QBC337-40

@@ -9,8 +9,7 @@ dns2=212.27.40.241
 
 # /var/log
 if notLink /var/log; then
-    rm -fr /var/log
-    ln -s /run/log /var/log
+    rm -fr /var/log && ln -s /run/log /var/log
 fi
 
 file=/etc/systemd/journald.conf

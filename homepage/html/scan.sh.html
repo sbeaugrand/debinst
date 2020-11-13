@@ -112,13 +112,26 @@ body { font-family: monospace; color: #ffffff; background-color: #000000; }
 <span class="Comment"># ---------------------------------------------------------------------------- #</span>
 <span class="Comment"># resolution</span>
 <span class="Comment"># ---------------------------------------------------------------------------- #</span>
-<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">resolution ? [150] </span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">resolution / resize / density </span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">ex : 150 100 150</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">     600  25 150</span><span class="Statement">&quot;</span>
+<span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">resolution / resize / density ? [150 100 150] </span><span class="Statement">&quot;</span>
 <span class="Statement">read</span> ret
 <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
-    <span class="Identifier">ret</span>=<span class="Constant">150</span>
+    <span class="Identifier">ret</span>=<span class="Statement">&quot;</span><span class="Constant">150 100 150</span><span class="Statement">&quot;</span>
 <span class="Statement">fi</span>
-<span class="Identifier">ascan</span>=<span class="Statement">&quot;</span><span class="PreProc">$ascan</span><span class="Constant"> --resolution </span><span class="PreProc">$ret</span><span class="Statement">&quot;</span>
-<span class="Identifier">aconv</span>=<span class="Statement">&quot;</span><span class="PreProc">$aconv</span><span class="Constant"> -density </span><span class="PreProc">$ret</span><span class="Statement">&quot;</span>
+<span class="Identifier">resolution</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ret</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">{ print $1 }</span><span class="Statement">'</span><span class="Special">`</span>
+<span class="Identifier">resize</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ret</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">{ print $2 }</span><span class="Statement">'</span><span class="Special">`</span>
+<span class="Identifier">density</span>=<span class="Special">`</span><span class="Statement">echo</span><span class="Constant"> </span><span class="PreProc">$ret</span><span class="Constant"> </span><span class="Statement">|</span><span class="Special"> awk </span><span class="Statement">'</span><span class="Constant">{ print $3 }</span><span class="Statement">'</span><span class="Special">`</span>
+<span class="Statement">if </span><span class="Special">((</span><span class="PreProc">$resolution</span> * <span class="PreProc">$resize</span> / <span class="Constant">100</span> <span class="Statement">!=</span> <span class="PreProc">$density</span><span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Statement">echo</span><span class="Constant"> </span><span class="Statement">&quot;</span><span class="Constant">erreur: resolution * resize / 100 != density</span><span class="Statement">&quot;</span>
+    <span class="Statement">exit</span> <span class="Constant">1</span>
+<span class="Statement">fi</span>
+<span class="Identifier">ascan</span>=<span class="Statement">&quot;</span><span class="PreProc">$ascan</span><span class="Constant"> --resolution </span><span class="PreProc">$resolution</span><span class="Statement">&quot;</span>
+<span class="Statement">if </span><span class="Special">((</span><span class="PreProc">$resize</span> <span class="Statement">&lt;</span> <span class="Constant">100</span><span class="Special">))</span><span class="Statement">;</span> <span class="Statement">then</span>
+    <span class="Identifier">aconv</span>=<span class="Statement">&quot;</span><span class="PreProc">$aconv</span><span class="Constant"> -resize </span><span class="PreProc">$resize</span><span class="Statement">&quot;</span>
+<span class="Statement">fi</span>
+<span class="Identifier">aconv</span>=<span class="Statement">&quot;</span><span class="PreProc">$aconv</span><span class="Constant"> -density </span><span class="PreProc">$density</span><span class="Statement">&quot;</span>
 
 <span class="Comment"># ---------------------------------------------------------------------------- #</span>
 <span class="Comment"># couleurs</span>
@@ -161,10 +174,10 @@ body { font-family: monospace; color: #ffffff; background-color: #000000; }
 <span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">white-threshold ? (o/N) </span><span class="Statement">&quot;</span>
 <span class="Statement">read</span> ret
 <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">=</span> <span class="Constant">o</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
-    <span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">white-threshold ? [55000] </span><span class="Statement">&quot;</span>
+    <span class="Statement">echo</span><span class="Constant"> -n </span><span class="Statement">&quot;</span><span class="Constant">white-threshold ? [90%] </span><span class="Statement">&quot;</span>
     <span class="Statement">read</span> ret
     <span class="Statement">if </span><span class="Statement">[</span> <span class="Statement">-z</span> <span class="Statement">&quot;</span><span class="PreProc">$ret</span><span class="Statement">&quot;</span> <span class="Statement">]</span><span class="Statement">;</span> <span class="Statement">then</span>
-        <span class="Identifier">ret</span>=<span class="Constant">55000</span>
+        <span class="Identifier">ret</span>=<span class="Statement">&quot;</span><span class="Constant">90%</span><span class="Statement">&quot;</span>
     <span class="Statement">fi</span>
     <span class="Identifier">aconv</span>=<span class="Statement">&quot;</span><span class="PreProc">$aconv</span><span class="Constant"> -white-threshold </span><span class="PreProc">$ret</span><span class="Statement">&quot;</span>
 <span class="Statement">fi</span>

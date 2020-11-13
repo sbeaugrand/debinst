@@ -5,7 +5,9 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 # convert-im6 cache resources exhausted :
-#   sudo vi /etc/ImageMagick-6/policy.xml +57  # name="area" value="256MiB"
+#   sudo vi /etc/ImageMagick-6/policy.xml +60
+#   name="memory" value="1024MiB"
+#   name="area" value="512MiB"
 # Photocopy filter :
 #   http://www.imagemagick.org/Usage/photos/#color-in
 #   make F=photocopy
@@ -150,17 +152,17 @@ endef
 build/I0000.png: $(PHOTOS)/sebastien.png build/ellipse2.png
 	$(call photo,2,40,60,-resize 50%,,-normalize,2016)
 
-build/I0001.png: $(PHOTOS)/emma.png build/ellipse1.png
-	$(call photo,1,50,200,-resize 25%,,-normalize,2019)
+build/I0001.png: $(PHOTOS)/eeee.png build/ellipse1.png
+	$(call photo,1,2600,500,-resize 60%,,-normalize,2020)
 
-build/I0002.png: $(PHOTOS)/eric.png build/ellipse1.png
-	$(call photo,1,125,100,-resize 25%,,-normalize,2019)
+build/I0002.png: $(PHOTOS)/eeee.png build/ellipse1.png
+	$(call photo,1,600,500,-resize 60%,,-normalize,2020)
 
 build/I0003.png: $(PHOTOS)/erwann.png build/ellipse1.png
-	$(call photo,1,75,100,-resize 25%,,-normalize,2019)
+	$(call photo,1,250,200,-resize 28%,,-normalize,2020)
 
 build/I0004.png: $(PHOTOS)/eline.png build/ellipse1.png
-	$(call photo,1,600,2900,-resize 50%,,-normalize,2019)
+	$(call photo,1,300,200,-resize 28%,,-normalize,2020)
 
 build/I0005.png: $(PHOTOS)/audrey.jpg build/ellipse2.png
 	$(call photo,2,100,50,-resize 200%,,-normalize,2016)

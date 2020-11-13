@@ -10,7 +10,7 @@ if [ `whoami` = "root" ] || [ -z "$HOST" ]; then
     echo "                HOST=rps ./install-op-rockpi.sh"
     exit 1
 fi
-user=rock
+user=${user:-rock}
 uri=$user@$HOST
 
 # ---------------------------------------------------------------------------- #
@@ -48,7 +48,7 @@ if isFile ~/.ssh/id_rsa.pub && notGrep "keychain" $file; then
 fi
 file=install-op-rpi/install-pr-authorized_keys
 if ! isFile $file; then
-exit 1
+    exit 1
 fi
 ssh $uri "test -d .ssh || mkdir .ssh && chmod 700 .ssh"
 rsync -i --no-times --checksum $file $uri:/home/$user/.ssh/authorized_keys
@@ -98,7 +98,9 @@ ssh $uri "test -d data/install-repo || mkdir -p data/install-repo"
 # ---------------------------------------------------------------------------- #
 # passwd
 # ---------------------------------------------------------------------------- #
-ssh -t $uri "
+if [ $user = "rock" ]; then
+    ssh -t $uri "
 test -f data/install-build/passwd || (passwd &&
  echo Changing password for root. && sudo passwd root &&
  touch data/install-build/passwd)"
+fi

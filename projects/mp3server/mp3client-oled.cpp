@@ -55,7 +55,7 @@ void displayWrite(const char* line1, const char* line2)
     gOled->setCursor(3, 0);
     gOled->write(gDisplayBuff);
     strncpy(gDisplayBuff, line2, LCD_COLS);
-    gOled->setCursor(4, 0);
+    gOled->setCursor(5, 0);
     gOled->write(gDisplayBuff);
     nanoSleep(500000000);
 }

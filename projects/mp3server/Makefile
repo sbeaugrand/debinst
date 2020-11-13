@@ -34,6 +34,7 @@ CXXFLAGS = -g -DNDEBUG
 all: server client
 
 ifeq ($(C),term)
+ DEVOBJ = build/mp3client-term.o
  include $(PROROOT)/makefiles/ccpp.mk
 endif
 ifeq ($(C),rps)

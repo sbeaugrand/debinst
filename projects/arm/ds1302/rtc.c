@@ -67,12 +67,13 @@ int setLinuxClock()
     ds1302clockRead(clock);
 
     // MMDDhhmm[[CC]YY][.ss]
-    sprintf(command, "/bin/date %02d%02d%02d%02d20%02d",
+    sprintf(command, "/bin/date %02d%02d%02d%02d20%02d.%02d",
             BCD2HEX(clock[RTC_MONTH], 0x1F),
             BCD2HEX(clock[RTC_DATE], 0x3F),
             BCD2HEX(clock[RTC_HOURS], 0x3F),
             BCD2HEX(clock[RTC_MINS], 0x7F),
-            BCD2HEX(clock[RTC_YEAR], 0xFF));
+            BCD2HEX(clock[RTC_YEAR], 0xFF),
+            BCD2HEX(clock[RTC_SECS], 0x7F));
 
     fprintf(stdout, "%s\n", command);
 

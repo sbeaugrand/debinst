@@ -32,62 +32,39 @@ Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
 pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 
-# Création d'une machine virtuelle dans windows
-https://www.virtualbox.org/wiki/Downloads
+# Installation sur debian radxa
 ```
-choco install -y --version=6.0.14 virtualbox
+gunzip -k rockpis_debian_buster_minimal_arm64_20200615_1225-gpt.img.gz
+umount /media/$USER/*
+pv rockpis*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
-https://www.packer.io/downloads.html
+Démarrer sur Rock PI S
 ```
-choco install -y packer
+ssh rock@192.168.x.xx  # password: rock
+sudo apt-get update
+sudo apt-get install rsync
+exit
+HOST=192.168.x.xx ./install-op-rockpi.sh
+ssh rock@192.168.x.xx
+cd install/debinst/install-op-rockpi
+../0install.sh
 ```
-https://www.vagrantup.com/downloads.html
-```
-choco install -y vagrant
-```
-https://git-scm.com/download/win
-```
-choco install -y git
-```
-https://www.puttygen.com/download-putty#PuTTY_for_windows
-```
-choco install -y putty
-```
-(https://www.puttygen.com/download.php?val=4)
-```
-git-bash.exe
-ls -l 3packer.sh 3packer
-cp 3packer/Vagrantfile 3packer/vagrantup.sh 3packer/vagrantssh.sh .
-source 3packer/shortcut.sh
-ssh-keygen.exe -t rsa
-cp $HOME/.ssh/id_rsa.pub 3packer/authorized_keys
-```
-PuTTYgen => Conversion => Import key id_rsa => Save private key id_rsa.ppk
+Optionnel: [Réception infra rouge](lirc/README.md)
 
-Pageant => Add key id_rsa.ppk
+# Installation sur armbian
 ```
-git-bash.exe
-source 3packer.sh /c/debian-10-amd64-DVD-1.iso
-source vagrantup.sh
+xz -k -d Armbian_20.08.1_Rockpi-s_buster_legacy_4.4.228_minimal.img.xz
+umount /media/$USER/*
+pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
-Copie des clés :
+Démarrer sur Rock PI S
 ```
-vagrant provision --provision-with id_rsa
+ssh root@192.168.x.xx  # password: 1234
+exit
+export user=xxx
+HOST=192.168.x.xx ./install-op-rockpi.sh
+ssh $user@192.168.x.xx
+cd install/debinst/install-op-rockpi
+../0install.sh
 ```
-Installation en ssh :
-```
-source vagrantssh.sh
-passwd
-sudo passwd
-cd install/<path>
-./0install.sh
-```
-Resolution :
-
-Uncheck View => Auto-resize Guest Display
-
-Login vagrant
-```
-cd install/<path>
-./0install install-*-res.sh
-```
+Optionnel: [Réception infra rouge](lirc/README.md)

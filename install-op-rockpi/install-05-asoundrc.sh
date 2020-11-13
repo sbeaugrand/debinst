@@ -9,12 +9,12 @@ if notFile $file; then
     cat >$file <<EOF
 pcm.!default {
         type hw
-        card 1
+        card rockchiprk3308a
 }
 
 ctl.!default {
         type hw
-        card 1
+        card rockchiprk3308a
 }
 EOF
 fi
