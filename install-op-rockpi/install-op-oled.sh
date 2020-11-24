@@ -25,3 +25,11 @@ fi
 if ! groups $user | grep -q "i2c"; then
     usermod -a -G i2c $user
 fi
+
+if notWhich oled-message; then
+    pushd $idir/projects/mp3server || return 1
+    sudo -u $user\
+    make C=rps oled-message
+    make C=rps install-oled-message
+    popd
+fi

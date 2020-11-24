@@ -7,37 +7,39 @@
 PROROOT = ../..
 PROPATH = arm
 include ${PROROOT}/makefiles/pro.mk
+SERVICE = rtc
 
 CFLAGS = -DROCKPIS
 DEVLIB = $(HOME)/data/install-build/WiringPi/devLib
-OBJECTS = $(DEVLIB)/ds1302.o rtc.o
+OBJECTS = $(DEVLIB)/ds1302.o $(SERVICE).o
 CFLAGS += -I$(DEVLIB) -I.
 
 .PHONY: all
-all: build build/rtc
+all: build build/$(SERVICE)
 
 GPIO = mraa
 include $(PROROOT)/wiring/wiring.mk
 include $(PROROOT)/makefiles/arm.mk
 include $(PROROOT)/arm/wiringPi/wiringPi.mk
 
-build/rtc: $(OBJECTS)
+build/$(SERVICE): $(OBJECTS)
 	$(CC) $^ $(LDFLAGS) -o $@
 
-.PHONY: install
-install: all
-	sudo cp build/rtc /sbin/
+.PHONY: reinstall
+reinstall: all
+	sudo cp build/$(SERVICE) /usr/bin/
 
 .PHONY: next
 next:
-	sudo ./build/rtc `date --date='+1 hour' +%FT%Tw%w`
+	sudo ./build/$(SERVICE) `date --date='+1 hour' +%FT%Tw%w`
 
 .PHONY: prev
 prev:
-	sudo ./build/rtc `date --date='-1 hour' +%FT%Tw%w`
+	sudo ./build/$(SERVICE) `date --date='-1 hour' +%FT%Tw%w`
 
 .PHONY: get
 get:
-	sudo ./build/rtc
+	sudo ./build/$(SERVICE)
 
+include $(PROROOT)/makefiles/service.mk
 include $(PROROOT)/makefiles/tar.mk

@@ -1,17 +1,14 @@
 # ---------------------------------------------------------------------------- #
-## \file mp3server.service
+## \file oscreensaver.service
 # ---------------------------------------------------------------------------- #
 [Unit]
-Description=MP3 server
-After=network.target
-Wants=network.target
+Description=Oled Screen Saver
+After=rtc.service
+Wants=rtc.service
 
 [Service]
 Type=oneshot
-ExecStart=/etc/init.d/mp3serverd start
-ExecStop=/etc/init.d/mp3serverd stop
-RemainAfterExit=yes
+ExecStart=/usr/bin/oscreensaver
 
 [Install]
 WantedBy=multi-user.target
-WantedBy=shutdown.target

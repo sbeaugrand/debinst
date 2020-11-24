@@ -38,5 +38,5 @@ fi
 # fstab
 file=/etc/fstab
 if notGrep "defaults,ro" $file; then
-    sed -i 's/defaults/defaults,ro/' $file
+    sed -i '/tmp/!s/defaults/defaults,ro/' $file
 fi

@@ -14,6 +14,7 @@ Type=oneshot
 RemainAfterExit=true
 ExecStart=/bin/bash -c "echo 0 >/sys/class/leds/rockpis:blue:user/brightness"
 ExecStart=/bin/bash -c "echo 0 >/sys/class/leds/rockpis:green:power/brightness"
+ExecStop=/bin/bash -c "echo 1 >/sys/class/leds/rockpis:blue:user/brightness"
 ExecStop=/bin/bash -c "echo 1 >/sys/class/leds/rockpis:green:power/brightness"
 
 [Install]

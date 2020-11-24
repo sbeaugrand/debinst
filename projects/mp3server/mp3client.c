@@ -16,7 +16,6 @@
 #include <sys/time.h>
 #include <linux/tcp.h>
 #include <errno.h>
-#include <unistd.h>
 #include <fcntl.h>
 #include "mp3client.h"
 #include "common.h"

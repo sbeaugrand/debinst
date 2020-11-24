@@ -5,13 +5,18 @@
 
 int main(int argc, char* argv[])
 {
-    if (argc != 4) {
+    if (argc != 4 && argc != 1) {
         return 1;
     }
-    int x = atoi(argv[2]);
-    int y = atoi(argv[3]);
+
     upm::SSD1306 lcd(BUS_NUMBER, DEVICE_ADDRESS);
     lcd.clear();
+    if (argc == 1) {
+        return 0;
+    }
+
+    int x = atoi(argv[2]);
+    int y = atoi(argv[3]);
     lcd.setCursor(y, x);
     lcd.write(argv[1]);
     return 0;

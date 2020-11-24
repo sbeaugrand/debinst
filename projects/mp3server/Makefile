@@ -24,6 +24,7 @@ include ${PROROOT}/makefiles/pro.mk
 ifeq ($(C),)
  $(error "Usage: make C=<term|rps|rpi>")
 endif
+user ?= $(USER)
 
 SERVER = mp3server
 CLIENT = mp3client
@@ -34,18 +35,18 @@ CXXFLAGS = -g -DNDEBUG
 all: server client
 
 ifeq ($(C),term)
- DEVOBJ = build/mp3client-term.o
+ DEVOBJ = build/$(CLIENT)-term.o
  include $(PROROOT)/makefiles/ccpp.mk
 endif
 ifeq ($(C),rps)
  GPIO = mraa
- DEVOBJ = build/mp3client-oled.o build/mp3client-lirc.o
+ DEVOBJ = build/$(CLIENT)-oled.o build/$(CLIENT)-lirc.o
  CXXFLAGS += -I/usr/local/include/upm -I/usr/local/include
  DEVFLAGS = -lupm-lcd -lstdc++ -llirc_client
  include $(PROROOT)/makefiles/arm64.mk
 endif
 ifeq ($(C),rpi)
- DEVOBJ = build/mp3client-lcd16x2.o build/mp3client-button.o
+ DEVOBJ = build/$(CLIENT)-lcd16x2.o build/$(CLIENT)-button.o
  DEVLIB = $(HOME)/data/install-build/WiringPi/devLib
  CFLAGS += -I$(DEVLIB) -DRPI -I/usr/local/include
  OBJECTS = $(DEVLIB)/lcd.o
@@ -55,8 +56,11 @@ endif
 include $(PROROOT)/debug/debug.mk
 
 .PHONY: reinstall
-reinstall: server client
+reinstall: server client /etc/init.d/$(SERVER)d
 	@sudo cp build/$(SERVER) build/$(CLIENT) /usr/bin/
+/etc/init.d/$(SERVER)d: $(SERVER)d
+	@sed "s/user=.*/user=$(user)/" $< | sudo tee $@ >/dev/null
+	@sudo chmod 755 $@
 
 .PHONY: vserver
 vserver:
@@ -77,19 +81,16 @@ build/player.o: player.c
 .PHONY: client
 client: build build/$(CLIENT)
 build/$(CLIENT): build/$(CLIENT).o build/common.o $(DEVOBJ)
-ifeq ($(C),term)
-	$(CC) $^ $(LDFLAGS) -o $@
-else
 	$(CC) $^ $(LDFLAGS) $(DEVFLAGS) -o $@
-endif
-build/$(CLIENT)-oled.o: $(CLIENT)-oled.cpp
 
-.PHONY: oled-clear oled-message
-oled-clear: build build/oled-clear
+.PHONY: oled-message
 oled-message: build build/oled-message
-build/oled-%: build/oled-%.o
+build/oled-message: build/oled-message.o
 	$(CXX) $^ $(LDFLAGS) -lupm-lcd -o $@
-build/oled-%.o: oled-%.cpp
+.PHONY: install-oled-message
+install-oled-message: /usr/bin/oled-message
+/usr/bin/oled-message: build/oled-message
+	@sudo cp $< $@
 
 .PHONY: test-buffer
 test-buffer: build build/test-buffer
@@ -101,6 +102,6 @@ test-rand: build build/test-rand
 build/test-rand: build/test-rand.o
 	$(CC) $^ -o $@
 
-SERVICE=$(SERVER)
+SERVICE = $(SERVER)
 include $(PROROOT)/makefiles/service.mk
 include $(PROROOT)/makefiles/tar.mk

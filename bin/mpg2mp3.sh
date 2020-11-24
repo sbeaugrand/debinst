@@ -18,6 +18,11 @@ convert()
         rm "$wav"
     done
 }
-convert MPG
-convert mkv
-convert webm
+
+if [ -n "$1" ]; then
+    convert $1
+else
+    convert MPG
+    convert mkv
+    convert webm
+fi
