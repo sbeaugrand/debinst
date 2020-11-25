@@ -12,16 +12,26 @@ len=$4
 dec=$5
 file=$6
 hour=`echo $file | sed 's@[a-z/.]*@@g' | sed 's@_@.@'`
-if [ ${file:6:3} = "ete" ]; then
-    jBegin=21
-    mBegin=6
-    jEnd=21
-    mEnd=12
-else
+if [ ${file:6:3} = "hiv" ]; then
     jBegin=21
     mBegin=12
     jEnd=21
+    mEnd=3
+elif [ ${file:6:3} = "pri" ]; then
+    jBegin=21
+    mBegin=3
+    jEnd=21
     mEnd=6
+elif [ ${file:6:3} = "ete" ]; then
+    jBegin=21
+    mBegin=6
+    jEnd=21
+    mEnd=9
+else
+    jBegin=21
+    mBegin=9
+    jEnd=21
+    mEnd=12
 fi
 cat /dev/null >$file
 for ((m = $mBegin; m != $mEnd + 1; m++)); do
