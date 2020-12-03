@@ -119,8 +119,10 @@ git clone https://github.com/armbian/build.git armbian-build
 git clone https://github.com/piter75/rockchip-kernel.git -b rockpis-develop-4.4 armbian-kernel
 cd armbian-kernel
 export user=xxx
-ssh $user@rps uname -r  # 4.4.228-rockpis
+ssh $user@rps uname -r  # 4.4.243-rockpis
 grep -m1 SUBLEVEL Makefile  # SUBLEVEL = 228
+sed -i 's/SUBLEVEL = 228/SUBLEVEL = 243/' Makefile  # or :
+find ../armbian-build/patch/kernel/rockpis-legacy -type f -name '*.patch' -print0 | sort -z | xargs -t -0 -n 1 patch -p1 -N -i
 cp ../armbian-build/config/kernel/linux-rockpis-legacy.config .config
 make oldconfig
 sudo apt-get install libssl-dev

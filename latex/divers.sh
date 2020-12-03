@@ -5,13 +5,13 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 pushd latex/divers || return 1
-for f in illusion carte carte2 clarky; do
+for f in illusion carte carte2 clarky declinaison; do
     if notFile $f.pdf; then
         if grep -q pstricks $f.tex; then
-            latex --halt-on-error $f.tex >>$log 2>&1
-            dvipdf $f.dvi $f.pdf >>$log 2>&1
+            sudo -u $user latex --halt-on-error $f.tex >>$log 2>&1
+            sudo -u $user dvipdf $f.dvi $f.pdf >>$log 2>&1
         else
-            pdflatex --halt-on-error $f.tex >>$log 2>&1
+            sudo -u $user pdflatex --halt-on-error $f.tex >>$log 2>&1
         fi
         if ! isFile $f.pdf; then
             return 1

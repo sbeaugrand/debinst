@@ -29,7 +29,7 @@
     \draw (\width/6,\ymin) -- (\width/6,\sousStylaire);
     \draw (\width/2,\ymin) -- (\width/2,\sousStylaire);
   \fi
-  \clip (-\width/2,\ymin) rectangle (\width/2,0);
+  %\clip (-\width/2,\ymin) rectangle (\width/2,0);
   \draw[color=black,very thick] plot file{hiv07.dat};
   \draw[color=green,very thick] plot file{pri07.dat} node[color=black,below] {9};
   \draw[color=red  ,very thick] plot file{ete07.dat};
@@ -111,7 +111,7 @@
   \draw[color=black,very thin ] plot file{ete16_5.dat};
   \draw[color=black,very thin ] plot file{aut16_5.dat};
   \draw[color=black,very thick] plot file{hiv17.dat};
-  \draw[color=green,very thick] plot file{pri17.dat};% node[color=black,below] {19};
+  \draw[color=green,very thick] plot file{pri17.dat} node[color=black,below] {19};
   \draw[color=red  ,very thick] plot file{ete17.dat};
   \draw[color=blue ,very thick] plot file{aut17.dat} node[color=black,above] {18};
 }

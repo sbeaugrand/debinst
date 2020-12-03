@@ -7,7 +7,8 @@
 repo=$idir/../repo
 [ -d $repo ] || sudo -u $user mkdir $repo
 
-gitClone https://github.com/eclipse/mraa.git || return 1
+#gitClone https://github.com/eclipse/mraa.git || return 1
+gitClone https://github.com/radxa/mraa.git || return 1
 
 dir=$bdir/mraa/build
 if notDir $dir; then

@@ -69,7 +69,7 @@ grep -q '^PasswordAuthentication no' /etc/ssh/sshd_config ||\
 # ---------------------------------------------------------------------------- #
 ssh $uri "test -d install/debinst/latex || mkdir -p install/debinst/latex"
 ssh $uri "test -d install/debinst/projects || mkdir install/debinst/projects"
-rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
+rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf --exclude=kicad\
  ~/install/debinst/0install.sh\
  ~/install/debinst/install-op-rockpi\
  ~/install/debinst/bin\

@@ -23,7 +23,7 @@ else
 fi
 
 if ! groups $user | grep -q "i2c"; then
-    usermod -a -G i2c $user
+    /usr/sbin/usermod -a -G i2c $user
 fi
 
 if notWhich oled-message; then

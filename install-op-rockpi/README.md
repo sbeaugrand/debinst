@@ -53,7 +53,7 @@ Optionnel: [Réception infra rouge](lirc/README.md)
 
 # Installation sur armbian
 ```
-xz -k -d Armbian_20.08.1_Rockpi-s_buster_legacy_4.4.228_minimal.img.xz
+xz -k -d Armbian_20.11_Rockpi-s_buster_legacy_4.4.243_minimal.img.xz
 umount /media/$USER/*
 pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```

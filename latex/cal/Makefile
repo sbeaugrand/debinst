@@ -15,7 +15,7 @@ CFLAGS += -DWITH_EQUATION_OF_TIME
 #CFLAGS += -DWITH_ALTITUDE
 
 ifeq ($(idir),)
- REPO = $(HOME)/install/calendar
+ REPO = $(HOME)/install/repo
 else
  REPO = $(idir)/../repo
 endif
@@ -41,7 +41,7 @@ cal dist-cal: build cal$(YEAR).pdf
 
 cal$(YEAR).pdf: cal.tex\
  build/sun build/moon\
- build/moonphase.mf build/calendar/calend0.tex\
+ build/moonphase.mf build/calendar build/calendar/calend0.tex\
  build/year.tex build/lat.tex build/lon.tex build/h0.tex build/vacances$(YEAR).tex
 	cd build && TEXINPUTS="calendar:..:"\
 	 pdflatex --halt-on-error --shell-escape ../cal.tex
@@ -52,7 +52,10 @@ build/moonphase.mf: $(REPO)/moonphase.mf
 
 $(REPO)/moonphase.mf:
 	@curl -o $@\
-	 ftp://dante.ctan.org/tex-archive/fonts/moonphase/moonphase.mf
+	 http://dante.ctan.org/tex-archive/fonts/moonphase/moonphase.mf
+
+build/calendar:
+	@mkdir $@
 
 build/calendar/calend0.tex: $(REPO)/calendar.zip
 	@unzip $< -d build
@@ -60,7 +63,7 @@ build/calendar/calend0.tex: $(REPO)/calendar.zip
 
 $(REPO)/calendar.zip:
 	@curl -o $@\
-	 ftp://dante.ctan.org/tex-archive/macros/plain/contrib/calendar.zip
+	 http://dante.ctan.org/tex-archive/macros/plain/contrib/calendar.zip
 
 build/year.tex: $(MAKEFILE_LIST)
 	@echo "\def\\\annee{$(YEAR)}" >$@

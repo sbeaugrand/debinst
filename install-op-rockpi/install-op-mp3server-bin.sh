@@ -12,6 +12,10 @@ if notWhich mp3server; then
     popd
 fi
 
+if systemctl -q is-enabled mp3server; then
+    systemctl disable mp3server
+fi
+
 file=/etc/lirc/irexec.lircrc
 if notGrep "toggle" $file; then
     cat >$file <<EOF
@@ -22,6 +26,12 @@ begin
     config = /usr/bin/mp3-toggle.sh
 end
 EOF
+fi
+
+dir=/mnt/mp3
+if notDir $dir; then
+    mkdir $dir
+    chown $user.$user $dir
 fi
 
 file=/usr/bin/mp3-toggle.sh

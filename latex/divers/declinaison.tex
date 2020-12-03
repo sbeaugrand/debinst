@@ -1,0 +1,43 @@
+% ---------------------------------------------------------------------------- %
+%% \file declinaison.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass[a4paper]{article}
+\usepackage{vmargin}
+\setmarginsrb{5mm}{5mm}{5mm}{5mm}{0mm}{0mm}{0mm}{0mm}
+\usepackage{tikz}
+\pagestyle{empty}
+\parindent0cm
+
+\begin{document}
+\usetikzlibrary{math}
+\tikzmath{
+  \marge = 0.5;
+  \espace = 0.1;
+  \largeur = 21.0 - 2 * \marge;
+  \hauteur = 29.7 - 2 * \marge;
+  \traitCourt = 0.5;
+  \traitLong = 1;
+  \abscisse1 = \hauteur - \espace;
+  \abscisse2 = \hauteur - \traitCourt;
+  \abscisse3 = \hauteur - \traitLong;
+}
+
+\begin{tikzpicture}
+  \draw (0,\hauteur) -- (\largeur,\hauteur) -- (0,\hauteur) -- (0,0) -- (\largeur,0);
+  \foreach \a in {1,2,...,34} {
+    \draw[very thick] ({\abscisse1*tan(\a)},\abscisse1) -- ({\abscisse2*tan(\a)},\abscisse2);
+  }
+  \foreach \a in {5,10,...,30} {
+    \draw[very thick] ({\abscisse1*tan(\a)},\abscisse1) -- ({\abscisse3*tan(\a)},\abscisse3) node[below] {\a};
+  }
+  \foreach \a in {1,2,...,34} {
+    \draw[very thick] ({\abscisse1*tan(\a)},\espace) -- ({\abscisse2*tan(\a)},\traitCourt);
+  }
+  \foreach \a in {5,10,...,30} {
+    \draw[very thick] ({\abscisse1*tan(\a)},\espace) -- ({\abscisse3*tan(\a)},\traitLong) node[anchor=north,rotate=180] {-\a};
+  }
+\end{tikzpicture}
+\end{document}

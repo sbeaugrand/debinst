@@ -15,10 +15,13 @@ HTML = $(addprefix html/,$(addsuffix .html,$(notdir $(SRC))))
 .SUFFIXES:
 
 .PHONY: all
-all: html pdf png/tux.png favicon.ico http
+all: htmls pdf png/tux.png favicon.ico http
 
-.PHONY: html
-html: $(HTML)
+.PHONY: htmls
+htmls: html $(HTML)
+
+html:
+	@mkdir $@
 
 html/%.html: src/%
 	src2html.sh $< $@
@@ -40,7 +43,7 @@ include ../makefiles/http.mk
 rsync: mount dorsync umount
 
 .PHONY: mount
-mount:
+mount: htmls pdf
 	@mkdir -p /tmp/$(URL)
 	@curlftpfs $(URL) /tmp/$(URL)
 

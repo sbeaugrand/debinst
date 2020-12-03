@@ -30,7 +30,7 @@ if isFile $file && notLink $file; then
 fi
 
 file=$home/.config/xmms2/medialib.db
-if isFile $file; then
+if isFile $file && notLink $file; then
     $xmms2server shutdown
     mv $file $dest/
     ln -s $dest/medialib.db $file

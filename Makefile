@@ -78,8 +78,10 @@ tar:
 	--exclude=*.a \
 	--exclude=*.ko \
 	--exclude=*.dtbo \
+	--exclude=homepage/html \
 	\
 	--exclude=homepage/tgz \
+	--exclude=homepage/png \
 	$(PROJECT)
 
 .PHONY: dist
@@ -100,8 +102,10 @@ dist:
 	--exclude=*.a \
 	--exclude=*.ko \
 	--exclude=*.dtbo \
+	--exclude=homepage/html \
 	\
 	--exclude=*.tgz \
+	--exclude=*.png \
 	--exclude=*.ttf \
 	--exclude=*.pfb \
 	--exclude=*-pr-* \

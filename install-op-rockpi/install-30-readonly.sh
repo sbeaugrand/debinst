@@ -7,20 +7,22 @@
 dns1=212.27.40.240
 dns2=212.27.40.241
 
-# /var/log
-if notLink /var/log; then
-    rm -fr /var/log && ln -s /run/log /var/log
-fi
+if [ ! -f /boot/armbianEnv.txt ]; then
+    # /var/log
+    if notLink /var/log; then
+        rm -fr /var/log && ln -s /run/log /var/log
+    fi
 
-file=/etc/systemd/journald.conf
-if notGrep "Storage=volatile" $file; then
-    sed -i 's/.*Storage=.*/Storage=volatile/' $file
-fi
+    file=/etc/systemd/journald.conf
+    if notGrep "Storage=volatile" $file; then
+        sed -i 's/.*Storage=.*/Storage=volatile/' $file
+    fi
 
-# /var/spool/cron
-if notLink /var/spool/cron; then
-    rm -fr /var/spool/cron
-    ln -s /run/cron /var/spool/cron
+    # /var/spool/cron
+    if notLink /var/spool/cron; then
+        rm -fr /var/spool/cron
+        ln -s /run/cron /var/spool/cron
+    fi
 fi
 
 # dns

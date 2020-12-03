@@ -28,3 +28,5 @@ lirc
 ir-keytable
 liblircclient-dev
 netcat-traditional
+aptitude
+i2c-tools
