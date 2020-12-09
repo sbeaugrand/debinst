@@ -1,0 +1,30 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    model = "Radxa ROCK Pi S";
+    compatible = "radxa,rockpis", "rockchip,rk3308";
+
+    fragment@0 {
+        target-path = "/";
+        __overlay__ {
+            ir_recv: ir-receiver {
+                status = "okay";
+                compatible = "gpio-ir-receiver";
+                /* gpios = <&gpio2 RK_PA4 GPIO_ACTIVE_LOW>; */
+                gpios = <&gpio2 4 1>;
+                pinctrl-0 = <&ir_rx>;
+                pinctrl-names = "default";
+            };
+        };
+    };
+};
+
+&pinctrl {
+    ir {
+        ir_rx: ir-rx {
+            /* rockchip,pins = <2 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>; */
+            rockchip,pins = <2 4 0 &pcfg_pull_none>;
+        };
+    };
+};
