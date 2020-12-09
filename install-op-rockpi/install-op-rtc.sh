@@ -18,7 +18,7 @@ isFile $file || return 1
 /usr/sbin/ldconfig /usr/local/lib
 $file `date +%FT%Tw%w`
 
-if ! systemctl -q is-enabled rtc; then
+if ! systemctl -q is-enabled rtc 2>>$log; then
     pushd ../projects/arm/ds1302 || return 1
     make >>$log 2>&1 HOME=$home install || return 1
     make >>$log 2>&1 HOME=$home start || return 1

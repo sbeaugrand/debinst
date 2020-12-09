@@ -63,7 +63,7 @@ void displayWrite(const char* line1, const char* line2)
 /******************************************************************************!
  * \fn displayScreenSaver
  ******************************************************************************/
-void displayScreenSaver()
+int displayScreenSaver()
 {
     time_t tOfTheDay;
     struct tm* tmOfTheDay;
@@ -73,7 +73,7 @@ void displayScreenSaver()
     int y;
 
     if (gOled == nullptr) {
-        return;
+        return 1;
     }
     gOled->clear();
 
@@ -89,10 +89,14 @@ void displayScreenSaver()
     y = r / 12;
 
     dateOfTheDay[5] = '\0';
-    gOled->setCursor(y, x);
+    if (gOled->setCursor(y, x) != mraa::SUCCESS) {
+        return 2;
+    }
     gOled->write(dateOfTheDay);
     gOled->setCursor(y + 2, x);
     gOled->write(dateOfTheDay + 6);
+
+    return 0;
 }
 
 /******************************************************************************!

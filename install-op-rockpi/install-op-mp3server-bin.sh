@@ -40,6 +40,6 @@ if notFile $file; then
     chmod 755 $file
 fi
 
-if ! systemctl -q is-enabled irexec; then
+if ! systemctl -q is-enabled irexec 2>>$log; then
     systemctl enable irexec
 fi

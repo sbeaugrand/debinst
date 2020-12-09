@@ -12,7 +12,7 @@ if notFile $file; then
     popd
 fi
 
-if ! systemctl -q is-enabled oscreensaver; then
+if ! systemctl -q is-enabled oscreensaver 2>>$log; then
     pushd ../projects/mp3server || return 1
     make >>$log 2>&1 -f oscreensaver.mk install
     popd

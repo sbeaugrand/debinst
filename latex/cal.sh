@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 repo=$idir/../repo
 [ -d $repo ] || sudo -u $user mkdir $repo
-url=ftp://dante.ctan.org/tex-archive
+url=http://dante.ctan.org/tex-archive
 
 file=calendar.zip
 download $url/macros/plain/contrib/$file || return 1

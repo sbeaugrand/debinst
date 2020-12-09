@@ -9,8 +9,8 @@
 #include <unistd.h>
 
 void displayInit();
-void displayScreenSaver();
 void displayQuit();
+int displayScreenSaver();
 
 /******************************************************************************!
  * \fn sigTerm
@@ -34,7 +34,9 @@ int main()
 
     displayInit();
     for (;;) {
-        displayScreenSaver();
+        if (displayScreenSaver() != 0) {
+            return EXIT_FAILURE;
+        }
         sleep(30);
     }
 

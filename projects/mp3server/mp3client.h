@@ -21,11 +21,11 @@ int haltButton();
 
 #if defined(__arm__) || defined(__aarch64__)
 void displayInit();
-void displayScreenSaver();
 void displayQuit();
 void keypadInit();
 void keypadRead();
 void keypadQuit();
+int displayScreenSaver();
 int backButton();
 int undefinedButton();
 #endif

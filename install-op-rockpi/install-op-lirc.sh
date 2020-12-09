@@ -16,10 +16,15 @@ copyFile()
     fi
 }
 
-mkdir -p /lib/modules/$(uname -r)/kernel/drivers/media/rc
-copyFile gpio-ir-recv.ko /lib/modules/$(uname -r)/kernel/drivers/media/rc || return 1
-if [ ! -f /boot/armbianEnv.txt ]; then
-    copyFile ir-nec-decoder.ko /lib/modules/$(uname -r)/kernel/drivers/media/rc || return 1
+dir=/lib/modules/$(uname -r)/kernel/drivers/media/rc
+mkdir -p $dir
+file=gpio-ir-recv.ko
+if notFile $dir/$file; then
+    copyFile $file $dir || return 1
+fi
+file=ir-nec-decoder.ko
+if notFile $dir/$file; then
+    copyFile $file $dir || return 1
 fi
 if notGrep "gpio-ir-recv" /lib/modules/$(uname -r)/modules.dep; then
     /sbin/depmod
@@ -45,3 +50,6 @@ fi
 
 copyFile joyit_nec.toml /lib/udev/rc_keymaps || return 1
 copyFile joy-it-rc.service /usr/lib/systemd/system || return 1
+if ! systemctl -q is-enabled joy-it-rc 2>>$log; then
+    systemctl enable joy-it-rc
+fi
