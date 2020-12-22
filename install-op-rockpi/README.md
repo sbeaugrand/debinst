@@ -51,7 +51,7 @@ cd install/debinst/install-op-rockpi
 ```
 Optionnel: [Réception infra rouge](lirc/README.md)
 
-# Installation sur armbian
+# Installation sur armbian (kernel 4.4)
 ```
 xz -k -d Armbian_20.11_Rockpi-s_buster_legacy_4.4.243_minimal.img.xz
 umount /media/$USER/*

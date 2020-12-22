@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
     gOffset.tv_sec = gTimeval.tv_sec;
     gOffset.tv_nsec = gTimeval.tv_nsec;
 
-    for (gCount = 0; gCount < 10000; ++gCount) {
+    for (gCount = 0; gCount < 5000; ++gCount) {
         for (int i = 0; i < N; ++i) {
             if (clock_gettime(CLOCK_REALTIME, &gTimeval) < 0) {
                 perror("clock_gettime");
@@ -115,7 +115,33 @@ int main(int argc, char* argv[])
             perror("write");
             quit(EXIT_FAILURE);
         }
-        if (gCount % 100 == 99) {
+        if (gCount < 599) {
+            switch (gCount) {
+            case 75:
+                gArgv[1] = "3500";
+                break;
+            case 150:  // 150 = 9615 / 64 = RATE / N
+                gArgv[1] = "200";
+                break;
+            case 225:
+                gArgv[1] = "3500";
+                break;
+            case 300:
+                gArgv[1] = "200";
+                break;
+            case 375:
+                gArgv[1] = "3500";
+                break;
+            case 450:
+                gArgv[1] = "200";
+                break;
+            case 525:
+                freq = 2000;
+                sprintf(freqStr, "%d", freq);
+                gArgv[1] = freqStr;
+                break;
+            }
+        } else if (gCount % 100 == 99) {
             freq += 100;
             sprintf(freqStr, "%d", freq);
             gArgv[1] = freqStr;

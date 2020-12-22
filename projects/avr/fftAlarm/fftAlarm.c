@@ -30,7 +30,8 @@ int16_t buff[N];
 int8_t data[N];
 int8_t im[N];
 int gSkipCount;
-int gAlarmCount;
+int gAlarmPulse;
+int gAlarmSpace;
 int gAlarm;
 
 /******************************************************************************!
@@ -50,7 +51,8 @@ void setup()
     digitalWrite(PINB0, ADCSRA & 4);
 #   endif
     gSkipCount = 0;
-    gAlarmCount = 0;
+    gAlarmPulse = 0;
+    gAlarmSpace = 0;
     gAlarm = 0;
 }
 
@@ -150,92 +152,96 @@ void loop()
 #       endif
     }
 
+#  ifndef tinyX5
+#   ifndef NDEBUG
+    if (j >= 0) {
+        fprintf(stderr, "j=%d, freq=%d-%d, level=%d\n",
+                j, (j * RATE) >> M, ((j + 1) * RATE) >> M, avg);
+    }
+#   endif
+#  endif
+    if (j >= 0) {
+        j *= RATE >> M;
+    }
+
 #   ifdef tinyX5
     if (j < 0) {
         digitalWrite(PINB2, 0);
         digitalWrite(PINB1, 0);
         digitalWrite(PINB0, 0);
-        gAlarmCount = 0;
     } else {
-        j *= RATE >> M;
         if (j <= 1000) {
             digitalWrite(PINB2, 1);
             digitalWrite(PINB1, 0);
             digitalWrite(PINB0, 0);
-            gAlarmCount = 0;
         } else if (j <= 2000) {
             digitalWrite(PINB2, 0);
             digitalWrite(PINB1, 1);
             digitalWrite(PINB0, 0);
-            gAlarmCount = 0;
         } else if (j <= 3000) {
             digitalWrite(PINB2, 1);
             digitalWrite(PINB1, 1);
             digitalWrite(PINB0, 0);
-            gAlarmCount = 0;
         } else if (j <= 4000) {
             digitalWrite(PINB2, 0);
             digitalWrite(PINB1, 0);
             digitalWrite(PINB0, 1);
-            if (gAlarm == 0 && ++gAlarmCount >= FPS) {
-                // [3000Hz, 4000Hz[ pendant 1 seconde
-                digitalWrite(PINB4, 1);
-                gAlarm = 1;
-            }
         } else if (j <= 5000) {
             digitalWrite(PINB2, 1);
             digitalWrite(PINB1, 0);
             digitalWrite(PINB0, 1);
-            gAlarmCount = 0;
         } else if (j <= 6000) {
             digitalWrite(PINB2, 0);
             digitalWrite(PINB1, 1);
             digitalWrite(PINB0, 1);
-            gAlarmCount = 0;
         } else {
             digitalWrite(PINB2, 1);
             digitalWrite(PINB1, 1);
             digitalWrite(PINB0, 1);
-            gAlarmCount = 0;
         }
     }
-#   else
-    if (j < 0) {
-        gAlarmCount = 0;
-    } else {
-#       ifndef NDEBUG
-        fprintf(stderr, "j=%d, freq=%d-%d, level=%d\n",
-                j, (j * RATE) >> M, ((j + 1) * RATE) >> M, avg);
-#       endif
-        j *= RATE >> M;
-        if (j > 3000 && j <= 4000) {
-            if (gAlarm == 0 && ++gAlarmCount >= FPS) {
-                // [3000Hz, 4000Hz[ pendant 1 seconde
-                fprintf(stderr, "Alarme = %d\n", 1);
-                gAlarm = 1;
-            }
-        } else {
-            gAlarmCount = 0;
+#   endif
+
+    if (j > 3000 && j <= 4000) {
+        if (gAlarm == 0 && ++gAlarmPulse >= FPS) {
+            // [3000Hz, 4000Hz[ pendant au moins 1 seconde
+            // avec espaces ne depassant pas 1.5 seconde
+            // __________------______------______------__________
+            //            0.5s  0.5s  0.5s  0.5s  0.5s
+#           ifndef tinyX5
+            fprintf(stderr, "Alarme = %d\n", 1);
+#           endif
+            gAlarm = FPS >> 2;
+            gAlarmPulse = 0;
+            gAlarmSpace = 0;
+        }
+    } else if (gAlarmPulse > 0) {
+        if (gAlarm == 0 && ++gAlarmSpace >= FPS + (FPS >> 1)) {
+#           ifndef tinyX5
+            fprintf(stderr, "Pulse = %d\n", gAlarmPulse);
+#           endif
+            gAlarmPulse = 0;
+            gAlarmSpace = 0;
         }
     }
+
+#   ifndef tinyX5
     if (write(STDOUT_FILENO, data, OUT_MEMSIZE) < OUT_MEMSIZE) {
         fprintf(stderr, "error: write\n");
         exit(EXIT_FAILURE);
     }
 #   endif
 
-    if (gAlarm > 0) {
-        if (gAlarmCount == 0) {
-#           ifdef tinyX5
-            digitalWrite(PINB4, 0);
-            gAlarm = -1;
-#           else
-            fprintf(stderr, "Alarme = %d\n", 0);
-            gAlarm = 0;
-#           endif
-        } else {
-            --gAlarmCount;
-        }
+    if (gAlarm == 1) {
+#       ifdef tinyX5
+        digitalWrite(PINB4, 0);
+        gAlarm = -1;
+#       else
+        fprintf(stderr, "Alarme = %d\n", 0);
+        gAlarm = 0;
+#       endif
+    } else if (gAlarm > 1) {
+        --gAlarm;
     }
 }
 

@@ -113,7 +113,7 @@ make dtbs
 cp arch/arm64/boot/dts/rockchip/overlay/rockpis-gpio-ir-recv.dtbo ~/install/debinst/install-op-rockpi/lirc/
 ```
 
-# Modules for armbian kernel
+# Modules for armbian kernel 4.4 (not needed for 5.9)
 ```
 git clone https://github.com/armbian/build.git armbian-build
 git clone https://github.com/piter75/rockchip-kernel.git -b rockpis-develop-4.4 armbian-kernel

@@ -85,7 +85,7 @@ build/plot: $(OBJECTS)
 
 .PHONY: sinus
 sinus: build build/sinus
-	build/sinus fps=auto 2000 | build/fftAlarm | build/plot
+	build/sinus fps=auto 200 | build/fftAlarm | build/plot
 
 build/sinus: $(OBJECTS)
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
