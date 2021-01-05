@@ -765,27 +765,27 @@ void state4heure()
         gClientState = STATE5_DATE;
         drawDate(1);
     } else if (randButton()) {
-        if (system("sudo /sbin/rtc") == 0) {
+        if (system("sudo /usr/sbin/rtc") == 0) {
             drawDate(0);
         }
     } else if (upButton()) {
-        if (system("sudo /sbin/rtc `date --date='+1 hour' +%FT%Tw%w`;"
-                   " sudo /sbin/rtc") == 0) {
+        if (system("sudo /usr/sbin/rtc `date --date='+1 hour' +%FT%Tw%w`;"
+                   " sudo /usr/sbin/rtc") == 0) {
             drawDate(0);
         }
     } else if (downButton()) {
-        if (system("sudo /sbin/rtc `date --date='-1 hour' +%FT%Tw%w`;"
-                   " sudo /sbin/rtc") == 0) {
+        if (system("sudo /usr/sbin/rtc `date --date='-1 hour' +%FT%Tw%w`;"
+                   " sudo /usr/sbin/rtc") == 0) {
             drawDate(0);
         }
     } else if (leftButton()) {
-        if (system("sudo /sbin/rtc `date --date='-1 min' +%FT%Tw%w`;"
-                   " sudo /sbin/rtc") == 0) {
+        if (system("sudo /usr/sbin/rtc `date --date='-1 min' +%FT%Tw%w`;"
+                   " sudo /usr/sbin/rtc") == 0) {
             drawDate(0);
         }
     } else if (rightButton()) {
-        if (system("sudo /sbin/rtc `date --date='+1 min' +%FT%Tw%w`;"
-                   " sudo /sbin/rtc") == 0) {
+        if (system("sudo /usr/sbin/rtc `date --date='+1 min' +%FT%Tw%w`;"
+                   " sudo /usr/sbin/rtc") == 0) {
             drawDate(0);
         }
     }
@@ -807,27 +807,27 @@ void state5date()
         gTempo.tv_sec = 0;
 #       endif
     } else if (randButton()) {
-        if (system("sudo /sbin/rtc") == 0) {
+        if (system("sudo /usr/sbin/rtc") == 0) {
             drawDate(1);
         }
     } else if (upButton()) {
-        if (system("sudo /sbin/rtc `date --date='+1 month' +%FT%Tw%w`;"
-                   " sudo /sbin/rtc") == 0) {
+        if (system("sudo /usr/sbin/rtc `date --date='+1 month' +%FT%Tw%w`;"
+                   " sudo /usr/sbin/rtc") == 0) {
             drawDate(1);
         }
     } else if (downButton()) {
-        if (system("sudo /sbin/rtc `date --date='-1 month' +%FT%Tw%w`;"
-                   " sudo /sbin/rtc") == 0) {
+        if (system("sudo /usr/sbin/rtc `date --date='-1 month' +%FT%Tw%w`;"
+                   " sudo /usr/sbin/rtc") == 0) {
             drawDate(1);
         }
     } else if (leftButton()) {
-        if (system("sudo /sbin/rtc `date --date='-1 day' +%FT%Tw%w`;"
-                   " sudo /sbin/rtc") == 0) {
+        if (system("sudo /usr/sbin/rtc `date --date='-1 day' +%FT%Tw%w`;"
+                   " sudo /usr/sbin/rtc") == 0) {
             drawDate(1);
         }
     } else if (rightButton()) {
-        if (system("sudo /sbin/rtc `date --date='+1 day' +%FT%Tw%w`;"
-                   " sudo /sbin/rtc") == 0) {
+        if (system("sudo /usr/sbin/rtc `date --date='+1 day' +%FT%Tw%w`;"
+                   " sudo /usr/sbin/rtc") == 0) {
             drawDate(1);
         }
     }

@@ -27,7 +27,7 @@ build/$(SERVICE): $(OBJECTS)
 
 .PHONY: reinstall
 reinstall: all
-	sudo cp build/$(SERVICE) /usr/bin/
+	@sudo cp build/$(SERVICE) /usr/sbin/
 
 .PHONY: next
 next:

@@ -12,7 +12,7 @@ After=network.target
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=/bin/bash -c "/usr/bin/rtc"
+ExecStart=/bin/bash -c "/usr/sbin/rtc"
 
 [Install]
 WantedBy=multi-user.target

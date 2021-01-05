@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-file=/usr/bin/rtc
+file=/usr/sbin/rtc
 if notFile $file; then
     pushd $idir/projects/arm/ds1302 || return 1
     make >>$log 2>&1 HOME=$home
