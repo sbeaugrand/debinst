@@ -32,39 +32,47 @@ Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
 pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 
-# Installation sur debian radxa
+# Installation sur armbian
+Attention : en attendant que le commit https://github.com/armbian/build/commit/fa2fd517d12d09b04a751a34e614d75ab7a8699e
+soit fusionné dans la branche https://github.com/armbian/build/commits/v20.11, il faut prendre la version de test (unstable).
+Par exemple : Armbian_21.02.0-trunk.56_Rockpi-s_groovy_current_5.9.16_minimal.img.xz
 ```
-gunzip -k rockpis_debian_buster_minimal_arm64_20200615_1225-gpt.img.gz
-umount /media/$USER/*
-pv rockpis*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
-```
-Démarrer sur Rock PI S
-```
-ssh rock@192.168.x.xx  # password: rock
-sudo apt-get update
-sudo apt-get install rsync
-exit
-HOST=192.168.x.xx ./install-op-rockpi.sh
-ssh rock@192.168.x.xx
-cd install/debinst/install-op-rockpi
-../0install.sh
-```
-Optionnel: [Réception infra rouge](lirc/README.md)
-
-# Installation sur armbian (kernel 4.4)
-```
-xz -k -d Armbian_20.11_Rockpi-s_buster_legacy_4.4.243_minimal.img.xz
+xz -k -d Armbian_20.11.6_Rockpi-s_buster_current_5.9.14_minimal.img.xz
 umount /media/$USER/*
 pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
 Démarrer sur Rock PI S
 ```
-ssh root@192.168.x.xx  # password: 1234
+make ssh USER=root [HOST=rps]  # password: 1234
 exit
-export user=xxx
-HOST=192.168.x.xx ./install-op-rockpi.sh
-ssh $user@192.168.x.xx
+make rsync [USER=$USER] [HOST=rps]
+make ssh
 cd install/debinst/install-op-rockpi
-../0install.sh
+sudo apt install make
+make install
 ```
-Optionnel: [Réception infra rouge](lirc/README.md)
+Optionnel:
+
+# TSOP1838 Infrared receiver on RockpiS
+
+```
+```
+```
+ 3v3                    GPIO2_A4        GND   --> RockpiS pins
+  |                        |             |
+  |                        \             |
+  |                        / 1k          |
+  |                        \             |
+  |          47k           |             |
+  |---------/\/\/\---------+             |
+  |                        |             |
+  O                        O             O    --> 1838 pins
+  |          100k          |     NPN     |
+  |---------/\/\/\---------+-----\_/-----|
+  |                               |      |
+```
+```
+make lirc
+sudo reboot
+```
+[Lien pour le noyau 4.4](kernel_4.4.md)

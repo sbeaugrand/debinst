@@ -5,13 +5,16 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-if [ `whoami` = "root" ] || [ -z "$HOST" ]; then
-    echo "Usage: HOST=192.168.x.xx ./install-op-rockpi.sh"
-    echo "                HOST=rps ./install-op-rockpi.sh"
+project=`basename $0 .sh`
+if [ `whoami` = "root" ]; then
+    echo "Usage: [user=rock] [host=rps] ./$project.sh"
     exit 1
 fi
 user=${user:-rock}
-uri=$user@$HOST
+host=${host:-rps}
+uri=$user@$host
+echo "user = $user"
+echo "host = $host"
 
 # ---------------------------------------------------------------------------- #
 # isFile
@@ -46,7 +49,7 @@ file=~/.profile
 if isFile ~/.ssh/id_rsa.pub && notGrep "keychain" $file; then
     echo 'source ~/.keychain/*-sh' >>$file
 fi
-file=install-op-rpi/install-pr-authorized_keys
+file=$project/install-pr-authorized_keys
 if ! isFile $file; then
     exit 1
 fi
@@ -71,7 +74,7 @@ ssh $uri "test -d install/debinst/latex || mkdir -p install/debinst/latex"
 ssh $uri "test -d install/debinst/projects || mkdir install/debinst/projects"
 rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf --exclude=kicad\
  ~/install/debinst/0install.sh\
- ~/install/debinst/install-op-rockpi\
+ ~/install/debinst/$project\
  ~/install/debinst/bin\
  ~/install/debinst/makefiles\
  $uri:/home/$user/install/debinst/

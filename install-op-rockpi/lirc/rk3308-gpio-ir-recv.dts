@@ -5,7 +5,7 @@
     model = "Radxa ROCK Pi S";
     compatible = "radxa,rockpis", "rockchip,rk3308";
 
-    fragment@0 {
+    fragment@1 {
         target-path = "/";
         __overlay__ {
             ir_recv: ir-receiver {

@@ -7,13 +7,13 @@
 file=/usr/bin/oscreensaver
 if notFile $file; then
     pushd ../projects/mp3server || return 1
-    make >>$log 2>&1 -f oscreensaver.mk || return 1
-    make >>$log 2>&1 -f oscreensaver.mk reinstall || return 1
+    make -f oscreensaver.mk || return 1
+    make -f oscreensaver.mk reinstall || return 1
     popd
 fi
 
 if ! systemctl -q is-enabled oscreensaver 2>>$log; then
     pushd ../projects/mp3server || return 1
-    make >>$log 2>&1 -f oscreensaver.mk install
+    make -f oscreensaver.mk install
     popd
 fi

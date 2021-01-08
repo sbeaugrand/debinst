@@ -35,7 +35,7 @@ fi
 file=/boot/armbianEnv.txt
 if [ -f $file ]; then
     if notGrep rockpis-gpio-ir-recv $file; then
-        /usr/sbin/armbian-add-overlay lirc/rockpis-gpio-ir-recv-low.dts
+        /usr/sbin/armbian-add-overlay lirc/rk3308-gpio-ir-recv.dts
     fi
 else
     file=/boot/uEnv.txt
