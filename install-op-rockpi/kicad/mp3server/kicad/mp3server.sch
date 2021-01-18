@@ -47,18 +47,6 @@ F 3 "~" H 4000 1400 50  0001 C CNN
 	1    4000 1400
 	1    0    0    -1  
 $EndComp
-$Comp
-L kicad:CONN_4X1 P7
-U 1 1 5F568E27
-P 4250 2800
-F 0 "P7" V 4200 2800 50  0000 C CNN
-F 1 "CONN_4X1" H 4250 2550 50  0001 C CNN
-F 2 "kicad:PIN_ARRAY_4X1" H 4250 2800 50  0001 C CNN
-F 3 "" H 4250 2800 50  0001 C CNN
-F 4 "OLED" V 4300 2800 50  0000 C CNN "Field4"
-	1    4250 2800
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	2600 1250 4000 1250
 NoConn ~ 1500 1250
@@ -110,9 +98,9 @@ F 4 "1838" V 3850 2800 50  0000 C CNN "Field4"
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	4200 2450 4200 1350
+	4100 2450 4100 1350
 Wire Wire Line
-	4200 1350 3800 1350
+	4100 1350 3800 1350
 Wire Wire Line
 	4300 2450 4300 1150
 Wire Wire Line
@@ -121,8 +109,6 @@ Wire Wire Line
 	4400 2450 4400 1050
 Wire Wire Line
 	4400 1050 2600 1050
-Wire Wire Line
-	4100 2450 4100 2950
 Wire Wire Line
 	2900 1850 2900 2450
 Wire Wire Line
@@ -156,8 +142,6 @@ F 3 "" H 1300 2400 60  0000 C CNN
 	1    1300 2400
 	0    -1   -1   0   
 $EndComp
-Wire Wire Line
-	4000 2950 4100 2950
 $Comp
 L kicad:CONN_5 P5
 U 1 1 5F6E0DED
@@ -409,11 +393,6 @@ $EndComp
 Wire Wire Line
 	2600 950  4500 950 
 Wire Wire Line
-	4500 950  4500 2950
-Wire Wire Line
-	4500 2950 4100 2950
-Connection ~ 4100 2950
-Wire Wire Line
 	2500 2950 3500 2950
 NoConn ~ 2600 1750
 Wire Wire Line
@@ -451,4 +430,26 @@ Wire Wire Line
 Connection ~ 1650 2950
 Wire Wire Line
 	1650 2950 1650 3050
+$Comp
+L kicad:CONN_4X1 P7
+U 1 1 5F568E27
+P 4250 2800
+F 0 "P7" V 4200 2800 50  0000 C CNN
+F 1 "CONN_4X1" H 4250 2550 50  0001 C CNN
+F 2 "kicad:PIN_ARRAY_4X1" H 4250 2800 50  0001 C CNN
+F 3 "" H 4250 2800 50  0001 C CNN
+F 4 "OLED" V 4300 2900 50  0000 C CNN "Field4"
+F 5 "GND" H 4250 2650 50  0000 C CNN "Field5"
+	1    4250 2800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4000 2950 4200 2950
+Wire Wire Line
+	4200 2450 4200 2950
+Wire Wire Line
+	4500 950  4500 2950
+Connection ~ 4200 2950
+Wire Wire Line
+	4200 2950 4500 2950
 $EndSCHEMATC
