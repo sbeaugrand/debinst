@@ -42,6 +42,7 @@ else ifeq ($(F),blur)
 else ifneq ($(F),)
  $(error Unknown filter $(F))
 endif
+BRIGHTNESS = -brightness-contrast 10
 
 .SUFFIXES:
 
@@ -52,10 +53,6 @@ build:
 	@mkdir $@
 
 $(PROJECT).pdf: $(PROJECT).tex\
- export-pr-H2-9.tex\
- export-pr-F2-9.tex\
- enfants-pr-H1.tex\
- enfants-pr-F1.tex\
  build\
  build/I0000.png\
  build/I0001.png\
@@ -89,6 +86,11 @@ $(PROJECT).pdf: $(PROJECT).tex\
  build/I1155.png\
  build/I1570.png\
  build/I1571.png\
+ build/I1585.png\
+ export-pr-H2-9.tex\
+ export-pr-F2-9.tex\
+ enfants-pr-H1.tex\
+ enfants-pr-F1.tex\
 
 	@pdflatex --halt-on-error $<
 	@$(RM) $(PROJECT).aux $(PROJECT).log
@@ -136,8 +138,8 @@ define photo
 	@echo $@
 	@convert -units PixelsPerInch $< $4 -crop $(PHOTO_W$1)x$(PHOTO_H$1)+$2+$3\
 	 -density 300 tmp.png
-	@if [ "$5" = "autowhite" ]; then\
-	 autowhite.sh tmp.png tmp2.png && mv tmp2.png tmp.png; fi
+	@if [ -n "$5" ]; then\
+	 $5 tmp.png tmp2.png && mv tmp2.png tmp.png; fi
 	@if [ -n "$6" ]; then\
 	 convert tmp.png $6 tmp2.png && mv tmp2.png tmp.png; fi
 	@if [ -n "$(EXEMPLE$1)" ]; then\
@@ -150,34 +152,34 @@ define photo
 endef
 
 build/I0000.png: $(PHOTOS)/sebastien.png build/ellipse2.png
-	$(call photo,2,40,60,-resize 50%,,-normalize,2016)
+	$(call photo,2,40,60,-resize 50%,,-normalize $(BRIGHTNESS),2016)
 
 build/I0001.png: $(PHOTOS)/eeee.png build/ellipse1.png
-	$(call photo,1,2600,500,-resize 60%,,-normalize,2020)
+	$(call photo,1,2600,500,-resize 60%,,-normalize $(BRIGHTNESS),2020)
 
 build/I0002.png: $(PHOTOS)/eeee.png build/ellipse1.png
-	$(call photo,1,600,500,-resize 60%,,-normalize,2020)
+	$(call photo,1,600,500,-resize 60%,,-normalize $(BRIGHTNESS),2020)
 
 build/I0003.png: $(PHOTOS)/erwann.png build/ellipse1.png
-	$(call photo,1,250,200,-resize 28%,,-normalize,2020)
+	$(call photo,1,250,200,-resize 28%,,-normalize $(BRIGHTNESS),2020)
 
 build/I0004.png: $(PHOTOS)/eline.png build/ellipse1.png
-	$(call photo,1,300,200,-resize 28%,,-normalize,2020)
+	$(call photo,1,300,200,-resize 28%,,-normalize $(BRIGHTNESS),2020)
 
 build/I0005.png: $(PHOTOS)/audrey.jpg build/ellipse2.png
 	$(call photo,2,100,50,-resize 200%,,-normalize,2016)
 
 build/I0006.png: $(PHOTOS)/bernardEtDanielle.png build/ellipse2.png
-	$(call photo,2,70,160,-resize 75%,autowhite,,1983)
+	$(call photo,2,70,160,-resize 75%,autotone -G,,1983)
 
 build/I0007.png: $(PHOTOS)/danielle.png build/ellipse2.png
-	$(call photo,2,130,160,-resize 75%,autowhite,,1975)
+	$(call photo,2,130,160,-resize 75%,autotone -G,,1975)
 
 build/I0008.png: $(PHOTOS)/patrice.png build/ellipse2.png
 	$(call photo,2,140,120,-resize 95%,,-normalize,)
 
 build/I0009.png: $(PHOTOS)/josiane.png build/ellipse2.png
-	$(call photo,2,220,220,-resize 80%,autowhite,,)
+	$(call photo,2,220,220,-resize 80%,autotone -G,$(BRIGHTNESS),)
 
 build/I0010.png: $(PHOTOS)/leon.png build/ellipse2.png
 	$(call photo,2,40,60,-resize 70%,,-normalize,1946)
@@ -186,25 +188,25 @@ build/I0011.png: $(PHOTOS)/jeanine.png build/ellipse2.png
 	$(call photo,2,100,150,-resize 70%,,-normalize,1946)
 
 build/I0012.png: $(PHOTOS)/rene.png build/ellipse2.png
-	$(call photo,2,70,90,-resize 80%,autowhite,,1954)
+	$(call photo,2,70,90,-resize 80%,autotone -G,$(BRIGHTNESS),1954)
 
 build/I0013.png: $(PHOTOS)/denise.jpg build/ellipse2.png
-	$(call photo,2,700,650,-resize 175%,,-normalize,)
+	$(call photo,2,700,650,-resize 175%,,-normalize $(BRIGHTNESS),)
 
 build/I0015.png: $(PHOTOS)/jeanne.png build/ellipse2.png
-	$(call photo,2,90,70,-resize 45%,,-normalize,)
+	$(call photo,2,90,70,-resize 45%,,-normalize $(BRIGHTNESS),)
 
 build/I0016.png: $(PHOTOS)/henri-eugenie.png build/ellipse2.png
-	$(call photo,2,520,420,-resize 75%,,-normalize,1914)
+	$(call photo,2,520,420,-resize 75%,,-normalize $(BRIGHTNESS),1914)
 
 build/I0017.png: $(PHOTOS)/henri-eugenie.png build/ellipse2.png
-	$(call photo,2,1250,600,-resize 75%,,-normalize,1914)
+	$(call photo,2,1250,600,-resize 75%,,-normalize $(BRIGHTNESS),1914)
 
 build/I0018.png: $(PHOTOS)/germain-felicite.png build/ellipse2.png
-	$(call photo,2,130,150,-resize 75%,,-normalize,1909)
+	$(call photo,2,130,150,-resize 75%,,-normalize $(BRIGHTNESS),1909)
 
 build/I0019.png: $(PHOTOS)/germain-felicite.png build/ellipse2.png
-	$(call photo,2,1070,150,-resize 75%,,-normalize,1909)
+	$(call photo,2,1070,150,-resize 75%,,-normalize $(BRIGHTNESS),1909)
 
 build/I0032.png: $(PHOTOS)/pierre.png build/ellipse2.png
 	$(call photo,2,110,40,-resize 80%,,-normalize,)
@@ -213,10 +215,10 @@ build/I0033.png: $(PHOTOS)/emilienne.png build/ellipse2.png
 	$(call photo,2,40,30,-resize 80%,,-normalize,)
 
 build/I0034.png: $(PHOTOS)/georges-berthe.png build/ellipse2.png
-	$(call photo,2,620,80,-resize 70%,,-normalize,)
+	$(call photo,2,620,80,-resize 70%,,-normalize $(BRIGHTNESS),)
 
 build/I0035.png: $(PHOTOS)/georges-berthe.png build/ellipse2.png
-	$(call photo,2,140,200,-resize 70%,,-normalize,)
+	$(call photo,2,140,200,-resize 70%,,-normalize $(BRIGHTNESS),)
 
 build/I0054.png: $(PHOTOS)/louis-ernestine.png build/ellipse2.png
 	$(call photo,2,1120,430,-resize 70%,,-normalize,)
@@ -225,13 +227,13 @@ build/I0105.png: $(PHOTOS)/louis-ernestine.png build/ellipse2.png
 	$(call photo,2,1880,840,-resize 70%,,-normalize,)
 
 build/I0393.png: $(PHOTOS)/marie.png build/ellipse2.png
-	$(call photo,2,200,140,-resize 60%,,-normalize,)
+	$(call photo,2,200,140,-resize 60%,,-normalize $(BRIGHTNESS),)
 
 build/I0888.png: $(PHOTOS)/jean-marcel.png build/ellipse2.png
 	$(call photo,2,120,150,-resize 50%,,-normalize,)
 
 build/I0889.png: $(PHOTOS)/antoinette.png build/ellipse2.png
-	$(call photo,2,75,90,,autowhite,-normalize,)
+	$(call photo,2,75,90,,autowhite,-normalize $(BRIGHTNESS),)
 
 build/I0891.png: $(PHOTOS)/lazarette.png build/ellipse2.png
 	$(call photo,2,140,40,-resize 85%,,-normalize,)
@@ -244,6 +246,9 @@ build/I1570.png: $(PHOTOS)/andre-marie.png build/ellipse2.png
 
 build/I1571.png: $(PHOTOS)/andre-marie.png build/ellipse2.png
 	$(call photo,2,1700,750,-resize 75%,,-normalize,1923)
+
+build/I1585.png: $(PHOTOS)/celine.png build/ellipse2.png
+	$(call photo,2,400,330,-resize 170%,,-contrast -contrast -contrast -contrast $(BRIGHTNESS),1923)
 
 define photoExtent
 	convert build/$1 -fill none -stroke black\
@@ -321,6 +326,9 @@ build/I0008I0009.png: build/I0008.png build/I0009.png
 build/I0000I0009.png: build/I0000I0005.png build/I0008I0009.png
 	@echo $@
 	@convert $^ -append $@
+
+build/I0891I1585.png: build/I0891.png build/I1585.png
+	$(call photoExtent2,Lazarette,Céline)
 
 .PHONY: a4
 a4: a4.pdf

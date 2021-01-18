@@ -12,7 +12,7 @@ url="http://www.fmwconcepts.com/imagemagick/downloadcounter.php"
 downloadScript()
 {
     script=$1
-    file=$repo/$script.sh
+    file=$repo/$script
     if notFile $file; then
         curl -s "$url?scriptname=$script&dirname=$script" -o $file || return 1
         chown $user.$user $file
@@ -21,3 +21,4 @@ downloadScript()
 }
 
 downloadScript autowhite
+downloadScript autotone
