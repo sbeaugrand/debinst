@@ -8,6 +8,9 @@ PROROOT = ..
 include ${PROROOT}/makefiles/pro.mk
 SERVICE = oscreensaver
 
+.PHONY: all
+all: $(SERVICE)
+
 GPIO = mraa
 CXXFLAGS += -I/usr/local/include/upm -I/usr/local/include
 DEVFLAGS = -lupm-lcd -lstdc++

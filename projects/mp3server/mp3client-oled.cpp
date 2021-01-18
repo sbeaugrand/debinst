@@ -37,6 +37,11 @@ void displayInit()
         return;
     }
     gOled->clear();
+    // SH1106 workarround
+    for (int i = 0; i < 8; ++i) {
+        gOled->setCursor(i, 14);
+        gOled->write("  ");
+    }
     gOled->dim(true);
     gDisplayBuff[LCD_COLS] = '\0';
 }
