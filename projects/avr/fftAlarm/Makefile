@@ -23,6 +23,7 @@ PHONY: tests
 tests:
 	@$(MAKE) --no-print-directory -f tests.mk
 
+include $(PROROOT)/kicad/doc.mk
 TARDEPEND += x11/*
 TARDEPEND += debug/*
 include $(PROROOT)/makefiles/tar.mk

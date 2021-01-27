@@ -1,4 +1,3 @@
-- Smoke alarm in fftAlarm project
 - Replace all RaspberryPi projects by RockpiS projects
 - Add Orange Pi Zero support
 - Extension: buck 12V->5V + audio amp + 433Mhz emitter

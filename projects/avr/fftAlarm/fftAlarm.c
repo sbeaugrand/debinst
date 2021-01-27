@@ -208,7 +208,9 @@ void loop()
             // avec espaces ne depassant pas 1.5 seconde
             // __________------______------______------__________
             //            0.5s  0.5s  0.5s  0.5s  0.5s
-#           ifndef tinyX5
+#           ifdef tinyX5
+            digitalWrite(PINB4, 1);
+#           else
             fprintf(stderr, "Alarme = %d\n", 1);
 #           endif
             gAlarm = FPS >> 2;
