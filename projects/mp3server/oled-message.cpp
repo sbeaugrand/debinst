@@ -17,6 +17,7 @@ int main(int argc, char* argv[])
 
     int x = atoi(argv[2]);
     int y = atoi(argv[3]);
+    lcd.dim(true);
     lcd.setCursor(y, x);
     lcd.write(argv[1]);
     return 0;

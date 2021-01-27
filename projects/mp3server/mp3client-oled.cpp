@@ -9,7 +9,7 @@
 #define DEVICE_ADDRESS 0x3C
 #define BUS_NUMBER 0x1
 
-const unsigned int LCD_ROWS = 2;
+const unsigned int LCD_ROWS = upm::SSD1306_LCDHEIGHT >> 3;
 
 upm::SSD1306* gOled = nullptr;
 
@@ -38,8 +38,8 @@ void displayInit()
     }
     gOled->clear();
     // SH1106 workarround
-    for (int i = 0; i < 8; ++i) {
-        gOled->setCursor(i, 14);
+    for (unsigned int i = 0; i < LCD_ROWS; ++i) {
+        gOled->setCursor(i, LCD_COLS - 2);
         gOled->write("  ");
     }
     gOled->dim(true);
@@ -57,10 +57,10 @@ void displayWrite(const char* line1, const char* line2)
     gOled->clear();
 
     strncpy(gDisplayBuff, line1, LCD_COLS);
-    gOled->setCursor(3, 0);
+    gOled->setCursor((LCD_ROWS >> 1) - 1, 0);
     gOled->write(gDisplayBuff);
     strncpy(gDisplayBuff, line2, LCD_COLS);
-    gOled->setCursor(5, 0);
+    gOled->setCursor((LCD_ROWS >> 1) + 1, 0);
     gOled->write(gDisplayBuff);
     nanoSleep(500000000);
 }
@@ -70,9 +70,11 @@ void displayWrite(const char* line1, const char* line2)
  ******************************************************************************/
 int displayScreenSaver()
 {
+    const unsigned int width = 5;
+    const unsigned int height = 3;
     time_t tOfTheDay;
     struct tm* tmOfTheDay;
-    char dateOfTheDay[12];
+    char dateOfTheDay[(width + 1) << 1];
     static int r = -1;
     int x;
     int y;
@@ -89,17 +91,17 @@ int displayScreenSaver()
     if (r == -1) {
         srand(tOfTheDay);
     }
-    r = rand() % 72;
-    x = r % 12;
-    y = r / 12;
+    r = rand() % ((LCD_COLS - (width - 1)) * (LCD_ROWS - (height - 1)));
+    x = r % (LCD_COLS - (width - 1));
+    y = r / (LCD_COLS - (width - 1));
 
-    dateOfTheDay[5] = '\0';
+    dateOfTheDay[width] = '\0';
     if (gOled->setCursor(y, x) != mraa::SUCCESS) {
         return 2;
     }
     gOled->write(dateOfTheDay);
-    gOled->setCursor(y + 2, x);
-    gOled->write(dateOfTheDay + 6);
+    gOled->setCursor(y + height - 1, x);
+    gOled->write(dateOfTheDay + width + 1);
 
     return 0;
 }
