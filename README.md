@@ -104,9 +104,7 @@ echo "/ union" >/mnt/b3/persistence.conf
 umount /mnt/b3
 ```
 
-# [Installation sur Raspberry PI](install-op-rpi/README.md)
-
-# [Installation sur Rock PI S](install-op-rockpi/README.md)
+# [Installation sur ARM](armbian/README.md)
 
 # Exemple de création d'un paquet debinst restreint
 ```

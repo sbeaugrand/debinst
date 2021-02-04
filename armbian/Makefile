@@ -21,7 +21,7 @@ ssh:
 
 .PHONY: rsync
 rsync:
-	@cd .. && user=$(USER) host=$(HOST) ./install-op-rockpi.sh
+	@cd .. && user=$(USER) host=$(HOST) ./armbian.sh
 
 .PHONY: install
 install:

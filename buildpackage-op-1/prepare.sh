@@ -21,14 +21,14 @@ source latex/cal.sh || return 1
 source latex/rdm.sh || return 1
 source projects/avr/avrusb.sh || return 1
 source projects/avr/usbtinyisp/usbtinyisp.sh || return 1
-source install-op-rockpi/install-10-WiringPi.sh || return 1
+source armbian/install-10-WiringPi.sh || return 1
 source install-op-m4acut.sh || return 1
 source install-op-diffchar.sh || return 1
 source install-op-imscripts.sh || return 1
 
 # source projects/arm/mraa.sh
-# source install-op-rockpi/install-11-mraa.sh
-# source install-op-rockpi/install-12-upm.sh
+# source armbian/install-11-mraa.sh
+# source armbian/install-12-upm.sh
 source install-op-rockpi-xc.sh || return 1
 
 # libdvdcss

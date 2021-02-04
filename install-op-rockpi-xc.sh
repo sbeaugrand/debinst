@@ -9,4 +9,4 @@ CMAKE_OPT="
 -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++
 "
 source projects/arm/mraa.sh
-source install-op-rockpi/install-12-upm.sh
+source armbian/install-12-upm.sh

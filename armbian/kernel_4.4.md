@@ -46,7 +46,7 @@ sudo apt-get install rsync
 exit
 make rsync USER=rock [HOST=rps]
 make ssh USER=rock
-cd install/debinst/install-op-rockpi
+cd install/debinst/armbian
 make install
 ```
 
@@ -62,7 +62,7 @@ make ssh USER=root [HOST=rps]  # password: 1234
 exit
 make rsync [USER=$USER] [HOST=rps]
 make ssh
-cd install/debinst/install-op-rockpi
+cd install/debinst/armbian
 sudo apt install make
 make install
 ```
@@ -140,12 +140,12 @@ make rk3308_linux_defconfig
 ssh rock@rps uname -r  # 4.4.143-52-rockchip-g7ed61b60d176
 make EXTRAVERSION=-52-rockchip-g7ed61b60d176 LOCALVERSION= drivers/media/rc/gpio-ir-recv.ko obj-m=gpio-ir-recv.o
 make EXTRAVERSION=-52-rockchip-g7ed61b60d176 LOCALVERSION= drivers/media/rc/ir-nec-decoder.ko obj-m=ir-nec-decoder.o
-cp drivers/media/rc/gpio-ir-recv.ko ~/install/debinst/install-op-rockpi/lirc/
-cp drivers/media/rc/ir-nec-decoder.ko ~/install/debinst/install-op-rockpi/lirc/
-cp ~/install/debinst/install-op-rockpi/lirc/rockpis-gpio-ir-recv-high-OR-low.dts arch/arm64/boot/dts/rockchip/overlay/rockpis-gpio-ir-recv.dts
+cp drivers/media/rc/gpio-ir-recv.ko ~/install/debinst/armbian/lirc/
+cp drivers/media/rc/ir-nec-decoder.ko ~/install/debinst/armbian/lirc/
+cp ~/install/debinst/armbian/lirc/rockpis-gpio-ir-recv-high-OR-low.dts arch/arm64/boot/dts/rockchip/overlay/rockpis-gpio-ir-recv.dts
 vi arch/arm64/boot/dts/rockchip/overlay/Makefile  # rockpis-gpio-ir-recv.dtbo
 make dtbs
-cp arch/arm64/boot/dts/rockchip/overlay/rockpis-gpio-ir-recv.dtbo ~/install/debinst/install-op-rockpi/lirc/
+cp arch/arm64/boot/dts/rockchip/overlay/rockpis-gpio-ir-recv.dtbo ~/install/debinst/armbian/lirc/
 ```
 
 # Modules for armbian kernel 4.4 (not needed for 5.9)
@@ -162,14 +162,14 @@ cp ../armbian-build/config/kernel/linux-rockpis-legacy.config .config
 make oldconfig
 sudo apt-get install libssl-dev
 make EXTRAVERSION=-rockpis LOCALVERSION= drivers/media/rc/gpio-ir-recv.ko obj-m=gpio-ir-recv.o
-cp drivers/media/rc/gpio-ir-recv.ko ~/install/debinst/install-op-rockpi/lirc/
+cp drivers/media/rc/gpio-ir-recv.ko ~/install/debinst/armbian/lirc/
 ```
 
 # Config
 ```
 make rsync [USER=$USER] [HOST=rps]
 make ssh
-cd install/debinst/install-op-rockpi
+cd install/debinst/armbian
 vi install-op-lirc.sh +/overlay  # rockpis-gpio-ir-recv-high-OR-low.dts
 make lirc
 sudo reboot

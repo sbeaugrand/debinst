@@ -10,7 +10,7 @@ year=`date +%Y`
 zone=C
 [ -z "$ipath" ] && ipath=/home/rock/install/debinst
 [ -z "$cpath" ] && cpath=$ipath/latex/cal
-[ -z "$vpath" ] && vpath=$ipath/install-op-rockpi/install-op-shutter
+[ -z "$vpath" ] && vpath=$ipath/armbian/install-op-shutter
 
 # ---------------------------------------------------------------------------- #
 ## \fn nearVacation

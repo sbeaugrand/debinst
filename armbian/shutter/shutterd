@@ -22,7 +22,7 @@
 case "$1" in
     start)
         sleep 120
-        cd /home/rock/install/debinst/install-op-rockpi/install-op-shutter
+        cd /home/rock/install/debinst/armbian/install-op-shutter
         touch /run/shutter.log
         date >>/run/shutter.log
         while ! /usr/sbin/ntpdate -u ntp.u-psud.fr; do

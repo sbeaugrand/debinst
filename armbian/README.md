@@ -47,7 +47,7 @@ make ssh USER=root [HOST=pi]  # password: 1234
 exit
 make rsync [USER=$USER] [HOST=pi]
 make ssh
-cd install/debinst/install-op-rockpi
+cd install/debinst/armbian
 which make >/dev/null 2>&1 || sudo apt install make
 make install
 ```
