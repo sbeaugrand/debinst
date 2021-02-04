@@ -4,14 +4,14 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-HOST ?= rps
+HOST ?= pi
 
 .SUFFIXES:
 
 .PHONY: all
 all:
 	@echo
-	@echo -n "Usage: make { ssh | rsync | install "
+	@echo -n "Usage: make [HOST=pi] { ssh | rsync | install "
 	@echo "| lirc | rtc | oled | mp3server }"
 	@echo
 

@@ -874,8 +874,12 @@ int state0normal()
         sendRequestAndReceive("ok");
         drawBuffer(0);
 #       if defined(__arm__) || defined(__aarch64__)
-        gDisplayMode = SCREEN_SAVER_MODE;
-        gettimeofday(&gTempo, NULL);
+        if (strncmp(gAlbumLine, "PAUSE", 5) != 0) {
+            gDisplayMode = SCREEN_SAVER_MODE;
+            gettimeofday(&gTempo, NULL);
+        } else {
+            gTempo.tv_sec = 0;
+        }
 #       else
         gTempo.tv_sec = 0;
 #       endif

@@ -7,8 +7,11 @@
 repo=$idir/../repo
 [ -d $repo ] || sudo -u $user mkdir $repo
 
-#gitClone https://github.com/eclipse/mraa.git || return 1
-gitClone https://github.com/radxa/mraa.git || return 1
+if [ `uname -n` = "orangepizero" ]; then
+    gitClone https://github.com/eclipse/mraa.git || return 1
+else
+    gitClone https://github.com/radxa/mraa.git || return 1
+fi
 
 dir=$bdir/mraa/build
 if notDir $dir; then

@@ -43,12 +43,12 @@ pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
 Démarrer sur Rock PI S
 ```
-make ssh USER=root [HOST=rps]  # password: 1234
+make ssh USER=root [HOST=pi]  # password: 1234
 exit
-make rsync [USER=$USER] [HOST=rps]
+make rsync [USER=$USER] [HOST=pi]
 make ssh
 cd install/debinst/install-op-rockpi
-sudo apt install make
+which make >/dev/null 2>&1 || sudo apt install make
 make install
 ```
 Optionnel:

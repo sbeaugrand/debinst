@@ -5,6 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROJECT = debinst
+ARCH ?= amd64
 
 .SUFFIXES:
 
@@ -45,7 +46,7 @@ pkgs:
 
 .PHONY: iso
 iso:
-	@./2simplecdd.sh simplecdd-op-1amd64 buildpackage-op-1
+	@./2simplecdd.sh simplecdd-op-1$(ARCH) buildpackage-op-1
 
 .PHONY: clean
 clean:
