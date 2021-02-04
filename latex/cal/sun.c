@@ -111,7 +111,7 @@ int main(int argc, char* argv[])
     double H3 = t3 + lon - a3;
     double h1 = DEG(asin(SIN(lat) * SIN(d1) + COS(lat) * COS(d1) * COS(H1)));
     double h3 = DEG(asin(SIN(lat) * SIN(d3) + COS(lat) * COS(d3) * COS(H3)));
-    m0 += - H2 / 360;
+    m0 += -H2 / 360;
     m1 += (h1 - h0) / (360 * COS(d1) * COS(lat) * SIN(H1));
     m2 += (h3 - h0) / (360 * COS(d3) * COS(lat) * SIN(H3));
 #   endif

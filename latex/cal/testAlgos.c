@@ -66,11 +66,11 @@ int main()
     test("Geometric mean longitude of the Sun",
          L = sunGeometricMeanLongitude(t), 201.807193);
     test("Mean anomaly of the Sun",
-         M = sunMeanAnomaly(t), 278.99396);
+         M = sunMeanAnomaly(t), 278.99397);
     test("Eccentricity of the Earth's orbit",
-         e = earthOrbitEccentricity(t), 0.016711651);
+         e = earthOrbitEccentricity(t), 0.016711668);
     test("Sun's equation of center C",
-         C = sunCenterEquation(t, M), -1.897321);
+         C = sunCenterEquation(t, M), -1.8973238);
     test("True geometric longitude referred to the mean equinox of the date",
          sunTrueLongitude(L, C), theta = 199.90987);
     test("Radius vector in astronomical units",

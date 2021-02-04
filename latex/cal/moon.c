@@ -26,7 +26,7 @@ int apogeeOrPerigee(int year, int month, int day, int apogee, double k)
     int hh;
     int mm;
 
-    t = moonApogeeOrPerigeeT(k);;
+    t = moonApogeeOrPerigeeT(k);
     // Julian Ephemeris Day
     jde = moonJulianEphemerisDay(k, t);
     // Moon's mean elongation at time JDE
@@ -75,7 +75,7 @@ int ascendingOrDescendingNode(int year, int month, int day,
     int hh;
     int mm;
 
-    t = moonNodeT(k);;
+    t = moonNodeT(k);
     D = moonNodeD(k, t);
     M = moonNodeM(k, t);
     Mp = moonNodeMp(k, t);
@@ -116,7 +116,7 @@ int northOrSouthMaximumDeclination(int year, int month, int day,
     int hh;
     int mm;
 
-    t = moonMaximumDeclinationT(k);;
+    t = moonMaximumDeclinationT(k);
     E = moonMaximumDeclinationE(t);
     if (north) {
         D = moonNorthernMaximumDeclinationD(k, t);

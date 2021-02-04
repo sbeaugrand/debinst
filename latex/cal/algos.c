@@ -3,11 +3,17 @@
  * \author Sebastien Beaugrand
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
- * \note Source: Astronomical algorithms - Jean Meeus - 1991
+ * \note Source 1: Astronomical algorithms - Jean Meeus - 1991
+ *       Source 2: Astronomical algorithms - Jean Meeus - 1998
+ *       Source 3: Calculs astronomiques   - Jean Meeus - 2014
  ******************************************************************************/
 #include <math.h>
 #include <time.h>
 #include "algos.h"
+
+//#define JM1991
+#define JM1998
+//#define JM2014
 
 /******************************************************************************!
  * \fn deg
@@ -30,7 +36,9 @@ reduceAngle(double a)
 
 /******************************************************************************!
  * \fn julianDay
- * \note (7.1)
+ * \note 1: (7.1) p61
+ *       2: (7.1) p61
+ *       3: (3-1) p24
  ******************************************************************************/
 double
 julianDay(int Y, int M, double D)
@@ -46,7 +54,9 @@ julianDay(int Y, int M, double D)
 
 /******************************************************************************!
  * \fn julianTime
- * \note (24.1)
+ * \note 1: (24.1) p151
+ *       2: (22.1) p143
+ *       3: (7.1) p35 (13-1) p53
  ******************************************************************************/
 double
 julianTime(double jd)
@@ -56,50 +66,89 @@ julianTime(double jd)
 
 /******************************************************************************!
  * \fn sunGeometricMeanLongitude
- * \note (24.2) (27.2)
+ * \note 1: (24.2) p151 (27.2) p171
+ *       2: (25.2) p163 (28.2) p183
+ *       3: (13) p53
  ******************************************************************************/
 double
 sunGeometricMeanLongitude(double t)
 {
-    //return reduceAngle(280.46645 + (36000.76983 + 0.0003032 * t) * t);
+    // 1:  reduceAngle(280.46645 + (36000.76983 + 0.0003032 * t) * t);
+    // 2:  reduceAngle(280.46646 + (36000.76983 + 0.0003032 * t) * t);
     t /= 10;
+#   ifdef JM1991
     return reduceAngle(280.4664567 +
                        (360007.6982779 +
                         (0.03032028 +
                          (1.0 / 49931 +
                           (-1.0 / 15299 - t / 1988000) * t) * t) * t) * t);
+#   else
+    return reduceAngle(280.4664567 +
+                       (360007.6982779 +
+                        (0.03032028 +
+                         (1.0 / 49931 +
+                          (-1.0 / 15300 - t / 2000000) * t) * t) * t) * t);
+#   endif
 }
 
 /******************************************************************************!
  * \fn sunMeanAnomaly
- * \note (24.3)
+ * \note 1: (21) p132 (24.3) p151
+ *       2: (22) p144 (25.3) p163
+ *       3: (13) p54
  ******************************************************************************/
 double
 sunMeanAnomaly(double t)
 {
+    //     reduceAngle(357.52772 +
+    //                 (35999.05034 + (-0.0001603 - t / 300000) * t) * t);
+
+#   ifdef JM1991
     return reduceAngle(357.52910 +
                        (35999.05030 + (-0.0001559 - 0.00000048 * t) * t) * t);
+#   endif
+#   ifdef JM1998
+    return reduceAngle(357.52911 +
+                       (35999.05029 + (-0.0001537) * t) * t);
+#   endif
+#   ifdef JM2014
+    return reduceAngle(357.5291 +
+                       (35999.0503 + (-0.000154) * t) * t);
+#   endif
 }
 
 /******************************************************************************!
  * \fn earthOrbitEccentricity
- * \note (24.4)
+ * \note 1: (24.4) p151
+ *       2: (25.4) p163
  ******************************************************************************/
 double
 earthOrbitEccentricity(double t)
 {
+#   ifdef JM1991
     return 0.016708617 + (-0.000042037 - 0.0000001236 * t) * t;
+#   else
+    return 0.016708634 + (-0.000042037 - 0.0000001267 * t) * t;
+#   endif
 }
 
 /******************************************************************************!
  * \fn sunCenterEquation
+ * \note 1: (24) p152
+ *       2: (25) p164
  ******************************************************************************/
 double
 sunCenterEquation(double t, double M)
 {
+#   ifdef JM1991
     return
         (1.914600 + (-0.004817 - 0.000014 * t) * t) * SIN(M) +
         (0.019993 - 0.000101 * t) * SIN(2 * M) + 0.000290 * SIN(3 * M);
+#   else
+    return
+        (1.914602 + (-0.004817 - 0.000014 * t) * t) * SIN(M) +
+        (0.019993 - 0.000101 * t) * SIN(2 * M) + 0.000289 * SIN(3 * M);
+#   endif
 }
 
 /******************************************************************************!
@@ -122,7 +171,8 @@ sunTrueAnomaly(double M, double C)
 
 /******************************************************************************!
  * \fn sunRadius
- * \note (24.5)
+ * \note 1: (24.5) p152
+ *       2: (25.5) p164
  ******************************************************************************/
 double
 sunRadius(double e, double nu)
@@ -132,6 +182,8 @@ sunRadius(double e, double nu)
 
 /******************************************************************************!
  * \fn sunApparentLongitude
+ * \note 1: (24) p153
+ *       2: (25) p164
  ******************************************************************************/
 double
 sunApparentLongitude(double t, double theta)
@@ -141,7 +193,8 @@ sunApparentLongitude(double t, double theta)
 
 /******************************************************************************!
  * \fn eclipticObliquity
- * \note (21.2)
+ * \note 1: (21.2) p135
+ *       2: (22.2) p147
  ******************************************************************************/
 double
 eclipticObliquity(double t)
@@ -154,7 +207,8 @@ eclipticObliquity(double t)
 
 /******************************************************************************!
  * \fn eclipticObliquityCorrected
- * \note (24.8)
+ * \note 1: (24.8) p153
+ *       2: (25.8) p164
  ******************************************************************************/
 double
 eclipticObliquityCorrected(double t, double eps)
@@ -164,7 +218,8 @@ eclipticObliquityCorrected(double t, double eps)
 
 /******************************************************************************!
  * \fn sunApparentRightAscension
- * \note (24.6)
+ * \note 1: (24.6) p153
+ *       2: (25.6) p165
  ******************************************************************************/
 double
 sunApparentRightAscension(double eps, double theta)
@@ -179,7 +234,8 @@ sunApparentRightAscension(double eps, double theta)
 
 /******************************************************************************!
  * \fn sunApparentDeclination
- * \note (24.7)
+ * \note 1: (24.7) p153
+ *       2: (25.7) p165
  ******************************************************************************/
 double
 sunApparentDeclination(double eps, double theta)
@@ -189,7 +245,8 @@ sunApparentDeclination(double eps, double theta)
 
 /******************************************************************************!
  * \fn sideralTime
- * \note (11.4)
+ * \note 1: (11.4) p84
+ *       2: (12.4) p88
  ******************************************************************************/
 double
 sideralTime(double jd, double t)
@@ -201,7 +258,9 @@ sideralTime(double jd, double t)
 
 /******************************************************************************!
  * \fn nutation
- * \note (21.A)
+ * \note 1: (21) p132
+ *       2: (22) p144
+ *       3: (13) p54
  ******************************************************************************/
 void
 nutation(double t, double* nutationInLongitude, double* nutationInObliquity)
@@ -211,13 +270,22 @@ nutation(double t, double* nutationInLongitude, double* nutationInObliquity)
     // Mean anomaly of the Sun (Earth)
     double M = 357.52772 + (35999.050340 + (-0.0001603 - t / 300000) * t) * t;
     // Mean anomaly of the Moon
+#   ifdef JM2014
+    double Mp = 134.9634 + (477198.8675 + (0.008721 + t / 56250) * t) * t;
+#   else
     double Mp = 134.96298 + (477198.867398 + (0.0086972 + t / 56250) * t) * t;
+#   endif
     // Moon's argument of latitude
     double F = 93.27191 + (483202.017538 + (-0.0036825 + t / 327270) * t) * t;
     // Longitude of the ascending node of the Moon's mean orbit on the
     // ecliptic, measured form the mean equinox of the date
+#   ifdef JM2014
+    double
+        omega = 125.0443 + (-1934.1363 + (0.002075 + t / 450000) * t) * t;
+#   else
     double
         omega = 125.04452 + (-1934.136261 + (0.0020708 + t / 450000) * t) * t;
+#   endif
 
     *nutationInLongitude = 0;
     *nutationInObliquity = 0;
@@ -401,7 +469,8 @@ apparentSideralTime(double theta0, double nutationInLongitude, double eps)
 
 /******************************************************************************!
  * \fn altitude
- * \note (12.6)
+ * \note 1: (12.6) p89
+ *       2: (13.6) p93
  ******************************************************************************/
 double
 altitude(double ra, double dec, double theta0, double lat, double lon)
@@ -412,7 +481,8 @@ altitude(double ra, double dec, double theta0, double lat, double lon)
 
 /******************************************************************************!
  * \fn equationOfTime
- * \note (27.1)
+ * \note 1: (27.1) p171
+ *       2: (28.1) p171
  ******************************************************************************/
 double
 equationOfTime(double L, double ra, double nutationInLongitude, double eps)
@@ -503,8 +573,9 @@ jde2date(double jde, int* YY, int* MM, int* DD, int* hh, int* mm)
 }
 
 /******************************************************************************!
- * \fn moonApogeeOrPerigee
- * \note (48.1)
+ * \fn moonJulianEphemerisDay
+ * \note 1: (48.1) p 325
+ *       2: (50.1) p 355
  ******************************************************************************/
 double
 moonJulianEphemerisDay(double k, double t)
@@ -516,6 +587,8 @@ moonJulianEphemerisDay(double k, double t)
 
 /******************************************************************************!
  * \fn moonMeanElongation
+ * \note 1: (48) p 326
+ *       2: (50) p 356
  ******************************************************************************/
 double
 moonMeanElongation(double k, double t)
@@ -527,24 +600,40 @@ moonMeanElongation(double k, double t)
 
 /******************************************************************************!
  * \fn moonSunMeanAnomaly
+ * \note 1: (48) p 326
+ *       2: (50) p 356
  ******************************************************************************/
 double
 moonSunMeanAnomaly(double k, double t)
 {
+#   ifdef JM1991
+    return
+        reduceAngle(347.3477 + 27.1577721 * k +
+                    (-0.0008323 - 0.0000010 * t) * t * t);
+#   else
     return
         reduceAngle(347.3477 + 27.1577721 * k +
                     (-0.0008130 - 0.0000010 * t) * t * t);
+#   endif
 }
 
 /******************************************************************************!
  * \fn moonArgumentOfLatitude
+ * \note 1: (48) p 326
+ *       2: (50) p 356
  ******************************************************************************/
 double
 moonArgumentOfLatitude(double k, double t)
 {
+#   ifdef JM1991
+    return
+        reduceAngle(316.6109 + 364.5287911 * k +
+                    (-0.0125131 - 0.0000148 * t) * t * t);
+#   else
     return
         reduceAngle(316.6109 + 364.5287911 * k +
                     (-0.0125053 - 0.0000148 * t) * t * t);
+#   endif
 }
 
 /******************************************************************************!
