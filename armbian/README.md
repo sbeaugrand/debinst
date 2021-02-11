@@ -33,9 +33,6 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 
 # Installation sur armbian
-Attention : en attendant que le commit https://github.com/armbian/build/commit/fa2fd517d12d09b04a751a34e614d75ab7a8699e
-soit fusionné dans la branche https://github.com/armbian/build/commits/v20.11, il faut prendre la version de test (unstable).
-Par exemple : Armbian_21.02.0-trunk.56_Rockpi-s_groovy_current_5.9.16_minimal.img.xz
 ```
 xz -k -d Armbian_20.11.6_Rockpi-s_buster_current_5.9.14_minimal.img.xz
 umount /media/$USER/*
@@ -50,6 +47,22 @@ make ssh
 cd install/debinst/armbian
 which make >/dev/null 2>&1 || sudo apt install make
 make install
+```
+Attention : en attendant que la branche stable 21.02 boote
+([bug AR-593](https://armbian.atlassian.net/browse/AR-593)), il faut prendre la
+version 20.11 et le [fix usb port](https://github.com/armbian/build/commit/fa2fd51) :
+```
+git clone https://github.com/armbian/build.git armbian-build
+cd armbian-build
+./compile.sh  BOARD=rockpi-s BRANCH=current KERNEL_ONLY=yes KERNEL_CONFIGURE=no
+export user=xxx
+export host=xxx
+scp output/debs/linux-image-current-rockchip64_21.02.0-trunk_arm64.deb $user@$host:/home/$user/
+scp output/debs/linux-dtb-current-rockchip64_21.02.0-trunk_arm64.deb $user@$host:/home/$user/
+ssh $user@$host
+sudo dpkg -i linux-image-current-rockchip64_21.02.0-trunk_arm64.deb
+sudo dpkg -i linux-dtb-current-rockchip64_21.02.0-trunk_arm64.deb
+sudo reboot
 ```
 Optionnel:
 
