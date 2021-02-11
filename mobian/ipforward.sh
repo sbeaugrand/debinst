@@ -57,9 +57,12 @@ if [ "$ret" != n ]; then
     # sudo nft list ruleset
 fi
 
-echo
-echo "#mobian> sudo ip route add default via $debianIpaddr"
-echo "#debian> sudo vi /etc/hosts +  # $mobianIpaddr mobian"
-echo "#debian> ssh mobian@mobian"
-echo "#mobian> vi .bashrc +  # alias ipf='sudo ip route add default via $debianIpaddr'"
-echo
+if ! grep -q mobian /etc/hosts; then
+    echo
+    echo "Todo:"
+    echo
+    echo "sudo vi /etc/hosts +  # $mobianIpaddr mobian"
+    echo "ssh mobian@mobian"
+    echo "vi .bashrc +  # alias ipf='sudo ip route add default via $debianIpaddr'"
+    echo
+fi
