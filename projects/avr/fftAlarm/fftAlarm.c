@@ -33,6 +33,7 @@ int gSkipCount;
 int gAlarmPulse;
 int gAlarmSpace;
 int gAlarm;
+int gAlarmCount;
 
 /******************************************************************************!
  * \fn setup
@@ -54,6 +55,7 @@ void setup()
     gAlarmPulse = 0;
     gAlarmSpace = 0;
     gAlarm = 0;
+    gAlarmCount = 0;
 }
 
 /******************************************************************************!
@@ -165,7 +167,8 @@ void loop()
     }
 
 #   ifdef tinyX5
-    if (j < 0) {
+    if (gAlarmCount) {
+    } else if (j < 0) {
         digitalWrite(PINB2, 0);
         digitalWrite(PINB1, 0);
         digitalWrite(PINB0, 0);
@@ -208,8 +211,14 @@ void loop()
             // avec espaces ne depassant pas 1.5 seconde
             // __________------______------______------__________
             //            0.5s  0.5s  0.5s  0.5s  0.5s
+            ++gAlarmCount;
 #           ifdef tinyX5
-            digitalWrite(PINB4, 1);
+            if (gAlarmCount == 1 || gAlarmCount == 24) {  // 24 * 2.5s = 60s
+                digitalWrite(PINB4, 1);
+            }
+            digitalWrite(PINB2, gAlarmCount & 1);
+            digitalWrite(PINB1, gAlarmCount & 2);
+            digitalWrite(PINB0, gAlarmCount & 4);
 #           else
             fprintf(stderr, "Alarme = %d\n", 1);
 #           endif
@@ -237,11 +246,10 @@ void loop()
     if (gAlarm == 1) {
 #       ifdef tinyX5
         digitalWrite(PINB4, 0);
-        gAlarm = -1;
 #       else
         fprintf(stderr, "Alarme = %d\n", 0);
-        gAlarm = 0;
 #       endif
+        gAlarm = 0;
     } else if (gAlarm > 1) {
         --gAlarm;
     }
