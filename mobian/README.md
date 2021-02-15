@@ -34,8 +34,7 @@ termes.
 
 # Sharing internet from your PC via USB with iftables
 ```
-./ipforward.sh
-ssh mobian@mobian
+make ssh
 sudo vi /etc/resolv.conf
 # nameserver 212.27.40.240  # free DNS 1
 # nameserver 212.27.40.241  # free DNS 2
@@ -45,6 +44,5 @@ See also: [mobian networking](https://wiki.mobian-project.org/doku.php?id=networ
 
 # Carnet d'adresse
 ```
-scp .local/share/evolution/addressbook/system/contacts.db mobian@mobian:/home/mobian/.local/share/evolution/addressbook/system/
-ssh mobian@mobian systemctl --user restart evolution-addressbook-factory
+make contacts
 ```

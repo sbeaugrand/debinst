@@ -16,7 +16,6 @@ source install-61-colorgcc.sh || return 1
 source install-op-fonts-morse.sh || return 1
 source install-op-eeplot.sh || return 1
 source install-op-kiplot.sh || return 1
-source install-op-rpi/install-11-bcm.sh || return 1
 source latex/cal.sh || return 1
 source latex/rdm.sh || return 1
 source projects/avr/avrusb.sh || return 1

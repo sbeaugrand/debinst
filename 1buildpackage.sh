@@ -69,6 +69,9 @@ for f in $list; do
     if echo "$f" | grep -q "buildpackage-"; then
         continue
     fi
+    if echo "$f" | grep -q "not-often-used"; then
+        continue
+    fi
     if ! grep -q "source $f" $buildpackage/prepare.sh; then
         echo "warn: $buildpackage/prepare.sh: missing source $f"
     fi
