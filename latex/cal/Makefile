@@ -121,7 +121,7 @@ build/config.tex: $(MAKEFILE_LIST)
 	@echo "\setlength{\height}{$(HEIGHT)cm}" >>$@
 
 build/%.dat: cadran.sh build/cadran
-	cadran.sh $(YEAR)\
+	$< $(YEAR)\
 	 $(LAT) $(LON) $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $@
 
 build/cadran: build/algos.o build/cadran.o
@@ -149,8 +149,34 @@ cadran.pdf: cadran.tex build/config.tex\
  build/hiv14_5.dat build/pri14_5.dat build/ete14_5.dat build/aut14_5.dat\
  build/hiv15_5.dat build/pri15_5.dat build/ete15_5.dat build/aut15_5.dat\
  build/hiv16_5.dat build/pri16_5.dat build/ete16_5.dat build/aut16_5.dat
-	cd build && pdflatex --halt-on-error ../cadran.tex
+	cd build && pdflatex --halt-on-error ../$<
 	mv build/$@ .
+
+.PHONY: gcode
+gcode: cadran.nc
+cadran.nc: gcode.py build/config.tex\
+ build/hiv07.dat build/pri07.dat build/ete07.dat build/aut07.dat\
+ build/hiv08.dat build/pri08.dat build/ete08.dat build/aut08.dat\
+ build/hiv09.dat build/pri09.dat build/ete09.dat build/aut09.dat\
+ build/hiv10.dat build/pri10.dat build/ete10.dat build/aut10.dat\
+ build/hiv11.dat build/pri11.dat build/ete11.dat build/aut11.dat\
+ build/hiv12.dat build/pri12.dat build/ete12.dat build/aut12.dat\
+ build/hiv13.dat build/pri13.dat build/ete13.dat build/aut13.dat\
+ build/hiv14.dat build/pri14.dat build/ete14.dat build/aut14.dat\
+ build/hiv15.dat build/pri15.dat build/ete15.dat build/aut15.dat\
+ build/hiv16.dat build/pri16.dat build/ete16.dat build/aut16.dat\
+ build/hiv17.dat build/pri17.dat build/ete17.dat build/aut17.dat\
+ build/hiv07_5.dat build/pri07_5.dat build/ete07_5.dat build/aut07_5.dat\
+ build/hiv08_5.dat build/pri08_5.dat build/ete08_5.dat build/aut08_5.dat\
+ build/hiv09_5.dat build/pri09_5.dat build/ete09_5.dat build/aut09_5.dat\
+ build/hiv10_5.dat build/pri10_5.dat build/ete10_5.dat build/aut10_5.dat\
+ build/hiv11_5.dat build/pri11_5.dat build/ete11_5.dat build/aut11_5.dat\
+ build/hiv12_5.dat build/pri12_5.dat build/ete12_5.dat build/aut12_5.dat\
+ build/hiv13_5.dat build/pri13_5.dat build/ete13_5.dat build/aut13_5.dat\
+ build/hiv14_5.dat build/pri14_5.dat build/ete14_5.dat build/aut14_5.dat\
+ build/hiv15_5.dat build/pri15_5.dat build/ete15_5.dat build/aut15_5.dat\
+ build/hiv16_5.dat build/pri16_5.dat build/ete16_5.dat build/aut16_5.dat
+	@$< >$@
 
 portrait-%.pdf: %.pdf
 	pdf90 -q -o $@ $<

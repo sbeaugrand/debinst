@@ -14,6 +14,7 @@ build
 *rescue*
 *-cache*
 *.ps
+*.nc
 *-pr-*
 */amd64/profiles/amd64.packages
 */amd64/profiles/amd64.postinst

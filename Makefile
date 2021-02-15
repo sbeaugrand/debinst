@@ -74,6 +74,7 @@ tar:
 	--exclude=*rescue* \
 	--exclude=*-cache* \
 	--exclude=*.ps \
+	--exclude=*.nc \
 	--exclude=*.ged \
 	--exclude=*.hex \
 	--exclude=*.a \
@@ -98,6 +99,7 @@ dist:
 	--exclude=*rescue* \
 	--exclude=*-cache* \
 	--exclude=*.ps \
+	--exclude=*.nc \
 	--exclude=*.ged \
 	--exclude=*.hex \
 	--exclude=*.a \
