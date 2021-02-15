@@ -284,7 +284,7 @@ int main()
     test("apogee (error not found)", moonApogee(t, D, M, F), -0.4654);
 
     // 48.perigee
-    gTestRef = "48.perigee";
+    gTestRef = "48.perigee.1";
     year = 1997;
     month = 12;
     day = 9;
@@ -296,14 +296,29 @@ int main()
     F = moonArgumentOfLatitude(k, t);
     jd = moonJulianEphemerisDay(k, t) + moonPerigee(t, D, M, F);
     jde2date(jd, &YY, &MM, &DD, &hh, &mm);
-    YY = year;
-    MM = month;
-    DD = day;
     test("YY", YY, year);
     test("MM", MM, month);
     test("DD", DD, day);
     test("hh", hh, 16 + gmtOffset(YY, MM, DD));
     test("mm", mm, 9);
+
+    gTestRef = "48.perigee.2";
+    year = 1990;
+    month = 12;
+    day = 2;
+    fYear = yearWithDecimals(year, month, day);
+    k = moonApogeeOrPerigeeK(fYear);
+    t = moonApogeeOrPerigeeT(k);
+    D = moonMeanElongation(k, t);
+    M = moonSunMeanAnomaly(k, t);
+    F = moonArgumentOfLatitude(k, t);
+    jd = moonJulianEphemerisDay(k, t) + moonPerigee(t, D, M, F);
+    jde2date(jd, &YY, &MM, &DD, &hh, &mm);
+    test("YY", YY, year);
+    test("MM", MM, month);
+    test("DD", DD, day);
+    test("hh", hh, 10 + gmtOffset(YY, MM, DD));
+    test("mm", mm, 8);
 
     // 49.a
     gTestRef = "49.a";
@@ -323,11 +338,11 @@ int main()
     double P;
     double E;
     D = moonNodeD(k, t);
-    test("D", D, 308.28735);
+    test("D", D, 308.28736);
     M = moonNodeM(k, t);
     test("M", M, 137.93728);
     Mp = moonNodeMp(k, t);
-    test("Mp", Mp, 78.707351);  // 78.70735
+    test("Mp", Mp, 78.707366);  // 78.70737
     omega = moonNodeOmega(k, t);
     test("omega", omega, 8.9449464);  // 8.9449
     V = moonNodeV(t);
@@ -338,7 +353,7 @@ int main()
     test("E", E, 1.0003185);  // 1.000319
     jd = moonNode(k, t, D, M, Mp, omega, V, P, E);
     test("jde", jd, 2446938.76803);
-    test("jde", jd - 2446938, 0.76802911);  // 0.76803
+    test("jde", jd - 2446938, 0.76802913);  // 0.76803
     YY = year;
     MM = month;
     DD = 23;
