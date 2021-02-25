@@ -154,7 +154,7 @@ cadran.pdf: cadran.tex build/config.tex\
 
 .PHONY: gcode
 gcode: cadran.nc
-cadran.nc: gcode.py build/config.tex\
+cadran.nc: gcode.py gcode7seg.py build/config.tex\
  build/hiv07.dat build/pri07.dat build/ete07.dat build/aut07.dat\
  build/hiv08.dat build/pri08.dat build/ete08.dat build/aut08.dat\
  build/hiv09.dat build/pri09.dat build/ete09.dat build/aut09.dat\
