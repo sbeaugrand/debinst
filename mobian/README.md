@@ -46,3 +46,8 @@ See also: [mobian networking](https://wiki.mobian-project.org/doku.php?id=networ
 ```
 make contacts
 ```
+
+# X11 forwarding example to configure mobile data connection
+ssh mobian@mobian -Y
+mobian@mobian:~$ sudo cp .Xauthority /root/
+mobian@mobian:~$ sudo GDK_BACKEND=x11 nm-connection-editor
