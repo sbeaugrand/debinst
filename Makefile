@@ -81,6 +81,7 @@ tar:
 	--exclude=*.ko \
 	--exclude=*.dtbo \
 	--exclude=homepage/html \
+	--exclude=__pycache__ \
 	\
 	--exclude=homepage/tgz \
 	--exclude=homepage/png \
@@ -106,6 +107,7 @@ dist:
 	--exclude=*.ko \
 	--exclude=*.dtbo \
 	--exclude=homepage/html \
+	--exclude=__pycache__ \
 	\
 	--exclude=*.tgz \
 	--exclude=*.png \

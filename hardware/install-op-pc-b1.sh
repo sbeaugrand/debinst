@@ -7,6 +7,7 @@ install-op-imscripts.sh
 install-op-dafont.sh
 install-op-firefox-abp.sh
 install-op-firefox-cookies.sh
+install-op-firefox-automute.sh
 install-op-meteo.sh
 install-op-ssh-server.sh
 install-op-upgrades.sh

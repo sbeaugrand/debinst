@@ -23,3 +23,4 @@ build
 */i386/profiles/i386.postinst
 */i386/simple-cdd.conf
 README.html
+__pycache__
