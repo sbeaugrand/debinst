@@ -4,8 +4,6 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-G0 = 'G0'
-
 class gcodeFont:
     def __init__(self, width, sep):
         self.width = width
@@ -19,10 +17,10 @@ class gcode7seg(gcodeFont):
         super().__init__(width, sep)
 
     def __uv2gcode(self, code, x, y):
-        print('{0} X{1:.2f} Y{2:.2f}'.format(code, x, y))
+        print('{} X{:.2f} Y{:.2f}'.format(code, x, y))
 
     def __segH2gcode(self, x, y):
-        self.__uv2gcode(G0, x, y)
+        self.__uv2gcode('G0', x, y)
         print('M3')
         self.__uv2gcode('G1', self.width / 8, self.width / 8)
         self.__uv2gcode('G1', self.width - self.width / 4, 0)
@@ -31,10 +29,10 @@ class gcode7seg(gcodeFont):
         self.__uv2gcode('G1', -self.width + self.width / 4, 0)
         self.__uv2gcode('G1', -self.width / 8, self.width / 8)
         print('M5')
-        self.__uv2gcode(G0, -x, -y)
+        self.__uv2gcode('G0', -x, -y)
 
     def __segV2gcode(self, x, y):
-        self.__uv2gcode(G0, x, y)
+        self.__uv2gcode('G0', x, y)
         print('M3')
         self.__uv2gcode('G1', self.width / 8, self.width / 8)
         self.__uv2gcode('G1', 0, self.width - self.width / 4)
@@ -43,7 +41,7 @@ class gcode7seg(gcodeFont):
         self.__uv2gcode('G1', 0, -self.width + self.width / 4)
         self.__uv2gcode('G1', self.width / 8, -self.width / 8)
         print('M5')
-        self.__uv2gcode(G0, -x, -y)
+        self.__uv2gcode('G0', -x, -y)
 
     def __digit2gcode(self, d):
         if d != 1 and d != 4:
@@ -66,14 +64,14 @@ class gcode7seg(gcodeFont):
         if n < 0 or n > 9:
             return 0
         self.__digit2gcode(n)
-        self.__uv2gcode(G0, self.width + self.sep, 0)
+        self.__uv2gcode('G0', self.width + self.sep, 0)
         return 1
 
     def draw(self, s):
-        print('({0})'.format(s))
+        print('({})'.format(s))
         print('G91')
         l = 0
         for c in s:
             l += self.__drawChar(c)
-        #self.__uv2gcode(G0, -l * (self.width + self.sep), 0)
+        #self.__uv2gcode('G0', -l * (self.width + self.sep), 0)
         print('G90')

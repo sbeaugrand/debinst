@@ -10,11 +10,10 @@ from gcode7seg import *
 scale = 10
 hmin = 7
 hmax = 17
-sregular = 100  # Puissance du laser en pourmille (vitesse de rotation)
+sregular = 100  # Puissance du laser 15W en pourmille (vitesse de rotation)
 fregular = 500  # Vitesse de déplacement en mm/min
 sbold = 300
 fbold = 300
-G0 = 'G0'
 
 with open("build/config.tex") as f:
     for line in f:
@@ -36,19 +35,19 @@ else:
 marginX = 5
 
 # ---------------------------------------------------------------------------- #
-# \fn xy2gcode
+## \fn xy2gcode
 # ---------------------------------------------------------------------------- #
 def xy2gcode(code, x, y):
-    print('{0} X{1:.2f} Y{2:.2f}'.format(code, x + offsetX, y + offsetY))
+    print('{} X{:.2f} Y{:.2f}'.format(code, x + offsetX, y + offsetY))
 
 # ---------------------------------------------------------------------------- #
-# \fn uv2gcode
+## \fn uv2gcode
 # ---------------------------------------------------------------------------- #
 def uv2gcode(code, x, y):
-    print('{0} X{1:.2f} Y{2:.2f}'.format(code, x, y))
+    print('{} X{:.2f} Y{:.2f}'.format(code, x, y))
 
 # ---------------------------------------------------------------------------- #
-# \fn dat2gcode
+## \fn dat2gcode
 # ---------------------------------------------------------------------------- #
 def dat2gcode(file):
     global first
@@ -60,35 +59,35 @@ def dat2gcode(file):
             if x >= marginX and x < width - marginX and \
                y >= marginY and y < height - marginY:
                 if first:
-                    uv2gcode(G0, x, y)
+                    uv2gcode('G0', x, y)
                     print('M3')
                     first = False
                 else:
                     uv2gcode('G1', x, y)
 
 # ---------------------------------------------------------------------------- #
-# \fn analemme
+## \fn analemme
 # ---------------------------------------------------------------------------- #
 def analemme(hour):
     global first
     first = True
     if hour.find('_') >= 0:
-        print('S{0}'.format(sregular))
-        print('G0 F{0}'.format(fregular))
-    dat2gcode('build/ete{0}.dat'.format(hour))
-    dat2gcode('build/aut{0}.dat'.format(hour))
-    dat2gcode('build/hiv{0}.dat'.format(hour))
-    dat2gcode('build/pri{0}.dat'.format(hour))
+        print('S{}'.format(sregular))
+        print('G0 F{}'.format(fregular))
+    dat2gcode('build/ete{}.dat'.format(hour))
+    dat2gcode('build/aut{}.dat'.format(hour))
+    dat2gcode('build/hiv{}.dat'.format(hour))
+    dat2gcode('build/pri{}.dat'.format(hour))
     print('M5')
     if hour.find('_') >= 0:
-        print('S{0}'.format(sbold))
-        print('G0 F{0}'.format(fbold))
+        print('S{}'.format(sbold))
+        print('G0 F{}'.format(fbold))
 
 # ---------------------------------------------------------------------------- #
-# \fn decorations
+## \fn decorations
 # ---------------------------------------------------------------------------- #
 def decorations(hour):
-    with open('build/{0}{1}.dat'.format(saison, hour)) as f:
+    with open('build/{}{}.dat'.format(saison, hour)) as f:
         x1, y1 = [float(x) * scale for x in f.readline().split()]
         x2, y2 = [float(x) * scale for x in f.readline().split()]
         x1 += offsetX
@@ -97,53 +96,54 @@ def decorations(hour):
         y2 += offsetY
         if x1 >= marginX and x1 < width - marginX and \
            y1 >= marginY and y1 < height - marginY:
-            print('{0} X{1:.2f} Y{2:.2f}'.format(G0, x1 + 0.5, y1))
+            print('{} X{:.2f} Y{:.2f}'.format('G0', x1 + 0.5, y1))
             print('M3')
-            print('G3 X{0:.2f} Y{1:.2f} I-0.5'.format(x1 + 0.5, y1))
+            print('G3 X{:.2f} Y{:.2f} I-0.5'.format(x1 + 0.5, y1))
             print('M5')
             if hour.find('_') < 0:
                 if saison == 'hiv':
-                    uv2gcode(G0, x1 - font.width, y1 + font.width)
-                    font.draw('{0}'.format(int(hour) + 1))
+                    uv2gcode('G0', x1 - font.width, y1 + font.width)
+                    font.draw('{}'.format(int(hour) + 1))
                 if saison == 'ete':
-                    uv2gcode(G0, x1 - font.width, y1 - font.width * 3);
-                    font.draw('{0}'.format(int(hour) + 2))
+                    uv2gcode('G0', x1 - font.width, y1 - font.width * 3);
+                    font.draw('{}'.format(int(hour) + 2))
 
 # ---------------------------------------------------------------------------- #
-# \fn loop
+## \fn loop
 # ---------------------------------------------------------------------------- #
 def loop(a, b, f):
     if a < b:
         for i in range(a, b):
-            f('{0:02d}'.format(i))
-            f('{0:02d}_5'.format(i))
-        f('{0:02d}'.format(b))
+            f('{:02d}'.format(i))
+            f('{:02d}_5'.format(i))
+        f('{:02d}'.format(b))
     else:
-        f('{0:02d}'.format(b))
+        f('{:02d}'.format(b))
         for i in range(a - 1, b - 1, -1):
-            f('{0:02d}_5'.format(i))
-            f('{0:02d}'.format(i))
+            f('{:02d}_5'.format(i))
+            f('{:02d}'.format(i))
 
 # ---------------------------------------------------------------------------- #
-# \fn main
+# main
 # ---------------------------------------------------------------------------- #
 offsetX = width / 2
 offsetY = height - sousStylaire - marginY
 
 print('G21')  # Programmation en mm
-print('S{0}'.format(sbold))
-print('G0 F{0}'.format(fbold))
+print('S{}'.format(sbold))
+print('G0 F{}'.format(fbold))
 
 first = True
 loop(hmin, hmax, analemme)
 
-xy2gcode(G0, width / 2 - marginX, 0)
+xy2gcode('G0', width / 2 - marginX, 0)
 print('M3')
 xy2gcode('G1', 0, 0)
+print('(sous-stylaire)')
 xy2gcode('G1', 0, sousStylaire)
 print('M5')
 
-xy2gcode(G0, 0, 0)
+xy2gcode('G0', 0, 0)
 print('M3')
 xy2gcode('G1', -width / 2 + marginX, 0)
 print('M5')
