@@ -32,12 +32,33 @@ Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
 pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 
+# Installation sur mobian
+```
+xz -k -d mobian-pinephone-phosh-20201215.img.gz
+umount /media/$USER/*
+pv mobian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
+```
+Démarrer King's Cross sur PinePhone
+```
+debian> ./ipforward.sh
+mobian$ echo "nameserver 212.27.40.240" | sudo tee /etc/resolv.conf
+mobian$ echo "nameserver 212.27.40.241" | sudo tee /etc/resolv.conf
+mobian$ sudo ip route add default via 10.66.0.2
+mobian$ sudo apt update
+mobian$ sudo apt install openssh-server
+debian> make rsync
+debian> make ssh
+sudo su
+passwd
+exit
+cd install/debinst/mobian
+sudo apt install make
+make install
+```
+
 # Sharing internet from your PC via USB with iftables
 ```
 make ssh
-sudo vi /etc/resolv.conf
-# nameserver 212.27.40.240  # free DNS 1
-# nameserver 212.27.40.241  # free DNS 2
 ipf
 ```
 See also: [mobian networking](https://wiki.mobian-project.org/doku.php?id=networking)
@@ -48,6 +69,8 @@ make contacts
 ```
 
 # X11 forwarding example to configure mobile data connection
-ssh mobian@mobian -Y
+```
+make xssh
 mobian@mobian:~$ sudo cp .Xauthority /root/
 mobian@mobian:~$ sudo GDK_BACKEND=x11 nm-connection-editor
+```

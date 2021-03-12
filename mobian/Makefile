@@ -16,13 +16,26 @@ endef
 .PHONY: all
 all:
 	@echo
-	@echo "Usage: make { ssh | contacts }"
+	@echo "Usage: make { rsync | install | ssh | xssh | contacts }"
 	@echo
+
+.PHONY: rsync
+rsync:
+	@cd .. && ./mobian.sh
+
+.PHONY: install
+install:
+	@../0install.sh
 
 .PHONY: ssh
 ssh:
 	@$(call ipforward)
 	@ssh mobian@mobian; true
+
+.PHONY: xssh
+xssh:
+	@$(call ipforward)
+	@ssh mobian@mobian -Y; true
 
 .PHONY: contacts
 contacts:
