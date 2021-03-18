@@ -9,6 +9,11 @@ repo=$idir/../repo
 
 if [ `uname -n` = "orangepizero" ]; then
     gitClone https://github.com/eclipse/mraa.git || return 1
+    if notFile $bdir/mraa/src/arm/orangepizero.c; then
+        pushd $bdir/mraa || return 1
+        git apply $idir/projects/arm/mraa.patch
+        popd
+    fi
 else
     gitClone https://github.com/radxa/mraa.git || return 1
 fi

@@ -65,6 +65,15 @@ int setLinuxClock()
     int clock[8];
 
     ds1302clockRead(clock);
+#   ifndef NDEBUG
+    fprintf(stdout, "%d %d %d %d %d %d\n",
+            clock[RTC_MONTH],
+            clock[RTC_DATE],
+            clock[RTC_HOURS],
+            clock[RTC_MINS],
+            clock[RTC_YEAR],
+            clock[RTC_SECS]);
+#   endif
 
     // MMDDhhmm[[CC]YY][.ss]
     sprintf(command, "/bin/date %02d%02d%02d%02d20%02d.%02d",

@@ -12,7 +12,7 @@ SERVICE = rtc
 CFLAGS = -DROCKPIS
 DEVLIB = $(HOME)/data/install-build/WiringPi/devLib
 OBJECTS = $(DEVLIB)/ds1302.o $(SERVICE).o
-CFLAGS += -I$(DEVLIB) -I.
+CFLAGS += -I$(DEVLIB) -I. -DNDEBUG
 
 .PHONY: all
 all: build build/$(SERVICE)

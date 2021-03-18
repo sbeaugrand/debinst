@@ -35,6 +35,7 @@ termes.
 # Installation sur armbian
 ```
 xz -k -d Armbian_20.11.6_Rockpi-s_buster_current_5.9.14_minimal.img.xz
+xz -k -d Armbian_21.02.3_Orangepizero_buster_current_5.10.21.img.xz
 umount /media/$USER/*
 pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
@@ -45,10 +46,9 @@ exit
 make rsync [USER=$USER] [HOST=pi]
 make ssh
 cd install/debinst/armbian
-which make >/dev/null 2>&1 || sudo apt install make
 make install
 ```
-Attention : en attendant que la branche stable 21.02 boote
+Attention (RockpiS) : en attendant que la branche stable 21.02 boote
 ([bug AR-593](https://armbian.atlassian.net/browse/AR-593)), il faut prendre la
 version 20.11 et le [fix usb port](https://github.com/armbian/build/commit/fa2fd51) :
 ```
@@ -66,12 +66,12 @@ sudo reboot
 ```
 Optionnel:
 
-# TSOP1838 Infrared receiver on RockpiS
+# TSOP1838 Infrared receiver
 
 ```
 ```
 ```
- 3v3                    GPIO2_A4        GND   --> RockpiS pins
+ 3v3                     Pin 7          GND   --> Pi pins
   |                        |             |
   |                        \             |
   |                        / 1k          |
@@ -87,5 +87,8 @@ Optionnel:
 ```
 make lirc
 sudo reboot
+# Tests:
+mode2 -d /dev/lirc0 -H default
+sudo ir-keytable -p nec -t
 ```
 [Lien pour le noyau 4.4](kernel_4.4.md)

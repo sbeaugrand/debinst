@@ -86,7 +86,7 @@ build/$(CLIENT): build/$(CLIENT).o build/common.o $(DEVOBJ)
 .PHONY: oled-message
 oled-message: build build/oled-message
 build/oled-message: build/oled-message.o
-	$(CXX) $^ $(LDFLAGS) -lupm-lcd -o $@
+	$(CXX) $^ $(LDFLAGS) -lupm-lcd -lmraa -o $@
 .PHONY: install-oled-message
 install-oled-message: /usr/bin/oled-message
 /usr/bin/oled-message: build/oled-message

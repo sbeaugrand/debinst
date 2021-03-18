@@ -1,7 +1,7 @@
+#include "mraa/i2c.h"
 #include "ssd1306.hpp"
 
 #define DEVICE_ADDRESS 0x3C
-#define BUS_NUMBER 0x1
 
 int main(int argc, char* argv[])
 {
@@ -9,7 +9,18 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    upm::SSD1306 lcd(BUS_NUMBER, DEVICE_ADDRESS);
+    int bus = 0;
+    mraa_i2c_context i2c = mraa_i2c_init(bus);
+    if (i2c == NULL) {
+        bus = 1;
+        i2c = mraa_i2c_init(bus);
+    }
+    if (i2c == NULL) {
+        return 1;
+    }
+    mraa_i2c_stop(i2c);
+
+    upm::SSD1306 lcd(bus, DEVICE_ADDRESS);
     lcd.clear();
     if (argc == 1) {
         return 0;

@@ -7,7 +7,6 @@
 #include "ssd1306.hpp"
 
 #define DEVICE_ADDRESS 0x3C
-#define BUS_NUMBER 0x1
 
 const unsigned int LCD_ROWS = upm::SSD1306_LCDHEIGHT >> 3;
 
@@ -32,7 +31,12 @@ void displayInit()
     if (gOled != nullptr) {
         return;
     }
-    gOled = new upm::SSD1306(BUS_NUMBER, DEVICE_ADDRESS);
+
+    try {
+        gOled = new upm::SSD1306(0, DEVICE_ADDRESS);
+    } catch (...) {
+        gOled = new upm::SSD1306(1, DEVICE_ADDRESS);
+    }
     if (gOled == nullptr) {
         return;
     }

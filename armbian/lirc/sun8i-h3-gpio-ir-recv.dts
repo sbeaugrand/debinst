@@ -1,0 +1,18 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    model = "Xunlong Orange Pi Zero";
+    compatible = "xunlong,orangepi-zero", "allwinner,sun8i-h3";
+
+    fragment@1 {
+        target-path = "/";
+        __overlay__ {
+            ir_recv: ir-receiver {
+                status = "okay";
+                compatible = "gpio-ir-receiver";
+                gpios = <&pio 0 6 1>;  /* PA06 GPIO_ACTIVE_LOW */
+            };
+        };
+    };
+};

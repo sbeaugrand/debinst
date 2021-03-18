@@ -6,11 +6,16 @@
 # ---------------------------------------------------------------------------- #
 file=/boot/armbianEnv.txt
 if [ -f $file ]; then
-    if notGrep "i2c1" $file; then
+    if [ `uname -n` = "orangepizero" ]; then
+        i2c="i2c0"
+    else
+        i2c="i2c1"
+    fi
+    if notGrep $i2c $file; then
         if grep -q "^overlays" $file; then
-            sed -i 's/\(overlays=.*\)/\1 i2c1/' $file || return 1
+            sed -i "s/\(overlays=.*\)/\1 $i2c/" $file || return 1
         else
-            echo "overlays=i2c1" >>$file
+            echo "overlays=$i2c" >>$file
         fi
     fi
 else
