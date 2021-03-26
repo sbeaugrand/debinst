@@ -49,6 +49,7 @@ gocr
 libnetpbm10-dev
 libpng-dev
 libx264-dev  # ffmpeg
+libvorbis-dev  # ffmpeg
 libasound2-dev
 vlc
 mftrace
@@ -163,6 +164,7 @@ python3-venv
 python3-tk
 python3-matplotlib
 python3-serial  # cnc
+python-lxml  # cnc (inkscape gcode text)
 pv
 libboost-dev
 aptitude

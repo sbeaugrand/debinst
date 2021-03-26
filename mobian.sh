@@ -16,6 +16,10 @@ uri=$user@$host
 echo "user = $user"
 echo "host = $host"
 
+[ -z "$data" ] && data=$HOME/data
+[ -z "$repo" ] && repo=$data/install-repo
+[ -z "$bdir" ] && bdir=$data/install-build
+
 # ---------------------------------------------------------------------------- #
 # isFile
 # ---------------------------------------------------------------------------- #
@@ -25,6 +29,19 @@ isFile()
         return 0
     else
         echo " error: $1 not found" | tee -a $log
+        return 1
+    fi
+}
+
+# ---------------------------------------------------------------------------- #
+# notFile
+# ---------------------------------------------------------------------------- #
+notFile()
+{
+    if [ ! -f "$1" ]; then
+        return 0
+    else
+        echo " warn: $1 already exists" | tee -a $log
         return 1
     fi
 }
@@ -81,3 +98,29 @@ rsync -rli --delete --no-times --checksum\
 # ---------------------------------------------------------------------------- #
 ssh $uri "test -d data/install-build || mkdir -p data/install-build"
 ssh $uri "test -d data/install-repo || mkdir -p data/install-repo"
+
+dir=/usr/share/games/supertuxkart/data/sfx
+file=start_race.ogg
+if isFile $dir/$file; then
+    if notFile $bdir/$file; then
+        sox $dir/pre_start_race.ogg $dir/pre_start_race.ogg $dir/start_race.ogg $bdir/$file.wav
+        ffmpeg -loglevel error -i $bdir/$file.wav -c:a libvorbis $bdir/$file
+    fi
+    if isFile $bdir/$file; then
+        rsync -i --no-times --checksum\
+         $bdir/$file $uri:/home/$user/data/install-build/$file
+    fi
+fi
+
+url=http://www.yalsro.ovh/~drfred/musique/music/sagas_audio/donjon_de_naheulbeuk/bonus
+file=NBK-Sonnerie01-casonne.mp3
+if notFile $repo/$file; then
+    curl -s $url/$file -o $repo/$file
+fi
+if notFile $bdir/$file.oga; then
+    ffmpeg -loglevel error -i $repo/$file -c:a libvorbis $bdir/$file.oga
+fi
+if isFile $bdir/$file.oga; then
+    rsync -i --no-times --checksum\
+     $bdir/$file.oga $uri:/home/$user/data/install-build/$file.oga
+fi

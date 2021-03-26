@@ -11,3 +11,9 @@ fi
 if systemctl -q is-enabled apt-daily.timer; then
     systemctl disable apt-daily.timer
 fi
+
+if systemctl -q is-enabled packagekit; then
+    systemctl stop packagekit
+    systemctl mask packagekit
+    dpkg-divert --divert /etc/PackageKit/20packagekit.distrib --rename  /etc/apt/apt.conf.d/20packagekit
+fi

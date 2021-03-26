@@ -45,7 +45,7 @@ if notFile /usr/local/bin/ffmpeg; then
     ./configure --disable-ffmpeg_a >>$log 2>&1
     popd
     pushd $bdir/$mplayer/ffmpeg
-    ./configure --enable-gpl --enable-libx264 --enable-libmp3lame --enable-libaom >>$log 2>&1
+    ./configure --enable-gpl --enable-libx264 --enable-libmp3lame --enable-libaom --enable-libvorbis >>$log 2>&1
     make >>$log 2>&1
     make install >>$log 2>&1
     popd
