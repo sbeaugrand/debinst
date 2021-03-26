@@ -19,17 +19,15 @@ mraa_gpio_context mraa_gpios[MRAA_ROCKPIS_PIN_COUNT] = { NULL };
  ******************************************************************************/
 int digitalInit(uint8_t pin, uint8_t mode)
 {
-    mraa_gpio_context gpio;
+    mraa_gpio_context gpio = mraa_gpios[pin - 1];
 
-    if (mraa_gpios[pin - 1] != NULL) {
+    if (gpio == NULL && (gpio = mraa_gpio_init(pin)) == NULL) {
         return 1;
-    }
-    if ((gpio = mraa_gpio_init(pin)) == NULL) {
-        return 2;
     }
     if (mraa_gpio_dir(gpio, (mode == INPUT) ?
         MRAA_GPIO_IN : MRAA_GPIO_OUT) != MRAA_SUCCESS) {
-        return 3;
+        digitalQuit(pin);
+        return 2;
     }
     mraa_gpios[pin - 1] = gpio;
 
@@ -77,7 +75,7 @@ int digitalQuit(uint8_t pin)
     if (mraa_gpio_close(gpio) != MRAA_SUCCESS) {
         return 1;
     }
-    mraa_gpios[pin - 1] = 0;
+    mraa_gpios[pin - 1] = NULL;
 
     return 0;
 }
