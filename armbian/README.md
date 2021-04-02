@@ -36,10 +36,11 @@ termes.
 ```
 xz -k -d Armbian_20.11.6_Rockpi-s_buster_current_5.9.14_minimal.img.xz
 xz -k -d Armbian_21.02.3_Orangepizero_buster_current_5.10.21.img.xz
+xz -k -d Armbian_21.02.3_Nanopineo_buster_current_5.10.21.img.xz
 umount /media/$USER/*
 pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
-Démarrer sur Rock PI S
+Démarrer sur la Pi
 ```
 make ssh USER=root [HOST=pi]  # password: 1234
 exit

@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------- #
-## \file ledctl.service
+## \file ledctl-orangepizero.service
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
@@ -12,10 +12,10 @@ After=network.target
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=/bin/bash -c "echo 0 >/sys/class/leds/rockpis:blue:user/brightness"
-ExecStart=/bin/bash -c "echo 0 >/sys/class/leds/rockpis:green:power/brightness"
-ExecStop=/bin/bash -c "echo 1 >/sys/class/leds/rockpis:blue:user/brightness"
-ExecStop=/bin/bash -c "echo 1 >/sys/class/leds/rockpis:green:power/brightness"
+ExecStart=/bin/bash -c "echo 0 >/sys/class/leds/orangepi:green:pwr/brightness"
+ExecStart=/bin/bash -c "echo 0 >/sys/class/leds/orangepi:red:status/brightness"
+ExecStop=/bin/bash -c "echo 1 >/sys/class/leds/orangepi:green:pwr/brightness"
+ExecStop=/bin/bash -c "echo 1 >/sys/class/leds/orangepi:red:status/brightness"
 
 [Install]
 WantedBy=multi-user.target

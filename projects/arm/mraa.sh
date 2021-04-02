@@ -7,15 +7,10 @@
 repo=$idir/../repo
 [ -d $repo ] || sudo -u $user mkdir $repo
 
-if [ `uname -n` = "orangepizero" ]; then
-    gitClone https://github.com/eclipse/mraa.git || return 1
-    if notFile $bdir/mraa/src/arm/orangepizero.c; then
-        pushd $bdir/mraa || return 1
-        git apply $idir/projects/arm/mraa.patch
-        popd
-    fi
-else
+if [ `uname -n` = "rockpi-s" ]; then
     gitClone https://github.com/radxa/mraa.git || return 1
+else
+    gitClone https://github.com/sbeaugrand/mraa.git || return 1
 fi
 
 dir=$bdir/mraa/build

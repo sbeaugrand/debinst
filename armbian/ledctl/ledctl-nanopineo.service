@@ -1,0 +1,22 @@
+# ---------------------------------------------------------------------------- #
+## \file ledctl-nanopineo.service
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+[Unit]
+Description=Led Control
+Wants=network.target
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/bin/bash -c "echo 0 >/sys/class/leds/nanopi:green:status/brightness"
+ExecStart=/bin/bash -c "echo 0 >/sys/class/leds/nanopi:red:pwr/brightness"
+ExecStop=/bin/bash -c "echo 1 >/sys/class/leds/nanopi:green:status/brightness"
+ExecStop=/bin/bash -c "echo 1 >/sys/class/leds/nanopi:red:pwr/brightness"
+
+[Install]
+WantedBy=multi-user.target
+WantedBy=shutdown.target

@@ -6,10 +6,10 @@
 # ---------------------------------------------------------------------------- #
 file=/boot/armbianEnv.txt
 if [ -f $file ]; then
-    if [ `uname -n` = "orangepizero" ]; then
-        i2c="i2c0"
-    else
+    if [ `uname -n` = "rockpi-s" ]; then
         i2c="i2c1"
+    else
+        i2c="i2c0"
     fi
     if notGrep $i2c $file; then
         if grep -q "^overlays" $file; then

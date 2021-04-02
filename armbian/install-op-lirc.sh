@@ -34,16 +34,16 @@ fi
 
 file=/boot/armbianEnv.txt
 if [ -f $file ]; then
-    if [ `uname -n` = "orangepizero" ]; then
-        if notGrep rockpis-gpio-ir-recv $file; then
+    if notGrep gpio-ir-recv $file; then
+        if [ `uname -n` = "orangepizero" ]; then
             /usr/sbin/armbian-add-overlay lirc/sun8i-h3-gpio-ir-recv.dts
-        fi
-    else
-        if notGrep rockpis-gpio-ir-recv $file; then
+        elif [ `uname -n` = "nanopineo" ]; then
+            /usr/sbin/armbian-add-overlay lirc/nanopineo-gpio-ir-recv.dts
+        elif [ `uname -n` = "rockpi-s" ]; then
             /usr/sbin/armbian-add-overlay lirc/rk3308-gpio-ir-recv.dts
         fi
     fi
-else
+elif [ `uname -n` = "rockpi-s" ]; then
     file=/boot/uEnv.txt
     odir=/boot/dtbs/$(uname -r)/rockchip/overlay
     if notGrep rockpis-gpio-ir-recv $file; then
