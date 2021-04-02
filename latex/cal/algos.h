@@ -86,7 +86,7 @@ moonNodeV(double t);
 double
 moonNodeP(double omega, double t);
 double
-moonNodeE(double t);
+moonMaximumDeclinationE(double t);
 double
 moonNode(double k, double t, double D,
          double M, double Mp, double omega, double V, double P, double E);

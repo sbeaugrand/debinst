@@ -842,6 +842,8 @@ moonNodeOmega(double k, double t)
 
 /******************************************************************************!
  * \fn moonNodeV
+ * \note 1: (49) p334
+ *       2: (51) p364
  ******************************************************************************/
 double
 moonNodeV(double t)
@@ -851,6 +853,8 @@ moonNodeV(double t)
 
 /******************************************************************************!
  * \fn moonNodeP
+ * \note 1: (49) p334
+ *       2: (51) p364
  ******************************************************************************/
 double
 moonNodeP(double omega, double t)
@@ -859,16 +863,9 @@ moonNodeP(double omega, double t)
 }
 
 /******************************************************************************!
- * \fn moonNodeE
- ******************************************************************************/
-double
-moonNodeE(double t)
-{
-    return 1 + (-0.002516 - 0.0000074 * t) * t;
-}
-
-/******************************************************************************!
  * \fn moonNode
+ * \note 1: (49) p334
+ *       2: (51) p364
  ******************************************************************************/
 double
 moonNode(double k, double t, double D,
@@ -882,7 +879,11 @@ moonNode(double k, double t, double D,
     P *= M_PI / 180;
     return
         2451565.1619 + 27.212220817 * k +
+#       ifdef JM1991
         (0.0002572 + (0.000000021 - 0.000000000088 * t) * t) * t * t +
+#       else
+        (0.0002762 + (0.000000021 - 0.000000000088 * t) * t) * t * t +
+#       endif
         -0.4721 * sin(Mp) +
         -0.1649 * sin(2 * D) +
         -0.0868 * sin(2 * D - Mp) +
@@ -909,6 +910,8 @@ moonNode(double k, double t, double D,
 
 /******************************************************************************!
  * \fn moonMaximumDeclinationE
+ * \note 1: (45.6) p308
+ *       2: (47.6) p338
  ******************************************************************************/
 double
 moonMaximumDeclinationE(double t)
@@ -918,46 +921,76 @@ moonMaximumDeclinationE(double t)
 
 /******************************************************************************!
  * \fn moonNorthernMaximumDeclinationD
+ * \note 1: (50) p338
+ *       2: (52) p368
  ******************************************************************************/
 double
 moonNorthernMaximumDeclinationD(double k, double t)
 {
+#   ifdef JM1991
     return reduceAngle(152.2029 +
                        333.0705546 * k + (-0.0004025 + 0.00000011 * t) * t);
+#   else
+    return reduceAngle(152.2029 +
+                       333.0705546 * k + (-0.0004214 + 0.00000011 * t) * t);
+#   endif
 }
 
 /******************************************************************************!
  * \fn moonNorthernMaximumDeclinationM
+ * \note 1: (50) p338
+ *       2: (52) p368
  ******************************************************************************/
 double
 moonNorthernMaximumDeclinationM(double k, double t)
 {
+#   ifdef JM1991
     return reduceAngle(14.8591 +
                        26.9281592 * k + (-0.0000544 - 0.00000010 * t) * t * t);
+#   else
+    return reduceAngle(14.8591 +
+                       26.9281592 * k + (-0.0000355 - 0.00000010 * t) * t * t);
+#   endif
 }
 
 /******************************************************************************!
  * \fn moonNorthernMaximumDeclinationMp
+ * \note 1: (50) p338
+ *       2: (52) p368
  ******************************************************************************/
 double
 moonNorthernMaximumDeclinationMp(double k, double t)
 {
+#   ifdef JM1991
     return reduceAngle(4.6881 +
                        356.9562795 * k + (0.0103126 + 0.00001251 * t) * t * t);
+#   else
+    return reduceAngle(4.6881 +
+                       356.9562794 * k + (0.0103066 + 0.00001251 * t) * t * t);
+#   endif
 }
 
 /******************************************************************************!
  * \fn moonNorthernMaximumDeclinationF
+ * \note 1: (50) p338
+ *       2: (52) p368
  ******************************************************************************/
 double
 moonNorthernMaximumDeclinationF(double k, double t)
 {
+#   ifdef JM1991
     return reduceAngle(325.8867 +
                        1.4467806 * k + (-0.0020708 - 0.00000215 * t) * t * t);
+#   else
+    return reduceAngle(325.8867 +
+                       1.4467807 * k + (-0.0020690 - 0.00000215 * t) * t * t);
+#   endif
 }
 
 /******************************************************************************!
  * \fn moonNorthernMaximumDeclination
+ * \note 1: (50) p339
+ *       2: (52) p369
  ******************************************************************************/
 double
 moonNorthernMaximumDeclination(double k, double t, double D,
@@ -968,8 +1001,13 @@ moonNorthernMaximumDeclination(double k, double t, double D,
     Mp *= M_PI / 180;
     F *= M_PI / 180;
     return
+#       ifdef JM1991
         2451562.5897 + 27.321582241 * k +
         (0.000100695 - 0.000000141 * t) * t * t +
+#       else
+        2451562.5897 + 27.321582247 * k +
+        (0.000119804 - 0.000000141 * t) * t * t +
+#       endif
         0.8975 * cos(F) +
         -0.4726 * sin(Mp) +
         -0.1030 * sin(2 * F) +
@@ -1018,46 +1056,76 @@ moonNorthernMaximumDeclination(double k, double t, double D,
 
 /******************************************************************************!
  * \fn moonSouthernMaximumDeclinationD
+ * \note 1: (50) p338
+ *       2: (52) p368
  ******************************************************************************/
 double
 moonSouthernMaximumDeclinationD(double k, double t)
 {
+#   ifdef JM1991
     return reduceAngle(345.6676 +
                        333.0705546 * k + (-0.0004025 + 0.00000011 * t) * t);
+#   else
+    return reduceAngle(345.6676 +
+                       333.0705546 * k + (-0.0004214 + 0.00000011 * t) * t);
+#   endif
 }
 
 /******************************************************************************!
  * \fn moonSouthernMaximumDeclinationM
+ * \note 1: (50) p338
+ *       2: (52) p368
  ******************************************************************************/
 double
 moonSouthernMaximumDeclinationM(double k, double t)
 {
+#   ifdef JM1991
     return reduceAngle(1.3951 +
                        26.9281592 * k + (-0.0000544 - 0.00000010 * t) * t * t);
+#   else
+    return reduceAngle(1.3951 +
+                       26.9281592 * k + (-0.0000355 - 0.00000010 * t) * t * t);
+#   endif
 }
 
 /******************************************************************************!
  * \fn moonSouthernMaximumDeclinationMp
+ * \note 1: (50) p338
+ *       2: (52) p368
  ******************************************************************************/
 double
 moonSouthernMaximumDeclinationMp(double k, double t)
 {
+#   ifdef JM1991
     return reduceAngle(186.2100 +
                        356.9562795 * k + (0.0103126 + 0.00001251 * t) * t * t);
+#   else
+    return reduceAngle(186.2100 +
+                       356.9562794 * k + (0.0103066 + 0.00001251 * t) * t * t);
+#   endif
 }
 
 /******************************************************************************!
  * \fn moonSouthernMaximumDeclinationF
+ * \note 1: (50) p338
+ *       2: (52) p368
  ******************************************************************************/
 double
 moonSouthernMaximumDeclinationF(double k, double t)
 {
+#   ifdef JM1991
     return reduceAngle(145.1633 +
                        1.4467806 * k + (-0.0020708 - 0.00000215 * t) * t * t);
+#   else
+    return reduceAngle(145.1633 +
+                       1.4467807 * k + (-0.0020690 - 0.00000215 * t) * t * t);
+#   endif
 }
 
 /******************************************************************************!
  * \fn moonSouthernMaximumDeclination
+ * \note 1: (50) p339
+ *       2: (52) p369
  ******************************************************************************/
 double
 moonSouthernMaximumDeclination(double k, double t, double D,
@@ -1068,8 +1136,13 @@ moonSouthernMaximumDeclination(double k, double t, double D,
     Mp *= M_PI / 180;
     F *= M_PI / 180;
     return
+#       ifdef JM1991
         2451548.9289 + 27.321582241 * k +
         (0.000100695 - 0.000000141 * t) * t * t +
+#       else
+        2451548.9289 + 27.321582247 * k +
+        (0.000119804 - 0.000000141 * t) * t * t +
+#       endif
         -0.8975 * cos(F) +
         -0.4726 * sin(Mp) +
         -0.1030 * sin(2 * F) +
@@ -1138,6 +1211,8 @@ moonApogeeOrPerigeeK(double year)
 
 /******************************************************************************!
  * \fn moonNodeK
+ * \note 1: (49.1) p333
+ *       2: (51.1) p363
  ******************************************************************************/
 double
 moonNodeK(double year)
@@ -1147,6 +1222,8 @@ moonNodeK(double year)
 
 /******************************************************************************!
  * \fn moonMaximumDeclinationK
+ * \note 1: (50) p337
+ *       2: (52) p367
  ******************************************************************************/
 double
 moonMaximumDeclinationK(double year)
@@ -1167,6 +1244,8 @@ moonApogeeOrPerigeeT(double k)
 
 /******************************************************************************!
  * \fn moonNodeT
+ * \note 1: (49) p333
+ *       2: (51) p363
  ******************************************************************************/
 double
 moonNodeT(double k)
@@ -1176,6 +1255,8 @@ moonNodeT(double k)
 
 /******************************************************************************!
  * \fn moonMaximumDeclinationT
+ * \note 1: (50) p337
+ *       2: (52) p367
  ******************************************************************************/
 double
 moonMaximumDeclinationT(double k)

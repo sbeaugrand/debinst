@@ -344,16 +344,16 @@ int main()
     Mp = moonNodeMp(k, t);
     test("Mp", Mp, 78.707366);  // 78.70737
     omega = moonNodeOmega(k, t);
-    test("omega", omega, 8.9449464);  // 8.9449
+    test("omega", omega, 8.9449583);  // 8.9449
     V = moonNodeV(t);
     test("V", V, 282.92375);  // 282.92
     P = moonNodeP(omega, t);
-    test("P", P, 281.98625);  // 281.99
-    E = moonNodeE(t);
+    test("P", P, 281.98626);  // 281.99
+    E = moonMaximumDeclinationE(t);
     test("E", E, 1.0003185);  // 1.000319
     jd = moonNode(k, t, D, M, Mp, omega, V, P, E);
     test("jde", jd, 2446938.76803);
-    test("jde", jd - 2446938, 0.76802913);  // 0.76803
+    test("jde", jd - 2446938, 0.76802944);  // 0.76803
     YY = year;
     MM = month;
     DD = 23;
@@ -377,18 +377,18 @@ int main()
     t = moonMaximumDeclinationT(k);
     test("t", t, -0.11070718);  // 0.110707
     D = moonNorthernMaximumDeclinationD(k, t);
-    test("D", D, 177.76086);  // 177.7608 !
+    test("D", D, 177.76087);  // 177.7608 !
     M = moonNorthernMaximumDeclinationM(k, t);
     test("M", M, 349.49154);  // 349.4915
     Mp = moonNorthernMaximumDeclinationMp(k, t);
-    test("Mp", Mp, 95.158860);  // 95.1589
+    test("Mp", Mp, 95.158875);  // 95.1589
     F = moonNorthernMaximumDeclinationF(k, t);
-    test("F", F, 111.76315);  // 111.7631 !
+    test("F", F, 111.76313);  // 111.7631
     E = moonMaximumDeclinationE(t);
     test("E", E, 1.0002784);  // 1.000278
     jd = moonNorthernMaximumDeclination(k, t, D, M, Mp, F, E);
     test("jde", jd, 2447518.3347);
-    test("jde", jd - 2447518, 0.33465029);  // 0.3347
+    test("jde", jd - 2447518, 0.33464981);  // 0.3347
     YY = year;
     MM = month;
     DD = 22;
@@ -413,7 +413,7 @@ int main()
     E = moonMaximumDeclinationE(t);
     jd = moonSouthernMaximumDeclination(k, t, D, M, Mp, F, E);
     test("jde", jd, 2469553.0834);
-    test("jde", jd - 2469553, 0.083433989);  // 0.0834
+    test("jde", jd - 2469553, 0.083443143);  // 0.0834
     YY = year;
     MM = month;
     DD = day;

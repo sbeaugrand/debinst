@@ -82,7 +82,7 @@ int ascendingOrDescendingNode(int year, int month, int day,
     omega = moonNodeOmega(k, t);
     V = moonNodeV(t);
     P = moonNodeP(omega, t);
-    E = moonNodeE(t);
+    E = moonMaximumDeclinationE(t);
     jde = moonNode(k, t, D, M, Mp, omega, V, P, E);
     jde2date(jde, &YY, &MM, &DD, &hh, &mm);
     if (DD == day && MM == month && YY == year) {
