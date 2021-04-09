@@ -11,7 +11,7 @@ ifneq ($(PROPATH),)
  PPREFIX = $(PROPATH)/
 endif
 TEXCLUDE = *~ *.d *.o *.so *.a *.out\
- *.bck *-bak *-cache.* *-rescue.* .*.swp build portrait-*.pdf *.ps
+ *.bck *-bak *-cache.* *-rescue.* .*.swp build portrait-*.pdf *.ps __pycache__
 ifeq ($(MAKECMDGOALS),dist)
  TEXCLUDE += *-pr-* *.pdf
 endif

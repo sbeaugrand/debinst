@@ -36,7 +36,7 @@ build/%.o: %.cpp
 	$(COMPILE.c) $(OUTPUT_OPTION) $<
 
 /%.o: /%.cpp
-	$(COMPILE.c) $(OUTPUT_OPTION) $<
+	$(COMPILE.cpp) $(OUTPUT_OPTION) $<
 
 .PHONY: clean
 clean:

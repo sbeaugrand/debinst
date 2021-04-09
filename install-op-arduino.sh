@@ -12,3 +12,5 @@ download https://downloads.arduino.cc/$file || return 1
 untar $file arduino-$version/arduino || return 1
 
 gitClone https://github.com/SpenceKonde/ATTinyCore.git || return 1
+
+gitClone https://github.com/PaulStoffregen/TimerOne.git || return 1
