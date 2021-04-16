@@ -1,0 +1,424 @@
+% ---------------------------------------------------------------------------- %
+%% \file rubikcube.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+%% \note Sources: Rachma Nikov https://www.youtube.com/watch?v=rxqpT99rnYQ
+%%                Tous les secrets du Rubik's cube, Jérome Jean-Charles
+%%                https://texample.net/tikz/examples/sudoku-3d-cube/
+% ---------------------------------------------------------------------------- %
+\documentclass[a5paper]{article}
+\usepackage{vmargin}
+\setpapersize{custom}{148mm}{210mm}
+\setmarginsrb{10mm}{7mm}{10mm}{7mm}{0cm}{0cm}{0cm}{0cm}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage[outline]{contour}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\pagestyle{empty}
+\parindent0cm
+
+\def\colsize{6.5cm}
+\def\scaleC{0.75}
+\def\rh#1{$#1$}
+\def\ri#1{$#1^{-1}$}
+
+\begin{document}
+\Huge
+\vspace*{\stretch{1}}
+\centerline{\color{white}\contour{black}{Rubik's cube}}
+\vspace{2cm}
+\vspace*{\stretch{1}}
+\newpage
+\normalsize
+\begin{minipage}[t]{\colsize}
+\textbf{1. La croix du premier étage}\\
+
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,2.5) {1};
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \node at (-1.5,3.5) {2};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\rh{A} \ri{H} \rh{D} \rh{H}\\
+~\\
+
+\textbf{2. Les coins du premier étage}\\
+
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (2.5,2.5) {1};
+  \node at (1.5,1.5) {A};
+  \node at (2.5,0.5) {1};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (3.5,-0.5) {2};
+  \node at (4.5,-1.5) {D};
+  \node at (3.5,-2.5) {3};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \node at (-0.5,3.5) {3};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\ri{D} \ri{B} \rh{D} \rh{B}\\
+
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (2.5,2.5) {2};
+  \node at (1.5,1.5) {A};
+  \node at (2.5,0.5) {1};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (3.5,-0.5) {3};
+  \node at (4.5,-1.5) {D};
+  \node at (3.5,-2.5) {3};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \node at (-0.5,3.5) {1};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\rh{A} \rh{B} \ri{A} \ri{B}
+\end{minipage}
+\begin{minipage}[t]{\colsize}
+\textbf{3. Les arêtes du second étage}\\
+\emph{Algorithme de monsieur distrait}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,2.5) {2};
+  \node at (1.5,1.5) {G};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-0.5) {2};
+  \node at (4.5,-1.5) {B};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5,xslant=-1},yslant=0.5,xslant=-1]
+  \node at (3.5,1.5) {1};
+  \node at (4.5,1.5) {A};
+  \node at (4.5,0.5) {1};
+  \draw (3,0) grid (6,3);
+\end{scope}
+\end{tikzpicture}\\
+\begin{tabular}{@{}l@{\hspace{5pt}}l@{}}
+\rh{B} & monsieur distrait part à droite\\
+\rh{G} & ses amis descendent pour lui dire\\
+\ri{B} & monsieur distrait revient\\
+\ri{G} & ses amis remontent\\
+\ri{B} & monsieur distrait continue à gauche\\
+\ri{A} & il fait tomber tous ses amis\\
+\rh{B} & il revient en arrière\\
+\rh{A} & il les aide à se redresser\\
+\end{tabular}\\
+
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,2.5) {2};
+  \node at (1.5,1.5) {B};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-0.5) {2};
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {A};
+  \node at (-0.5,4.5) {1};
+  \node at (-1.5,3.5) {1};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\begin{tabular}{@{}l@{\hspace{5pt}}l@{}}
+\ri{B} & monsieur distrait part à gauche\\
+\ri{D} & ses amis descendent pour lui dire\\
+\rh{B} & monsieur distrait revient\\
+\rh{D} & ses amis remontent\\
+\rh{B} & monsieur distrait continue à droite\\
+\rh{A} & il fait tomber tous ses amis\\
+\ri{B} & il revient en arrière\\
+\ri{A} & il les aide à se redresser\\
+\end{tabular}
+\end{minipage}
+\newpage
+\begin{minipage}[t]{\colsize}
+\textbf{4. La croix du troisième étage}\\
+(à partir du point, virgule ou trait)\\
+\emph{Algorithme de la lampe}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,2.5) {1};
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,5.5) {3};
+  \node at (-1.5,4.5) {H};
+  \node at (-0.5,4.5) {2};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\begin{tabular}{@{}l@{\hspace{5pt}}l@{}}
+\rh{A} & une lampe tombe\\
+\rh{D} & un homme la redresse\\
+\rh{H} & la remet à sa place\\
+\ri{D} & la lampe retombe\\
+\ri{H} & l'homme recule\\
+\ri{A} & la redresse en tirant\\
+\end{tabular}\\
+~\\
+~\\
+~\\
+
+\textbf{5. La ronde des arêtes}\\
+\emph{Algorithme de la chaise}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,5.5) {2};
+  \node at (-2.5,4.5) {1};
+  \node at (-1.5,4.5) {H};
+  \node at (-0.5,4.5) {3};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\begin{tabular}{@{}l@{\hspace{5pt}}l@{}}
+\rh{D} & un monsieur monte\\
+\rh{H} & il part loin\\
+\rh{H} & encore plus loin\\
+\ri{D} & sa chaise tombe\\
+\ri{H} & il revient un peu en arrière\\
+\rh{D} & redresse sa chaise\\
+\ri{H} & revient encore en arrière\\
+\ri{D} & s'assoit sur sa chaise\\
+\end{tabular}\\
+\\
+\small{Pour deux arêtes mal placées:\\commencer avec une arête mal placée sur l'avant}
+\end{minipage}
+\begin{minipage}[t]{\colsize}
+\textbf{6. Placer les coins}\\
+\emph{Algorithme de madame curieuse}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (0.5,2.5) {1};
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (5.5,-0.5) {3};
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-2.5,5.5) {2};
+  \node at (-1.5,4.5) {H};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\begin{tabular}{@{}l@{\hspace{5pt}}l@{}}
+\ri{G} & ses amis de gauche montent\\
+\rh{H} & elle va leur dire bonjour\\
+\rh{D} & ses amis de droite montent\\
+\ri{H} & elle va leur dire bonjour\\
+\rh{G} & ses amis de gauche redescendent\\
+\rh{H} & elle va leur dire au revoir\\
+\ri{D} & ses amis de droite redescendent\\
+\ri{H} & elle va leur dire au revoir\\
+\end{tabular}\\
+~\\
+~\\
+
+\textbf{7. Orienter les coins}\\
+\emph{Algorithme du petit chaperon rouge}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (2.5,2.5) {1};
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (3.5,-0.5) {2};
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \node at (-0.5,3.5) {3};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\begin{tabular}{@{}l@{\hspace{5pt}}l@{}}
+\ri{D} & le loup descent\\
+\ri{B} & le petit chaperon rouge va se cacher\\
+\rh{D} & le loup remonte\\
+\rh{B} & le petit chaperon rouge ressort\\
+\ri{D} & le loup redescent\\
+\ri{B} & le petit chaperon rouge retourne se cacher\\
+\rh{D} & le loup remonte\\
+\rh{B} & le petit chaperon rouge ressort\\
+\end{tabular}\\
+\\
+\small{Tourner la face haute entre chaque orientation}
+\end{minipage}
+\newpage
+\begin{minipage}[t]{\colsize}
+\textbf{1. Placer les coins}\\
+$M = $ \rh{D} (\rh{H} \rh{A} \ri{H} \ri{A}) \ri{D} \rh{A}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+  \node at (0.5,0.5) {1};
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (3.5,-0.5) {1};
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+~\\
+
+\textbf{Placer les coins avec armement}\\
+\rh{G} $M$ \ri{G}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (3.5,-0.5) {1};
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \node at (-2.5,3.5) {1};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+~\\
+
+\textbf{2. Placer les arêtes}\\
+$F^2 = $ \rh{H} \rh{A} \ri{H} \ri{A} \rh{H} \rh{A} \ri{H} \ri{A}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,2.5) {2};
+  \node at (0.5,1.5) {1};
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-0.5) {3};
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}[t]{\colsize}
+\textbf{Placer les arêtes avec armement}\\
+\rh{G} $F^2$ \ri{G}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,2.5) {2};
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-0.5) {3};
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-2.5,4.5) {1};
+  \node at (-1.5,4.5) {H};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+~\\
+
+\textbf{3. Orienter les arêtes}\\
+$M^2$\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,2.5) {1};
+  \node at (1.5,1.5) {G};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-0.5) {2};
+  \node at (4.5,-1.5) {B};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5,xslant=-1},yslant=0.5,xslant=-1]
+  \node at (3.5,1.5) {1};
+  \node at (4.5,1.5) {A};
+  \node at (4.5,0.5) {2};
+  \draw (3,0) grid (6,3);
+\end{scope}
+\end{tikzpicture}\\
+~\\
+
+\textbf{4. Orienter les coins}\\
+$M^4$\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (2.5,2.5) {1};
+  \node at (1.5,1.5) {A};
+  \node at (0.5,0.5) {1};
+  \node at (2.5,0.5) {1};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (3.5,-0.5) {3};
+  \node at (4.5,-1.5) {D};
+  \node at (3.5,-2.5) {2};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \node at (-0.5,3.5) {2};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}
+\end{minipage}
+\end{document}
