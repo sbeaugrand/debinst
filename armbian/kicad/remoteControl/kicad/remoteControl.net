@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/seb/install/debinst/armbian/kicad/remoteControl/kicad/remoteControl.sch)
-    (date "jeu. 08 avril 2021 22:22:36 CEST")
+    (date "mer. 21 avril 2021 22:05:08 CEST")
     (tool "Eeschema 5.1.9+dfsg1-1~bpo10+1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -122,11 +122,11 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 602CCF24))
     (comp (ref U1)
-      (value BUCK)
-      (footprint kicad:BUCK)
+      (value BUCK_MAKERFACTORY)
+      (footprint kicad:BUCK_MAKERFACTORY)
       (fields
         (field (name Field4) "Buck LM2596"))
-      (libsource (lib kicad) (part BUCK) (description ""))
+      (libsource (lib kicad) (part BUCK_MAKERFACTORY) (description ""))
       (sheetpath (names /) (tstamps /))
       (tstamp 603D4904))
     (comp (ref P3)
@@ -191,10 +191,10 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 605BEC54)))
   (libparts
-    (libpart (lib kicad) (part BUCK)
+    (libpart (lib kicad) (part BUCK_MAKERFACTORY)
       (fields
         (field (name Reference) U)
-        (field (name Value) BUCK))
+        (field (name Value) BUCK_MAKERFACTORY))
       (pins
         (pin (num 1) (name IN+) (type input))
         (pin (num 2) (name IN-) (type input))
