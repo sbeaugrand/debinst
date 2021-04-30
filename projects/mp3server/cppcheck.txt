@@ -1,4 +1,0 @@
-missingIncludeSystem
-variableScope
-localtimeCalled
-strtokCalled

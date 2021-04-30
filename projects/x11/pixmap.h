@@ -17,7 +17,7 @@ class Pixmap : public Drawable
 {
 public:
     Pixmap(Display* dpy, int w, int h);
-    Pixmap(Display* dpy);
+    explicit Pixmap(Display* dpy);
     ~Pixmap();
     void create();
     ::Pixmap id() { return mPixmap; }

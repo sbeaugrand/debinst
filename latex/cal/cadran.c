@@ -22,7 +22,7 @@ double gZ;
  ******************************************************************************/
 void roty(double a)
 {
-    double lZ = gZ;
+    double lZ;
 
     a = RAD(a);
     lZ = gZ * cos(a) + gX * sin(a);
@@ -35,7 +35,7 @@ void roty(double a)
  ******************************************************************************/
 void rotz(double a)
 {
-    double lX = gX;
+    double lX;
 
     a = RAD(a);
     lX = gX * cos(a) + gY * sin(a);

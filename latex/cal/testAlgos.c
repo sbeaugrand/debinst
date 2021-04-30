@@ -295,6 +295,9 @@ int main()
     M = moonSunMeanAnomaly(k, t);
     F = moonArgumentOfLatitude(k, t);
     jd = moonJulianEphemerisDay(k, t) + moonPerigee(t, D, M, F);
+    YY = year;
+    MM = month;
+    DD = day;
     jde2date(jd, &YY, &MM, &DD, &hh, &mm);
     test("YY", YY, year);
     test("MM", MM, month);
@@ -313,6 +316,9 @@ int main()
     M = moonSunMeanAnomaly(k, t);
     F = moonArgumentOfLatitude(k, t);
     jd = moonJulianEphemerisDay(k, t) + moonPerigee(t, D, M, F);
+    YY = year;
+    MM = month;
+    DD = day;
     jde2date(jd, &YY, &MM, &DD, &hh, &mm);
     test("YY", YY, year);
     test("MM", MM, month);

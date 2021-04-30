@@ -1,0 +1,6 @@
+variableScope
+selfAssignment:sinus.c:29
+unreadVariable:sinus.c:29
+unusedFunction:fix_fft.c:194
+duplicateCondition:fftAlarm.c:165
+missingInclude

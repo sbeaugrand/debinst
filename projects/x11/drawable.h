@@ -19,7 +19,7 @@ class Drawable
 public:
     Drawable(Display* display, int w, int h);
     Drawable(Display* display, int x, int y, int w, int h);
-    Drawable(Display* display);
+    explicit Drawable(Display* display);
     virtual ~Drawable() { }
 
     virtual void setPosition(int x, int y);

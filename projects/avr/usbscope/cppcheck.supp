@@ -1,0 +1,3 @@
+unusedFunction:firmware.c:98
+unusedFunction:usbFunctionSetup.c:24
+missingInclude

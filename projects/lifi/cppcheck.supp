@@ -1,0 +1,7 @@
+variableScope
+ConfigurationNotChecked:emitter-avr.c:15
+selfAssignment:../timer/timer1.h:26
+unreadVariable:../timer/timer1.h:26
+unreadVariable:receiver.c:230
+missingInclude
+*:LiFiReceiver.cpp

@@ -1,0 +1,12 @@
+variableScope
+unusedFunction:display.cpp:126
+unusedFunction:event.cpp:107
+unusedFunction:drawable.cpp:83
+unusedFunction:event.cpp:147
+unusedFunction:window.cpp:271
+unusedFunction:event.cpp:221
+unusedFunction:event.cpp:231
+unusedFunction:drawable.cpp:54
+unusedFunction:event.cpp:164
+unusedFunction:display.cpp:143
+missingIncludeSystem

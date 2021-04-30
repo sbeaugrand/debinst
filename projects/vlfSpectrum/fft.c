@@ -119,9 +119,9 @@ int main(int argc, char* argv[])
     sockInit(argc, argv);
 
     DEBUG("TCP_MSS_DEFAULT = %d", TCP_MSS_DEFAULT);
-    DEBUG("SAMPLE_SIZE = %d", SAMPLE_SIZE);
-    DEBUG("PACKET_SIZE = %d", PACKET_SIZE);
-    DEBUG("SAMPLES_SIZE = %d", SAMPLES_SIZE);
+    DEBUG("SAMPLE_SIZE = %u", SAMPLE_SIZE);
+    DEBUG("PACKET_SIZE = %u", PACKET_SIZE);
+    DEBUG("SAMPLES_SIZE = %u", SAMPLES_SIZE);
 
     plotInit(SAMPLES_SIZE, argv[1], argv[2]);
     initFFT(SAMPLES_SIZE);
@@ -133,7 +133,7 @@ int main(int argc, char* argv[])
             (buff[1]);
         pos = 2;
         if (count != 0 && uint4 != count + 1) {
-            ERROR("paquet voulu: %d, paquet recu:%d\n", count + 1, uint4);
+            ERROR("paquet voulu: %u, paquet recu:%u\n", count + 1, uint4);
         }
         count = uint4;
         uint4 =
@@ -141,7 +141,7 @@ int main(int argc, char* argv[])
             (buff[pos + 1]);
         pos += 2;
         if (uint4 != SAMPLE_SIZE) {
-            ERROR("taille voulue: %d, taille recue:%d\n", SAMPLE_SIZE, uint4);
+            ERROR("taille voulue: %u, taille recue:%u\n", SAMPLE_SIZE, uint4);
         }
         while (pos < len) {
             uint2 = buff[pos++];

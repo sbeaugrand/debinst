@@ -1,0 +1,8 @@
+variableScope
+missingInclude
+nullPointer:log.c:146
+nullPointer:player.c:182
+nullPointer:player.c:187
+nullPointer:player.c:191
+nullPointer:player.c:194
+nullPointer:player.c:197

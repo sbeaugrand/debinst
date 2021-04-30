@@ -54,7 +54,7 @@ private:
     ::Window mWinId;
     long mMask;
     long mType;
-    int mCmpMask;
+    int mCmpMask = 0;
     Callback* mCallbackObj;
     int (Callback::* mCallbackFunc)(const Event*);
 };
@@ -65,7 +65,7 @@ private:
 class Event
 {
 public:
-    Event(Display* display);
+    explicit Event(Display* display);
     ~Event();
     const std::list<Input>& getInputList() const { return mInputList; }
     void addWindowWithExposeCB(Window* w);

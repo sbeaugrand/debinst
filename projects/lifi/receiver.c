@@ -84,7 +84,7 @@ inline int insert_edge(long* manchester_word,
                        unsigned int* detected_word)
 {
     int new_word = 0;
-    int is_a_word_value = 0;
+    int is_a_word_value;
     int sync_word_detect = 0;
     if (((*manchester_word) & 0x01) != edge) {
         // Make sure we don't have same edge
@@ -185,7 +185,8 @@ int add_byte_to_frame(char* frame_buffer,
                       int* frame_index,
                       int* frame_size,
                       enum receiver_state* frame_state,
-                      unsigned char data) {
+                      unsigned char data)
+{
     if (data == SYNC_SYMBOL  /*&& (*frame_index) < 0*/) {
         DEBUG("SYNC");
         (*frame_index) = 0;
@@ -240,7 +241,6 @@ void loop()
 {
     int i;
     unsigned char received_data;
-    int byte_added = 0;
     if (gNewWord == 1) {
         received_data = 0;
         for (i = 0; i < 16; i = i + 2) {  // Decoding Manchester
@@ -254,10 +254,9 @@ void loop()
         received_data = received_data & 0xFF;
         DEBUG("%d, %c", received_data & 0xFF, received_data);
         gNewWord = 0;
-        if ((byte_added =
-                 add_byte_to_frame(frame_buffer, &frame_index, &frame_size,
-                                   &frame_state,
-                                   received_data)) > 0) {
+        if (add_byte_to_frame(frame_buffer, &frame_index, &frame_size,
+                              &frame_state,
+                              received_data) > 0) {
             frame_buffer[frame_size - 1] = '\0';
             fprintf(stdout, "%s\n", &frame_buffer[1]);
             --gCount;

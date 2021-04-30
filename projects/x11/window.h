@@ -21,9 +21,9 @@ class Window : public Drawable
 {
 public:
     Window(Display* display, int w, int h);
-    Window(Display* display);
+    explicit Window(Display* display);
     Window(Window* parent, int x, int y, int w, int h);
-    Window(Window* parent);
+    explicit Window(Window* parent);
     virtual ~Window();
     virtual void setSize(int w, int h);
     virtual void raise(ULong color);

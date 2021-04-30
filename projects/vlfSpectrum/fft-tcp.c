@@ -26,7 +26,6 @@ void sockInit(int argc, char* argv[])
     struct addrinfo* ares;
     struct addrinfo* aiter;
     unsigned char buff[5];
-    ssize_t len;
 
     if (argc != 4) {
         ERROR("Usage: %s <frequence-min> <frequence-max> <adresse>", argv[0]);
@@ -67,7 +66,7 @@ void sockInit(int argc, char* argv[])
         ERRNO("write");
         exit(EXIT_FAILURE);
     }
-    if ((len = read(gSock, buff, 5)) != 5) {
+    if (read(gSock, buff, 5) != 5) {
         ERRNO("read");
         exit(EXIT_FAILURE);
     }

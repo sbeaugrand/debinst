@@ -272,7 +272,7 @@ mp3serverArtist(struct part_list* partRoot, const char** newAlbum)
          ++i) {
         artist[i] = album[i + 1];
     }
-    if (album[i + 1] != '-') {
+    if (i >= LINE_SIZE - 2 || album[i + 1] != '-') {
         DEBUG("- not found");
         return NULL;
     }
@@ -699,7 +699,7 @@ int mp3serverGetRandomNumber(unsigned int min, unsigned int max)
                 for (i -= 2; i >= 0 && line[i] != '\n'; --i) {
                     ;
                 }
-                seed = atoi(line + i + 1);
+                seed = atoi(line + (i + 1));
                 srand(seed);
                 r = rand();
             } else {

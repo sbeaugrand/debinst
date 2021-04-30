@@ -153,57 +153,41 @@ int main()
         }
         if (gState == STATE_WAIT_DASH) {
             if (dotState == PADDLE_MAINTENED) {
-                if (gState == STATE_WAIT_DOT ||
-                    gState == STATE_WAIT_DASH ||
-                    gState == STATE_IDLE) {
-                    gBuff[gWPos] = STATE_DOT;
-                    ++gWPos;
-                    if (gWPos & BUFF_SIZE) {
-                        gWPos = 0;
-                    }
-                    dotState = PADDLE_OPERATED;
-                    continue;
+                gBuff[gWPos] = STATE_DOT;
+                ++gWPos;
+                if (gWPos & BUFF_SIZE) {
+                    gWPos = 0;
                 }
+                dotState = PADDLE_OPERATED;
+                continue;
             }
             if (dashState == PADDLE_MAINTENED) {
-                if (gState == STATE_WAIT_DOT ||
-                    gState == STATE_WAIT_DASH ||
-                    gState == STATE_IDLE) {
-                    gBuff[gWPos] = STATE_DASH;
-                    ++gWPos;
-                    if (gWPos & BUFF_SIZE) {
-                        gWPos = 0;
-                    }
-                    dashState = PADDLE_OPERATED;
-                    continue;
+                gBuff[gWPos] = STATE_DASH;
+                ++gWPos;
+                if (gWPos & BUFF_SIZE) {
+                    gWPos = 0;
                 }
+                dashState = PADDLE_OPERATED;
+                continue;
             }
-        } else {
+        } else if (gState == STATE_WAIT_DOT || gState == STATE_IDLE) {
             if (dashState == PADDLE_MAINTENED) {
-                if (gState == STATE_WAIT_DOT ||
-                    gState == STATE_WAIT_DASH ||
-                    gState == STATE_IDLE) {
-                    gBuff[gWPos] = STATE_DASH;
-                    ++gWPos;
-                    if (gWPos & BUFF_SIZE) {
-                        gWPos = 0;
-                    }
-                    dashState = PADDLE_OPERATED;
-                    continue;
+                gBuff[gWPos] = STATE_DASH;
+                ++gWPos;
+                if (gWPos & BUFF_SIZE) {
+                    gWPos = 0;
                 }
+                dashState = PADDLE_OPERATED;
+                continue;
             }
             if (dotState == PADDLE_MAINTENED) {
-                if (gState == STATE_WAIT_DOT ||
-                    gState == STATE_WAIT_DASH ||
-                    gState == STATE_IDLE) {
-                    gBuff[gWPos] = STATE_DOT;
-                    ++gWPos;
-                    if (gWPos & BUFF_SIZE) {
-                        gWPos = 0;
-                    }
-                    dotState = PADDLE_OPERATED;
-                    continue;
+                gBuff[gWPos] = STATE_DOT;
+                ++gWPos;
+                if (gWPos & BUFF_SIZE) {
+                    gWPos = 0;
                 }
+                dotState = PADDLE_OPERATED;
+                continue;
             }
         }
         if (gState == STATE_DOT && dotState == PADDLE_OPERATED) {

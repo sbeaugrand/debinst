@@ -143,9 +143,7 @@ logFillDatesFromLogs(struct bloc_list* bloc_artist_root, const char* artist,
                         break;
                     }
                 }
-                if (bloc_elem != NULL) {
-                    bloc_elem = bloc_elem->next;
-                }
+                bloc_elem = bloc_elem->next;
             }
         }
     }

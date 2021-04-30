@@ -20,9 +20,9 @@ int apogeeOrPerigee(int year, int month, int day, int apogee, double k)
     double D;
     double M;
     double F;
-    int YY;
-    int MM;
-    int DD;
+    int YY = year;
+    int MM = month;
+    int DD = day;
     int hh;
     int mm;
 
@@ -69,9 +69,9 @@ int ascendingOrDescendingNode(int year, int month, int day,
     double V;
     double P;
     double E;
-    int YY;
-    int MM;
-    int DD;
+    int YY = year;
+    int MM = month;
+    int DD = day;
     int hh;
     int mm;
 
@@ -110,9 +110,9 @@ int northOrSouthMaximumDeclination(int year, int month, int day,
     double Mp;
     double F;
     double E;
-    int YY;
-    int MM;
-    int DD;
+    int YY = year;
+    int MM = month;
+    int DD = day;
     int hh;
     int mm;
 

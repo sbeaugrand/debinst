@@ -111,8 +111,8 @@ int main(int argc, char* argv[])
 #   else
     struct timespec ts;
     DEBUG("TCP_MSS_DEFAULT = %d", TCP_MSS_DEFAULT);
-    DEBUG("SAMPLE_SIZE = %d", SAMPLE_SIZE);
-    DEBUG("PACKET_SIZE = %d", PACKET_SIZE);
+    DEBUG("SAMPLE_SIZE = %u", SAMPLE_SIZE);
+    DEBUG("PACKET_SIZE = %u", PACKET_SIZE);
     clock_getres(CLOCK_REALTIME, &ts);
     DEBUG("%lu.%09lu CLOCK_REALTIME", ts.tv_sec, ts.tv_nsec);
     clock_getres(CLOCK_MONOTONIC, &ts);

@@ -17,7 +17,7 @@ namespace X11 {
 class Display
 {
 public:
-    Display(int colormapSize = 0);
+    explicit Display(int colormapSize = 0);
     Display(int argc, char** argv, char** arge, int colormapSize = 0);
     ~Display();
     void open(char* display = NULL);

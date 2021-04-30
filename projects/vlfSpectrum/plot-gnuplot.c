@@ -85,7 +85,7 @@ void* threadPlotFFT(void* arg)
         DEBUG("%d par seconde\n", (int) (SAMPLES_SIZE / duree));
         fprintf(gPlotFileFFT, "plot '-' w l\n");
 #       ifdef PLOT_DEBUG
-        fprintf(gPlotDebug, "plot '-' w l, (%f-%f)*x/%d+%f\n",
+        fprintf(gPlotDebug, "plot '-' w l, (%f-%f)*x/%u+%f\n",
                 creal(gPlotSamplesFFT[(SAMPLES_SIZE >> 1) - 1]),
                 creal(gPlotSamplesFFT[0]),
                 (SAMPLES_SIZE >> 1),

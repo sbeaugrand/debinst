@@ -17,9 +17,11 @@ X11::Bar* gBar = NULL;
  ******************************************************************************/
 class LoopCallback : public X11::Callback
 {
-    uint8_t buff[N >> 1];
+    uint8_t buff[N >> 1] = { 0 };
 
 public:
+    LoopCallback() { };
+
     int loop(const X11::Event*)
     {
         static ssize_t t = 0;

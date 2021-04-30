@@ -81,7 +81,6 @@ void Scope::drawMenu() const
             }
             mWindow->drawString(p, y, str, strlen(str));
             break;
-            break;
         case MENU_POS_V1:
             sprintf(str, "offset 1 = %dV", mVal1Offset);
             mWindow->drawString(p, y, str, strlen(str));

@@ -222,7 +222,7 @@ KeySym Event::getNextKey() const
 {
     //return XKeycodeToKeysym(mDisplay, mEvent.xkey.keycode, 0);
     return XkbKeycodeToKeysym(mDisplay, mEvent.xkey.keycode, 0,
-                              mEvent.xkey.state & ShiftMask ? 1 : 0);
+                              (mEvent.xkey.state & ShiftMask) ? 1 : 0);
 }
 
 /******************************************************************************!
