@@ -34,6 +34,6 @@ if isFile $file; then
             echo "overlays=analog-codec" >>$file
         fi
     fi
-    amixer -q set 'Line Out' 98% unmute
+    amixer -q set 'Line Out' 94% unmute
     amixer -q set 'DAC' 98% unmute
 fi

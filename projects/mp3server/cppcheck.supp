@@ -6,3 +6,5 @@ nullPointer:player.c:187
 nullPointer:player.c:191
 nullPointer:player.c:194
 nullPointer:player.c:197
+nullPointerRedundantCheck:log.c:138
+unmatchedSuppression:log.c:146
