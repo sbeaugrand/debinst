@@ -19,6 +19,10 @@ if notLink /var/log; then
     rm -fr /var/log
     ln -s /run/log /var/log
 fi
+file=/etc/systemd/journald.conf
+if notGrep "Storage=volatile" $file; then
+    sed -i 's/.*Storage=.*/Storage=volatile/' $file
+fi
 
 # /var/spool/cron
 if notLink /var/spool/cron; then

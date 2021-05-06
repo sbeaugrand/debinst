@@ -34,14 +34,14 @@ termes.
 
 # Installation sur Raspberry PI
 ```
-unzip 2*-lite.zip
+unzip 2021-03-04-raspios-buster-armhf-lite.zip
 umount /media/$USER/*
 pv 2*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 sync
 ```
 Enlever et remettre la carte SD
 ```
-touch /media/$USER/boot/ssh
+touch /media/$USER/ssh
 umount /media/$USER/*
 ```
 Démarrer sur Raspberry PI

@@ -69,12 +69,14 @@ ssh pi@$RPI "test -d install/debinst/latex || mkdir -p install/debinst/latex"
 ssh pi@$RPI "test -d install/debinst/projects || mkdir install/debinst/projects"
 rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
  ~/install/debinst/0install.sh\
- ~/install/debinst/install-op-rpi\
+ ~/install/debinst/not-often-used/install-op-rpi\
+ ~/install/debinst/armbian\
  ~/install/debinst/bin\
  ~/install/debinst/makefiles\
  pi@$RPI:/home/pi/install/debinst/
 rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
  ~/install/debinst/latex/cal\
+ ~/install/debinst/latex/makefiles\
  pi@$RPI:/home/pi/install/debinst/latex/
 rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
  ~/install/debinst/projects/mp3server\

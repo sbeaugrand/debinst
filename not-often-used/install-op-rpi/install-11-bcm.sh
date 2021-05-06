@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-bcm=bcm2835-1.63
+bcm=bcm2835-1.69
 repo=$idir/../repo
 [ -d $repo ] || sudo -u $user mkdir $repo
 
