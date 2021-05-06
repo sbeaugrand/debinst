@@ -19,4 +19,4 @@ for p in json.load(sys.stdin):
             m = 59
             h -= 1
         print('# {}'.format(p['name']))
-        print('OnCalendar={} {:02d}:{:02d}:58'.format(days, h, m))
+        print('OnCalendar={} {:02d}:{:02d}:55'.format(days, h, m))

@@ -63,9 +63,9 @@ file=~/.local/share/sounds/__custom/alarm-clock-elapsed.oga
 if [ -f $file ]; then
     duration=`ffprobe -v error -show_entries format=duration\
      -of default=noprint_wrappers=1:nokey=1 $file |\
-     awk '{ t=$0; if (t<60) { t=int(60/t)*t }; print int(t+1)+2 }'`
+     awk '{ t=$0; if (t<60) { t=int(60/t)*t }; print int(t+1)+5 }'`
 else
-    duration=62
+    duration=65
 fi
 echo "RuntimeMaxSec=$duration"
 
@@ -74,6 +74,7 @@ cat >$file <<EOF
 [Unit]
 Description=User Wake Up Action
 [Service]
+ExecStartPre=/usr/bin/gnome-session-inhibit --inhibit suspend canberra-gtk-play -i message-new-instant
 ExecStart=/usr/bin/gnome-session-inhibit --inhibit suspend gnome-clocks
 RuntimeMaxSec=$duration
 EOF

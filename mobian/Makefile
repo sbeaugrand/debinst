@@ -16,7 +16,7 @@ endef
 .PHONY: all
 all:
 	@echo
-	@echo "Usage: make { rsync | install | ssh | xssh | contacts }"
+	@echo "Usage: make { rsync | install | ssh | xssh | contacts | dns }"
 	@echo
 
 .PHONY: rsync
@@ -42,3 +42,7 @@ xssh:
 contacts:
 	@$(call ipforward)
 	@scp $(HOME)/$(contacts) mobian@mobian:/home/mobian/$(contacts)
+
+.PHONY: dns
+dns:
+	@../0install.sh install-*-dns.sh
