@@ -1,4 +1,6 @@
-- Add Orange Pi Zero and NanoPi NEO support
-- Add buck 12V->5V + audio amp + 433Mhz emitter
-- Use internal pull up resistor for IR receiver
+- Bullseye debian release
+- Add 433Mhz emitter
+- Fix armbian on RockpiS
+- Use internal pull up resistor for IR receiver ?
+- CTparental
 - Doc

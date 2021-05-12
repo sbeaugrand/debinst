@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------- #
-## \file install-op-rockpi-xc.sh
+## \file install-op-mraa-xc.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license

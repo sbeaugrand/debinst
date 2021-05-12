@@ -31,12 +31,13 @@ set daemon 300
 set idfile /run/fetchids
 set invisible
 
-poll $mailUrl proto imap
+poll $mailUrl proto imap timeout 30
      user "$mailUser"
      pass "$mailPass"
      keep
      ssl
      mda /usr/bin/procmail
+     antispam -1
 EOF
 fi
 

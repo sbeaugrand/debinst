@@ -28,7 +28,7 @@ source install-op-imscripts.sh || return 1
 # source projects/arm/mraa.sh
 # source armbian/install-11-mraa.sh
 # source armbian/install-12-upm.sh
-source install-op-rockpi-xc.sh || return 1
+source install-op-mraa-xc.sh || return 1
 
 # libdvdcss
 /usr/lib/libdvd-pkg/b-i_libdvdcss.sh

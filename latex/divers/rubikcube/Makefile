@@ -11,6 +11,6 @@ include $(PROROOT)/makefiles/livret.mk
 .PHONY: landscape
 landscape: landscape.pdf
 landscape.pdf: $(PROJECT).pdf
-	@pdfjam -q --nup 2x1 --landscape -o $@ $< 2,3,4,1
+	@pdfjam -q --nup 2x1 --landscape -o $@ $< 2,3,1,4
 
 include $(PROROOT)/makefiles/tar.mk

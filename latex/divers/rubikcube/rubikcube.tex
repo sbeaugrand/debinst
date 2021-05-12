@@ -22,22 +22,196 @@
 \parindent0cm
 
 \def\colsize{6.5cm}
-\def\scaleC{0.75}
+\def\scale{0.75}
+\def\scaleS{0.55}
 \def\rh#1{$#1$}
 \def\ri#1{$#1^{-1}$}
 
 \begin{document}
-\Huge
-\vspace*{\stretch{1}}
-\centerline{\color{white}\contour{black}{Rubik's cube}}
-\vspace{2cm}
-\vspace*{\stretch{1}}
+\begin{center}
+\Large
+Rubik's cube 3x3x3
+\normalsize\\
+~\\
+Avec une formule $F$, un mouvement $M$, et le principe d'armement
+\end{center}
+\vfill
+\begin{minipage}[t]{\colsize}
+\textbf{1. Placer les coins}\\
+$M = $ \rh{D} (\rh{H} \rh{A} \ri{H} \ri{A}) \ri{D} \rh{A}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+  \node at (0.5,0.5) {1};
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (3.5,-0.5) {2};
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\textbf{2. Placer les arêtes}\\
+$F^2 = $ \rh{H} \rh{A} \ri{H} \ri{A} \rh{H} \rh{A} \ri{H} \ri{A}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,2.5) {2};
+  \node at (0.5,1.5) {1};
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-0.5) {3};
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\textbf{3. Orienter les arêtes}\\
+$M^2$\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,2.5) {2};
+  \node at (0.5,1.5) {};
+  \node at (1.5,1.5) {G};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-0.5) {2};
+  \node at (4.5,-1.5) {B};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5,xslant=-1},yslant=0.5,xslant=-1]
+  \node at (3.5,1.5) {1};
+  \node at (4.5,1.5) {A};
+  \node at (4.5,0.5) {1};
+  \draw (3,0) grid (6,3);
+\end{scope}
+\end{tikzpicture}\\
+\textbf{4. Orienter les coins}\\
+$M^4$\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (2.5,2.5) {1};
+  \node at (1.5,1.5) {A};
+  \node at (0.5,0.5) {1};
+  \node at (2.5,0.5) {1};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (3.5,-0.5) {3};
+  \node at (4.5,-1.5) {D};
+  \node at (3.5,-2.5) {2};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \node at (-0.5,3.5) {2};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}[t]{\colsize}
+\textbf{Placer les coins avec armement}\\
+\ri{H} $M$ \rh{H}\phantom{()}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (0.5,2.5) {2};
+  \node at (1.5,1.5) {A};
+  \node at (0.5,0.5) {1};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \node at (-2.5,3.5) {};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\textbf{Placer les arêtes avec armement}\\
+\rh{G} $F^2$ \ri{G}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,2.5) {2};
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-0.5) {3};
+  \node at (4.5,-1.5) {D};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-2.5,4.5) {1};
+  \node at (-1.5,4.5) {H};
+  \node at (-2.5,3.5) {};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\textbf{Orienter les arêtes avec armement}\\
+\ri{D} \ri{B} $M^2$ \rh{B} \rh{D}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,2.5) {2};
+  \node at (1.5,1.5) {G};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-1.5) {B};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5,xslant=-1},yslant=0.5,xslant=-1]
+  \node at (3.5,2.5) {};
+  \node at (3.5,1.5) {1};
+  \node at (4.5,1.5) {A};
+  \node at (5.5,1.5) {2};
+  \draw (3,0) grid (6,3);
+\end{scope}
+\end{tikzpicture}\\
+\textbf{Orienter les coins avec armement}\\
+\rh{H} $M^4$ \ri{H}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,1.5) {A};
+  \node at (0.5,0.5) {1};
+  \node at (2.5,0.5) {1};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (5.5,-0.5) {1};
+  \node at (4.5,-1.5) {D};
+  \node at (3.5,-2.5) {2};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-0.5,5.5) {2};
+  \node at (-1.5,4.5) {H};
+  \node at (-2.5,3.5) {};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}
+\end{minipage}
 \newpage
+\begin{center}
+\Large
+Rubik's cube 3x3x3
 \normalsize
+\end{center}
+\vfill
 \begin{minipage}[t]{\colsize}
 \textbf{1. La croix du premier étage}\\
 
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scale]
 \begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
   \node at (1.5,2.5) {1};
   \node at (1.5,1.5) {A};
@@ -58,28 +232,7 @@
 
 \textbf{2. Les coins du premier étage}\\
 
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
-\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
-  \node at (2.5,2.5) {1};
-  \node at (1.5,1.5) {A};
-  \node at (2.5,0.5) {1};
-  \draw (0,0) grid (3,3);
-\end{scope}
-\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
-  \node at (3.5,-0.5) {2};
-  \node at (4.5,-1.5) {D};
-  \node at (3.5,-2.5) {3};
-  \draw (3,-3) grid (6,0);
-\end{scope}
-\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
-  \node at (-1.5,4.5) {H};
-  \node at (-0.5,3.5) {3};
-  \draw (-3,3) grid (0,6);
-\end{scope}
-\end{tikzpicture}\\
-\ri{D} \ri{B} \rh{D} \rh{B}\\
-
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scale]
 \begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
   \node at (2.5,2.5) {2};
   \node at (1.5,1.5) {A};
@@ -87,35 +240,49 @@
   \draw (0,0) grid (3,3);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
-  \node at (3.5,-0.5) {3};
   \node at (4.5,-1.5) {D};
-  \node at (3.5,-2.5) {3};
   \draw (3,-3) grid (6,0);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
   \node at (-1.5,4.5) {H};
-  \node at (-0.5,3.5) {1};
   \draw (-3,3) grid (0,6);
 \end{scope}
 \end{tikzpicture}\\
-\rh{A} \rh{B} \ri{A} \ri{B}
+\ri{D} \ri{B} \rh{D} \rh{B}\\
+
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scale]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,1.5) {A};
+  \draw (0,0) grid (3,3);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (3.5,-0.5) {2};
+  \node at (4.5,-1.5) {D};
+  \node at (3.5,-2.5) {1};
+  \draw (3,-3) grid (6,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-1.5,4.5) {H};
+  \draw (-3,3) grid (0,6);
+\end{scope}
+\end{tikzpicture}\\
+\rh{A} \rh{B} \ri{A} \ri{B}\\
+
 \end{minipage}
 \begin{minipage}[t]{\colsize}
 \textbf{3. Les arêtes du second étage}\\
 \emph{Algorithme de monsieur distrait}\\
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scale]
 \begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
-  \node at (1.5,2.5) {2};
   \node at (1.5,1.5) {G};
   \draw (0,0) grid (3,3);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
-  \node at (4.5,-0.5) {2};
   \node at (4.5,-1.5) {B};
   \draw (3,-3) grid (6,0);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=0.5,xslant=-1},yslant=0.5,xslant=-1]
-  \node at (3.5,1.5) {1};
+  \node at (3.5,1.5) {2};
   \node at (4.5,1.5) {A};
   \node at (4.5,0.5) {1};
   \draw (3,0) grid (6,3);
@@ -132,20 +299,18 @@
 \rh{A} & il les aide à se redresser\\
 \end{tabular}\\
 
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scale]
 \begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
-  \node at (1.5,2.5) {2};
   \node at (1.5,1.5) {B};
   \draw (0,0) grid (3,3);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
-  \node at (4.5,-0.5) {2};
   \node at (4.5,-1.5) {D};
   \draw (3,-3) grid (6,0);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
   \node at (-1.5,4.5) {A};
-  \node at (-0.5,4.5) {1};
+  \node at (-0.5,4.5) {2};
   \node at (-1.5,3.5) {1};
   \draw (-3,3) grid (0,6);
 \end{scope}
@@ -166,7 +331,7 @@
 \textbf{4. La croix du troisième étage}\\
 (à partir du point, virgule ou trait)\\
 \emph{Algorithme de la lampe}\\
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scale]
 \begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
   \node at (1.5,2.5) {1};
   \node at (1.5,1.5) {A};
@@ -197,7 +362,7 @@
 
 \textbf{5. La ronde des arêtes}\\
 \emph{Algorithme de la chaise}\\
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scale]
 \begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
   \node at (1.5,1.5) {A};
   \draw (0,0) grid (3,3);
@@ -230,7 +395,7 @@
 \begin{minipage}[t]{\colsize}
 \textbf{6. Placer les coins}\\
 \emph{Algorithme de madame curieuse}\\
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scale]
 \begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
   \node at (0.5,2.5) {1};
   \node at (1.5,1.5) {A};
@@ -262,7 +427,7 @@
 
 \textbf{7. Orienter les coins}\\
 \emph{Algorithme du petit chaperon rouge}\\
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scale]
 \begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
   \node at (2.5,2.5) {1};
   \node at (1.5,1.5) {A};
@@ -293,132 +458,172 @@
 \small{Tourner la face haute entre chaque orientation}
 \end{minipage}
 \newpage
+\begin{center}
+\Large
+Rubik's cube 4x4x4
+\normalsize
+\end{center}
+\vfill
 \begin{minipage}[t]{\colsize}
-\textbf{1. Placer les coins}\\
-$M = $ \rh{D} (\rh{H} \rh{A} \ri{H} \ri{A}) \ri{D} \rh{A}\\
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\textbf{1. Les centres}\\
+\emph{Algorithme de l'ascenseur}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
 \begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,2.5) {A};
+  \node at (2.5,2.5) {2};
   \node at (1.5,1.5) {A};
-  \draw (0,0) grid (3,3);
-  \node at (0.5,0.5) {1};
+  \node at (2.5,1.5) {2};
+  \draw (0,0) grid (4,4);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
-  \node at (3.5,-0.5) {1};
-  \node at (4.5,-1.5) {D};
-  \draw (3,-3) grid (6,0);
+  \node at (5.5,-1.5) {D};
+  \node at (6.5,-1.5) {D};
+  \node at (5.5,-2.5) {D};
+  \node at (6.5,-2.5) {D};
+  \draw (4,-4) grid (8,0);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
-  \node at (-1.5,4.5) {H};
-  \draw (-3,3) grid (0,6);
+  \node at (-2.5,6.5) {1};
+  \node at (-1.5,6.5) {H};
+  \node at (-2.5,5.5) {1};
+  \node at (-1.5,5.5) {H};
+  \draw (-4,4) grid (0,8);
 \end{scope}
 \end{tikzpicture}\\
+\begin{tabular}{@{}l@{\hspace{5pt}}l@{}}
+\rh{Dd} & l'ascenseur monte\\
+\rh{2H} & prend les passagers\\
+\ri{Dd} & l'ascenseur redescend\\
+\end{tabular}\\
 ~\\
+~\\
+Ordre des couleurs,\\
+avec le haut blanc et le bas jaune:\\
+rouge, bleu, orange, vert\\
 
-\textbf{Placer les coins avec armement}\\
-\rh{G} $M$ \ri{G}\\
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\textbf{2. Les arêtes}\\
+\emph{Algorithme du bus}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
 \begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (0.5,2.5) {1};
+  \node at (1.5,2.5) {A};
+  \node at (2.5,2.5) {A};
   \node at (1.5,1.5) {A};
-  \draw (0,0) grid (3,3);
+  \node at (2.5,1.5) {A};
+  \node at (3.5,1.5) {2};
+  \draw (0,0) grid (4,4);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
-  \node at (3.5,-0.5) {1};
-  \node at (4.5,-1.5) {D};
-  \draw (3,-3) grid (6,0);
+  \node at (5.5,-1.5) {D};
+  \node at (6.5,-1.5) {D};
+  \node at (5.5,-2.5) {D};
+  \node at (6.5,-2.5) {D};
+  \draw (4,-4) grid (8,0);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
-  \node at (-1.5,4.5) {H};
-  \node at (-2.5,3.5) {1};
-  \draw (-3,3) grid (0,6);
+  \node at (-2.5,6.5) {H};
+  \node at (-1.5,6.5) {H};
+  \node at (-2.5,5.5) {H};
+  \node at (-1.5,5.5) {H};
+  \draw (-4,4) grid (0,8);
 \end{scope}
 \end{tikzpicture}\\
+\begin{tabular}{@{}l@{\hspace{5pt}}l@{}}
+\ri{Hh} & le bus arrive\\
+\rh{D}  & la porte s'ouvre\\
+\ri{A}  & un monsieur monte\\
+\rh{H}  & il va au fond du bus\\
+\ri{D}  & la porte se referme\\
+\rh{A}  & le monsieur redescend\\
+\rh{Hh} & le bus repart en arrière\\
+\end{tabular}\\
 ~\\
 
-\textbf{2. Placer les arêtes}\\
-$F^2 = $ \rh{H} \rh{A} \ri{H} \ri{A} \rh{H} \rh{A} \ri{H} \ri{A}\\
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
-\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
-  \node at (1.5,2.5) {2};
-  \node at (0.5,1.5) {1};
-  \node at (1.5,1.5) {A};
-  \draw (0,0) grid (3,3);
-\end{scope}
-\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
-  \node at (4.5,-0.5) {3};
-  \node at (4.5,-1.5) {D};
-  \draw (3,-3) grid (6,0);
-\end{scope}
-\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
-  \node at (-1.5,4.5) {H};
-  \draw (-3,3) grid (0,6);
-\end{scope}
-\end{tikzpicture}
+\textbf{3. Résoudre comme un cube 3x3x3}\\
+En résolvant les problèmes de parité
 \end{minipage}
 \begin{minipage}[t]{\colsize}
-\textbf{Placer les arêtes avec armement}\\
-\rh{G} $F^2$ \ri{G}\\
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{flushleft}
+\textbf{4. Résoudre les problèmes de parité}
+\end{flushleft}
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
 \begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
-  \node at (1.5,2.5) {2};
+  \node at (1.5,2.5) {A};
+  \node at (2.5,2.5) {A};
   \node at (1.5,1.5) {A};
-  \draw (0,0) grid (3,3);
+  \node at (2.5,1.5) {A};
+  \draw (0,0) grid (4,4);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
-  \node at (4.5,-0.5) {3};
-  \node at (4.5,-1.5) {D};
-  \draw (3,-3) grid (6,0);
+  \node at (5.5,-1.5) {D};
+  \node at (6.5,-1.5) {D};
+  \node at (5.5,-2.5) {D};
+  \node at (6.5,-2.5) {D};
+  \draw (4,-4) grid (8,0);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-2.5,7.5) {2};
+  \node at (-1.5,7.5) {2};
+  \node at (-2.5,6.5) {H};
+  \node at (-1.5,6.5) {H};
+  \node at (-2.5,5.5) {H};
+  \node at (-1.5,5.5) {H};
   \node at (-2.5,4.5) {1};
-  \node at (-1.5,4.5) {H};
-  \draw (-3,3) grid (0,6);
+  \node at (-1.5,4.5) {1};
+  \draw (-4,4) grid (0,8);
 \end{scope}
 \end{tikzpicture}\\
-~\\
-
-\textbf{3. Orienter les arêtes}\\
-$M^2$\\
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
+\begin{tabular}{@{}l@{\hspace{5pt}}l@{}}
+\rh{2d}  & un monsieur monte de deux étages\\
+\rh{2H}  & ouvre en grand la première porte\\
+\rh{2d}  & remonte de deux étages\\
+\rh{2Hh} & ouvre en grand deux autres portes\\
+\rh{2d}  & remonte de deux étages\\
+\rh{2h}  & ouvre en grand la deuxième porte\\
+\end{tabular}\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
 \begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
-  \node at (1.5,2.5) {1};
-  \node at (1.5,1.5) {G};
-  \draw (0,0) grid (3,3);
-\end{scope}
-\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
-  \node at (4.5,-0.5) {2};
-  \node at (4.5,-1.5) {B};
-  \draw (3,-3) grid (6,0);
-\end{scope}
-\begin{scope}[every node/.append style={yslant=0.5,xslant=-1},yslant=0.5,xslant=-1]
-  \node at (3.5,1.5) {1};
-  \node at (4.5,1.5) {A};
-  \node at (4.5,0.5) {2};
-  \draw (3,0) grid (6,3);
-\end{scope}
-\end{tikzpicture}\\
-~\\
-
-\textbf{4. Orienter les coins}\\
-$M^4$\\
-\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleC]
-\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
-  \node at (2.5,2.5) {1};
+  \node at (1.5,3.5) {1};
+  \node at (2.5,3.5) {1};
+  \node at (1.5,2.5) {A};
+  \node at (2.5,2.5) {A};
   \node at (1.5,1.5) {A};
-  \node at (0.5,0.5) {1};
-  \node at (2.5,0.5) {1};
-  \draw (0,0) grid (3,3);
+  \node at (2.5,1.5) {A};
+  \draw (0,0) grid (4,4);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
-  \node at (3.5,-0.5) {3};
-  \node at (4.5,-1.5) {D};
-  \node at (3.5,-2.5) {2};
-  \draw (3,-3) grid (6,0);
+  \node at (5.5,-1.5) {D};
+  \node at (6.5,-1.5) {D};
+  \node at (5.5,-2.5) {D};
+  \node at (6.5,-2.5) {D};
+  \draw (4,-4) grid (8,0);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
-  \node at (-1.5,4.5) {H};
-  \node at (-0.5,3.5) {2};
-  \draw (-3,3) grid (0,6);
+  \node at (-2.5,6.5) {H};
+  \node at (-1.5,6.5) {H};
+  \node at (-2.5,5.5) {H};
+  \node at (-1.5,5.5) {H};
+  \node at (-2.5,4.5) {2};
+  \node at (-1.5,4.5) {2};
+  \draw (-4,4) grid (0,8);
 \end{scope}
-\end{tikzpicture}
+\end{tikzpicture}\\
+\begin{tabular}{@{}l@{\hspace{5pt}}l@{}}
+\rh{2d} & un monsieur monte deux étages\\
+\rh{2P} & ferme la porte de derrière à double tour\\
+\rh{2H} & regarde autour de lui\\
+\rh{g}  & redescend d'un étage\\
+\rh{2H} & regarde autour de lui\\
+\ri{d}  & redescend d'un étage\\
+\rh{2H} & regarde autour de lui\\
+\rh{d}  & remonte d'un étage\\
+\rh{2H} & regarde autour de lui\\
+\rh{2A} & ferme la porte de devant à double tour\\
+\rh{d}  & monte au deuxième étage\\
+\rh{2A} & ferme la porte de devant à double tour\\
+\ri{g}  & monte au troisième étage\\
+\rh{2P} & ferme la porte de derrière à double tour\\
+\ri{2d} & redescend de deux étages\\
+\end{tabular}
 \end{minipage}
 \end{document}

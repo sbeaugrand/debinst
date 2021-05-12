@@ -23,7 +23,7 @@ makePackage()
     src=`dirname $1`/`echo $pkg | sed 's/^install-//'`
     dst=$buildpackage/build/$pkg-1.0
     mkdir -p $dst
-    echo " make: $pkg (src=$src, dst=$dst)" | tee -a $log
+    echo "make: $pkg (src=$src, dst=$dst)" | tee -a $log
 
     isDir $src || return 1
 
@@ -93,3 +93,16 @@ for i in `cat $buildpackage/list.txt`; do
     fi
     makePackage $idir/../$i || echo "warn: package $i not completed"
 done
+
+echo "to save: "
+ls -1 -d 2>/dev/null\
+ $home/.ssh/id*\
+ $home/.gnupg\
+ $home/.config/supertuxkart/*/*.xml
+dir=`ls -d 2>/dev/null $home/.mozilla/firefox/*.default*/bookmarkbackups`
+if [ -n "$dir" ]; then
+    dir=`readlink -f $dir/..`
+    for d in $dir; do
+        ls -1 -d $d/key4.db $d/logins.json $d/bookmarkbackups
+    done
+fi

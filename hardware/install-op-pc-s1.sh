@@ -11,8 +11,7 @@ install-op-fonts-morse.sh
 install-op-id3ed.sh
 install-op-kiplot.sh
 install-op-mp3gain.sh
-install-op-rpi-xc.sh
-install-op-rockpi-xc.sh
+install-op-mraa-xc.sh
 install-op-sdcc.sh
 install-op-uncrustify.sh
 install-pr-bashrc.sh
