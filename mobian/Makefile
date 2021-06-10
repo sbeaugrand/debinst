@@ -8,6 +8,7 @@ debianIpaddr = 10.66.0.2
 contacts = .local/share/evolution/addressbook/system/contacts.db
 
 define ipforward
+ test -d /run/lock/.keychain || echo "\nwarn: /run/lock/.keychain not found\n"
  ip address | grep -q $(debianIpaddr) || ./ipforward.sh
 endef
 
@@ -46,3 +47,8 @@ contacts:
 .PHONY: dns
 dns:
 	@../0install.sh install-*-dns.sh
+
+.PHONY: upgrade
+upgrade:
+	@sudo apt-get -y update
+	@sudo apt-get -y dist-upgrade

@@ -1,3 +1,10 @@
 aptitude
 lingot
 iptraf
+meson  # mmsdtng
+ninja-build  # mmsdtng
+libglib2.0-dev  # mmsdtng
+libmm-glib-dev  # mmsdtng
+libebook-contacts1.2-dev  # mmsdtng
+libc-ares-dev  # mmsdtng
+libpurple-dev  # purple-mm-sms
