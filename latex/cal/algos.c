@@ -480,6 +480,18 @@ altitude(double ra, double dec, double theta0, double lat, double lon)
 }
 
 /******************************************************************************!
+ * \fn azimut
+ * \note 1: (12.5) p89
+ *       2: (13.5) p93
+ ******************************************************************************/
+double
+azimut(double ra, double dec, double theta0, double lat, double lon)
+{
+    double H = reduceAngle(theta0 - lon - ra);  // Local hour angle
+    return DEG(atan2(SIN(H), COS(H) * SIN(lat) - TAN(dec) * COS(lat)));
+}
+
+/******************************************************************************!
  * \fn equationOfTime
  * \note 1: (27.1) p171
  *       2: (28.1) p171

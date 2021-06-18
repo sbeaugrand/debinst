@@ -7,6 +7,9 @@
 #MMSC=http://mms.free.fr
 MMSC=http://212.27.40.225
 APN=mmsfree
+CON_NAME=FreeMMS
+CON_USER=free
+CON_PASS=free
 
 # ---------------------------------------------------------------------------- #
 # mmsd
@@ -89,7 +92,9 @@ fi
 # ---------------------------------------------------------------------------- #
 # APN
 # ---------------------------------------------------------------------------- #
-if ! nmcli c show FreeMMS >/dev/null 2>&1; then
-    nmcli c add type gsm con-name FreeMMS apn mmsfree gsm.home-only true gsm.username free gsm.password free || return 1
+if ! nmcli c show $CON_NAME >/dev/null 2>&1; then
+    nmcli c add type gsm con-name $CON_NAME apn $APN gsm.home-only true gsm.username $CON_USER gsm.password $CON_PASS || return 1
     nmcli c up FreeMMS
+else
+    echo " warn: connection $CON_NAME already exists"
 fi

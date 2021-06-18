@@ -86,6 +86,11 @@ build/sun: build/algos.o build/sun.o
 build/moon: build/algos.o build/moon.o
 	$(LINK.c) $^ -o $@
 
+.PHONY: azimut
+azimut: build/azimut
+build/azimut: build/azimut.o build/algos.o
+	$(LINK.c) $^ -o $@
+
 .PHONY: testAlgos
 testAlgos: build build/testAlgos
 	@build/testAlgos && echo OK
@@ -107,6 +112,10 @@ testPaques:
 .PHONY: testSun
 testSun: build build/sun
 	@build/sun `date +%Y-%m-%d` $(LAT) $(LON) $(H0)
+
+.PHONY: testAzimut
+testAzimut:
+	@build/azimut 2021-06-21 48.44728 1.48749 7.66666 | diff testAzimut.ref -
 
 .PHONY: cadran dist-cadran
 cadran dist-cadran: build cadran.pdf
