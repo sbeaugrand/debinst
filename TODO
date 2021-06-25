@@ -1,6 +1,5 @@
 - Bullseye debian release
 - Add 433Mhz emitter
-- Fix armbian on RockpiS
 - Use internal pull up resistor for IR receiver ?
 - CTparental
 - Doc

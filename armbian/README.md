@@ -34,7 +34,7 @@ termes.
 
 # Installation sur armbian
 ```
-xz -k -d Armbian_20.11.6_Rockpi-s_buster_current_5.9.14_minimal.img.xz
+xz -k -d Armbian_21.05.4_Rockpi-s_buster_edge_5.12.10_minimal.img.xz
 xz -k -d Armbian_21.02.3_Orangepizero_buster_current_5.10.21.img.xz
 xz -k -d Armbian_21.02.3_Nanopineo_buster_current_5.10.21.img.xz
 umount /media/$USER/*
@@ -47,28 +47,12 @@ exit
 make rsync [USER=$USER] [HOST=pi]
 make ssh
 cd install/debinst/armbian
+which make >/dev/null || sudo apt install make
 make install
-```
-Attention (RockpiS) : en attendant que la branche stable 21.02 boote
-([bug AR-593](https://armbian.atlassian.net/browse/AR-593)), il faut prendre la
-version 20.11 et le [fix usb port](https://github.com/armbian/build/commit/fa2fd51) :
-```
-git clone https://github.com/armbian/build.git armbian-build
-cd armbian-build
-./compile.sh  BOARD=rockpi-s BRANCH=current KERNEL_ONLY=yes KERNEL_CONFIGURE=no
-export user=xxx
-export host=xxx
-scp output/debs/linux-image-current-rockchip64_21.02.0-trunk_arm64.deb $user@$host:/home/$user/
-scp output/debs/linux-dtb-current-rockchip64_21.02.0-trunk_arm64.deb $user@$host:/home/$user/
-ssh $user@$host
-sudo dpkg -i linux-image-current-rockchip64_21.02.0-trunk_arm64.deb
-sudo dpkg -i linux-dtb-current-rockchip64_21.02.0-trunk_arm64.deb
-sudo reboot
 ```
 Optionnel:
 
-# TSOP1838 Infrared receiver
-
+# Infrared receiver - TSOP1838
 ```
 ```
 ```
@@ -91,5 +75,45 @@ sudo reboot
 # Tests:
 mode2 -d /dev/lirc0 -H default
 sudo ir-keytable -p nec -t
+```
+# Real Time Clock - DS1302
+```
+make rtc
+```
+# Oled i2c display - SH1106
+```
+make oled
+```
+# MP3 server
+```
+make mp3server
+```
+# USB to TTL - CH340G
+```
+```
+```
+                 Pi pins
+Module           5V  2
+ 5V _            5V  4
+VCC _            GND 6
+3V3 _|     _____ TX  8
+ TX _____ /_____ RX  10
+ RX _____/           12
+GND ____________ GND 14
+```
+Command for RockpiS : `sudo screen /dev/ttyUSB0 1500000`
+# Device Tree recompilation
+```
+git clone https://github.com/armbian/build.git armbian-build
+cd armbian-build
+./compile.sh  BOARD=rockpi-s BRANCH=current KERNEL_ONLY=yes KERNEL_CONFIGURE=no
+export user=xxx
+export host=xxx
+scp output/debs/linux-image-current-rockchip64_21.02.0-trunk_arm64.deb $user@$host:/home/$user/
+scp output/debs/linux-dtb-current-rockchip64_21.02.0-trunk_arm64.deb $user@$host:/home/$user/
+ssh $user@$host
+sudo dpkg -i linux-image-current-rockchip64_21.02.0-trunk_arm64.deb
+sudo dpkg -i linux-dtb-current-rockchip64_21.02.0-trunk_arm64.deb
+sudo reboot
 ```
 [Lien pour le noyau 4.4](kernel_4.4.md)

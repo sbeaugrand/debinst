@@ -72,16 +72,19 @@ grep -q '^PasswordAuthentication no' /etc/ssh/sshd_config ||\
 # ---------------------------------------------------------------------------- #
 ssh $uri "test -d install/debinst/latex || mkdir -p install/debinst/latex"
 ssh $uri "test -d install/debinst/projects || mkdir install/debinst/projects"
-rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf --exclude=kicad\
+rsync -rli --delete --no-times --checksum\
+ --exclude=build --exclude=*.pdf --exclude=kicad\
  ~/install/debinst/0install.sh\
  ~/install/debinst/$project\
  ~/install/debinst/bin\
  ~/install/debinst/makefiles\
  $uri:/home/$user/install/debinst/
-rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
+rsync -rli --delete --no-times --checksum\
+ --exclude=build --exclude=*.pdf --exclude=__pycache__
  ~/install/debinst/latex/cal\
  $uri:/home/$user/install/debinst/latex/
-rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf --exclude=*.a\
+rsync -rli --delete --no-times --checksum\
+ --exclude=build --exclude=*.pdf --exclude=*.a\
  ~/install/debinst/projects/mp3server\
  ~/install/debinst/projects/debug\
  ~/install/debinst/projects/makefiles\

@@ -17,3 +17,5 @@ at
 libusb-dev
 cryptsetup
 sqlite3
+mutt
+p7zip-full

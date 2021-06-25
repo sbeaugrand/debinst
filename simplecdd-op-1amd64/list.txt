@@ -206,6 +206,7 @@ xscreensaver
 unzip
 telnet
 unrar-free
+p7zip-full
 firefox-esr-l10n-fr
 ftp
 ispell
