@@ -11,8 +11,9 @@ ifneq ($(MAKECMDGOALS),dist-cal)
   -include config-pr-symlink.mk
  endif
 endif
-CFLAGS += -DWITH_EQUATION_OF_TIME
-#CFLAGS += -DWITH_ALTITUDE
+#CFLAGS += -DWITH_EQUATION_OF_TIME
+CFLAGS += -DWITH_AZIMUT
+#CFLAGS += -DWITH_DECLINATION
 
 ifeq ($(idir),)
  REPO = $(HOME)/install/repo

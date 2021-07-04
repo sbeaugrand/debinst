@@ -3,7 +3,8 @@
  * \author Sebastien Beaugrand
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
- * \note Source: Astronomical algorithms - Jean Meeus - 1991
+ * \note Source 1: Astronomical algorithms - Jean Meeus - 1991
+ *       Source 2: Astronomical algorithms - Jean Meeus - 1998
  ******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,10 +13,22 @@
 
 #define STYLUS_ANGLE 90  // 0: horizontal sundial, 90: vertical
 
-#if ! defined(WITH_EQUATION_OF_TIME)
 double gX;
 double gY;
 double gZ;
+
+/******************************************************************************!
+ * \fn rotx
+ ******************************************************************************/
+void rotx(double a)
+{
+    double lY;
+
+    a = RAD(a);
+    lY = gY * cos(a) + gZ * sin(a);
+    gZ = gZ * cos(a) - gY * sin(a);
+    gY = lY;
+}
 
 /******************************************************************************!
  * \fn roty
@@ -42,7 +55,6 @@ void rotz(double a)
     gY = gY * cos(a) - gX * sin(a);
     gX = lX;
 }
-#endif
 
 /******************************************************************************!
  * \fn main
@@ -92,7 +104,10 @@ int main(int argc, char* argv[])
     // Obliquity of the ecliptic
     double eps0 = eclipticObliquity(t);
 
-#   if defined(WITH_ALTITUDE) || defined(WITH_EQUATION_OF_TIME)
+#   if \
+    defined(WITH_EQUATION_OF_TIME) || \
+    defined(WITH_AZIMUT) || \
+    defined(WITH_DECLINATION)
     // Nutation in longitude and in obliquity
     double nutationInLongitude;
     double nutationInObliquity;
@@ -104,18 +119,11 @@ int main(int argc, char* argv[])
     // Apparent right ascension
     double ra = sunApparentRightAscension(eps, lambda);
 #   endif
-#   if defined(WITH_ALTITUDE)
-    double h0 = deg(0, 34, 0);  // Geometric altitude of the
-    // center of the body at the time of apparent rising or setting
-    double alt =
-        altitude(ra, dec,
-                 apparentSideralTime(reduceAngle(sideralTime(jd, t)),
-                                     nutationInLongitude, eps),
-                 lat, -lon);
-#   endif
 
 #if defined(WITH_EQUATION_OF_TIME)
-    double H = (hour - 12) * 15 - lon +
+    // 1: (56) p372
+    // 2: (58) p402
+    double H = (hour - 12) * 15 + lon +
         equationOfTime(L, ra, nutationInLongitude, eps);
     double P =
         SIN(lat) * COS(STYLUS_ANGLE) -
@@ -124,11 +132,7 @@ int main(int argc, char* argv[])
         (COS(lat) * COS(STYLUS_ANGLE) +
          SIN(lat) * SIN(STYLUS_ANGLE) * COS(gnomonicDeclination)) * COS(H) +
         P * TAN(dec);
-    if (
-#       ifdef WITH_ALTITUDE
-        alt > -h0 &&
-#       endif
-        Q > 0.1) {
+    if (Q > 0.1) {
         double nx =
             COS(gnomonicDeclination) * SIN(H) -
             SIN(gnomonicDeclination) *
@@ -142,13 +146,33 @@ int main(int argc, char* argv[])
                straightStylusLength * nx / Q,
                straightStylusLength * ny / Q);
     }
+#elif defined(WITH_AZIMUT)
+    // Apparent Sideral Time
+    double theta0 = apparentSideralTime(reduceAngle(sideralTime(jd, t)),
+                                        nutationInLongitude, eps);
+    // Altitude
+    double h = altitude(ra, dec, theta0, lat, -lon);
+    // Azimut
+    double a = azimut(ra, dec, theta0, lat, -lon);
+
+    gX = 0;
+    gY = 0;
+    gZ = 1;
+    rotx(h);
+    roty(a - gnomonicDeclination);
+    double x = -straightStylusLength * gX / gZ;
+    double y = -straightStylusLength * gY / gZ;
+    if (gZ > 0 &&
+        x > -500 && x < 500 &&
+        y > -500 && y < 500) {
+        printf("%.7f %.7f\n", x, y);
+    }
 #else
-#   if defined(WITH_ALTITUDE)
+#   if defined(WITH_DECLINATION)
     gX = COS(ra) * COS(dec);
     gY = SIN(ra) * COS(dec);
     gZ = SIN(dec);
 #   else
-    // Corrected obliquity of the ecliptic
     double eps = eclipticObliquityCorrected(t, eps0);
     gX = COS(lambda);
     gY = COS(eps) * SIN(lambda);
@@ -156,17 +180,13 @@ int main(int argc, char* argv[])
 #   endif
 
     rotz(L);
-    rotz((hour - 24) * 15 - lon - 180);
+    rotz((hour - 24) * 15 + lon - 180);
     roty(90 - lat);
     rotz(-gnomonicDeclination);
     roty(STYLUS_ANGLE);
     double x = -straightStylusLength * gY / gZ;
     double y = straightStylusLength * gX / gZ;
-    if (
-#       ifdef WITH_ALTITUDE
-        alt > -h0 &&
-#       endif
-        gZ > 0 &&
+    if (gZ > 0 &&
         x > -500 && x < 500 &&
         y > -500 && y < 500) {
         printf("%.7f %.7f\n", x, y);
