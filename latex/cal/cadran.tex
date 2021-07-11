@@ -17,12 +17,21 @@
 
 \newlength{\ymin}
 \setlength{\ymin}{-\height}
-\addtolength{\ymin}{\sousStylaire cm}
+\ifdim\horizon<1cm
+\else
+  \addtolength{\sousStylaire}{\horizon}
+\fi
+\addtolength{\ymin}{\sousStylaire}
 
 \newcommand\cadran{
-  \draw (-0.1,\sousStylaire) -- (0.1,\sousStylaire);
-  \draw (0,0) -- (0,\sousStylaire);
-  \draw (-\width/2,0) -- (\width/2,0);
+  \ifdim\horizon<1cm
+    \draw (-0.1,\sousStylaire) -- (0.1,\sousStylaire);
+    \draw (0,0) -- (0,\sousStylaire);
+  \else
+    \draw (-0.2,0) -- (0.2,0);
+    \draw (0,-0.2) -- (0,0.2);
+  \fi
+  \draw (-\width/2,\horizon) -- (\width/2,\horizon);
   \ifdim\width>59cm
     \draw (-\width/2,\ymin) -- (-\width/2,\sousStylaire);
     \draw (-\width/6,\ymin) -- (-\width/6,\sousStylaire);

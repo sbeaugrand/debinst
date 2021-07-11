@@ -122,17 +122,22 @@ testAzimut:
 cadran dist-cadran: build cadran.pdf
 
 build/config.tex: $(MAKEFILE_LIST)
-	@echo -n "\def\sousStylaire" >$@
+	@echo "\\\newlength{\sousStylaire}" >$@
+	@echo -n "\setlength{\sousStylaire}" >>$@
 	@echo "$(LAT) $(STRAIGHT_STYLUS_LENGTH)" |\
-	 awk '{ a=$$1*3.14159/180; printf "{%f}\n",$$2*sin(a)/cos(a) }' >>$@
+	 awk '{ a=$$1*3.14159/180; printf "{%fcm}\n",$$2*sin(a)/cos(a) }' >>$@
 	@echo "\\\newlength{\width}" >>$@
 	@echo "\setlength{\width}{$(WIDTH)cm}" >>$@
 	@echo "\\\newlength{\height}" >>$@
 	@echo "\setlength{\height}{$(HEIGHT)cm}" >>$@
+	@echo "\\\newlength{\horizon}" >>$@
+	@echo -n "\setlength{\horizon}" >>$@
+	@echo "$(STYLUS_ANGLE) $(STRAIGHT_STYLUS_LENGTH)" |\
+	 awk '{ a=(90-$$1)*3.14159/180; printf "{%fcm}\n",$$2*sin(a)/cos(a) }' >>$@
 
 build/%.dat: cadran.sh build/cadran
-	$< $(YEAR)\
-	 $(LAT) $(LON) $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $@
+	$< $(YEAR) $(LAT) $(LON)\
+	 $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $(STYLUS_ANGLE) $@
 
 build/cadran: build/algos.o build/cadran.o
 	$(LINK.c) $^ -o $@

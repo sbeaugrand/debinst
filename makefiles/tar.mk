@@ -13,7 +13,7 @@ endif
 TEXCLUDE = *~ *.d *.o *.so *.a *.out\
  *.bck *-bak *-cache.* *-rescue.* .*.swp build portrait-*.pdf *.ps __pycache__
 ifeq ($(MAKECMDGOALS),dist)
- TEXCLUDE += *-pr-* *.pdf
+ TEXCLUDE += *-pr-* *.pdf *.nc
 endif
 TEXCLUDE := $(addprefix --exclude=,$(TEXCLUDE))
 TARROOT ?= $(PROROOT)

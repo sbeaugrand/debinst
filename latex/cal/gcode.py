@@ -11,16 +11,18 @@ scale = 10
 hmin = 7
 hmax = 17
 sregular = 100  # Puissance du laser 15W en pourmille (vitesse de rotation)
-fregular = 500  # Vitesse de déplacement en mm/min
+fregular = 500  # Vitesse de deplacement en mm/min
 sbold = 300
 fbold = 300
 
 with open("build/config.tex") as f:
     for line in f:
-        if line.find('sousStylaire') >= 0:
-            sousStylaire = float(line.split('{')[1].split('}')[0]) * scale
+        if line.find('setlength{\sousStylaire') >= 0:
+            sousStylaire = float(line.split('{')[2].split('c')[0]) * scale
         if line.find('setlength{\width') >= 0:
             width = float(line.split('{')[2].split('c')[0]) * scale
+        if line.find('setlength{\horizon') >= 0:
+            horizon = float(line.split('{')[2].split('c')[0]) * scale
 
 if width < 300:
     width = 300
@@ -64,6 +66,9 @@ def dat2gcode(file):
                     first = False
                 else:
                     uv2gcode('G1', x, y)
+            else:
+                print('M5')
+                first = True
 
 # ---------------------------------------------------------------------------- #
 ## \fn analemme
@@ -118,7 +123,7 @@ def loop(a, b, f):
             f('{:02d}_5'.format(i))
         f('{:02d}'.format(b))
     else:
-        f('{:02d}'.format(b))
+        f('{:02d}'.format(a))
         for i in range(a - 1, b - 1, -1):
             f('{:02d}_5'.format(i))
             f('{:02d}'.format(i))
@@ -128,6 +133,8 @@ def loop(a, b, f):
 # ---------------------------------------------------------------------------- #
 offsetX = width / 2
 offsetY = height - sousStylaire - marginY
+if not horizon < 1:
+    offsetY -= horizon
 
 print('G21')  # Programmation en mm
 print('S{}'.format(sbold))
@@ -136,16 +143,31 @@ print('G0 F{}'.format(fbold))
 first = True
 loop(hmin, hmax, analemme)
 
-xy2gcode('G0', width / 2 - marginX, 0)
+print('(horizon)')
+xy2gcode('G0', width / 2 - marginX, horizon)
 print('M3')
-xy2gcode('G1', 0, 0)
-print('(sous-stylaire)')
-xy2gcode('G1', 0, sousStylaire)
+xy2gcode('G1', 0, horizon)
 print('M5')
 
-xy2gcode('G0', 0, 0)
+print('(sous-stylaire)')
+if horizon < 1:
+    xy2gcode('G0', 0, 0)
+    print('M3')
+    xy2gcode('G1', 0, sousStylaire)
+else:
+    xy2gcode('G0', 0, -2)
+    print('M3')
+    xy2gcode('G1', 0, 2)
+    print('M5')
+    xy2gcode('G0', -2, 0)
+    print('M3')
+    xy2gcode('G1', 2, 0)
+print('M5')
+
+print('(horizon)')
+xy2gcode('G0', 0, horizon)
 print('M3')
-xy2gcode('G1', -width / 2 + marginX, 0)
+xy2gcode('G1', -width / 2 + marginX, horizon)
 print('M5')
 
 saison = 'hiv'

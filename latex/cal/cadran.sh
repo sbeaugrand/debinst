@@ -10,7 +10,8 @@ lat=$2
 lon=$3
 len=$4
 dec=$5
-file=$6
+ang=$6
+file=$7
 hour=`echo $file | sed 's@[a-z/.]*@@g' | sed 's@_@.@'`
 if [ ${file:6:3} = "hiv" ]; then
     jBegin=21
@@ -62,6 +63,6 @@ for ((m = $mBegin; m != $mEnd + 1; m++)); do
         esac
     fi
     for ((j = $jMin; j <= $jMax; j++)); do
-        build/cadran $y-$m-$j $lat $lon $hour $len $dec >>$file
+        build/cadran $y-$m-$j $lat $lon $hour $len $dec $ang >>$file
     done
 done

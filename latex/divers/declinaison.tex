@@ -31,13 +31,13 @@
     \draw[very thick] ({\abscisse1*tan(\a)},\abscisse1) -- ({\abscisse2*tan(\a)},\abscisse2);
   }
   \foreach \a in {5,10,...,30} {
-    \draw[very thick] ({\abscisse1*tan(\a)},\abscisse1) -- ({\abscisse3*tan(\a)},\abscisse3) node[below] {\a};
+    \draw[very thick] ({\abscisse1*tan(\a)},\abscisse1) -- ({\abscisse3*tan(\a)},\abscisse3) node[below] {-\a};
   }
   \foreach \a in {1,2,...,34} {
     \draw[very thick] ({\abscisse1*tan(\a)},\espace) -- ({\abscisse2*tan(\a)},\traitCourt);
   }
   \foreach \a in {5,10,...,30} {
-    \draw[very thick] ({\abscisse1*tan(\a)},\espace) -- ({\abscisse3*tan(\a)},\traitLong) node[anchor=north,rotate=180] {-\a};
+    \draw[very thick] ({\abscisse1*tan(\a)},\espace) -- ({\abscisse3*tan(\a)},\traitLong) node[anchor=north,rotate=180] {\a};
   }
 \end{tikzpicture}
 \end{document}

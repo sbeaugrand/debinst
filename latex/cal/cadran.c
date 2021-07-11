@@ -11,8 +11,6 @@
 #include <math.h>
 #include "algos.h"
 
-#define STYLUS_ANGLE 90  // 0: horizontal sundial, 90: vertical
-
 double gX;
 double gY;
 double gZ;
@@ -69,10 +67,11 @@ int main(int argc, char* argv[])
     double hour;
     double straightStylusLength;  // cm
     double gnomonicDeclination;  // west > 0, est < 0
+    double stylusAngle;  // 0: horizontal sundial, 90: vertical
 
-    if (argc != 6 && argc != 7) {
+    if (argc != 8) {
         printf("Usage: %s <YYYY-MM-DD> <latitude> <longitude>"
-               " <hour> <straight-stylus-length> [declination]\n",
+               " <hour> <straight-stylus-length> <declination> <stylus-angle>\n",
                argv[0]);
         return EXIT_FAILURE;
     }
@@ -81,11 +80,8 @@ int main(int argc, char* argv[])
     sscanf(argv[3], "%lf", &lon);
     sscanf(argv[4], "%lf", &hour);
     sscanf(argv[5], "%lf", &straightStylusLength);
-    if (argc == 7) {
-        sscanf(argv[6], "%lf", &gnomonicDeclination);
-    } else {
-        gnomonicDeclination = 0;
-    }
+    sscanf(argv[6], "%lf", &gnomonicDeclination);
+    sscanf(argv[7], "%lf", &stylusAngle);
 
     // Julian Ephemeris Day
     double jd = julianDay(year, month, day + hour / 24.0);
@@ -126,22 +122,22 @@ int main(int argc, char* argv[])
     double H = (hour - 12) * 15 + lon +
         equationOfTime(L, ra, nutationInLongitude, eps);
     double P =
-        SIN(lat) * COS(STYLUS_ANGLE) -
-        COS(lat) * SIN(STYLUS_ANGLE) * COS(gnomonicDeclination);
-    double Q = SIN(gnomonicDeclination) * SIN(STYLUS_ANGLE) * SIN(H) +
-        (COS(lat) * COS(STYLUS_ANGLE) +
-         SIN(lat) * SIN(STYLUS_ANGLE) * COS(gnomonicDeclination)) * COS(H) +
+        SIN(lat) * COS(stylusAngle) -
+        COS(lat) * SIN(stylusAngle) * COS(gnomonicDeclination);
+    double Q = SIN(gnomonicDeclination) * SIN(stylusAngle) * SIN(H) +
+        (COS(lat) * COS(stylusAngle) +
+         SIN(lat) * SIN(stylusAngle) * COS(gnomonicDeclination)) * COS(H) +
         P * TAN(dec);
     if (Q > 0.1) {
         double nx =
             COS(gnomonicDeclination) * SIN(H) -
             SIN(gnomonicDeclination) *
             (SIN(lat) * COS(H) - COS(lat) * TAN(dec));
-        double ny = COS(STYLUS_ANGLE) * SIN(gnomonicDeclination) * SIN(H) -
-            (COS(lat) * SIN(STYLUS_ANGLE) - SIN(lat) *
-             COS(STYLUS_ANGLE) * COS(gnomonicDeclination)) * COS(H) -
-            (SIN(lat) * SIN(STYLUS_ANGLE) - COS(lat) *
-             COS(STYLUS_ANGLE) * COS(gnomonicDeclination)) * TAN(dec);
+        double ny = COS(stylusAngle) * SIN(gnomonicDeclination) * SIN(H) -
+            (COS(lat) * SIN(stylusAngle) - SIN(lat) *
+             COS(stylusAngle) * COS(gnomonicDeclination)) * COS(H) -
+            (SIN(lat) * SIN(stylusAngle) + COS(lat) *
+             COS(stylusAngle) * COS(gnomonicDeclination)) * TAN(dec);
         printf("%.7f %.7f\n",
                straightStylusLength * nx / Q,
                straightStylusLength * ny / Q);
@@ -160,6 +156,7 @@ int main(int argc, char* argv[])
     gZ = 1;
     rotx(h);
     roty(a - gnomonicDeclination);
+    rotx(stylusAngle - 90);
     double x = -straightStylusLength * gX / gZ;
     double y = -straightStylusLength * gY / gZ;
     if (gZ > 0 &&
@@ -183,7 +180,7 @@ int main(int argc, char* argv[])
     rotz((hour - 24) * 15 + lon - 180);
     roty(90 - lat);
     rotz(-gnomonicDeclination);
-    roty(STYLUS_ANGLE);
+    roty(stylusAngle);
     double x = -straightStylusLength * gY / gZ;
     double y = straightStylusLength * gX / gZ;
     if (gZ > 0 &&
