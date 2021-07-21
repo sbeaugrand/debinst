@@ -9,22 +9,22 @@ year=$1
 format=$2
 zone=$3
 
-if [ "$year" = "2020" ]; then
-    vOOIddOOI=01; vOOIdmOOI=01; vOOIfdOOI=05; vOOIfmOOI=01;
+if [ "$year" = "2022" ]; then
+    vOOIddOOI=01; vOOIdmOOI=01; vOOIfdOOI=02; vOOIfmOOI=01;
 
-    vOIIddOOI=23; vOIIdmOOI=02; vOIIfdOOI=08; vOIIfmOOI=03;
-    vOIIddOII=16; vOIIdmOII=02; vOIIfdOII=01; vOIIfmOII=03;
-    vOIIddIII=09; vOIIdmIII=02; vOIIfdIII=23; vOIIfmIII=02;
+    vOIIddOOI=13; vOIIdmOOI=02; vOIIfdOOI=27; vOIIfmOOI=02;
+    vOIIddOII=06; vOIIdmOII=02; vOIIfdOII=20; vOIIfmOII=02;
+    vOIIddIII=20; vOIIdmIII=02; vOIIfdIII=06; vOIIfmIII=03;
 
-    vIIIddOOI=19; vIIIdmOOI=04; vIIIfdOOI=03; vIIIfmOOI=05;
-    vIIIddOII=12; vIIIdmOII=04; vIIIfdOII=26; vIIIfmOII=04;
-    vIIIddIII=05; vIIIdmIII=04; vIIIfdIII=19; vIIIfmIII=04;
+    vIIIddOOI=17; vIIIdmOOI=04; vIIIfdOOI=01; vIIIfmOOI=05;
+    vIIIddOII=10; vIIIdmOII=04; vIIIfdOII=24; vIIIfmOII=04;
+    vIIIddIII=24; vIIIdmIII=04; vIIIfdIII=08; vIIIfmIII=05;
 
-    vOIVddOOI=05; vOIVdmOOI=07; vOIVfdOOI=31; vOIVfmOOI=08;
+    vOIVddOOI=07; vOIVdmOOI=07; vOIVfdOOI=31; vOIVfmOOI=08;
 
-    vOOVddOOI=18; vOOVdmOOI=10; vOOVfdOOI=01; vOOVfmOOI=11;
+    vOOVddOOI=23; vOOVdmOOI=10; vOOVfdOOI=06; vOOVfmOOI=11;
 
-    vOVIddOOI=20; vOVIdmOOI=12; vOVIfdOOI=31; vOVIfmOOI=12;
+    vOVIddOOI=18; vOVIdmOOI=12; vOVIfdOOI=31; vOVIfmOOI=12;
 elif [ "$year" = "2021" ]; then
     vOOIddOOI=01; vOOIdmOOI=01; vOOIfdOOI=03; vOOIfmOOI=01;
 
