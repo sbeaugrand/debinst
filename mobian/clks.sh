@@ -8,12 +8,31 @@
 # ---------------------------------------------------------------------------- #
 path=`dirname $0`
 
+if [ "$1" = "off" ]; then
+    if systemctl -q is-enabled system-wake-up.timer; then
+        sudo systemctl disable system-wake-up.timer
+    fi
+    if systemctl -q is-active system-wake-up.timer; then
+        sudo systemctl stop system-wake-up.timer
+    fi
+    if systemctl --user -q is-enabled wake-up.timer; then
+        systemctl --user disable wake-up.timer
+    fi
+    if systemctl --user -q is-active wake-up.timer; then
+        systemctl --user stop wake-up.timer
+    fi
+    exit 0
+fi
+
+# ---------------------------------------------------------------------------- #
+# System Wake Up Timer
+# ---------------------------------------------------------------------------- #
 dir=/etc/systemd/system
 mkdir -p $dir/system-wake-up.timer.d
 
 file=$dir/system-wake-up.timer.d/10-mobian.conf
 echo "[Timer]" | sudo tee $file >/dev/null
-gsettings get org.gnome.clocks alarms |\
+gsettings get org.gnome.clocks alarms | sed 's/@[a-z{}]* //' |\
  sed -e 's/[<>]//g' -e "s/'/\"/g" | $path/clks.py | sudo tee -a $file
 
 file=$dir/system-wake-up.timer
@@ -29,6 +48,9 @@ OnCalendar=0000-01-01 00:00:00
 WantedBy=timers.target
 EOF
 
+# ---------------------------------------------------------------------------- #
+# System Wake Up Action
+# ---------------------------------------------------------------------------- #
 file=$dir/system-wake-up.service
 [ -f $file ] || sudo tee $file >/dev/null <<EOF
 [Unit]
@@ -43,6 +65,9 @@ if ! systemctl -q is-enabled system-wake-up.timer; then
 fi
 sudo systemctl restart system-wake-up.timer
 
+# ---------------------------------------------------------------------------- #
+# User Wake Up Timer
+# ---------------------------------------------------------------------------- #
 dir=~/.config/systemd/user
 mkdir -p $dir
 
@@ -56,9 +81,12 @@ WantedBy=timers.target
 Persistent=true
 AccuracySec=1us
 EOF
-gsettings get org.gnome.clocks alarms |\
+gsettings get org.gnome.clocks alarms | sed 's/@[a-z{}]* //' |\
  sed -e 's/[<>]//g' -e "s/'/\"/g" | $path/clks.py >>$file
 
+# ---------------------------------------------------------------------------- #
+# User Wake Up Action
+# ---------------------------------------------------------------------------- #
 file=~/.local/share/sounds/__custom/alarm-clock-elapsed.oga
 if [ -f $file ]; then
     duration=`ffprobe -v error -show_entries format=duration\

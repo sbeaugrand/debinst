@@ -8,7 +8,7 @@
 import json
 import sys
 
-DAYS = ('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat')
+DAYS = ('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun')
 
 for p in json.load(sys.stdin):
     if p['active']:
