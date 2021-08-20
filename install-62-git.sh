@@ -7,14 +7,12 @@
 gitconfig="sudo -u $user git config --global"
 
 if ! $gitconfig --get user.name >/dev/null 2>&1; then
-    echo
     echo Todo :
     echo git config --global user.name $user
     echo
 fi
 
 if ! $gitconfig --get user.email >/dev/null 2>&1; then
-    echo
     echo Todo :
     echo git config --global user.email $user@`hostname`
     echo

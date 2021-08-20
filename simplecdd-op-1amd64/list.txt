@@ -13,7 +13,7 @@ g++
 xvkbd
 libglib2.0-dev
 xorg-dev
-emacs24-lucid
+emacs-lucid
 aspell-fr
 myspell-fr
 indent
@@ -32,8 +32,6 @@ make
 automake
 yasm
 libtool
-#libtool-bin  # crosstool-ng
-#help2man  # crosstool-ng
 gcc-arm-linux-gnueabihf
 g++-arm-linux-gnueabihf
 libc6-dev-armhf-cross
@@ -58,7 +56,7 @@ avr-libc
 binutils-avr
 gcc-avr
 avrdude
-simulavr
+#simulavr
 gdb-avr
 kicad
 kicad-symbols
@@ -70,6 +68,8 @@ libgtk-3-dev  # eeplot
 fig2dev  # eeplot
 python3-pip  # kiplot
 python3-setuptools  # kiplot
+python3-pytest-runner  # kiplot
+python3-yaml  # kiplot
 usbutils
 libusb-dev
 libusb-1.0-0-dev
@@ -106,9 +106,9 @@ strace
 valgrind
 colordiff
 uncrustify
-universalindentgui
+#universalindentgui
 cppcheck
-wine32
+#wine32
 wine
 cups
 libusb-0.1-4:i386  # mustekA3
@@ -140,7 +140,6 @@ texlive-lang-french
 texlive-fonts-recommended
 texlive-pstricks
 texlive-extra-utils  # pdfjam
-texlive-generic-recommended  # multido
 texlive-science  # siunitx
 texlive-music
 ntpdate
@@ -156,16 +155,12 @@ morse
 wavbreaker
 debconf-utils
 librsvg2-bin  # pyBar
-python-configparser  # pyBar
-python-numpy  # pyBar
-python-cairo  # pyBar
-python-gi  # pyBar
 gir1.2-gtk-3.0  # pyBar
 python3-venv
 python3-tk
 python3-matplotlib
 python3-serial  # cnc
-python-lxml  # cnc (inkscape gcode text)
+#python-lxml  # cnc (inkscape gcode text)
 pv
 libboost-dev
 aptitude
@@ -211,8 +206,8 @@ firefox-esr-l10n-fr
 ftp
 ispell
 lsof
-#manpages-fr-dev
-#manpages-fr-extra
+manpages-fr-dev
+manpages-fr-extra
 #gcc-doc
 manpages-dev
 info
@@ -239,7 +234,7 @@ live-config  # live-build
 live-config-systemd  # live-build
 firmware-linux  # live-build
 squashfs-tools  # live-build
-shim-signed  # live-build
+#shim-signed  # live-build
 grub-efi-amd64-signed  # live-build
 grub-efi-ia32-bin  # live-build
 dpkg  # live-build

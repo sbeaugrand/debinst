@@ -1,4 +1,4 @@
-- Bullseye debian release
+- Fix kiplot and mraa-xc
 - Add 433Mhz emitter
 - Use internal pull up resistor for IR receiver ?
 - CTparental

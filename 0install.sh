@@ -285,7 +285,7 @@ gitClone()
             popd
         elif isFile $file; then
             pushd $bdir || return 1
-            sudo -u $user tar xzf $file
+            sudo -u $user tar xf $file
             popd
             pushd $bdir/$name
             sudo -u $user git checkout .

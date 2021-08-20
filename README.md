@@ -45,16 +45,33 @@ cd debinst
 ```
 
 # Création d'une nouvelle debian sur clé USB
-
 ```
 make pkgs
 make iso  # or :
 make iso ARCH=i386
-pv ~/data/install-build/simplecdd-op-1amd64/images/debian-10-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
+pv ~/data/install-build/simplecdd-op-1amd64/images/debian-*-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
 La liste des paquets debian sont dans: simplecdd-op-1amd64/list.txt
 
 La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
+
+# Création d'une debian nouvelle version sur clé USB
+```
+pv debian-live-11.0.0-amd64-lxde.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
+```
+Démarrer la live
+```
+sudo mkdir /mnt/a1
+sudo mount /dev/sda1 /mnt/a1
+ln -s /mnt/a1/home/*/data /home/user/data
+cd /mnt/a1/home/*/install/debinst
+rm simplecdd-op-1amd64/amd64/simple-cdd.conf
+rm -fr ~/data/install-build/simplecdd-op-1amd64
+sudo apt-get update
+sudo apt-get install dh-make dosfstools mtools simple-cdd xorriso
+sudo passwd
+make iso
+```
 
 # Création d'une machine virtuelle dans windows
 ```

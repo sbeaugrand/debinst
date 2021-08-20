@@ -37,10 +37,10 @@ $(PDFOBJECTS): build/defo%.pdf: build/defo%.svg
 
 $(SVGOBJECTS): build/defo%.svg: defo%.dat $(DAT2SVG) $(PYBAR)/pyBar.py
 	cd $(PYBAR) && \
-	python -c '\
+	python3 -c '\
 	src="'$(SRCDIR)/$<'"; \
 	dst="'$(SRCDIR)/$@'"; \
-	execfile("'$(SRCDIR)/$(DAT2SVG)'")'
+	exec(open("'$(SRCDIR)/$(DAT2SVG)'").read())'
 
 $(PYBAR)/pyBar.py:
 	git clone -q https://github.com/Philippe-Lawrence/pyBar.git $(PYBAR)

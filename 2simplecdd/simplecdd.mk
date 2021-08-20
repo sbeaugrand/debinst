@@ -55,7 +55,6 @@ amd64/simple-cdd.conf i386/simple-cdd.conf: simple-cdd.conf
 amd64/profiles/amd64.packages: list.txt ../$(LPKG)/build/list.txt
 	@cat $< |\
 	 sed '/:i386/D' |\
-	 sed '/wine/D' |\
 	 sed 's/ *#.*//' |\
 	 sed '/^$$/D' |\
 	 cat >$@

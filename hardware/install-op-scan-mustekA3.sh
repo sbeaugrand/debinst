@@ -5,6 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 file=A3USB1200Pro-040B-20141209.zip
+repo=$idir/../repo
 download http://ftp2.mustek.com.tw/pub/new/driver/ScanExpress%20A3%20USB%201200%20Pro/Linux/1LV1019/$file || return 1
 untar $file libsane_1.0.19-1_i386.deb || return 1
 

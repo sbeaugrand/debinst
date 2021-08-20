@@ -25,5 +25,7 @@ mw.active_tab.add_study(
            'Barre': True,
            'Node': True,
            'Axis': False})
+mw.active_tab.area_w = 0
+mw.active_tab.area_h = 0
 mw.active_tab.get_layout_size(list(mw.active_tab.drawings.values()))
 mw._export_svg(dst)

@@ -32,7 +32,7 @@ all:
 	@echo " [WIDTH=61.0 HEIGHT=29.7 STRAIGHT_STYLUS_LENGTH=6.5]"
 	@echo
 
-LDFLAGS = -lm
+LDLIBS = -lm
 PROROOT = ..
 PROJECT = cal
 include $(PROROOT)/makefiles/ccpp.mk
@@ -82,22 +82,22 @@ build/vacances$(YEAR).tex: vacances.sh $(MAKEFILE_LIST)
 	$< $(YEAR) tex >$@
 
 build/sun: build/algos.o build/sun.o
-	$(LINK.c) $^ -o $@
+	$(LINK.c) $^ $(LDLIBS) -o $@
 
 build/moon: build/algos.o build/moon.o
-	$(LINK.c) $^ -o $@
+	$(LINK.c) $^ $(LDLIBS) -o $@
 
 .PHONY: azimut
 azimut: build/azimut
 build/azimut: build/azimut.o build/algos.o
-	$(LINK.c) $^ -o $@
+	$(LINK.c) $^ $(LDLIBS) -o $@
 
 .PHONY: testAlgos
 testAlgos: build build/testAlgos
 	@build/testAlgos && echo OK
 
 build/testAlgos: build/algos.o build/testAlgos.o
-	$(LINK.c) $^ -o $@
+	$(LINK.c) $^ $(LDLIBS) -o $@
 
 .PHONY: testPaques
 testPaques:
@@ -140,7 +140,7 @@ build/%.dat: cadran.sh build/cadran
 	 $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $(STYLUS_ANGLE) $@
 
 build/cadran: build/algos.o build/cadran.o
-	$(LINK.c) $^ -o $@
+	$(LINK.c) $^ $(LDLIBS) -o $@
 
 cadran.pdf: cadran.tex build/config.tex\
  build/hiv07.dat build/pri07.dat build/ete07.dat build/aut07.dat\
