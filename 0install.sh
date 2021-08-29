@@ -323,11 +323,19 @@ sourceList()
         fi
         echo $iter | tee -a $log
         repoSav=$repo
+        if [ ! -f $iter ]; then
+            echo "error: $iter not found"
+            if echo $iter | grep -q '\-pr\-'; then
+                continue
+            else
+                exit 1
+            fi
+        fi
         source $iter
         ret=$?
         repo=$repoSav
         if ((ret != 0)); then
-            echo "return $ret"
+            echo "exit $ret"
             exit $ret
         fi
     done

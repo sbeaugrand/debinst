@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Scan
+Comment=Scanneur Canon TS5050
+Exec=scangearmp2
+Icon=scanner
+Terminal=false
+Type=Application
+Categories=Graphics;

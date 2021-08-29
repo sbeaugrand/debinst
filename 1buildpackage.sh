@@ -95,14 +95,19 @@ for i in `cat $buildpackage/list.txt`; do
 done
 
 echo "to save: "
+echo "echo \""
+pushd $home
 ls -1 -d 2>/dev/null\
- $home/.ssh/id*\
- $home/.gnupg\
- $home/.config/supertuxkart/*/*.xml
-dir=`ls -d 2>/dev/null $home/.mozilla/firefox/*.default*/bookmarkbackups`
+ .ssh/id*\
+ .ssh/authorized_keys\
+ .gnupg\
+ .config/supertuxkart/*/*.xml
+dir=`ls -d 2>/dev/null .mozilla/firefox/*.default*/bookmarkbackups`
 if [ -n "$dir" ]; then
-    dir=`readlink -f $dir/..`
+    dir=`readlink -f $dir/.. | sed "s#$home/##"`
     for d in $dir; do
         ls -1 -d $d/key4.db $d/logins.json $d/bookmarkbackups
     done
 fi
+echo "\" | tar cvzf ~/save.tgz -T-"
+popd

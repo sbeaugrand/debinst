@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 repo=$idir/../repo
 
-gitClone https://github.com/johnbeard/kiplot.git || return 1
+gitClone https://github.com/sbeaugrand/kiplot.git || return 1
 
 if ! isFile /usr/lib/python3/dist-packages/pcbnew.py; then
     cat <<EOF
@@ -26,4 +26,10 @@ if notWhich kiplot; then
     pushd $bdir/kiplot || return 1
     pip3 install -e . >>$log 2>&1
     popd
+fi
+
+#FIXME: workaround for ghostscript version 9.53.3
+file=/usr/bin/ps2epsi.ps
+if notLink $file; then
+    ln -s /usr/share/ghostscript/*/lib/ps2epsi.ps $file
 fi

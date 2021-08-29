@@ -30,8 +30,8 @@ sed "s/Button/Button {@            id=$app.desktop@        }@        Button/" |\
     rm $bdir/panel.bak
     return 0
 }
-addButton Thunar
-addButton emacs24-lucid
+addButton thunar
+addButton emacs
 addButton firefox-esr
 addButton screen
 
