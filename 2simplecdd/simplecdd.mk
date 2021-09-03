@@ -57,6 +57,7 @@ amd64/profiles/amd64.packages: list.txt ../$(LPKG)/build/list.txt
 	 sed '/:i386/D' |\
 	 sed 's/ *#.*//' |\
 	 sed '/^$$/D' |\
+	 sed 's/:amd64//' |\
 	 cat >$@
 	$(call add-extra-packages,$@)
 

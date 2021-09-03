@@ -15,6 +15,11 @@ err()
     exit 1
 }
 
+pid=`pgrep -o mp3-toggle.sh`
+if ((pid != $$)); then
+    kill -15 $pid
+fi
+
 if grep -q " /mnt/mp3 " /etc/mtab; then
     oled-message "umount" 0 5 >>$log 2>&1
     systemctl stop mp3server.service >>$log 2>&1

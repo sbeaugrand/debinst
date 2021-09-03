@@ -121,7 +121,9 @@ echo "/ union" >/mnt/b3/persistence.conf
 umount /mnt/b3
 ```
 
-# [Installation sur ARM](armbian/README.md)
+# [Installation sur ARM (armbian)](armbian/README.md)
+
+# [Installation sur PinePhone (mobian)](mobian/README.md)
 
 # Exemple de création d'un paquet debinst restreint
 ```

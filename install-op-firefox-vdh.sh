@@ -10,4 +10,12 @@ url=https://addons.mozilla.org/firefox/downloads/latest/video-downloadhelper
 
 download $url/$file || return 1
 
+file=`ls -d $home/.mozilla/firefox/*.default*/extensions.json`
+if [ -n "$file" ]; then
+    if grep -q 'Video DownloadHelper' $file; then
+        echo " warn: video-downloadhelper already exists" | tee -a $log
+        return 0
+    fi
+fi
+
 sudo -u $user firefox $repo/$file

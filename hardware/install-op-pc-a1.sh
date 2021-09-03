@@ -23,6 +23,7 @@ install-op-uncrustify.sh
 install-op-upgrades.sh
 install-pr-alias.sh
 install-pr-bashrc.sh
+install-pr-pdcroix.sh
 hardware/install-op-lp-hpP1006.sh
 hardware/install-op-scan-mustekA3.sh
 "
@@ -39,4 +40,8 @@ fi
 
 if notLink $home/.gramps && isDir $data/gramps; then
     ln -s $data/gramps $home/.gramps
+fi
+
+if notWhich chromium; then
+    apt-get install chromium
 fi

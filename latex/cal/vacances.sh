@@ -20,7 +20,7 @@ if [ "$year" = "2022" ]; then
     vIIIddOII=10; vIIIdmOII=04; vIIIfdOII=24; vIIIfmOII=04;
     vIIIddIII=24; vIIIdmIII=04; vIIIfdIII=08; vIIIfmIII=05;
 
-    vOIVddOOI=07; vOIVdmOOI=07; vOIVfdOOI=31; vOIVfmOOI=08;
+    vOIVddOOI=08; vOIVdmOOI=07; vOIVfdOOI=31; vOIVfmOOI=08;
 
     vOOVddOOI=23; vOOVdmOOI=10; vOOVfdOOI=06; vOOVfmOOI=11;
 

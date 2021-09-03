@@ -15,7 +15,6 @@ install-op-upgrades.sh
 hardware/install-op-lp-ts5000.sh
 hardware/install-op-ipod.sh
 install-pr-bashrc.sh
-install-pr-swap.sh
 "
 
 if notLink $home/.gramps && isDir $data/gramps; then

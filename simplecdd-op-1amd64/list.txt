@@ -98,7 +98,7 @@ net-tools  # arietta G25
 nftables  # arietta G25
 sox
 timidity
-tuxguitar-alsa
+tuxguitar-alsa:amd64
 fluid-soundfont-gm  # timidity
 lingot
 gdb
@@ -191,6 +191,7 @@ dosfstools  # simple-cdd
 ntfs-3g
 exfat-fuse
 testdisk
+gnome-disk-utility
 apache2
 libapache2-mod-php
 php-gd
@@ -208,7 +209,7 @@ ispell
 lsof
 manpages-fr-dev
 manpages-fr-extra
-#gcc-doc
+gcc-doc
 manpages-dev
 info
 netcat-traditional

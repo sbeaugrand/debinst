@@ -13,6 +13,7 @@ install-op-kiplot.sh
 install-op-mp3gain.sh
 install-op-mraa-xc.sh
 install-op-uncrustify.sh
+install-pr-alias.sh
 install-pr-bashrc.sh
 install-pr-swap.sh
 hardware/install-op-alsa-order.sh

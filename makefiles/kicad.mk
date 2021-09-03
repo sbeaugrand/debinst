@@ -34,7 +34,7 @@ cuivre: $(PROJECT)-B_Cu.pdf
 composants: $(PROJECT)-F_SilkS.pdf
 
 %.pdf: %.epsi
-	epspdf $<
+	epspdf -b $<
 
 %.epsi: %.ps
 	ps2epsi $<
