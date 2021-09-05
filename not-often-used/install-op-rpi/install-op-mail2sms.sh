@@ -52,9 +52,11 @@ fi
 file=/usr/bin/sms.sh
 if notFile $file; then
     cat >$file <<EOF
-cat | mail2sms.sh >/tmp/sms.tmp
-curl --get $smsUrl --data "user=$smsUser" --data "pass=$smsPass" --data-urlencode "msg@/tmp/sms.tmp"
+cat >/run/fetchmail/mel.tmp
+cat /run/fetchmail/mel.tmp | mail2sms.py >/run/fetchmail/sms.tmp
+curl --get $smsUrl --data "user=$smsUser" --data "pass=$smsPass" --data-urlencode "msg@/run/fetchmail/sms.tmp"
 EOF
+    chmod 755 $file
 fi
 
 file=/usr/bin/mail2sms.py
