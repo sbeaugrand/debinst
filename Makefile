@@ -82,6 +82,7 @@ tar:
 	--exclude=*.dtbo \
 	--exclude=homepage/html \
 	--exclude=__pycache__ \
+	--exclude=*.7z \
 	\
 	--exclude=homepage/tgz \
 	--exclude=homepage/png \
@@ -108,6 +109,7 @@ dist:
 	--exclude=*.dtbo \
 	--exclude=homepage/html \
 	--exclude=__pycache__ \
+	--exclude=*.7z \
 	\
 	--exclude=*.tgz \
 	--exclude=*.png \
