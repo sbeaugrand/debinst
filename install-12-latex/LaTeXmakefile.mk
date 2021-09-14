@@ -99,14 +99,14 @@ $(DIC): dic/%.dic: $(SRCDIR)%.tex
 	aspell -d francais -p ./$@ -t -c $<
 	@touch $@
 
-$(PDFDIR)/extrait-%.pdf: $(PDFDIR)/%.pdf
-	pdfbook -q -o $@ $< $(P)
-
-$(PDFDIR)/livret-%.pdf: $(PDFDIR)/%.pdf
-	pdfbook -q -o $@ $<
-
+$(PDFDIR)/livret-%.pdf: $(PDFDIR)/%-book.pdf
+	@cp $< $@
+$(PDFDIR)/%-book.pdf: $(PDFDIR)/%.pdf
+	pdfbook2 $<
 $(PDFDIR)/portrait-%.pdf: $(PDFDIR)/livret-%.pdf
-	pdf90 -q -o $@ $<
+	pdfjam --angle 90 -q -o $@ $<
+$(PDFDIR)/extrait-%.pdf: $(PDFDIR)/%.pdf
+	pdfjam -q -o $@ $< $(P)
 
 define dependances-courantes
 	deps=`sed \

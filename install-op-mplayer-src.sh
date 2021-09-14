@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 name=mplayer
-version=1.3.0
+version=1.4+ds1
 pkg=$name-$version.tgz
 src=$name-apt-src
 repo=$idir/../repo
@@ -25,3 +25,4 @@ if notFile $repo/$pkg; then
 fi
 
 untar $pkg || return 1
+mplayer=$name-$version

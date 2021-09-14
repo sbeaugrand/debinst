@@ -115,6 +115,7 @@ libusb-0.1-4:i386  # mustekA3
 libtiff5:i386  # mustekA3
 libjpeg62-turbo:i386  # mustekA3
 libieee1284-3:i386  # mustekA3
+sane-utils:i386  # mustekA3
 thunar
 gtkam
 gphotofs

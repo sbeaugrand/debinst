@@ -6,29 +6,11 @@
 # ---------------------------------------------------------------------------- #
 TARDEPEND += makefiles/livret.mk
 
-.SUFFIXES:
-
 .PHONY: all
 all: $(PROJECT).pdf
 
-%.pdf: build %.tex
-	@echo TEXINPUTS=$(TEXINPUTS)
-	@cd build && export TEXINPUTS=$(TEXINPUTS) &&\
-	 pdflatex --halt-on-error ../$(PROJECT).tex
-	@mv build/$@ .
-
 build:
 	@mkdir $@
-
-.PHONY: livret
-livret: livret-$(PROJECT).pdf
-livret-$(PROJECT).pdf: $(PROJECT).pdf
-	@pdfbook -q -o $@ $< $(P)
-
-.PHONY: portrait
-portrait: portrait-$(PROJECT).pdf
-portrait-$(PROJECT).pdf: livret-$(PROJECT).pdf
-	@pdf90 -q -o $@ $<
 
 .PHONY: clean
 clean:
@@ -38,3 +20,5 @@ clean:
 mrproper: clean
 	@rmdir build
 	@$(RM) $(PROJECT).pdf
+
+include $(PROROOT)/makefiles/pdf.mk

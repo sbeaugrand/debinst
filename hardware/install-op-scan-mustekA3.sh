@@ -9,15 +9,13 @@ repo=$idir/../repo
 download http://ftp2.mustek.com.tw/pub/new/driver/ScanExpress%20A3%20USB%201200%20Pro/Linux/1LV1019/$file || return 1
 untar $file libsane_1.0.19-1_i386.deb || return 1
 
-if [ -e /usr/lib/i386-linux-gnu/libsane.so.1 ]; then
-    apt-get remove libsane
-fi
-
 if notFile /usr/lib/sane/libsane-mustek_usb2.so.1.0.19; then
     pushd / || return 1
     ar p $bdir/libsane_1.0.19-1_i386.deb data.tar.gz | tar xz
     popd
 fi
+
+ln -sf /usr/lib/libsane.so.1.0.19 /lib/i386-linux-gnu/libsane.so.1
 
 file=/usr/lib/i386-linux-gnu/libtiff.so
 if notFile $file.4; then

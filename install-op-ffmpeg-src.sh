@@ -4,16 +4,8 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-#file=ffmpeg-3.2.9.tar.xz
-#repo=$idir/../repo
-
-#download https://ffmpeg.org/releases/$file || return 1
-#untar $file || return 1
-
-#return 0
-
 name=ffmpeg
-version=4.1.6
+version=4.3.2
 pkg=$name-$version.tgz
 src=$name-apt-src
 repo=$idir/../repo
@@ -33,3 +25,4 @@ if notFile $repo/$pkg; then
 fi
 
 untar $pkg || return 1
+ffmpeg=$name-$version

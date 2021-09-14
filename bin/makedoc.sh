@@ -103,7 +103,7 @@ fi
 case $texprog in
     1) latex    $options "$name.tex" ; dvips -o "$name.ps"  "$name.dvi" ;;
     2) pdflatex $options "$name.tex" ;;
-    3) latex    $options "$name.tex" ; dvipdf   "$name.dvi" "$name.pdf" ;;
+    3) latex    $options "$name.tex" ; dvipdf -dALLOWPSTRANSPARENCY "$name.dvi" "$name.pdf" ;;
 esac
 
 # ---------------------------------------------------------------------------- #
@@ -121,7 +121,7 @@ if [ "$book" = o ]; then
         psbook "$name.ps" | psnup -2 |\
           pstops "2:0,1U(21cm,29.7cm)" > "livret_$name.ps"
     else
-        pdfbook -o "livret_$name.pdf" "$name.pdf"
+        pdfbook2 -o "$name.pdf"
     fi
 fi
 

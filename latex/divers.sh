@@ -9,7 +9,7 @@ for f in illusion carte carte2 clarky declinaison; do
     if notFile $f.pdf; then
         if grep -q pstricks $f.tex; then
             sudo -u $user latex --halt-on-error $f.tex >>$log 2>&1
-            sudo -u $user dvipdf $f.dvi $f.pdf >>$log 2>&1
+            sudo -u $user dvipdf -dALLOWPSTRANSPARENCY $f.dvi $f.pdf >>$log 2>&1
         else
             sudo -u $user pdflatex --halt-on-error $f.tex >>$log 2>&1
         fi
