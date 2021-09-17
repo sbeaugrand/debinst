@@ -12,9 +12,10 @@ install-op-firefox-automute.sh
 install-op-meteo.sh
 install-op-ssh-server.sh
 install-op-upgrades.sh
+install-pr-bashrc.sh
+install-op-ssh-keygen.sh
 hardware/install-op-lp-ts5000.sh
 hardware/install-op-ipod.sh
-install-pr-bashrc.sh
 "
 
 if notLink $home/.gramps && isDir $data/gramps; then

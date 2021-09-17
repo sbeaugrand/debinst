@@ -3,12 +3,28 @@
 # ---------------------------------------------------------------------------- #
 sourceList "
 install-op-autologin.sh
-install-op-emacs-php.sh
-install-op-id3ed.sh
-install-op-mp3gain.sh
+install-op-firefox-abp.sh
+install-op-firefox-vdh.sh
+install-op-firefox-vdhcoapp.sh
+install-op-firefox-cookies.sh
+install-op-firefox-automute.sh
 install-op-upgrades.sh
 install-pr-bashrc.sh
-install-pr-swap.sh
-install-pr-xmms2.sh
+install-op-ssh-keygen.sh
 install-op-mutt.sh
 "
+
+file=/etc/X11/xorg.conf.d/20-intel.conf
+if notFile $file; then
+    cat >$file <<EOF
+Section "Device"
+   Identifier  "Intel Graphics"
+   Driver      "intel"
+EndSection
+EOF
+fi
+
+file=$home/.Xresources
+if notGrep 'xterm\*font: 10x20' $file; then
+    sed -i 's/xterm\*font: .*/xterm\*font: 10x20/' $file
+fi

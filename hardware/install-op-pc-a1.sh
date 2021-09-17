@@ -24,9 +24,15 @@ install-op-upgrades.sh
 install-pr-alias.sh
 install-pr-bashrc.sh
 install-pr-pdcroix.sh
+install-op-ssh-keygen.sh
 hardware/install-op-lp-hpP1006.sh
 hardware/install-op-scan-mustekA3.sh
 "
+
+file=$home/.Xresources
+if notGrep 'xterm\*font: 9x15' $file; then
+    sed -i 's/xterm\*font: .*/xterm\*font: 9x15/' $file
+fi
 
 file=$home/.config/lxsession/LXDE/autostart
 if notGrep brightness $file; then

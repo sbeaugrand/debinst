@@ -10,7 +10,6 @@ install-op-meteo.sh
 install-op-mp3gain.sh
 install-op-phpmyadmin-base.sh
 install-op-phpmyadmin-extra.sh
-install-op-sdcc.sh
 install-op-uncrustify.sh
 install-op-upgrades.sh
 install-pr-bashrc.sh

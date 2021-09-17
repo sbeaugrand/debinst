@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-version=1.5.0
+version=1.6.3
 file=net.downloadhelper.coapp-$version-1_amd64.deb
 
 if notFile $repo/$file; then

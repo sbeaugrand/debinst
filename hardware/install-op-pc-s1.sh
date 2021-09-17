@@ -16,6 +16,7 @@ install-op-uncrustify.sh
 install-pr-alias.sh
 install-pr-bashrc.sh
 install-pr-swap.sh
+install-op-ssh-keygen.sh
 hardware/install-op-alsa-order.sh
 hardware/install-op-lp-hpP1006.sh
 hardware/install-op-scan-mustekA3.sh

@@ -11,7 +11,6 @@ source install-op-arduino.sh || return 1
 source install-op-emacs-php.sh || return 1
 source install-op-id3ed.sh || return 1
 source install-op-mp3gain.sh || return 1
-source install-op-sdcc-src.sh || return 1
 source install-61-colorgcc.sh || return 1
 source install-op-fonts-morse.sh || return 1
 source install-op-eeplot.sh || return 1

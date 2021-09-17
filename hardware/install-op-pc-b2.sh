@@ -3,9 +3,7 @@
 # ---------------------------------------------------------------------------- #
 sourceList "
 install-op-autologin.sh
-install-op-dafont.sh
-install-pr-bashrc.sh
-install-pr-swap.sh
+install-op-ssh-keygen.sh
 "
 
 if notLink /etc/udev/rules.d/80-net-setup-link.rules; then
