@@ -19,9 +19,10 @@ fi
 
 pushd $home/.mozilla/firefox/*.default || return 1
 # Firefox telemetry and spy removal
-download https://gist.github.com/MrYar/751e0e5f3f1430db7ec5a8c8aa237b72/raw/6dba4f0d5eccac8691ad0b6b7f82287accaa719a/_Firefox-79 || return 1
-sed 's/US/FR/' $repo/_Firefox-79 >user.js || return 1
+download https://gist.github.com/MrYar/751e0e5f3f1430db7ec5a8c8aa237b72/raw/e95a7cdf37d8c8a57d1fc35cce750d6b85ee3d2f/_Firefox-88 || return 1
+sed 's/US/FR/' $repo/_Firefox-88 >user.js || return 1
 sed -i -e '/autofillForms/d' -e '/rememberSignons/d' -e '/showSearch/d' user.js
+sed -i -e '/parent_directory/d' -e 's/)$/);/' user.js
 
 file=$idir/install-*-firefox/homepage-pr-.html
 if [ ! -f $file ]; then
@@ -50,6 +51,9 @@ user_pref("privacy.trackingprotection.enabled", true);
 user_pref("privacy.trackingprotection.socialtracking.enabled", true);
 user_pref("network.cookie.lifetimePolicy", 2);
 user_pref("accessibility.force_disabled", 1);
+
+user_pref("privacy.sanitize.pending", "[{\"id\":\"shutdown\",\"itemsToClear\":[\"cache\",\"cookies\",\"history\",\"formdata\",\"downloads\",\"sessions\"],\"options\":{}},{\"id\":\"newtab-container\",\"itemsToClear\":[],\"options\":{}}]");
+user_pref("privacy.sanitize.sanitizeOnShutdown", true);
 
 // lockPref
 
