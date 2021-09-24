@@ -99,10 +99,8 @@ $(DIC): dic/%.dic: $(SRCDIR)%.tex
 	aspell -d francais -p ./$@ -t -c $<
 	@touch $@
 
-$(PDFDIR)/livret-%.pdf: $(PDFDIR)/%-book.pdf
-	@cp $< $@
-$(PDFDIR)/%-book.pdf: $(PDFDIR)/%.pdf
-	pdfbook2 $<
+$(PDFDIR)/livret-%.pdf: $(PDFDIR)/%.pdf
+	pdfxup -b -kbb -ow -o $@ $<
 $(PDFDIR)/portrait-%.pdf: $(PDFDIR)/livret-%.pdf
 	pdfjam --angle 90 -q -o $@ $<
 $(PDFDIR)/extrait-%.pdf: $(PDFDIR)/%.pdf

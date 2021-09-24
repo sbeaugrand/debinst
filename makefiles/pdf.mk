@@ -17,16 +17,13 @@ TARGETS += "| livret | portrait | extrait"
 
 .PHONY: livret
 livret: livret-$(PROJECT).pdf
-livret-$(PROJECT).pdf: $(PROJECT)-book.pdf
-	@cp $< $@
-
-$(PROJECT)-book.pdf: $(PROJECT).pdf
-	@pdfbook2 $<
+livret-$(PROJECT).pdf: $(PROJECT).pdf
+	@pdfxup -b -kbb -ow -o $@ $<
 
 .PHONY: portrait
 portrait: portrait-$(PROJECT).pdf
 portrait-$(PROJECT).pdf: livret-$(PROJECT).pdf
-	@pdfjam --angle 90 -q -o $@ $<
+	@pdfjam -q --angle 90 -o $@ $<
 
 .PHONY: extrait
 extrait: extrait-$(PROJECT).pdf

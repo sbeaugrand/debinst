@@ -119,9 +119,9 @@ fi
 if [ "$book" = o ]; then
     if [ $texprog = 1 ]; then
         psbook "$name.ps" | psnup -2 |\
-          pstops "2:0,1U(21cm,29.7cm)" > "livret_$name.ps"
+          pstops "2:0,1U(21cm,29.7cm)" >"livret-$name.ps"
     else
-        pdfbook2 -o "$name.pdf"
+        pdfxup -b -kbb -ow -o "livret-$name.pdf" "$name.pdf"
     fi
 fi
 
