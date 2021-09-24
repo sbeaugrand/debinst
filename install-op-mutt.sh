@@ -126,6 +126,8 @@ macro index   q <change-folder>?<toggle-mailboxes>
 macro index   C <enter-command>push<enter><tag-prefix><copy-message>
 macro index <Down> <next-entry>
 macro index <Up>   <previous-entry>
+macro attach w "<pipe-message>w3m -T text/html\n"
+macro attach l "<pipe-message>lynx -stdin\n"
 EOF
     if [ -n "$MAIL2" ] && [ -n $SMTP2 ]; then
         cat >>$file <<EOF
