@@ -28,6 +28,15 @@
 \def\ri#1{$#1^{-1}$}
 
 \begin{document}
+\Huge
+\vspace*{\stretch{1}}
+\centerline{\color{white}\contour{black}{Rubik's cube}}
+\vspace{2cm}
+\vspace*{\stretch{1}}
+\newpage
+~\\
+\newpage
+\normalsize
 \begin{center}
 \Large
 Rubik's cube 3x3x3
@@ -201,6 +210,11 @@ $M^4$\\
 \end{scope}
 \end{tikzpicture}
 \end{minipage}
+\vfill
+\begin{center}
+\scriptsize
+\copyright 2021 Sébastien Beaugrand -- CeCILL 2.1
+\end{center}
 \newpage
 \begin{center}
 \Large
@@ -228,7 +242,6 @@ Rubik's cube 3x3x3
 \end{scope}
 \end{tikzpicture}\\
 \rh{A} \ri{H} \rh{D} \rh{H}\\
-~\\
 
 \textbf{2. Les coins du premier étage}\\
 
@@ -266,8 +279,7 @@ Rubik's cube 3x3x3
   \draw (-3,3) grid (0,6);
 \end{scope}
 \end{tikzpicture}\\
-\rh{A} \rh{B} \ri{A} \ri{B}\\
-
+\rh{A} \rh{B} \ri{A} \ri{B}
 \end{minipage}
 \begin{minipage}[t]{\colsize}
 \textbf{3. Les arêtes du second étage}\\
@@ -326,6 +338,11 @@ Rubik's cube 3x3x3
 \ri{A} & il les aide à se redresser\\
 \end{tabular}
 \end{minipage}
+\vfill
+\begin{center}
+\scriptsize
+\copyright 2021 Sébastien Beaugrand -- CeCILL 2.1
+\end{center}
 \newpage
 \begin{minipage}[t]{\colsize}
 \textbf{4. La croix du troisième étage}\\
@@ -511,12 +528,14 @@ le bas jaune: rouge, bleu, orange, vert\\
   \node at (0.5,2.5) {1};
   \node at (1.5,2.5) {A};
   \node at (2.5,2.5) {A};
+  \node at (3.5,2.5) {=};
   \node at (1.5,1.5) {A};
   \node at (2.5,1.5) {A};
   \node at (3.5,1.5) {2};
   \draw (0,0) grid (4,4);
 \end{scope}
 \begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (4.5,-1.5) {=};
   \node at (5.5,-1.5) {D};
   \node at (6.5,-1.5) {D};
   \node at (5.5,-2.5) {D};
@@ -631,4 +650,181 @@ Pour remplacer l'algorithme de 15 étapes:\\
 \ri{2d} & redescend de deux étages\\
 \end{tabular}
 \end{minipage}
+\newpage
+\begin{center}
+\Large
+Rubik's cube 5x5x5
+\normalsize
+\end{center}
+~\\
+\begin{minipage}[m]{\colsize}
+\textbf{1. Les centres}\\
+\emph{Algorithme de l'ascenseur}\\
+En préparant les lignes sur les faces\\
+non encore faites\\
+
+\textbf{2. Les arêtes}\\
+\emph{Algorithme du bus}\\
+En choisissant de tourner ou non les\\
+milieux d'arêtes\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (0.5,3.5) {1};
+  \node at (1.5,3.5) {A};
+  \node at (2.5,3.5) {A};
+  \node at (3.5,3.5) {A};
+  \node at (1.5,2.5) {A};
+  \node at (2.5,2.5) {A};
+  \node at (3.5,2.5) {A};
+  \node at (4.5,2.5) {=};
+  \node at (1.5,1.5) {A};
+  \node at (2.5,1.5) {A};
+  \node at (3.5,1.5) {A};
+  \node at (4.5,1.5) {2};
+  \draw (0,0) grid (5,5);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (6.5,-1.5) {D};
+  \node at (7.5,-1.5) {D};
+  \node at (8.5,-1.5) {D};
+  \node at (5.5,-2.5) {=};
+  \node at (6.5,-2.5) {D};
+  \node at (7.5,-2.5) {D};
+  \node at (8.5,-2.5) {D};
+  \node at (6.5,-3.5) {D};
+  \node at (7.5,-3.5) {D};
+  \node at (8.5,-3.5) {D};
+  \draw (5,-5) grid (10,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-3.5,8.5) {H};
+  \node at (-2.5,8.5) {H};
+  \node at (-1.5,8.5) {H};
+  \node at (-3.5,7.5) {H};
+  \node at (-2.5,7.5) {H};
+  \node at (-1.5,7.5) {H};
+  \node at (-3.5,6.5) {H};
+  \node at (-2.5,6.5) {H};
+  \node at (-1.5,6.5) {H};
+  \draw (-5,5) grid (0,10);
+\end{scope}
+\end{tikzpicture}\\
+\begin{tabular}{@{}l@{\hspace{5pt}}l@{}}
+\ri{Hh}\rh{E}& le bus arrive\\
+\rh{D}  & la porte s'ouvre\\
+\ri{A}  & un monsieur monte\\
+\rh{H}  & il va au fond du bus\\
+\ri{D}  & la porte se referme\\
+\rh{A}  & le monsieur redescend\\
+\rh{Hh}\ri{E}& le bus repart en arrière\\
+\end{tabular}
+\end{minipage}
+\begin{minipage}[t]{\colsize}
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (0.5,3.5) {\textbf{1}};
+  \node at (1.5,3.5) {A};
+  \node at (2.5,3.5) {A};
+  \node at (3.5,3.5) {A};
+  \node at (1.5,2.5) {A};
+  \node at (2.5,2.5) {A};
+  \node at (3.5,2.5) {A};
+  \node at (4.5,2.5) {1};
+  \node at (1.5,1.5) {A};
+  \node at (2.5,1.5) {A};
+  \node at (3.5,1.5) {A};
+  \node at (4.5,1.5) {\textbf{2}};
+  \draw (0,0) grid (5,5);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (6.5,-1.5) {D};
+  \node at (7.5,-1.5) {D};
+  \node at (8.5,-1.5) {D};
+  \node at (5.5,-2.5) {2};
+  \node at (6.5,-2.5) {D};
+  \node at (7.5,-2.5) {D};
+  \node at (8.5,-2.5) {D};
+  \node at (6.5,-3.5) {D};
+  \node at (7.5,-3.5) {D};
+  \node at (8.5,-3.5) {D};
+  \draw (5,-5) grid (10,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-3.5,8.5) {H};
+  \node at (-2.5,8.5) {H};
+  \node at (-1.5,8.5) {H};
+  \node at (-3.5,7.5) {H};
+  \node at (-2.5,7.5) {H};
+  \node at (-1.5,7.5) {H};
+  \node at (-3.5,6.5) {H};
+  \node at (-2.5,6.5) {H};
+  \node at (-1.5,6.5) {H};
+  \draw (-5,5) grid (0,10);
+\end{scope}
+\end{tikzpicture}\\
+\begin{tabular}{@{}l@{\hspace{5pt}}l@{}}
+\ri{Hh} & le bus arrive\\
+\rh{D}  & la porte s'ouvre\\
+\ri{A}  & un monsieur monte\\
+\rh{H}  & il va au fond du bus\\
+\ri{D}  & la porte se referme\\
+\rh{A}  & le monsieur redescend\\
+\rh{Hh} & le bus repart en arrière\\
+\end{tabular}\\
+~\\
+
+\textbf{3. Résoudre comme un cube 3x3x3}\\
+En résolvant les problèmes de parité.\\
+Pour remplacer l'algorithme de 15 étapes:\\
+\rh{Dd} et reprendre au début\\
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid,scale=\scaleS]
+\begin{scope}[every node/.append style={yslant=-0.5},yslant=-0.5]
+  \node at (1.5,4.5) {=};
+  \node at (2.5,4.5) {1};
+  \node at (3.5,4.5) {=};
+  \node at (1.5,3.5) {A};
+  \node at (2.5,3.5) {A};
+  \node at (3.5,3.5) {A};
+  \node at (1.5,2.5) {A};
+  \node at (2.5,2.5) {A};
+  \node at (3.5,2.5) {A};
+  \node at (1.5,1.5) {A};
+  \node at (2.5,1.5) {A};
+  \node at (3.5,1.5) {A};
+  \draw (0,0) grid (5,5);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=0.5},yslant=0.5]
+  \node at (6.5,-1.5) {D};
+  \node at (7.5,-1.5) {D};
+  \node at (8.5,-1.5) {D};
+  \node at (6.5,-2.5) {D};
+  \node at (7.5,-2.5) {D};
+  \node at (8.5,-2.5) {D};
+  \node at (6.5,-3.5) {D};
+  \node at (7.5,-3.5) {D};
+  \node at (8.5,-3.5) {D};
+  \draw (5,-5) grid (10,0);
+\end{scope}
+\begin{scope}[every node/.append style={yslant=-0.5,xslant=1},yslant=-0.5,xslant=1]
+  \node at (-3.5,8.5) {H};
+  \node at (-2.5,8.5) {H};
+  \node at (-1.5,8.5) {H};
+  \node at (-3.5,7.5) {H};
+  \node at (-2.5,7.5) {H};
+  \node at (-1.5,7.5) {H};
+  \node at (-3.5,6.5) {H};
+  \node at (-2.5,6.5) {H};
+  \node at (-1.5,6.5) {H};
+  \node at (-3.5,5.5) {=};
+  \node at (-2.5,5.5) {2};
+  \node at (-1.5,5.5) {=};
+  \draw (-5,5) grid (0,10);
+\end{scope}
+\end{tikzpicture}
+\end{minipage}
+\vfill
+\begin{center}
+\scriptsize
+\copyright 2021 Sébastien Beaugrand -- CeCILL 2.1
+\end{center}
 \end{document}
