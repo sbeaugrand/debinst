@@ -100,7 +100,7 @@ $(DIC): dic/%.dic: $(SRCDIR)%.tex
 	@touch $@
 
 $(PDFDIR)/livret-%.pdf: $(PDFDIR)/%.pdf
-	pdfxup -b -kbb -ow -o $@ $<
+	pdfxup -b -kbb -ow -o $@ $< >/dev/null
 $(PDFDIR)/portrait-%.pdf: $(PDFDIR)/livret-%.pdf
 	pdfjam --angle 90 -q -o $@ $<
 $(PDFDIR)/extrait-%.pdf: $(PDFDIR)/%.pdf

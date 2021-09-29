@@ -121,7 +121,7 @@ if [ "$book" = o ]; then
         psbook "$name.ps" | psnup -2 |\
           pstops "2:0,1U(21cm,29.7cm)" >"livret-$name.ps"
     else
-        pdfxup -b -kbb -ow -o "livret-$name.pdf" "$name.pdf"
+        pdfxup -b -kbb -ow -o "livret-$name.pdf" "$name.pdf" >/dev/null
     fi
 fi
 

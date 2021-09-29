@@ -18,7 +18,7 @@ TARGETS += "| livret | portrait | extrait"
 .PHONY: livret
 livret: livret-$(PROJECT).pdf
 livret-$(PROJECT).pdf: $(PROJECT).pdf
-	@pdfxup -b -kbb -ow -o $@ $<
+	@pdfxup -b -kbb -ow -o $@ $< >/dev/null
 
 .PHONY: portrait
 portrait: portrait-$(PROJECT).pdf
