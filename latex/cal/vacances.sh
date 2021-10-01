@@ -38,7 +38,7 @@ elif [ "$year" = "2021" ]; then
 
     vOIVddOOI=07; vOIVdmOOI=07; vOIVfdOOI=31; vOIVfmOOI=08;
 
-    vOOVddOOI=17; vOOVdmOOI=10; vOOVfdOOI=31; vOOVfmOOI=10;
+    vOOVddOOI=24; vOOVdmOOI=10; vOOVfdOOI=07; vOOVfmOOI=11;
 
     vOVIddOOI=19; vOVIdmOOI=12; vOVIfdOOI=31; vOVIfmOOI=12;
 fi
