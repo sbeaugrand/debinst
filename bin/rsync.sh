@@ -33,7 +33,7 @@ if [ "$1" = "--no-delete" ]; then
     shift
     sync="rsync --checksum -aO -f '- *~' $*"
 else
-    sync="rsync --checksum --delete -aO -f '- *~' $*"
+    sync="rsync --checksum --delete -aO -f '- *~' -f '- build' $*"
 fi
 
 eval $sync -ni $src $dst >$log

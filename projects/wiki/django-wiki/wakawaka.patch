@@ -1,0 +1,94 @@
+diff --git a/wakawaka/templates/wakawaka/page.html b/wakawaka/templates/wakawaka/page.html
+index b505706..bbba68a 100644
+--- a/wakawaka/templates/wakawaka/page.html
++++ b/wakawaka/templates/wakawaka/page.html
+@@ -2,6 +2,7 @@
+ 
+ {% load wakawaka_tags %}
+ {% load i18n %}
++{% load markdownify %}
+ 
+ {% block extrahead %}
+ 	{{ block.super }}
+@@ -29,7 +30,8 @@
+ 	{% endif %}
+ 
+ 	<div class="page">
+-	{{ rev.content|urlize|wikify|linebreaks }}
++	{#{ rev.content|urlize|wikify|linebreaks }#}
++	{{ rev.content|markdownify|linebreaks }}
+ 	</div>
+ 
+ 	{% spaceless %}
+@@ -51,4 +53,4 @@
+     	{% endif %}
+ 	</div>
+ 	{% endspaceless %}
+-{% endblock %}
+\ No newline at end of file
++{% endblock %}
+diff --git a/wakawaka/views.py b/wakawaka/views.py
+index 5542d74..a805860 100644
+--- a/wakawaka/views.py
++++ b/wakawaka/views.py
+@@ -1,3 +1,4 @@
++from django.contrib.auth.decorators import login_required
+ import difflib
+ 
+ from django.conf import settings
+@@ -16,6 +17,7 @@ from wakawaka.forms import DeleteWikiPageForm, WikiPageForm
+ from wakawaka.models import Revision, WikiPage
+ 
+ 
++@login_required()
+ def index(request):
+     """
+     Redirects to the default wiki index name.
+@@ -25,6 +27,7 @@ def index(request):
+     return HttpResponseRedirect(redirect_to)
+ 
+ 
++@login_required()
+ def page(
+     request, slug, rev_id=None, template_name='wakawaka/page.html', extra_context=None,
+ ):
+@@ -57,6 +60,7 @@ def page(
+     return render(request, template_name, template_context)
+ 
+ 
++@login_required()
+ def edit(
+     request,
+     slug,
+@@ -168,6 +172,7 @@ def edit(
+     return render(request, template_name, template_context)
+ 
+ 
++@login_required()
+ def revisions(
+     request, slug, template_name='wakawaka/revisions.html', extra_context=None
+ ):
+@@ -182,6 +187,7 @@ def revisions(
+     return render(request, template_name, template_context)
+ 
+ 
++@login_required()
+ def changes(request, slug, template_name='wakawaka/changes.html', extra_context=None):
+     """
+     Displays the changes between two revisions.
+@@ -225,6 +231,7 @@ def changes(request, slug, template_name='wakawaka/changes.html', extra_context=
+ 
+ 
+ # Some useful views
++@login_required()
+ def revision_list(
+     request, template_name='wakawaka/revision_list.html', extra_context=None
+ ):
+@@ -237,6 +244,7 @@ def revision_list(
+     return render(request, template_name, template_context)
+ 
+ 
++@login_required()
+ def page_list(request, template_name='wakawaka/page_list.html', extra_context=None):
+     """
+     Displays all Pages

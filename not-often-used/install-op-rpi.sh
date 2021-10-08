@@ -49,7 +49,8 @@ if ! isFile $file; then
     exit 1
 fi
 ssh pi@$RPI "test -d .ssh || mkdir .ssh && chmod 700 .ssh"
-rsync -i --no-times --checksum $file pi@$RPI:/home/pi/.ssh/authorized_keys
+rsync -i --no-times --checksum --copy-links\
+ $file pi@$RPI:/home/pi/.ssh/authorized_keys
 
 # ---------------------------------------------------------------------------- #
 # PasswordAuthentication=no
@@ -59,7 +60,7 @@ if ! ssh -o PasswordAuthentication=no pi@$RPI true; then
 fi
 ssh pi@$RPI "
 grep -q '^PasswordAuthentication no' /etc/ssh/sshd_config ||\
- sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/'\
+ sudo sed -i 's/.*PasswordAuthentication yes/PasswordAuthentication no/'\
  /etc/ssh/sshd_config"
 
 # ---------------------------------------------------------------------------- #
@@ -82,6 +83,7 @@ rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
  ~/install/debinst/projects/mp3server\
  ~/install/debinst/projects/debug\
  ~/install/debinst/projects/makefiles\
+ ~/install/debinst/projects/wiki\
  pi@$RPI:/home/pi/install/debinst/projects/
 
 # ---------------------------------------------------------------------------- #

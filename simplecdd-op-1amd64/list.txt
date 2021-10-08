@@ -92,6 +92,7 @@ xmms2-dev
 libxmmsclient-dev
 xmms2
 sqlite3
+sqlitebrowser
 mpg123
 id3v2
 libreadline-dev
@@ -233,6 +234,8 @@ gramps
 pdfposter
 hplip
 cmark-gfm
+retext
+pandoc
 live-boot  # live-build
 live-config  # live-build
 live-config-systemd  # live-build

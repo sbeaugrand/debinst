@@ -22,7 +22,7 @@ fi
 if [ -n "$2" ]; then
     mobianIntf=$2
 else
-    mobianIntf=`sed '1d' /proc/net/dev | grep '^enp0' | grep -v "$debianIntf" | cut -d ':' -f 1 | head -1`
+    mobianIntf=`sed '1d' /proc/net/dev | grep '^enx' | grep -v "$debianIntf" | cut -d ':' -f 1 | head -1`
     if [ -z "$mobianIntf" ]; then
         echo "mobian interface not found"
         exit 1

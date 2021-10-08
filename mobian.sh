@@ -81,7 +81,7 @@ if ! ssh -o PasswordAuthentication=no $uri true; then
 fi
 ssh -t $uri "
 grep -q '^PasswordAuthentication no' /etc/ssh/sshd_config ||\
- sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/'\
+ sudo sed -i 's/.*PasswordAuthentication yes/PasswordAuthentication no/'\
  /etc/ssh/sshd_config"
 
 # ---------------------------------------------------------------------------- #

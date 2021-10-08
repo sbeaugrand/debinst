@@ -17,7 +17,7 @@ endef
 .PHONY: all
 all:
 	@echo
-	@echo "Usage: make { rsync | install | ssh | xssh | contacts | dns }"
+	@echo "Usage: make { rsync | install | ssh | xssh | contacts | dns | upgrade }"
 	@echo
 
 .PHONY: rsync
