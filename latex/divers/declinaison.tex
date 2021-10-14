@@ -6,7 +6,7 @@
 % ---------------------------------------------------------------------------- %
 \documentclass[a4paper]{article}
 \usepackage{vmargin}
-\setmarginsrb{5mm}{5mm}{5mm}{5mm}{0mm}{0mm}{0mm}{0mm}
+\setmarginsrb{10mm}{10mm}{10mm}{10mm}{0mm}{0mm}{0mm}{0mm}
 \usepackage{tikz}
 \pagestyle{empty}
 \parindent0cm
@@ -14,30 +14,50 @@
 \begin{document}
 \usetikzlibrary{math}
 \tikzmath{
-  \marge = 0.5;
+  \marge = 1.0;
   \espace = 0.1;
   \largeur = 21.0 - 2 * \marge;
   \hauteur = 29.7 - 2 * \marge;
-  \traitCourt = 0.5;
-  \traitLong = 1;
+  \traitCourt = 1.0;
+  \traitMoyen = 2.0;
+  \traitLong = 3.0;
   \abscisse1 = \hauteur - \espace;
   \abscisse2 = \hauteur - \traitCourt;
-  \abscisse3 = \hauteur - \traitLong;
+  \abscisse3 = \hauteur - \traitMoyen;
+  \abscisse4 = \hauteur - \traitLong;
 }
 
 \begin{tikzpicture}
   \draw (0,\hauteur) -- (\largeur,\hauteur) -- (0,\hauteur) -- (0,0) -- (\largeur,0);
-  \foreach \a in {1,2,...,34} {
+  \foreach \a in {0.5,1.5,...,34.5} {
     \draw[very thick] ({\abscisse1*tan(\a)},\abscisse1) -- ({\abscisse2*tan(\a)},\abscisse2);
   }
-  \foreach \a in {5,10,...,30} {
-    \draw[very thick] ({\abscisse1*tan(\a)},\abscisse1) -- ({\abscisse3*tan(\a)},\abscisse3) node[below] {-\a};
-  }
   \foreach \a in {1,2,...,34} {
+    \draw[very thick] ({\abscisse1*tan(\a)},\abscisse1) -- ({\abscisse3*tan(\a)},\abscisse3);
+  }
+  \foreach \a in {5,10,...,30} {
+    \draw[very thick] ({\abscisse1*tan(\a)},\abscisse1) -- ({\abscisse4*tan(\a)},\abscisse4) node[below] {-\a};
+  }
+  \foreach \a in {0.5,1.5,...,34.5} {
     \draw[very thick] ({\abscisse1*tan(\a)},\espace) -- ({\abscisse2*tan(\a)},\traitCourt);
   }
+  \foreach \a in {1,2,...,34} {
+    \draw[very thick] ({\abscisse1*tan(\a)},\espace) -- ({\abscisse3*tan(\a)},\traitMoyen);
+  }
   \foreach \a in {5,10,...,30} {
-    \draw[very thick] ({\abscisse1*tan(\a)},\espace) -- ({\abscisse3*tan(\a)},\traitLong) node[anchor=north,rotate=180] {\a};
+    \draw[very thick] ({\abscisse1*tan(\a)},\espace) -- ({\abscisse4*tan(\a)},\traitLong) node[anchor=north,rotate=180] {\a};
+  }
+  \foreach \a in {0.5,1.5,...,9.5} {
+    \draw[very thick] ({30*tan(\a)},\hauteur/2 - 0.5) -- ({30*tan(\a)},\hauteur/2 - 0.5 - \traitCourt);
+  }
+  \foreach \a in {1,2,...,10} {
+    \draw[very thick] ({30*tan(\a)},\hauteur/2 - 0.5) -- ({30*tan(\a)},\hauteur/2 - 0.5 - \traitMoyen) node[below] {\a};
+  }
+  \foreach \a in {0.5,1.5,...,4.5} {
+    \draw[very thick] (\a,\hauteur/2 + 0.5) -- (\a,\hauteur/2 + 0.5 + \traitCourt);
+  }
+  \foreach \a in {1,2,...,5} {
+    \draw[very thick] (\a,\hauteur/2 + 0.5) -- (\a,\hauteur/2 + 0.5 + \traitMoyen) node[above] {\a};
   }
 \end{tikzpicture}
 \end{document}
