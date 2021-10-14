@@ -5,7 +5,7 @@
 %% \copyright CeCILL 2.1 Free Software license
 % ---------------------------------------------------------------------------- %
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{cls/livret}
+\ProvidesClass{livret}
 \LoadClass[a5paper,twoside]{article}
 \RequirePackage{times}
 

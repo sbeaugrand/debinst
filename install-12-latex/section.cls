@@ -5,8 +5,8 @@
 %% \copyright CeCILL 2.1 Free Software license
 % ---------------------------------------------------------------------------- %
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{cls/section}
-\LoadClass{cls/livret}
+\ProvidesClass{section}
+\LoadClass{livret}
 
 \def\section#1{%
  \vspace*{7cm}

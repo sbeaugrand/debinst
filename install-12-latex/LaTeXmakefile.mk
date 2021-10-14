@@ -23,14 +23,14 @@
 # commence par sec/section-.
 # Par exemple sec/section-s1.tex pourrait ressembler a :
 #
-# \documentclass{cls/section}
+# \documentclass{section}
 # \begin{document}
 # \input s1
 # \end{document}
 #
 # Et le fichier du projet pourrait ressembler a :
 #
-# \documentclass{cls/livret}
+# \documentclass{livret}
 # \begin{document}
 # \input s1
 # \newpage
@@ -40,7 +40,7 @@
 # \end{document}
 #
 # Remarque : ces exemples sont adaptes a la production de livrets A5 sans
-# changement d'echelle. (Utilisation du fichier cls/livret.cls et "pdfbook".)
+# changement d'echelle. (Utilisation du fichier livret.cls et "pdfbook".)
 #
 # Si une dependance est modifiee (ajout ou suppression d'un \input,
 # \includegraphics de pdf, ou \verbatiminput), les regenerer avec "make dep".
