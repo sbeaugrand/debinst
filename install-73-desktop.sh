@@ -30,3 +30,12 @@ if notGrep 'key="Super_L"' $file; then
     sed -i 's/key="A-F1"/key="Super_L"/' $file
     openbox --reconfigure
 fi
+
+if notGrep ">screen<" $file; then
+    sed -i 's#</keyboard>#  <!-- Terminal -->\
+  <keybind key="C-A-t">\
+    <action name="Execute"><command>lxterminal</command></action>\
+  </keybind>\
+</keyboard>#' $file
+    openbox --reconfigure
+fi
