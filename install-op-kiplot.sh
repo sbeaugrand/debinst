@@ -33,3 +33,21 @@ file=/usr/bin/ps2epsi.ps
 if notLink $file; then
     ln -s /usr/share/ghostscript/*/lib/ps2epsi.ps $file
 fi
+
+file=$home/.config/kicad/sym-lib-table
+if notFile $file; then
+    cat >$file <<EOF
+(sym_lib_table
+  (lib (name kicad)(type Legacy)(uri \$HOME/install/debinst/projects/kicad/kicad.lib)(options "")(descr ""))
+)
+EOF
+fi
+
+file=$home/.config/kicad/fp-lib-table
+if notFile $file; then
+    cat >$file <<EOF
+(fp_lib_table
+  (lib (name kicad)(type KiCad)(uri \$HOME/install/debinst/projects/kicad/mod.pretty)(options "")(descr ""))
+)
+EOF
+fi
