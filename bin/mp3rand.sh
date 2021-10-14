@@ -4,55 +4,14 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note Les albums doivent etre ranges dans des repertoires commencants par
+##       part01, part02, etc. A chaque repertoire doit etre associe' un poids.
+##       Les albums doivent etre des repertoires. Dans chaque album il doit y
+##       avoir une liste 00.m3u
 # ---------------------------------------------------------------------------- #
-#
-# Les albums doivent etre ranges dans des repertoires commencants par
-# part01, part02, etc. Par exemple :
-#
-# part01 - Metal/
-# part02 - Metal/
-# part03 - Metal/
-# part04 - Metal/
-# part05 - Metal/
-# part06 - Metal/
-# part07 - Metal/
-# part08 - Indus/
-# part09 - Indus/
-# part10 - Indus/
-# part11 - Autre/
-# part12 - Autre/
-# part13 - Autre/
-#
-# A chaque repertoire doit etre associe' un poids :
 # part : 1 2 3 4 5 6 7       1 2 3
 weights="8 7 6 5 4 3 2 6 4 2 3 2 1 3 2 1"
-#
-# Les albums doivent etre des repertoires. Par Exemple :
-#
-# Abigor - 1995 - Nachthymnen (From The Twilight Kingdom)/
-# Absu - 1997 - The Third Storm Of Cythraul/
-# Accept - 1985 - Metal Masters/
-# Accept - 1989 - Eat The Heat/
-# Agathodaimon - 1999 - Higher Art Of Rebellion/
-# Akhenaton - 1995 - Divine Symphonies/
-# Alice Cooper - 1989 - The Beast Of Alice Cooper/
-# Alice Cooper - 1989 - Trash/
-# ...
-#
-# Dans chaque album il doit y avoir une liste 00.m3u. Par exemple :
-#
-# 00.m3u
-# 01 - Unleashed Axe-age.mp3
-# 02 - Scars In The Landscape Of God.mp3
-# 03 - Reborn Through The Gates Of Three Moons.mp3
-# 04 - Dornen.mp3
-# 05 - As Astral Images Darken Reality.mp3
-# 06 - The Dark Kiss.mp3
-# 07 - I Face The Eternal Winter.mp3
-# 08 - Revealed Secrets Of The Whispering Moon.mp3
-# 09 - A Frozen Soul In A Wintershadow.mp3
-#
-# ---------------------------------------------------------------------------- #
+
 if [ -n "$MP3DIR" ]; then
     dir="$MP3DIR"
 else
