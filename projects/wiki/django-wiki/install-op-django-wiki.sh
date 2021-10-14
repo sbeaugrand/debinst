@@ -41,7 +41,7 @@ fi
 # ---------------------------------------------------------------------------- #
 # startproject
 # ---------------------------------------------------------------------------- #
-dir=$idir/projects/wiki/$project
+dir=$idir/projects/wiki/$project/build
 if notDir $dir; then
     mkdir $dir
 fi
@@ -69,7 +69,7 @@ fi
 # ---------------------------------------------------------------------------- #
 # login.html
 # ---------------------------------------------------------------------------- #
-dir=$idir/projects/wiki/$project/templates/registration
+dir=$idir/projects/wiki/$project/build/templates/registration
 file=$dir/login.html
 if notFile $file; then
     mkdir -p $dir
@@ -86,7 +86,7 @@ fi
 # ---------------------------------------------------------------------------- #
 # urls.py
 # ---------------------------------------------------------------------------- #
-dir=$idir/projects/wiki/$project
+dir=$idir/projects/wiki/$project/build
 file=$dir/$app/urls.py
 if notGrep "accounts" $file; then
     cat >>$file <<EOF
@@ -108,7 +108,7 @@ if [ -f config-pr-.sh ]; then
     source config-pr-.sh
 fi
 
-dir=$idir/projects/wiki/$project
+dir=$idir/projects/wiki/$project/build
 file=$dir/$app/settings.py
 if notGrep "markdownify" $file; then
 
@@ -168,7 +168,7 @@ if notFile $file; then
 <IfModule mod_ssl.c>
   <VirtualHost _default_:443>
    #ServerName $host
-    DocumentRoot $idir/projects/wiki/$project/
+    DocumentRoot $idir/projects/wiki/$project/build/
     ErrorLog \${APACHE_LOG_DIR}/error.log
     CustomLog \${APACHE_LOG_DIR}/access.log combined
     SSLEngine on
@@ -185,9 +185,9 @@ if notFile $file; then
     </Directory>
   </VirtualHost>
 </IfModule>
-WSGIScriptAlias / $idir/projects/wiki/$project/$app/wsgi.py
-WSGIPythonPath $idir/projects/wiki/$project
-<Directory $idir/projects/wiki/$project/$app>
+WSGIScriptAlias / $idir/projects/wiki/$project/build/$app/wsgi.py
+WSGIPythonPath $idir/projects/wiki/$project/build
+<Directory $idir/projects/wiki/$project/build/$app>
   <Files wsgi.py>
     Require all granted
   </Files>
@@ -209,14 +209,14 @@ cat <<EOF
 
 Todo:
 
-cd $idir/projects/wiki/$project
+cd $idir/projects/wiki/$project/build
 python3 manage.py migrate
 
 sudo chown $user.www-data db.sqlite3
 chmod 664 db.sqlite3
 
 python3 manage.py createsuperuser
-echo "user='$user'; mail='$mail'; password='1234'" | cat - createuser.py | python3 manage.py shell
+echo "user='$user'; mail='$mail'; password='1234'" | cat - ../createuser.py | python3 manage.py shell
 
 sudo systemctl reload apache2
 firefox http://localhost/$app/

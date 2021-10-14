@@ -14,8 +14,11 @@ PROPATH = wiki
 all:
 	@echo "Usage: make install"
 
+build:
+	@mkdir $@
+
 .PHONY: install
-install:
+install: build
 	@$(PROROOT)/../0install.sh install-op-$(PROJECT).sh
 
 include ${PROROOT}/makefiles/tar.mk
