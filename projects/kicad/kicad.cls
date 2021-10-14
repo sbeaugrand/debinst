@@ -70,3 +70,30 @@
   \end{picture}
  }
 }
+
+% ---------------------------------------------------------------------------- %
+% Composants
+% ---------------------------------------------------------------------------- %
+\newcount\somme
+\newcount\total
+
+\newcommand\prix[1]{
+  \count0=#1 \divide  \count0 by100 \count1=\count0
+  \count2=#1 \multiply\count0 by100 \advance\count2 by-\count0
+  \number\count1.\ifnum\count2<10 0\fi\number\count2
+}
+\newcommand\art[4]{
+  \global\somme=#2
+  \global\multiply\somme by#3
+  \global\advance\total\somme
+  #4&#1&\prix{#2}&\number#3&\prix{\somme}\\
+}
+\newenvironment{articles}{
+  \global\total=0
+  \begin{tabular}{|llrr@{}r|} \hline
+    Article&Référence&Prix&Nb&Prix\\ \hline
+}{
+  \hline
+  &&Total&&\prix{\total}\\ \hline
+  \end{tabular}
+}
