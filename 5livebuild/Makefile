@@ -5,12 +5,12 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROJECT = $(shell basename `readlink -f .`)
-CODENAME = buster
+CODENAME = $(shell lsb_release -sc)
 MIRROR = $(HOME)/data/install-build/simplecdd-op-1amd64/tmp/mirror
 CHROOTDIR = build/config/includes.chroot
 SKELDIR = $(CHROOTDIR)/etc/skel
-RSYNC = rsync --delete -aO -f '-s_build/***' -i
-DST=build/live-image-amd64.hybrid.iso
+RSYNC = rsync -aO -i --delete --delete-excluded
+DST = build/live-image-amd64.hybrid.iso
 
 .SUFFIXES:
 
@@ -84,20 +84,29 @@ skel: $(SKELDIR)/install\
  $(SKELDIR)/.screenrc\
  $(SKELDIR)/.vimrc\
  $(SKELDIR)/.mplayer/config\
- $(SKELDIR)/.xscreensaver
+ $(SKELDIR)/.xscreensaver\
+ $(SKELDIR)/.local/share/applications/screen.desktop
 $(SKELDIR)/install: FORCE
 	@mkdir -p $@
-	@$(RSYNC) ~/install/ $@/
-$(SKELDIR)/.%: $(HOME)/.% FORCE
+	@$(RSYNC)\
+	 --include=repo/*.tgz\
+	 --exclude-from=../.gitignore\
+	 --exclude-from=../homepage/.gitignore\
+	 --exclude=.git\
+	 ~/install/ $@/
+$(SKELDIR)/.%: $(HOME)/.%
 	@$(RSYNC) $< $@
-$(SKELDIR)/.bashrc: $(HOME)/.bashrc FORCE
+$(SKELDIR)/.bashrc: $(HOME)/.bashrc
 	@sed "s@$(HOME)@/home/user@g" $< >$@
 $(SKELDIR)/.mplayer/config: $(HOME)/.mplayer/config
 	@mkdir -p $(SKELDIR)/.mplayer
 	@$(RSYNC) $< $@
-$(SKELDIR)/.xscreensaver: FORCE
+$(SKELDIR)/.xscreensaver:
 	@echo "mode: one" >$@
 	@echo "selected: 21" >>$@
+$(SKELDIR)/.local/share/applications/screen.desktop: $(HOME)/.local/share/applications/screen.desktop
+	@mkdir -p $(SKELDIR)/.local/share/applications
+	@sed "s@$(HOME)@/home/user@g" $< >$@
 
 .PHONY: local-bin
 local-bin: $(CHROOTDIR)/usr/local/bin

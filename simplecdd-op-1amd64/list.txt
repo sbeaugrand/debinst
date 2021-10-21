@@ -250,4 +250,5 @@ live-tools  # live-build
 user-setup  # live-build
 eject  # live-build
 live-build
+locales  # live-build
 grub-pc-bin

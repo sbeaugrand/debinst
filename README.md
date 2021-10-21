@@ -95,6 +95,7 @@ cd 5livebuild
 make config
 make sync
 make clean
+make config
 make installer
 make aptsources
 make binary
