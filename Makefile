@@ -38,7 +38,7 @@ pull:
 not-often-used:
 	@ls -1 --color=no install-op-*.sh |\
 	 xargs -I {} bash -c "grep -q {} hardware/*.sh || test -x {} || echo {}" |\
-	 grep -v '\(-src.sh\|codecs\|-res.sh\)'
+	 grep -v '\(-src.sh\|codecs\)'
 
 .PHONY: pkgs
 pkgs:
