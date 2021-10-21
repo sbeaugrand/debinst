@@ -63,58 +63,42 @@ mrproper: clean
 
 .PHONY: tar
 tar:
-	@cd .. && tar cvzf $(PROJECT).tgz \
-	--exclude=*~ \
-	--exclude=.*.swp \
-	--exclude=build \
-	--exclude=.git \
-	--exclude=*.pdf \
-	--exclude=*.bck \
-	--exclude=*-bak \
-	--exclude=*rescue* \
-	--exclude=*-cache* \
-	--exclude=*.ps \
-	--exclude=*.nc \
-	--exclude=*.ged \
-	--exclude=*.hex \
-	--exclude=*.a \
-	--exclude=*.ko \
-	--exclude=*.dtbo \
-	--exclude=homepage/html \
-	--exclude=__pycache__ \
-	--exclude=*.7z \
+	@cd .. && tar cvzf $(PROJECT).tgz\
+	 --exclude=*~\
+	 --exclude=.*.swp\
+	 --exclude=build\
+	 --exclude=*.pdf\
+	 --exclude=*.a\
+	 --exclude=*.ko\
+	 --exclude=*.dtbo\
+	 --exclude=*.bck\
+	 --exclude=*-bak\
+	 --exclude=*rescue*\
+	 --exclude=*-cache*\
+	 --exclude=*.ps\
+	 --exclude=*.nc\
+	 --exclude=*.hex\
+	 --exclude=*.ged\
+	 --exclude=*.toc\
+	 --exclude=*/amd64/profiles/amd64.packages\
+	 --exclude=*/amd64/profiles/amd64.postinst\
+	 --exclude=*/amd64/simple-cdd.conf\
+	 --exclude=*/i386/profiles/i386.packages\
+	 --exclude=*/i386/profiles/i386.postinst\
+	 --exclude=*/i386/simple-cdd.conf\
+	 --exclude=__pycache__\
+	 --exclude=*.7z\
+	 --exclude=README.html\
 	\
-	--exclude=homepage/tgz \
-	--exclude=homepage/png \
-	$(PROJECT)
+	 --exclude=homepage/html\
+	 --exclude=homepage/tgz\
+	 --exclude=homepage/png\
+	 --exclude=.git\
+	 $(PROJECT)
 
 .PHONY: dist
 dist:
-	@cd .. && tar cvzf $(PROJECT)-dist.tgz \
-	--exclude=*~ \
-	--exclude=.*.swp \
-	--exclude=build \
-	--exclude=.git \
-	--exclude=*.pdf \
-	--exclude=*.bck \
-	--exclude=*-bak \
-	--exclude=*rescue* \
-	--exclude=*-cache* \
-	--exclude=*.ps \
-	--exclude=*.nc \
-	--exclude=*.ged \
-	--exclude=*.hex \
-	--exclude=*.a \
-	--exclude=*.ko \
-	--exclude=*.dtbo \
-	--exclude=homepage/html \
-	--exclude=__pycache__ \
-	--exclude=*.7z \
-	\
-	--exclude=*.tgz \
-	--exclude=*.png \
-	--exclude=*.ttf \
-	--exclude=*.pfb \
-	--exclude=*-pr-* \
-	--exclude=php \
-	$(PROJECT)
+	@cd .. && tar cvzf $(PROJECT)-dist.tgz\
+	 --exclude-vcs-ignores\
+	 --exclude=.git\
+	 $(PROJECT)
