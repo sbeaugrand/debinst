@@ -16,7 +16,7 @@ all:
 	@echo "Usage:"
 	@echo "  make install"
 	@echo "  sudo make { diff | save }"
-	@echo "  make rsync"
+	@echo "  make { rsync | rauth }"
 
 .PHONY: install
 install:
@@ -39,5 +39,10 @@ rsync:
 	@rsync -rti --checksum --delete --rsync-path="sudo rsync"\
 	 -f '- playground' -f '- wiki'\
 	 pi@rpi:/var/lib/dokuwiki/data/pages/ pages-pr-/
+
+.PHONY: rauth
+rauth:
+	@rsync -ti --checksum --rsync-path="sudo rsync"\
+	 pi@rpi:/var/lib/dokuwiki/acl/users.auth.php users-pr-auth.php
 
 include ${PROROOT}/makefiles/tar.mk
