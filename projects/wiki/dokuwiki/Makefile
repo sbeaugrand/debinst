@@ -7,7 +7,10 @@
 PROROOT = ../..
 PROJECT = dokuwiki
 PROPATH = wiki
-DIR = /var/lib/dokuwiki/data
+DIR = /var/lib/dokuwiki/data/pages
+ACL = /var/lib/dokuwiki/acl
+DST = pi@rpi
+RSYNC = rsync -ti --checksum --rsync-path="sudo rsync"
 
 .SUFFIXES:
 
@@ -15,8 +18,7 @@ DIR = /var/lib/dokuwiki/data
 all:
 	@echo "Usage:"
 	@echo "  make install"
-	@echo "  sudo make { diff | save }"
-	@echo "  make { rsync | rauth }"
+	@echo "  make { rdiff | rsync | rauth }"
 
 .PHONY: install
 install:
@@ -25,24 +27,23 @@ install:
 pages-pr-:
 	@mkdir $@
 
-.PHONY: diff
-diff: pages-pr-
-	@diff -r -x playground -x wiki pages-pr-/ $(DIR)/pages/; true
-
-.PHONY: save
-save: pages-pr-
-	@cp -uv $(DIR)/pages/*.txt pages-pr-/
-	@chown $(SUDO_USER).$(SUDO_USER) pages-pr-/*
+.PHONY: rdiff
+rdiff: pages-pr-
+	@ssh $(DST) 'sudo tar cP\
+	 --exclude=playground --exclude=wiki\
+	 $(DIR) $(ACL)/users.auth.php' |\
+	 tar xf - -C /tmp/ --transform='s,/var/lib/,,'
+	@colordiff -u -r pages-pr- /tmp/dokuwiki/data/pages; true
+	@colordiff -u users-pr-auth.php /tmp/dokuwiki/acl/users.auth.php; true
+	@$(RM) -r /tmp/dokuwiki
 
 .PHONY: rsync
-rsync:
-	@rsync -rti --checksum --delete --rsync-path="sudo rsync"\
-	 -f '- playground' -f '- wiki'\
-	 pi@rpi:/var/lib/dokuwiki/data/pages/ pages-pr-/
+rsync: pages-pr-
+	@$(RSYNC) -r -f '- playground' -f '- wiki'\
+	 $(DST):$(DIR)/ pages-pr-/
 
 .PHONY: rauth
 rauth:
-	@rsync -ti --checksum --rsync-path="sudo rsync"\
-	 pi@rpi:/var/lib/dokuwiki/acl/users.auth.php users-pr-auth.php
+	@$(RSYNC) $(DST):$(ACL)/users.auth.php users-pr-auth.php
 
 include ${PROROOT}/makefiles/tar.mk

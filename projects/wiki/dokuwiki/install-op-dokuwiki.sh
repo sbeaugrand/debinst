@@ -110,6 +110,19 @@ if [ -L $file ]; then
     /usr/sbin/a2dissite 000-default
 fi
 
+file=/etc/crontab
+dir=$home/dokuwiki
+if notGrep "dokuwiki" $file; then
+    cat >>$file <<EOF
+0 4 * * * root /bin/bash -c "cp -u /var/lib/dokuwiki/data/pages/*.txt $dir/"
+1 4 * * * root /bin/bash -c "cp -u /var/lib/dokuwiki/acl/users.auth.php $dir/"
+EOF
+    systemctl restart cron
+fi
+if notDir $dir; then
+    mkdir $dir
+fi
+
 cat <<EOF
 
 Todo:
