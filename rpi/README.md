@@ -46,15 +46,15 @@ umount /media/$USER/*
 ```
 Démarrer sur Raspberry PI
 ```
-ssh-keygen -f ~/.ssh/known_hosts -R 192.168.x.xx
+ssh-keygen -f ~/.ssh/known_hosts -R rpi
 keychain ~/.ssh/id_rsa
-RPI=192.168.x.xx ./install-op-rpi.sh  # password: raspberry
-ssh pi@192.168.x.xx
-cd install/debinst/install-op-rpi
-../0install.sh
+make rsync  # password: raspberry
+make ssh
+cd install/debinst/rpi
+make install
 sudo reboot
-ssh pi@192.168.x.xx
-cd install/debinst/install-op-rpi
+make ssh
+cd install/debinst/rpi
 rw
 ../0install.sh install-op-audio.sh
 ../0install.sh install-op-llctl.sh install-op-volet.sh

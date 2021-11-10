@@ -1,15 +1,20 @@
 #!/bin/bash
 # ---------------------------------------------------------------------------- #
-## \file install-op-rpi.sh
+## \file rpi.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-if [ `whoami` = "root" ] || [ -z "$RPI" ]; then
-    echo "Usage: RPI=192.168.x.xx ./install-op-rpi.sh"
-    echo "                RPI=rpi ./install-op-rpi.sh"
+project=`basename $0 .sh`
+if [ `whoami` = "root" ]; then
+    echo "Usage: [user=pi] [host=rpi] ./$project.sh"
     exit 1
 fi
+user=${user:-pi}
+host=${host:-rpi}
+uri=$user@$host
+echo "user = $user"
+echo "host = $host"
 
 # ---------------------------------------------------------------------------- #
 # isFile
@@ -44,21 +49,21 @@ file=~/.profile
 if isFile ~/.ssh/id_rsa.pub && notGrep "keychain" $file; then
     echo 'source ~/.keychain/*-sh' >>$file
 fi
-file=install-op-rpi/install-pr-authorized_keys
+file=$project/install-pr-authorized_keys
 if ! isFile $file; then
     exit 1
 fi
-ssh pi@$RPI "test -d .ssh || mkdir .ssh && chmod 700 .ssh"
+ssh $uri "test -d .ssh || mkdir .ssh && chmod 700 .ssh"
 rsync -i --no-times --checksum --copy-links\
- $file pi@$RPI:/home/pi/.ssh/authorized_keys
+ $file $uri:/home/$user/.ssh/authorized_keys
 
 # ---------------------------------------------------------------------------- #
 # PasswordAuthentication=no
 # ---------------------------------------------------------------------------- #
-if ! ssh -o PasswordAuthentication=no pi@$RPI true; then
+if ! ssh -o PasswordAuthentication=no $uri true; then
     exit 1
 fi
-ssh pi@$RPI "
+ssh $uri "
 grep -q '^PasswordAuthentication no' /etc/ssh/sshd_config ||\
  sudo sed -i 's/.*PasswordAuthentication yes/PasswordAuthentication no/'\
  /etc/ssh/sshd_config"
@@ -66,43 +71,45 @@ grep -q '^PasswordAuthentication no' /etc/ssh/sshd_config ||\
 # ---------------------------------------------------------------------------- #
 # install
 # ---------------------------------------------------------------------------- #
-ssh pi@$RPI "test -d install/debinst/latex || mkdir -p install/debinst/latex"
-ssh pi@$RPI "test -d install/debinst/projects || mkdir install/debinst/projects"
+ssh $uri "test -d install/debinst/latex || mkdir -p install/debinst/latex"
+ssh $uri "test -d install/debinst/projects || mkdir install/debinst/projects"
 rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
+ --exclude=kicad --exclude=*.ko --exclude=*.dtbo\
  ~/install/debinst/0install.sh\
- ~/install/debinst/not-often-used/install-op-rpi\
+ ~/install/debinst/$project\
  ~/install/debinst/armbian\
  ~/install/debinst/bin\
  ~/install/debinst/makefiles\
- pi@$RPI:/home/pi/install/debinst/
+ $uri:/home/$user/install/debinst/
 rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
+ --exclude=__pycache__\
  ~/install/debinst/latex/cal\
  ~/install/debinst/latex/makefiles\
- pi@$RPI:/home/pi/install/debinst/latex/
+ $uri:/home/$user/install/debinst/latex/
 rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
  ~/install/debinst/projects/mp3server\
  ~/install/debinst/projects/debug\
  ~/install/debinst/projects/makefiles\
  ~/install/debinst/projects/wiki\
- pi@$RPI:/home/pi/install/debinst/projects/
+ $uri:/home/$user/install/debinst/projects/
 
 # ---------------------------------------------------------------------------- #
 # data
 # ---------------------------------------------------------------------------- #
-ssh pi@$RPI "test -d data/install-build || mkdir -p data/install-build"
-ssh pi@$RPI "test -d data/install-repo || mkdir -p data/install-repo"
+ssh $uri "test -d data/install-build || mkdir -p data/install-build"
+ssh $uri "test -d data/install-repo || mkdir -p data/install-repo"
 
 # ---------------------------------------------------------------------------- #
 # passwd
 # ---------------------------------------------------------------------------- #
-ssh pi@$RPI "
+ssh $uri "
 test -f data/install-build/passwd ||
  (passwd && sudo passwd root && touch data/install-build/passwd)"
 
 # ---------------------------------------------------------------------------- #
 # rasp-config
 # ---------------------------------------------------------------------------- #
-#ssh pi@$RPI "
+#ssh $uri "
 #test -f data/install-build/raspi-config ||
 # (sudo raspi-config nonint do_expand_rootfs &&
 # touch data/install-build/raspi-config)"

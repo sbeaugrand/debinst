@@ -4,24 +4,24 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-HOST ?= pi
+host ?= pi
 
 .SUFFIXES:
 
 .PHONY: all
 all:
 	@echo
-	@echo -n "Usage: make [HOST=pi] { ssh | rsync | install "
+	@echo -n "Usage: make [host=pi] { ssh | rsync | install "
 	@echo "| lirc | rtc | oled | mp3server }"
 	@echo
 
 .PHONY: ssh
 ssh:
-	@ssh $(USER)@$(HOST); true
+	@ssh $(user)@$(host); true
 
 .PHONY: rsync
 rsync:
-	@cd .. && user=$(USER) host=$(HOST) ./armbian.sh
+	@cd .. && user=$(user) host=$(host) ./armbian.sh
 
 .PHONY: install
 install:

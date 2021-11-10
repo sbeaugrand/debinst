@@ -54,7 +54,8 @@ if ! isFile $file; then
     exit 1
 fi
 ssh $uri "test -d .ssh || mkdir .ssh && chmod 700 .ssh"
-rsync -i --no-times --checksum $file $uri:/home/$user/.ssh/authorized_keys
+rsync -i --no-times --checksum --copy-links\
+ $file $uri:/home/$user/.ssh/authorized_keys
 
 # ---------------------------------------------------------------------------- #
 # PasswordAuthentication=no
@@ -72,19 +73,20 @@ grep -q '^PasswordAuthentication no' /etc/ssh/sshd_config ||\
 # ---------------------------------------------------------------------------- #
 ssh $uri "test -d install/debinst/latex || mkdir -p install/debinst/latex"
 ssh $uri "test -d install/debinst/projects || mkdir install/debinst/projects"
-rsync -rli --delete --no-times --checksum\
- --exclude=build --exclude=*.pdf --exclude=kicad\
+rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
+ --exclude=kicad --exclude=*.ko --exclude=*.dtbo\
  ~/install/debinst/0install.sh\
  ~/install/debinst/$project\
  ~/install/debinst/bin\
  ~/install/debinst/makefiles\
  $uri:/home/$user/install/debinst/
-rsync -rli --delete --no-times --checksum\
- --exclude=build --exclude=*.pdf --exclude=__pycache__
+rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
+ --exclude=__pycache__\
  ~/install/debinst/latex/cal\
+ ~/install/debinst/latex/makefiles\
  $uri:/home/$user/install/debinst/latex/
-rsync -rli --delete --no-times --checksum\
- --exclude=build --exclude=*.pdf --exclude=*.a\
+rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
+ --exclude=*.a\
  ~/install/debinst/projects/mp3server\
  ~/install/debinst/projects/debug\
  ~/install/debinst/projects/makefiles\

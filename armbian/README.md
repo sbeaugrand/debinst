@@ -42,9 +42,11 @@ pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
 Démarrer sur la Pi
 ```
-make ssh USER=root [HOST=pi]  # password: 1234
+ssh-keygen -f ~/.ssh/known_hosts -R pi
+keychain ~/.ssh/id_rsa
+make ssh user=root [host=pi]  # password: 1234
 exit
-make rsync [USER=$USER] [HOST=pi]
+make rsync [user=$USER] [host=pi]
 make ssh
 cd install/debinst/armbian
 which make >/dev/null || sudo apt install make
