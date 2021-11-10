@@ -25,6 +25,8 @@ __pycache__
 README.html
 *.tgz
 *.png
+*.jpg
+*.JPG
 *-pr-*
 *.ttf
 *.pfb

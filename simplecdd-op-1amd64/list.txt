@@ -23,6 +23,7 @@ poppler-utils
 evince
 gimp
 imagemagick
+libjpeg-turbo-progs  # jpegtran
 fonts-liberation
 icedax
 wodim

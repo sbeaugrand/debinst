@@ -15,7 +15,7 @@ HTML = $(addprefix html/,$(addsuffix .html,$(notdir $(SRC))))
 .SUFFIXES:
 
 .PHONY: all
-all: htmls pdf png/tux.png favicon.ico http
+all: htmls pdf images/tux.png favicon.ico http
 
 .PHONY: htmls
 htmls: html $(HTML)
@@ -31,10 +31,10 @@ pdf:
 	@grep 'pdf/' index.html |\
 	 cut -d '"' -f 2 | xargs -I {} ls -l --color {} || true
 
-png/tux.png: /usr/share/icons/silk/16x16/tux.png
+images/tux.png: /usr/share/icons/silk/16x16/tux.png
 	@cp -a $< $@
 
-favicon.ico: png/tux.png
+favicon.ico: images/tux.png
 	@icotool -c -o $@ $<
 
 include ../makefiles/http.mk

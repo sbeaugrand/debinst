@@ -91,8 +91,8 @@ tar:
 	 --exclude=README.html\
 	\
 	 --exclude=homepage/html\
+	 --exclude=homepage/images\
 	 --exclude=homepage/tgz\
-	 --exclude=homepage/png\
 	 --exclude=.git\
 	 $(PROJECT)
 
