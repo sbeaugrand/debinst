@@ -47,7 +47,7 @@ alias halt='/sbin/shutdown now'
 test -n "\$DISPLAY" && xset -b
 setxkbmap -option "nbsp:none"
 last -R | grep boot | head -n 2 | tail -n 1 | sed 's/.*boot/Last:/'
-test -d /run/lock/.keychain && source /run/lock/.keychain/*-sh
+test -d /run/lock/.keychain && kc
 cd
 EOF
     return 0

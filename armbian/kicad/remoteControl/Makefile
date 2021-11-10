@@ -15,3 +15,8 @@ build:
 landscape: landscape.pdf
 landscape.pdf: $(PROJECT).pdf
 	@pdfjam -q --nup 2x1 --landscape -o $@ $<
+
+.PHONY: portrait
+portrait: portrait.pdf
+portrait.pdf: landscape.pdf
+	@pdfjam -q --angle 90 -o $@ $<

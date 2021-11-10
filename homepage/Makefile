@@ -68,6 +68,7 @@ dorsync:
 	 -f'-s_debinst/latex/kicad'\
 	 -f'-s_debinst/projects/makefiles'\
 	 -f'-s_debinst/homepage/tgz'\
+	 -f'-s_debinst/homepage/images'\
 	 $(PWD)/ /tmp/$(URL)/
 
 .PHONY: umount
