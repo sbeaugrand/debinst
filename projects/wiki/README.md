@@ -20,4 +20,5 @@ SSLCertificateChainFile /etc/letsencrypt/live/$host/chain.pem
 EOF
 sudo vi /etc/apache2/apache2.conf +  # ServerName $host
 sudo systemctl start apache2
+echo "0 5 1 * * root /usr/local/bin/certbot renew --apache >>/var/log/certbot-renew.log" | sudo tee -a /etc/crontab
 ```
