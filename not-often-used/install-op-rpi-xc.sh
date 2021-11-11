@@ -6,4 +6,4 @@
 # ---------------------------------------------------------------------------- #
 MAKE_OPT="ARFLAGS=cr"\
  host_alias=arm-linux-gnueabihf\
- source install-op-rpi/install-11-bcm.sh
+ source rpi/install-11-bcm.sh

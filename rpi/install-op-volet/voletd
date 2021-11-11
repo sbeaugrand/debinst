@@ -22,7 +22,7 @@
 case "$1" in
     start)
         sleep 120
-        cd /home/pi/install/debinst/install-op-rpi/install-op-volet
+        cd /home/pi/install/debinst/rpi/install-op-volet
         touch /run/volet.log
         date >>/run/volet.log
         while ! /usr/sbin/ntpdate -u ntp.u-psud.fr; do

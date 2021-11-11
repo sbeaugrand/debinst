@@ -10,7 +10,7 @@ year=`date +%Y`
 zone=C
 [ -z "$ipath" ] && ipath=/home/pi/install/debinst
 [ -z "$cpath" ] && cpath=$ipath/latex/cal
-[ -z "$vpath" ] && vpath=$ipath/install-op-rpi/install-op-volet
+[ -z "$vpath" ] && vpath=$ipath/rpi/install-op-volet
 
 # ---------------------------------------------------------------------------- #
 ## \fn nearVacation

@@ -27,8 +27,11 @@ versions:
 pull:
 	@grep -r --color=always\
 	 --exclude-dir=build\
-	 --exclude-dir=install-op-rpi\
+	 --exclude-dir=armbian\
+	 --exclude-dir=rpi\
+	 --exclude-dir=mobian\
 	 --exclude-dir=install-pr*\
+	 --exclude-dir=not-often-used\
 	 --exclude=README.*\
 	 --exclude=Makefile\
 	 "gitClone " | tee /dev/stderr |\

@@ -124,6 +124,8 @@ umount /mnt/b3
 
 # [Installation sur ARM (armbian)](armbian/README.md)
 
+# [Installation sur Raspberry Pi (raspbian)](rpi/README.md)
+
 # [Installation sur PinePhone (mobian)](mobian/README.md)
 
 # Exemple de création d'un paquet debinst restreint

@@ -7,8 +7,8 @@
 PROROOT = ../..
 PROJECT = dokuwiki
 PROPATH = wiki
-DIR = /var/lib/dokuwiki/data/pages
-ACL = /var/lib/dokuwiki/acl
+DIR = /usr/share/dokuwiki/data/pages
+CFG = /usr/share/dokuwiki/conf
 DST = pi@rpi
 RSYNC = rsync -ti --checksum --rsync-path="sudo rsync"
 
@@ -31,10 +31,10 @@ pages-pr-:
 rdiff: pages-pr-
 	@ssh $(DST) 'sudo tar cP\
 	 --exclude=playground --exclude=wiki\
-	 $(DIR) $(ACL)/users.auth.php' |\
-	 tar xf - -C /tmp/ --transform='s,/var/lib/,,'
+	 $(DIR) $(CFG)/users.auth.php' |\
+	 tar xf - -C /tmp/ --transform='s,/usr/share/,,'
 	@colordiff -u -r pages-pr- /tmp/dokuwiki/data/pages; true
-	@colordiff -u users-pr-auth.php /tmp/dokuwiki/acl/users.auth.php; true
+	@colordiff -u users-pr-auth.php /tmp/dokuwiki/conf/users.auth.php; true
 	@$(RM) -r /tmp/dokuwiki
 
 .PHONY: rsync
@@ -44,6 +44,6 @@ rsync: pages-pr-
 
 .PHONY: rauth
 rauth:
-	@$(RSYNC) $(DST):$(ACL)/users.auth.php users-pr-auth.php
+	@$(RSYNC) $(DST):$(CFG)/users.auth.php users-pr-auth.php
 
 include ${PROROOT}/makefiles/tar.mk
