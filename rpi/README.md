@@ -34,14 +34,16 @@ termes.
 
 # Installation sur Raspberry PI
 ```
-unzip 2021-03-04-raspios-buster-armhf-lite.zip
+echo "008d7377b8c8b853a6663448a3f7688ba98e2805949127a1d9e8859ff96ee1a9 2021-10-30-raspios-bullseye-armhf-lite.zip" >2021-10-30-raspios-bullseye-armhf-lite.sha
+sha256sum -c 2021-10-30-raspios-bullseye-armhf-lite.sha
+unzip 2021-10-30-raspios-bullseye-armhf-lite.zip
 umount /media/$USER/*
 pv 2*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 sync
 ```
 Enlever et remettre la carte SD
 ```
-touch /media/$USER/ssh
+touch /media/$USER/.../ssh
 umount /media/$USER/*
 ```
 Démarrer sur Raspberry PI

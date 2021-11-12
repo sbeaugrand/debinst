@@ -12,7 +12,7 @@ python-dev
 ntp
 sntp
 ntpdate
-wiringpi
+#wiringpi
 at
 libusb-dev
 cryptsetup

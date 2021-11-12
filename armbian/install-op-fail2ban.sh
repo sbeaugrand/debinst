@@ -21,6 +21,7 @@ findtime = 24h
 bantime  = -1
 maxretry = 1
 EOF
+fi
 
 file=$dir/filter.d/apache-4xx.conf
 if notFile $file; then
@@ -28,6 +29,7 @@ if notFile $file; then
 [Definition]
 failregex = ^<HOST> -.*"(GET|POST|HEAD).*HTTP.*" 4[0-9][0-9]
 EOF
+fi
 
 # vi /var/log/apache2/access.log +
 # vi /var/log/fail2ban.log +

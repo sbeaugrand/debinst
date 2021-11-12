@@ -14,7 +14,7 @@ untar $file llctl/llctl.c llctl || return 1
 file=/usr/local/bin/llctl
 if notFile $file; then
     pushd $bdir/llctl || return 1
-    make >>$log 2>&1
+    gcc llctl.c -lusb -o llctl >>$log 2>&1
     cp llctl $file
     popd
 fi

@@ -18,7 +18,7 @@ RSYNC = rsync -ti --checksum --rsync-path="sudo rsync"
 all:
 	@echo "Usage:"
 	@echo "  make install"
-	@echo "  make { rdiff | rsync | rauth }"
+	@echo "  make { rdiff | rsync | rauth | rcert }"
 
 .PHONY: install
 install:
@@ -45,5 +45,9 @@ rsync: pages-pr-
 .PHONY: rauth
 rauth:
 	@$(RSYNC) $(DST):$(CFG)/users.auth.php users-pr-auth.php
+
+.PHONY: rcert
+rcert:
+	@ssh $(DST) 'sudo tar cP /etc/letsencrypt' | cat >etc-pr-letsencrypt.tar
 
 include ${PROROOT}/makefiles/tar.mk
