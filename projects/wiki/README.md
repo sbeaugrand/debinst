@@ -5,10 +5,12 @@
 # Certificats
 
 Nat:  80 -> 192.168.x.xx:80
+
 Nat: 443 -> 192.168.x.xx:443
 ```
 export host=mondomaine.net
 export mail=toto@free.fr
+sudo apt-get -y install python3-pip
 sudo python3 -m pip install certbot
 sudo systemctl stop apache2
 sudo certbot certonly --standalone -d $host -m $mail --rsa-key-size 4096
@@ -24,5 +26,13 @@ sudo systemctl start apache2
 
 # Certbot renew
 ```
+which pip3 || sudo apt-get -y install python3-pip
+which certbot || sudo python3 -m pip install certbot
 echo "0 5 1 * * root /usr/local/bin/certbot renew --apache >>/var/log/certbot-renew.log" | sudo tee -a /etc/crontab
+```
+
+# Fail2ban
+```
+cd install/debinst
+./0install armbian/install-op-fail2ban.sh
 ```

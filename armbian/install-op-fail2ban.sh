@@ -6,7 +6,11 @@
 # ---------------------------------------------------------------------------- #
 dir=/etc/fail2ban
 if notDir $dir; then
-    apt-get install fail2ban
+    apt-get -y install fail2ban
+fi
+
+if notFile /usr/sbin/iptables; then
+    apt-get -y install iptables
 fi
 
 file=$dir/jail.d/defaults-debian.conf

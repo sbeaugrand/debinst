@@ -11,7 +11,11 @@ else
     echo "Usage: `basename $0` <dossier>"
     exit 1
 fi
-sqlite="sqlite3 places.sqlite"
+if [ -f places.sqlite ]; then
+    sqlite="sqlite3 places.sqlite"
+else
+    sqlite="sqlite3 `ls ~/.mozilla/firefox/*/places.sqlite`"
+fi
 
 # ---------------------------------------------------------------------------- #
 # dossier

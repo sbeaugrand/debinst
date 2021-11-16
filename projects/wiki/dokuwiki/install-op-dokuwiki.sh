@@ -105,11 +105,11 @@ fi
 # apache
 # ---------------------------------------------------------------------------- #
 if notDir /usr/share/doc/libapache2-mod-php; then
-    apt-get install libapache2-mod-php
+    apt-get -y install libapache2-mod-php
 fi
 
 if notDir /usr/share/doc/php-xml; then
-    apt-get install php-xml
+    apt-get -y install php-xml
 fi
 
 file=/etc/apache2/sites-enabled/dokuwiki.conf
@@ -177,7 +177,7 @@ Todo:
 
 sudo systemctl reload apache2
 firefox http://localhost/dokuwiki/
-vi README.md  # domain + cert
+vi README.md  # domain + cert + cerbot renew + fail2ban
 sudo vi /etc/apache2/sites-enabled/dokuwiki.conf  # domain + cert
 sudo systemctl reload apache2
 firefox http://$host/dokuwiki/

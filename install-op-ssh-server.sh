@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if notFile /usr/sbin/sshd; then
-    apt-get install openssh-server
+    apt-get -y install openssh-server
 fi
 
 file=/etc/ssh/sshd_config

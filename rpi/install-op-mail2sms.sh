@@ -14,10 +14,10 @@ fi
 source $file
 
 if notWhich fetchmail; then
-    apt-get install fetchmail
+    apt-get -y install fetchmail
 fi
 if notWhich procmail; then
-    apt-get install procmail
+    apt-get -y install procmail
 fi
 
 file=/etc/fetchmailrc

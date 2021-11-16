@@ -37,12 +37,15 @@ termes.
 echo "008d7377b8c8b853a6663448a3f7688ba98e2805949127a1d9e8859ff96ee1a9 2021-10-30-raspios-bullseye-armhf-lite.zip" >2021-10-30-raspios-bullseye-armhf-lite.sha
 sha256sum -c 2021-10-30-raspios-bullseye-armhf-lite.sha
 unzip 2021-10-30-raspios-bullseye-armhf-lite.zip
-umount /media/$USER/*
+umount /mnt/m*  # or umount /media/$USER/*
 pv 2*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
-sync
 ```
 Enlever et remettre la carte SD
 ```
+mount /mnt/m2
+touch /mnt/m2/ssh
+umount /mnt/m2
+# or
 touch /media/$USER/.../ssh
 umount /media/$USER/*
 ```
@@ -55,6 +58,10 @@ make ssh
 cd install/debinst/rpi
 make install
 sudo reboot
+```
+
+# Optionnel
+```
 make ssh
 cd install/debinst/rpi
 rw

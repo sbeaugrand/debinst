@@ -47,8 +47,7 @@ cd debinst
 # Création d'une nouvelle debian sur clé USB
 ```
 make pkgs
-make iso  # or :
-make iso ARCH=i386
+make iso  # or make iso32
 pv ~/data/install-build/simplecdd-op-1amd64/images/debian-*-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
 La liste des paquets debian sont dans: simplecdd-op-1amd64/list.txt
