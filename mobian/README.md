@@ -74,3 +74,9 @@ make xssh
 mobian@mobian:~$ sudo cp .Xauthority /root/
 mobian@mobian:~$ sudo GDK_BACKEND=x11 nm-connection-editor
 ```
+
+# Récupération des photos et mms
+```
+rsync -ri mobian@mobian:/home/mobian/Images/ Images/
+rsync -ri mobian@mobian:/home/mobian/mms/ mms/
+```

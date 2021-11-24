@@ -7,6 +7,12 @@
 CMAKE_OPT="
 -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc
 -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++
+-DBUILDSWIG=OFF
 "
 source projects/arm/mraa.sh
+
+CMAKE_OPT="
+-DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc
+-DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++
+"
 source armbian/install-12-upm.sh

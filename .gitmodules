@@ -1,3 +1,6 @@
 [submodule "projects/avr/fftAlarm/fix_fft"]
 	path = projects/avr/fftAlarm/fix_fft
 	url = https://github.com/kosme/fix_fft
+[submodule "projects/arm/sompi/SomPi"]
+	path = projects/arm/sompi/SomPi
+	url = https://github.com/the-lazy-fox/SomPi

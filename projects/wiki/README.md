@@ -1,3 +1,20 @@
+# Remettre la partition en lecture/écriture
+```
+sudo rm /var/log
+sudo mkdir /var/log
+sudo mkdir /var/log/apache2
+```
+Sur raspios :
+```
+sudo sed -i 's/ro rootwait/rootwait/' /boot/cmdline.txt
+sudo sed -i 's/noatime,ro/noatime/' /etc/fstab
+```
+Sur armbian :
+```
+sudo sed -i 's/ ro / rw /' /boot/boot.cmd
+sudo sed -i '/tmp/!s/defaults,ro/defaults/' /etc/fstab
+```
+
 # Domaine
 
 [No-IP](https://www.noip.com/)
@@ -33,6 +50,6 @@ echo "0 5 1 * * root /usr/local/bin/certbot renew --apache >>/var/log/certbot-re
 
 # Fail2ban
 ```
-cd install/debinst
-./0install armbian/install-op-fail2ban.sh
+cd ~/install/debinst
+./0install.sh armbian/install-op-fail2ban.sh
 ```

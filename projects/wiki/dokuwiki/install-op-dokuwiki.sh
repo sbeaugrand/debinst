@@ -175,6 +175,7 @@ cat <<EOF
 
 Todo:
 
+sudo vi /etc/apache2/apache2.conf +/'Directory .usr.share'  # AllowOverride All
 sudo systemctl reload apache2
 firefox http://localhost/dokuwiki/
 vi README.md  # domain + cert + cerbot renew + fail2ban

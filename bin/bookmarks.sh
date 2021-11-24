@@ -5,10 +5,16 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+if [ "$1" = "-lite" ]; then
+    sed 's/ICON="[^"]*"//' bookmarks.html >bookmarks-lite.html &&\
+    tar czf bookmarks-lite.tgz bookmarks-lite.html
+    exit $?
+fi
+
 if [ -n "$1" ]; then
     ti=$1
 else
-    echo "Usage: `basename $0` <dossier>"
+    echo "Usage: `basename $0` [-lite] [directory]"
     exit 1
 fi
 if [ -f places.sqlite ]; then
@@ -59,9 +65,12 @@ dossier()
 # ---------------------------------------------------------------------------- #
 # main
 # ---------------------------------------------------------------------------- #
-echo '<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">'
-echo "<DL>"
 lv=0
 id=`$sqlite "SELECT id FROM moz_bookmarks WHERE title=\"$ti\""`
+if [ -z "$id" ]; then
+    exit 1
+fi
+echo '<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">'
+echo "<DL>"
 dossier $id
 echo "</DL>"

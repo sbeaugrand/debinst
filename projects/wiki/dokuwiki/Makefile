@@ -19,6 +19,7 @@ all:
 	@echo "Usage:"
 	@echo "  make install"
 	@echo "  make { rdiff | rsync | rauth | rcert }"
+	@echo "  make clean"
 
 .PHONY: install
 install:
@@ -49,5 +50,9 @@ rauth:
 .PHONY: rcert
 rcert:
 	@ssh $(DST) 'sudo tar cP /etc/letsencrypt' | cat >etc-pr-letsencrypt.tar
+
+.PHONY: clean
+clean:
+	@sudo ./supprOldRev.sh
 
 include ${PROROOT}/makefiles/tar.mk
