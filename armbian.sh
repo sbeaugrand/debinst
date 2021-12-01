@@ -96,6 +96,7 @@ rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
  ~/install/debinst/projects/timer\
  ~/install/debinst/projects/lifi\
  $uri:/home/$user/install/debinst/projects/
+ssh $uri "test -w /run/shutter.at && sed -i 's/.*/err l/' /run/shutter.at"
 
 # ---------------------------------------------------------------------------- #
 # data

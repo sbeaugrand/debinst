@@ -6,13 +6,14 @@
 # ---------------------------------------------------------------------------- #
 [Unit]
 Description=Shutter Control
-Wants=network.target
-After=network.target
+Wants=rtc.service
+After=rtc.service
 
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=/home/rock/install/debinst/armbian/shutter/shutterd start
+User=$USER
+ExecStart=/home/$USER/install/debinst/armbian/shutter/shutter-at.sh
 
 [Install]
 WantedBy=multi-user.target

@@ -75,10 +75,11 @@ void displayWrite(const char* line1, const char* line2)
 int displayScreenSaver()
 {
     const unsigned int width = 5;
-    const unsigned int height = 3;
+    const unsigned int height = 5;
     time_t tOfTheDay;
     struct tm* tmOfTheDay;
     char dateOfTheDay[(width + 1) << 1];
+    FILE* fp;
     static int r = -1;
     int x;
     int y;
@@ -106,6 +107,15 @@ int displayScreenSaver()
     gOled->write(dateOfTheDay);
     gOled->setCursor(y + height - 1, x);
     gOled->write(dateOfTheDay + width + 1);
+
+    fp = fopen("/run/shutter.at", "r");
+    if (fp != NULL) {
+        if (fgets(dateOfTheDay, sizeof(dateOfTheDay), fp) != NULL) {
+            gOled->setCursor(y + 2, x);
+            gOled->write(dateOfTheDay);
+        }
+        fclose(fp);
+    }
 
     return 0;
 }

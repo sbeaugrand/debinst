@@ -7,7 +7,7 @@ After=rtc.service
 Wants=rtc.service
 
 [Service]
-Type=oneshot
+Type=simple
 ExecStart=/usr/bin/oscreensaver
 
 [Install]

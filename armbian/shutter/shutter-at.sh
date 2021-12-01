@@ -8,9 +8,9 @@
 # ---------------------------------------------------------------------------- #
 year=`date +%Y`
 zone=C
-[ -z "$ipath" ] && ipath=/home/rock/install/debinst
+[ -z "$ipath" ] && ipath=/home/$USER/install/debinst
 [ -z "$cpath" ] && cpath=$ipath/latex/cal
-[ -z "$vpath" ] && vpath=$ipath/armbian/install-op-shutter
+[ -z "$vpath" ] && vpath=$ipath/armbian/shutter
 
 # ---------------------------------------------------------------------------- #
 ## \fn nearVacation
@@ -99,7 +99,6 @@ vacation()
 # ---------------------------------------------------------------------------- #
 # main
 # ---------------------------------------------------------------------------- #
-echo "-------------------------------------------------------------------------"
 cd $cpath
 heure=`date +%H | awk '{ print $1 + 0 }'`
 ls -l build/sun
@@ -156,19 +155,19 @@ if vacation; then
     min1=25
 fi
 
-if [ "$1" = "haut" ]; then
-    pos=haut
+if [ "$1" = "open" ]; then
+    pos=open
     shift
-elif [ "$1" = "bas" ]; then
-    pos=bas
+elif [ "$1" = "close" ]; then
+    pos=close
     shift
 elif ((heure >= heure1)) && ((heure < heure2)); then
-    pos=bas
+    pos=close
 else
-    pos=haut
+    pos=open
 fi
 
-if [ $pos == "haut" ]; then
+if [ $pos == "open" ]; then
     hh=`echo $heure1 | awk '{ printf "%02d\n", $1 }'`
     mm=`echo $RANDOM | awk '{ printf "%02d\n", ($1 % '$mod1') + '$min1' }'`
 else
@@ -183,31 +182,16 @@ if [ "$1" = "-t" ]; then
 fi
 
 # ---------------------------------------------------------------------------- #
-# /etc/init.d/atd start
-# ---------------------------------------------------------------------------- #
-dir=/run/cron
-file=$dir/atjobs/.SEQ
-if [ ! -f $file ]; then
-    sudo mkdir -p $dir/atjobs
-    sudo mkdir -p $dir/atspool
-    echo 0 | sudo tee $file >/dev/null
-    sudo chown -R daemon.daemon $dir
-    sudo chmod -R 770 $dir
-    sudo /etc/init.d/atd start
-fi
-
-# ---------------------------------------------------------------------------- #
 # at
 # ---------------------------------------------------------------------------- #
-log=/run/shutter.log
-[ -f $log ] || sudo touch $log
-
+if [ -L $ipath/projects/arm/sompi/remotes/shutter-pr-.txt ]; then
+    hhmm=$hh:$mm
+else
+    hhmm="err l"
+fi
+sudo /usr/sbin/atd-start.sh $USER $hhmm
 cd $vpath
 echo "
-date | sudo tee -a $log
-sudo ./shutter.sh $pos 2>&1 | sudo tee -a $log
-sleep 10
-sudo ./shutter.sh $pos 2>&1 | sudo tee -a $log
-./shutter-at.sh 2>&1 | sudo tee -a $log
+sudo /usr/sbin/shutter.sh $USER $pos >>/run/shutter.log
+./shutter-at.sh 2>&1 >>/run/shutter.log
 " | at -M $hh:$mm
-echo "-------------------------------------------------------------------------"

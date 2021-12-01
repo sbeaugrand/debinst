@@ -13,7 +13,31 @@ if notFile $dir/$file; then
     popd
 fi
 
-pushd install-op-shutter || return 1
-make install
+file=$idir/projects/arm/sompi/remotes/shutter-pr-.txt
+if notLink $file; then
+    mv $file /run/shutter.txt
+    ln -s /run/shutter.txt $file
+fi
+ref=$bdir/shutter.txt
+cp $file $ref
+
+installScript()
+{
+    script=$1
+    file=/usr/sbin/$script
+    if notFile $file; then
+        cp $idir/armbian/shutter/$script $file
+    fi
+}
+installScript atd-start.sh
+installScript shutter.sh
+
+pushd shutter || return 1
+make install user=$user
+make stop
 make start
 popd
+
+if systemctl -q is-enabled atd; then
+    systemctl disable atd
+fi

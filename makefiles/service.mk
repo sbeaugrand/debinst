@@ -6,6 +6,8 @@
 # ---------------------------------------------------------------------------- #
 TARDEPEND += makefiles/service.mk
 
+user ?= $(USER)
+
 SRC = $(SERVICE).service
 DST = /usr/lib/systemd/system/$(SERVICE).service
 define service
@@ -17,7 +19,7 @@ install: reinstall $(DST)
 	@$(call service,enable)
 
 $(DST): $(SRC)
-	@sudo cp $< $@
+	@sudo sed 's/\$$USER/$(user)/g' $< >$@
 
 .PHONY: uninstall
 uninstall: stop

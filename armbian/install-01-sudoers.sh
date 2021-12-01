@@ -9,6 +9,8 @@ if notFile $file; then
     cat >$file <<EOF
 $user ALL=(root) NOPASSWD:/sbin/halt
 $user ALL=(root) NOPASSWD:/usr/sbin/rtc
+$user ALL=(root) NOPASSWD:/usr/sbin/atd-start.sh
+$user ALL=(root) NOPASSWD:/usr/sbin/shutter.sh
 EOF
     chmod 440 $file
 fi
