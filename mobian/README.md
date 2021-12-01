@@ -78,5 +78,12 @@ mobian@mobian:~$ sudo GDK_BACKEND=x11 nm-connection-editor
 # Récupération des photos et mms
 ```
 rsync -ri mobian@mobian:/home/mobian/Images/ Images/
-rsync -ri mobian@mobian:/home/mobian/mms/ mms/
+rsync -ri mobian@mobian:/home/mobian/.local/share/chatty/mms/ mms/
+```
+
+# Unable to receive SMS messages
+```
+mmcli -m any --messaging-list-sms
+mmcli -m 0 --sms 2
+mmcli -m 0 --messaging-delete-sms=2
 ```

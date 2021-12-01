@@ -81,6 +81,8 @@ if notFile $file; then
 \$conf['license'] = 'cecill-v2-1';
 \$conf['superuser'] = '@admin';
 \$conf['useacl'] = 1;
+//FIXME
+\$conf['disableactions'] = 'manifest';
 EOF
     chown www-data.www-data $file
 fi

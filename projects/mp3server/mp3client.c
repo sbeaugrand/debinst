@@ -12,7 +12,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <sys/stat.h>
 #include <sys/time.h>
 #include <linux/tcp.h>
 #include <errno.h>
@@ -56,13 +55,12 @@ void mp3clientWaitMp3rootDir(const char* root)
 {
     char filename[LINE_SIZE];
     char line[LCD_COLS + 1];
-    struct stat sstat;
     int i;
 
     strcpy(filename, root);
     strcat(filename, "/mp3");
     i = 0;
-    while (stat(filename, &sstat) != 0) {
+    while (access(filename, R_OK) != 0) {
         sprintf(line, "%d", i);
         displayWrite("DISQUE", line);
         ++i;

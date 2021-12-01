@@ -16,13 +16,19 @@ fi
 
 file=$home/.config/mimeapps.list
 
+addmimeapps()
+{
+    if notGrep "$1" $file; then
+        echo "$1" >>$file
+    fi
+}
 if notGrep "Default Applications" $file; then
     echo "[Default Applications]" >>$file
 fi
-
-if notGrep "image/jpeg=gpicview.desktop" $file; then
-    echo "image/jpeg=gpicview.desktop" >>$file
-fi
+addmimeapps "image/jpeg=gpicview.desktop"
+addmimeapps "image/png=gpicview.desktop;"
+addmimeapps "application/pdf=org.gnome.Evince.desktop;"
+addmimeapps "message/rfc822=emacs.desktop;"
 
 file=$home/.config/openbox/lxde-rc.xml
 

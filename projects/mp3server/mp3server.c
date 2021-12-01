@@ -10,7 +10,6 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <sys/resource.h>
-#include <sys/stat.h>
 #include <signal.h>
 #include "mp3server.h"
 #include "player.h"
@@ -43,11 +42,10 @@ int gWeights[WEIGHTS] = {
 void mp3serverWaitMp3rootDir(const char* root)
 {
     char filename[LINE_SIZE];
-    struct stat sstat;
 
     strcpy(filename, root);
     strcat(filename, "/mp3");
-    while (stat(filename, &sstat) != 0) {
+    while (access(filename, R_OK) != 0) {
         sleep(1);
     }
 }

@@ -15,7 +15,11 @@ if notFile /usr/lib/sane/libsane-mustek_usb2.so.1.0.19; then
     popd
 fi
 
-ln -sf /usr/lib/libsane.so.1.0.19 /lib/i386-linux-gnu/libsane.so.1
+file=/lib/i386-linux-gnu/libsane.so.1
+lib=/usr/lib/libsane.so.1.0.19
+if notLink $file || [ "`readlink -f $file`" != "$lib" ]; then
+    ln -sf $lib $file
+fi
 
 file=/usr/lib/i386-linux-gnu/libtiff.so
 if notFile $file.4; then
