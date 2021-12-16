@@ -28,3 +28,10 @@ file=$home/.Xresources
 if notGrep 'xterm\*font: 10x20' $file; then
     sed -i 's/xterm\*font: .*/xterm\*font: 10x20/' $file
 fi
+
+if notGrep mutt /etc/sudoers; then
+    cat >>/etc/sudoers <<EOF
+$user ALL=(mutt) ALL
+mutt ALL=(root) ALL
+EOF
+fi
