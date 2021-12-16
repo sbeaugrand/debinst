@@ -400,13 +400,16 @@ selectCropAndScale()
     fi
     if [ -z "$crop" ]; then
         if [ $aspect = '1' ]; then
-            myRead "crop ? (y/n)" "y"
+            echo "try mplayer -vf rectangle=720:432:0:72"
+            myRead "crop ? (y/n/rectangle)" "y"
         else
-            myRead "crop ? (y/n)" "n"
+            myRead "crop ? (y/n/rectangle)" "n"
         fi
         if [ $ret = n ]; then
             selectScale
             return
+        elif [ $ret != y ]; then
+            echo "crop=$ret" >>crop.txt
         fi
         if [ ! -r crop.txt ]; then
             myRead "cropdetect ? (y/n)" "y"
