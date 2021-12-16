@@ -94,7 +94,7 @@ sunGeometricMeanLongitude(double t)
 /******************************************************************************!
  * \fn sunMeanAnomaly
  * \note 1: (21) p132 (24.3) p151
- *       2: (22) p144 (25.3) p163
+ *       2: (22) p144 (25.3) p163 (47.3) p338
  *       3: (13) p54
  ******************************************************************************/
 double
@@ -102,14 +102,16 @@ sunMeanAnomaly(double t)
 {
     //     reduceAngle(357.52772 +
     //                 (35999.05034 + (-0.0001603 - t / 300000) * t) * t);
+    //     reduceAngle(357.52911 +
+    //                 (35999.05029 + (-0.0001537) * t) * t);
 
 #   ifdef JM1991
     return reduceAngle(357.52910 +
                        (35999.05030 + (-0.0001559 - 0.00000048 * t) * t) * t);
 #   endif
 #   ifdef JM1998
-    return reduceAngle(357.52911 +
-                       (35999.05029 + (-0.0001537) * t) * t);
+    return reduceAngle(357.5291092 +
+                       (35999.0502909 + (-0.0001536 + t / 24490000) * t) * t);
 #   endif
 #   ifdef JM2014
     return reduceAngle(357.5291 +
@@ -247,6 +249,7 @@ sunApparentDeclination(double eps, double theta)
  * \fn sideralTime
  * \note 1: (11.4) p84
  *       2: (12.4) p88
+ *       3: (7.3) p36
  ******************************************************************************/
 double
 sideralTime(double jd, double t)
@@ -254,6 +257,85 @@ sideralTime(double jd, double t)
     return
         280.46061837 + 360.98564736629 *
         (jd - 2451545) + (0.000387933 - t / 38710000) * t * t;
+}
+
+/******************************************************************************!
+ * \fn moonMeanAnomalyIAU
+ * \note 1: (21) p132 (45.4) p308
+ *       2: (22) p144 (47.4) p338
+ *       3: (13) p54 (28) p109
+ ******************************************************************************/
+double
+moonMeanAnomalyIAU(double t)
+{
+#   ifdef JM2014
+    return reduceAngle(134.9634 +
+                       (477198.8675 + (0.008721) * t) * t);
+#   else
+    return reduceAngle(134.96298 +
+                       (477198.867398 + (0.0086972 + t / 56250) * t) * t);
+#   endif
+}
+
+/******************************************************************************!
+ * \fn moonMeanAnomalyChapront
+ * \note 1: (21) p132 (45.4) p308
+ *       2: (22) p144 (47.4) p338
+ *       3: (13) p54 (28) p109
+ ******************************************************************************/
+double
+moonMeanAnomalyChapront(double t)
+{
+#   ifdef JM1991
+    return reduceAngle(134.9634114 +
+                       (477198.8676313 +
+                        (0.0089970 +
+                         (1.0 / 69699 - t / 14712000) * t) * t) * t);
+#   endif
+#   ifdef JM1998
+    return reduceAngle(134.9633964 +
+                       (477198.8675055 +
+                        (0.0087414 +
+                         (1.0 / 69699 - t / 14712000) * t) * t) * t);
+#   endif
+#   ifdef JM2014
+    return reduceAngle(134.96339622 +
+                       (477198.8675067 +
+                        (0.00872053 + (1.0 / 69699) * t) * t) * t);
+#   endif
+}
+
+/******************************************************************************!
+ * \fn moonArgumentOfLatitudeIAU
+ * \note 1: (21) p132 (45.5) p308
+ *       2: (22) p144 (47.5) p338
+ ******************************************************************************/
+double
+moonArgumentOfLatitudeIAU(double t)
+{
+    return reduceAngle(93.27191 +
+                       (483202.017538 + (-0.0036825 + t / 327270) * t) * t);
+}
+
+/******************************************************************************!
+ * \fn moonArgumentOfLatitudeChapront
+ * \note 1: (21) p132 (45.5) p308
+ *       2: (22) p144 (47.5) p338
+ ******************************************************************************/
+double
+moonArgumentOfLatitudeChapront(double t)
+{
+#   ifdef JM1991
+    return reduceAngle(93.2720993 +
+                       (483202.0175273 +
+                        (-0.0034029 +
+                         (-1.0 / 3526000 + t / 863310000) * t) * t) * t);
+#   else
+    return reduceAngle(93.2720950 +
+                       (483202.0175233 +
+                        (-0.0036539 +
+                         (-1.0 / 3526000 + t / 863310000) * t) * t) * t);
+#   endif
 }
 
 /******************************************************************************!
@@ -270,13 +352,9 @@ nutation(double t, double* nutationInLongitude, double* nutationInObliquity)
     // Mean anomaly of the Sun (Earth)
     double M = 357.52772 + (35999.050340 + (-0.0001603 - t / 300000) * t) * t;
     // Mean anomaly of the Moon
-#   ifdef JM2014
-    double Mp = 134.9634 + (477198.8675 + (0.008721 + t / 56250) * t) * t;
-#   else
-    double Mp = 134.96298 + (477198.867398 + (0.0086972 + t / 56250) * t) * t;
-#   endif
+    double Mp = moonMeanAnomalyIAU(t);
     // Moon's argument of latitude
-    double F = 93.27191 + (483202.017538 + (-0.0036825 + t / 327270) * t) * t;
+    double F = moonArgumentOfLatitudeIAU(t);
     // Longitude of the ascending node of the Moon's mean orbit on the
     // ecliptic, measured form the mean equinox of the date
 #   ifdef JM2014
@@ -1274,4 +1352,140 @@ double
 moonMaximumDeclinationT(double k)
 {
     return k / 1336.86;
+}
+
+/******************************************************************************!
+ * \fn moonMeanLongitude
+ * \note 1: (45.1) p308
+ *       2: (47.1) p338
+ *       3: (28) p109
+ ******************************************************************************/
+double
+moonMeanLongitude(double t)
+{
+#   ifdef JM2014
+    return reduceAngle(218.31644735 +
+                       (481267.88122838 +
+                        (-0.00159944 + t / 538841) * t) * t);
+#   else
+    return reduceAngle(218.3164477 +
+                       (481267.88123421 +
+                        (-0.0015786 +
+                         (1.0 / 538841 - t / 66194000) * t) * t) * t);
+#   endif
+}
+
+/******************************************************************************!
+ * \fn moonMeanElongation1
+ * \note 1: (45.2) p308
+ *       2: (47.2) p338
+ *       3: (28) p109
+ ******************************************************************************/
+double
+moonMeanElongation1(double t)
+{
+#   ifdef JM1991
+    return reduceAngle(297.8502042 +
+                       (445267.1115168 +
+                        (-0.0016300 +
+                         (1.0 / 545868 - t / 113065000) * t) * t) * t);
+#   endif
+#   ifdef JM1998
+    return reduceAngle(297.8501921 +
+                       (445267.1114034 +
+                        (-0.0018819 +
+                         (1.0 / 545868 - t / 113065000) * t) * t) * t);
+#   endif
+#   ifdef JM2014
+    return reduceAngle(297.85019172 +
+                       (445267.11139756 +
+                        (-0.00190272 + t / 545868) * t) * t);
+#   endif
+}
+
+/******************************************************************************!
+ * \fn moonApparentLongitude
+ * \note 1: (45.2) p308
+ *       2: (47.2) p338
+ *       3: (28) p109
+ ******************************************************************************/
+double
+moonApparentLongitude(double t,
+                      double L, double D, double M, double Mp, double F,
+                      double E)
+{
+    double A1 = reduceAngle(119.75 + 131.849 * t);
+    double A2 = reduceAngle(53.09 + 479264.290 * t);
+    D = RAD(D);
+    M = RAD(M);
+    Mp = RAD(Mp);
+    F = RAD(F);
+    A1 = RAD(A1);
+    A2 = RAD(A2);
+
+    double l =
+        6288774 * sin(Mp) +
+        1274027 * sin(2 * D - Mp) +
+        658314 * sin(2 * D) +
+        213618 * sin(2 * Mp) +
+        -185116 * sin(M) * E +
+        -114332 * sin(2 * F) +
+        58793 * sin(2 * D - 2 * Mp) +
+        57066 * sin(2 * D - M - Mp) * E +
+        53322 * sin(2 * D + Mp) +
+        45758 * sin(2 * D - M) * E +
+        -40923 * sin(M - Mp) * E +
+        -34720 * sin(D) +
+        -30383 * sin(M + Mp) * E +
+        15327 * sin(2 * D - 2 * F) +
+        -12528 * sin(Mp + 2 * F) +
+        10980 * sin(Mp - 2 * F) +
+        10675 * sin(4 * D - Mp) +
+        10034 * sin(3 * Mp) +
+        8548 * sin(4 * D - 2 * Mp) +
+        -7888 * sin(2 * D + M - Mp) * E +
+        -6766 * sin(2 * D + M) * E +
+        -5163 * sin(D - Mp) +
+        4987 * sin(D + M) * E +
+        4036 * sin(2 * D - M + Mp) * E +
+        3994 * sin(2 * D + 2 * Mp) +
+        3861 * sin(4 * D) +
+        3665 * sin(2 * D - 3 * Mp) +
+        -2689 * sin(M - 2 * Mp) * E +
+        -2602 * sin(2 * D - Mp + 2 * F) +
+        2390 * sin(2 * D - M - 2 * Mp) * E +
+        -2348 * sin(D + Mp) +
+        2236 * sin(2 * D - 2 * M) * E * E +
+        -2120 * sin(M + 2 * Mp) +
+        -2069 * sin(2 * M) * E * E +
+        2048 * sin(2 * D - 2 * M - Mp) * E * E +
+        -1773 * sin(2 * D + Mp - 2 * F) +
+        -1595 * sin(2 * D + 2 * F) +
+        1215 * sin(4 * D - M - Mp) * E +
+        -1110 * sin(2 * Mp + 2 * F) +
+        -892 * sin(3 * D - Mp) +
+        -810 * sin(2 * D + M + Mp) * E +
+        759 * sin(4 * D - M - 2 * Mp) * E +
+        -713 * sin(2 * M - Mp) * E * E +
+        -700 * sin(2 * D + 2 * M - Mp) * E * E +
+        691 * sin(2 * D + M - 2 * Mp) * E +
+        596 * sin(2 * D - M - 2 * F) * E +
+        549 * sin(4 * D + Mp) +
+        537 * sin(4 * Mp) +
+        520 * sin(4 * D - M) * E +
+        -487 * sin(D - 2 * Mp) +
+        -399 * sin(2 * D + M - 2 * F) * E +
+        -381 * sin(2 * Mp - 2 * F) +
+        351 * sin(D + M + Mp) * E +
+        -340 * sin(3 * D - 2 * Mp) +
+        330 * sin(4 * D - 3 * Mp) +
+        327 * sin(2 * D - M + 2 * Mp) * E +
+        -323 * sin(2 * M - Mp) * E * E +
+        299 * sin(D + M - Mp) * E +
+        294 * sin(2 * D + 3 * Mp);
+    l += 3958 * sin(A1) +
+        1962 * sin(L - F) +
+        318 * sin(A2);
+
+    return L + l / 1000000;
 }

@@ -48,6 +48,10 @@ nutation(double t, double* nutationInLongitude, double* nutationInObliquity);
 double
 sideralTime(double jd, double t);
 double
+moonMeanAnomalyIAU(double t);
+double
+moonMeanAnomalyChapront(double t);
+double
 apparentSideralTime(double theta0, double nutationInLongitude, double eps);
 double
 altitude(double ra, double dec, double theta0, double lat, double lon);
@@ -71,6 +75,10 @@ double
 moonSunMeanAnomaly(double k, double t);
 double
 moonArgumentOfLatitude(double k, double t);
+double
+moonArgumentOfLatitudeIAU(double t);
+double
+moonArgumentOfLatitudeChapront(double t);
 double
 moonApogee(double t, double D, double M, double F);
 double
@@ -130,3 +138,11 @@ double
 moonNodeT(double k);
 double
 moonMaximumDeclinationT(double k);
+double
+moonMeanLongitude(double t);
+double
+moonMeanElongation1(double t);
+double
+moonApparentLongitude(double t,
+                      double L, double D, double M, double Mp, double F,
+                      double E);

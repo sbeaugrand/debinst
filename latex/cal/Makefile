@@ -4,16 +4,23 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-YEAR = 2021
+YEAR = 2022
+
+# cal options
+#MOON = build/moon-events build/moon-themes
+MOON = build/moon-events
+
+# sundial options
+#CFLAGS += -DWITH_EQUATION_OF_TIME
+CFLAGS += -DWITH_AZIMUT
+#CFLAGS += -DWITH_DECLINATION
+
 include config.mk
 ifneq ($(MAKECMDGOALS),dist-cal)
  ifneq ($(MAKECMDGOALS),dist-cadran)
   -include config-pr-symlink.mk
  endif
 endif
-#CFLAGS += -DWITH_EQUATION_OF_TIME
-CFLAGS += -DWITH_AZIMUT
-#CFLAGS += -DWITH_DECLINATION
 
 ifeq ($(idir),)
  REPO = $(HOME)/install/repo
@@ -41,7 +48,7 @@ include $(PROROOT)/makefiles/ccpp.mk
 cal dist-cal: build cal$(YEAR).pdf
 
 cal$(YEAR).pdf: cal.tex\
- build/sun build/moon\
+ build/sun $(MOON)\
  build/moonphase.mf build/calendar build/calendar/calend0.tex\
  build/year.tex build/lat.tex build/lon.tex build/h0.tex build/vacances$(YEAR).tex
 	cd build && TEXINPUTS="calendar:..:"\
@@ -81,23 +88,15 @@ build/h0.tex: $(MAKEFILE_LIST)
 build/vacances$(YEAR).tex: vacances.sh $(MAKEFILE_LIST)
 	$< $(YEAR) tex >$@
 
-build/sun: build/algos.o build/sun.o
-	$(LINK.c) $^ $(LDLIBS) -o $@
-
-build/moon: build/algos.o build/moon.o
+build/%: build/%.o build/algos.o
 	$(LINK.c) $^ $(LDLIBS) -o $@
 
 .PHONY: azimut
 azimut: build/azimut
-build/azimut: build/azimut.o build/algos.o
-	$(LINK.c) $^ $(LDLIBS) -o $@
 
 .PHONY: testAlgos
 testAlgos: build build/testAlgos
 	@build/testAlgos && echo OK
-
-build/testAlgos: build/algos.o build/testAlgos.o
-	$(LINK.c) $^ $(LDLIBS) -o $@
 
 .PHONY: testPaques
 testPaques:
@@ -138,9 +137,6 @@ build/config.tex: $(MAKEFILE_LIST)
 build/%.dat: cadran.sh build/cadran
 	$< $(YEAR) $(LAT) $(LON)\
 	 $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $(STYLUS_ANGLE) $@
-
-build/cadran: build/algos.o build/cadran.o
-	$(LINK.c) $^ $(LDLIBS) -o $@
 
 cadran.pdf: cadran.tex build/config.tex\
  build/hiv07.dat build/pri07.dat build/ete07.dat build/aut07.dat\

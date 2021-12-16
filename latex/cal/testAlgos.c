@@ -433,6 +433,29 @@ int main()
     test("hh", hh, 14 + gmtOffset(YY, MM, DD));
     test("mm", mm, 0);
 
+    // 3: 28.a p114
+    gTestRef = "3: 28.a p114";
+    year = 2011;
+    month = 4;
+    day = 12;
+    jd = julianDay(year, month, day);
+    test("jde", jd, 2455663.5);
+    t = julianTime(jd);
+    test("t", t, 0.112758384668);
+    L = moonMeanLongitude(t);
+    test("L", L, 125.305307);
+    D = moonMeanElongation1(t);
+    test("D", D, 105.450395);
+    M = sunMeanAnomaly(t);
+    test("M", M, 96.723868);
+    Mp = moonMeanAnomalyChapront(t);
+    test("Mp", Mp, 303.136972);
+    F = moonArgumentOfLatitudeChapront(t);
+    test("F", F, 218.35101);  // 218.351019
+    E = moonMaximumDeclinationE(t);
+    test("E", E, 0.99971621);  // 0.999716
+    test("longitude", moonApparentLongitude(t, L, D, M, Mp, F, E), 117.93767);  // 117.933721
+
     if (gErrors == 0) {
         return EXIT_SUCCESS;
     } else {
