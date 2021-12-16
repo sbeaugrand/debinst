@@ -230,6 +230,7 @@ firmware-amd-graphics
 firmware-misc-nonfree  # b1
 firmware-brcm80211  # a1
 firmware-realtek  # a1
+firmware-iwlwifi  # a1
 xserver-xorg-video-intel  # s2
 gramps
 pdfposter
