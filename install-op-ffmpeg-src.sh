@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 name=ffmpeg
-version=4.3.2
+version=4.3.3
 pkg=$name-$version.tgz
 src=$name-apt-src
 repo=$idir/../repo

@@ -22,6 +22,6 @@ hardware/install-op-lp-hpP1006.sh
 hardware/install-op-scan-mustekA3.sh
 "
 
-if notLink $home/.gramps && isDir $data/gramps; then
-    ln -s $data/gramps $home/.gramps
+if notLink $home/.gramps && isDir /data/gramps; then
+    ln -s /data/gramps $home/.gramps
 fi

@@ -14,6 +14,7 @@ $(PROJECT).pdf:\
  $(PROROOT)/projects/avr/iambic/iambic.pdf\
  $(PROROOT)/latex/geiger/geiger.pdf\
  $(PROROOT)/latex/schmittTrigger/schmittTrigger.pdf\
+ $(PROROOT)/projects/avr/fftAlarm/fftAlarm.pdf\
 
 	@#pdfjam -q -o $@ $< '{}' $^
 	@pdfjam -q -o $@ $^

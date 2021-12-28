@@ -18,13 +18,23 @@ hardware/install-op-lp-ts5000.sh
 hardware/install-op-ipod.sh
 "
 
-if notLink $home/.gramps && isDir $data/gramps; then
-    ln -s $data/gramps $home/.gramps
+if notLink $home/.gramps && isDir /data/gramps; then
+    ln -s /data/gramps $home/.gramps
 fi
 
 file=/etc/fstab
 if grep -q 'mnt' $file; then
     sudo sed -i '/mnt/d' /etc/fstab
+fi
+
+file=$home/.config/lxsession/LXDE/autostart
+if notGrep brightness $file; then
+    if [ -z "$DISPLAY" ]; then
+        echo " warn: DISPLAY is not set" | tee -a $log
+        return 0
+    fi
+    output=`xrandr | grep -m 1 connected | cut -d ' ' -f 1`
+    echo "@xrandr --output $output --brightness 0.75" >>$file
 fi
 
 file=$home/.bashrc

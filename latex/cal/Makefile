@@ -190,7 +190,7 @@ cadran.nc: gcode.py gcode7seg.py build/config.tex\
 	@$< >$@
 
 portrait-%.pdf: %.pdf
-	pdf90 -q -o $@ $<
+	pdfjam -q --angle 90 -o $@ $<
 
 .PHONY: dist-clean
 dist-clean:

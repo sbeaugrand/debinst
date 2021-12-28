@@ -55,8 +55,8 @@ if notGrep brightness $file; then
     echo "@xrandr --output $output --brightness 0.55" >>$file
 fi
 
-if notLink $home/.gramps && isDir $data/gramps; then
-    ln -s $data/gramps $home/.gramps
+if notLink $home/.gramps && isDir /data/gramps; then
+    ln -s /data/gramps $home/.gramps
 fi
 
 if notWhich chromium; then

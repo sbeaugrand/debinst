@@ -34,7 +34,12 @@ if notLink $file; then
     ln -s /usr/share/ghostscript/*/lib/ps2epsi.ps $file
 fi
 
-file=$home/.config/kicad/sym-lib-table
+dir=$home/.config/kicad
+if notDir $dir; then
+    mkdir $dir
+fi
+
+file=$dir/sym-lib-table
 if notFile $file; then
     cat >$file <<EOF
 (sym_lib_table
@@ -43,7 +48,7 @@ if notFile $file; then
 EOF
 fi
 
-file=$home/.config/kicad/fp-lib-table
+file=$dir/fp-lib-table
 if notFile $file; then
     cat >$file <<EOF
 (fp_lib_table
