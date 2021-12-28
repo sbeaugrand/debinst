@@ -83,7 +83,7 @@ Continuer avec 3packer/README.md (cmark-gfm 3packer/README.md | lynx -stdin)
 # Création d'une debian live
 Mettre à jour le mirroir local
 ```
-./2simplecdd.sh simplecdd-op-1amd64 buildpackage-op-1
+make iso
 cd 5livebuild
 make mirror
 make http

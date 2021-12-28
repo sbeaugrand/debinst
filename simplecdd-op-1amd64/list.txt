@@ -232,6 +232,7 @@ firmware-brcm80211  # a1
 firmware-realtek  # a1
 firmware-iwlwifi  # a1
 xserver-xorg-video-intel  # s2
+libcupsimage2  # live b1
 gramps
 pdfposter
 hplip

@@ -17,6 +17,8 @@ DST = build/live-image-amd64.hybrid.iso
 .PHONY: all
 all:
 
+-include user-config-pr-symlink.mk
+
 .PHONY: mirror
 mirror:\
  $(MIRROR)/dists/$(CODENAME)/main/Contents-amd64.gz\
@@ -46,7 +48,7 @@ config: build
 	 --parent-distribution $(CODENAME)\
 	 --parent-debian-installer-distribution $(CODENAME)\
 	 --debian-installer-distribution $(CODENAME)\
-	 --iso-volume "Debian buster `date +%Y%m%d-%H:%M`"\
+	 --iso-volume "Debian $(CODENAME) `date +%Y%m%d-%H:%M`"\
 	 --archive-areas "main contrib non-free"\
 	 --bootappend-live "boot=live persistence components locales=fr_FR.UTF-8 keyboard-layouts=fr timezone=Europe/Paris"\
 	 --apt-recommends false\
@@ -59,7 +61,7 @@ config: build
 	 --apt-secure false
 
 .PHONY: sync
-sync: list skel local-bin codecs
+sync: list skel $(CHROOTDIR)/usr/local/bin $(CHROOTDIR)/usr/lib/codecs
 
 .PHONY: list
 list:\
@@ -108,14 +110,10 @@ $(SKELDIR)/.local/share/applications/screen.desktop: $(HOME)/.local/share/applic
 	@mkdir -p $(SKELDIR)/.local/share/applications
 	@sed "s@$(HOME)@/home/user@g" $< >$@
 
-.PHONY: local-bin
-local-bin: $(CHROOTDIR)/usr/local/bin
 $(CHROOTDIR)/usr/local/bin: FORCE
 	@mkdir -p $@
 	@$(RSYNC) /usr/local/bin/ $@/
 
-.PHONY: codecs
-codecs: $(CHROOTDIR)/usr/lib/codecs
 $(CHROOTDIR)/usr/lib/codecs: FORCE
 	@mkdir -p $@
 	@$(RSYNC) /usr/lib/codecs/ $@/
