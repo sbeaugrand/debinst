@@ -18,6 +18,7 @@ aspell-fr
 myspell-fr
 indent
 astyle
+yapf3
 mupdf
 poppler-utils
 evince
@@ -59,6 +60,8 @@ gcc-avr
 avrdude
 #simulavr
 gdb-avr
+arduino-builder  # marlin
+arduino-core-avr  # marlin
 sdcc
 kicad
 kicad-symbols
@@ -163,6 +166,7 @@ gir1.2-gtk-3.0  # pyBar
 python3-venv
 python3-tk
 python3-matplotlib
+python3-scipy
 python3-serial  # cnc
 #python-lxml  # cnc (inkscape gcode text)
 pv

@@ -9,8 +9,9 @@ class gcodeFont:
         self.width = width
         self.sep = sep
 
-    def draw(s):
+    def draw(self, s):
         pass
+
 
 class gcode7seg(gcodeFont):
     def __init__(self, width, sep):

@@ -36,17 +36,20 @@ else:
     font = gcode7seg(width=4, sep=2)
 marginX = 5
 
+
 # ---------------------------------------------------------------------------- #
 ## \fn xy2gcode
 # ---------------------------------------------------------------------------- #
 def xy2gcode(code, x, y):
     print('{} X{:.2f} Y{:.2f}'.format(code, x + offsetX, y + offsetY))
 
+
 # ---------------------------------------------------------------------------- #
 ## \fn uv2gcode
 # ---------------------------------------------------------------------------- #
 def uv2gcode(code, x, y):
     print('{} X{:.2f} Y{:.2f}'.format(code, x, y))
+
 
 # ---------------------------------------------------------------------------- #
 ## \fn dat2gcode
@@ -70,6 +73,7 @@ def dat2gcode(file):
                 print('M5')
                 first = True
 
+
 # ---------------------------------------------------------------------------- #
 ## \fn analemme
 # ---------------------------------------------------------------------------- #
@@ -88,6 +92,7 @@ def analemme(hour):
         print('S{}'.format(sbold))
         print('G0 F{}'.format(fbold))
 
+
 # ---------------------------------------------------------------------------- #
 ## \fn decorations
 # ---------------------------------------------------------------------------- #
@@ -101,7 +106,7 @@ def decorations(hour):
         y2 += offsetY
         if x1 >= marginX and x1 < width - marginX and \
            y1 >= marginY and y1 < height - marginY:
-            print('{} X{:.2f} Y{:.2f}'.format('G0', x1 + 0.5, y1))
+            print('G0 X{:.2f} Y{:.2f}'.format(x1 + 0.5, y1))
             print('M3')
             print('G3 X{:.2f} Y{:.2f} I-0.5'.format(x1 + 0.5, y1))
             print('M5')
@@ -110,8 +115,9 @@ def decorations(hour):
                     uv2gcode('G0', x1 - font.width, y1 + font.width)
                     font.draw('{}'.format(int(hour) + 1))
                 if saison == 'ete':
-                    uv2gcode('G0', x1 - font.width, y1 - font.width * 3);
+                    uv2gcode('G0', x1 - font.width, y1 - font.width * 3)
                     font.draw('{}'.format(int(hour) + 2))
+
 
 # ---------------------------------------------------------------------------- #
 ## \fn loop
@@ -127,6 +133,7 @@ def loop(a, b, f):
         for i in range(a - 1, b - 1, -1):
             f('{:02d}_5'.format(i))
             f('{:02d}'.format(i))
+
 
 # ---------------------------------------------------------------------------- #
 # main

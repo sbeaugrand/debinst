@@ -30,11 +30,13 @@ if [ ! -f $file ]; then
 fi
 if [ -n "$file" ]; then
     cat >>user.js <<EOF
+
 user_pref("browser.startup.homepage", "file://$file");
 EOF
 fi
 
 cat >>user.js <<EOF
+
 user_pref("browser.urlbar.placeholderName", "Google");
 user_pref("browser.download.dir", "$home");
 user_pref("browser.download.useDownloadDir", false);

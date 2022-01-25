@@ -7,7 +7,7 @@
 if notGrep 'Europe/Paris' /etc/timezone; then
     cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
     echo "Europe/Paris" >/etc/timezone
-    dpkg-reconfigure -f noninteractive tzdata >>$log
+    #dpkg-reconfigure -f noninteractive tzdata >>$log
     sed -i 's/debian/fr/' /etc/ntp.conf
     /etc/init.d/ntp stop >>$log
     sntp -s fr.pool.ntp.org >>$log

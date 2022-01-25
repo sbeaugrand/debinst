@@ -5,6 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROROOT = ../..
+PROPATH = divers
 include $(PROROOT)/makefiles/pro.mk
 include $(PROROOT)/makefiles/livret.mk
 
