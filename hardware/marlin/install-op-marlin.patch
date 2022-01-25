@@ -1,0 +1,31 @@
+diff --git a/Marlin/Configuration.h b/Marlin/Configuration.h
+index f0fc4dd7d6..5f5b75c4ba 100644
+--- a/Marlin/Configuration.h
++++ b/Marlin/Configuration.h
+@@ -1330,7 +1330,7 @@
+ // @section machine
+ 
+ // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
+-#define INVERT_X_DIR false
++#define INVERT_X_DIR true
+ #define INVERT_Y_DIR true
+ #define INVERT_Z_DIR false
+ //#define INVERT_I_DIR false
+@@ -1340,7 +1340,7 @@
+ // @section extruder
+ 
+ // For direct drive extruder v9 set to true, for geared extruder set to false.
+-#define INVERT_E0_DIR false
++#define INVERT_E0_DIR true
+ #define INVERT_E1_DIR false
+ #define INVERT_E2_DIR false
+ #define INVERT_E3_DIR false
+@@ -1831,7 +1831,7 @@
+  *   M501 - Read settings from EEPROM. (i.e., Throw away unsaved changes)
+  *   M502 - Revert settings to "factory" defaults. (Follow with M500 to init the EEPROM.)
+  */
+-//#define EEPROM_SETTINGS     // Persistent storage with M500 and M501
++#define EEPROM_SETTINGS     // Persistent storage with M500 and M501
+ //#define DISABLE_M503        // Saves ~2700 bytes of PROGMEM. Disable for release!
+ #define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
+ #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
