@@ -45,7 +45,13 @@ sudo systemctl start apache2
 ```
 which pip3 || sudo apt-get -y install python3-pip
 which certbot || sudo python3 -m pip install certbot
-echo "0 5 1 * * root /usr/local/bin/certbot renew --apache >>/var/log/certbot-renew.log" | sudo tee -a /etc/crontab
+sudo vi /etc/cron.weekly/certbot-renew
+ #!/bin/sh
+ systemctl stop apache2 >>/var/log/certbot-renew.log
+ /usr/local/bin/certbot renew >>/var/log/certbot-renew.log
+ systemctl start apache2 >>/var/log/certbot-renew.log
+chmod 755 /etc/cron.weekly/certbot-renew
+sudo apt install anacron
 ```
 
 # Fail2ban
