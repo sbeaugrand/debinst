@@ -56,3 +56,8 @@ if notFile $file; then
 )
 EOF
 fi
+
+file=$dir/kicad_common
+if notGrep "MousewheelPAN=1" $file; then
+    sed -i 's/MousewheelPAN=.*/MousewheelPAN=1/' $file
+fi

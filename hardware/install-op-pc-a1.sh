@@ -40,6 +40,21 @@ EndSection
 EOF
 fi
 
+file=/etc/X11/xorg.conf.d/98-touchpad.conf
+if notFile $file; then
+    cat >$file <<EOF
+# grep "Using input driver" /var/log/Xorg.0.log
+# xinput list
+# xinput set-button-map "AlpsPS/2 ALPS DualPoint TouchPad" 1 0 3
+Section "InputClass"
+    Identifier "TouchPad"
+    Driver "libinput"
+    MatchProduct "AlpsPS/2 ALPS DualPoint TouchPad"
+    Option "ButtonMapping" "1 0 3"
+EndSection
+EOF
+fi
+
 file=$home/.Xresources
 if notGrep 'xterm\*font: 9x15' $file; then
     sed -i 's/xterm\*font: .*/xterm\*font: 9x15/' $file
