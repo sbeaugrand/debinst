@@ -4,7 +4,9 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-PROJECT = tock
+PROROOT = ../..
+PROPATH = divers
+include $(PROROOT)/makefiles/pro.mk
 
 .SUFFIXES:
 
@@ -22,6 +24,17 @@ build:
 build/$(PROJECT).dvi: $(PROJECT).tex
 	latex --output-directory build $<
 
+.PHONY: gcode
+gcode: tock4.nc tock6.nc tock.py gcodeOeraLinda.py
+	@./tock.py 4 >tock4.nc
+	@echo
+	@grep -H 'margin' tock4.nc
+	@echo
+	@./tock.py 6 >tock6.nc
+	@echo
+	@grep -H 'margin' tock6.nc
+	@echo
+
 .PHONY: clean
 clean:
 	@$(RM) build/*.aux build/*.dvi build/*.log *~
@@ -31,3 +44,5 @@ mrproper: clean
 	@$(RM) build/*
 	@rmdir build
 	@$(RM) *.pdf
+
+include $(PROROOT)/makefiles/tar.mk
