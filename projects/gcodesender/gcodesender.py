@@ -12,8 +12,8 @@ import sys
 from os import path
 
 RX_BUFFER_SIZE = 128
-BAUDRATE = 115200
 dev = '/dev/ttyUSB0'
+baudrate = 115200
 
 interactive = False
 if len(sys.argv) > 1 and sys.argv[1] == '-i':
@@ -22,6 +22,10 @@ if len(sys.argv) > 1 and sys.argv[1] == '-i':
 if path.isfile('pts'):
     with open('pts') as f:
         dev = f.readline()
+elif not path.exists(dev):
+    dev = '/dev/ttyACM0'
+    baudrate = 250000
+
 
 # ---------------------------------------------------------------------------- #
 ## \class CNC
@@ -31,7 +35,7 @@ class CNC:
         if not path.exists(dev):
             print("{} not found".format(dev))
             exit(1)
-        self.ser = serial.Serial(dev, BAUDRATE)
+        self.ser = serial.Serial(dev, baudrate)
         self.ser.write(b"\r\n\r\n")
         time.sleep(2)
         self.ser.flushInput()
@@ -68,6 +72,7 @@ class CNC:
                 self.read()
             print('send: {}'.format(line))
         self.ser.write(line.encode() + b'\n')
+
 
 # ---------------------------------------------------------------------------- #
 # main
