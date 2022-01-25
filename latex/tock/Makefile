@@ -4,8 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-PROROOT = ../..
-PROPATH = divers
+PROROOT = ..
 include $(PROROOT)/makefiles/pro.mk
 
 .SUFFIXES:
