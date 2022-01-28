@@ -18,10 +18,10 @@ if n == 4:
     quinzeAngle = radians(26.9 / 2)
     font = gcodeOeraLinda(width=4, sep=1)
 elif n == 6:
-    l = 230
-    circleRadius = 5
+    l = 235
+    circleRadius = 5.5
     quinzeAngle = radians(35.3 / 2)
-    font = gcodeOeraLinda(width=3, sep=1)
+    font = gcodeOeraLinda(width=4, sep=1)
 
 
 def f(x):
@@ -63,10 +63,10 @@ def drawWithCartesian(branchAngle, u, v, num, numAngle):
     y = RPLATEAU + u * sin(branchAngle) + v * cos(branchAngle)
     if num == 0:
         num = 18
-        print("S500")
-    print("G0 X{:.2f} Y{:.2f}".format(x + circleRadius, y))
+        print("S700")
+    print("G0 X{:.3f} Y{:.3f}".format(x + circleRadius, y))
     print("M3")
-    print("G3 X{:.2f} Y{:.2f} I{}".format(x + circleRadius, y, -circleRadius))
+    print("G3 X{:.3f} Y{:.3f} I{}".format(x + circleRadius, y, -circleRadius))
     print("M5")
     print("(n={},a={:.1f})".format(num, degrees(branchAngle + numAngle)))
     font.draw(x, y, "{}".format(num), branchAngle + numAngle)

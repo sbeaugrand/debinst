@@ -24,14 +24,16 @@ build/$(PROJECT).dvi: $(PROJECT).tex
 	latex --output-directory build $<
 
 .PHONY: gcode
-gcode: tock4.nc tock6.nc tock.py gcodeOeraLinda.py
-	@./tock.py 4 >tock4.nc
+gcode: tock4.nc tock6.nc
+tock4.nc: tock.py gcodeOeraLinda.py
+	@./$< 4 >$@
 	@echo
-	@grep -H 'margin' tock4.nc
+	@grep -H 'margin' $@
 	@echo
-	@./tock.py 6 >tock6.nc
+tock6.nc: tock.py gcodeOeraLinda.py
+	@./$< 6 >$@
 	@echo
-	@grep -H 'margin' tock6.nc
+	@grep -H 'margin' $@
 	@echo
 
 .PHONY: clean

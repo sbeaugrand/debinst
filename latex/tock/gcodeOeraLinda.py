@@ -28,9 +28,9 @@ class gcodeOeraLinda(gcodeFont):
         x = self.r * cos(self.a + a)
         y = self.r * sin(self.a + a)
         if init:
-            print("G0 X{:.2f} Y{:.2f}".format(self.x + x, self.y + y))
+            print("G0 X{:.3f} Y{:.3f}".format(self.x + x, self.y + y))
             print("M3")
-        print("{} X{:.2f} Y{:.2f} I{:.2f} J{:.2f}".format(
+        print("{} X{:.3f} Y{:.3f} I{:.3f} J{:.3f}".format(
             direction,
             self.x + self.r * cos(self.a + b),
             self.y + self.r * sin(self.a + b),
@@ -41,19 +41,20 @@ class gcodeOeraLinda(gcodeFont):
     def __lineFromCenter(self, a):
         x = self.r * cos(self.a + a)
         y = self.r * sin(self.a + a)
-        print("G1 X{:.2f} Y{:.2f}".format(self.x + x, self.y + y))
+        print("G1 X{:.3f} Y{:.3f}".format(self.x + x, self.y + y))
 
     def __lineToCenter(self, a=999):
         if a != 999:
             x = self.r * cos(self.a + a)
             y = self.r * sin(self.a + a)
-            print("G0 X{:.2f} Y{:.2f}".format(self.x + x, self.y + y))
+            print("G0 X{:.3f} Y{:.3f}".format(self.x + x, self.y + y))
             print("M3")
-        print("G1 X{:.2f} Y{:.2f}".format(self.x, self.y))
+        print("G1 X{:.3f} Y{:.3f}".format(self.x, self.y))
 
     def __drawChar(self, d):
         if d == '0':
-            self.__semiCircle("G3", pi / 2, pi / 2, init=True)
+            self.__semiCircle("G3", pi / 2, -pi / 2, init=True)
+            self.__semiCircle("G3", -pi / 2, pi / 2)
         elif d == '1':
             self.__lineToCenter(pi / 2)
             self.__lineFromCenter(-pi / 2)
