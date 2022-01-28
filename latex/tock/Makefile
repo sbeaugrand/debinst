@@ -36,6 +36,12 @@ tock6.nc: tock.py gcodeOeraLinda.py
 	@grep -H 'margin' $@
 	@echo
 
+.PHONY: gvalidate
+gvalidate: tock4.nc tock6.nc
+	@gvalidate -s tock4.nc || echo "(tock4.nc)"
+	@gvalidate -s tock6.nc || echo "(tock6.nc)"
+	@$(RM) EEPROM.DAT
+
 .PHONY: clean
 clean:
 	@$(RM) build/*.aux build/*.dvi build/*.log *~
