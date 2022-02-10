@@ -87,6 +87,7 @@ tgz:\
  tgz/schmittTrigger.tgz\
  tgz/geiger.tgz\
  tgz/cornemuse.tgz\
+ tgz/tock.tgz\
 
 tgz/src.tgz: $(SRC)
 	@tar chvzf $@ $^
