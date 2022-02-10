@@ -74,15 +74,26 @@ void displayWrite(const char* line1, const char* line2)
  ******************************************************************************/
 int displayScreenSaver()
 {
+    static char* root = NULL;
+
     const unsigned int width = 5;
     const unsigned int height = 5;
     time_t tOfTheDay;
     struct tm* tmOfTheDay;
-    char dateOfTheDay[(width + 1) << 1];
+    char line[LINE_SIZE];
     FILE* fp;
     static int r = -1;
     int x;
     int y;
+
+    if (root == NULL) {
+        root = getenv("MP3DIR");
+        if (root == NULL) {
+            root = const_cast<char*>("/mnt/mp3");
+        }
+    }
+    strcpy(line, root);
+    strcat(line, "/mp3");
 
     if (gOled == nullptr) {
         return 1;
@@ -91,7 +102,11 @@ int displayScreenSaver()
 
     tOfTheDay = time(NULL);
     tmOfTheDay = localtime(&tOfTheDay);
-    strftime(dateOfTheDay, sizeof(dateOfTheDay), "%d-%m %H:%M", tmOfTheDay);
+    if (access(line, R_OK) != 0) {
+        strftime(line, sizeof(line), "%dX%m %H:%M", tmOfTheDay);
+    } else {
+        strftime(line, sizeof(line), "%d-%m %H:%M", tmOfTheDay);
+    }
 
     if (r == -1) {
         srand(tOfTheDay);
@@ -100,19 +115,19 @@ int displayScreenSaver()
     x = r % (LCD_COLS - (width - 1));
     y = r / (LCD_COLS - (width - 1));
 
-    dateOfTheDay[width] = '\0';
+    line[width] = '\0';
     if (gOled->setCursor(y, x) != mraa::SUCCESS) {
         return 2;
     }
-    gOled->write(dateOfTheDay);
+    gOled->write(line);
     gOled->setCursor(y + height - 1, x);
-    gOled->write(dateOfTheDay + width + 1);
+    gOled->write(line + width + 1);
 
     fp = fopen("/run/shutter.at", "r");
     if (fp != NULL) {
-        if (fgets(dateOfTheDay, sizeof(dateOfTheDay), fp) != NULL) {
+        if (fgets(line, sizeof(line), fp) != NULL) {
             gOled->setCursor(y + 2, x);
-            gOled->write(dateOfTheDay);
+            gOled->write(line);
         }
         fclose(fp);
     }
