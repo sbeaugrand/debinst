@@ -31,7 +31,7 @@ sudo apt-get -y install python3-pip
 sudo python3 -m pip install certbot
 sudo systemctl stop apache2
 sudo certbot certonly --standalone -d $host -m $mail --rsa-key-size 4096
-sudo vi /etc/apache2/sites-enabled/ssl.conf
+sudo vi /etc/apache2/sites-enabled/dokuwiki.conf
 cat <<EOF
 SSLCertificateFile      /etc/letsencrypt/live/$host/cert.pem
 SSLCertificateKeyFile   /etc/letsencrypt/live/$host/privkey.pem
@@ -50,7 +50,7 @@ sudo vi /etc/cron.weekly/certbot-renew
  systemctl stop apache2 >>/var/log/certbot-renew.log
  /usr/local/bin/certbot renew >>/var/log/certbot-renew.log
  systemctl start apache2 >>/var/log/certbot-renew.log
-chmod 755 /etc/cron.weekly/certbot-renew
+sudo chmod 755 /etc/cron.weekly/certbot-renew
 sudo apt install anacron
 ```
 

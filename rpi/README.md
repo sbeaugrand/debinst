@@ -34,17 +34,17 @@ termes.
 
 # Installation sur Raspberry PI
 ```
-echo "008d7377b8c8b853a6663448a3f7688ba98e2805949127a1d9e8859ff96ee1a9 2021-10-30-raspios-bullseye-armhf-lite.zip" >2021-10-30-raspios-bullseye-armhf-lite.sha
-sha256sum -c 2021-10-30-raspios-bullseye-armhf-lite.sha
-unzip 2021-10-30-raspios-bullseye-armhf-lite.zip
+echo "f6e2a3e907789ac25b61f7acfcbf5708a6d224cf28ae12535a2dc1d76a62efbc 2022-01-28-raspios-bullseye-armhf-lite.zip" >2022-01-28-raspios-bullseye-armhf-lite.sha
+sha256sum -c 2022-01-28-raspios-bullseye-armhf-lite.sha
+unzip 2022-01-28-raspios-bullseye-armhf-lite.zip
 umount /mnt/m*  # or umount /media/$USER/*
 pv 2*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
 Enlever et remettre la carte SD
 ```
-mount /mnt/m2
-touch /mnt/m2/ssh
-umount /mnt/m2
+mount /mnt/m1
+touch /mnt/m1/ssh
+umount /mnt/m1
 # or
 touch /media/$USER/.../ssh
 umount /media/$USER/*
