@@ -15,11 +15,11 @@ fi
 
 file=$idir/projects/arm/sompi/remotes/shutter-pr-.txt
 if notLink $file; then
+    ls -l $file
+    cp -a $file $bdir/shutter.txt
     mv $file /run/shutter.txt
     ln -s /run/shutter.txt $file
 fi
-ref=$bdir/shutter.txt
-cp $file $ref
 
 installScript()
 {
