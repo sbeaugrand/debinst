@@ -18,7 +18,10 @@ clean:
 
 .PHONY: mrproper
 mrproper: clean
-	@rmdir build
-	@$(RM) $(PROJECT).pdf
+	@test ! -d build || rmdir build
+	@$(RM) $(PROJECT).pdf\
+	 livret-$(PROJECT).pdf\
+	 portrait-$(PROJECT).pdf\
+	 extrait-$(PROJECT).pdf
 
 include $(PROROOT)/makefiles/pdf.mk

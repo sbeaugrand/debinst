@@ -27,6 +27,8 @@ install-pr-pdcroix.sh
 install-op-ssh-keygen.sh
 hardware/install-op-lp-hpP1006.sh
 hardware/install-op-scan-mustekA3.sh
+hardware/install-op-grbl-sim.sh
+hardware/marlin/install-op-marlin-src.sh
 "
 
 file=/etc/X11/xorg.conf.d/99-mode.conf

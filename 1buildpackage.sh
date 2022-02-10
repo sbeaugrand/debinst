@@ -102,7 +102,8 @@ ls -1 -d 2>/dev/null\
  .ssh/authorized_keys\
  .gnupg\
  .config/supertuxkart/*/*.xml\
- .config/libreoffice/*/user/pack/wordbook/*
+ .config/libreoffice/*/user/pack/wordbook/*\
+ .local/share/evolution/addressbook/system/contacts.db
 dir=`ls -d 2>/dev/null .mozilla/firefox/*.default*/bookmarkbackups`
 if [ -n "$dir" ]; then
     dir=`readlink -f $dir/.. | sed "s#$home/##"`

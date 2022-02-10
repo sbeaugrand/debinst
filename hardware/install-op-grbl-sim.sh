@@ -4,6 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+repo=$idir/../repo
 gitClone https://github.com/gnea/grbl.git || return 1
 gitClone https://github.com/sbeaugrand/grbl-sim.git || return 1
 
