@@ -1,5 +1,6 @@
 aptitude
 lingot
+gnome-2048
 iptraf
 meson  # mmsdtng
 ninja-build  # mmsdtng

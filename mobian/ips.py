@@ -5,10 +5,11 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+import sys
 import re
 
 t = {}
-with open('/run/iptraf.log') as f:
+with open('/var/log/iptraf.{}'.format(sys.argv[1])) as f:
     for line in f:
         s = line.split(';')
         if len(s) <= 6:

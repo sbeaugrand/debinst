@@ -91,6 +91,7 @@ ssh $uri "test -d install/debinst || mkdir -p install/debinst"
 rsync -rli --delete --no-times --checksum\
  ~/install/debinst/0install.sh\
  ~/install/debinst/$project\
+ ~/install/debinst/install-op-lingot.sh\
  $uri:/home/$user/install/debinst/
 
 # ---------------------------------------------------------------------------- #

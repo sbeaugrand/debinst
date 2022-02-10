@@ -34,7 +34,7 @@ termes.
 
 # Installation sur mobian
 ```
-xz -k -d mobian-pinephone-phosh-20201215.img.gz
+gzip -k -d mobian-pinephone-phosh-20220116.img.gz
 umount /media/$USER/*
 pv mobian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
