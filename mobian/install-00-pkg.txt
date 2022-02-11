@@ -1,0 +1,6 @@
+purple-mm-sms
+aptitude
+lingot
+gnome-2048
+iptraf
+canberra-gtk-play

@@ -17,3 +17,6 @@ if systemctl -q is-enabled packagekit; then
     systemctl mask packagekit
     dpkg-divert --divert /etc/PackageKit/20packagekit.distrib --rename  /etc/apt/apt.conf.d/20packagekit
 fi
+
+gsettings set org.gnome.software download-updates false
+gsettings set org.gnome.software allow-updates false
