@@ -2,5 +2,7 @@ purple-mm-sms
 aptitude
 lingot
 gnome-2048
+python3-keyring  # pigmail
+gir1.2-gsound-1.0  # pigmail
 iptraf
 canberra-gtk-play

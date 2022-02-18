@@ -28,7 +28,7 @@ fi
 # System Wake Up Timer
 # ---------------------------------------------------------------------------- #
 dir=/etc/systemd/system
-mkdir -p $dir/system-wake-up.timer.d
+sudo mkdir -p $dir/system-wake-up.timer.d
 
 file=$dir/system-wake-up.timer.d/10-mobian.conf
 echo "[Timer]" | sudo tee $file >/dev/null

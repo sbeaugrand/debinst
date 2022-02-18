@@ -88,7 +88,7 @@ grep -q '^PasswordAuthentication no' /etc/ssh/sshd_config ||\
 # install
 # ---------------------------------------------------------------------------- #
 ssh $uri "test -d install/debinst || mkdir -p install/debinst"
-rsync -rli --delete --no-times --checksum\
+rsync -rli --delete --no-times --checksum --exclude=__pycache__\
  ~/install/debinst/0install.sh\
  ~/install/debinst/$project\
  ~/install/debinst/install-op-lingot.sh\
