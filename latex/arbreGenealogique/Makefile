@@ -160,11 +160,11 @@ build/I0001.png: $(PHOTOS)/eeee.png build/ellipse1.png
 build/I0002.png: $(PHOTOS)/eeee.png build/ellipse1.png
 	$(call photo,1,600,500,-resize 60%,,-normalize $(BRIGHTNESS),2020)
 
-build/I0003.png: $(PHOTOS)/erwann.png build/ellipse1.png
-	$(call photo,1,250,200,-resize 28%,,-normalize $(BRIGHTNESS),2020)
+build/I0003.png: $(PHOTOS)/erwann2021.jpg build/ellipse1.png
+	$(call photo,1,250,200,-resize 56%,,-normalize,2021)
 
-build/I0004.png: $(PHOTOS)/eline.png build/ellipse1.png
-	$(call photo,1,300,200,-resize 28%,,-normalize $(BRIGHTNESS),2020)
+build/I0004.png: $(PHOTOS)/eline2021.jpg build/ellipse1.png
+	$(call photo,1,300,200,-resize 56%,,-normalize,2021)
 
 build/I0005.png: $(PHOTOS)/audrey.jpg build/ellipse2.png
 	$(call photo,2,100,50,-resize 200%,,-normalize,2016)
