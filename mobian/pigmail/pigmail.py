@@ -56,7 +56,7 @@ def decode(h):
                 line += s[0].decode() + ' '
         return line.replace('  ', ' ')
     except Exception as e:
-        return e.args[1]
+        return ''.join(traceback.format_exception_only(None, e))
 
 
 # ---------------------------------------------------------------------------- #
@@ -77,12 +77,13 @@ class Mail:
                 '(BODY[HEADER.FIELDS (DATE FROM SUBJECT MESSAGE-ID)])')
         except Exception as e:
             print(e, file=sys.stderr)
-            imap = imaplib.IMAP4_SSL(imapHost)
-            imap.login(imapUser, imapPass)
-            imap.select('inbox')
+            imap = Imap()
             tmp, data = imap.fetch(
                 self.num, '(BODY[HEADER.FIELDS (FROM SUBJECT MESSAGE-ID)])')
-        msg = email.message_from_string(data[0][1].decode())
+        try:
+            msg = email.message_from_string(data[0][1].decode())
+        except:
+            msg = email.message_from_string(data[0].decode())
         self.headerDate = decode(msg['Date'])
         self.headerFrom = decode(msg['From'])
         self.headerSubject = decode(msg['Subject'])
@@ -110,9 +111,7 @@ class Mail:
                                                    256))
         except Exception as e:
             print(e, file=sys.stderr)
-            imap = imaplib.IMAP4_SSL(imapHost)
-            imap.login(imapUser, imapPass)
-            imap.select('inbox')
+            imap = Imap()
             tmp, data = imap.fetch(
                 self.num, 'BODY[{}]<{}.{}>'.format(self.part, self.offset,
                                                    256))
@@ -120,7 +119,10 @@ class Mail:
         if not isinstance(data[0][1], int):
             self.body += data[0][1]
         if self.charset.upper() == 'UTF-8':
-            text = quopri.decodestring(self.body).decode()
+            try:
+                text = quopri.decodestring(self.body).decode()
+            except:
+                text = self.body.decode()
         else:
             text = self.body.decode(self.charset)
         if isinstance(data[0][1], int):
@@ -186,7 +188,12 @@ def onButtonPlus(widget, textview, mail):
 def messageText(text, mail):
     global sound
     sound.play_simple({GSound.ATTR_EVENT_ID: "message-new-instant"})
-    window = Gtk.Window()
+    try:
+        window = Gtk.Window()
+    except Exception as e:
+        print(e, file=sys.stderr)
+        sleep(60)
+        window = Gtk.Window()
     window.set_title('Python Imap Gtk Mail')
     window.set_default_size(WIDTH, HEIGHT)
     window.connect('delete-event', Gtk.main_quit)
@@ -253,19 +260,39 @@ class Log:
 
 
 # ---------------------------------------------------------------------------- #
+## \class Imap
+# ---------------------------------------------------------------------------- #
+class Imap:
+    def __init__(self):
+        global imapHost
+        global imapUser
+        global imapPass
+        self.imap = imaplib.IMAP4_SSL(imapHost)
+        self.imap.login(imapUser, imapPass)
+        self.imap.select('inbox')
+
+    def searchSince(self, d):
+        return self.imap.search(None, '(SINCE "{}")'.format(d))
+
+    def fetch(self, n, s):
+        return self.imap.fetch(n, s)
+
+    def noop(self):
+        self.imap.noop()
+
+
+# ---------------------------------------------------------------------------- #
 ## \fn loop
 # ---------------------------------------------------------------------------- #
 def loop():
     global imap
     global log
     try:
-        imap = imaplib.IMAP4_SSL(imapHost)
-        imap.login(imapUser, imapPass)
-        imap.select('inbox')
-        tmp, messages = imap.search(None, '(SINCE "{}")'.format(yesterday))
+        tmp, messages = imap.searchSince(yesterday)
     except Exception as e:
         print(e, file=sys.stderr)
-        return
+        imap = Imap()
+        tmp, messages = imap.searchSince(yesterday)
     for num in messages[0].split():
         mail = Mail(num)
         i = mail.messageId
@@ -276,11 +303,6 @@ def loop():
         else:
             messageText(mail.fetchPreview(), mail)
         log.append()
-    try:
-        imap.close()
-        imap.logout()
-    except Exception as e:
-        print(e, file=sys.stderr)
 
 
 # ---------------------------------------------------------------------------- #
@@ -289,20 +311,36 @@ def loop():
 log = Log(today, yesterday)
 while True:
     try:
+        imap = Imap()
+        break
+    except Exception as e:
+        print(e, file=sys.stderr)
+        sleep(300)
+while True:
+    try:
         loop()
     except Exception as e:
         s = ''.join(traceback.format_exception(None, e, e.__traceback__))
+        print(s, file=sys.stderr)
         try:
             dialog = Gtk.MessageDialog(modal=True,
                                        message_type=Gtk.MessageType.ERROR,
                                        buttons=Gtk.ButtonsType.OK_CANCEL,
-                                       text=s)
+                                       text=e)
             r = dialog.run()
             dialog.destroy()
             if r == Gtk.ResponseType.CANCEL:
                 log.append()
             while Gtk.events_pending():
                 Gtk.main_iteration()
-        except:
-            print(s, file=sys.stderr)
-    sleep(300)
+        except Exception as e:
+            print(e, file=sys.stderr)
+            log.append()
+    try:
+        sleep(100)
+        imap.noop()
+        sleep(100)
+        imap.noop()
+        sleep(100)
+    except Exception as e:
+        print(e, file=sys.stderr)
