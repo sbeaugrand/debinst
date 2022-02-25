@@ -173,9 +173,9 @@ def bufferText(buff, text, mail):
 
 
 # ---------------------------------------------------------------------------- #
-## \fn onButtonPlus
+## \fn onButtonCont
 # ---------------------------------------------------------------------------- #
-def onButtonPlus(widget, textview, mail):
+def onButtonCont(widget, textview, mail):
     if mail.offset >= 0:
         buff = textview.get_buffer()
         bufferText(buff, mail.fetchPart(), mail)
@@ -183,17 +183,45 @@ def onButtonPlus(widget, textview, mail):
 
 
 # ---------------------------------------------------------------------------- #
+## \fn onButtonSeen
+# ---------------------------------------------------------------------------- #
+def onButtonSeen(widget, window):
+    global log
+    log.append()
+    window.close()
+
+
+# ---------------------------------------------------------------------------- #
+## \fn onButtonTrash
+# ---------------------------------------------------------------------------- #
+def onButtonTrash(widget, window, mail):
+    global imap
+    imap.move(mail.num, BOX_TRASH)
+    window.close()
+
+
+# ---------------------------------------------------------------------------- #
+## \fn onButtonArchive
+# ---------------------------------------------------------------------------- #
+def onButtonArchive(widget, window, mail):
+    global imap
+    imap.move(mail.num, BOX_ARCHIVE)
+    window.close()
+
+
+# ---------------------------------------------------------------------------- #
 ## \fn messageText
 # ---------------------------------------------------------------------------- #
 def messageText(text, mail):
     global sound
+    while True:
+        try:
+            window = Gtk.Window()
+            break
+        except Exception as e:
+            print(e, file=sys.stderr)
+            sleep(60)
     sound.play_simple({GSound.ATTR_EVENT_ID: "message-new-instant"})
-    try:
-        window = Gtk.Window()
-    except Exception as e:
-        print(e, file=sys.stderr)
-        sleep(60)
-        window = Gtk.Window()
     window.set_title('Python Imap Gtk Mail')
     window.set_default_size(WIDTH, HEIGHT)
     window.connect('delete-event', Gtk.main_quit)
@@ -209,12 +237,18 @@ def messageText(text, mail):
     vbox.pack_start(scrolled, True, True, 0)
     window.add(vbox)
     hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
-    buttonPlus = Gtk.Button(label="+")
-    buttonPlus.connect("clicked", onButtonPlus, textview, mail)
-    hbox.pack_start(buttonPlus, True, True, 0)
-    buttonMoins = Gtk.Button(label="-")
-    buttonMoins.connect("clicked", lambda x: window.close())
-    hbox.pack_start(buttonMoins, True, True, 0)
+    buttonCont = Gtk.Button(label=BTN_CONT)
+    buttonCont.connect("clicked", onButtonCont, textview, mail)
+    hbox.pack_start(buttonCont, True, True, 0)
+    buttonSeen = Gtk.Button(label=BTN_SEEN)
+    buttonSeen.connect("clicked", onButtonSeen, window)
+    hbox.pack_start(buttonSeen, True, True, 0)
+    buttonArchive = Gtk.Button(label=BTN_ARCHIVE)
+    buttonArchive.connect("clicked", onButtonArchive, window, mail)
+    hbox.pack_start(buttonArchive, True, True, 0)
+    buttonTrash = Gtk.Button(label=BTN_TRASH)
+    buttonTrash.connect("clicked", onButtonTrash, window, mail)
+    hbox.pack_start(buttonTrash, True, True, 0)
     vbox.pack_start(hbox, True, True, 0)
     Gtk.Widget.set_size_request(scrolled, WIDTH, HEIGHT - 80)
     window.show_all()
@@ -269,7 +303,7 @@ class Imap:
         global imapPass
         self.imap = imaplib.IMAP4_SSL(imapHost)
         self.imap.login(imapUser, imapPass)
-        self.imap.select('inbox')
+        self.imap.select(BOX_INBOX)
 
     def searchSince(self, d):
         return self.imap.search(None, '(SINCE "{}")'.format(d))
@@ -279,6 +313,20 @@ class Imap:
 
     def noop(self):
         self.imap.noop()
+
+    def move(self, n, d):
+        r = self.imap.copy(n, d)
+        if r[0] == 'NO':
+            print(r, file=sys.stderr)
+            return
+        r = self.imap.store(n, '+FLAGS', '(\\Deleted)')
+        if r[0] == 'NO':
+            print(r, file=sys.stderr)
+            return
+        r = self.imap.expunge()
+        if r[0] == 'NO':
+            print(r, file=sys.stderr)
+            return
 
 
 # ---------------------------------------------------------------------------- #
@@ -302,7 +350,6 @@ def loop():
             messageText(mail.fetchPart(), mail)
         else:
             messageText(mail.fetchPreview(), mail)
-        log.append()
 
 
 # ---------------------------------------------------------------------------- #
@@ -323,19 +370,24 @@ while True:
         s = ''.join(traceback.format_exception(None, e, e.__traceback__))
         print(s, file=sys.stderr)
         try:
+            if log.cur is None:
+                b = Gtk.ButtonsType.CLOSE
+            else:
+                b = Gtk.ButtonsType.YES_NO
+                e = ''.join(traceback.format_exception_only(
+                    None, e)) + '\nRessayer dans 5 min ?'
             dialog = Gtk.MessageDialog(modal=True,
                                        message_type=Gtk.MessageType.ERROR,
-                                       buttons=Gtk.ButtonsType.OK_CANCEL,
+                                       buttons=b,
                                        text=e)
             r = dialog.run()
             dialog.destroy()
-            if r == Gtk.ResponseType.CANCEL:
+            if r == Gtk.ResponseType.NO:
                 log.append()
             while Gtk.events_pending():
                 Gtk.main_iteration()
         except Exception as e:
             print(e, file=sys.stderr)
-            log.append()
     try:
         sleep(100)
         imap.noop()
@@ -344,3 +396,4 @@ while True:
         sleep(100)
     except Exception as e:
         print(e, file=sys.stderr)
+        sleep(300)

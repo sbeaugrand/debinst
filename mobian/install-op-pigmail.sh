@@ -15,6 +15,7 @@ Wants=graphical.target dbus.service network.target
 After=graphical.target dbus.service network.target
 
 [Service]
+Environment=DISPLAY=:0
 Environment=GTK_THEME=Adwaita:dark
 WorkingDirectory=$idir/mobian/$service
 ExecStart=$idir/mobian/$service/$service.py
