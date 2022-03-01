@@ -12,6 +12,7 @@ import quopri
 import html
 import traceback
 import sys
+import threading
 from os import path, rename
 from time import sleep
 from datetime import date, timedelta
@@ -31,14 +32,15 @@ sound = GSound.Context()
 sound.init()
 
 import keyring
-exec(open('user-pr-config.py').read())
-while True:
-    try:
-        imapPass = keyring.get_password(imapHost, imapUser)
-        break
-    except Exception as e:
+
+# ---------------------------------------------------------------------------- #
+## \fn perror
+# ---------------------------------------------------------------------------- #
+def perror(e, t=None):
+    if t is None:
         print(e, file=sys.stderr)
-        sleep(60)
+    else:
+        print('{}:{}'.format(t, e), file=sys.stderr)
 
 
 # ---------------------------------------------------------------------------- #
@@ -76,14 +78,18 @@ class Mail:
                 self.num,
                 '(BODY[HEADER.FIELDS (DATE FROM SUBJECT MESSAGE-ID)])')
         except Exception as e:
-            print(e, file=sys.stderr)
+            perror(e)
             imap = Imap()
             tmp, data = imap.fetch(
                 self.num, '(BODY[HEADER.FIELDS (FROM SUBJECT MESSAGE-ID)])')
         try:
             msg = email.message_from_string(data[0][1].decode())
-        except:
+        except Exception as e:
+            perror(e, 'message_from_string')
             msg = email.message_from_string(data[0].decode())
+        if not isinstance(msg['Date'], str) and not isinstance(
+                msg['Date'], bytes):
+            perror(msg, 'msg')
         self.headerDate = decode(msg['Date'])
         self.headerFrom = decode(msg['From'])
         self.headerSubject = decode(msg['Subject'])
@@ -110,7 +116,7 @@ class Mail:
                 self.num, 'BODY[{}]<{}.{}>'.format(self.part, self.offset,
                                                    256))
         except Exception as e:
-            print(e, file=sys.stderr)
+            perror(e)
             imap = Imap()
             tmp, data = imap.fetch(
                 self.num, 'BODY[{}]<{}.{}>'.format(self.part, self.offset,
@@ -121,7 +127,8 @@ class Mail:
         if self.charset.upper() == 'UTF-8':
             try:
                 text = quopri.decodestring(self.body).decode()
-            except:
+            except Exception as e:
+                perror(e, 'decodestring')
                 text = self.body.decode()
         else:
             text = self.body.decode(self.charset)
@@ -137,7 +144,8 @@ class Mail:
         tmp, data = imap.fetch(self.num, '(PREVIEW)')
         try:
             return data[0][1].decode()
-        except:
+        except Exception as e:
+            perror(e, 'preview')
             return data[0].decode()
 
 
@@ -214,12 +222,13 @@ def onButtonArchive(widget, window, mail):
 # ---------------------------------------------------------------------------- #
 def messageText(text, mail):
     global sound
+    global event
     while True:
         try:
             window = Gtk.Window()
             break
         except Exception as e:
-            print(e, file=sys.stderr)
+            perror(e)
             sleep(60)
     sound.play_simple({GSound.ATTR_EVENT_ID: "message-new-instant"})
     window.set_title('Python Imap Gtk Mail')
@@ -252,7 +261,11 @@ def messageText(text, mail):
     vbox.pack_start(hbox, True, True, 0)
     Gtk.Widget.set_size_request(scrolled, WIDTH, HEIGHT - 80)
     window.show_all()
-    Gtk.main()
+    event.set()
+    try:
+        Gtk.main()
+    finally:
+        event.clear()
 
 
 # ---------------------------------------------------------------------------- #
@@ -317,15 +330,15 @@ class Imap:
     def move(self, n, d):
         r = self.imap.copy(n, d)
         if r[0] == 'NO':
-            print(r, file=sys.stderr)
+            perror(r)
             return
         r = self.imap.store(n, '+FLAGS', '(\\Deleted)')
         if r[0] == 'NO':
-            print(r, file=sys.stderr)
+            perror(r)
             return
         r = self.imap.expunge()
         if r[0] == 'NO':
-            print(r, file=sys.stderr)
+            perror(r)
             return
 
 
@@ -338,7 +351,7 @@ def loop():
     try:
         tmp, messages = imap.searchSince(yesterday)
     except Exception as e:
-        print(e, file=sys.stderr)
+        perror(e)
         imap = Imap()
         tmp, messages = imap.searchSince(yesterday)
     for num in messages[0].split():
@@ -353,22 +366,52 @@ def loop():
 
 
 # ---------------------------------------------------------------------------- #
+## \fn noopTask
+# ---------------------------------------------------------------------------- #
+def noopTask():
+    global event
+    global imap
+    while True:
+        event.wait()
+        sleep(100)
+        if event.is_set():
+            try:
+                imap.noop()
+            except Exception as e:
+                perror(e)
+                event.clear()
+
+
+# ---------------------------------------------------------------------------- #
 # main
 # ---------------------------------------------------------------------------- #
+exec(open('user-pr-config.py').read())
+while True:
+    try:
+        imapPass = keyring.get_password(imapHost, imapUser)
+        break
+    except Exception as e:
+        perror(e)
+        sleep(60)
+
 log = Log(today, yesterday)
+event = threading.Event()
+thread = threading.Thread(target=noopTask, daemon=True)
+thread.start()
+
 while True:
     try:
         imap = Imap()
         break
     except Exception as e:
-        print(e, file=sys.stderr)
+        perror(e)
         sleep(300)
 while True:
     try:
         loop()
     except Exception as e:
         s = ''.join(traceback.format_exception(None, e, e.__traceback__))
-        print(s, file=sys.stderr)
+        perror(s)
         try:
             if log.cur is None:
                 b = Gtk.ButtonsType.CLOSE
@@ -380,6 +423,7 @@ while True:
                                        message_type=Gtk.MessageType.ERROR,
                                        buttons=b,
                                        text=e)
+            event.set()
             r = dialog.run()
             dialog.destroy()
             if r == Gtk.ResponseType.NO:
@@ -387,13 +431,10 @@ while True:
             while Gtk.events_pending():
                 Gtk.main_iteration()
         except Exception as e:
-            print(e, file=sys.stderr)
-    try:
-        sleep(100)
-        imap.noop()
-        sleep(100)
-        imap.noop()
-        sleep(100)
-    except Exception as e:
-        print(e, file=sys.stderr)
-        sleep(300)
+            perror(e)
+        finally:
+            event.clear()
+    event.set()
+    sleep(250)
+    event.clear()
+    sleep(50)
