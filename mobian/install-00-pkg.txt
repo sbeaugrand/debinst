@@ -1,8 +1,14 @@
 purple-mm-sms
+canberra-gtk-play  # wake-up.service
 aptitude
 lingot
 gnome-2048
 python3-keyring  # pigmail
 gir1.2-gsound-1.0  # pigmail
 iptraf
-canberra-gtk-play
+tcpstat
+traceroute
+libgtk-4-dev  # megapixels
+cmake  # megapixels
+libzbar-dev  # megapixels
+clang-format-12  # megapixels

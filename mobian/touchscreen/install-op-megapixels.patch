@@ -1,0 +1,19 @@
+diff --git a/src/main.c b/src/main.c
+index 7b4c088..952e822 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -911,11 +911,11 @@ update_ui_rotation()
+                                                GTK_ORIENTATION_VERTICAL);
+ 
+                 if (device_rotation == 90) {
+-                        gtk_widget_set_halign(preview_top_box, GTK_ALIGN_END);
+-                        gtk_widget_set_halign(preview_bottom_box, GTK_ALIGN_START);
+-                } else {
+                         gtk_widget_set_halign(preview_top_box, GTK_ALIGN_START);
+                         gtk_widget_set_halign(preview_bottom_box, GTK_ALIGN_END);
++                } else {
++                        gtk_widget_set_halign(preview_top_box, GTK_ALIGN_END);
++                        gtk_widget_set_halign(preview_bottom_box, GTK_ALIGN_START);
+                 }
+         }
+ }
