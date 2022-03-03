@@ -1,5 +1,5 @@
 purple-mm-sms
-canberra-gtk-play  # wake-up.service
+gnome-session-canberra  # wake-up.service
 aptitude
 lingot
 gnome-2048

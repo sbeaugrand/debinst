@@ -7,6 +7,7 @@
 file=/etc/sudoers.d/$user
 if notFile $file; then
     cat >$file <<EOF
+$user ALL=(root) NOPASSWD:/usr/sbin/iptraf
 $user ALL=(root) NOPASSWD:/usr/sbin/tcps
 $user ALL=(root) NOPASSWD:/usr/bin/nmcli c up
 EOF

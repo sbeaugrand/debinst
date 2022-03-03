@@ -13,7 +13,7 @@ import html
 import traceback
 import sys
 import threading
-from os import path, rename
+from os import path, rename, system
 from time import sleep
 from datetime import date, timedelta
 today = date.today()
@@ -21,17 +21,18 @@ yesterday = today - timedelta(days=1)
 today = today.strftime("%d-%b-%Y")
 yesterday = yesterday.strftime("%d-%b-%Y")
 
+applicationId = 'com.github.sbeaugrand.pigmail'
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, Gio
 while not Gtk.init_check():
     sleep(60)
-gi.require_version('GSound', '1.0')
-from gi.repository import GLib, GSound
-sound = GSound.Context()
-sound.init()
+gi.require_version('Lfb', '0.0')
+from gi.repository import Lfb
+Lfb.init(applicationId)
 
 import keyring
+
 
 # ---------------------------------------------------------------------------- #
 ## \fn perror
@@ -86,10 +87,10 @@ class Mail:
             msg = email.message_from_string(data[0][1].decode())
         except Exception as e:
             perror(e, 'message_from_string')
-            msg = email.message_from_string(data[0].decode())
+            msg = email.message_from_string(data[1][1].decode())
         if not isinstance(msg['Date'], str) and not isinstance(
                 msg['Date'], bytes):
-            perror(msg, 'msg')
+            perror(data, 'data')
         self.headerDate = decode(msg['Date'])
         self.headerFrom = decode(msg['From'])
         self.headerSubject = decode(msg['Subject'])
@@ -218,22 +219,19 @@ def onButtonArchive(widget, window, mail):
 
 
 # ---------------------------------------------------------------------------- #
-## \fn messageText
+## \fn onActivate
 # ---------------------------------------------------------------------------- #
-def messageText(text, mail):
+def onActivate(app, text, mail):
     global sound
-    global event
     while True:
         try:
-            window = Gtk.Window()
+            window = Gtk.ApplicationWindow.new(app)
             break
         except Exception as e:
             perror(e)
             sleep(60)
-    sound.play_simple({GSound.ATTR_EVENT_ID: "message-new-instant"})
     window.set_title('Python Imap Gtk Mail')
     window.set_default_size(WIDTH, HEIGHT)
-    window.connect('delete-event', Gtk.main_quit)
     scrolled = Gtk.ScrolledWindow()
     textview = Gtk.TextView()
     textview.set_wrap_mode(Gtk.WrapMode.WORD)
@@ -261,9 +259,27 @@ def messageText(text, mail):
     vbox.pack_start(hbox, True, True, 0)
     Gtk.Widget.set_size_request(scrolled, WIDTH, HEIGHT - 80)
     window.show_all()
+    notification = Gio.Notification()
+    notification.set_title('Nouveau message de {}'.format(mail.headerFrom))
+    app.send_notification(None, notification)
+
+
+# ---------------------------------------------------------------------------- #
+## \fn messageText
+# ---------------------------------------------------------------------------- #
+def messageText(text, mail):
+    global event
     event.set()
+    app = Gtk.Application(application_id=applicationId)
+    app.connect('activate', onActivate, text, mail)
+    ev = Lfb.Event.new('message-new-instant')
+    ev.trigger_feedback()
+    if path.exists('/usr/bin/wtype'):
+        system('/usr/bin/wtype -M shift -m shift')
+    elif path.exists('/usr/bin/xdotool'):
+        system('/usr/bin/xdotool key shift')
     try:
-        Gtk.main()
+        app.run()
     finally:
         event.clear()
 
@@ -330,15 +346,15 @@ class Imap:
     def move(self, n, d):
         r = self.imap.copy(n, d)
         if r[0] == 'NO':
-            perror(r)
+            perror(r, 'imap.copy')
             return
         r = self.imap.store(n, '+FLAGS', '(\\Deleted)')
         if r[0] == 'NO':
-            perror(r)
+            perror(r, 'imap.store')
             return
         r = self.imap.expunge()
         if r[0] == 'NO':
-            perror(r)
+            perror(r, 'imap.expunge')
             return
 
 

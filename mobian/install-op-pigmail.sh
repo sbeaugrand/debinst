@@ -38,6 +38,21 @@ EOF
     return 1
 fi
 
+if [ `uname -m` = "x86_64" ]; then
+    dir=$XDG_DATA_HOME/dbus-1/services
+    if notDir $dir; then
+        mkdir -p $dir
+    fi
+    file=$dir/org.freedesktop.Notifications.service
+    if notFile $file; then
+        cat >$file <<EOF
+[D-BUS Service]
+Name=org.freedesktop.Notifications
+Exec=/usr/lib/notification-daemon/notification-daemon
+EOF
+    fi
+fi
+
 imapHost=`grep 'imapHost =' $file | cut -d '=' -f 2`
 imapUser=`grep 'imapUser =' $file | cut -d '=' -f 2`
 cat <<EOF
