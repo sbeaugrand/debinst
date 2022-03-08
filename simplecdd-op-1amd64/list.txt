@@ -122,6 +122,8 @@ libtiff5:i386  # mustekA3
 libjpeg62-turbo:i386  # mustekA3
 libieee1284-3:i386  # mustekA3
 sane-utils:i386  # mustekA3
+libjpeg-dev  # canon ts5000
+libsane-dev  # canon ts5000
 thunar
 gtkam
 gphotofs
