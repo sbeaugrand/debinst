@@ -18,3 +18,20 @@ $user ALL=(root) NOPASSWD:/usr/bin/mount
 $user ALL=(root) NOPASSWD:/usr/bin/umount
 EOF
 fi
+
+file=/etc/X11/xorg.conf.d/99-mode.conf
+if notFile $file; then
+    cat >$file <<EOF
+Section "Monitor"
+  Identifier "LVDS"
+  Option "PreferredMode" "1280x800"
+  Option "Primary" "true"
+EndSection
+
+Section "Monitor"
+  Identifier "VGA-0"
+  Option "PreferredMode" "720x400"
+  Option "RightOf" "LVDS"
+EndSection
+EOF
+fi

@@ -154,8 +154,8 @@ endef
 build/I0000.png: $(PHOTOS)/sebastien.png build/ellipse2.png
 	$(call photo,2,40,60,-resize 50%,,-normalize $(BRIGHTNESS),2016)
 
-build/I0001.png: $(PHOTOS)/eeee.png build/ellipse1.png
-	$(call photo,1,2600,500,-resize 60%,,-normalize $(BRIGHTNESS),2020)
+build/I0001.png: $(PHOTOS)/emma2021.jpg build/ellipse1.png
+	$(call photo,1,600,400,-resize 90%,,-normalize,2021)
 
 build/I0002.png: $(PHOTOS)/eeee.png build/ellipse1.png
 	$(call photo,1,600,500,-resize 60%,,-normalize $(BRIGHTNESS),2020)

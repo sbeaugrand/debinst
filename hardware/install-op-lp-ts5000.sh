@@ -15,16 +15,6 @@
 
 gitClone https://github.com/Ordissimo/scangearmp2.git || return 1
 
-if notWhich scanimage; then
-    apt-get -y install sane-utils
-fi
-if notFile /usr/include/jpeglib.h; then
-    apt-get -y install libjpeg-dev
-fi
-if notFile /usr/include/sane/sane.h; then
-    apt-get -y install libsane-dev
-fi
-
 if notWhich scangearmp2; then
     pushd $bdir/scangearmp2 || return 1
     mkdir -p build
