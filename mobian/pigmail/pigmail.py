@@ -70,6 +70,7 @@ class Mail:
         self.num = num
         self.body = b''
         self.offset = -1
+        self.messageId = None
         self.fetchHeader()
 
     def fetchHeader(self):
@@ -79,22 +80,22 @@ class Mail:
                 self.num,
                 '(BODY[HEADER.FIELDS (DATE FROM SUBJECT MESSAGE-ID)])')
         except Exception as e:
-            perror(e)
+            perror(e, 'fetch header')
             imap = Imap()
             tmp, data = imap.fetch(
                 self.num, '(BODY[HEADER.FIELDS (FROM SUBJECT MESSAGE-ID)])')
         try:
-            msg = email.message_from_string(data[0][1].decode())
+            for d in data:
+                if isinstance(d, tuple):
+                    msg = email.message_from_string(d[1].decode())
+                    self.headerDate = decode(msg['Date'])
+                    self.headerFrom = decode(msg['From'])
+                    self.headerSubject = decode(msg['Subject'])
+                    self.messageId = decode(msg['Message-ID']).strip()
+                    break
         except Exception as e:
             perror(e, 'message_from_string')
-            msg = email.message_from_string(data[1][1].decode())
-        if not isinstance(msg['Date'], str) and not isinstance(
-                msg['Date'], bytes):
             perror(data, 'data')
-        self.headerDate = decode(msg['Date'])
-        self.headerFrom = decode(msg['From'])
-        self.headerSubject = decode(msg['Subject'])
-        self.messageId = decode(msg['Message-ID']).strip()
 
     def fetchPartNumber(self):
         global imap
@@ -117,7 +118,7 @@ class Mail:
                 self.num, 'BODY[{}]<{}.{}>'.format(self.part, self.offset,
                                                    256))
         except Exception as e:
-            perror(e)
+            perror(e, 'fetch part')
             imap = Imap()
             tmp, data = imap.fetch(
                 self.num, 'BODY[{}]<{}.{}>'.format(self.part, self.offset,
@@ -197,6 +198,7 @@ def onButtonCont(widget, textview, mail):
 def onButtonSeen(widget, window):
     global log
     log.append()
+    window.get_application().withdraw_notification('new-message')
     window.close()
 
 
@@ -206,6 +208,7 @@ def onButtonSeen(widget, window):
 def onButtonTrash(widget, window, mail):
     global imap
     imap.move(mail.num, BOX_TRASH)
+    window.get_application().withdraw_notification('new-message')
     window.close()
 
 
@@ -215,6 +218,7 @@ def onButtonTrash(widget, window, mail):
 def onButtonArchive(widget, window, mail):
     global imap
     imap.move(mail.num, BOX_ARCHIVE)
+    window.get_application().withdraw_notification('new-message')
     window.close()
 
 
@@ -228,7 +232,7 @@ def onActivate(app, text, mail):
             window = Gtk.ApplicationWindow.new(app)
             break
         except Exception as e:
-            perror(e)
+            perror(e, 'window new')
             sleep(60)
     window.set_title('Python Imap Gtk Mail')
     window.set_default_size(WIDTH, HEIGHT)
@@ -261,7 +265,28 @@ def onActivate(app, text, mail):
     window.show_all()
     notification = Gio.Notification()
     notification.set_title('Nouveau message de {}'.format(mail.headerFrom))
+    app.send_notification('new-message', notification)
+
+
+# ---------------------------------------------------------------------------- #
+## \fn onActivateNotification
+# ---------------------------------------------------------------------------- #
+def onActivateNotification(app):
+    notification = Gio.Notification()
+    notification.set_title('Exception')
     app.send_notification(None, notification)
+
+
+# ---------------------------------------------------------------------------- #
+## \fn triggerEvent
+# ---------------------------------------------------------------------------- #
+def triggerEvent(name):
+    ev = Lfb.Event.new(name)
+    ev.trigger_feedback()
+    if path.exists('/usr/bin/wtype'):
+        system('/usr/bin/wtype -M shift -m shift')
+    elif path.exists('/usr/bin/xdotool'):
+        system('/usr/bin/xdotool key shift')
 
 
 # ---------------------------------------------------------------------------- #
@@ -272,12 +297,7 @@ def messageText(text, mail):
     event.set()
     app = Gtk.Application(application_id=applicationId)
     app.connect('activate', onActivate, text, mail)
-    ev = Lfb.Event.new('message-new-instant')
-    ev.trigger_feedback()
-    if path.exists('/usr/bin/wtype'):
-        system('/usr/bin/wtype -M shift -m shift')
-    elif path.exists('/usr/bin/xdotool'):
-        system('/usr/bin/xdotool key shift')
+    triggerEvent('message-new-instant')
     try:
         app.run()
     finally:
@@ -305,7 +325,9 @@ class Log:
                                 self.append(d)
 
     def set(self, i):
-        if i in self.log:
+        if i is None:
+            return False
+        elif i in self.log:
             return False
         else:
             self.cur = i
@@ -330,9 +352,15 @@ class Imap:
         global imapHost
         global imapUser
         global imapPass
-        self.imap = imaplib.IMAP4_SSL(imapHost)
-        self.imap.login(imapUser, imapPass)
-        self.imap.select(BOX_INBOX)
+        while True:
+            try:
+                self.imap = imaplib.IMAP4_SSL(imapHost)
+                self.imap.login(imapUser, imapPass)
+                self.imap.select(BOX_INBOX)
+                break
+            except Exception as e:
+                perror(e, 'imap new')
+                sleep(300)
 
     def searchSince(self, d):
         return self.imap.search(None, '(SINCE "{}")'.format(d))
@@ -346,15 +374,15 @@ class Imap:
     def move(self, n, d):
         r = self.imap.copy(n, d)
         if r[0] == 'NO':
-            perror(r, 'imap.copy')
+            perror(r, 'imap copy')
             return
         r = self.imap.store(n, '+FLAGS', '(\\Deleted)')
         if r[0] == 'NO':
-            perror(r, 'imap.store')
+            perror(r, 'imap store')
             return
         r = self.imap.expunge()
         if r[0] == 'NO':
-            perror(r, 'imap.expunge')
+            perror(r, 'imap expunge')
             return
 
 
@@ -367,13 +395,12 @@ def loop():
     try:
         tmp, messages = imap.searchSince(yesterday)
     except Exception as e:
-        perror(e)
+        perror(e, 'imap search')
         imap = Imap()
         tmp, messages = imap.searchSince(yesterday)
     for num in messages[0].split():
         mail = Mail(num)
-        i = mail.messageId
-        if not log.set(i):
+        if not log.set(mail.messageId):
             continue
         if mail.fetchPartNumber() > 0:
             messageText(mail.fetchPart(), mail)
@@ -394,7 +421,7 @@ def noopTask():
             try:
                 imap.noop()
             except Exception as e:
-                perror(e)
+                perror(e, 'imap noop')
                 event.clear()
 
 
@@ -407,7 +434,7 @@ while True:
         imapPass = keyring.get_password(imapHost, imapUser)
         break
     except Exception as e:
-        perror(e)
+        perror(e, 'keyring')
         sleep(60)
 
 log = Log(today, yesterday)
@@ -415,13 +442,7 @@ event = threading.Event()
 thread = threading.Thread(target=noopTask, daemon=True)
 thread.start()
 
-while True:
-    try:
-        imap = Imap()
-        break
-    except Exception as e:
-        perror(e)
-        sleep(300)
+imap = Imap()
 while True:
     try:
         loop()
@@ -429,27 +450,16 @@ while True:
         s = ''.join(traceback.format_exception(None, e, e.__traceback__))
         perror(s)
         try:
-            if log.cur is None:
-                b = Gtk.ButtonsType.CLOSE
-            else:
-                b = Gtk.ButtonsType.YES_NO
-                e = ''.join(traceback.format_exception_only(
-                    None, e)) + '\nRessayer dans 5 min ?'
-            dialog = Gtk.MessageDialog(modal=True,
-                                       message_type=Gtk.MessageType.ERROR,
-                                       buttons=b,
-                                       text=e)
-            event.set()
-            r = dialog.run()
-            dialog.destroy()
-            if r == Gtk.ResponseType.NO:
-                log.append()
-            while Gtk.events_pending():
-                Gtk.main_iteration()
+            app = Gtk.Application(application_id=applicationId)
+            app.connect('activate', onActivateNotification)
+            app.run()
         except Exception as e:
-            perror(e)
-        finally:
-            event.clear()
+            perror(e, 'onActivateNotification')
+        triggerEvent('dialog-warning')
+        log.append()
+        event.clear()
+        sleep(300)
+        continue
     event.set()
     sleep(250)
     event.clear()
