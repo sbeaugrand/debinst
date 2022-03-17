@@ -168,6 +168,7 @@ gir1.2-gtk-3.0  # pyBar
 python3-keyring  # pigmail
 gir1.2-lfb-0.0  # pigmail
 feedbackd  # pigmail
+python3-svgwrite  # pigmail
 xdotool  # pigmail
 python3-venv
 python3-tk

@@ -13,9 +13,9 @@ import html
 import traceback
 import sys
 import threading
-from os import path, rename, system
+from os import path, rename, system, getenv, unlink, getpid, kill
 from time import sleep
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 today = date.today()
 yesterday = today - timedelta(days=1)
 today = today.strftime("%d-%b-%Y")
@@ -33,15 +33,66 @@ Lfb.init(applicationId)
 
 import keyring
 
+rundir = getenv('XDG_RUNTIME_DIR')
+pidfile = rundir + '/pigmail.pid'
+errfile = rundir + '/pigmail.err'
+
+
+# ---------------------------------------------------------------------------- #
+## \fn onButtonKill
+# ---------------------------------------------------------------------------- #
+def onButtonKill(widget, window, pid):
+    kill(pid, 15)
+    if path.exists(pidfile):
+        unlink(pidfile)
+    window.close()
+
+
+# ---------------------------------------------------------------------------- #
+## \fn statusBox
+# ---------------------------------------------------------------------------- #
+def statusBox(pid):
+    window = Gtk.Window()
+    window.set_title('Python Imap Gtk Mail')
+    window.set_default_size(WIDTH, HEIGHT)
+    window.connect('delete-event', Gtk.main_quit)
+    scrolled = Gtk.ScrolledWindow()
+    textview = Gtk.TextView()
+    textview.set_editable(False)
+    textview.set_cursor_visible(False)
+    buff = textview.get_buffer()
+    scrolled.add(textview)
+    if path.exists(errfile):
+        with open(errfile, 'r') as f:
+            buff.set_text(f.read())
+    vbox = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+    vbox.pack_start(scrolled, True, True, 0)
+    window.add(vbox)
+    hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
+    buttonClose = Gtk.Button(label='Fermer')
+    buttonClose.connect("clicked", lambda x: window.close())
+    hbox.pack_start(buttonClose, True, True, 0)
+    if pid > 0:
+        buttonKill = Gtk.Button(label='Quitter')
+        buttonKill.connect("clicked", onButtonKill, window, pid)
+        hbox.pack_start(buttonKill, True, True, 0)
+    vbox.pack_start(hbox, True, True, 0)
+    Gtk.Widget.set_size_request(scrolled, WIDTH, HEIGHT - 80)
+    window.show_all()
+    textview.scroll_to_mark(buff.get_insert(), 0.0, True, 0.0, 1.0)
+    Gtk.main()
+
 
 # ---------------------------------------------------------------------------- #
 ## \fn perror
 # ---------------------------------------------------------------------------- #
 def perror(e, t=None):
-    if t is None:
-        print(e, file=sys.stderr)
-    else:
-        print('{}:{}'.format(t, e), file=sys.stderr)
+    with open(errfile, 'a') as f:
+        d = datetime.now().strftime('%H:%M:%S')
+        if t is None:
+            print('{} {}'.format(d, e), file=f)
+        else:
+            print('{} {}:{}'.format(d, t, e), file=f)
 
 
 # ---------------------------------------------------------------------------- #
@@ -71,6 +122,7 @@ class Mail:
         self.body = b''
         self.offset = -1
         self.messageId = None
+        self.eof = False
         self.fetchHeader()
 
     def fetchHeader(self):
@@ -126,15 +178,13 @@ class Mail:
         self.offset += 256
         if not isinstance(data[0][1], int):
             self.body += data[0][1]
-        if self.charset.upper() == 'UTF-8':
-            try:
-                text = quopri.decodestring(self.body).decode()
-            except Exception as e:
-                perror(e, 'decodestring')
-                text = self.body.decode()
-        else:
-            text = self.body.decode(self.charset)
+        try:
+            text = quopri.decodestring(self.body).decode(self.charset)
+        except Exception as e:
+            perror(e, 'decodestring')
+            text = self.body.decode()
         if isinstance(data[0][1], int):
+            self.eof = True
             return text + '\n'
         elif ord(text[-1]) > 128:
             return text[:-1] + '...\n'
@@ -144,6 +194,7 @@ class Mail:
     def fetchPreview(self):
         global imap
         tmp, data = imap.fetch(self.num, '(PREVIEW)')
+        self.eof = True
         try:
             return data[0][1].decode()
         except Exception as e:
@@ -190,13 +241,17 @@ def onButtonCont(widget, textview, mail):
         buff = textview.get_buffer()
         bufferText(buff, mail.fetchPart(), mail)
         textview.scroll_to_mark(buff.get_insert(), 0.0, True, 0.0, 1.0)
+        if mail.eof:
+            widget.set_sensitive(False)
 
 
 # ---------------------------------------------------------------------------- #
 ## \fn onButtonSeen
 # ---------------------------------------------------------------------------- #
 def onButtonSeen(widget, window):
+    global imap
     global log
+    imap.noop()
     log.append()
     window.get_application().withdraw_notification('new-message')
     window.close()
@@ -250,6 +305,8 @@ def onActivate(app, text, mail):
     hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
     buttonCont = Gtk.Button(label=BTN_CONT)
     buttonCont.connect("clicked", onButtonCont, textview, mail)
+    if mail.eof:
+        buttonCont.set_sensitive(False)
     hbox.pack_start(buttonCont, True, True, 0)
     buttonSeen = Gtk.Button(label=BTN_SEEN)
     buttonSeen.connect("clicked", onButtonSeen, window)
@@ -429,6 +486,23 @@ def noopTask():
 # main
 # ---------------------------------------------------------------------------- #
 exec(open('user-pr-config.py').read())
+
+if path.exists(pidfile):
+    with open(pidfile, 'r') as f:
+        pid = int(f.read())
+    if path.isdir('/proc/{}'.format(pid)):
+        statusBox(pid)
+        exit(0)
+    else:
+        statusBox(0)
+else:
+    statusBox(0)
+
+with open(pidfile, 'w') as f:
+    f.write('{}'.format(getpid()))
+if path.exists(errfile):
+    unlink(errfile)
+
 while True:
     try:
         imapPass = keyring.get_password(imapHost, imapUser)

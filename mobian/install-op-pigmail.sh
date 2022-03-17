@@ -4,34 +4,39 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-service=pigmail
+project=pigmail
 
-file=/usr/lib/systemd/user/$service.service
+file=$home/.local/share/applications/pigmail.desktop
 if notFile $file; then
-    cat >>$file <<EOF
-[Unit]
-Description=Python Imap Gtk Mail
-Wants=graphical.target dbus.service network.target
-After=graphical.target dbus.service network.target
-
-[Service]
-Environment=DISPLAY=:0
-Environment=GTK_THEME=Adwaita:dark
-WorkingDirectory=$idir/mobian/$service
-ExecStart=$idir/mobian/$service/$service.py
-
-[Install]
-WantedBy=default.target
+    cat >$file <<EOF
+[Desktop Entry]
+Name=Pigmail
+Comment=Python Imap Gtk Mail
+Icon=$home/.local/share/icons/pigmail.svg
+Exec=env GTK_THEME=Adwaita:dark $idir/mobian/pigmail/pigmail.py
+Type=Application
+Terminal=false
+Categories=Network;
+Path=$idir/mobian/pigmail
 EOF
 fi
 
-file=$service/user-pr-config.py
+dir=$home/.local/share/icons
+if notDir $dir; then
+    mkdir -p $dir
+fi
+file=$dir/pigmail.svg
+if notFile $file; then
+    $idir/mobian/pigmail/icon.py $file
+fi
+
+file=$project/user-pr-config.py
 if notFile $file; then
     cat <<EOF
 
 Todo:
 
-cp $service/user-ex-config.py $file
+cp $project/user-ex-config.py $file
 vi $file  # set imapHost and imapUser
 
 EOF
@@ -60,10 +65,5 @@ cat <<EOF
 Todo:
 
 python3 -m keyring set $imapHost $imapUser
-systemctl --user start $service
 
 EOF
-
-if ! sudo -u $user DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus XDG_RUNTIME_DIR=/run/user/1000 systemctl --user -q is-enabled $service; then
-    sudo -u $user DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus XDG_RUNTIME_DIR=/run/user/1000 systemctl --user enable $service
-fi
