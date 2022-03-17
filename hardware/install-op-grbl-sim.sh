@@ -19,7 +19,7 @@ if notFile $dir/gvalidate.exe; then
     popd
 fi
 
-file=$home/bin/gvalidate
+file=$home/.local/bin/gvalidate
 if notFile $file; then
     sudo -u $user cp $dir/gvalidate.exe $file
 fi
