@@ -176,18 +176,25 @@ class Mail:
                 self.num, 'BODY[{}]<{}.{}>'.format(self.part, self.offset,
                                                    256))
         self.offset += 256
-        if not isinstance(data[0][1], int):
-            self.body += data[0][1]
-        try:
-            text = quopri.decodestring(self.body).decode(self.charset)
-        except Exception as e:
-            perror(e, 'decodestring')
-            text = self.body.decode()
         if isinstance(data[0][1], int):
             self.eof = True
+        else:
+            self.body += data[0][1]
+        try:
+            array = quopri.decodestring(self.body)
+        except Exception as e:
+            perror(e, 'decodestring')
+            array = self.body
+        try:
+            if array[-1] > 128:
+                text = array[:-1].decode(self.charset)
+            else:
+                text = array.decode(self.charset)
+        except Exception as e:
+            perror(e, 'decode')
+            text = str(array)
+        if self.eof:
             return text + '\n'
-        elif ord(text[-1]) > 128:
-            return text[:-1] + '...\n'
         else:
             return text + '...\n'
 

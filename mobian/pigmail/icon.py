@@ -15,28 +15,27 @@ brown = '#804020'
 darkbrown = '#703010'
 
 w = 36
-h = 25
+h = 36
 d = svgwrite.Drawing(sys.argv[1], (800, 800 * h / w))
-d.viewbox(0, -h, w, h)
+d.viewbox(0, -30, w, h)
 
 # oreilles
 R = 15
-a = 5
 r = 1
-x = (R - r) * cos(radians(a))
-y = (R - r) * sin(radians(a))
+a = radians(5)
+x = (R - r) * cos(a)
+y = (R - r) * sin(a)
 cx = x - y / tan(pi / 3)
 cy = 0
 mx = R
 my = (R - cx) * tan(pi / 3)
 
-a1 = d.path(d='M{},{} L{},{}'.format(x, y, x + r * cos(radians(a)),
-                                     y + r * sin(radians(a))),
+a1 = d.path(d='M{},{} L{},{}'.format(x, y, x + r * cos(a), y + r * sin(a)),
             fill=darkpink,
             stroke=darkpink,
             stroke_width=0.1)
 a1.push_arc((x + r * cos(pi / 3), y + r * sin(pi / 3)),
-            60 - a,
+            60 - degrees(a),
             r,
             large_arc=False,
             absolute=True)
@@ -46,8 +45,8 @@ a2 = d.path(d='M{},{} L{},{}'.format(cx, cy, R, 0),
             fill=darkpink,
             stroke=darkpink,
             stroke_width=0.1)
-a2.push_arc((R * cos(radians(a)), R * sin(radians(a))),
-            a,
+a2.push_arc((R * cos(a), R * sin(a)),
+            degrees(a),
             R,
             large_arc=False,
             absolute=True)

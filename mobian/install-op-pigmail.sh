@@ -30,19 +30,6 @@ if notFile $file; then
     $idir/mobian/pigmail/icon.py $file
 fi
 
-file=$project/user-pr-config.py
-if notFile $file; then
-    cat <<EOF
-
-Todo:
-
-cp $project/user-ex-config.py $file
-vi $file  # set imapHost and imapUser
-
-EOF
-    return 1
-fi
-
 if [ `uname -m` = "x86_64" ]; then
     dir=$XDG_DATA_HOME/dbus-1/services
     if notDir $dir; then
@@ -56,6 +43,19 @@ Name=org.freedesktop.Notifications
 Exec=/usr/lib/notification-daemon/notification-daemon
 EOF
     fi
+fi
+
+file=$project/user-pr-config.py
+if notFile $file; then
+    cat <<EOF
+
+Todo:
+
+cp $project/user-ex-config.py $file
+vi $file  # set imapHost and imapUser
+
+EOF
+    return 1
 fi
 
 imapHost=`grep 'imapHost =' $file | cut -d '=' -f 2`
