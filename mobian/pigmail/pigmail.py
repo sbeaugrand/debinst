@@ -124,6 +124,7 @@ class Mail:
         self.messageId = None
         self.eof = False
         self.fetchHeader()
+        self.err = None
 
     def fetchHeader(self):
         global imap
@@ -187,11 +188,13 @@ class Mail:
             array = self.body
         try:
             if array[-1] > 128:
-                text = array[:-1].decode(self.charset)
+                text = array[:-1].decode(self.charset, errors='replace')
             else:
-                text = array.decode(self.charset)
+                text = array.decode(self.charset, errors='replace')
         except Exception as e:
-            perror(e, 'decode')
+            perror(''.join(traceback.format_exception(None, e,
+                                                      e.__traceback__)))
+            self.err = ''.join(traceback.format_exception_only(None, e))
             text = str(array)
         if self.eof:
             return text + '\n'
@@ -219,6 +222,11 @@ def bufferText(buff, text, mail):
         '\n<span color="green">{}</span>\n<span color="yellow">{}</span>\n'.
         format(html.escape(mail.headerFrom),
                html.escape(mail.headerSubject)), -1)
+    if mail.err is not None:
+        buff.insert_markup(
+            buff.get_end_iter(),
+            '<span color="red">{}</span>\n'.format(html.escape(mail.err)), -1)
+        mail.err = None
     while True:
         i = text.find('http')
         if i < 0:
@@ -245,9 +253,14 @@ def bufferText(buff, text, mail):
 # ---------------------------------------------------------------------------- #
 def onButtonCont(widget, textview, mail):
     if mail.offset >= 0:
+        vadj = textview.get_parent().get_vadjustment()
+        vval = vadj.get_value()
         buff = textview.get_buffer()
         bufferText(buff, mail.fetchPart(), mail)
-        textview.scroll_to_mark(buff.get_insert(), 0.0, True, 0.0, 1.0)
+        if vval > 0:
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            vadj.set_value(vval)
         if mail.eof:
             widget.set_sensitive(False)
 
@@ -327,8 +340,12 @@ def onActivate(app, text, mail):
     vbox.pack_start(hbox, True, True, 0)
     Gtk.Widget.set_size_request(scrolled, WIDTH, HEIGHT - 80)
     window.show_all()
+    action = Gio.SimpleAction.new('raise')
+    action.connect('activate', lambda a, p, w: w.present(), window)
+    app.add_action(action)
     notification = Gio.Notification()
     notification.set_title('Nouveau message de {}'.format(mail.headerFrom))
+    notification.set_default_action('app.raise')
     app.send_notification('new-message', notification)
 
 
@@ -336,8 +353,7 @@ def onActivate(app, text, mail):
 ## \fn onActivateNotification
 # ---------------------------------------------------------------------------- #
 def onActivateNotification(app):
-    notification = Gio.Notification()
-    notification.set_title('Exception')
+    notification = Gio.Notification.new('Exception')
     app.send_notification(None, notification)
 
 
