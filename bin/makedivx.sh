@@ -28,6 +28,7 @@
 #                                    avoid desynchronization
 # ---------------------------------------------------------------------------- #
 # Gray format : ffmpeg -i 01.avi -vf format=gray -pix_fmt yuv420p 01.mp4
+# Limits the CPU usage : cpulimit -e mencoder -l 50
 # ---------------------------------------------------------------------------- #
 gnu=true
 lang=fr

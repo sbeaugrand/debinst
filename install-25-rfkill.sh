@@ -7,9 +7,5 @@
 file=$home/.config/lxsession/LXDE/autostart
 
 if notGrep rfkill $file; then
-    echo "@/usr/sbin/rfkill block wlan" >>$file
-fi
-
-if /usr/sbin/rfkill -o TYPE,SOFT | grep unblocked | grep -q wlan; then
-    /usr/sbin/rfkill block wlan
+    echo "@/usr/sbin/rfkill block all" >>$file
 fi

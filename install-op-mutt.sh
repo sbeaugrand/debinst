@@ -9,18 +9,18 @@
 # Avec creation d'une BAL :
 #  T ;C ;d
 # ---------------------------------------------------------------------------- #
-if notDir /home/mutt; then
+muttUser=mutt
+muttHome=/home/$muttUser
+if notDir $muttHome; then
     /sbin/adduser mutt
 fi
-user=mutt
-home=/home/$user
-sudo -u $user mkdir -p $home/tmp
+sudo -u $muttUser mkdir -p $muttHome/tmp
 
 # ---------------------------------------------------------------------------- #
 # muttinstrc
 # ---------------------------------------------------------------------------- #
-if isFile $home/.muttinstrc; then
-    source $home/.muttinstrc
+if isFile $muttHome/.muttinstrc; then
+    source $muttHome/.muttinstrc
 else
     cat <<EOF
 
@@ -35,9 +35,9 @@ POLL_USER=toto
 POLL_PASS=motdepasse
 SMTP=smtp://smtp.toto.fr
 SSLFP=
-FOLDER=$home/Mail
-PREFIX=$home/.
-#PREFIX=$home/  # Pour tester
+FOLDER=$muttHome/Mail
+PREFIX=$muttHome/.
+#PREFIX=$muttHome/  # Pour tester
 MAIL2=
 SMTP2=
 
@@ -50,7 +50,7 @@ if notDir $FOLDER; then
     mkdir -p $FOLDER/brouillons/new
     mkdir -p $FOLDER/brouillons/tmp
     chmod 700 $FOLDER
-    chown -R $user.$user $FOLDER
+    chown -R $muttUser.$muttUser $FOLDER
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -68,13 +68,13 @@ poll $SERVER proto $PROTO
 EOF
     if [ -n "$SSLFP" ]; then
         echo " ssl sslfingerprint \"$SSLFP\"" >>$file
-        echo " sslcertfile /home/mutt/.certs/fetchmail.pem" >>$file
+        echo " sslcertfile $muttHome/.certs/fetchmail.pem" >>$file
     fi
-    if [ -f $home/.fetchmailrc.in ]; then
-        cat $home/.fetchmailrc.in >>$file
+    if [ -f $muttHome/.fetchmailrc.in ]; then
+        cat $muttHome/.fetchmailrc.in >>$file
     fi
     chmod 700 $file
-    chown $user.$user $file
+    chown $muttUser.$muttUser $file
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -91,10 +91,10 @@ LOCKFILE = \$HOME/.procmail.lock
 * ^(Subject|From): "?Cron.*
 Cron.1/
 EOF
-    if [ -f $home/.procmailrc.in ]; then
-        cat $home/.procmailrc.in >>$file
+    if [ -f $muttHome/.procmailrc.in ]; then
+        cat $muttHome/.procmailrc.in >>$file
     fi
-    chown $user.$user $file
+    chown $muttUser.$muttUser $file
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -106,8 +106,8 @@ if notFile $file; then
 set realname = "$NAME"
 set from     = $MAIL
 set smtp_url = $SMTP
-push \`grep alias $home/.mailrc | sed 's/"//g' >$home/tmp/alias\`
-source $home/tmp/alias
+push \`grep alias $muttHome/.mailrc | sed 's/"//g' >$muttHome/tmp/alias\`
+source $muttHome/tmp/alias
 
 set mbox_type = Maildir
 set folder    = $FOLDER
@@ -157,7 +157,7 @@ bind attach <return> view-mailcap
 
 set crypt_use_gpgme=no
 EOF
-    chown $user.$user $file
+    chown $muttUser.$muttUser $file
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -168,19 +168,19 @@ if notFile $file; then
     cat > $file <<EOF
 alias moi "$NAME <$MAIL>"
 EOF
-    if [ -f $home/.mailrc.in ]; then
-        cat $home/.mailrc.in >>$file
+    if [ -f $muttHome/.mailrc.in ]; then
+        cat $muttHome/.mailrc.in >>$file
     fi
-    chown $user.$user $file
+    chown $muttUser.$muttUser $file
 fi
 
 # ---------------------------------------------------------------------------- #
 # gpg
 # ---------------------------------------------------------------------------- #
-id=`sudo -u $user gpg --list-public-keys --with-colons 2>$log |\
+id=`sudo -u $muttUser gpg --list-public-keys --with-colons 2>$log |\
  grep $MAIL | cut -d ':' -f 5`
 if [ -n "$id" ]; then
-    if notGrep encrypt-to $home/.gnupg/gpg.conf; then
-        echo "encrypt-to $id" >>$home/.gnupg/gpg.conf
+    if notGrep encrypt-to $muttHome/.gnupg/gpg.conf; then
+        echo "encrypt-to $id" >>$muttHome/.gnupg/gpg.conf
     fi
 fi

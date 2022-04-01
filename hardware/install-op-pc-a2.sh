@@ -9,13 +9,15 @@ install-pr-swap.sh
 hardware/install-op-fix-suspend.sh
 "
 
-if notGrep cryptsetup /etc/sudoers; then
-    cat >>/etc/sudoers <<EOF
+file=/etc/sudoers.d/$user
+if notFile $file; then
+    cat >$file <<EOF
 $user ALL=(root) NOPASSWD:/sbin/modprobe dm-crypt
 $user ALL=(root) NOPASSWD:/sbin/cryptsetup
 $user ALL=(root) NOPASSWD:/usr/bin/dd
 $user ALL=(root) NOPASSWD:/usr/bin/mount
 $user ALL=(root) NOPASSWD:/usr/bin/umount
+$user ALL=(root) NOPASSWD:/usr/bin/systemctl restart lightdm
 EOF
 fi
 
