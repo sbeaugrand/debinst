@@ -181,6 +181,8 @@ class Mail:
             self.eof = True
         else:
             self.body += data[0][1]
+        if len(self.body) == 0:
+            return ''
         try:
             array = quopri.decodestring(self.body)
         except Exception as e:
@@ -483,9 +485,12 @@ def loop():
         if not log.set(mail.messageId):
             continue
         if mail.fetchPartNumber() > 0:
-            messageText(mail.fetchPart(), mail)
+            text = mail.fetchPart()
+            if len(text) == 0:
+                text = mail.fetchPreview()
         else:
-            messageText(mail.fetchPreview(), mail)
+            text = mail.fetchPreview()
+        messageText(text, mail)
 
 
 # ---------------------------------------------------------------------------- #
