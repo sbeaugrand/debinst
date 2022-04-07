@@ -52,14 +52,14 @@ if notFile $file; then
 Todo:
 
 cp $project/user-ex-config.py $file
-vi $file  # set imapHost and imapUser
+vi $file  # set IMAP_HOST and IMAP_USER
 
 EOF
     return 1
 fi
 
-imapHost=`grep 'imapHost =' $file | cut -d '=' -f 2`
-imapUser=`grep 'imapUser =' $file | cut -d '=' -f 2`
+imapHost=`grep 'IMAP_HOST =' $file | cut -d '=' -f 2`
+imapUser=`grep 'IMAP_USER =' $file | cut -d '=' -f 2`
 cat <<EOF
 
 Todo:

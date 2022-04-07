@@ -1,3 +1,4 @@
+APP_ID = 'com.github.sbeaugrand.pigmail'
 WIDTH = 360
 HEIGHT = 640
 LOG_FILE = path.expanduser("~") + '/.local/pigmail.log'
@@ -9,5 +10,5 @@ BTN_ARCHIVE = 'Archive'
 BTN_TRASH = 'Corbeille'
 BTN_SEEN = 'Vu'
 
-imapHost = ''
-imapUser = ''
+IMAP_HOST = ''
+IMAP_USER = ''

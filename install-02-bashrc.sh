@@ -33,6 +33,7 @@ alias purge='rm -f *~ *.aux'
 alias rpurge='find . -name \*~ -exec rm {} \;'
 alias grep='grep --color=auto'
 alias rgrep='grep -RI --exclude-dir=build --color=auto'
+alias rfind='find . -type d -name build -prune -o -name'
 alias rkill='rkill.sh'
 alias sortdu=\$'du -b | awk \'{ printf "%12d %s\\\\n", \$1, \$2 }\' | LC_ALL=C sort'
 
