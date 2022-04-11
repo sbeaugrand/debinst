@@ -34,7 +34,7 @@ def on_button_kill(widget, window, plog):
 # ---------------------------------------------------------------------------- #
 ## \fn gui_status_box
 # ---------------------------------------------------------------------------- #
-def gui_status_box(plog=None):
+def gui_status_box(con_state, plog=None):
     window = Gtk.Window()
     window.set_title('Python Imap Gtk Mail')
     window.set_default_size(WIDTH, HEIGHT)
@@ -46,6 +46,8 @@ def gui_status_box(plog=None):
     buff = textview.get_buffer()
     scrolled.add(textview)
     buff.set_text(ELog.read())
+    if con_state:
+        buff.insert(buff.get_end_iter(), con_state + '\n')
     vbox = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
     vbox.pack_start(scrolled, True, True, 0)
     window.add(vbox)

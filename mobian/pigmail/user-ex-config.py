@@ -10,5 +10,6 @@ BTN_ARCHIVE = 'Archive'
 BTN_TRASH = 'Corbeille'
 BTN_SEEN = 'Vu'
 
+CON_NAME = 'Free-Mobile'
 IMAP_HOST = ''
 IMAP_USER = ''

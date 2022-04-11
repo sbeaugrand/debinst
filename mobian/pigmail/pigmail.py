@@ -8,6 +8,7 @@
 # ---------------------------------------------------------------------------- #
 import threading
 from os import system, getenv
+from subprocess import run
 from datetime import date, timedelta
 today = date.today()
 yesterday = today - timedelta(days=1)
@@ -20,6 +21,21 @@ import gi
 gi.require_version('Lfb', '0.0')
 from gi.repository import Lfb
 Lfb.init(APP_ID)
+
+
+# ---------------------------------------------------------------------------- #
+## \fn connection_state
+# ---------------------------------------------------------------------------- #
+def connection_state(name):
+    out = run(['nmcli', '-f', 'GENERAL.STATE', 'c', 'show', '--active', name],
+              capture_output=True)
+
+    if not out.stdout:
+        return "Connection '{}' not found".format(name)
+    elif out.stdout.find(b'activated'):
+        return ''
+    else:
+        return str(out.stdout)
 
 
 # ---------------------------------------------------------------------------- #
@@ -87,10 +103,10 @@ rundir = getenv('XDG_RUNTIME_DIR')
 ELog.filename = rundir + '/pigmail.err'
 plog = PLog(rundir + '/pigmail.pid')
 if plog.read() is not None:
-    gui_status_box(plog)
+    gui_status_box(connection_state(CON_NAME), plog)
     exit(0)
 else:
-    gui_status_box()
+    gui_status_box(connection_state(CON_NAME))
 plog.write()
 ELog.clear()
 
