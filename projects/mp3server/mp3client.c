@@ -786,6 +786,10 @@ void state4heure()
                    " sudo /usr/sbin/rtc") == 0) {
             drawDate(0);
         }
+    } else if (haltButton()) {
+        if (system("atrm 1; sudo systemctl restart shutter") == 0) {
+            drawDate(0);
+        }
     }
 }
 
@@ -827,6 +831,10 @@ void state5date()
         if (system("sudo /usr/sbin/rtc `date --date='+1 day' +%FT%Tw%w`;"
                    " sudo /usr/sbin/rtc") == 0) {
             drawDate(1);
+        }
+    } else if (haltButton()) {
+        if (system("atrm 1; sudo systemctl restart shutter") == 0) {
+            drawDate(0);
         }
     }
 }
