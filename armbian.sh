@@ -101,7 +101,8 @@ rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
 rsync -rli --delete --times --checksum\
  ~/install/debinst/projects/arm/sompi/remotes\
  $uri:/home/$user/install/debinst/projects/arm/sompi/
-ssh $uri "test -w /run/shutter.at && sed -i 's/.*/err l/' /run/shutter.at"
+ssh $uri "test -w /run/shutter.at &&\
+ sudo sed -i 's/.*/err l/' /run/shutter.at"
 
 # ---------------------------------------------------------------------------- #
 # data

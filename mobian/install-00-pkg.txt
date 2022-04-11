@@ -2,6 +2,7 @@ purple-mm-sms
 gnome-session-canberra  # wake-up.service
 aptitude
 lingot
+taptempo
 gnome-2048
 python3-keyring  # pigmail
 gir1.2-gsound-1.0  # pigmail

@@ -107,6 +107,7 @@ timidity
 tuxguitar-alsa:amd64
 fluid-soundfont-gm  # timidity
 lingot
+taptempo
 gdb
 strace
 valgrind
@@ -176,6 +177,7 @@ python3-matplotlib
 python3-scipy
 python3-serial  # cnc
 #python-lxml  # cnc (inkscape gcode text)
+printrun  # cnc
 pv
 libboost-dev
 aptitude

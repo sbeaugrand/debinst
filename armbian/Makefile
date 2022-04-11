@@ -40,6 +40,9 @@ oled: install-op-oled.sh install-op-oscreensaver.sh
 .PHONY: mp3server
 mp3server: install-op-mp3server-bin.sh install-op-mp3server-mnt.sh
 
+.PHONY: shutter
+shutter: install-op-shutter.sh
+
 install-op-%.sh: FORCE
 	@../0install.sh $@
 

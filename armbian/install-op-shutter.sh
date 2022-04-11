@@ -33,9 +33,9 @@ installScript atd-start.sh
 installScript shutter.sh
 
 pushd shutter || return 1
-make install user=$user
-make stop
-make start
+make --no-print-directory install user=$user
+make --no-print-directory stop
+make --no-print-directory start
 popd
 
 if systemctl -q is-enabled atd; then
