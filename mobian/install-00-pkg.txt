@@ -14,3 +14,4 @@ libgtk-4-dev  # megapixels
 cmake  # megapixels
 libzbar-dev  # megapixels
 clang-format-12  # megapixels
+python3-pip  # kivy
