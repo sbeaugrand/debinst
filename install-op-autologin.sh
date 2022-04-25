@@ -7,5 +7,5 @@
 file=/etc/lightdm/lightdm.conf
 
 if notGrep "^autologin-user=$user" $file; then
-    sed -i.bak "s/#autologin-user=.*/autologin-user=$user/" $file
+    sudoRoot sed -i.bak "'s/#autologin-user=.*/autologin-user=$user/'" $file
 fi

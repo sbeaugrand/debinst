@@ -4,13 +4,18 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-path=/usr/share/texlive/texmf-dist/tex/latex
+texdir=$home/texmf
+
+dir=$texdir/tex/latex
+if notDir $dir; then
+    mkdir -p $dir
+fi
 
 copyCLS()
 {
     file=$1
-    if notFile $path/$file; then
-        cp -a install-12-latex/$file $path/
+    if notFile $dir/$file; then
+        cp -a install-12-latex/$file $dir/
     fi
 }
 
@@ -19,7 +24,7 @@ copyCLS enveloppe.cls
 copyCLS livret.cls
 copyCLS section.cls
 
-texhash >>$log
+texhash $texdir >>$log
 
 pushd install-12-latex || return 1
 if notFile exlettre.pdf; then

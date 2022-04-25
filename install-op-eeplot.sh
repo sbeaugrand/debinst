@@ -9,7 +9,7 @@ gitClone https://github.com/sbeaugrand/eeshow || return 1
 
 if notWhich eeplot; then
     pushd $bdir/eeshow/eeshow || return 1
-    make >>$log 2>&1
-    make >>$log 2>&1 install
+    make PREFIX=$home/.local >>$log 2>&1
+    make PREFIX=$home/.local >>$log 2>&1 install
     popd
 fi

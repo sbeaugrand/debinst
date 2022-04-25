@@ -8,15 +8,10 @@ repo=$idir/../repo
 
 gitClone https://github.com/colorgcc/colorgcc.git || return 1
 
-dir=$home/.local/bin
-if notDir $dir; then
-    mkdir -p $dir
-fi
-
 file=$bdir/colorgcc/colorgcc.pl
 if isFile $file; then
-    if notFile $dir/gcc; then
-        pushd $dir || return 1
+    if notFile $home/.local/bin/gcc; then
+        pushd $home/.local/bin || return 1
         cp $file g++
         cp $file gcc
         cp $file c++

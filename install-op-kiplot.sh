@@ -31,7 +31,7 @@ fi
 #FIXME: workaround for ghostscript version 9.53.3
 file=/usr/bin/ps2epsi.ps
 if notLink $file; then
-    ln -s /usr/share/ghostscript/*/lib/ps2epsi.ps $file
+    sudoRoot ln -s /usr/share/ghostscript/*/lib/ps2epsi.ps $file
 fi
 
 dir=$home/.config/kicad
@@ -61,3 +61,4 @@ file=$dir/kicad_common
 if notGrep "MousewheelPAN=1" $file; then
     sed -i 's/MousewheelPAN=.*/MousewheelPAN=1/' $file
 fi
+return 0

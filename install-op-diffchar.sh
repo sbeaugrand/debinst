@@ -15,10 +15,10 @@ fi
 
 file=$vimdir/autoload/diffchar.vim
 if notFile $file; then
-    cp $bdir/diffchar/autoload/diffchar.vim $file
+    sudoRoot cp $bdir/diffchar/autoload/diffchar.vim $file
 fi
 
 file=$vimdir/plugin/diffchar.vim
 if notFile $file; then
-    cp $bdir/diffchar/plugin/diffchar.vim $file
+    sudoRoot cp $bdir/diffchar/plugin/diffchar.vim $file
 fi

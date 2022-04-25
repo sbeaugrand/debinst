@@ -11,19 +11,19 @@ file=mfc9330cdwlpr-1.1.2-1.i386.deb
 download $url/dlf100400/$file || return 1
 
 if notDir /opt/brother/Printers/mfc9330cdw/lpd; then
-    dpkg -i --force-architecture $repo/$file
+    sudoRoot dpkg -i --force-architecture $repo/$file
 fi
 
 file=mfc9330cdwcupswrapper-1.1.2-1.i386.deb
 download $url/dlf100402/$file || return 1
 
 if notDir /opt/brother/Printers/mfc9330cdw/cupswrapper; then
-    dpkg -i --force-architecture $repo/$file
+    sudoRoot dpkg -i --force-architecture $repo/$file
 fi
 
-lpadmin -p MFC9330CDW -E\
+sudoRoot lpadmin -p MFC9330CDW -E\
  -D "MFC9330CDW"\
- -v "usb://Brother/MFC-9330CDW?serial=E71818B4J347585"\
+ -v "'usb://Brother/MFC-9330CDW?serial=E71818B4J347585'"\
  -o PageSize=A4\
  -o Duplex=DuplexNoTumble\
  || return 1

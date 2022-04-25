@@ -33,5 +33,4 @@ EOF
 }
 
 vimrc $home/.vimrc
-vimrc /root/.vimrc
 return 0

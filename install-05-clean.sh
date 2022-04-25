@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 if which clipit >/dev/null 2>&1; then
     kill -9 `ps -C "clipit" -o pid=`
-    apt-get -y --auto-remove purge clipit >>$log
+    sudoRoot apt-get -y --auto-remove purge clipit
 fi
 
 pushd $home || return 1

@@ -61,7 +61,7 @@ config: build
 	 --apt-secure false
 
 .PHONY: sync
-sync: list skel $(CHROOTDIR)/usr/local/bin $(CHROOTDIR)/usr/lib/codecs
+sync: list skel
 
 .PHONY: list
 list:\
@@ -87,7 +87,10 @@ skel: $(SKELDIR)/install\
  $(SKELDIR)/.vimrc\
  $(SKELDIR)/.mplayer/config\
  $(SKELDIR)/.xscreensaver\
- $(SKELDIR)/.local/share/applications/screen.desktop
+ $(SKELDIR)/.local/share/applications/screen.desktop\
+ $(SKELDIR)/.local/bin\
+ $(SKELDIR)/.local/lib/codecs\
+
 $(SKELDIR)/install: FORCE
 	@mkdir -p $@
 	@$(RSYNC)\
@@ -110,13 +113,13 @@ $(SKELDIR)/.local/share/applications/screen.desktop: $(HOME)/.local/share/applic
 	@mkdir -p $(SKELDIR)/.local/share/applications
 	@sed "s@$(HOME)@/home/user@g" $< >$@
 
-$(CHROOTDIR)/usr/local/bin: FORCE
+$(SKELDIR)/.local/bin: FORCE
 	@mkdir -p $@
-	@$(RSYNC) /usr/local/bin/ $@/
+	@$(RSYNC) $(HOME)/.local/bin/ $@/
 
-$(CHROOTDIR)/usr/lib/codecs: FORCE
+$(SKELDIR)/.local/lib/codecs: FORCE
 	@mkdir -p $@
-	@$(RSYNC) /usr/lib/codecs/ $@/
+	@$(RSYNC) $(HOME)/.local/lib/codecs/ $@/
 
 .PHONY: aptsources
 aptsources: build/chroot/etc/apt/sources.list.d/debian.list build/chroot/etc/apt/sources.list

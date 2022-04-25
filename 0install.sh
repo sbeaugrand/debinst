@@ -5,18 +5,28 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-if [ `whoami` != "root" ]; then
-    su -c "$0 $*"
-    exit $?
+if [ "$1" = "--no-root" ]; then
+    [ -z "$user" ] && user=$USER
+    shift
+else
+    if [ `whoami` != "root" ]; then
+        su -c "$0 $*"
+        exit $?
+    fi
+    if [ "$1" = "--root" ]; then
+        shift
+    fi
+    [ -z "$user" ] && user=`ls /home | tail -n 1`
 fi
-PATH=$PATH:.
 
-[ -z "$user" ] && user=`ls /home | tail -n 1`
 [ -z "$home" ] && home=/home/$user
 [ -z "$data" ] && data=$home/data
 [ -z "$repo" ] && repo=$data/install-repo
 [ -z "$bdir" ] && bdir=$data/install-build
 [ -z "$idir" ] && export idir=$(dirname `readlink -f $0`)
+[ -z "$tmpf" ] && tmpf=$XDG_RUNTIME_DIR/debinst.tmp
+
+PATH=$PATH:.
 
 # ---------------------------------------------------------------------------- #
 # isDir
@@ -37,6 +47,7 @@ log=$bdir/0install.log
 [ -d $bdir ] || sudo -u $user mkdir $bdir
 [ -d $repo ] || sudo -u $user mkdir $repo
 [ -d $idir/../repo ] || sudo -u $user mkdir $idir/../repo
+[ -d $home/.local/bin ] || sudo -u $user mkdir $home/.local/bin
 
 # ---------------------------------------------------------------------------- #
 # logrotate
@@ -63,9 +74,31 @@ logrotate()
 if ! grep " / ext4 ro," /proc/mounts; then
     logrotate $log
     cat /dev/null >$log
+    chown $user.$user $log
 else
     log=/dev/stderr
 fi
+
+# ---------------------------------------------------------------------------- #
+# sudoRoot
+# ---------------------------------------------------------------------------- #
+sudoRoot()
+{
+    if [ `whoami` = "root" ]; then
+        echo -n " sudo: $*" | tee -a $log
+    else
+        if echo "$*" | grep -q "$tmpf"; then
+            echo " info: $tmpf:"
+            sed 's/^/       /' $tmpf
+        fi
+        echo -n " sudo: $* (O/n) " | tee -a $log
+        read ret
+        if [ "$ret" = n ]; then
+            exit 1
+        fi
+    fi
+    eval sudo "$*"
+}
 
 # ---------------------------------------------------------------------------- #
 # pushd
@@ -314,6 +347,15 @@ sourceList()
         if [ "${iter:0:1}" = "#" ]; then
             continue
         elif [ "${iter:0:1}" = "-" ]; then
+            if [ "$iter" = "-su" ]; then
+                if [ `whoami` != "root" ]; then
+                    echo " warn: su -c $0 `echo $* | sed 's/.*-su //'`"
+                    su -c "$0 `echo $* | sed 's/.*-su //'`"
+                    return
+                else
+                    continue
+                fi
+            fi
             if [ -z "$args" ]; then
                 args="$iter"
             else

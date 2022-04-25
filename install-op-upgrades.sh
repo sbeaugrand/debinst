@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 file=/etc/cron.weekly/aptupgrade
 if notFile $file; then
-    cat >$file <<EOF
+    cat >$tmpf <<EOF
 #!/bin/sh
 export DISPLAY=:0.0
 export XAUTHORITY=$home/.Xauthority
@@ -19,5 +19,7 @@ apt-get -y autoremove >>/var/log/aptupgrade 2>&1
 apt-get -y autoclean >>/var/log/aptupgrade 2>&1
 xmessage Fin de mise a jour >>/var/log/aptupgrade 2>&1
 EOF
-    chmod 755 $file
+    chmod 755 $tmpf
+    sudoRoot cp $tmpf $file
+    rm $tmpf
 fi

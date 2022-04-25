@@ -7,5 +7,5 @@ install-op-ssh-keygen.sh
 "
 
 if notLink /etc/udev/rules.d/80-net-setup-link.rules; then
-    ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
+    sudoRoot ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
 fi

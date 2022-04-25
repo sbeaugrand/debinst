@@ -40,8 +40,8 @@ mkdir install
 cd install
 tar xzf debinst-dist.tgz
 cd debinst
-./0install.sh
-./0install.sh hardware/install-op-pc-...
+./0install.sh --no-root
+./0install.sh --no-root hardware/install-op-pc-...
 ```
 
 # Création d'une nouvelle debian sur clé USB
@@ -78,7 +78,7 @@ make iso
 ./2simplecdd.sh simplecdd-op-2min buildpackage-op-2min
 cd 3packer && make tar
 ```
-Continuer avec 3packer/README.md (cmark-gfm 3packer/README.md | lynx -stdin)
+[Suite](3packer/README.md)
 
 # Création d'une debian live
 Mettre à jour le mirroir local
@@ -91,6 +91,7 @@ make http
 Configurer et créer
 ```
 cd 5livebuild
+df .  # >21G or: mkdir /data/live && ln -s /data/live build
 make config
 make sync
 make clean
@@ -100,26 +101,7 @@ make aptsources
 make binary
 pv build/live-image-amd64.hybrid.iso | sudo dd bs=4M oflag=dsync of=/dev/sdb
 ```
-Persistance (optionnel) et quatrième partition (optionnel)
-```
-/sbin/fdisk /dev/sdb
-n
-p
-3
-16777216  # echo " 8 GB" | awk '{ print $1 * 1024 * 2048 }'
-67108863  # echo "32 GB" | awk '{ print $1 * 1024 * 2048 }' | awk '{ print $0 - 1 }'
-n
-p
-67108864  # echo "32 GB" | awk '{ print $1 * 1024 * 2048 }'
-134217727 # echo "64 GB" | awk '{ print $1 * 1024 * 2048 }' | awk '{ print $0 - 1 }'
-w
-/sbin/mkfs.ext2 /dev/sdb3
-/sbin/mkfs.ext2 /dev/sdb4
-/sbin/e2label /dev/sdb3 persistence
-mount /mnt/b3
-echo "/ union" >/mnt/b3/persistence.conf
-umount /mnt/b3
-```
+[Suite optionnelle](5livebuild/README.md)
 
 # [Installation sur ARM (armbian)](armbian/README.md)
 
@@ -127,7 +109,9 @@ umount /mnt/b3
 
 # [Installation sur PinePhone (mobian)](mobian/README.md)
 
-# Exemple de création d'un paquet debinst restreint
+# Exemples de personnalisation
+
+## Création d'un paquet debinst restreint
 ```
 cp -a buildpackage-op-2min buildpackage-op-spam
 cp -a simplecdd-op-2min simplecdd-op-spam
@@ -139,7 +123,7 @@ cp ../0install.sh .  # or link
 cp ../install-*-res.sh .  # or link
 ```
 
-# Exemple de récupération d'un dépôt git
+## Récupération d'un dépôt git
 ```
 untar $name-$branch.tgz || gitClone git@exemple.org:dir/$name.git $branch || return 1
 ```

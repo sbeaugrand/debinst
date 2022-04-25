@@ -11,28 +11,22 @@ install-op-firefox-automute.sh
 install-op-upgrades.sh
 install-pr-bashrc.sh
 install-op-ssh-keygen.sh
+-su
 install-op-mutt.sh
 "
 
 file=/etc/X11/xorg.conf.d/20-intel.conf
 if notFile $file; then
-    cat >$file <<EOF
+    cat >$tmpf <<EOF
 Section "Device"
    Identifier  "Intel Graphics"
    Driver      "intel"
 EndSection
 EOF
+    sudoRoot cp $tmpf $file
 fi
 
 file=$home/.Xresources
 if notGrep 'xterm\*font: 10x20' $file; then
     sed -i 's/xterm\*font: .*/xterm\*font: 10x20/' $file
-fi
-
-file=/etc/sudoers.d/$user
-if notFile $file; then
-    cat >$file <<EOF
-$user ALL=(mutt) ALL
-mutt ALL=(root) ALL
-EOF
 fi

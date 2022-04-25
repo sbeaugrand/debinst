@@ -8,7 +8,6 @@ source install-op-codecs.sh || return 1
 source install-op-ffmpeg-src.sh || return 1
 source install-op-mplayer-src.sh || return 1
 source install-op-arduino.sh || return 1
-source install-op-emacs-php.sh || return 1
 source install-op-id3ed.sh || return 1
 source install-op-mp3gain.sh || return 1
 source install-61-colorgcc.sh || return 1
@@ -39,6 +38,6 @@ if [ -z "$file" ]; then
     echo " error: /usr/src/libdvd-pkg/*.bz2 not found" | tee -a $log
     return 1
 fi
-repo=$idir/../libdvdcss
+repo=$idir/../repo
 mkdir -p $repo
 cp -au $file $repo

@@ -8,7 +8,8 @@
 # Pour convertir en TTF :
 # mftrace --formats=ttf $name.mf
 # ---------------------------------------------------------------------------- #
-texdir=/usr/share/texmf
+home=${home:-$HOME}
+texdir=$home/texmf
 
 if [ -z "$1" ]; then
     echo "Usage: `basename $0` <font.mf>"
@@ -16,28 +17,29 @@ if [ -z "$1" ]; then
 fi
 name=${1%.mf}
 
-user=`whoami`
-if [ $user != "root" ]; then
-    su -c "$0 $*"
-    exit $?
+dir=$texdir/tex/latex/$name
+if [ ! -d $dir ]; then
+    mkdir -p $dir
 fi
 
-mkdir -p $texdir/tex/latex/$name
-
-cat >$texdir/tex/latex/$name/$name.sty << EOF
+cat >$dir/$name.sty << EOF
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{$name}
 \newcommand{\\$name}[1]{{\fontencoding{T1}\fontfamily{$name}\selectfont #1}}
 \endinput
 EOF
 
-cat >$texdir/tex/latex/$name/t1$name.fd << EOF
+cat >$dir/t1$name.fd << EOF
 \ProvidesFile{t1$name.fd}
 \DeclareFontFamily{T1}{$name}{}
 \DeclareFontShape{T1}{$name}{m}{n}{<-> $name}{}
 \endinput
 EOF
 
-mkdir -p $texdir/fonts/source/public/$name
-cp -f $name.mf $texdir/fonts/source/public/$name/
-texhash >/dev/null
+dir=$texdir/fonts/source/public/$name
+if [ ! -d $dir ]; then
+    mkdir -p $dir
+fi
+
+cp -f $name.mf $dir/
+texhash $dir >/dev/null

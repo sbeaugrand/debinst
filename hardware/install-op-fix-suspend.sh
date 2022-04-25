@@ -6,5 +6,5 @@
 # ---------------------------------------------------------------------------- #
 file=/etc/systemd/logind.conf
 if grep -q suspend $file; then
-    sed -i.bak 's/#\(.*\)=suspend/\1=ignore/' $file
+    sudoRoot sed -i.bak "'s/#\(.*\)=suspend/\1=ignore/'" $file
 fi

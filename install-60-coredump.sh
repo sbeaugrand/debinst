@@ -5,6 +5,6 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if notDir /core; then
-    mkdir /core
-    chmod 777 /core
+    sudoRoot mkdir /core
+    sudoRoot chmod 777 /core
 fi

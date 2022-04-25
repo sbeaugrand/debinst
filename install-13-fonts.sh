@@ -24,10 +24,14 @@ makeTTF()
         make ttf >>$log 2>&1
         popd
     fi
-    if notFile /usr/share/fonts/truetype/$name.ttf; then
-        cp install-*-fonts/$name/$name.ttf /usr/share/fonts/truetype/
+    if notFile $dir/$name.ttf; then
+        cp install-*-fonts/$name/$name.ttf $dir/
     fi
 }
 
+dir=$home/.local/share/fonts/truetype
+if notDir $dir; then
+    mkdir -p $dir
+fi
 makeTTF runes
 makeTTF noeuds

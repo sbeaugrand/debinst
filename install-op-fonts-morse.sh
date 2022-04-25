@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-texdir=/usr/share/texmf
+texdir=$home/.local/share/texmf
 repo=$idir/../repo
 
 download http://mirrors.ctan.org/fonts/morse.zip || return 1
@@ -26,6 +26,6 @@ if notFile $texdir/tex/latex/morse/morse.sty; then
     cp -f morse10.tfm $texdir/fonts/tfm/public/morse/
     mkdir -p          $texdir/tex/latex/morse
     cp -f morse.sty   $texdir/tex/latex/morse/
-    texhash >>$log
+    texhash $texdir >>$log
     popd
 fi

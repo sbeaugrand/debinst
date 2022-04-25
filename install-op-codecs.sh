@@ -11,7 +11,8 @@ repo=$idir/../repo
 download http://www.mplayerhq.hu/MPlayer/releases/codecs/$file || return 1
 untar $file || return 1
 
-if notDir /usr/lib/codecs; then
-    mkdir /usr/lib/codecs
-    cp -a $bdir/$codecs/* /usr/lib/codecs/
+dir=$home/.local/lib/codecs
+if notDir $dir; then
+    mkdir -p $dir
+    cp -a $bdir/$codecs/* $dir/
 fi

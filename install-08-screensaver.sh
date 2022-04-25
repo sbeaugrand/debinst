@@ -7,7 +7,7 @@
 disableScreenSaver()
 {
     if grep -q "xscreensaver" $1; then
-        sed -i '/xscreensaver/d' $1
+        sudoRoot sed -i "'/xscreensaver/d'" $1
     else
         echo " warn: xscreensaver not found in $1" | tee -a $log
     fi

@@ -23,6 +23,6 @@ fi
 if notWhich mp3gain; then
     pushd $bdir/mp3gain-$version || return 1
     make >>$log 2>&1
-    make install >>$log 2>&1
+    cp mp3gain $home/.local/bin/
     popd
 fi

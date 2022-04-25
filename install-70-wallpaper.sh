@@ -88,4 +88,4 @@ else
     echo " warn: $file already exists" | tee -a $log
 fi
 
-su -c "pcmanfm --set-wallpaper=$idir/$file --wallpaper-mode=$mode" $user
+pcmanfm --set-wallpaper=$idir/$file --wallpaper-mode=$mode

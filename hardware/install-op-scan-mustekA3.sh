@@ -4,6 +4,11 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+if [ `whoami` != "root" ]; then
+    echo " error: try ./0install.sh --root install-op-scan-mustekA3.sh"
+    return 1
+fi
+
 file=A3USB1200Pro-040B-20141209.zip
 repo=$idir/../repo
 download http://ftp2.mustek.com.tw/pub/new/driver/ScanExpress%20A3%20USB%201200%20Pro/Linux/1LV1019/$file || return 1
@@ -18,11 +23,13 @@ fi
 file=/lib/i386-linux-gnu/libsane.so.1
 lib=/usr/lib/libsane.so.1.0.19
 if notLink $file || [ "`readlink -f $file`" != "$lib" ]; then
+    mkdir -p /lib/i386-linux-gnu
     ln -sf $lib $file
 fi
 
 file=/usr/lib/i386-linux-gnu/libtiff.so
 if notFile $file.4; then
+    mkdir -p /usr/lib/i386-linux-gnu
     ln -sf $file.5 $file.4
 fi
 

@@ -14,6 +14,7 @@ xvkbd
 libglib2.0-dev
 xorg-dev
 emacs-lucid
+elpa-php-mode
 aspell-fr
 myspell-fr
 indent

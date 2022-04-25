@@ -11,6 +11,7 @@ gitClone https://github.com/nu774/m4acut.git || return 1
 
 if notWhich boxdumper; then
     pushd $bdir/l-smash || return 1
+    ./configure --prefix=$home/.local >>$log 2>&1
     make >>$log 2>&1
     make >>$log 2>&1 install
     popd
@@ -19,7 +20,7 @@ fi
 if notWhich m4acut; then
     pushd $bdir/m4acut || return 1
     autoreconf -i >>$log 2>&1
-    ./configure >>$log 2>&1
+    ./configure --prefix=$home/.local >>$log 2>&1
     make >>$log 2>&1
     make >>$log 2>&1 install
     popd

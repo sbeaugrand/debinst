@@ -4,6 +4,11 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+dir=$home/.local/share/fonts/truetype
+if notDir $dir; then
+    mkdir -p $dir
+fi
+
 dafont()
 {
     name="$1"
@@ -12,8 +17,8 @@ dafont()
 
     download http://dl.dafont.com/dl/?f=$name $file || return 1
 
-    if notFile "/usr/share/fonts/truetype/$font"; then
-        pushd /usr/share/fonts/truetype || return 1
+    if notFile "$dir/$font"; then
+        pushd $dir || return 1
         unzip $repo/$file "$font" >>$log
         popd
     fi

@@ -80,11 +80,3 @@ EOF
         xrdb $file
     fi
 fi
-
-# ---------------------------------------------------------------------------- #
-# /etc/inputrc
-# ---------------------------------------------------------------------------- #
-file=/etc/inputrc
-if notGrep "^set bell-style none" $file; then
-    echo "set bell-style none" >>$file
-fi

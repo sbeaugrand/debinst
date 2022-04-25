@@ -12,5 +12,5 @@ if notFile $repo/$file; then
 fi
 
 if notDir /opt/net.downloadhelper.coapp; then
-    PATH=$PATH:/sbin dpkg -i $repo/$file >>$log
+    sudoRoot PATH=$PATH:/sbin dpkg -i $repo/$file
 fi

@@ -9,18 +9,18 @@ sta=`lsb_release -sc`
 
 if [ "`dpkg --print-architecture`" = "amd64" ] &&
    [ "`dpkg --print-foreign-architectures`" != "i386" ]; then
-    dpkg --add-architecture i386
+    sudoRoot dpkg --add-architecture i386
 fi
 
 if grep "^deb cdrom" /etc/apt/sources.list; then
-    sed -i 's/^deb cdrom/#deb cdrom/' /etc/apt/sources.list
+    sudoRoot sed -i "'s/^deb cdrom/#deb cdrom/'" /etc/apt/sources.list
 fi
 
 export DEBIAN_FRONTEND=noninteractive
 
 file=/etc/apt/sources.list.d/debian.list
 if notFile $file; then
-    cat >$file <<EOF
+    cat >$tmpf <<EOF
 deb http://httpredir.debian.org/debian $sta main contrib non-free
 deb http://httpredir.debian.org/debian/ $sta-updates main contrib non-free
 deb-src http://httpredir.debian.org/debian $sta main contrib non-free
@@ -31,9 +31,10 @@ deb-src http://httpredir.debian.org/debian/ $sta-updates main contrib non-free
 #  deb http://httpredir.debian.org/debian $sta-backports-sloppy main contrib non-free
 #  ex: sudo apt -t $sta-backports install kicad
 EOF
+    sudoRoot cp $tmpf $file
     if isOnline; then
-        apt-get -q -y update >>$log
-        apt-get -q -y dist-upgrade >>$log
+        sudoRoot apt-get -q -y update
+        sudoRoot apt-get -q -y dist-upgrade
     fi
 fi
 
@@ -43,5 +44,5 @@ if isOnline; then
         list=`echo $list | sed 's/libc6-i386//'`
     fi
 
-    apt-get -q -y install --no-install-recommends $list >>$log
+    sudoRoot apt-get -q -y install --no-install-recommends $list
 fi

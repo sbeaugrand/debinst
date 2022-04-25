@@ -5,5 +5,5 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ ! -f /var/log/wtmp ]; then
-    touch /var/log/wtmp
+    sudoRoot touch /var/log/wtmp
 fi

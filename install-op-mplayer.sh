@@ -18,12 +18,12 @@ repo=$repoSav
 if [ "$args" = "-r" ]; then
     cat <<EOF
 
-sudo rm -fr ~/data/install-build/$ffmpeg
-sudo rm -fr ~/data/install-build/$mplayer
-sudo rm -f  ~/data/install-build/mplayer
-sudo rm -f /usr/local/bin/ffmpeg
-sudo rm -f /usr/local/bin/mplayer
-sudo rm -f /usr/local/bin/mencoder
+rm -fr ~/data/install-build/$ffmpeg
+rm -fr ~/data/install-build/$mplayer
+rm -f  ~/data/install-build/mplayer
+rm -f ~/.local/bin/ffmpeg
+rm -f ~/.local/bin/mplayer
+rm -f ~/.local/bin/mencoder
 
 EOF
     return 0
@@ -45,22 +45,22 @@ fi
 # ---------------------------------------------------------------------------- #
 # ffmpeg
 # ---------------------------------------------------------------------------- #
-if notFile /usr/local/bin/ffmpeg; then
+if notFile $home/.local/bin/ffmpeg; then
     pushd $bdir/$mplayer/ffmpeg
-    ./configure --enable-gpl --enable-libx264 --enable-libmp3lame --enable-libaom --enable-libvorbis >>$log 2>&1
+    ./configure --prefix=$home/.local --enable-gpl --enable-libx264 --enable-libmp3lame --enable-libaom --enable-libvorbis >>$log 2>&1
     make >>$log 2>&1
-    make install >>$log 2>&1
+    make >>$log 2>&1 install
     popd
 fi
 
 # ---------------------------------------------------------------------------- #
 # mplayer
 # ---------------------------------------------------------------------------- #
-if notFile /usr/local/bin/mencoder; then
+if notFile $home/.local/bin/mencoder; then
     pushd $bdir/$mplayer
-    ./configure --disable-ffmpeg_a >>$log 2>&1
+    ./configure --prefix=$home/.local --disable-ffmpeg_a >>$log 2>&1
     make >>$log 2>&1
-    make install >>$log 2>&1
+    make >>$log 2>&1 install
     popd
 fi
 

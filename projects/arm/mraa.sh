@@ -18,9 +18,9 @@ if notDir $dir; then
     mkdir $dir
 fi
 
-if notFile /usr/local/lib/libmraa.so; then
+if notFile $home/.local/lib/libmraa.so; then
     pushd $dir || return 1
-    cmake >>$log 2>&1 $CMAKE_OPT ..
+    cmake >>$log 2>&1 -DCMAKE_INSTALL_PREFIX=$home/.local $CMAKE_OPT ..
     make >>$log 2>&1
     make >>$log 2>&1 install
     popd

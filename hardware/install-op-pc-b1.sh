@@ -24,7 +24,7 @@ fi
 
 file=/etc/fstab
 if grep -q 'mnt' $file; then
-    sudo sed -i '/mnt/d' /etc/fstab
+    sudoRoot sed -i '/mnt/d' /etc/fstab
 fi
 
 file=$home/.config/lxsession/LXDE/autostart
@@ -43,5 +43,5 @@ if notGrep hdmi $file; then
 fi
 
 if notWhich chromium; then
-    apt-get install chromium
+    sudoRoot apt-get install chromium
 fi

@@ -9,12 +9,26 @@
 # Avec creation d'une BAL :
 #  T ;C ;d
 # ---------------------------------------------------------------------------- #
+if [ `whoami` != "root" ]; then
+    echo " error: try ./0install.sh --root install-op-mutt.sh"
+    return 1
+fi
+
 muttUser=mutt
 muttHome=/home/$muttUser
 if notDir $muttHome; then
-    /sbin/adduser mutt
+    /sbin/adduser mutt || return 1
 fi
-sudo -u $muttUser mkdir -p $muttHome/tmp
+
+file=/etc/sudoers.d/mutt
+if notFile $file; then
+    cat >$file <<EOF
+$user ALL=(mutt) ALL
+mutt ALL=(root) ALL
+EOF
+fi
+
+sudo -u $muttUser mkdir -p $muttHome/tmp || return 1
 
 # ---------------------------------------------------------------------------- #
 # muttinstrc

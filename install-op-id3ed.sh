@@ -13,9 +13,9 @@ untar $file || return 1
 
 if notWhich id3ed; then
     pushd $bdir/id3ed-$version || return 1
-    ./configure >>$log 2>&1
+    ./configure --prefix=$home/.local >>$log 2>&1
+    mkdir -p $home/.local/share/man/man1
     make >>$log 2>&1
-    mkdir -p /usr/local/share/man/man1
-    make install >>$log 2>&1
+    make >>$log 2>&1 install
     popd
 fi

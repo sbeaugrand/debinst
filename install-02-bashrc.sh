@@ -10,8 +10,8 @@ bashrc()
     if [ ! -f $file ]; then
         touch $file
     fi
-    notGrep ntpdate $file || return 0
-    cat >>$file <<EOF
+    if notGrep "ntpdate" $file; then
+        cat >>$file <<EOF
 
 export PS1='\u:\w> '
 export PATH=$home/.local/bin:/usr/local/bin:/usr/bin:/bin:$home/install/debinst/bin:$home/install/bin:.
@@ -45,14 +45,16 @@ alias goto='goto.sh'
 alias gs='gs -dBATCH'
 alias halt='/sbin/shutdown now'
 
+bind '"\e[1;5A": history-search-backward'
+bind '"\e[1;5B": history-search-forward'
+bind 'set bell-style none'
 test -n "\$DISPLAY" && xset -b
 setxkbmap -option "nbsp:none"
 last -R | grep boot | head -n 2 | tail -n 1 | sed 's/.*boot/Last:/'
 test -d /run/lock/.keychain && kc
 cd
 EOF
-    return 0
+    fi
 }
 
 bashrc $home/.bashrc
-bashrc /root/.bashrc

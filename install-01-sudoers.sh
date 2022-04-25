@@ -4,7 +4,9 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-if notGrep "^$user ALL=(root) ALL" /etc/sudoers; then
-    echo "Defaults rootpw" >>/etc/sudoers
-    echo -e "$user ALL=(root) ALL" >>/etc/sudoers
+file=/etc/sudoers.d/$user
+
+if notFile $file; then
+    echo " info: add to sudoers: $user ALL=(root) ALL"
+    su -c "echo -e 'Defaults rootpw\n$user ALL=(root) ALL\n$user ALL=($user) ALL' >$file && chmod 440 $file"
 fi

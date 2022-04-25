@@ -5,14 +5,9 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-dir=$home/.local/bin
-if notDir $dir; then
-    mkdir -p $dir
-fi
-
 pdfxup=/usr/bin/pdfxup
 if notGrep "2021" $pdfxup; then
-    file=$dir/pdfxup
+    file=$home/.local/bin/pdfxup
     if notFile $file; then
         cp $pdfxup $file
         patch -p0 $file >>$log <<EOF
