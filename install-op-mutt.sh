@@ -189,6 +189,18 @@ EOF
 fi
 
 # ---------------------------------------------------------------------------- #
+# w3m
+# ---------------------------------------------------------------------------- #
+file=$muttHome/.w3m/config
+if notFile $file; then
+    mkdir -p $muttHome/.w3m
+    echo "anchor_color cyan" >$file
+    chown -R $muttUser.$muttUser $muttHome/.w3m
+elif notGrep "anchor_color cyan" $file; then
+    sed -i 's/anchor_color .*/anchor_color cyan/' $file
+fi
+
+# ---------------------------------------------------------------------------- #
 # gpg
 # ---------------------------------------------------------------------------- #
 id=`sudo -u $muttUser gpg --list-public-keys --with-colons 2>$log |\
