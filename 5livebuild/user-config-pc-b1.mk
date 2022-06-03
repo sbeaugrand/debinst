@@ -47,7 +47,6 @@ ts5000:\
  $(CHROOTDIR)/usr/bin/cnijlgmon3\
  $(CHROOTDIR)/usr/bin/tocnpwg\
  $(CHROOTDIR)/usr/bin/tocanonij\
- $(CHROOTDIR)/usr/share\
  $(CHROOTDIR)/usr/share/cnijlgmon3\
  $(CHROOTDIR)/usr/share/cnijlgmon3/cnb_cnijlgmon2.res\
  $(CHROOTDIR)/usr/share/cmdtocanonij2\
@@ -55,11 +54,9 @@ ts5000:\
  $(CHROOTDIR)/usr/share/cmdtocanonij2/nozzlecheck.utl\
  $(CHROOTDIR)/usr/share/cmdtocanonij2/cleaning.utl
 
-# wip
 .PHONY: scangearmp2
 scangearmp2:\
  $(CHROOTDIR)/usr/bin/scangearmp2\
- $(CHROOTDIR)/usr/lib/x86_64-linux-gnu\
  $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/sane\
  $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/sane/libsane-canon_pixma.so.1.0.0\
  $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/sane/libsane-canon_pixma.so.1\
@@ -72,7 +69,13 @@ scangearmp2:\
  $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/libcncpnet20.so.1.0.0\
  $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/libcncpnet2.so.1.2.4\
  $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/libcncpnet30.so.1.0.0\
+ $(CHROOTDIR)/usr/share/scangearmp2\
  $(CHROOTDIR)/usr/share/scangearmp2/scangearmp2.glade\
+ $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/bjlib\
+ $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/bjlib/canon_mfp2_net.ini\
+ $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/bjlib/canon_mfp2.conf\
+ $(CHROOTDIR)/usr/share/locale/fr/LC_MESSAGES\
+ $(CHROOTDIR)/usr/share/locale/fr/LC_MESSAGES/scangearmp2.mo\
  $(SKELDIR)/.local/share/applications/scangearmp2.desktop\
 
 $(SKELDIR)/.local/share/applications/scangearmp2.desktop: $(HOME)/.local/share/applications/scangearmp2.desktop
@@ -98,12 +101,12 @@ $(SKELDIR)/.config/lxsession/LXDE/autostart: FORCE
  $(CHROOTDIR)/usr/lib/cups/backend\
  $(CHROOTDIR)/usr/lib/cups/filter\
  $(CHROOTDIR)/usr/lib/bjlib2\
- $(CHROOTDIR)/usr/share\
  $(CHROOTDIR)/usr/share/cnijlgmon3\
  $(CHROOTDIR)/usr/share/cmdtocanonij2\
- $(CHROOTDIR)/usr/lib/x86_64-linux-gnu\
  $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/sane\
+ $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/bjlib\
  $(CHROOTDIR)/usr/share/scangearmp2\
+ $(CHROOTDIR)/usr/share/locale/fr/LC_MESSAGES\
 : FORCE
 	@mkdir -p $@
 
