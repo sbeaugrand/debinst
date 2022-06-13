@@ -7,4 +7,4 @@
 repo=$idir/../repo
 [ -d $repo ] || sudo -u $user mkdir $repo
 
-gitClone git://github.com/WiringPi/WiringPi.git || return 1
+gitClone https://github.com/WiringPi/WiringPi.git || return 1

@@ -33,7 +33,9 @@ if isFile $file; then
         else
             echo "overlays=analog-codec" >>$file
         fi
+        echo " warn: todo afer reboot: amixer set"
+    else
+        amixer -q set 'Line Out' 94% unmute
+        amixer -q set 'DAC' 98% unmute
     fi
-    amixer -q set 'Line Out' 94% unmute
-    amixer -q set 'DAC' 98% unmute
 fi

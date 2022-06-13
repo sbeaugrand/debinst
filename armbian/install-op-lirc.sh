@@ -19,11 +19,11 @@ copyFile()
 dir=/lib/modules/$(uname -r)/kernel/drivers/media/rc
 mkdir -p $dir
 file=gpio-ir-recv.ko
-if notFile $dir/$file; then
+if notFile $dir/$file && notFile $dir/$file.xz; then
     copyFile $file $dir || return 1
 fi
 file=ir-nec-decoder.ko
-if notFile $dir/$file; then
+if notFile $dir/$file && notFile $dir/$file.xz; then
     copyFile $file $dir || return 1
 fi
 if notGrep "gpio-ir-recv" /lib/modules/$(uname -r)/modules.dep; then

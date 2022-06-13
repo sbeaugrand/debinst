@@ -26,7 +26,7 @@ rsync:
 
 .PHONY: install
 install:
-	@../0install.sh
+	@../0install.sh --root
 
 .PHONY: lirc
 lirc: install-op-lirc.sh

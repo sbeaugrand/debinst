@@ -25,4 +25,4 @@ rsync:
 
 .PHONY: install
 install:
-	@../0install.sh
+	@../0install.sh --root

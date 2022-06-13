@@ -18,9 +18,15 @@ if notDir $dir; then
     mkdir $dir
 fi
 
-if notFile $home/.local/lib/libmraa.so; then
+if [ -f /boot/armbianEnv.txt ]; then
+    prefix=/usr/local
+else
+    prefix=$home/.local
+fi
+
+if notFile $prefix/lib/libmraa.so; then
     pushd $dir || return 1
-    cmake >>$log 2>&1 -DCMAKE_INSTALL_PREFIX=$home/.local $CMAKE_OPT ..
+    cmake >>$log 2>&1 -DCMAKE_INSTALL_PREFIX=$prefix $CMAKE_OPT ..
     make >>$log 2>&1
     make >>$log 2>&1 install
     popd

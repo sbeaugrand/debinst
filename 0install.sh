@@ -47,7 +47,7 @@ log=$bdir/0install.log
 [ -d $bdir ] || sudo -u $user mkdir $bdir
 [ -d $repo ] || sudo -u $user mkdir $repo
 [ -d $idir/../repo ] || sudo -u $user mkdir $idir/../repo
-[ -d $home/.local/bin ] || sudo -u $user mkdir $home/.local/bin
+[ -d $home/.local/bin ] || sudo -u $user mkdir -p $home/.local/bin
 
 # ---------------------------------------------------------------------------- #
 # logrotate

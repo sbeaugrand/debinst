@@ -7,18 +7,25 @@
 repo=$idir/../repo
 [ -d $repo ] || sudo -u $user mkdir $repo
 
-gitClone git://github.com/eclipse/upm.git || return 1
+gitClone https://github.com/eclipse/upm.git || return 1
 
-if notDir $home/.local/include/upm; then
+if [ -f /boot/armbianEnv.txt ]; then
+    prefix=/usr/local
+else
+    prefix=$home/.local
+    export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$prefix/lib/pkgconfig
+fi
+
+if notDir $prefix/include/upm; then
     mkdir -p $bdir/upm/build
     pushd $bdir/upm/build || return 1
-    cmake >>$log 2>&1 -DCMAKE_INSTALL_PREFIX=$home/.local $CMAKE_OPT\
+    cmake >>$log 2>&1 -DCMAKE_INSTALL_PREFIX=$prefix $CMAKE_OPT\
         -DBUILDSWIGJAVA=OFF -DBUILDSWIGNODE=OFF -DBUILDSWIGPYTHON=OFF ..
     make >>$log 2>&1 install/fast
     popd
 fi
 
-if notLink $home/.local/lib/libupm-lcd.so; then
+if notLink $prefix/lib/libupm-lcd.so; then
     pushd $bdir/upm/build/src/lcd || return 1
     make >>$log 2>&1
     make >>$log 2>&1 install

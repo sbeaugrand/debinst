@@ -8,7 +8,7 @@
 #untar wiringPi.tgz ||\
 # gitClone git://git.drogon.net/wiringPi || return 1
 
-gitClone git://github.com/WiringPi/WiringPi.git || return 1
+gitClone https://github.com/WiringPi/WiringPi.git || return 1
 
 export PATH=$PATH:/sbin
 
