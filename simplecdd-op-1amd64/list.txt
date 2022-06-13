@@ -142,6 +142,7 @@ qiv
 xli
 libreoffice
 upower
+libnotify-bin  # notify-send
 numlockx
 sysv-rc-conf
 gnome-screenshot

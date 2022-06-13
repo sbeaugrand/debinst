@@ -69,6 +69,7 @@ if notGrep batt $file; then
 Plugin {
   type=batt
   Config {
+    AlarmTime=120
   }
 }
 EOF

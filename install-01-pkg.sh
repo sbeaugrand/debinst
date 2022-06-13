@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------- #
-## \file install-00-pkg.sh
+## \file install-01-pkg.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
