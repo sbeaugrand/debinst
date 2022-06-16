@@ -44,7 +44,7 @@ mp3server: install-op-mp3server-bin.sh install-op-mp3server-mnt.sh
 shutter: install-op-shutter.sh
 
 install-op-%.sh: FORCE
-	@../0install.sh $@
+	@../0install.sh --root $@
 
 .PHONY: FORCE
 FORCE:

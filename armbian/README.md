@@ -36,13 +36,19 @@ termes.
 ```
 sha256sum -c Armbian_22.05.1_Orangepizero_bullseye_current_5.15.43.img.xz.sha
 xz -k -d Armbian_22.05.1_Orangepizero_bullseye_current_5.15.43.img.xz
+
+sha256sum -c Armbian_22.05.1_Nanopineo_bullseye_current_5.15.43.img.xz.sha
+xz -k -d Armbian_22.05.1_Nanopineo_bullseye_current_5.15.43.img.xz
+
 xz -k -d Armbian_21.05.4_Rockpi-s_buster_edge_5.12.10_minimal.img.xz
-xz -k -d Armbian_21.02.3_Nanopineo_buster_current_5.10.21.img.xz
+
 umount /media/$USER/*
 pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
 Démarrer sur la Pi
 ```
+ping 192.168.0.xx
+vi /etc/hosts  # 192.168.0.xx pi
 ssh-keygen -f ~/.ssh/known_hosts -R pi
 keychain ~/.ssh/id_rsa
 make ssh user=root [host=pi]  # password: 1234
@@ -56,6 +62,8 @@ sudo reboot
 make ssh
 amixer -q set 'Line Out' 94% unmute
 amixer -q set 'DAC' 98% unmute
+rw
+sudo alsactl store
 ```
 Optionnel:
 

@@ -5,18 +5,18 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-if [ "$1" = "--no-root" ]; then
-    [ -z "$user" ] && user=$USER
-    shift
-else
+if [ "$1" = "--root" ]; then
     if [ `whoami` != "root" ]; then
         su -c "$0 $*"
         exit $?
     fi
-    if [ "$1" = "--root" ]; then
+    shift
+    [ -z "$user" ] && user=`ls /home | tail -n 1`
+else
+    if [ "$1" = "--no-root" ]; then
         shift
     fi
-    [ -z "$user" ] && user=`ls /home | tail -n 1`
+    [ -z "$user" ] && user=$USER
 fi
 
 [ -z "$home" ] && home=/home/$user

@@ -9,7 +9,7 @@ if ! isDir /mnt/mp3/mp3; then
 
 Todo :
 sudo mount /dev/sda1 /mnt/mp3
-../0install.sh install-op-mp3server-ro.sh
+../0install.sh --root install-op-mp3server-ro.sh
 sudo umount /mnt/mp3
 
 EOF

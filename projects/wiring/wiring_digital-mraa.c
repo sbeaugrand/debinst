@@ -21,15 +21,24 @@ int digitalInit(uint8_t pin, uint8_t mode)
 {
     mraa_gpio_context gpio = mraa_gpios[pin - 1];
 
-    if (gpio == NULL && (gpio = mraa_gpio_init(pin)) == NULL) {
-        return 1;
+    if (gpio == NULL) {
+        if ((gpio = mraa_gpio_init(pin)) == NULL) {
+            return 1;
+        } else {
+            mraa_gpios[pin - 1] = gpio;
+        }
     }
     if (mraa_gpio_dir(gpio, (mode == INPUT) ?
         MRAA_GPIO_IN : MRAA_GPIO_OUT) != MRAA_SUCCESS) {
         digitalQuit(pin);
         return 2;
     }
-    mraa_gpios[pin - 1] = gpio;
+    if (mode == INPUT) {
+        if (mraa_gpio_edge_mode(gpio, MRAA_GPIO_EDGE_BOTH) != MRAA_SUCCESS) {
+            digitalQuit(pin);
+            return 3;
+        }
+    }
 
     return 0;
 }
@@ -72,6 +81,7 @@ int digitalQuit(uint8_t pin)
         return -1;
     }
 
+    mraa_gpio_edge_mode(gpio, MRAA_GPIO_EDGE_NONE);
     if (mraa_gpio_close(gpio) != MRAA_SUCCESS) {
         return 1;
     }
