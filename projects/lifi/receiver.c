@@ -278,6 +278,7 @@ int main(int argc, char* argv[])
         while (gCount) {
             loop();
         }
+        return digitalQuit(PIN_LED);
     } else {
         for (;;) {
             loop();

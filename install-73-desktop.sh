@@ -38,10 +38,19 @@ if notGrep 'key="Super_L"' $file; then
     openbox --reconfigure
 fi
 
-if notGrep ">screen<" $file; then
+if notGrep ">lxterminal<" $file; then
     sed -i 's#</keyboard>#  <!-- Terminal -->\
   <keybind key="C-A-t">\
     <action name="Execute"><command>lxterminal</command></action>\
+  </keybind>\
+</keyboard>#' $file
+    openbox --reconfigure
+fi
+
+if notGrep "C-A-BackSpace" $file; then
+    sed -i 's#</keyboard>#  <!-- Restart X Window server -->\
+  <keybind key="C-A-BackSpace">\
+    <action name="Execute"><command>sudo systemctl restart lightdm</command></action>\
   </keybind>\
 </keyboard>#' $file
     openbox --reconfigure

@@ -5,6 +5,6 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 pushd ledctl || return 1
-make --no-print-directory install
-make --no-print-directory start
+make >>$log 2>&1 install
+make >>$log 2>&1 start
 popd

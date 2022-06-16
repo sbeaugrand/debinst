@@ -8,7 +8,6 @@
 user=$1
 hhmm=$2
 echo $hhmm >/run/shutter.at
-chown $user.$user /run/shutter.at
 
 dir=/run/cron
 file=$dir/atjobs/.SEQ

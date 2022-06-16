@@ -17,12 +17,6 @@ if [ ! -f /boot/armbianEnv.txt ]; then
     if notGrep "Storage=volatile" $file; then
         sed -i 's/.*Storage=.*/Storage=volatile/' $file
     fi
-
-    # /var/spool/cron
-    if notLink /var/spool/cron; then
-        rm -fr /var/spool/cron
-        ln -s /run/cron /var/spool/cron
-    fi
 fi
 
 # /var/spool/cron
