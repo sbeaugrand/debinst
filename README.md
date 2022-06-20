@@ -40,8 +40,8 @@ mkdir install
 cd install
 tar xzf debinst-dist.tgz
 cd debinst
-./0install.sh --no-root
-./0install.sh --no-root hardware/install-op-pc-...
+./0install.sh
+./0install.sh hardware/install-op-pc-...
 ```
 
 # Création d'une nouvelle debian sur clé USB

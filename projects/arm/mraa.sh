@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------- #
-## \file install-op-mraa.sh
+## \file mraa.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
@@ -9,6 +9,11 @@ repo=$idir/../repo
 
 if [ `uname -n` = "rockpi-s" ]; then
     gitClone https://github.com/radxa/mraa.git || return 1
+    CMAKE_OPT="-DBUILDSWIG=OFF"
+    file=$bdir/mraa/include/version.h
+    if notGrep "extern const char" $file; then
+        sed -i 's/^const char/extern const char/' $file
+    fi
 else
     gitClone https://github.com/sbeaugrand/mraa.git || return 1
 fi

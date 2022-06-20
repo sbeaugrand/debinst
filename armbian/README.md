@@ -33,15 +33,38 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 
 # Installation sur armbian
+## [Orange Pi Zero](https://www.armbian.com/orange-pi-zero/)
+![Orange Pi Zero](https://www.armbian.com/wp-content/uploads/2018/02/orangepizero-300x169.png)
 ```
 sha256sum -c Armbian_22.05.1_Orangepizero_bullseye_current_5.15.43.img.xz.sha
 xz -k -d Armbian_22.05.1_Orangepizero_bullseye_current_5.15.43.img.xz
+```
 
+## [Nanopi Neo](https://www.armbian.com/nanopi-neo/)
+![Nanopi Neo](https://www.armbian.com/wp-content/uploads/2018/02/nanopineo-300x169.png)
+```
 sha256sum -c Armbian_22.05.1_Nanopineo_bullseye_current_5.15.43.img.xz.sha
 xz -k -d Armbian_22.05.1_Nanopineo_bullseye_current_5.15.43.img.xz
+```
 
+## [Rockpi S](https://www.armbian.com/rockpi-s/)
+![Rockpi S](https://www.armbian.com/wp-content/uploads/2019/11/rockpi-s-300x169.png)
+```
+sha256sum -c Armbian_21.05.4_Rockpi-s_buster_edge_5.12.10_minimal.img.xz.sha
 xz -k -d Armbian_21.05.4_Rockpi-s_buster_edge_5.12.10_minimal.img.xz
 
+# For bullseye :
+df .  # 6,5G needed
+git clone https://github.com/armbian/build.git armbian-build
+cd armbian-build
+sudo modprobe loop
+systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './compile.sh BOARD=rockpi-s BRANCH=edge BUILD_MINIMAL=yes BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no CLEAN_LEVEL=, RELEASE=bullseye SKIP_EXTERNAL_TOOLCHAINS=yes'
+cd output/images
+ls -l Armbian_22.08.0-trunk_Rockpi-s_bullseye_edge_5.18.5_minimal.img
+```
+
+## Installation
+```
 umount /media/$USER/*
 pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
@@ -60,10 +83,9 @@ which make >/dev/null || sudo apt install make
 make install
 sudo reboot
 make ssh
-amixer -q set 'Line Out' 94% unmute
-amixer -q set 'DAC' 98% unmute
+cd install/debinst/armbian
 rw
-sudo alsactl store
+../0install.sh --root install-op-volume.sh
 ```
 Optionnel:
 
