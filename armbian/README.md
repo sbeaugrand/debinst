@@ -57,6 +57,7 @@ xz -k -d Armbian_21.05.4_Rockpi-s_buster_edge_5.12.10_minimal.img.xz
 df .  # 6,5G needed
 git clone https://github.com/armbian/build.git armbian-build
 cd armbian-build
+sudo apt install debootstrap
 sudo modprobe loop
 systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './compile.sh BOARD=rockpi-s BRANCH=edge BUILD_MINIMAL=yes BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no CLEAN_LEVEL=, RELEASE=bullseye SKIP_EXTERNAL_TOOLCHAINS=yes'
 cd output/images

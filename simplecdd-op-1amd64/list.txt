@@ -138,6 +138,7 @@ fetchmail
 procmail
 w3m
 w3m-el
+xsel  # w3m: 8 ESC M
 qiv
 xli
 libreoffice
@@ -178,13 +179,12 @@ python3-tk
 python3-matplotlib
 python3-scipy
 python3-serial  # cnc
-#python-lxml  # cnc (inkscape gcode text)
+python3-lxml  # cnc (inkscape gcode text)
 printrun  # cnc
 pv
 libboost-dev
 aptitude
 anacron
-wmctrl
 lame
 libmp3lame-dev  # ffmpeg
 libdvdread-dev

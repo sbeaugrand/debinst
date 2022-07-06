@@ -6,6 +6,7 @@
 ## \note Workaround for damaged touchscreen on the bottom
 # ---------------------------------------------------------------------------- #
 gitClone https://gitlab.gnome.org/World/Phosh/phosh.git || return 1
+gitClone https://gitlab.gnome.org/World/Phosh/phoc.git || return 1
 
 dir=$bdir/phosh
 if notGrep 'PHOSH_HOME_BUTTON_HEIGHT 120' $dir/src/home.h; then
@@ -16,6 +17,15 @@ fi
 
 if notFile /usr/local/bin/phosh; then
     pushd $dir || return 1
+    apt-get -y build-dep .
+    meson . build
+    ninja -C build
+    ninja -C build install
+    popd
+fi
+
+if notFile /usr/local/bin/phoc; then
+    pushd $bdir/phoc || return 1
     apt-get -y build-dep .
     meson . build
     ninja -C build
