@@ -38,12 +38,20 @@ if notGrep 'key="Super_L"' $file; then
     openbox --reconfigure
 fi
 
-if notGrep ">lxterminal<" $file; then
+if notGrep "C-A-t" $file; then
     sed -i 's#</keyboard>#  <!-- Terminal -->\
   <keybind key="C-A-t">\
-    <action name="Execute"><command>lxterminal</command></action>\
+    <action name="Execute"><command>xterm -T mxterm</command></action>\
   </keybind>\
 </keyboard>#' $file
+    openbox --reconfigure
+fi
+
+if notGrep 'title="mxterm"' $file; then
+    sed -i 's#</applications>#  <application title="mxterm">\
+    <maximized>yes</maximized>\
+  </application>\
+</applications>#' $file
     openbox --reconfigure
 fi
 

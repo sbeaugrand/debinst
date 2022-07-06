@@ -9,7 +9,6 @@
 #  in remote .bash_logout : test $TERM = screen && echo -e "\eklocalhost\e\\"
 #  in remote .inputrc     : set bell-style none
 # ---------------------------------------------------------------------------- #
-wmctrl="sleep 0.1; wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz;"
 
 # ---------------------------------------------------------------------------- #
 # screen.desktop
@@ -22,7 +21,7 @@ if notFile $file; then
 [Desktop Entry]
 Name=Screen
 Comment=Ligne de commande
-Exec=xterm -T screen -e "$wmctrl SCREENDIR=$home/.screen screen -t localhost"
+Exec=xterm -T mxterm -e "SCREENDIR=$home/.screen screen"
 Icon=lxterminal
 Terminal=false
 Type=Application
@@ -46,6 +45,7 @@ termcapinfo xterm* ti@:te@
 msgwait 1
 # C-a e
 bind e stuff 'printf "\eklocalhost\e\\\\"'
+shelltitle "localhost"
 EOF
 fi
 

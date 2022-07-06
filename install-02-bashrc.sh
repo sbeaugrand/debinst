@@ -18,6 +18,7 @@ export PATH=$home/.local/bin:/usr/local/bin:/usr/bin:/bin:$home/install/debinst/
 export LS_OPTIONS=--color
 export EMACS_TOOLKIT=x11
 export DVDCSS_METHOD=title
+export SCREENDIR=$home/.screen
 
 alias l='ls'
 alias lrt='ls -lrt'
