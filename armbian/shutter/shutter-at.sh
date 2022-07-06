@@ -8,7 +8,8 @@
 # ---------------------------------------------------------------------------- #
 year=`date +%Y`
 zone=C
-[ -z "$ipath" ] && ipath=/home/$USER/install/debinst
+user=`ls /home | tail -n 1`
+[ -z "$ipath" ] && ipath=/home/$user/install/debinst
 [ -z "$cpath" ] && cpath=$ipath/latex/cal
 [ -z "$vpath" ] && vpath=$ipath/armbian/shutter
 
@@ -100,6 +101,7 @@ vacation()
 # main
 # ---------------------------------------------------------------------------- #
 cd $cpath
+date=`date +%Y-%m-%d`
 heure=`date +%H | awk '{ print $1 + 0 }'`
 ls -l build/sun
 if [ -f build/sun ]; then
@@ -119,7 +121,6 @@ if [ -f build/sun ]; then
     if [ -z "$h0" ]; then
         h0=`cat $file | grep H0 | awk '{ print $3 }'`
     fi
-    date=`date +%Y-%m-%d`
     sun=`build/sun $date $lat $lon $h0`
     echo "build/sun $date $lat $lon $h0"
     echo "$sun"
@@ -189,9 +190,6 @@ if [ -L $ipath/projects/arm/sompi/remotes/shutter-pr-.txt ]; then
 else
     hhmm="err l"
 fi
-sudo /usr/sbin/atd-start.sh $USER $hhmm
+echo $hhmm >/run/shutter.at
 cd $vpath
-echo "
-sudo /usr/sbin/shutter.sh $USER $pos >>/run/shutter.log
-./shutter-at.sh 2>&1 >>/run/shutter.log
-" | at -M $hh:$mm
+systemd-run -u shutter-$pos -d --on-calendar "$date $hh:$mm" ./shutter-and-at.sh

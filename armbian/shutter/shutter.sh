@@ -5,8 +5,8 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-user=$1
-pos=$2
+pos=$1
+user=`ls /home | tail -n 1`
 
 rollingCode()
 {
@@ -30,13 +30,6 @@ if [ $pos = "none" ]; then
     echo $code
     exit 0
 fi
-
-log=/run/shutter.log
-if [ ! -f $log ]; then
-    touch $log
-    chown $user.$user $log
-fi
-date >>$log
 
 rollingCode
 head -n 1 $ref >$new

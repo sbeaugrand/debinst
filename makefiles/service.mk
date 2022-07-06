@@ -19,7 +19,7 @@ install: reinstall $(DST)
 	@$(call service,enable)
 
 $(DST): $(SRC)
-	@sudo sed 's/\$$USER/$(user)/g' $< >$@
+	@sed 's/\$$USER/$(user)/g' $< | sudo tee $@ >/dev/null
 
 .PHONY: uninstall
 uninstall: stop

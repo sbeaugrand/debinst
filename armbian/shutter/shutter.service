@@ -11,8 +11,6 @@ After=rtc.service
 
 [Service]
 Type=oneshot
-RemainAfterExit=true
-User=$USER
 ExecStart=/home/$USER/install/debinst/armbian/shutter/shutter-at.sh
 
 [Install]

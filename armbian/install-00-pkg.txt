@@ -19,11 +19,9 @@ python-dev
 ntp
 sntp
 ntpdate
-at
 libusb-dev
 cryptsetup
 sqlite3
-#libmraa
 lirc
 ir-keytable
 liblircclient-dev

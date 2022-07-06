@@ -1,4 +1,3 @@
-- Replace atd by systemd-run in shutter service
 - Isolate screensaver and shutter service from mp3server
 - Use internal pull up resistor for IR receiver ?
 - Replace KiPlot by KiBot ?

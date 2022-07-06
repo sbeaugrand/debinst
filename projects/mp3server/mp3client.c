@@ -787,7 +787,7 @@ void state4heure()
             drawDate(0);
         }
     } else if (haltButton()) {
-        if (system("atrm 1; sudo systemctl restart shutter") == 0) {
+        if (system("sudo /usr/sbin/shutter-restart.sh") == 0) {
             drawDate(0);
         }
     }
@@ -833,7 +833,7 @@ void state5date()
             drawDate(1);
         }
     } else if (haltButton()) {
-        if (system("atrm 1; sudo systemctl restart shutter") == 0) {
+        if (system("sudo /usr/sbin/shutter-restart.sh") == 0) {
             drawDate(0);
         }
     }
