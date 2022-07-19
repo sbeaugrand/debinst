@@ -77,7 +77,6 @@ umount:
 
 .PHONY: tgz
 tgz:\
- tgz/src.tgz\
  tgz/debinst-dist.tgz\
  tgz/cal.tgz\
  tgz/rdm.tgz\
@@ -88,9 +87,7 @@ tgz:\
  tgz/geiger.tgz\
  tgz/cornemuse.tgz\
  tgz/tock.tgz\
-
-tgz/src.tgz: $(SRC)
-	@tar chvzf $@ $^
+ tgz/knotsvg.tgz\
 
 tgz/debinst-dist.tgz: ../../debinst-dist.tgz
 	@mv $< $@
