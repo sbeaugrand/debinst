@@ -34,6 +34,7 @@ int digitalInit(uint8_t pin, uint8_t mode)
         return 2;
     }
     if (mode == INPUT) {
+        //FIXME: workaround
         if (mraa_gpio_edge_mode(gpio, MRAA_GPIO_EDGE_BOTH) != MRAA_SUCCESS) {
             digitalQuit(pin);
             return 3;

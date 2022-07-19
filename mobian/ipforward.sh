@@ -5,7 +5,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-netId=10.66.0
+netId=${3:-10.66.0}
 mobianIpaddr=$netId.1
 debianIpaddr=$netId.2
 

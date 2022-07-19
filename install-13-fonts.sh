@@ -35,3 +35,8 @@ if notDir $dir; then
 fi
 makeTTF runes
 makeTTF noeuds
+
+dir=/usr/share/inkscape/fonts
+if notDir $dir; then
+    sudoRoot mkdir -p $dir
+fi
