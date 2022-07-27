@@ -29,12 +29,12 @@ if [ ! -d /boot/grub ]; then
         ls -l $file
         sudoRoot cp -a $file $bdir/shutter.txt
         sudoRoot mv $file /run/shutter.txt
+        sudoRoot chown root.root /run/shutter.txt
         sudoRoot ln -s /run/shutter.txt $file
     fi
 fi
 
 pushd shutter || return 1
 make --no-print-directory install
-make --no-print-directory stop
-make --no-print-directory start
+sudo /usr/sbin/shutter-restart.sh
 popd
