@@ -4,6 +4,35 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+repo=$idir/../repo
+
+gitClone https://github.com/koenkooi/foo2zjs.git || return 1
+
+name=HP-LaserJet_P1006
+file=/etc/cups/ppd/$name.ppd
+if notFile $file; then
+    pushd $bdir/foo2zjs || return 1
+    make >>$log 2>&1
+    sudoRoot make >>$log 2>&1 install
+    sudoRoot make >>$log 2>&1 install-hotplug-prog
+    popd
+
+    sudoRoot systemctl restart cups
+
+    sudoRoot cp $bdir/foo2zjs/PPD/$name.ppd $file
+fi
+
+sudoRoot lpadmin -p $name -E\
+ -D "HP LaserJet P1006"\
+ -v usb://HP/LaserJet%20P1006?serial=AC2B302\
+ -P /etc/cups/ppd/$name.ppd\
+ -o PageSize=A4\
+ || return 1
+
+lpoptions -d $name
+return $?
+
+# alternative hplip
 if lpoptions | grep -q HP_LaserJet_P1006; then
     echo " warn: HP_LaserJet_P1006 already exists" | tee -a $log
     return 0

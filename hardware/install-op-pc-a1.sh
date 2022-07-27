@@ -25,6 +25,7 @@ install-pr-alias.sh
 install-pr-bashrc.sh
 install-pr-pdcroix.sh
 install-op-ssh-keygen.sh
+hardware/install-op-hotspot.sh
 hardware/install-op-lp-hpP1006.sh
 hardware/install-op-grbl-sim.sh
 hardware/marlin/install-op-marlin-src.sh

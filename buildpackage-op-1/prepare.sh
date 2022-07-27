@@ -22,8 +22,9 @@ source armbian/install-10-WiringPi.sh || return 1
 source install-op-m4acut.sh || return 1
 source install-op-diffchar.sh || return 1
 source install-op-imscripts.sh || return 1
-source hardware/marlin/install-op-marlin-src.sh
-source hardware/install-op-grbl-sim.sh
+source hardware/install-op-grbl-sim.sh || return 1
+source hardware/marlin/install-op-marlin-src.sh || return 1
+# source hardware/install-op-lp-hpP1006.sh
 # source hardware/install-op-scan-mustekA3.sh
 
 # source projects/arm/mraa.sh
