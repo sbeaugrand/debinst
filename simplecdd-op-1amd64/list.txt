@@ -101,8 +101,8 @@ sqlitebrowser
 mpg123
 id3v2
 libreadline-dev
-net-tools  # arietta G25
-nftables  # arietta G25
+net-tools  # ipforward.sh
+nftables  # ipforward.sh
 sox
 timidity
 tuxguitar-alsa:amd64
@@ -181,6 +181,8 @@ python3-scipy
 python3-serial  # cnc
 python3-lxml  # cnc (inkscape gcode text)
 printrun  # cnc
+libnode-dev  # camotics
+libqt5opengl5  # camotics
 pv
 libboost-dev
 aptitude
@@ -270,3 +272,4 @@ eject  # live-build
 live-build
 locales  # live-build
 grub-pc-bin
+gnome-boxes

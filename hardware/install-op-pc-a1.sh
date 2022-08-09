@@ -15,12 +15,15 @@ install-op-firefox-cookies.sh
 install-op-firefox-automute.sh
 install-op-id3ed.sh
 install-op-kiplot.sh
+install-op-mp3gain.sh
 install-op-lingot.sh
 install-op-m4acut.sh
 install-op-meteo.sh
 install-op-mraa-xc.sh
 install-op-uncrustify.sh
 install-op-upgrades.sh
+install-op/install-op-avidemux.sh
+install-op/install-op-camotics.sh
 install-pr-alias.sh
 install-pr-bashrc.sh
 install-pr-pdcroix.sh
