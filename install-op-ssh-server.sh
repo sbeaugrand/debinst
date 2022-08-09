@@ -13,3 +13,8 @@ if notGrep '^PasswordAuthentication no' $file; then
     sudoRoot sed -i "'s/#PasswordAuthentication yes/PasswordAuthentication no/'" $file
     sudoRoot /etc/init.d/ssh restart
 fi
+
+file=$home/.ssh/authorized_keys
+if notFile $file; then
+    cp install-pr-authorized_keys $file
+fi

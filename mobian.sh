@@ -66,7 +66,7 @@ file=~/.profile
 if isFile ~/.ssh/id_rsa.pub && notGrep "keychain" $file; then
     echo 'source ~/.keychain/*-sh' >>$file
 fi
-file=armbian/install-pr-authorized_keys
+file=install-pr-authorized_keys
 if ! isFile $file; then
     exit 1
 fi

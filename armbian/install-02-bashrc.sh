@@ -23,7 +23,7 @@ alias du='du -h'
 
 alias rw='sudo mount -o rw,remount /'
 alias ro='sudo mount -o ro,remount /'
-export MP3DIR=/mnt/mp3/mp3
+export MP3DIR=/mnt/mp3
 export LC_ALL=C
 export XMMS_PATH=unix:///run/xmms-ipc-ip
 

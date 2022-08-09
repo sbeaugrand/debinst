@@ -98,7 +98,7 @@ make clean
 make config
 make installer
 make aptsources
-make binary
+systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c 'make binary'
 pv build/live-image-amd64.hybrid.iso | sudo dd bs=4M oflag=dsync of=/dev/sdb
 ```
 [Suite optionnelle](5livebuild/README.md)

@@ -44,6 +44,7 @@ alias aspire='wget -nd -r -k -p -np'
 alias mutt='mutt.sh'
 alias goto='goto.sh'
 alias gs='gs -dBATCH'
+alias last='last -R | grep boot | head -n 2 | tail -n 1 | sed "s/.*boot/Last:/"'
 alias halt='/sbin/shutdown now'
 
 bind '"\e[1;5A": history-search-backward'
@@ -51,7 +52,6 @@ bind '"\e[1;5B": history-search-forward'
 bind 'set bell-style none'
 test -n "\$DISPLAY" && xset -b
 setxkbmap -option "nbsp:none"
-last -R | grep boot | head -n 2 | tail -n 1 | sed 's/.*boot/Last:/'
 test -d /run/lock/.keychain && kc
 cd
 EOF

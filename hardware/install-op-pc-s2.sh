@@ -11,6 +11,7 @@ install-op-firefox-automute.sh
 install-op-upgrades.sh
 install-pr-bashrc.sh
 install-op-ssh-keygen.sh
+install-op-ssh-server.sh
 -su
 install-op-mutt.sh
 "
