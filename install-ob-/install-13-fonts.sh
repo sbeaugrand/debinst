@@ -5,13 +5,13 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-pushd install-*-fonts || return 1
+pushd install-ob-/install-*-fonts || return 1
 make install >>$log 2>&1
 make >>$log 2>&1
 popd
 
-if notFile install-*-fonts/runes/runes.pfb; then
-    pushd install-*-fonts/runes || return 1
+if notFile install-ob-/install-*-fonts/runes/runes.pfb; then
+    pushd install-ob-/install-*-fonts/runes || return 1
     make pfb >>$log 2>&1
     popd
 fi
@@ -19,13 +19,13 @@ fi
 makeTTF()
 {
     name=$1
-    if notFile install-*-fonts/$name/$name.ttf; then
-        pushd install-*-fonts/$name || return 1
+    if notFile install-ob-/install-*-fonts/$name/$name.ttf; then
+        pushd install-ob-/install-*-fonts/$name || return 1
         make ttf >>$log 2>&1
         popd
     fi
     if notFile $dir/$name.ttf; then
-        cp install-*-fonts/$name/$name.ttf $dir/
+        cp install-ob-/install-*-fonts/$name/$name.ttf $dir/
     fi
 }
 

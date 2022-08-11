@@ -10,7 +10,7 @@
 #  T ;C ;d
 # ---------------------------------------------------------------------------- #
 if [ `whoami` != "root" ]; then
-    echo " error: try ./0install.sh --root install-op-mutt.sh"
+    echo " error: try ./0install.sh --root install-op-/install-op-mutt.sh"
     return 1
 fi
 

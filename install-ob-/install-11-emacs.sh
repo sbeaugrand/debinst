@@ -8,4 +8,4 @@
 # echo "emacs.fontBackend: x" >>~/.Xdefaults
 # xrdb ~/.Xresources
 # ---------------------------------------------------------------------------- #
-ln -sf $idir/install-11-emacs.el $home/.emacs
+ln -sf $idir/install-ob-/install-*-emacs.el $home/.emacs

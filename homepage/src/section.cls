@@ -1,1 +1,1 @@
-../../install-12-latex/section.cls
+../../install-ob-/install-12-latex/section.cls

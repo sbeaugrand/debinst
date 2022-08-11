@@ -66,7 +66,7 @@ file=~/.profile
 if isFile ~/.ssh/id_rsa.pub && notGrep "keychain" $file; then
     echo 'source ~/.keychain/*-sh' >>$file
 fi
-file=install-pr-authorized_keys
+file=install-pr-/install-pr-authorized_keys
 if ! isFile $file; then
     exit 1
 fi
@@ -91,7 +91,7 @@ ssh $uri "test -d install/debinst || mkdir -p install/debinst"
 rsync -rli --delete --no-times --checksum --exclude=__pycache__\
  ~/install/debinst/0install.sh\
  ~/install/debinst/$project\
- ~/install/debinst/install-op-lingot.sh\
+ ~/install/debinst/install-op-/install-op-lingot.sh\
  $uri:/home/$user/install/debinst/
 
 # ---------------------------------------------------------------------------- #

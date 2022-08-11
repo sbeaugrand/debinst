@@ -1,1 +1,1 @@
-../../install-13-fonts/mfinst.sh
+../../install-ob-/install-13-fonts/mfinst.sh

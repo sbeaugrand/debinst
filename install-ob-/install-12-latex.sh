@@ -15,7 +15,7 @@ copyCLS()
 {
     file=$1
     if notFile $dir/$file; then
-        cp -a install-12-latex/$file $dir/
+        cp -a install-ob-/install-*-latex/$file $dir/
     fi
 }
 
@@ -26,7 +26,7 @@ copyCLS section.cls
 
 texhash $texdir >>$log
 
-pushd install-12-latex || return 1
+pushd install-ob-/install-*-latex || return 1
 if notFile exlettre.pdf; then
     pdflatex --halt-on-error exlettre.tex >>$log 2>&1
 fi

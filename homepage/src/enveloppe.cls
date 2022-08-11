@@ -1,1 +1,1 @@
-../../install-12-latex/enveloppe.cls
+../../install-ob-/install-12-latex/enveloppe.cls

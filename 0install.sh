@@ -17,6 +17,9 @@ else
         shift
     fi
     [ -z "$user" ] && user=$USER
+    if [ "$user" = "root" ]; then
+        user=`ls /home | tail -n 1`
+    fi
 fi
 
 [ -z "$home" ] && home=/home/$user
@@ -44,10 +47,14 @@ isDir()
 log=/dev/stderr
 isDir $data || exit 1
 log=$bdir/0install.log
-[ -d $bdir ] || sudo -u $user mkdir $bdir
-[ -d $repo ] || sudo -u $user mkdir $repo
-[ -d $idir/../repo ] || sudo -u $user mkdir $idir/../repo
-[ -d $home/.local/bin ] || sudo -u $user mkdir -p $home/.local/bin
+[ -d $bdir ] || mkdir $bdir && chown $user.$user $bdir
+[ -d $repo ] || mkdir $repo && chown $user.$user $repo
+[ -d $idir/../repo ] || mkdir $idir/../repo && chown $user.$user $idir/../repo
+if [ ! -d $home/.local/bin ]; then
+    mkdir -p $home/.local/bin
+    chown $user.$user $home/.local
+    chown $user.$user $home/.local/bin
+fi
 
 # ---------------------------------------------------------------------------- #
 # logrotate
@@ -388,7 +395,7 @@ sourceList()
 # ---------------------------------------------------------------------------- #
 if [ `basename $0` = "0install.sh" ]; then
     if [ -z "$1" ]; then
-        installList=`ls install-[0-9][0-9][^0-9]*.sh`
+        installList=`ls install-ob-/*.sh`
     else
         installList=$*
     fi

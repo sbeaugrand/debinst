@@ -24,9 +24,9 @@ sed 's/US/FR/' $repo/_Firefox-88 >user.js || return 1
 sed -i -e '/autofillForms/d' -e '/rememberSignons/d' -e '/showSearch/d' user.js
 sed -i -e '/parent_directory/d' -e 's/)$/);/' user.js
 
-file=$idir/install-*-firefox/homepage-pr-.html
+file=$idir/install-ob-/install-*-firefox/homepage-pr-.html
 if [ ! -f $file ]; then
-    file=`ls $idir/install-*-firefox/homepage.html`
+    file=`ls $idir/install-ob-/install-*-firefox/homepage.html`
 fi
 if [ -n "$file" ]; then
     cat >>user.js <<EOF
@@ -61,13 +61,13 @@ user_pref("privacy.sanitize.sanitizeOnShutdown", true);
 
 EOF
 chown $user.$user user.js
-file=`ls $idir/install-*-firefox/key4-pr-.db`
+file=`ls $idir/install-ob-/install-*-firefox/key4-pr-.db`
 if notFile key4.db; then
-    [ -n $file ] && sudo -u $user cp $file key4.db
+    [ -n "$file" ] && sudo -u $user cp $file key4.db
 fi
-file=`ls $idir/install-*-firefox/logins-pr-.json`
+file=`ls $idir/install-ob-/install-*-firefox/logins-pr-.json`
 if notFile logins.json; then
-    [ -n $file ] && sudo -u $user cp $file logins.json
+    [ -n "$file" ] && sudo -u $user cp $file logins.json
 fi
 popd
 

@@ -120,7 +120,7 @@ ln -s ~/install/debinst/install-pr-spam ~/install/spam
 cd install-pr-spam
 ln -s ../buildpackage-pr-spam/list.txt
 cp ../0install.sh .  # or link
-cp ../install-*-res.sh .  # or link
+cp ../install-op-/install-*-res.sh .  # or link
 ```
 
 ## Récupération d'un dépôt git

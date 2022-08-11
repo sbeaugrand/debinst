@@ -18,7 +18,7 @@ if notFile $file; then
 fi
 
 # Marlin
-source install-op-marlin-src.sh || return 1
+source hardware/marlin/install-op-marlin-src.sh || return 1
 
 dir=$bdir/Marlin/Marlin
 if notGrep '^#define EEPROM_SETTINGS' $dir/Configuration.h; then

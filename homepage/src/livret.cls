@@ -1,1 +1,1 @@
-../../install-12-latex/livret.cls
+../../install-ob-/install-12-latex/livret.cls

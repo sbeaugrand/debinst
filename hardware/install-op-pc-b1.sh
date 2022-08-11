@@ -3,17 +3,17 @@
 # ---------------------------------------------------------------------------- #
 sourceList "
 hardware/install-op-rtl8821ce.sh
-install-op-autologin.sh
-install-op-imscripts.sh
-install-op-dafont.sh
-install-op-firefox-abp.sh
-install-op-firefox-cookies.sh
-install-op-firefox-automute.sh
-install-op-meteo.sh
-install-op-upgrades.sh
-install-pr-bashrc.sh
-install-op-ssh-keygen.sh
-install-op-ssh-server.sh
+install-op-/install-op-autologin.sh
+install-op-/install-op-imscripts.sh
+install-op-/install-op-dafont.sh
+install-op-/install-op-firefox-abp.sh
+install-op-/install-op-firefox-cookies.sh
+install-op-/install-op-firefox-automute.sh
+install-op-/install-op-meteo.sh
+install-op-/install-op-upgrades.sh
+install-pr-/install-pr-bashrc.sh
+install-op-/install-op-ssh-keygen.sh
+install-op-/install-op-ssh-server.sh
 hardware/install-op-lp-ts5000.sh
 hardware/install-op-ipod.sh
 "

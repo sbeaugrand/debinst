@@ -5,5 +5,5 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if notLink $home/.uncrustify.cfg; then
-    ln -s $idir/install-*-uncrustify.cfg $home/.uncrustify.cfg
+    ln -s $idir/install-op-/install-op-uncrustify.cfg $home/.uncrustify.cfg
 fi

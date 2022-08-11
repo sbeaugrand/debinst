@@ -10,7 +10,13 @@ client=$netId.1
 ip=$netId.2
 gateway=192.168.0.254
 # psk
-source $idir/hardware/install-pr-hotspot.sh
+file=$idir/hardware/install-pr-hotspot.sh
+if isFile $file; then
+    source $file
+else
+    echo -n " psk ? "
+    read psk
+fi
 
 file=/etc/NetworkManager/system-connections/$name.nmconnection
 if notFile $file; then

@@ -13,8 +13,8 @@ file=/etc/cups/ppd/$name.ppd
 if notFile $file; then
     pushd $bdir/foo2zjs || return 1
     make >>$log 2>&1
-    sudoRoot make >>$log 2>&1 install
-    sudoRoot make >>$log 2>&1 install-hotplug-prog
+    sudoRoot make install
+    sudoRoot make install-hotplug-prog
     popd
 
     sudoRoot systemctl restart cups
@@ -23,7 +23,7 @@ if notFile $file; then
 fi
 
 sudoRoot lpadmin -p $name -E\
- -D "HP LaserJet P1006"\
+ -D "'HP LaserJet P1006'"\
  -v usb://HP/LaserJet%20P1006?serial=AC2B302\
  -P /etc/cups/ppd/$name.ppd\
  -o PageSize=A4\

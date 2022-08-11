@@ -16,5 +16,5 @@ fi
 
 file=$home/.ssh/authorized_keys
 if notFile $file; then
-    cp install-pr-authorized_keys $file
+    cp install-pr-/install-pr-authorized_keys $file
 fi

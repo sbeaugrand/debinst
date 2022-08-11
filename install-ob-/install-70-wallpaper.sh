@@ -37,13 +37,13 @@ else
     h=$height
 fi
 
-file=`ls install-*-wallpaper/*-${w}x${h}.png 2>/dev/null | tail -n 1`
+file=`ls install-ob-/install-*-wallpaper/*-${w}x${h}.png 2>/dev/null | tail -n 1`
 if [ -z "$file" ]; then
-    file=`ls install-*-wallpaper/build/*-${w}x${h}.png 2>/dev/null`
+    file=`ls install-ob-/install-*-wallpaper/build/*-${w}x${h}.png 2>/dev/null`
 fi
 
 if [ -z "$file" ]; then
-    sudo -u $user mkdir -p `ls -d install-*-wallpaper`/build
+    sudo -u $user mkdir -p `ls -d install-ob-/install-*-wallpaper`/build
     name=$bdir/fractal-${w}x${h}
     spanX=5E-04
     spanY=`echo $spanX | awk '{ printf "%E",$1 * '$h' / '$w' }'`
@@ -68,22 +68,22 @@ EOF
       -modulate 50,25,$hue\
       -flop\
       $name.png
-    mv $name.png install-*-wallpaper/build/
+    mv $name.png install-ob-/install-*-wallpaper/build/
 else
     echo " warn: $file already exists" | tee -a $log
 fi
 
-file=`ls install-*-wallpaper/*-${width}x${height}.png 2>/dev/null | tail -n 1`
+file=`ls install-ob-/install-*-wallpaper/*-${width}x${height}.png 2>/dev/null | tail -n 1`
 if [ -z "$file" ]; then
-    file=`ls install-*-wallpaper/build/*-${width}x${height}.png 2>/dev/null`
+    file=`ls install-ob-/install-*-wallpaper/build/*-${width}x${height}.png 2>/dev/null`
 fi
 
 if [ -z "$file" ]; then
-    convert install-*-wallpaper/build/fractal-${w}x${h}.png\
+    convert install-ob-/install-*-wallpaper/build/fractal-${w}x${h}.png\
       -resize ${width}x${height}\
       $bdir/fractal-${width}x${height}.png
-    mv $bdir/fractal-${width}x${height}.png install-*-wallpaper/build/
-    file=`ls install-*-wallpaper/build/*-${width}x${height}.png 2>/dev/null`
+    mv $bdir/fractal-${width}x${height}.png install-ob-/install-*-wallpaper/build/
+    file=`ls install-ob-/install-*-wallpaper/build/*-${width}x${height}.png 2>/dev/null`
 else
     echo " warn: $file already exists" | tee -a $log
 fi

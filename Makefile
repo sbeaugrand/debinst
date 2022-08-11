@@ -38,7 +38,7 @@ pull:
 
 .PHONY: not-often-used
 not-often-used:
-	@ls -1 --color=no install-op-*.sh |\
+	@ls -1 --color=no install-op-/install-op-*.sh |\
 	 xargs -I {} bash -c "grep -q {} hardware/*.sh || test -x {} || echo {}" |\
 	 grep -v '\(-src.sh\|codecs\)'
 

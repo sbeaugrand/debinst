@@ -2,9 +2,9 @@
 # pc
 # ---------------------------------------------------------------------------- #
 sourceList "
-install-op-autologin.sh
-install-pr-alias.sh
-install-pr-bashrc.sh
+install-op-/install-op-autologin.sh
+install-pr-/install-pr-alias.sh
+install-pr-/install-pr-bashrc.sh
 hardware/install-op-fix-suspend.sh
 "
 

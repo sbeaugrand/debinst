@@ -10,9 +10,9 @@ codecs=essential-20071007
 # sources
 # ---------------------------------------------------------------------------- #
 repoSav=$repo
-source install-op-codecs.sh
-source install-op-ffmpeg-src.sh
-source install-op-mplayer-src.sh
+source install-op-/install-op-codecs.sh
+source install-op-/install-op-ffmpeg-src.sh
+source install-op-/install-op-mplayer-src.sh
 repo=$repoSav
 
 if [ "$args" = "-r" ]; then
@@ -35,10 +35,10 @@ if notDir $bdir/$mplayer/ffmpeg; then
     if notLink mplayer || return 1; then
         ln -s $mplayer mplayer
     fi
-    patch -p0 -i $idir/install-op-mplayer/mencoder_vol.patch >>$log 2>&1 ||\
-      return 1
-    patch -p0 -i $idir/install-op-mplayer/mencoder_lp.patch  >>$log 2>&1 ||\
-      return 1
+    patch -p0 -i $idir/install-op-/install-op-mplayer/mencoder_vol.patch\
+     >>$log 2>&1 || return 1
+    patch -p0 -i $idir/install-op-/install-op-mplayer/mencoder_lp.patch
+     >>$log 2>&1 || return 1
     popd
 fi
 
@@ -47,7 +47,8 @@ fi
 # ---------------------------------------------------------------------------- #
 if notFile $home/.local/bin/ffmpeg; then
     pushd $bdir/$mplayer/ffmpeg
-    ./configure --prefix=$home/.local --enable-gpl --enable-libx264 --enable-libmp3lame --enable-libaom --enable-libvorbis >>$log 2>&1
+    ./configure --prefix=$home/.local --enable-gpl --enable-libx264\
+     --enable-libmp3lame --enable-libaom --enable-libvorbis >>$log 2>&1
     make >>$log 2>&1
     make >>$log 2>&1 install
     popd
@@ -78,7 +79,7 @@ fi
 
 file=$home/.mplayer/config
 if notFile $file || notGrep x11 $file; then
-    cp install-op-mplayer/config $file
+    cp install-op-/install-op-mplayer/config $file
 fi
 
 chown -R $user.$user $home/.mplayer

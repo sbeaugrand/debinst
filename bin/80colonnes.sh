@@ -24,7 +24,7 @@ else
     nbcol=80
 fi
 
-find . -type f -name "*.$ext" -exec awk \
+find . -type d -name build -prune -o -name "*.$ext" -exec awk \
 '
 BEGIN {
   FS = "\t";

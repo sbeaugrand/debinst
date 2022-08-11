@@ -1,15 +1,3 @@
 debinst
 install-bin
-#install-codecs
-#install-ffmpeg
-#install-mplayer
-#install-calendar
-#install-php-mode
-#install-id3ed
-#install-mp3gain
-#install-sdcc
-#install-libdvdcss
-#install-fonts-morse
-#install-bcm2835
-#install-usbtinyisp
 install-repo

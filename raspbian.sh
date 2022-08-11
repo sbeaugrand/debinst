@@ -1,6 +1,6 @@
 #!/bin/bash
 # ---------------------------------------------------------------------------- #
-## \file rpi.sh
+## \file raspbian.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
@@ -49,7 +49,7 @@ file=~/.profile
 if isFile ~/.ssh/id_rsa.pub && notGrep "keychain" $file; then
     echo 'source ~/.keychain/*-sh' >>$file
 fi
-file=install-pr-authorized_keys
+file=install-pr-/install-pr-authorized_keys
 if ! isFile $file; then
     exit 1
 fi

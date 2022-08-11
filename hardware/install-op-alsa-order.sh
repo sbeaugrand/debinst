@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ `whoami` != "root" ]; then
-    echo " error: try ./0install.sh --root install-op-alsa-order.sh"
+    echo " error: try ./0install.sh --root hardware/install-op-alsa-order.sh"
     return 1
 fi
 

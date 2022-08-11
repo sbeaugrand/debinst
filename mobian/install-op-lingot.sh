@@ -1,1 +1,1 @@
-../install-op-lingot.sh
+../install-op-/install-op-lingot.sh

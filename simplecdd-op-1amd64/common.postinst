@@ -48,10 +48,6 @@ for i in `cat $dir/debinst/LPKG/list.txt`; do
     fi
 done
 
-# libdvdcss
-cp /home/$user/install/repo/libdvdcss_*.orig.tar.bz2 /usr/src/libdvd-pkg/
-dpkg-reconfigure -pcritical libdvd-pkg
-
 # data
 dir=/home/$user/data
 mkdir $dir
@@ -60,8 +56,12 @@ chown $user.$user $dir
 # install
 cd /home/$user/install/debinst
 ./0install.sh\
- install-02-bashrc.sh\
- install-03-screen.sh
+ install-ob-/install-02-bashrc.sh\
+ install-ob-/install-03-screen.sh
+
+# libdvdcss
+cp /home/$user/install/repo/libdvdcss_*.orig.tar.bz2 /usr/src/libdvd-pkg/
+dpkg-reconfigure -pcritical libdvd-pkg
 
 # cleanup
 if [ ! -s $log ]; then

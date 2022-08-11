@@ -22,7 +22,7 @@ download $url/$version/md5sum.txt $app.md5 || return 1
 pushd $repo || return 1
 chmod 755 $app
 grep $app $app.md5 >$app.tmp && mv $app.tmp $app.md5
-md5sum -c $app.md5
+md5sum --quiet -c $app.md5 || return 1
 popd
 
 file=$home/.local/bin/$app
