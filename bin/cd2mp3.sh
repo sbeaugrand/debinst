@@ -79,7 +79,7 @@ cd "$artist - $year - $album"
 cddb="../$cddb"
 last=`ls ../*.wav | tail -n 1 | cut -d '_' -f 2 | sed s/\.wav//g`
 last=`echo ${last:0:2} | awk '{ print $0+0 }'`
-for ((i = 0; i < last; i++)); do
+for ((i = 0; i < last; ++i)); do
     title=`grep "TTITLE$i=" $cddb | cut -d '=' -f 2`
     ((track = i + 1))
     mp3=`printf %02d $track`" - $title.mp3"
@@ -112,7 +112,7 @@ if [ -f $m3u ]; then
     rm $m3u
 fi
 echo "#EXTM3U" > $m3u
-for ((i = 0; i < last; i++)); do
+for ((i = 0; i < last; ++i)); do
     title=`grep "TTITLE$i=" $cddb | cut -d '=' -f 2`
     ((track = i + 1))
     mp3=`printf %02d $track`" - $title.mp3"

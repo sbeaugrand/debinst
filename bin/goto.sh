@@ -16,7 +16,7 @@ if [ ${name:0:1} = "/" ]; then
     file=$name
 else
     file=`find . -name "${name##*/}" -print |\
-     grep "$name" | tee /dev/stderr | sed -n '1p'`
+     grep "$name" | tee /dev/stderr | head -n 1`
 fi
 
 if [ "$line" = "$1" ]; then

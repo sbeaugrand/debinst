@@ -14,7 +14,7 @@ if [ -n "$1" ]; then
 fi
 
 nbraw=`ls *.raw | wc -l`
-for ((i = 1; i <= nbraw; i++)); do
+for ((i = 1; i <= nbraw; ++i)); do
     if [ ! -f t.txt ]; then
         echo "warning: t.txt not found"
     elif grep SNG_TITLE t.txt >/dev/null; then
@@ -23,7 +23,7 @@ for ((i = 1; i <= nbraw; i++)); do
         cat t.txt
         cat t.txt | wc -l
     fi
-    raw=`ls *.raw | head -n $i | tail -1`
+    raw=`ls *.raw | head -n $i | tail -n 1`
     rate=`ffprobe -show_streams $raw 2>/dev/null | grep sample_rate | cut -d '=' -f 2`
     echo -n "split $raw at $rate Hz ? (o/N) "
     read ret
@@ -33,21 +33,21 @@ for ((i = 1; i <= nbraw; i++)); do
         tmp=/tmp/wav2mp3.tmp
         ls 0???.wav >$tmp
         nbwav=`ls 0???.wav | wc -l`
-        for ((j = 1; j <= nbwav; j++)); do
+        for ((j = 1; j <= nbwav; ++j)); do
             src=`head -n $j $tmp | tail -n 1`
             size=`stat -c "%s" $src`
             size=`printf "%10d" $size`
             echo `soxi -d $src`" $size $src"
         done
-        for ((j = 1; j <= nbwav; j++)); do
+        for ((j = 1; j <= nbwav; ++j)); do
             src=`head -n $j $tmp | tail -n 1`
-            for ((k = 1;; k++)); do
+            for ((k = 1;; ++k)); do
                 dst=`printf "%02d" $k`.wav
                 if [ -f $dst ]; then
                     continue;
                 fi
                 if [ ! -f t.txt ] ||
-                    [ -n "`head -n $k t.txt | tail -1`" ]; then
+                    [ -n "`head -n $k t.txt | tail -n 1`" ]; then
                     break;
                 fi
             done
@@ -72,12 +72,12 @@ if [ -n "$ret" ]; then
 fi
 
 nbwav=`ls *.wav | wc -l`
-for ((i = 1; i <= nbwav; i++)); do
-    wav=`ls *.wav | head -n $i | tail -1`
+for ((i = 1; i <= nbwav; ++i)); do
+    wav=`ls *.wav | head -n $i | tail -n 1`
     if [ -f t.txt ]; then
         j=${wav:0:2}
         k=`echo $j | awk '{ print $0+0 }'`
-        mp3="$j - `head -n $k t.txt | tail -1`.mp3"
+        mp3="$j - `head -n $k t.txt | tail -n 1`.mp3"
     else
         mp3=${wav/%.wav/.mp3}
     fi

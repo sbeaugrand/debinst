@@ -174,7 +174,7 @@ makeDump()
     fi
     selectTitleAndAngle
     selectChapters
-    for ((i=$first;$i<=$last;i++)); do
+    for ((i = first; i <= last; ++i)); do
         file=dump.`printf %02d $i`
         list="$list $file"
         if [ -f $file ]; then
@@ -213,7 +213,7 @@ selectInput()
             myRead "last chapter ?" $last
             last=$ret
         fi
-        for ((i=$first;$i<=$last;i++)); do
+        for ((i = first; i <= last; ++i)); do
             file=dump.`printf %02d $i`
             if [ ! -r $file ]; then
                 fatal "cannot access to $file"
@@ -262,7 +262,7 @@ maximizeVolume()
                       `echo $volume | awk 'BEGIN { FS = " " } { print 1/$2 }'`
                 else
                     list2=
-                    for ((i=$first;$i<=$last;i++)); do
+                    for ((i = first; i <= last; ++i)); do
                         file1=dump.`printf %02d $i`
                         file2=sound`printf %02d $i`.wav
                         list2="$list2 $file2"
@@ -327,7 +327,7 @@ selectSubtitleId()
     sid=`grep "sid" structure.txt | grep $lang | tail -n 1`
     sid=${sid:18:2}
     if [ -z "$sid" ]; then
-        sid=`grep "sid" structure.txt | head -n 1`
+        sid=`grep -m 1 "sid" structure.txt`
         sid=${sid:18:2}
         if [ -z "$sid" ]; then
             echo -e "${blue}no subtitle found$reset"
@@ -506,10 +506,10 @@ selectAudio()
     aid=0
     if [ -r structure.txt ]; then
         grep "aid" structure.txt
-        aid=`grep "aid" structure.txt | grep $lang | head -n 1`
+        aid=`grep "aid" structure.txt | grep -m 1 $lang`
         aid=${aid:0-4:3}
         if [ -z "$aid" ]; then
-            aid=`grep "aid" structure.txt | head -n 1`
+            aid=`grep -m 1 "aid" structure.txt`
             aid=${aid:0-4:3}
         fi
         # Case for the zero value
@@ -660,7 +660,7 @@ extractWav()
         else
             selectAudio
         fi
-        for ((i=$first;$i<=$last;i++)); do
+        for ((i = first; i <= last; ++i)); do
             n=`printf %02d $i`
             if [ $direct = y ]; then
                 mplayer $title $angle -chapter $i-$i\
@@ -991,7 +991,7 @@ makeIpod()
     fi
     selectInput
     selectAudio
-    for ((i=$first;$i<=$last;i++)); do
+    for ((i = first; i <= last; ++i)); do
         num=`printf %02d $i`
         file=dump.$num
         mencoder $file -aid $aid -oac pcm -ovc copy -o dump.tmp $mencOpt

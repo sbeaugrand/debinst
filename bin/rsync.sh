@@ -55,7 +55,7 @@ if [ "$ret" = p ] || [ "$ret" = a ]; then
         colordiff=cat
     fi
     n=`cat $log | wc -l`
-    for ((i=1;$i<=$n;i++)); do
+    for ((i = 1; i <= n; ++i)); do
         f=`head -n $i $log | tail -n 1`
         if echo "$f" | grep deleting >/dev/null; then
             continue

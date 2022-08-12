@@ -19,7 +19,7 @@ fi
 chrono()
 {
     echo -n "0 "
-    for ((i=1;$i<=$1;i++)); do
+    for ((i = 1; i <= 1; ++i)); do
         sleep 1
         tput cub 4
         echo -n "$i "

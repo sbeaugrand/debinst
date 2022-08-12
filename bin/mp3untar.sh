@@ -24,11 +24,11 @@ update()
     cat $tmp
 
     n=`cat $tmp | wc -l`
-    for ((i = 1; i <= n; i++)); do
-        f1=`sed -n ${i}p $tmp | cut -c3- | sed 's/\/00.m3u//'`
+    for ((i = 1; i <= n; ++i)); do
+        f1=`head -n $i $tmp | tail -n 1 | cut -c3- | sed 's#/00.m3u##'`
         b1=`echo "$f1" | cut -d '/' -f 2-`
         ((++i))
-        f2=`sed -n ${i}p $tmp | cut -c3- | sed 's/\/00.m3u//'`
+        f2=`head -n $i $tmp | tail -n 1 | cut -c3- | sed 's#/00.m3u##'`
         b2=`echo "$f2" | cut -d '/' -f 2-`
         if [ "$b1" != "$b2" ]; then
             echo "!  $b1"

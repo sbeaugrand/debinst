@@ -26,7 +26,7 @@ grep "Seulement dans $src[:/]" $diftmpfile |\
   cut -c16- | sed 's/: /\//' >$addtmpfile
 len=`expr length $src`
 size=`cat $addtmpfile | wc -l`
-for ((i = 1; i <= size; i++)); do
+for ((i = 1; i <= size; ++i)); do
     file=`head -n $i $addtmpfile | tail -n 1 | cut -c$((len + 2))-`
     if [ ${file:0-1:1} = '~' ]; then
         echo -n "supprimer $file dans $src/ ? (O/n) "
@@ -49,7 +49,7 @@ done
 grep "Seulement dans $dst[:/]" $diftmpfile |\
   cut -c16- | sed 's/: /\//' >$deltmpfile
 size=`cat $deltmpfile | wc -l`
-for ((i = 1; i <= size; i++)); do
+for ((i = 1; i <= size; ++i)); do
     file=`head -n $i $deltmpfile | tail -n 1`
     echo -n "supprimer $file ? (O/n) "
     read ret
@@ -67,7 +67,7 @@ grep "Les fichiers" $diftmpfile | cut -c14-  |\
   gawk 'BEGIN { FS = " et "   } { print $2 }' |\
   gawk 'BEGIN { FS = " sont " } { print $1 }' >$up2tmpfile
 size=`cat $up1tmpfile | wc -l`
-for ((i = 1; i <= size; i++)); do
+for ((i = 1; i <= size; ++i)); do
     file1=`head -n $i $up1tmpfile | tail -n 1`
     file2=`head -n $i $up2tmpfile | tail -n 1`
     if [ -L "$file2" ]; then

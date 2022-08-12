@@ -13,15 +13,15 @@ cBranch=`git rev-parse --abbrev-ref HEAD`
 if [ -z "$pBranch" ]; then
     pBranch=`git log --first-parent --decorate=short | grep commit |\
  grep '(' | sed -e 's/.*(\(.*\)).*/\1/' -e 's/, /\n/g' |\
- grep -v "\(master\|HEAD\|$cBranch\)" | tee /dev/stderr | head -1`
+ grep -v "\(master\|HEAD\|$cBranch\)" | tee /dev/stderr | head -n 1`
 fi
 echo
 echo "Current branch: $cBranch"
 if [ -n "$pBranch" ]; then
     echo "Parent branch:  $pBranch"
-    pHash=`git rev-list --parents $pBranch.. | tail -1 | awk '{ print $2 }'`
+    pHash=`git rev-list --parents $pBranch.. | tail -n 1 | awk '{ print $2 }'`
     echo "Parent hash:    $pHash"
-    subject=`git log $pBranch..$cBranch --format=%s | tail -1`
+    subject=`git log $pBranch..$cBranch --format=%s | tail -n 1`
     echo "Subject:        $subject"
     cat <<EOF
 

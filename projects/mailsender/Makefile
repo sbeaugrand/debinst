@@ -35,7 +35,7 @@ all:
 	@echo "Send :"
 	@echo " ./split.sh mail-pr-.list"
 	@echo " \\mutt  # compose a mail draft"
-	@echo " vi \`ls -1rt ~/Mail/brouillons/new/* | tail -1\`  # :r x-pr-00.list"
+	@echo " vi \`ls -1rt ~/Mail/brouillons/new/* | tail -n 1\`  # :r x-pr-00.list"
 	@echo " \\mutt  # send the mail draft"
 	@echo
 	@echo "Send one by one (less usefull):"
@@ -81,7 +81,7 @@ clean:
 
 .PHONY: mrproper
 mrproper: clean
-	@ls -1rt *-pr-* | tail -1 | grep -q mail-pr-.7z
+	@ls -1rt *-pr-* | tail -n 1 | grep -q mail-pr-.7z
 	@$(RM) -v *-pr- *-pr-*.list *-pr-*.supp *-pr-*.txt
 
 include $(PROROOT)/makefiles/tar.mk

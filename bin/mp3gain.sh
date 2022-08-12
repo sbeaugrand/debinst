@@ -22,7 +22,7 @@ fi
 # ---------------------------------------------------------------------------- #
 rdexec()
 {
-    for ((rj = 1; $rj <= $ndir; rj++)); do
+    for ((rj = 1; rj <= ndir; ++rj)); do
         rd=`head -n $rj $mp3d | tail -n 1`
         eval $1 \""$rd"\" \""$2"\"
     done
@@ -43,7 +43,7 @@ gain()
     nmp3=`cat $mp3s | wc -l`
     clip=0
     noclip=0
-    for ((ri = 1; $ri <= $nmp3; ri++)); do
+    for ((ri = 1; ri <= nmp3; ++ri)); do
         rf=`head -n $ri $mp3s | tail -n 1 | sed 's@^./@@'`
         if grep "file $rf" $mp3g >/dev/null; then
             clip=1
@@ -59,7 +59,7 @@ gain()
     done
     if [ $clip = 1 ] && [ $noclip = 1 ]; then
         echo "$1"
-        for ((ri = 1; $ri <= $nmp3; ri++)); do
+        for ((ri = 1; ri <= nmp3; ++ri)); do
             rf=`head -n $ri $mp3s | tail -n 1 | sed 's@^./@@'`
             if grep "file $rf" $mp3g >/dev/null; then
                 echo -n "* "

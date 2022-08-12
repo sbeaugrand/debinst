@@ -28,8 +28,8 @@ n=`cat $list | wc -l`
 sleep=`echo $((3600*$duration/$n))`
 cat /dev/null >$log
 
-for ((i = 1; i <= n; i++)); do
-    a=`cat $list | head -n $i | tail -1`
+for ((i = 1; i <= n; ++i)); do
+    a=`cat $list | head -n $i | tail -n 1`
     echo $a >>$log
     /usr/bin/mutt -s "$subject" $a <"$message"
     ret=$?

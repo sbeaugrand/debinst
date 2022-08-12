@@ -20,8 +20,8 @@ supp="$2"
 
 n=`cat $supp | wc -l`
 
-for ((i = 1; i <= n; i++)); do
-    a=`cat $supp | head -n $i | tail -1`
+for ((i = 1; i <= n; ++i)); do
+    a=`cat $supp | head -n $i | tail -n 1`
     if [ $delete = y ]; then
         sed -i "/^$a$/d" $list
     else

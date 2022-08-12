@@ -14,11 +14,11 @@ for f in $list; do
         if ((n < 2)); then
             continue
         fi
-        for ((i = 1; i < n; i++)); do
-            k=`cat $file | head -n $i | tail -1 | awk '{ print $1 }'`
+        for ((i = 1; i < n; ++i)); do
+            k=`cat $file | head -n $i | tail -n 1 | awk '{ print $1 }'`
             rm $dir/attic/dokuwiki.$k.txt.gz
         done
-        tail -1 $file >$file.tmp
+        tail -n 1 $file >$file.tmp
         mv $file.tmp $file
     fi
 done

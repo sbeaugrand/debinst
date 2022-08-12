@@ -35,7 +35,7 @@ else
     mEnd=12
 fi
 cat /dev/null >$file
-for ((m = $mBegin; m != $mEnd + 1; m++)); do
+for ((m = mBegin; m != mEnd + 1; ++m)); do
     if ((m > 12)); then
         m=1
     fi
@@ -62,7 +62,7 @@ for ((m = $mBegin; m != $mEnd + 1; m++)); do
             12) jMax=31 ;;
         esac
     fi
-    for ((j = $jMin; j <= $jMax; j++)); do
+    for ((j = jMin; j <= jMax; ++j)); do
         build/cadran $y-$m-$j $lat $lon $hour $len $dec $ang >>$file
     done
 done

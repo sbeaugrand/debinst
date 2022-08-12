@@ -10,7 +10,7 @@ if [ -n "$1" ]; then
 else
     cd ~/Mail
 fi
-find . -type f -exec stat -c "%08s %n" {} \; | sort | tail -50 | cut -c12- |\
+find . -type f -exec stat -c "%08s %n" {} \; | sort | tail -n 50 | cut -c12- |\
  sed "s/^\(.*\)$/stat --printf=\"%08s %n \" \1;\
  grep -m 1 --color '^Date: ' \1; grep -e 'filename=\"' -e '\tname=\"' \1/" | \
 awk '{ system($0) }'

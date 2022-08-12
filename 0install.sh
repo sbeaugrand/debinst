@@ -104,7 +104,10 @@ sudoRoot()
             exit 1
         fi
     fi
-    eval sudo "$*"
+    if ! eval sudo "$*" >>$log 2>&1; then
+        echo " error: return 1" | tee -a $log
+        return 1
+    fi
 }
 
 # ---------------------------------------------------------------------------- #

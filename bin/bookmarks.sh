@@ -32,20 +32,20 @@ dossier()
     local i
     id=$1
     ti=`$sqlite "SELECT title FROM moz_bookmarks WHERE id=$id"`
-    for ((j = 0; $j < $lv; j++)); do
+    for ((j = 0; j < lv; ++j)); do
         echo -n " "
     done
     echo "<DT><H3>$ti</H3><DL>"
     lv=$(($lv+2))
     fk=`$sqlite "SELECT fk FROM moz_bookmarks WHERE parent=$1 AND type=1"`
     for i in $fk; do
-        for ((j = 0; $j < $lv; j++)); do
+        for ((j = 0; j < lv; ++j)); do
             echo -n " "
         done
         echo -n "<TD><A HREF=\""
         $sqlite "SELECT url FROM moz_places WHERE id=$i" | tr -d '\n'
         echo "\">"
-        for ((j = 0; $j < $lv; j++)); do
+        for ((j = 0; j < lv; ++j)); do
             echo -n " "
         done
         $sqlite "SELECT title FROM moz_bookmarks WHERE fk=$i" | tr -d '\n'
@@ -56,7 +56,7 @@ dossier()
         dossier $i
     done
     lv=$(($lv-2))
-    for ((j = 0; $j < $lv; j++)); do
+    for ((j = 0; j < lv; ++j)); do
         echo -n " "
     done
     echo "</DL></DT><BR/>"

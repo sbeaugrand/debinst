@@ -51,7 +51,7 @@ trap "rm $dirs; echo; exit 0" SIGINT
 # ---------------------------------------------------------------------------- #
 rdexec()
 {
-    for ((rj = 1; rj <= ndir; rj++)); do
+    for ((rj = 1; rj <= ndir; ++rj)); do
         rd=`head -n $rj $dirs | tail -n 1`
         eval $1 \""$rd"\" \""$2"\"
     done
@@ -65,7 +65,7 @@ rfexec()
     cd "$1"
     find . -maxdepth 1 -name "*.$ext" -print | LC_ALL=C sort >$mp3s
     nmp3=`cat $mp3s | wc -l`
-    for ((ri = 1; ri <= nmp3; ri++)); do
+    for ((ri = 1; ri <= nmp3; ++ri)); do
         rf=`head -n $ri $mp3s | tail -n 1`
         eval $2 \""$rf"\"
     done
@@ -180,7 +180,7 @@ list()
         time=`echo $time | cut -d ']' -f 1 | cut -d '[' -f 2 |\
             awk -F ':' '{ print $1 * 60 + $2 }'`
     else
-        time=`boxdumper "$mp3" | grep duration | head -1`
+        time=`boxdumper "$mp3" | grep -m 1 duration`
         time=`echo $time | cut -d '.' -f 1 | cut -d '(' -f 2 |\
             awk -F ':' '{ print $1 * 3600 + $2 * 60 + $3 }'`
     fi

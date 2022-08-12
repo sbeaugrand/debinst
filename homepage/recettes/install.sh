@@ -36,7 +36,7 @@ prepare ingredients.txt
 # unicité
 cat recettes.txt | cut -c10- >recettes.tmp
 n=`cat recettes.tmp | wc -l`
-for ((i=1; $i<=$n; i++)); do
+for ((i = 1; i <= n; ++i)); do
     f=`head -n $i recettes.tmp | tail -n 1`
     c=`grep -c "^$f\$" ingredients.txt`
     if (($c != 1)); then

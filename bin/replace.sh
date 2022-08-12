@@ -7,7 +7,7 @@
 # ---------------------------------------------------------------------------- #
 if [ "$1" = "-n" ]; then
     shift
-    echo 'find . -type f -exec grep -qI "'$1'" {} \; -exec sed -i "s@'$1'@'$2'@g" {} \; -print'
+    echo 'find . -type d -name build -prune -o -type f -exec grep -qI "'$1'" {} \; -exec sed -i "s@'$1'@'$2'@g" {} \; -print'
     exit 0
 fi
-find . -type f -exec grep -qI "$1" {} \; -exec sed -i "s@$1@$2@g" {} \; -print
+find . -type d -name build -prune -o -type f -exec grep -qI "$1" {} \; -exec sed -i "s@$1@$2@g" {} \; -print
