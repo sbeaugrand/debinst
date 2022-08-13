@@ -6,8 +6,8 @@
 # ---------------------------------------------------------------------------- #
 PROJECT = $(shell basename `readlink -f .`)
 TARGET = ex$(PROJECT)
-TFMDIR = $(wildcard $(HOME)/.texlive*/texmf-var/fonts/tfm/public/$(PROJECT))
-PKDIR  = $(wildcard $(HOME)/.texlive*/texmf-var/fonts/pk/ljfour/public/$(PROJECT))
+TFMDIR = $(wildcard $(HOME)/texmf/fonts/tfm/public/$(PROJECT))
+PKDIR  = $(wildcard $(HOME)/texmf/fonts/pk/ljfour/public/$(PROJECT))
 
 .SUFFIXES:
 

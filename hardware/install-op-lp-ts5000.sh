@@ -4,15 +4,6 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-
-# https://github.com/Ordissimo/scangearmp2/releases
-# https://github.com/Ordissimo/scangearmp2/releases/download/4.12/scangearmp2_4.12-1bullseye+1_amd64.deb
-# sudo dpkg -i
-# sudo apt-get install sane-utils
-# scanimage -L
-# device 'canon_pixma:F4-A9-97-8C-EF-7A' is a CANON TS5000 series flatbed scanner
-# cp scangearmp2.desktop ~/.local/share/applications/
-
 gitClone https://github.com/Ordissimo/scangearmp2.git || return 1
 
 if notWhich scangearmp2; then
@@ -30,6 +21,42 @@ if notFile $file; then
     cp $idir/hardware/scangearmp2.desktop $file
 fi
 
+file=$bdir/papier.pdf
+if notFile $file; then
+    pushd $bdir || return 1
+    cat >papier.tex <<EOF
+\documentclass[a4paper]{article}
+\usepackage{vmargin}
+\setmarginsrb{10mm}{10mm}{10mm}{10mm}{0cm}{0cm}{0cm}{0cm}
+\pagestyle{empty}
+\begin{document}
+\begin{tabular}{rrl}
+EOF
+    echo "
+1074 649 Carte
+1500 1051 L Paysage
+1051 1500 L Portrait
+1800 1200 10x15cm Paysage
+1200 1800 10x15cm Portrait
+1748 1181 Hagaki Paysage
+1181 1748 Hagaki Portrait
+2102 1500 2L Paysage
+1500 2102 2L Portrait
+1748 2480 A5
+2149 3035 B5
+2550 3300 Lettre
+" | awk '{
+    if ($1 > 0)
+        printf "%5.1f mm & %5.1f mm & %s %s\\\\\n",
+            $1 * 254 / 3000, $2 * 254 / 3000, $3, $4
+}' >>papier.tex
+    cat >>papier.tex <<EOF
+\end{tabular}
+\end{document}
+EOF
+    pdflatex --halt-on-error papier.tex >>$log 2>&1
+fi
+
 cat <<EOF
 
 https://www.canon.fr/support/business-product-support/
@@ -38,5 +65,6 @@ cd cnijfilter2-5.40-1-deb
 sudo apt-get install libcupsimage2
 ./install.sh
 lpoptions -d TS5000LAN
+lp.sh $file
 
 EOF

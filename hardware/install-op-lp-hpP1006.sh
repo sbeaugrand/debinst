@@ -29,7 +29,7 @@ sudoRoot lpadmin -p $name -E\
  -o PageSize=A4\
  || return 1
 
-lpoptions -d $name
+lpoptions -d $name >>$log
 return $?
 
 # alternative hplip

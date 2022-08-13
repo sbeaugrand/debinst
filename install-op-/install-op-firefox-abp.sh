@@ -13,6 +13,9 @@ if [ -n "$file" ]; then
     fi
 fi
 
-sudo -u $user firefox &
-sleep 5
+if ! pgrep firefox >/dev/null; then
+    sudo -u $user firefox &
+    sleep 5
+fi
+
 sudo -u $user firefox https://eyeo.to/adblockplus/firefox_install/

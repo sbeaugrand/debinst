@@ -15,7 +15,7 @@ fi
 
 if notFile $dir/gvalidate.exe; then
     pushd $dir || return 1
-    make new
+    make new >>$log 2>&1
     popd
 fi
 

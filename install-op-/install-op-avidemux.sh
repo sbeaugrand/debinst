@@ -10,7 +10,7 @@ repo=$idir/../repo
 if isOnline; then
     url=http://fixounet.free.fr/avidemux/download.html
     version=`curl -s $url |\
-     grep -m 1 sourceforge | sed 's#.*/\([0-9.]\+\)/.*#\1#'`
+     grep sourceforge | head -n 1 | sed 's#.*/\([0-9.]\+\)/.*#\1#'`
 fi
 echo " info: version=$version"
 

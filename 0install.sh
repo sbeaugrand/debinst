@@ -29,7 +29,9 @@ fi
 [ -z "$idir" ] && export idir=$(dirname `readlink -f $0`)
 [ -z "$tmpf" ] && tmpf=$XDG_RUNTIME_DIR/debinst.tmp
 
-PATH=$PATH:.
+if ! echo $PATH | grep -q ':\.'; then
+    PATH=$PATH:.
+fi
 
 # ---------------------------------------------------------------------------- #
 # isDir
@@ -101,7 +103,7 @@ sudoRoot()
         echo -n " sudo: $* (O/n) " | tee -a $log
         read ret
         if [ "$ret" = n ]; then
-            exit 1
+            return 0
         fi
     fi
     if ! eval sudo "$*" >>$log 2>&1; then

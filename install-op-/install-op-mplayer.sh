@@ -6,20 +6,13 @@
 # ---------------------------------------------------------------------------- #
 codecs=essential-20071007
 
-# ---------------------------------------------------------------------------- #
-# sources
-# ---------------------------------------------------------------------------- #
-repoSav=$repo
-source install-op-/install-op-codecs.sh
-source install-op-/install-op-ffmpeg-src.sh
-source install-op-/install-op-mplayer-src.sh
-repo=$repoSav
-
 if [ "$args" = "-r" ]; then
     cat <<EOF
 
-rm -fr ~/data/install-build/$ffmpeg
-rm -fr ~/data/install-build/$mplayer
+rm -fr ~/data/install-build/ffmpeg-\
+`grep -m 1 version install-op-/install-op-ffmpeg-src.sh | cut -d '=' -f 2`
+rm -fr ~/data/install-build/mplayer-\
+`grep -m 1 version install-op-/install-op-mplayer-src.sh | cut -d '=' -f 2`
 rm -f  ~/data/install-build/mplayer
 rm -f ~/.local/bin/ffmpeg
 rm -f ~/.local/bin/mplayer
@@ -29,6 +22,15 @@ EOF
     return 0
 fi
 
+# ---------------------------------------------------------------------------- #
+# sources
+# ---------------------------------------------------------------------------- #
+repoSav=$repo
+source install-op-/install-op-codecs.sh
+source install-op-/install-op-ffmpeg-src.sh
+source install-op-/install-op-mplayer-src.sh
+repo=$repoSav
+
 if notDir $bdir/$mplayer/ffmpeg; then
     cp -a $bdir/$ffmpeg $bdir/$mplayer/ffmpeg
     pushd $bdir || return 1
@@ -37,7 +39,7 @@ if notDir $bdir/$mplayer/ffmpeg; then
     fi
     patch -p0 -i $idir/install-op-/install-op-mplayer/mencoder_vol.patch\
      >>$log 2>&1 || return 1
-    patch -p0 -i $idir/install-op-/install-op-mplayer/mencoder_lp.patch
+    patch -p0 -i $idir/install-op-/install-op-mplayer/mencoder_lp.patch\
      >>$log 2>&1 || return 1
     popd
 fi

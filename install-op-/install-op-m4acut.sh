@@ -21,7 +21,9 @@ fi
 if notWhich m4acut; then
     pushd $bdir/m4acut || return 1
     autoreconf -i >>$log 2>&1
-    CFLAGS=-I$prefix/include LDFLAGS=-L$prefix/lib\
+    CFLAGS=-I$prefix/include\
+  CPPFLAGS=-I$prefix/include\
+   LDFLAGS=-L$prefix/lib\
      ./configure --prefix=$prefix >>$log 2>&1
     make >>$log 2>&1
     make >>$log 2>&1 install

@@ -12,4 +12,10 @@ if [ -n "$file" ]; then
     fi
 fi
 
-sudo -u $user firefox https://addons.mozilla.org/firefox/downloads/latest/auto-mute
+if ! pgrep firefox >/dev/null; then
+    sudo -u $user firefox &
+    sleep 5
+fi
+
+sudo -u $user firefox\
+ https://addons.mozilla.org/firefox/downloads/latest/auto-mute

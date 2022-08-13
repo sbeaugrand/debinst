@@ -42,6 +42,7 @@ tar xzf debinst-dist.tgz
 cd debinst
 ./0install.sh
 ./0install.sh hardware/install-op-pc-...
+systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-op-/install-op-mplayer.sh'
 ```
 
 # Création d'une nouvelle debian sur clé USB

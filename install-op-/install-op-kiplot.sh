@@ -58,7 +58,9 @@ EOF
 fi
 
 file=$dir/kicad_common
-if notGrep "MousewheelPAN=1" $file; then
+if notFile $file; then
+    sudo -u $user touch $file
+    echo "MousewheelPAN=1" >>$file
+elif notGrep "MousewheelPAN=1" $file; then
     sed -i 's/MousewheelPAN=.*/MousewheelPAN=1/' $file
 fi
-return 0
