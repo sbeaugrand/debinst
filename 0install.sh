@@ -38,9 +38,7 @@ fi
 # ---------------------------------------------------------------------------- #
 isDir()
 {
-    if [ -d "$1" ]; then
-        return 0
-    else
+    if [ ! -d "$1" ]; then
         echo " error: $1 not found" | tee -a $log
         return 1
     fi
@@ -149,9 +147,7 @@ notGrep()
 # ---------------------------------------------------------------------------- #
 notFile()
 {
-    if [ ! -f "$1" ]; then
-        return 0
-    else
+    if [ -f "$1" ]; then
         echo " warn: $1 already exists" | tee -a $log
         return 1
     fi
@@ -162,9 +158,7 @@ notFile()
 # ---------------------------------------------------------------------------- #
 notDir()
 {
-    if [ ! -d $1 ]; then
-        return 0
-    else
+    if [ -d $1 ]; then
         echo " warn: $1 already exists" | tee -a $log
         return 1
     fi
@@ -175,9 +169,7 @@ notDir()
 # ---------------------------------------------------------------------------- #
 notLink()
 {
-    if [ ! -L "$1" ]; then
-        return 0
-    else
+    if [ -L "$1" ]; then
         echo " warn: $1 already exists" | tee -a $log
         return 1
     fi
@@ -188,9 +180,7 @@ notLink()
 # ---------------------------------------------------------------------------- #
 notWhich()
 {
-    if ! which $1 >/dev/null 2>&1; then
-        return 0
-    else
+    if which $1 >/dev/null 2>&1; then
         echo " warn: $1 already exists" | tee -a $log
         return 1
     fi
@@ -201,9 +191,7 @@ notWhich()
 # ---------------------------------------------------------------------------- #
 isFile()
 {
-    if [ -f "$1" ]; then
-        return 0
-    else
+    if [ ! -f "$1" ]; then
         echo " error: $1 not found" | tee -a $log
         return 1
     fi
@@ -219,7 +207,6 @@ isOnline()
             return 1
         fi
     fi
-    return 0
 }
 
 # ---------------------------------------------------------------------------- #
@@ -247,7 +234,6 @@ download()
     else
         echo " download: $repo/$file already exists" >>$log
     fi
-    return 0
 }
 
 # ---------------------------------------------------------------------------- #
@@ -303,7 +289,6 @@ untar()
         sudo -u $user git checkout .
         popd
     fi
-    return 0
 }
 
 # ---------------------------------------------------------------------------- #
@@ -346,7 +331,6 @@ gitClone()
         tar cf $file $name/.git
         popd
     fi
-    return 0
 }
 
 # ---------------------------------------------------------------------------- #

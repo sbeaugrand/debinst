@@ -86,7 +86,7 @@ Mettre à jour le mirroir local
 ```
 make iso
 cd 5livebuild
-make mirror
+systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c 'make mirror'
 make http
 ```
 Configurer et créer
