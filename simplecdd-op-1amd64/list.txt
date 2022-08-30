@@ -51,6 +51,7 @@ libnetpbm10-dev
 libpng-dev
 libx264-dev  # ffmpeg
 libvorbis-dev  # ffmpeg
+libsdl2-dev  # ffplay
 libasound2-dev
 vlc
 mftrace

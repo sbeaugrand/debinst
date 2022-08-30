@@ -15,6 +15,8 @@ rm -fr ~/data/install-build/mplayer-\
 `grep -m 1 version install-op-/install-op-mplayer-src.sh | cut -d '=' -f 2`
 rm -f  ~/data/install-build/mplayer
 rm -f ~/.local/bin/ffmpeg
+rm -f ~/.local/bin/ffprobe
+rm -f ~/.local/bin/ffplay
 rm -f ~/.local/bin/mplayer
 rm -f ~/.local/bin/mencoder
 
@@ -41,6 +43,10 @@ if notDir $bdir/$mplayer/ffmpeg; then
      >>$log 2>&1 || return 1
     patch -p0 -i $idir/install-op-/install-op-mplayer/mencoder_lp.patch\
      >>$log 2>&1 || return 1
+    if notGrep "libaom" mplayer/etc/codecs.conf; then
+        patch -p0 -i $idir/install-op-/install-op-mplayer/codecs.patch\
+         >>$log 2>&1 || return 1
+    fi
     popd
 fi
 

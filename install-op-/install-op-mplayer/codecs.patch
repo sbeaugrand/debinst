@@ -1,0 +1,19 @@
+--- mplayer/etc/codecs.conf	2019-01-13 03:11:42.000000000 +0100
++++ mplayer/etc/codecs.conf	2022-08-25 15:35:53.004089989 +0200
+@@ -9,6 +9,16 @@
+ ;                   VIDEO CODECS
+ ;=============================================================================
+ 
++videocodec fflibaomav1
++  info "FFmpeg wrapper for libaom/AV1"
++  status working
++  fourcc AV01,av01
++  driver ffmpeg
++  dll libaom-av1
++  out YV12,420P10,420P12
++  out 422P,422P10,422P12
++  out 444P,444P10,444P12
++
+ videocodec ffiff
+   info "FFmpeg IFF ANIM/ILBM/PBM/RGB8/RGBN"
+   status working
