@@ -63,6 +63,7 @@ dorsync:
 	 -f'-s_livret-*.pdf'\
 	 -f'-s_portrait-*.pdf'\
 	 -f'-s_*.a'\
+	 -f'-s_*.7z'\
 	 -f'-s_debinst/latex/projects'\
 	 -f'-s_debinst/latex/makefiles'\
 	 -f'-s_debinst/latex/kicad'\

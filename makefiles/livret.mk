@@ -14,7 +14,7 @@ build:
 
 .PHONY: clean
 clean:
-	@$(RM) build/*.*
+	@$(RM) build/*.*; true
 
 .PHONY: mrproper
 mrproper: clean
@@ -22,6 +22,7 @@ mrproper: clean
 	@$(RM) $(PROJECT).pdf\
 	 livret-$(PROJECT).pdf\
 	 portrait-$(PROJECT).pdf\
-	 extrait-$(PROJECT).pdf
+	 extrait-$(PROJECT).pdf\
+	 ; true
 
 include $(PROROOT)/makefiles/pdf.mk

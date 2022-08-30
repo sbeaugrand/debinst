@@ -4,8 +4,9 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-PROJECT = mailsender
 PROROOT = ..
+include $(PROROOT)/makefiles/pro.mk
+
 MyName ?= beaugrand
 D ?= 15
 L ?= mail-pr-.list
@@ -49,12 +50,11 @@ all:
 	@echo " grep -c '^To: ' * | grep ':1$$'"
 	@echo
 	@echo "Archive :"
-	@echo " ./archive.sh"
-	@echo " make mrproper"
-	@echo " make tar"
+	@echo " make zip"
+	@echo " make shred"
 	@echo
 	@echo "Extract files :"
-	@echo " ./archive.sh x"
+	@echo " make unzip"
 	@echo
 
 .PHONY: uniq
@@ -77,11 +77,15 @@ purge:
 
 .PHONY: clean
 clean:
-	@$(RM) *.out *~
+	@ls *.out >/dev/null 2>&1 && $(RM) *.out; true
 
 .PHONY: mrproper
 mrproper: clean
-	@ls -1rt *-pr-* | tail -n 1 | grep -q mail-pr-.7z
-	@$(RM) -v *-pr- *-pr-*.list *-pr-*.supp *-pr-*.txt
 
+ZLIST  = mail-pr-.list
+ZLIST += $(wildcard *-pr-)
+ZLIST += $(wildcard *-pr-*.list)
+ZLIST += $(wildcard *-pr-*.txt)
+ZLIST += $(wildcard *-pr-*.supp)
+include $(PROROOT)/makefiles/7z.mk
 include $(PROROOT)/makefiles/tar.mk
