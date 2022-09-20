@@ -4,13 +4,9 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-# Install:
-#
-# apt install python-configparser python-numpy python-cairo gir1.2-gtk-3.0
-# ---------------------------------------------------------------------------- #
 # Debug:
 #
-# sudo pip install -t /usr/local/lib/python3.4/dist-packages hunter
+# pip3 install hunter
 # vi pyBar.py +1 +/--
 #  import hunter
 #  hunter.trace(module='classDrawing', action=hunter.CallPrinter)

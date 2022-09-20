@@ -24,6 +24,7 @@ file=/lib/i386-linux-gnu/libsane.so.1
 lib=/usr/lib/libsane.so.1.0.19
 if notLink $file || [ "`readlink -f $file`" != "$lib" ]; then
     mkdir -p /lib/i386-linux-gnu
+    echo " info: ln -sf $lib $file"
     ln -sf $lib $file
 fi
 

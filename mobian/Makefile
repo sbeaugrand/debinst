@@ -27,7 +27,7 @@ rsync:
 
 .PHONY: install
 install:
-	@../0install.sh
+	@../0install.sh --root
 
 .PHONY: ssh
 ssh:
@@ -46,7 +46,7 @@ contacts:
 
 .PHONY: dns
 dns:
-	@../0install.sh install-*-dns.sh
+	@../0install.sh --root install-*-dns.sh
 
 .PHONY: upgrade
 upgrade:
