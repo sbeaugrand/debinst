@@ -12,7 +12,7 @@ debianIpaddr=$netId.2
 if [ -n "$1" ]; then
     debianIntf=$1
 else
-    debianIntf=`sed '1d' /proc/net/arp | awk '{ print $NF }' | tail -n 1`
+    debianIntf=`cat /proc/net/arp | awk '{ print $NF }' | grep -m 1 '^enp'`
     if [ -z "$debianIntf" ]; then
         echo "debian interface not found"
         exit 1
@@ -22,10 +22,13 @@ fi
 if [ -n "$2" ]; then
     mobianIntf=$2
 else
-    mobianIntf=`sed '1d' /proc/net/dev | grep '^enx' | grep -v "$debianIntf" -m 1 | cut -d ':' -f 1`
+    mobianIntf=`cat /proc/net/dev | grep -m 1 '^enx' | cut -d ':' -f 1`
     if [ -z "$mobianIntf" ]; then
-        echo "mobian interface not found"
-        exit 1
+        mobianIntf=`cat /proc/net/dev | grep -m 1 '^wlp' | cut -d ':' -f 1`
+        if [ -z "$mobianIntf" ]; then
+            echo "mobian interface not found"
+            exit 1
+        fi
     fi
 fi
 

@@ -5,8 +5,8 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 name=hotspot
-netId=10.67.0
-client=$netId.1
+netId=10.66.0
+client=$netId.3
 ip=$netId.2
 gateway=192.168.0.254
 # psk
