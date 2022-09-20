@@ -5,6 +5,6 @@
 ## \copyright CeCILL 2.1 Free Software license
 ## \note test with "fbcli -E alarm-clock-elapsed"
 # ---------------------------------------------------------------------------- #
-if ! pip3 show -qq Kivy; then
+if ! sudo -u $user pip3 show -qq Kivy; then
     sudo -u $user pip3 install kivy
 fi

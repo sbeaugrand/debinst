@@ -5,7 +5,16 @@
 ## \copyright CeCILL 2.1 Free Software license
 ## \note test with "fbcli -E alarm-clock-elapsed"
 # ---------------------------------------------------------------------------- #
-gitClone https://github.com/tito/2048 || return 1
+# For android :
+#   sudo apt install openjdk-11-jdk libltdl-dev zip adb
+#   pip3 install -U buildozer
+#   pip3 install -U cython
+#   buildozer android debug  # 2.1G needed + 3.6G in ~/.buildozer
+#   adb install -r bin/*.apk
+#   Debug :
+#     adb shell logcat | grep python
+# ---------------------------------------------------------------------------- #
+gitClone https://github.com/sbeaugrand/2048 || return 1
 
 file=$home/.local/share/applications/kivy2048.desktop
 if notFile $file; then
@@ -20,22 +29,4 @@ Terminal=false
 Categories=Game;
 Path=$home/data/install-build/2048
 EOF
-fi
-
-file=$bdir/2048/main.py
-if notGrep '^platform = None' $file; then
-    sed -i 's/^platform =.*/platform = None/' $file
-fi
-
-# For android :
-#   sudo apt install openjdk-11-jdk libltdl-dev zip adb
-#   pip3 install buildozer
-#   pip3 install cython
-#   buildozer android debug  # 1,5G needed
-#   adb install bin/*.apk
-file=$bdir/2048/buildozer.spec
-if notGrep 'android.archs' $file; then
-    pushd $bdir/2048 || return 1
-    git apply $idir/mobian/kivy/install-op-2048.patch
-    popd
 fi
