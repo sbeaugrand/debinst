@@ -22,6 +22,7 @@ install-op-/install-op-meteo.sh
 install-op-/install-op-mraa-xc.sh
 install-op-/install-op-uncrustify.sh
 install-op-/install-op-upgrades.sh
+install-op-/install-op-ytdlp.sh
 install-op-/install-op-avidemux.sh
 install-op-/install-op-camotics.sh
 install-pr-/install-pr-alias.sh
