@@ -34,12 +34,52 @@ if ! echo $PATH | grep -q ':\.'; then
 fi
 
 # ---------------------------------------------------------------------------- #
+# logInfo
+# ---------------------------------------------------------------------------- #
+logInfo()
+{
+    echo -ne "\033[32;1m"
+    echo " info: $1" | tee -a $log
+    echo -ne "\033[0m"
+}
+
+# ---------------------------------------------------------------------------- #
+# logWarn
+# ---------------------------------------------------------------------------- #
+logWarn()
+{
+    echo -ne "\033[33;2m"
+    echo " warn: $1" | tee -a $log
+    echo -ne "\033[0m"
+}
+
+# ---------------------------------------------------------------------------- #
+# logError
+# ---------------------------------------------------------------------------- #
+logError()
+{
+    echo -ne "\033[31;1m"
+    echo " error: $1" | tee -a $log
+    echo -ne "\033[0m"
+}
+
+# ---------------------------------------------------------------------------- #
+# logTodo
+# ---------------------------------------------------------------------------- #
+logTodo()
+{
+    echo -ne "\033[33;1m"
+    echo " todo: $1" | tee -a $log
+    echo -ne "\033[0m"
+}
+
+# ---------------------------------------------------------------------------- #
 # isDir
 # ---------------------------------------------------------------------------- #
 isDir()
 {
     if [ ! -d "$1" ]; then
-        echo " error: $1 not found" | tee -a $log
+        logError "$1 not found"
         return 1
     fi
 }
@@ -95,17 +135,18 @@ sudoRoot()
         echo -n " sudo: $*" | tee -a $log
     else
         if echo "$*" | grep -q "$tmpf"; then
-            echo " info: $tmpf:"
+            logInfo "$tmpf:"
             sed 's/^/       /' $tmpf
         fi
         echo -n " sudo: $* (O/n) " | tee -a $log
         read ret
+        echo >>$log
         if [ "$ret" = n ]; then
             return 0
         fi
     fi
     if ! eval sudo "$*" >>$log 2>&1; then
-        echo " error: return 1" | tee -a $log
+        logError "return 1"
         return 1
     fi
 }
@@ -137,7 +178,7 @@ notGrep()
     elif ! grep -q "$1" $2; then
         return 0
     else
-        echo " warn: $1 already in $2" | tee -a $log
+        logWarn "$1 already in $2"
         return 1
     fi
 }
@@ -148,7 +189,7 @@ notGrep()
 notFile()
 {
     if [ -f "$1" ]; then
-        echo " warn: $1 already exists" | tee -a $log
+        logWarn "$1 already exists"
         return 1
     fi
 }
@@ -159,7 +200,7 @@ notFile()
 notDir()
 {
     if [ -d $1 ]; then
-        echo " warn: $1 already exists" | tee -a $log
+        logWarn "$1 already exists"
         return 1
     fi
 }
@@ -170,7 +211,7 @@ notDir()
 notLink()
 {
     if [ -L "$1" ]; then
-        echo " warn: $1 already exists" | tee -a $log
+        logWarn "$1 already exists"
         return 1
     fi
 }
@@ -181,7 +222,7 @@ notLink()
 notWhich()
 {
     if which $1 >/dev/null 2>&1; then
-        echo " warn: $1 already exists" | tee -a $log
+        logWarn "$1 already exists"
         return 1
     fi
 }
@@ -192,7 +233,7 @@ notWhich()
 isFile()
 {
     if [ ! -f "$1" ]; then
-        echo " error: $1 not found" | tee -a $log
+        logError "$1 not found"
         return 1
     fi
 }
@@ -345,7 +386,7 @@ sourceList()
         elif [ "${iter:0:1}" = "-" ]; then
             if [ "$iter" = "-su" ]; then
                 if [ `whoami` != "root" ]; then
-                    echo " warn: su -c $0 `echo $* | sed 's/.*-su //'`"
+                    logWarn "su -c $0 `echo $* | sed 's/.*-su //'`"
                     su -c "$0 `echo $* | sed 's/.*-su //'`"
                     return
                 else
@@ -362,7 +403,7 @@ sourceList()
         echo $iter | tee -a $log
         repoSav=$repo
         if [ ! -f $iter ]; then
-            echo "error: $iter not found"
+            logError "$iter not found"
             if echo $iter | grep -q '\-pr\-'; then
                 continue
             else
@@ -373,7 +414,7 @@ sourceList()
         ret=$?
         repo=$repoSav
         if ((ret != 0)); then
-            echo "exit $ret"
+            logError "exit $ret"
             exit $ret
         fi
     done

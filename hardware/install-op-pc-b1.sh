@@ -30,7 +30,7 @@ fi
 file=$home/.config/lxsession/LXDE/autostart
 if notGrep brightness $file; then
     if [ -z "$DISPLAY" ]; then
-        echo " warn: DISPLAY is not set" | tee -a $log
+        logError "DISPLAY is not set"
         return 0
     fi
     output=`xrandr | grep -m 1 connected | cut -d ' ' -f 1`

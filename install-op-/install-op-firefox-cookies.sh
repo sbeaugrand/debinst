@@ -8,7 +8,7 @@
 file=`ls -d $home/.mozilla/firefox/*.default*/extensions.json`
 if [ -n "$file" ]; then
     if grep -q 't care about cookies' $file; then
-        echo " warn: i-dont-care-about-cookies already exists" | tee -a $log
+        logWarn "i-dont-care-about-cookies already exists"
         return 0
     fi
 fi

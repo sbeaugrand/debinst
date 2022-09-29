@@ -7,7 +7,7 @@
 file=/etc/sudoers.d/$user
 
 if notFile $file; then
-    echo " info: add $file"
+    logInfo "add $file"
     su -c "echo '
 Defaults rootpw
 $user ALL=(root) ALL

@@ -36,7 +36,7 @@ if notFile $file; then
 </VirtualHost>
 EOF
     if ! /sbin/a2query -q -m php7.3; then
-        echo " warn: apache2 php mod is not enabled" | tee -a $log
+        logError "apache2 php mod is not enabled"
         if /sbin/a2query -q -m mpm_event; then
             /sbin/a2dismod mpm_event
         fi

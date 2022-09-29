@@ -7,7 +7,7 @@
 file=`ls -d $home/.mozilla/firefox/*.default*/extensions.json`
 if [ -n "$file" ]; then
     if grep -q 'Enforce Safe Search' $file; then
-        echo " warn: safesearch already exists" | tee -a $log
+        logWarn "safesearch already exists"
         return 0
     fi
 fi

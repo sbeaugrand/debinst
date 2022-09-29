@@ -20,7 +20,7 @@ if notDir $dwdir; then
     if [ -d pages-pr- ]; then
         cp -a pages-pr-/* $dwdir/data/pages/
     else
-        echo " warn: pages-pr- not found"
+        logError "pages-pr- not found"
     fi
     chown -R www-data.www-data $dwdir
 fi

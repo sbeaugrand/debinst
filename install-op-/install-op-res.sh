@@ -9,13 +9,13 @@
 output=${OUTPUT:-VGA-1}
 
 if [ -z "$DISPLAY" ]; then
-    echo " warn: DISPLAY is not set" | tee -a $log
+    logError "DISPLAY is not set"
     return 0
 fi
 
 dxres=`xrdb -symbols | grep DX_RES | cut -d '=' -f 2`
 if ((dxres < 1920)); then
-    echo " warn: DX_RESOLUTION=$dxres" | tee -a $log
+    logWarn "DX_RESOLUTION=$dxres"
     return 0
 fi
 
@@ -25,7 +25,7 @@ xrandr --newmode "1600x900_60.00"\
 xrandr --addmode $output 1600x900_60.00
 xrandr --output $output --mode 1600x900_60.00
 else
-    echo " warn: mode 1600x900 already set" | tee -a $log
+    logWarn "mode 1600x900 already set"
 fi
 
 file=/etc/X11/Xsession.d/45x11-xrandr

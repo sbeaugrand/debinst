@@ -18,7 +18,7 @@ addButton()
 {
     app=$1
     if grep -q "$app" $file; then
-        echo " warn: $app already in $file" | tee -a $log
+        logWarn "$app already in $file"
         return 0
     fi
     cp $file $bdir/panel.bak
@@ -39,7 +39,7 @@ delPattern()
 {
     pattern=$1
     if ! grep -q "$pattern" $file; then
-        echo " warn: $pattern not in $file" | tee -a $log
+        logWarn "$pattern not in $file"
         return 0
     fi
     cp $file $bdir/panel.bak
@@ -76,15 +76,13 @@ EOF
     fi
 fi
 
-if ! grep -q "autohide" $file; then
+if ! grep -q "autohide=" $file; then
     sed -i 's/height=\(.*\)/height=\1\n    autohide=1/' $file
-elif grep -q "autohide=0" $file; then
-    sed -i 's/autohide=0/autohide=1/' $file
-else
-    echo " warn: autohide=1 already in $file" | tee -a $log
+elif notGrep "autohide=1" $file; then
+    sed -i 's/autohide=.*/autohide=1/' $file
 fi
 
-if ! grep -q "ShowAllDesks" $file; then
+if ! grep -q "ShowAllDesks=" $file; then
     cp $file $bdir/panel.bak
     cat $bdir/panel.bak |\
         tr '\n' '@' |\
@@ -92,8 +90,8 @@ if ! grep -q "ShowAllDesks" $file; then
         tr '@' '\n' >$file
     chown $user.$user $file
     rm $bdir/panel.bak
-elif grep -q "ShowAllDesks=1" $file; then
-    sed -i 's/ShowAllDesks=1/ShowAllDesks=0/' $file
+elif notGrep "ShowAllDesks=0" $file; then
+    sed -i 's/ShowAllDesks=.*/ShowAllDesks=0/' $file
 fi
 
 lxpanelctl restart

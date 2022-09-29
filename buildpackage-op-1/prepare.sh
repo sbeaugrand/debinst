@@ -38,7 +38,7 @@ source install-op-/install-op-mraa-xc.sh || return 1
 /usr/lib/libdvd-pkg/b-i_libdvdcss.sh
 file=`ls -1 -rt /usr/src/libdvd-pkg/*.bz2 | tail -n 1`
 if [ -z "$file" ]; then
-    echo " error: /usr/src/libdvd-pkg/*.bz2 not found" | tee -a $log
+    logError "/usr/src/libdvd-pkg/*.bz2 not found"
     return 1
 fi
 repo=$idir/../repo

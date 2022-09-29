@@ -8,7 +8,7 @@ file=$home/.config/lxsession/LXDE/autostart
 
 if notGrep numlockx $file; then
     if [ -z "$DISPLAY" ]; then
-        echo " warn: DISPLAY is not set" | tee -a $log
+        logError "DISPLAY is not set"
         return 0
     fi
     echo "@/usr/bin/numlockx on" >>$file

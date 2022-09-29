@@ -7,19 +7,15 @@
 gitconfig="sudo -u $user git config --global"
 
 if ! $gitconfig --get user.name >/dev/null 2>&1; then
-    echo Todo :
-    echo git config --global user.name $user
-    echo
+    logTodo "git config --global user.name $user"
 fi
 
 if ! $gitconfig --get user.email >/dev/null 2>&1; then
-    echo Todo :
-    echo git config --global user.email $user@`hostname`
-    echo
+    logTodo "git config --global user.email $user@`hostname`"
 fi
 
 if $gitconfig --get alias.alias >/dev/null 2>&1; then
-    echo " warn: alias already set" | tee -a $log
+    logWarn "alias already set"
     return 0
 fi
 

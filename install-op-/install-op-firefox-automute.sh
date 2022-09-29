@@ -7,7 +7,7 @@
 file=`ls -d $home/.mozilla/firefox/*.default*/extensions.json`
 if [ -n "$file" ]; then
     if grep -q 'Auto mute' $file; then
-        echo " warn: auto-mute already exists" | tee -a $log
+        logWarn "auto-mute already exists"
         return 0
     fi
 fi

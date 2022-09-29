@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ `whoami` != "root" ]; then
-    echo " error: try ./0install.sh --root hardware/install-op-scan-mustekA3.sh"
+    logError "try ./0install.sh --root hardware/install-op-scan-mustekA3.sh"
     return 1
 fi
 
@@ -24,7 +24,7 @@ file=/lib/i386-linux-gnu/libsane.so.1
 lib=/usr/lib/libsane.so.1.0.19
 if notLink $file || [ "`readlink -f $file`" != "$lib" ]; then
     mkdir -p /lib/i386-linux-gnu
-    echo " info: ln -sf $lib $file"
+    logInfo "ln -sf $lib $file"
     ln -sf $lib $file
 fi
 

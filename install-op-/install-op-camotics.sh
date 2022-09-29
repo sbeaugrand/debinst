@@ -11,7 +11,7 @@ if isOnline; then
     url=https://camotics.org/download.html
     version=`curl -s $url | grep Version | sed 's#.* \([0-9.]\+\).*#\1#'`
 fi
-echo " info: version=$version"
+logInfo "camotics version=$version"
 
 url=https://camotics.org/builds/release/debian-stable-64bit
 app=camotics_${version}_amd64.deb

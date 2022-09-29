@@ -35,9 +35,4 @@ if notFile $dir/Marlin.ino.hex; then
     popd
 fi
 
-cat <<EOF
-
-Todo :
-avrdude -c wiring -p ATmega2560 -D -P /dev/ttyACM0 -U flash:w:Marlin.ino.hex
-
-EOF
+logTodo "avrdude -c wiring -p ATmega2560 -D -P /dev/ttyACM0 -U flash:w:Marlin.ino.hex"

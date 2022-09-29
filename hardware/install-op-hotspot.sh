@@ -35,4 +35,4 @@ if notFile $file; then
  wifi-sec.psk "$psk"
 fi
 
-echo " info: client ip example $client gateway $ip"
+logTodo "client ip example $client gateway $ip"

@@ -13,7 +13,7 @@ download $url/$file || return 1
 json=`ls -d $home/.mozilla/firefox/*.default*/extensions.json`
 if [ -n "$json" ]; then
     if grep -q 'Video DownloadHelper' $json; then
-        echo " warn: video-downloadhelper already exists" | tee -a $log
+        logWarn "video-downloadhelper already exists"
         return 0
     fi
 fi

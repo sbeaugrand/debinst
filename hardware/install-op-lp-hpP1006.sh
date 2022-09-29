@@ -34,7 +34,7 @@ return $?
 
 # alternative hplip
 if lpoptions | grep -q HP_LaserJet_P1006; then
-    echo " warn: HP_LaserJet_P1006 already exists" | tee -a $log
+    logWarn "HP_LaserJet_P1006 already exists"
     return 0
 fi
 cat <<EOF

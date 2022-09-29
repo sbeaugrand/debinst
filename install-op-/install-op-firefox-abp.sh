@@ -8,7 +8,7 @@
 file=`ls -d $home/.mozilla/firefox/*.default*/extensions.json`
 if [ -n "$file" ]; then
     if grep -q 'Adblock Plus' $file; then
-        echo " warn: adblockplus already exists" | tee -a $log
+        logWarn "adblockplus already exists"
         return 0
     fi
 fi
