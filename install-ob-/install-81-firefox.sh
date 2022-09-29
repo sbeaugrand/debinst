@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 if [ ! -d $home/.mozilla/firefox ]; then
     if [ -z "$DISPLAY" ]; then
-        echo " warn: DISPLAY is not set" | tee -a $log
+        logError "DISPLAY is not set"
         return 0
     fi
     sudo -u $user firefox --headless >>$log 2>&1 &
@@ -37,6 +37,9 @@ fi
 
 cat >>user.js <<EOF
 
+user_pref("browser.compactmode.show", true);
+user_pref("browser.uidensity", 1);
+user_pref("browser.search.widget.inNavBar", true);
 user_pref("browser.urlbar.placeholderName", "Google");
 user_pref("browser.download.dir", "$home");
 user_pref("browser.download.useDownloadDir", false);
@@ -56,8 +59,6 @@ user_pref("accessibility.force_disabled", 1);
 
 user_pref("privacy.sanitize.pending", "[{\"id\":\"shutdown\",\"itemsToClear\":[\"cache\",\"cookies\",\"history\",\"formdata\",\"downloads\",\"sessions\"],\"options\":{}},{\"id\":\"newtab-container\",\"itemsToClear\":[],\"options\":{}}]");
 user_pref("privacy.sanitize.sanitizeOnShutdown", true);
-
-// lockPref
 
 EOF
 chown $user.$user user.js
