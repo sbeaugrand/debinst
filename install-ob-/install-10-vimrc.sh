@@ -27,7 +27,7 @@ endif
 EOF
     notGrep xsel $1 && cat >>$1 <<EOF
 if \$DISPLAY != '' && executable('xsel')
-    xnoremap y :w !xsel -i -b<CR>
+    xnoremap <C-C> :w !xsel -i -b<CR>
 endif
 EOF
 }
