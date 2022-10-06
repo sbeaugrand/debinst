@@ -10,8 +10,8 @@ ipr=127.0.2.2
 # ---------------------------------------------------------------------------- #
 # dnscrypt-proxy
 # ---------------------------------------------------------------------------- #
-if notFile /usr/sbin/dnscrypt-proxy; then
-    sudoRoot apt-get -y install dnscrypt-proxy
+if notFile /usr/sbin/dnscrypt-proxy || notWhich lxpolkit; then
+    sudoRoot apt-get -y install dnscrypt-proxy lxpolkit
 fi
 
 file=/etc/dnscrypt-proxy/dnscrypt-proxy.toml
