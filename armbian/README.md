@@ -43,8 +43,8 @@ xz -k -d Armbian_22.05.1_Orangepizero_bullseye_current_5.15.43.img.xz
 ## [Nanopi Neo](https://www.armbian.com/nanopi-neo/)
 ![Nanopi Neo](https://www.armbian.com/wp-content/uploads/2018/02/nanopineo-300x169.png)
 ```
-sha256sum -c Armbian_22.05.1_Nanopineo_bullseye_current_5.15.43.img.xz.sha
-xz -k -d Armbian_22.05.1_Nanopineo_bullseye_current_5.15.43.img.xz
+sha256sum -c Armbian_22.08.1_Nanopineo_bullseye_current_5.15.63.img.xz.sha
+xz -k -d Armbian_22.08.1_Nanopineo_bullseye_current_5.15.63.img.xz
 ```
 
 ## [Rockpi S](https://www.armbian.com/rockpi-s/)
@@ -77,7 +77,7 @@ ssh-keygen -f ~/.ssh/known_hosts -R pi
 keychain ~/.ssh/id_rsa
 make ssh user=root [host=pi]  # password: 1234
 exit
-make rsync [user=$USER] [host=pi]
+make rsync [user=$USER] [host=pi] [shutter=y]
 make ssh
 cd install/debinst/armbian
 which make >/dev/null || sudo apt install make
@@ -86,7 +86,7 @@ sudo reboot
 make ssh
 cd install/debinst/armbian
 rw
-../0install.sh --root install-op-volume.sh
+make volume
 ```
 Optionnel:
 
@@ -121,10 +121,15 @@ make rtc
 # Oled i2c display - SH1106
 ```
 make oled
+make oscreensaver
 ```
 # MP3 server
 ```
 make mp3server
+```
+# Shutter
+```
+make shutter
 ```
 # USB to TTL - CH340G
 ```

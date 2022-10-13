@@ -192,4 +192,5 @@ else
 fi
 echo $hhmm >/run/shutter.at
 cd $vpath
-systemd-run -u shutter-$pos -d --on-calendar "$date $hh:$mm" ./shutter-and-at.sh
+systemd-run\
+ -u shutter-$pos -d -G --on-calendar "$date $hh:$mm" ./shutter-and-at.sh

@@ -34,11 +34,16 @@ int digitalInit(uint8_t pin, uint8_t mode)
         return 2;
     }
     if (mode == INPUT) {
-        //FIXME: workaround
-        if (mraa_gpio_edge_mode(gpio, MRAA_GPIO_EDGE_BOTH) != MRAA_SUCCESS) {
-            digitalQuit(pin);
-            return 3;
-        }
+        //FIXME: workaround for NanoPi Neo
+        /* To reproduce :
+         * sudo mraa-gpio monitor 11
+         * Monitoring level changes to pin 11. Press RETURN to exit.
+         * Pin 11 = 1
+         *
+         * sudo mraa-gpio get 11
+         * Pin 11 = 0
+         */
+        mraa_gpio_edge_mode(gpio, MRAA_GPIO_EDGE_BOTH);
     }
 
     return 0;
@@ -82,7 +87,6 @@ int digitalQuit(uint8_t pin)
         return -1;
     }
 
-    mraa_gpio_edge_mode(gpio, MRAA_GPIO_EDGE_NONE);
     if (mraa_gpio_close(gpio) != MRAA_SUCCESS) {
         return 1;
     }
