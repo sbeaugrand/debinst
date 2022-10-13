@@ -27,7 +27,7 @@ rsync:
 
 .PHONY: install
 install:
-	@../0install.sh --root
+	@../0install.sh --root install-[0-9]*.sh
 
 .PHONY: ssh
 ssh:

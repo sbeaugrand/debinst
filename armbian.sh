@@ -7,24 +7,51 @@
 # ---------------------------------------------------------------------------- #
 project=`basename $0 .sh`
 if [ `whoami` = "root" ]; then
-    echo "Usage: [user=rock] [host=rps] ./$project.sh"
+    echo "Usage: [user=rock] [host=rps] [shutter=y] ./$project.sh"
     exit 1
 fi
 user=${user:-rock}
 host=${host:-rps}
 uri=$user@$host
-echo "user = $user"
-echo "host = $host"
+shutter=${shutter:-y}
+
+# ---------------------------------------------------------------------------- #
+# logInfo
+# ---------------------------------------------------------------------------- #
+logInfo()
+{
+    echo -ne "\033[32;2m"
+    echo " info: $1" | tee -a $log
+    echo -ne "\033[0m"
+}
+
+# ---------------------------------------------------------------------------- #
+# logWarn
+# ---------------------------------------------------------------------------- #
+logWarn()
+{
+    echo -ne "\033[33;2m"
+    echo " warn: $1"
+    echo -ne "\033[0m"
+}
+
+# ---------------------------------------------------------------------------- #
+# logError
+# ---------------------------------------------------------------------------- #
+logError()
+{
+    echo -ne "\033[31;1m"
+    echo " error: $1"
+    echo -ne "\033[0m"
+}
 
 # ---------------------------------------------------------------------------- #
 # isFile
 # ---------------------------------------------------------------------------- #
 isFile()
 {
-    if [ -f "$1" ]; then
-        return 0
-    else
-        echo " error: $1 not found" | tee -a $log
+    if [ ! -f "$1" ]; then
+        logError "$1 not found"
         return 1
     fi
 }
@@ -34,10 +61,12 @@ isFile()
 # ---------------------------------------------------------------------------- #
 notGrep()
 {
-    if ! grep -q "$1" $2; then
+    if [ ! -f $2 ]; then
+        return 0
+    elif ! grep -q "$1" $2; then
         return 0
     else
-        echo " warn: $1 already in $2" | tee -a $log
+        logWarn "$1 already in $2"
         return 1
     fi
 }
@@ -45,6 +74,8 @@ notGrep()
 # ---------------------------------------------------------------------------- #
 # ssh
 # ---------------------------------------------------------------------------- #
+logInfo "user = $user"
+logInfo "host = $host"
 file=~/.profile
 if isFile ~/.ssh/id_rsa.pub && notGrep "keychain" $file; then
     echo 'source ~/.keychain/*-sh' >>$file
@@ -86,7 +117,7 @@ rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
  ~/install/debinst/latex/makefiles\
  $uri:/home/$user/install/debinst/latex/
 rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
- --exclude=__pycache__ --exclude=*.a\
+ --exclude=__pycache__ --exclude=*.a --exclude=sompi\
  ~/install/debinst/projects/mp3server\
  ~/install/debinst/projects/debug\
  ~/install/debinst/projects/makefiles\
@@ -98,11 +129,13 @@ rsync -rli --delete --no-times --checksum --exclude=build --exclude=*.pdf\
  $uri:/home/$user/install/debinst/projects/
 
 # sompi remotes
-rsync -rli --delete --times --checksum\
- ~/install/debinst/projects/arm/sompi/remotes\
- $uri:/home/$user/install/debinst/projects/arm/sompi/
-ssh -t $uri "sudo test -w /run/shutter.at &&\
- sudo sed -i 's/.*/err l/' /run/shutter.at"
+if [ $shutter = y ]; then
+    rsync -rli --delete --times --checksum\
+     ~/install/debinst/projects/arm/sompi/remotes\
+     $uri:/home/$user/install/debinst/projects/arm/sompi/
+    ssh -t $uri "sudo test -w /run/shutter.at &&\
+     sudo sed -i 's/.*/err l/' /run/shutter.at"
+fi
 
 # ---------------------------------------------------------------------------- #
 # data

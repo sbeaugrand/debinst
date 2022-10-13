@@ -18,7 +18,7 @@ installScript()
     script=$1
     file=/usr/sbin/$script
     if notFile $file; then
-        sudoRoot cp $idir/armbian/shutter/$script $file
+        cp $idir/armbian/shutter/$script $file
     fi
 }
 installScript shutter-restart.sh
@@ -27,14 +27,14 @@ if [ ! -d /boot/grub ]; then
     file=$idir/projects/arm/sompi/remotes/shutter-pr-.txt
     if notLink $file; then
         ls -l $file
-        sudoRoot cp -a $file $bdir/shutter.txt
-        sudoRoot mv $file /run/shutter.txt
-        sudoRoot chown root.root /run/shutter.txt
-        sudoRoot ln -s /run/shutter.txt $file
+        cp -a $file $bdir/shutter.txt
+        mv $file /run/shutter.txt
+        chown root.root /run/shutter.txt
+        ln -s /run/shutter.txt $file
     fi
 fi
 
 pushd shutter || return 1
 make --no-print-directory install
-sudo /usr/sbin/shutter-restart.sh
+/usr/sbin/shutter-restart.sh
 popd

@@ -6,14 +6,14 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 mplayer="mplayer -geometry +1280+0 -fs"
-for o in $*; do
-    if echo $o | grep '\.' >/dev/null; then
+while [ -n "$1" ]; do
+    if echo "$1" | grep '\.' >/dev/null; then
         break
     fi
     if [ -n "$opts" ]; then
-        opts="$opts $o"
+        opts="$opts $1"
     else
-        opts="$o"
+        opts="$1"
     fi
     shift
 done
