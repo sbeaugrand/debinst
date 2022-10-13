@@ -13,14 +13,19 @@ all: $(SERVICE)
 
 GPIO = mraa
 CXXFLAGS += -I/usr/local/include/upm -I/usr/local/include
-DEVFLAGS = -lupm-lcd -lstdc++
 include $(PROROOT)/makefiles/arm64.mk
 include $(PROROOT)/debug/debug.mk
 
 .PHONY: $(SERVICE)
 $(SERVICE): build build/$(SERVICE)
-build/$(SERVICE): build/$(SERVICE).o build/mp3client-oled.o build/common.o
-	$(CXX) $^ $(LDFLAGS) -lupm-lcd -o $@
+build/$(SERVICE): build/$(SERVICE).o\
+ build/mp3client-oled.o\
+ build/mp3client-lirc.o\
+ build/common.o\
+ build/setup.o\
+
+	$(CXX) $^ $(LDFLAGS) -lupm-lcd -llirc_client -o $@
+
 build/$(SERVICE).o: $(SERVICE).c
 
 .PHONY: reinstall

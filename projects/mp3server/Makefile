@@ -80,7 +80,7 @@ build/player.o: player.c
 
 .PHONY: client
 client: build build/$(CLIENT)
-build/$(CLIENT): build/$(CLIENT).o build/common.o $(DEVOBJ)
+build/$(CLIENT): build/$(CLIENT).o build/common.o build/setup.o $(DEVOBJ)
 	$(CC) $^ $(LDFLAGS) $(DEVFLAGS) -o $@
 
 .PHONY: oled-message

@@ -18,6 +18,8 @@ int upButton();
 int okButton();
 int randButton();
 int haltButton();
+int setupTime();
+int setupDate();
 
 #if defined(__arm__) || defined(__aarch64__)
 void displayInit();

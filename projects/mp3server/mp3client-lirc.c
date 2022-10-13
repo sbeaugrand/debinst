@@ -5,7 +5,7 @@
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
 #include <fcntl.h>
-#include "lirc_client.h"
+#include <lirc/lirc_client.h>
 #include "mp3client.h"
 #include "debug.h"
 
