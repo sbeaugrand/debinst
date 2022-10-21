@@ -53,15 +53,17 @@ xz -k -d Armbian_22.08.1_Nanopineo_bullseye_current_5.15.63.img.xz
 sha256sum -c Armbian_21.05.4_Rockpi-s_buster_edge_5.12.10_minimal.img.xz.sha
 xz -k -d Armbian_21.05.4_Rockpi-s_buster_edge_5.12.10_minimal.img.xz
 
-# For bullseye :
-df .  # 6,5G needed
-git clone https://github.com/armbian/build.git armbian-build
+# For bullseye, rtc is broken :
+df .  # 6,7G needed
+git clone -b v22.08 https://github.com/armbian/build.git armbian-build
 cd armbian-build
+sed -i 's/^IDBLOADER_BLOB/#IDBLOADER_BLOB/' config/sources/families/rockpis.conf
+touch .ignore_changes
 sudo apt install debootstrap
 sudo modprobe loop
 systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './compile.sh BOARD=rockpi-s BRANCH=edge BUILD_MINIMAL=yes BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no CLEAN_LEVEL=, RELEASE=bullseye SKIP_EXTERNAL_TOOLCHAINS=yes'
 cd output/images
-ls -l Armbian_22.08.0-trunk_Rockpi-s_bullseye_edge_5.18.5_minimal.img
+ls -l Armbian_22.08.2_Rockpi-s_bullseye_edge_5.19.16_minimal.img
 ```
 
 ## Installation
