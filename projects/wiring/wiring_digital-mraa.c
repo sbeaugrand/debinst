@@ -7,12 +7,12 @@
 #include "wiring.h"
 #include "mraa/gpio.h"
 
-#ifdef ROCKPIS
-# define MRAA_ROCKPIS_PIN_COUNT 52
-#else
-# error "wiring_digital-mraa not implemented for this board"
-#endif
-mraa_gpio_context mraa_gpios[MRAA_ROCKPIS_PIN_COUNT] = { NULL };
+// PIN_COUNT
+// Rockpi S : 52
+// NanoPi Neo : 24
+// Orange Pi Zero : 26
+#define MRAA_MAX_PIN_COUNT 52
+mraa_gpio_context mraa_gpios[MRAA_MAX_PIN_COUNT] = { NULL };
 
 /******************************************************************************!
  * \fn digitalInit
@@ -34,7 +34,7 @@ int digitalInit(uint8_t pin, uint8_t mode)
         return 2;
     }
     if (mode == INPUT) {
-        //FIXME: workaround for NanoPi Neo
+        //FIXME: workaround for NanoPi Neo and Orange Pi Zero
         /* To reproduce :
          * sudo mraa-gpio monitor 11
          * Monitoring level changes to pin 11. Press RETURN to exit.

@@ -24,18 +24,18 @@ ifeq ($(GPIO),avr)
 endif
 ifeq ($(GPIO),mraa)
  OBJECTS += wiring_digital-mraa.o
- CFLAGS += -DROCKPIS -I/usr/local/include
+ CFLAGS += -I/usr/local/include
  LDFLAGS += -lmraa
 endif
 ifeq ($(ADC),bcm)
  OBJECTS += wiring_analog-bcm.o
- CFLAGS += -DRPI -I/usr/local/include
+ CFLAGS += -I/usr/local/include
  LDFLAGS += -lbcm2835 -L/usr/local/lib
  SUDO = sudo
 endif
 ifeq ($(ADC),wpi)
  OBJECTS += wiring_analog-wpi.o
- CFLAGS += -DRPI -DWIRING_PI -I/usr/local/include
+ CFLAGS += -DWIRING_PI -I/usr/local/include
  LDFLAGS += -lpthread -lwiringPi
  SUDO = sudo
 endif
@@ -48,7 +48,7 @@ ifeq ($(ADC),avr)
 endif
 ifeq ($(ADC),mraa)
  OBJECTS += wiring_analog-mraa.o
- CFLAGS += -DROCKPIS -I/usr/local/include
+ CFLAGS += -I/usr/local/include
  LDFLAGS += -lmraa
 endif
 ifeq ($(ADC),sinus)

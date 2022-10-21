@@ -19,8 +19,8 @@ include $(PROROOT)/debug/debug.mk
 .PHONY: $(SERVICE)
 $(SERVICE): build build/$(SERVICE)
 build/$(SERVICE): build/$(SERVICE).o\
- build/mp3client-oled.o\
- build/mp3client-lirc.o\
+ build/oled.o\
+ build/lirc.o\
  build/common.o\
  build/setup.o\
 

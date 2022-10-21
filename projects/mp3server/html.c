@@ -12,7 +12,7 @@ const int DIR_PAGE_NB = 3;
 const char* htmlGetBegin()
 {
     static const char* r =
-        "<html><head><title>RPI</title>"
+        "<html><head><title>PI</title>"
         "<link rel=\"icon\" href=\"data:;base64,=\"></head>"
         "<body text=#ffffff bgcolor=#000000"
         " link=#00ffff vlink=#00ffff alink=#ff0000>"
@@ -64,7 +64,7 @@ const char* htmlGetEnd()
 const char* htmlGetEmpty()
 {
     static const char* r =
-        "<html><head><title>RPI</title></head>"
+        "<html><head><title>PI</title></head>"
         "<body bgcolor=\"#000000\"><pre>";
     return r;
 }

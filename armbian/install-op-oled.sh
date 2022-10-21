@@ -34,7 +34,7 @@ fi
 if notWhich oled-message; then
     pushd $idir/projects/mp3server || return 1
     sudo -u $user\
-    make C=rps oled-message
-    make C=rps install-oled-message
+    make C=pi oled-message
+    make C=pi install-oled-message
     popd
 fi

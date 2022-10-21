@@ -7,8 +7,8 @@
 if notWhich mp3server; then
     pushd $idir/projects/mp3server || return 1
     sudo -u $user\
-    make C=rps
-    make C=rps user=$user install
+    make C=pi
+    make C=pi user=$user install
     popd
 fi
 

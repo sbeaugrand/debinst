@@ -25,7 +25,7 @@ int digitalInit(uint8_t pin, uint8_t mode)
     }
     sprintf(buf, "%u", pin);
     if (write(fd, buf, strlen(buf)) == -1) {
-        return GPIO_ERROR_WRITE;
+        //return GPIO_ERROR_WRITE;
     }
     if (close(fd) == -1) {
         return GPIO_ERROR_CLOSE;
@@ -62,7 +62,7 @@ int digitalRead(uint8_t pin)
     if (snprintf(buf, 29, "/sys/class/gpio/gpio%u/value", pin) >= 29) {
         return GPIO_ERROR_OPEN;
     }
-    if ((fd = open(buf, O_WRONLY)) == -1) {
+    if ((fd = open(buf, O_RDONLY)) == -1) {
         return GPIO_ERROR_OPEN;
     }
     buf[0] = '\0';

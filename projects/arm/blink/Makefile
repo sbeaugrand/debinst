@@ -8,7 +8,6 @@ PROROOT = ../..
 PROPATH = arm
 include ${PROROOT}/makefiles/pro.mk
 
-CFLAGS = -DROCKPIS
 OBJECTS = blink.o
 
 .PHONY: all

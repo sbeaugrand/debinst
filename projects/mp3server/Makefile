@@ -9,10 +9,10 @@
 ##   make C=term vserver
 ##   make C=term vclient
 ##
-##  RockpiS example
-##   make C=rps
-##   make C=rps install
-##   make C=rps start
+##  Pi example
+##   make C=pi
+##   make C=pi install
+##   make C=pi start
 ##
 ##  Raspberry Pi example
 ##   make C=rpi
@@ -22,7 +22,7 @@
 PROROOT = ..
 include ${PROROOT}/makefiles/pro.mk
 ifeq ($(C),)
- $(error "Usage: make C=<term|rps|rpi>")
+ $(error "Usage: make C=<term|pi|rpi>")
 endif
 user ?= $(USER)
 
@@ -38,9 +38,9 @@ ifeq ($(C),term)
  DEVOBJ = build/$(CLIENT)-term.o
  include $(PROROOT)/makefiles/ccpp.mk
 endif
-ifeq ($(C),rps)
+ifeq ($(C),pi)
  GPIO = mraa
- DEVOBJ = build/$(CLIENT)-oled.o build/$(CLIENT)-lirc.o
+ DEVOBJ = build/oled.o build/lirc.o
  CXXFLAGS += -I/usr/local/include/upm -I/usr/local/include
  DEVFLAGS = -lupm-lcd -lstdc++ -llirc_client
  include $(PROROOT)/makefiles/arm64.mk

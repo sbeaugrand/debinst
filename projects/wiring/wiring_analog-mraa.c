@@ -4,12 +4,10 @@
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
-#ifndef ROCKPIS
-# error "ADC is implemented for Rockpi"
-#endif
 #include "wiring.h"
 #include "mraa/aio.h"
 
+// Rockpi S
 #define AIO_PORT 0
 
 mraa_aio_context gAio = NULL;

@@ -9,13 +9,9 @@
 #include "ds1302.h"
 #include "wiring.h"
 
-#ifdef ROCKPIS
-# define PIN_CLK 23
-# define PIN_DAT 21
-# define PIN_RST 19
-#else
-# error "ds1302 not implemented for this board"
-#endif
+#define PIN_CLK 23
+#define PIN_DAT 21
+#define PIN_RST 19
 
 // wiringPi/devLib/ds1302.c
 #define RTC_SECS 0
