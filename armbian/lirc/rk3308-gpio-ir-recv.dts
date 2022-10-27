@@ -2,7 +2,6 @@
 /plugin/;
 
 / {
-    model = "Radxa ROCK Pi S";
     compatible = "radxa,rockpis", "rockchip,rk3308";
 
     fragment@1 {

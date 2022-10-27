@@ -8,8 +8,13 @@ TARDEPEND += wiring/*
 CFLAGS += -I$(PROROOT)/wiring
 CPPCHECKINC += -I$(PROROOT)/wiring -I/usr/local/include
 
-ifeq ($(GPIO),rpi)
- OBJECTS += wiring_digital-rpi.o
+ifeq ($(GPIO),gpiod)
+ OBJECTS += wiring_digital-gpiod.o
+ LDFLAGS += -lgpiod
+ SUDO = sudo
+endif
+ifeq ($(GPIO),sysfs)
+ OBJECTS += wiring_digital-sysfs.o
  SUDO = sudo
 endif
 ifeq ($(GPIO),wpi)

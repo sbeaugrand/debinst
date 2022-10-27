@@ -31,5 +31,8 @@ if isFile $file; then
         else
             echo "overlays=analog-codec" >>$file
         fi
+        logTodo "sudo reboot" &&\
+        logTodo "sudo mount -o rw,remount /" &&\
+        logTodo "cd install/debinst/armbian && make volume"
     fi
 fi

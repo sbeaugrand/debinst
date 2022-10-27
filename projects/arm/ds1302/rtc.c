@@ -92,6 +92,10 @@ int main(int argc, char* argv[])
 {
     int ret;
 
+    digitalInit(PIN_CLK, OUTPUT);
+    digitalInit(PIN_DAT, OUTPUT);
+    digitalInit(PIN_RST, OUTPUT);
+
     ds1302setup(PIN_CLK, PIN_DAT, PIN_RST);
 
     if (argc == 2) {
@@ -99,13 +103,13 @@ int main(int argc, char* argv[])
     } else {
         ret = setLinuxClock();
     }
-    if (ret != 0) {
-        return EXIT_FAILURE;
-    }
 
     digitalQuit(PIN_CLK);
     digitalQuit(PIN_DAT);
     digitalQuit(PIN_RST);
 
+    if (ret != 0) {
+        return EXIT_FAILURE;
+    }
     return EXIT_SUCCESS;
 }

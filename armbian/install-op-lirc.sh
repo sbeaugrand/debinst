@@ -42,6 +42,7 @@ if [ -f $file ]; then
         elif [ `uname -n` = "rockpi-s" ]; then
             /usr/sbin/armbian-add-overlay lirc/rk3308-gpio-ir-recv.dts
         fi
+        [ $? = 0 ] && logTodo "sudo reboot"
     fi
 elif [ `uname -n` = "rockpi-s" ]; then
     file=/boot/uEnv.txt

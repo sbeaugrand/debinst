@@ -16,10 +16,11 @@ CFLAGS += -I$(DEVLIB) -I. -DNDEBUG
 .PHONY: all
 all: build build/$(SERVICE)
 
-GPIO = mraa
+GPIO = gpiod
 include $(PROROOT)/wiring/wiring.mk
 include $(PROROOT)/makefiles/arm.mk
 include $(PROROOT)/arm/wiringPi/wiringPi.mk
+include $(PROROOT)/debug/debug.mk
 
 build/$(SERVICE): $(OBJECTS)
 	$(CC) $^ $(LDFLAGS) -o $@

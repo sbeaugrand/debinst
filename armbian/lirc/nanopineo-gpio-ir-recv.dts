@@ -2,8 +2,7 @@
 /plugin/;
 
 / {
-    model = "Xunlong Orange Pi Zero";
-    compatible = "xunlong,orangepi-zero", "allwinner,sun8i-h3";
+    compatible = "friendlyarm,nanopi-neo", "allwinner,sun8i-h3";
 
     fragment@1 {
         target-path = "/";

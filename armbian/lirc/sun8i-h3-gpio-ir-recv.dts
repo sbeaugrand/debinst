@@ -2,7 +2,6 @@
 /plugin/;
 
 / {
-    model = "Xunlong Orange Pi Zero";
     compatible = "xunlong,orangepi-zero", "allwinner,sun8i-h3";
 
     fragment@1 {

@@ -30,3 +30,5 @@ aptitude
 i2c-tools
 swig  # mraa python
 python3-dev  # mraa python
+gpiod
+libgpiod-dev

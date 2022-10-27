@@ -1,0 +1,53 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "radxa,rockpis", "rockchip,rk3308";
+
+    fragment@0 {
+        target = <&gpio0>;
+        __overlay__ {
+            gpio-line-names =
+                /* A */ "", "", "", "", "", "", "", "",
+                /* B */ "", "", "", "pin3", "pin5", "", "", "pin11",
+                /* C */ "pin13", "pin15", "", "", "", "", "", "",
+                /* D */ "", "", "", "", "", "", "", "";
+        };
+    };
+
+    fragment@1 {
+        target = <&gpio1>;
+        __overlay__ {
+            gpio-line-names =
+                "", "", "", "", "", "", "", "",
+                "", "", "", "", "", "", "", "",
+                "", "", "", "", "", "", "pin21", "pin19",
+                "pin23", "pin24", "", "", "", "", "", "";
+        };
+    };
+
+    fragment@2 {
+        target = <&gpio2>;
+        __overlay__ {
+            gpio-line-names =
+                "pin10", "pin8", "", "", "pin7", "pin12", "", "pin22",
+                "", "pin18", "pin16", "", "", "", "", "",
+                "", "", "", "", "", "", "", "",
+                "", "", "", "", "", "", "", "";
+        };
+    };
+
+    fragment@3 {
+        target = <&uart2>;
+        __overlay__ {
+            status = "disabled";
+        };
+    };
+
+    fragment@4 {
+        target = <&uart4>;
+        __overlay__ {
+            status = "disabled";
+        };
+    };
+};
