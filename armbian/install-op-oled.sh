@@ -17,6 +17,7 @@ if [ -f $file ]; then
         else
             echo "overlays=$i2c" >>$file
         fi
+        logTodo "sudo reboot"
     fi
 else
     file=/boot/uEnv.txt

@@ -402,7 +402,7 @@ selectCropAndScale()
     if [ -z "$crop" ]; then
         if [ $aspect = '1' ]; then
             echo "try mplayer -vf rectangle=720:432:0:72"
-            myRead "crop ? (y/n/rectangle)" "y"
+            myRead "crop ? (y/n/rectangle)" "720:432:0:72"
         else
             myRead "crop ? (y/n/rectangle)" "n"
         fi
@@ -1018,8 +1018,8 @@ if [ -r structure.txt ]; then
     echo -e "${blue}warning : structure.txt exist, it will be used$reset"
 fi
 dir=`pwd`
-size=`df -Pk "$dir" | tail -n 1 | awk 'BEGIN { FS = " " } { print $4 }'`
-echo -e "${blue}disk space left in $dir : $size Kbytes$reset"
+size=`df -Ph "$dir" | tail -n 1 | awk 'BEGIN { FS = " " } { print $4 }'`
+echo -e "${blue}disk space left in $dir : $size$reset"
 myRead "continue ? (y/n)" "y"
 if [ $ret = n ]; then
     exit 0

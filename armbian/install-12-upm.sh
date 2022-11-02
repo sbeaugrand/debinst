@@ -30,4 +30,7 @@ if notLink $prefix/lib/libupm-lcd.so; then
     make >>$log 2>&1
     make >>$log 2>&1 install
     popd
+    if [ -f /boot/armbianEnv.txt ]; then
+        /usr/sbin/ldconfig /usr/local/lib
+    fi
 fi

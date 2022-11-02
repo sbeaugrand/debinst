@@ -35,8 +35,7 @@ if notFile $prefix/lib/libmraa.so; then
     make >>$log 2>&1
     make >>$log 2>&1 install
     popd
-fi
-
-if [ -f /boot/armbianEnv.txt ]; then
-    /sbin/ldconfig
+    if [ -f /boot/armbianEnv.txt ]; then
+        /usr/sbin/ldconfig /usr/local/lib
+    fi
 fi

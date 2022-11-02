@@ -28,7 +28,9 @@ deb-src http://httpredir.debian.org/debian/ $sta-updates main contrib non-free
 EOF
     sudoRoot cp $tmpf $file
     if isOnline; then
+        logInfo "apt-get update ..."
         sudoRoot apt-get -q -y update
+        logInfo "apt-get dist-upgrade ..."
         sudoRoot apt-get -q -y dist-upgrade
     fi
 fi

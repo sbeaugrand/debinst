@@ -14,7 +14,6 @@ fi
 isFile $file || return 1
 
 /usr/sbin/ntpdate -u ntp.u-psud.fr
-/usr/sbin/ldconfig /usr/local/lib
 $file `date +%FT%Tw%w`
 
 if ! systemctl -q is-enabled rtc 2>>$log; then

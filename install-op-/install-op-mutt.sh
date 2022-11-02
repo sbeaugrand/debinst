@@ -200,6 +200,14 @@ elif notGrep "anchor_color cyan" $file; then
     sed -i 's/anchor_color .*/anchor_color cyan/' $file
 fi
 
+file=$muttHome/.w3m/keymap
+if notFile $file; then
+    cat >$file <<EOF
+keymap y EXTERN_LINK 'url=%s && printf %s "\$url" | xsel && printf %s "\$url" | xsel -b &'
+EOF
+    chown $muttUser.$muttUser $file
+fi
+
 # ---------------------------------------------------------------------------- #
 # gpg
 # ---------------------------------------------------------------------------- #

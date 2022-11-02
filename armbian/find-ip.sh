@@ -7,6 +7,8 @@
 # ---------------------------------------------------------------------------- #
 netId=192.168.0
 i=${1:-11}
+color="\033[33;1m"
+reset="\033[0m"
 
 trap "echo; exit" SIGINT
 
@@ -16,11 +18,17 @@ done
 ip=$netId.$i
 
 if ssh-keygen -F pi >/dev/null; then
-    echo "todo: ssh-keygen -R pi"
+    echo -ne "$color"
+    echo " todo: ssh-keygen -R pi"
+    echo -ne "$reset"
 fi
 if ssh-keygen -F $ip >/dev/null; then
-    echo "todo: ssh-keygen -R $ip"
+    echo -ne "$color"
+    echo " todo: ssh-keygen -R $ip"
+    echo -ne "$reset"
 fi
 if ! grep -q "^$ip pi" /etc/hosts; then
-    echo "todo: sudo vi /etc/hosts  # $ip pi"
+    echo -ne "$color"
+    echo " todo: sudo vi /etc/hosts  # $ip pi"
+    echo -ne "$reset"
 fi
