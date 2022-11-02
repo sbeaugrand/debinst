@@ -9,8 +9,7 @@ if ((`cat /proc/net/arp | wc -l` > 1)); then
 
     logInfo "apt-get update ..."
     apt-get -q -y update >>$log 2>&1
-    logInfo "apt-get dist-upgrade ..."
-    apt-get -q -y dist-upgrade >>$log 2>&1
+    logTodo "sudo apt dist-upgrade"
 
     list=`cat install-00-pkg.txt | sed 's/ *#.*//' | tr '\n' ' '`
     logInfo "apt-get install $list"

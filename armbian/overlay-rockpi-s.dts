@@ -38,14 +38,28 @@
     };
 
     fragment@3 {
-        target = <&uart2>;
+        target = <&uart1>;
         __overlay__ {
             status = "disabled";
         };
     };
 
     fragment@4 {
+        target = <&uart2>;
+        __overlay__ {
+            status = "disabled";
+        };
+    };
+
+    fragment@5 {
         target = <&uart4>;
+        __overlay__ {
+            status = "disabled";
+        };
+    };
+
+    fragment@6 {
+        target = <&spi2>;
         __overlay__ {
             status = "disabled";
         };
