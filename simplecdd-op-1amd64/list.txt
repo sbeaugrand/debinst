@@ -257,6 +257,8 @@ hplip
 cmark-gfm
 retext
 pandoc
+bluez
+libbluetooth-dev  # pybluez
 live-boot  # live-build
 live-config  # live-build
 live-config-systemd  # live-build

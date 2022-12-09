@@ -42,7 +42,7 @@ def extract(dirname):
     for filename in dir:
         with open(dirname + filename, errors='ignore') as f:
             try:
-                new.extend(re.findall('([\w\.\-]+@[\w\.\-]+)', f.read()))
+                new.extend(re.findall('([\w.-]+@[\w.-]+)', f.read()))
             except UnicodeDecodeError:
                 print('UnicodeDecodeError: {0}'.format(filename))
             except Exception as e:
