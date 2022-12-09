@@ -161,9 +161,20 @@ set  forward_format = "Tr: %s"
 
 set mark_old = no
 set sort     = date
-color index brightcyan black ~N
-color hdrdefault cyan black
-color header brightcyan black X-Face
+color index      brightcyan black ~N
+color hdrdefault red        black
+color header     brightred  black X-Face
+color body       red        black "[a-zA-Z0-9_.-]+@[a-zA-Z0-9_.-]+"
+color body       cyan       black "(https?|ftp)://[]a-zA-Z0-9_.~:/?\#[@!$&'()*+,;=-]+"
+color quoted1    color3     black
+color quoted2    color2     black
+color quoted3    color3     black
+color quoted4    color2     black
+color quoted5    color3     black
+color quoted6    color2     black
+color quoted7    color3     black
+color quoted8    color2     black
+color quoted9    color3     black
 
 set mime_forward=yes
 set editor = "vim +':set paste'"
@@ -204,6 +215,18 @@ file=$muttHome/.w3m/keymap
 if notFile $file; then
     cat >$file <<EOF
 keymap y EXTERN_LINK 'url=%s && printf %s "\$url" | xsel && printf %s "\$url" | xsel -b &'
+EOF
+    chown $muttUser.$muttUser $file
+fi
+
+# ---------------------------------------------------------------------------- #
+# mailcap
+# ---------------------------------------------------------------------------- #
+file=$muttHome/.mailcap
+if notFile $file; then
+    # grep qiv /etc/mailcap
+    cat >$file <<EOF
+image/*; qiv -tfi %s; description="Image"; test=test "\$DISPLAY"
 EOF
     chown $muttUser.$muttUser $file
 fi
