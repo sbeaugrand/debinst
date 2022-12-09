@@ -25,22 +25,22 @@ if [ "$year" = "2022" ]; then
     vOOVddOOI=23; vOOVdmOOI=10; vOOVfdOOI=06; vOOVfmOOI=11;
 
     vOVIddOOI=18; vOVIdmOOI=12; vOVIfdOOI=31; vOVIfmOOI=12;
-elif [ "$year" = "2021" ]; then
-    vOOIddOOI=01; vOOIdmOOI=01; vOOIfdOOI=03; vOOIfmOOI=01;
+elif [ "$year" = "2023" ]; then
+    vOOIddOOI=01; vOOIdmOOI=01; vOOIfdOOI=02; vOOIfmOOI=01;
 
-    vOIIddOOI=07; vOIIdmOOI=02; vOIIfdOOI=21; vOIIfmOOI=02;
-    vOIIddOII=21; vOIIdmOII=02; vOIIfdOII=07; vOIIfmOII=03;
-    vOIIddIII=14; vOIIdmIII=02; vOIIfdIII=28; vOIIfmIII=02;
+    vOIIddOOI=05; vOIIdmOOI=02; vOIIfdOOI=19; vOIIfmOOI=02;
+    vOIIddOII=12; vOIIdmOII=02; vOIIfdOII=26; vOIIfmOII=02;
+    vOIIddIII=19; vOIIdmIII=02; vOIIfdIII=05; vOIIfmIII=03;
 
-    vIIIddOOI=11; vIIIdmOOI=04; vIIIfdOOI=25; vIIIfmOOI=04;
-    vIIIddOII=25; vIIIdmOII=04; vIIIfdOII=09; vIIIfmOII=05;
-    vIIIddIII=18; vIIIdmIII=04; vIIIfdIII=02; vIIIfmIII=05;
+    vIIIddOOI=09; vIIIdmOOI=04; vIIIfdOOI=23; vIIIfmOOI=04;
+    vIIIddOII=16; vIIIdmOII=04; vIIIfdOII=30; vIIIfmOII=04;
+    vIIIddIII=23; vIIIdmIII=04; vIIIfdIII=07; vIIIfmIII=05;
 
-    vOIVddOOI=07; vOIVdmOOI=07; vOIVfdOOI=31; vOIVfmOOI=08;
+    vOIVddOOI=09; vOIVdmOOI=07; vOIVfdOOI=03; vOIVfmOOI=09;
 
-    vOOVddOOI=24; vOOVdmOOI=10; vOOVfdOOI=07; vOOVfmOOI=11;
+    vOOVddOOI=22; vOOVdmOOI=10; vOOVfdOOI=05; vOOVfmOOI=11;
 
-    vOVIddOOI=19; vOVIdmOOI=12; vOVIfdOOI=31; vOVIfmOOI=12;
+    vOVIddOOI=24; vOVIdmOOI=12; vOVIfdOOI=31; vOVIfmOOI=12;
 fi
 
 if [ "$format" = "tex" ]; then

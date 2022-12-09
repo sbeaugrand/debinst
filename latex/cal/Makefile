@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-YEAR = 2022
+YEAR = 2023
 
 # cal options
 #MOON = build/moon-events build/moon-themes
