@@ -7,7 +7,11 @@
 # ---------------------------------------------------------------------------- #
 if [ "$1" = "--root" ]; then
     if [ `whoami` != "root" ]; then
-        su -c "$0 $*"
+        if [ -f /etc/sudoers.d/`whoami` ]; then
+            sudo su -c "$0 $*"
+        else
+            su -c "$0 $*"
+        fi
         exit $?
     fi
     shift
@@ -87,9 +91,9 @@ isDir()
 log=/dev/stderr
 isDir $data || exit 1
 log=$bdir/0install.log
-[ -d $bdir ] || mkdir $bdir && chown $user.$user $bdir
-[ -d $repo ] || mkdir $repo && chown $user.$user $repo
-[ -d $idir/../repo ] || mkdir $idir/../repo && chown $user.$user $idir/../repo
+[ -d $bdir ] || (mkdir $bdir && chown $user.$user $bdir)
+[ -d $repo ] || (mkdir $repo && chown $user.$user $repo)
+[ -d $idir/../repo ] || (mkdir $idir/../repo && chown $user.$user $idir/../repo)
 if [ ! -d $home/.local/bin ]; then
     mkdir -p $home/.local/bin
     chown $user.$user $home/.local
@@ -118,12 +122,13 @@ logrotate()
         mv $log $log.1
     fi
 }
-if ! grep " / ext4 ro," /proc/mounts; then
+if ! grep -q " / ext4 ro," /proc/mounts; then
     logrotate $log
     cat /dev/null >$log
     chown $user.$user $log
 else
     log=/dev/stderr
+    logError "Read-only file system, log=/dev/stderr"
 fi
 
 # ---------------------------------------------------------------------------- #
