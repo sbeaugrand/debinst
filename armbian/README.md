@@ -48,7 +48,7 @@ sha256sum -c Armbian_22.08.1_Nanopineo_bullseye_current_5.15.63.img.xz.sha
 ## [Rockpi S](https://www.armbian.com/rockpi-s/)
 ![Rockpi S](https://www.armbian.com/wp-content/uploads/2019/11/rockpi-s-300x169.png)
 ```
-sha256sum -c Armbian_22.08.8_Rockpi-s_bullseye_edge_5.19.17_minimal.img.xz.sha  # kernel >= 5.19.17
+sha256sum -c Armbian_22.11.1_Rockpi-s_bullseye_edge_6.0.10.img.xz.sha
 
 # Without boot from the built-in SDNAND :
 df .  # 6,7G needed
@@ -56,6 +56,7 @@ git clone -b v22.08 https://github.com/armbian/build.git armbian-build
 cd armbian-build
 sed -i 's/^IDBLOADER_BLOB/#IDBLOADER_BLOB/' config/sources/families/rockpis.conf
 touch .ignore_changes
+sudo rm ./cache/sources/u-boot/*/idbloader.bin
 sudo apt install debootstrap
 sudo modprobe loop
 systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './compile.sh BOARD=rockpi-s BRANCH=edge BUILD_MINIMAL=yes BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no CLEAN_LEVEL=, RELEASE=bullseye SKIP_EXTERNAL_TOOLCHAINS=yes EXTRAWIFI=no'
