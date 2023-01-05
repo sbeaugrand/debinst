@@ -21,5 +21,13 @@ fi
 
 file=$home/.local/bin/gvalidate
 if notFile $file; then
-    sudo -u $user cp $dir/gvalidate.exe $file
+    cp $dir/gvalidate.exe $file
+fi
+
+file=$bdir/grbl/grbl.hex
+if notFile $file; then
+    pushd $bdir/grbl || return 1
+    make
+    logTodo "example for ARD-CNC-Kit1: avrdude -c arduino -p atmega328p -D -P /dev/ttyACM0 -U flash:w:grbl.hex"
+    popd
 fi
