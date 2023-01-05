@@ -10,89 +10,115 @@ format=$2
 zone=$3
 
 if [ "$year" = "2022" ]; then
-    vOOIddOOI=01; vOOIdmOOI=01; vOOIfdOOI=02; vOOIfmOOI=01;
+    vAsmZoneB=01; vAsdZoneB=01; vAemZoneB=01; vAedZoneB=02;
+    vAsmZoneA=01; vAsdZoneA=01; vAemZoneA=01; vAedZoneA=02;
+    vAsmZoneC=01; vAsdZoneC=01; vAemZoneC=01; vAedZoneC=02;
 
-    vOIIddOOI=13; vOIIdmOOI=02; vOIIfdOOI=27; vOIIfmOOI=02;
-    vOIIddOII=06; vOIIdmOII=02; vOIIfdOII=20; vOIIfmOII=02;
-    vOIIddIII=20; vOIIdmIII=02; vOIIfdIII=06; vOIIfmIII=03;
+    vBsmZoneB=02; vBsdZoneB=06; vBemZoneB=02; vBedZoneB=20;
+    vBsmZoneA=02; vBsdZoneA=13; vBemZoneA=02; vBedZoneA=27;
+    vBsmZoneC=02; vBsdZoneC=20; vBemZoneC=03; vBedZoneC=06;
 
-    vIIIddOOI=17; vIIIdmOOI=04; vIIIfdOOI=01; vIIIfmOOI=05;
-    vIIIddOII=10; vIIIdmOII=04; vIIIfdOII=24; vIIIfmOII=04;
-    vIIIddIII=24; vIIIdmIII=04; vIIIfdIII=08; vIIIfmIII=05;
+    vCsmZoneB=04; vCsdZoneB=10; vCemZoneB=04; vCedZoneB=24;
+    vCsmZoneA=04; vCsdZoneA=17; vCemZoneA=05; vCedZoneA=01;
+    vCsmZoneC=04; vCsdZoneC=24; vCemZoneC=05; vCedZoneC=08;
 
-    vOIVddOOI=08; vOIVdmOOI=07; vOIVfdOOI=31; vOIVfmOOI=08;
+    vDsmZoneA=07; vDsdZoneA=07; vDemZoneA=08; vDedZoneA=31;
+    vDsmZoneB=07; vDsdZoneB=07; vDemZoneB=08; vDedZoneB=31;
+    vDsmZoneC=07; vDsdZoneC=07; vDemZoneC=08; vDedZoneC=31;
 
-    vOOVddOOI=23; vOOVdmOOI=10; vOOVfdOOI=06; vOOVfmOOI=11;
+    vEsmZoneB=10; vEsdZoneB=23; vEemZoneB=11; vEedZoneB=06;
+    vEsmZoneA=10; vEsdZoneA=23; vEemZoneA=11; vEedZoneA=06;
+    vEsmZoneC=10; vEsdZoneC=23; vEemZoneC=11; vEedZoneC=06;
 
-    vOVIddOOI=18; vOVIdmOOI=12; vOVIfdOOI=31; vOVIfmOOI=12;
+    vFsmZoneC=12; vFsdZoneC=18; vFemZoneC=12; vFedZoneC=31;
+    vFsmZoneB=12; vFsdZoneB=18; vFemZoneB=12; vFedZoneB=31;
+    vFsmZoneA=12; vFsdZoneA=18; vFemZoneA=12; vFedZoneA=31;
 elif [ "$year" = "2023" ]; then
-    vOOIddOOI=01; vOOIdmOOI=01; vOOIfdOOI=02; vOOIfmOOI=01;
+    vAsmZoneC=01; vAsdZoneC=01; vAemZoneC=01; vAedZoneC=02;
+    vAsmZoneB=01; vAsdZoneB=01; vAemZoneB=01; vAedZoneB=02;
+    vAsmZoneA=01; vAsdZoneA=01; vAemZoneA=01; vAedZoneA=02;
 
-    vOIIddOOI=05; vOIIdmOOI=02; vOIIfdOOI=19; vOIIfmOOI=02;
-    vOIIddOII=12; vOIIdmOII=02; vOIIfdOII=26; vOIIfmOII=02;
-    vOIIddIII=19; vOIIdmIII=02; vOIIfdIII=05; vOIIfmIII=03;
+    vBsmZoneA=02; vBsdZoneA=05; vBemZoneA=02; vBedZoneA=19;
+    vBsmZoneB=02; vBsdZoneB=12; vBemZoneB=02; vBedZoneB=26;
+    vBsmZoneC=02; vBsdZoneC=19; vBemZoneC=03; vBedZoneC=05;
 
-    vIIIddOOI=09; vIIIdmOOI=04; vIIIfdOOI=23; vIIIfmOOI=04;
-    vIIIddOII=16; vIIIdmOII=04; vIIIfdOII=30; vIIIfmOII=04;
-    vIIIddIII=23; vIIIdmIII=04; vIIIfdIII=07; vIIIfmIII=05;
+    vCsmZoneA=04; vCsdZoneA=09; vCemZoneA=04; vCedZoneA=23;
+    vCsmZoneB=04; vCsdZoneB=16; vCemZoneB=05; vCedZoneB=01;
+    vCsmZoneC=04; vCsdZoneC=23; vCemZoneC=05; vCedZoneC=08;
 
-    vOIVddOOI=09; vOIVdmOOI=07; vOIVfdOOI=03; vOIVfmOOI=09;
+    vDsmZoneC=07; vDsdZoneC=09; vDemZoneC=09; vDedZoneC=03;
+    vDsmZoneA=07; vDsdZoneA=09; vDemZoneA=09; vDedZoneA=03;
+    vDsmZoneB=07; vDsdZoneB=09; vDemZoneB=09; vDedZoneB=03;
 
-    vOOVddOOI=22; vOOVdmOOI=10; vOOVfdOOI=05; vOOVfmOOI=11;
+    vEsmZoneA=10; vEsdZoneA=22; vEemZoneA=11; vEedZoneA=05;
+    vEsmZoneB=10; vEsdZoneB=22; vEemZoneB=11; vEedZoneB=05;
+    vEsmZoneC=10; vEsdZoneC=22; vEemZoneC=11; vEedZoneC=05;
 
-    vOVIddOOI=24; vOVIdmOOI=12; vOVIfdOOI=31; vOVIfmOOI=12;
+    vFsmZoneA=12; vFsdZoneA=24; vFemZoneA=12; vFedZoneA=31;
+    vFsmZoneC=12; vFsdZoneC=24; vFemZoneC=12; vFedZoneC=31;
+    vFsmZoneB=12; vFsdZoneB=24; vFemZoneB=12; vFedZoneB=31;
+elif ((`cat /proc/net/arp | wc -l` < 2)); then
+    exit 1
+else
+    file=vacances$year.json
+    if [ ! -f $file ]; then
+        curl -s -o $file "https://data.education.gouv.fr/api/records/1.0/search/?dataset=fr-en-calendrier-scolaire&q=(start_date%3A$year+OR+end_date%3A$year)+AND+(location%3ALyon+OR+location%3ANice+OR+location%3AParis)&rows=18&sort=-end_date&exclude.description=Pont+de+l%27Ascension&exclude.population=Enseignants"
+    fi
+    file=build/vacances$year.sh
+    ./vacances.py $year >$file || exit 1
+    source $file
 fi
 
 if [ "$format" = "tex" ]; then
     cat <<EOF
-\def\vOOIddOOI{$vOOIddOOI} \def\vOOIdmOOI{$vOOIdmOOI} \
-\def\vOOIfdOOI{$vOOIfdOOI} \def\vOOIfmOOI{$vOOIfmOOI}
+\def\vAsdZoneA{$vAsdZoneA} \def\vAsmZoneA{$vAsmZoneA} \
+\def\vAedZoneA{$vAedZoneA} \def\vAemZoneA{$vAemZoneA}
 
-\def\vOIIddOOI{$vOIIddOOI} \def\vOIIdmOOI{$vOIIdmOOI} \
-\def\vOIIfdOOI{$vOIIfdOOI} \def\vOIIfmOOI{$vOIIfmOOI}
-\def\vOIIddOII{$vOIIddOII} \def\vOIIdmOII{$vOIIdmOII} \
-\def\vOIIfdOII{$vOIIfdOII} \def\vOIIfmOII{$vOIIfmOII}
-\def\vOIIddIII{$vOIIddIII} \def\vOIIdmIII{$vOIIdmIII} \
-\def\vOIIfdIII{$vOIIfdIII} \def\vOIIfmIII{$vOIIfmIII}
+\def\vBsdZoneA{$vBsdZoneA} \def\vBsmZoneA{$vBsmZoneA} \
+\def\vBedZoneA{$vBedZoneA} \def\vBemZoneA{$vBemZoneA}
+\def\vBsdZoneB{$vBsdZoneB} \def\vBsmZoneB{$vBsmZoneB} \
+\def\vBedZoneB{$vBedZoneB} \def\vBemZoneB{$vBemZoneB}
+\def\vBsdZoneC{$vBsdZoneC} \def\vBsmZoneC{$vBsmZoneC} \
+\def\vBedZoneC{$vBedZoneC} \def\vBemZoneC{$vBemZoneC}
 
-\def\vIIIddOOI{$vIIIddOOI} \def\vIIIdmOOI{$vIIIdmOOI} \
-\def\vIIIfdOOI{$vIIIfdOOI} \def\vIIIfmOOI{$vIIIfmOOI}
-\def\vIIIddOII{$vIIIddOII} \def\vIIIdmOII{$vIIIdmOII} \
-\def\vIIIfdOII{$vIIIfdOII} \def\vIIIfmOII{$vIIIfmOII}
-\def\vIIIddIII{$vIIIddIII} \def\vIIIdmIII{$vIIIdmIII} \
-\def\vIIIfdIII{$vIIIfdIII} \def\vIIIfmIII{$vIIIfmIII}
+\def\vCsdZoneA{$vCsdZoneA} \def\vCsmZoneA{$vCsmZoneA} \
+\def\vCedZoneA{$vCedZoneA} \def\vCemZoneA{$vCemZoneA}
+\def\vCsdZoneB{$vCsdZoneB} \def\vCsmZoneB{$vCsmZoneB} \
+\def\vCedZoneB{$vCedZoneB} \def\vCemZoneB{$vCemZoneB}
+\def\vCsdZoneC{$vCsdZoneC} \def\vCsmZoneC{$vCsmZoneC} \
+\def\vCedZoneC{$vCedZoneC} \def\vCemZoneC{$vCemZoneC}
 
-\def\vOIVddOOI{$vOIVddOOI} \def\vOIVdmOOI{$vOIVdmOOI} \
-\def\vOIVfdOOI{$vOIVfdOOI} \def\vOIVfmOOI{$vOIVfmOOI}
+\def\vDsdZoneA{$vDsdZoneA} \def\vDsmZoneA{$vDsmZoneA} \
+\def\vDedZoneA{$vDedZoneA} \def\vDemZoneA{$vDemZoneA}
 
-\def\vOOVddOOI{$vOOVddOOI} \def\vOOVdmOOI{$vOOVdmOOI} \
-\def\vOOVfdOOI{$vOOVfdOOI} \def\vOOVfmOOI{$vOOVfmOOI}
+\def\vEsdZoneA{$vEsdZoneA} \def\vEsmZoneA{$vEsmZoneA} \
+\def\vEedZoneA{$vEedZoneA} \def\vEemZoneA{$vEemZoneA}
 
-\def\vOVIddOOI{$vOVIddOOI} \def\vOVIdmOOI{$vOVIdmOOI} \
-\def\vOVIfdOOI{$vOVIfdOOI} \def\vOVIfmOOI{$vOVIfmOOI}
+\def\vFsdZoneA{$vFsdZoneA} \def\vFsmZoneA{$vFsmZoneA} \
+\def\vFedZoneA{$vFedZoneA} \def\vFemZoneA{$vFemZoneA}
 EOF
 elif [ "$format" = "janvier" ]; then
-    echo "$vOOIddOOI $vOOIdmOOI $vOOIfdOOI $vOOIfmOOI"
+    echo "$vAsdZoneA $vAsmZoneA $vAedZoneA $vAemZoneA"
 elif [ "$format" = "hiver" ]; then
     if [ "$zone" = A ]; then
-        echo "$vOIIddOOI $vOIIdmOOI $vOIIfdOOI $vOIIfmOOI"
+        echo "$vBsdZoneA $vBsmZoneA $vBedZoneA $vBemZoneA"
     elif [ "$zone" = B ]; then
-        echo "$vOIIddOII $vOIIdmOII $vOIIfdOII $vOIIfmOII"
+        echo "$vBsdZoneB $vBsmZoneB $vBedZoneB $vBemZoneB"
     else
-        echo "$vOIIddIII $vOIIdmIII $vOIIfdIII $vOIIfmIII"
+        echo "$vBsdZoneC $vBsmZoneC $vBedZoneC $vBemZoneC"
     fi
 elif [ "$format" = "printemps" ]; then
     if [ "$zone" = A ]; then
-        echo "$vIIIddOOI $vIIIdmOOI $vIIIfdOOI $vIIIfmOOI"
+        echo "$vCsdZoneA $vCsmZoneA $vCedZoneA $vCemZoneA"
     elif [ "$zone" = B ]; then
-        echo "$vIIIddOII $vIIIdmOII $vIIIfdOII $vIIIfmOII"
+        echo "$vCsdZoneB $vCsmZoneB $vCedZoneB $vCemZoneB"
     else
-        echo "$vIIIddIII $vIIIdmIII $vIIIfdIII $vIIIfmIII"
+        echo "$vCsdZoneC $vCsmZoneC $vCedZoneC $vCemZoneC"
     fi
 elif [ "$format" = "ete" ]; then
-    echo "$vOIVddOOI $vOIVdmOOI $vOIVfdOOI $vOIVfmOOI"
+    echo "$vDsdZoneA $vDsmZoneA $vDedZoneA $vDemZoneA"
 elif [ "$format" = "toussaint" ]; then
-    echo "$vOOVddOOI $vOOVdmOOI $vOOVfdOOI $vOOVfmOOI"
+    echo "$vEsdZoneA $vEsmZoneA $vEedZoneA $vEemZoneA"
 elif [ "$format" = "noel" ]; then
-    echo "$vOVIddOOI $vOVIdmOOI $vOVIfdOOI $vOVIfmOOI"
+    echo "$vFsdZoneA $vFsmZoneA $vFedZoneA $vFemZoneA"
 fi

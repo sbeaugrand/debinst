@@ -80,6 +80,67 @@
 \setlength{\unitlength}{1pt}
 
 % ---------------------------------------------------------------------------- %
+% Vacances scolaires
+% ---------------------------------------------------------------------------- %
+\newcommand\vacancesScolaires{%
+  \ifnum\mois=\vAsmZoneA \ifnum\jourdumois=\vAsdZoneA
+    \global\zoneA=1 \global\zoneB=1 \global\zoneC=1 \fi \fi
+
+  \ifnum\mois=\vBsmZoneA \ifnum\jourdumois=\vBsdZoneA \global\zoneA=1 \fi \fi
+  \ifnum\mois=\vBsmZoneB \ifnum\jourdumois=\vBsdZoneB \global\zoneB=1 \fi \fi
+  \ifnum\mois=\vBsmZoneC \ifnum\jourdumois=\vBsdZoneC \global\zoneC=1 \fi \fi
+
+  \ifnum\mois=\vCsmZoneA \ifnum\jourdumois=\vCsdZoneA \global\zoneA=1 \fi \fi
+  \ifnum\mois=\vCsmZoneB \ifnum\jourdumois=\vCsdZoneB \global\zoneB=1 \fi \fi
+  \ifnum\mois=\vCsmZoneC \ifnum\jourdumois=\vCsdZoneC \global\zoneC=1 \fi \fi
+
+  \ifnum\mois=\ascensmois \ifnum\jourdumois=\ascensjour
+    \global\zoneA=1 \global\zoneB=1 \global\zoneC=1 \fi \fi
+
+  \ifnum\mois=\vDsmZoneA \ifnum\jourdumois=\vDsdZoneA
+    \global\zoneA=1 \global\zoneB=1 \global\zoneC=1 \fi \fi
+
+  \ifnum\mois=\vEsmZoneA \ifnum\jourdumois=\vEsdZoneA
+    \global\zoneA=1 \global\zoneB=1 \global\zoneC=1 \fi \fi
+
+  \ifnum\mois=\vFsmZoneA \ifnum\jourdumois=\vFsdZoneA
+    \global\zoneA=1 \global\zoneB=1 \global\zoneC=1 \fi \fi
+
+  \ifnum\zoneA=1 \textcolor{red}    {\vline width 1pt}
+    \else \phantom{\textcolor{red}  {\vline width 1pt}} \fi
+  \ifnum\zoneB=1 \textcolor{blue}   {\vline width 1pt}
+    \else \phantom{\textcolor{blue} {\vline width 1pt}} \fi
+  \ifnum\zoneC=1 \textcolor{green}  {\vline width 1pt}
+    \else \phantom{\textcolor{green}{\vline width 1pt}} \fi
+
+  \ifnum\mois=\vAemZoneA \ifnum\jourdumois=\vAedZoneA
+    \global\zoneA=0 \global\zoneB=0 \global\zoneC=0 \fi \fi
+
+  \ifnum\mois=\vBemZoneA \ifnum\jourdumois=\vBedZoneA \global\zoneA=0 \fi \fi
+  \ifnum\mois=\vBemZoneB \ifnum\jourdumois=\vBedZoneB \global\zoneB=0 \fi \fi
+  \ifnum\mois=\vBemZoneC \ifnum\jourdumois=\vBedZoneC \global\zoneC=0 \fi \fi
+
+  \ifnum\mois=\vCemZoneA \ifnum\jourdumois=\vCedZoneA \global\zoneA=0 \fi \fi
+  \ifnum\mois=\vCemZoneB \ifnum\jourdumois=\vCedZoneB \global\zoneB=0 \fi \fi
+  \ifnum\mois=\vCemZoneC \ifnum\jourdumois=\vCedZoneC \global\zoneC=0 \fi \fi
+
+  \ifnum\mois=\ascensmois
+    \tmp=\ascensjour
+    \advance\tmp3
+    \ifnum\jourdumois=\tmp
+      \global\zoneA=0 \global\zoneB=0 \global\zoneC=0 \fi \fi
+
+  \ifnum\mois=\vDemZoneA \ifnum\jourdumois=\vDedZoneA
+    \global\zoneA=0 \global\zoneB=0 \global\zoneC=0 \fi \fi
+
+  \ifnum\mois=\vEemZoneA \ifnum\jourdumois=\vEedZoneA
+    \global\zoneA=0 \global\zoneB=0 \global\zoneC=0 \fi \fi
+
+  \ifnum\mois=\vFemZoneA \ifnum\jourdumois=\vFedZoneA
+    \global\zoneA=0 \global\zoneB=0 \global\zoneC=0 \fi \fi
+}
+
+% ---------------------------------------------------------------------------- %
 % ligne
 % ---------------------------------------------------------------------------- %
 \newcommand\ligne{%
@@ -197,53 +258,8 @@
     $\nextmoonphasenumber$
   \fi \fi
   &
-
-  \ifnum\mois=\vOOIdmOOI \ifnum\jourdumois=\vOOIddOOI
-    \global\zoneOOI=1 \global\zoneOII=1 \global\zoneIII=1 \fi \fi
-
-  \ifnum\mois=\vOIIdmOOI \ifnum\jourdumois=\vOIIddOOI \global\zoneOOI=1 \fi \fi
-  \ifnum\mois=\vOIIdmOII \ifnum\jourdumois=\vOIIddOII \global\zoneOII=1 \fi \fi
-  \ifnum\mois=\vOIIdmIII \ifnum\jourdumois=\vOIIddIII \global\zoneIII=1 \fi \fi
-
-  \ifnum\mois=\vIIIdmOOI \ifnum\jourdumois=\vIIIddOOI \global\zoneOOI=1 \fi \fi
-  \ifnum\mois=\vIIIdmOII \ifnum\jourdumois=\vIIIddOII \global\zoneOII=1 \fi \fi
-  \ifnum\mois=\vIIIdmIII \ifnum\jourdumois=\vIIIddIII \global\zoneIII=1 \fi \fi
-
-  \ifnum\mois=\vOIVdmOOI \ifnum\jourdumois=\vOIVddOOI
-    \global\zoneOOI=1 \global\zoneOII=1 \global\zoneIII=1 \fi \fi
-
-  \ifnum\mois=\vOOVdmOOI \ifnum\jourdumois=\vOOVddOOI
-    \global\zoneOOI=1 \global\zoneOII=1 \global\zoneIII=1 \fi \fi
-
-  \ifnum\mois=\vOVIdmOOI \ifnum\jourdumois=\vOVIddOOI
-    \global\zoneOOI=1 \global\zoneOII=1 \global\zoneIII=1 \fi \fi
-
-  \ifnum\zoneOOI=1 \textcolor{red}  {\vline width 1pt}
-    \else \phantom{\textcolor{red}  {\vline width 1pt}} \fi
-  \ifnum\zoneOII=1 \textcolor{blue} {\vline width 1pt}
-    \else \phantom{\textcolor{blue} {\vline width 1pt}} \fi
-  \ifnum\zoneIII=1 \textcolor{green}{\vline width 1pt}
-    \else \phantom{\textcolor{green}{\vline width 1pt}} \fi
-
-  \ifnum\mois=\vOOIfmOOI \ifnum\jourdumois=\vOOIfdOOI
-    \global\zoneOOI=0 \global\zoneOII=0 \global\zoneIII=0 \fi \fi
-
-  \ifnum\mois=\vOIIfmOOI \ifnum\jourdumois=\vOIIfdOOI \global\zoneOOI=0 \fi \fi
-  \ifnum\mois=\vOIIfmOII \ifnum\jourdumois=\vOIIfdOII \global\zoneOII=0 \fi \fi
-  \ifnum\mois=\vOIIfmIII \ifnum\jourdumois=\vOIIfdIII \global\zoneIII=0 \fi \fi
-
-  \ifnum\mois=\vIIIfmOOI \ifnum\jourdumois=\vIIIfdOOI \global\zoneOOI=0 \fi \fi
-  \ifnum\mois=\vIIIfmOII \ifnum\jourdumois=\vIIIfdOII \global\zoneOII=0 \fi \fi
-  \ifnum\mois=\vIIIfmIII \ifnum\jourdumois=\vIIIfdIII \global\zoneIII=0 \fi \fi
-
-  \ifnum\mois=\vOIVfmOOI \ifnum\jourdumois=\vOIVfdOOI
-    \global\zoneOOI=0 \global\zoneOII=0 \global\zoneIII=0 \fi \fi
-
-  \ifnum\mois=\vOOVfmOOI \ifnum\jourdumois=\vOOVfdOOI
-    \global\zoneOOI=0 \global\zoneOII=0 \global\zoneIII=0 \fi \fi
-
-  \ifnum\mois=\vOVIfmOOI \ifnum\jourdumois=\vOVIfdOOI
-    \global\zoneOOI=0 \global\zoneOII=0 \global\zoneIII=0 \fi \fi
+  % Vacances scolaires
+  \vacancesScolaires
 
   \global\advance\jourdumois1
   \ifnum\jour<7 \global\advance\jour1 \else \global\advance\jour-6 \fi
@@ -360,9 +376,9 @@
 
 \newcount\mois
 \newcount\week
-\newcount\zoneOOI
-\newcount\zoneOII
-\newcount\zoneIII
+\newcount\zoneA
+\newcount\zoneB
+\newcount\zoneC
 \newcount\summer
 \newlength{\dimseme}
 \newlength{\dimmois}
@@ -371,9 +387,9 @@
 \begin{center}
 \mois=1
 \week=1 \ifnum\jour>1 \advance\week1 \fi
-\zoneOOI=0
-\zoneOII=0
-\zoneIII=0
+\zoneA=0
+\zoneB=0
+\zoneC=0
 \summer=0
 \setlength{\dimseme}{799pt}
 \setlength{\dimmois}{127pt}
