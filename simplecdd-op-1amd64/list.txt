@@ -52,6 +52,9 @@ libpng-dev
 libx264-dev  # ffmpeg
 libvorbis-dev  # ffmpeg
 libsdl2-dev  # ffplay
+libsdl2-image-dev  # kivy
+libsdl2-mixer-dev  # kivy
+libsdl2-ttf-dev  # kivy
 libasound2-dev
 vlc
 mftrace
