@@ -194,6 +194,6 @@ portrait-%.pdf: %.pdf
 
 .PHONY: dist-clean
 dist-clean:
-	@$(RM) *.pdf build/*.tex build/*.dat
+	@$(RM) *.pdf build/*.tex build/*.dat build/moon-*
 
 include $(PROROOT)/makefiles/tar.mk

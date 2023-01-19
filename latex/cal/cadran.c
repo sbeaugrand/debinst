@@ -100,7 +100,7 @@ int main(int argc, char* argv[])
     // Obliquity of the ecliptic
     double eps0 = eclipticObliquity(t);
 
-#   if \
+#if \
     defined(WITH_EQUATION_OF_TIME) || \
     defined(WITH_AZIMUT) || \
     defined(WITH_DECLINATION)
@@ -114,7 +114,10 @@ int main(int argc, char* argv[])
     double dec = sunApparentDeclination(eps, lambda);
     // Apparent right ascension
     double ra = sunApparentRightAscension(eps, lambda);
+#   ifndef NDEBUG
+    fprintf(stderr, "debug: ra = %.7f, dec = %.7f\n", ra, dec);
 #   endif
+#endif
 
 #if defined(WITH_EQUATION_OF_TIME)
     // 1: (56) p372
@@ -150,6 +153,9 @@ int main(int argc, char* argv[])
     double h = altitude(ra, dec, theta0, lat, -lon);
     // Azimut
     double a = azimut(ra, dec, theta0, lat, -lon);
+#   ifndef NDEBUG
+    fprintf(stderr, "debug: theta0 = %.7f, azi = %.7f, ele = %.7f\n", theta0, a, h);
+#   endif
 
     gX = 0;
     gY = 0;
@@ -181,12 +187,12 @@ int main(int argc, char* argv[])
     roty(90 - lat);
     rotz(-gnomonicDeclination);
     roty(stylusAngle);
-    double x = -straightStylusLength * gY / gZ;
-    double y = straightStylusLength * gX / gZ;
-    if (gZ > 0 &&
-        x > -500 && x < 500 &&
-        y > -500 && y < 500) {
-        printf("%.7f %.7f\n", x, y);
+    if (gZ > 0) {
+        double x = -straightStylusLength * gY / gZ;
+        double y = straightStylusLength * gX / gZ;
+        if (x > -500 && x < 500 &&
+            y > -500 && y < 500) {
+            printf("%.7f %.7f\n", x, y);
     }
 #endif
 

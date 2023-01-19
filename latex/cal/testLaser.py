@@ -8,6 +8,7 @@
 def xy2gcode(code, x, y):
     print('{} X{} Y{}'.format(code, x, y))
 
+
 print('G21')  # Programmation en mm
 print('S300')  # Puissance du laser en pourmille (vitesse de rotation)
 print('G0 F300')  # Vitesse de déplacement en mm/min

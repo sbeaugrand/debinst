@@ -63,6 +63,6 @@ for ((m = mBegin; m != mEnd + 1; ++m)); do
         esac
     fi
     for ((j = jMin; j <= jMax; ++j)); do
-        build/cadran $y-$m-$j $lat $lon $hour $len $dec $ang >>$file
+        build/cadran $y-$m-$j $lat $lon $hour $len $dec $ang >>$file 2>/dev/null
     done
 done

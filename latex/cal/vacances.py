@@ -25,8 +25,7 @@ if n != N_RECORDS:
 
 i = 0
 for r in data['records']:
-    start = datetime.fromisoformat(
-        r['fields']['start_date'])
+    start = datetime.fromisoformat(r['fields']['start_date'])
     if start.weekday() == 4:
         start += timedelta(days=2)
     else:
