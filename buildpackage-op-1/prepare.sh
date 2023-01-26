@@ -34,6 +34,20 @@ source hardware/marlin/install-op-marlin-src.sh || return 1
 # source armbian/install-12-upm.sh
 source install-op-/install-op-mraa-xc.sh || return 1
 
+# wheels
+for args in\
+ bezier\
+ "--no-binary kivy kivy"\
+ pybluez\
+ pydbus\
+ buildozer\
+ cython\
+ pymeeus\
+ solidpython\
+; do
+    downloadWheel "$args"
+done
+
 # libdvdcss
 /usr/lib/libdvd-pkg/b-i_libdvdcss.sh
 file=`ls -1 -rt /usr/src/libdvd-pkg/*.bz2 | tail -n 1`

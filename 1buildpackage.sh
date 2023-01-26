@@ -15,6 +15,31 @@ tardist=$2
 source 0install.sh
 
 # ---------------------------------------------------------------------------- #
+# downloadWheel
+# ---------------------------------------------------------------------------- #
+downloadWheel()
+{
+    args="$1"
+    name=`echo $args | awk '{ print $NF }'`
+
+    if [ `uname -m` = "x86_64" ]; then
+        wheels="$idir/../wheels-amd64"
+    else
+        #wheels="$idir/../wheels-`uname -m`"
+        logWarn "wheels download is disabled on `uname -m`"
+        return
+    fi
+    mkdir -p $wheels
+
+    if ls -1 $wheels | grep -q -i "^$name"; then
+        logWarn "wheel $name already exists"
+        return
+    fi
+
+    pip3 wheel -w $wheels --prefer-binary $args
+}
+
+# ---------------------------------------------------------------------------- #
 # makePackage
 # ---------------------------------------------------------------------------- #
 makePackage()
