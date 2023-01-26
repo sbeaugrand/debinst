@@ -9,25 +9,28 @@ import sys
 import re
 import os
 
+
 # ---------------------------------------------------------------------------- #
-## \fn readList
+## \fn read_list
 # ---------------------------------------------------------------------------- #
-def readList(filename):
+def read_list(filename):
     if os.path.isfile(filename):
         with open(filename) as f:
             return f.read().splitlines()
     else:
         return list()
 
+
 # ---------------------------------------------------------------------------- #
-## \fn readFile
+## \fn read_file
 # ---------------------------------------------------------------------------- #
-def readFile(filename):
+def read_file(filename):
     if os.path.isfile(filename):
         with open(filename) as f:
             return f.read()
     else:
         return ''
+
 
 # ---------------------------------------------------------------------------- #
 ## \fn extract
@@ -42,7 +45,9 @@ def extract(dirname):
     for filename in dir:
         with open(dirname + filename, errors='ignore') as f:
             try:
-                new.extend(re.findall('([\w.-]+@[\w.-]+)', f.read()))
+                new.extend(
+                    re.findall('([\w\.\-]+@[\w\.\-]+)',
+                               f.read().replace('=\n', '')))
             except UnicodeDecodeError:
                 print('UnicodeDecodeError: {0}'.format(filename))
             except Exception as e:
@@ -71,13 +76,18 @@ def extract(dirname):
             continue
         if str.find('@egroups.com') != -1:
             continue
+        if str.find('@mail.gmail.com') != -1:
+            continue
+        if re.search('@.*\.prod\.', str):
+            continue
         if re.search(str, cur):
             continue
-        if re.search(str, sup):
+        if re.search('\n' + str, sup):
             continue
         res.append(str)
 
     return res
+
 
 # ---------------------------------------------------------------------------- #
 # main
@@ -86,8 +96,8 @@ if len(sys.argv) != 2:
     print('Usage: {0} <dir>'.format(sys.argv[0]))
     sys.exit(1)
 
-cur = readFile('mail-pr-.list')
-sup = readFile('mail-pr-.supp')
+cur = read_file('mail-pr-.list')
+sup = read_file('mail-pr-.supp')
 
 dirname = sys.argv[1]
 if os.path.isdir(dirname + '/cur/'):
