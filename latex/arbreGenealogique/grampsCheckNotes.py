@@ -7,7 +7,9 @@
 # ---------------------------------------------------------------------------- #
 import sys
 from gramps.gen.db import open_database
+from gramps.gen.utils.db import get_participant_from_event
 from os import path
+
 
 # ---------------------------------------------------------------------------- #
 ## \fn is_int
@@ -19,39 +21,43 @@ def is_int(value):
     except:
         return False
 
+
 # ---------------------------------------------------------------------------- #
-## \fn checkEvent
+## \fn check_event
 # ---------------------------------------------------------------------------- #
-def checkEvent(eventRef):
+def check_event(eventRef):
     if eventRef is None:
         return 0
-    event = db.get_event_from_handle(eventRef.get_reference_handle())
+    handle = eventRef.get_reference_handle()
+    event = db.get_event_from_handle(handle)
     id = event.get_gramps_id()
+    name = get_participant_from_event(db, handle)
     if len(event.get_media_list()) > 0:
         if len(event.get_note_list()) == 0:
-            str = "{0} GP{1} (media sans note) {2}".format(id, gp,
+            str = '{} GP{} (media sans note) {} [{}]'.format(
+                id, gp,
                 db.get_media_from_handle(
-                    event.get_media_list(
-                        )[0].get_reference_handle()).get_path())
+                    event.get_media_list()
+                    [0].get_reference_handle()).get_path(), name)
             if not str in supp:
                 print(str)
                 return 1
             else:
                 supp.remove(str)
                 return 0
-        note = db.get_note_from_handle(
-            event.get_note_list()[0]).get().replace("\n", " ")
-        if not is_int(note.split("/")[0]) or\
-           not is_int(note.split()[0].split("/")[1]):
-            str = "{0} GP{1} {2}".format(id, gp, note)
+        note = db.get_note_from_handle(event.get_note_list()[0]).get().replace(
+            "\n", " ")
+        if not is_int(note.split('/')[0]) or\
+           not is_int(note.split()[0].split('/')[1]):
+            str = '{} GP{} {} [{}]'.format(id, gp, note, name)
             if not str in supp:
                 print(str)
                 return 1
             else:
                 supp.remove(str)
                 return 0
-        if note.split()[1][:4] != "http":
-            str = "{0} GP{1} {2}".format(id, gp, note)
+        if note.split()[1][:4] != 'http':
+            str = '{} GP{} {} [{}]'.format(id, gp, note, name)
             if not str in supp:
                 print(str)
                 return 1
@@ -60,8 +66,9 @@ def checkEvent(eventRef):
                 return 0
         if len(event.get_note_list()) > 1:
             note = db.get_note_from_handle(
-                event.get_note_list()[1]).get().replace("\n", " ")
-            str = "{0} GP{1} (plusieurs notes) {2}".format(id, gp, note)
+                event.get_note_list()[1]).get().replace('\n', ' ')
+            str = '{} GP{} (plusieurs notes) {} [{}]'.format(
+                id, gp, note, name)
             if not str in supp:
                 print(str)
                 return 1
@@ -71,8 +78,9 @@ def checkEvent(eventRef):
     else:
         if len(event.get_note_list()) > 0:
             note = db.get_note_from_handle(
-                event.get_note_list()[0]).get().replace("\n", " ")
-            str = "{0} GP{1} (note sans media) {2}".format(id, gp, note)
+                event.get_note_list()[0]).get().replace('\n', ' ')
+            str = '{} GP{} (note sans media) {} [{}]'.format(
+                id, gp, note, name)
             if not str in supp:
                 print(str)
                 return 1
@@ -80,11 +88,12 @@ def checkEvent(eventRef):
                 supp.remove(str)
                 return 0
         if event.place:
-            str = "{0} GP{1} (lieu sans note) {2} {3}".format(id, gp,
+            str = '{} GP{} (lieu sans note) {} {} [{}]'.format(
+                id, gp,
                 db.get_place_from_handle(event.place).name.value,
-                event.date.text)
+                event.date.text, name)
             if event.description:
-                str += " ({0})".format(event.description)
+                str += ' ({})'.format(event.description)
             if not str in supp:
                 print(str)
                 return 1
@@ -92,10 +101,10 @@ def checkEvent(eventRef):
                 supp.remove(str)
                 return 0
         if not event.date.is_empty():
-            str = "{0} GP{1} (date sans note) {2}".format(id, gp,
-                event.date.text)
+            str = '{} GP{} (date sans note) {} [{}]'.format(
+                id, gp, event.date.text, name)
             if event.description:
-                str += " ({0})".format(event.description)
+                str += ' ({})'.format(event.description)
             if not str in supp:
                 print(str)
                 return 1
@@ -104,50 +113,55 @@ def checkEvent(eventRef):
                 return 0
     return 0
 
-# ---------------------------------------------------------------------------- #
-## \fn checkParent
-# ---------------------------------------------------------------------------- #
-def checkParent(handle, level, depth):
-    global gp
-    if level == 2:
-        gp += 1;
-    if db.has_person_handle(handle):
-        return checkPerson(db.get_person_from_handle(handle), level + 1, depth)
-    return 0
 
 # ---------------------------------------------------------------------------- #
-## \fn checkPerson
+## \fn check_parent
 # ---------------------------------------------------------------------------- #
-def checkPerson(person, level, depth):
+def check_parent(handle, level, depth):
+    global gp
+    if level == 2:
+        gp += 1
+    if db.has_person_handle(handle):
+        return check_person(db.get_person_from_handle(handle), level + 1,
+                            depth)
+    return 0
+
+
+# ---------------------------------------------------------------------------- #
+## \fn check_person
+# ---------------------------------------------------------------------------- #
+def check_person(person, level, depth):
     sum = 0
-    sum += checkEvent(person.get_birth_ref())
-    sum += checkEvent(person.get_death_ref())
+    sum += check_event(person.get_birth_ref())
+    sum += check_event(person.get_death_ref())
     if level >= depth:
         return sum
     for handle in person.get_parent_family_handle_list():
         family = db.get_family_from_handle(handle)
         for ref in family.get_event_ref_list():
             if db.get_event_from_handle(
-                ref.get_reference_handle()).get_type().is_marriage():
-                sum += checkEvent(ref)
-        sum += checkParent(family.get_father_handle(), level, depth)
-        sum += checkParent(family.get_mother_handle(), level, depth)
+                    ref.get_reference_handle()).get_type().is_marriage():
+                sum += check_event(ref)
+        sum += check_parent(family.get_father_handle(), level, depth)
+        sum += check_parent(family.get_mother_handle(), level, depth)
     return sum
+
 
 # ---------------------------------------------------------------------------- #
 # main
 # ---------------------------------------------------------------------------- #
 db = open_database(sys.argv[1], force_unlock=True)
 person = db.get_default_person()
-print(" default person:", person.get_primary_name().get_name())
-if path.isfile("gramps-pr-checkNotes.supp"):
-    suppFile = open("gramps-pr-checkNotes.supp", "r")
+print(' default person: {}'.format(person.get_primary_name().get_name()))
+if path.isfile('gramps-pr-checkNotes.supp'):
+    suppFile = open('gramps-pr-checkNotes.supp', 'r')
     supp = suppFile.read().splitlines()
     suppFile.close()
 else:
     supp = list()
 gp = 0
-print(" nb of notes to check:", checkPerson(person, 1, int(sys.argv[2])))
+print(' nb of notes to check: {}'.format(
+    check_person(person, 1, int(sys.argv[2]))))
 db.close()
 if len(supp) > 0:
     print(supp)

@@ -255,12 +255,16 @@ firmware-iwlwifi  # a1
 xserver-xorg-video-intel  # s2
 libcupsimage2  # live b1
 gramps
+python3-icu  # gramps
 pdfposter
+qpdf
+mupdf-tools  # mutool
 hplip
 cmark-gfm
 retext
 pandoc
 bluez
+bluez-tools
 libbluetooth-dev  # pybluez
 live-boot  # live-build
 live-config  # live-build

@@ -32,8 +32,9 @@ for iter in $list; do
         echo "error: $iter not found"
         exit 1
     fi
-    if ! identify -units PixelsPerCentimeter -verbose $iter |\
-       grep -q "Print size: ${width}x"; then
+    w=`identify -units PixelsPerCentimeter -verbose $iter |\
+     grep "Print size: " | awk '{ printf("%.0f\n", $3) }'`
+    if [ "$w" != "$width" ]; then
         if ((err == 0)); then
             echo "Todo :" >&2
         fi

@@ -3,6 +3,10 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note Client ip example : 10.66.0.3 gateway 10.66.0.2
+## \note File transfert example :
+##       server> python3 -m http.server
+##       client> http://10.66.0.2:8000
 # ---------------------------------------------------------------------------- #
 name=hotspot
 netId=10.66.0

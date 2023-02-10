@@ -9,22 +9,26 @@
 import serial
 import time
 import sys
+import argparse
 from os import path
 
 RX_BUFFER_SIZE = 128
-dev = '/dev/ttyUSB0'
-baudrate = 115200
 
-interactive = False
-if len(sys.argv) > 1 and sys.argv[1] == '-i':
-    interactive = True
+parser = argparse.ArgumentParser()
+parser.add_argument('-i', '--interactive', action='store_true')
+parser.add_argument('-r', '--baudrate', default=115200)
+parser.add_argument('-f',
+                    '--file',
+                    default=sys.stdin,
+                    type=argparse.FileType('r'))
+args = parser.parse_args()
 
+dev = '/dev/ttyACM0'
 if path.isfile('pts'):
     with open('pts') as f:
         dev = f.readline()
 elif not path.exists(dev):
-    dev = '/dev/ttyACM0'
-    baudrate = 250000
+    dev = '/dev/ttyUSB0'
 
 
 # ---------------------------------------------------------------------------- #
@@ -35,7 +39,7 @@ class CNC:
         if not path.exists(dev):
             print("{} not found".format(dev))
             exit(1)
-        self.ser = serial.Serial(dev, baudrate)
+        self.ser = serial.Serial(dev, args.baudrate)
         self.ser.write(b"\r\n\r\n")
         time.sleep(2)
         self.ser.flushInput()
@@ -54,7 +58,7 @@ class CNC:
 
     def read(self):
         recv = self.ser.readline().decode().strip()
-        if interactive:
+        if args.interactive:
             print(recv)
         else:
             print('recv: {}'.format(recv))
@@ -66,7 +70,7 @@ class CNC:
 
     def write(self, line):
         self.length.append(len(line) + 1)
-        if not interactive:
+        if not args.interactive:
             while sum(self.length) >= RX_BUFFER_SIZE - 1 or\
                   self.ser.in_waiting > 0:
                 self.read()
@@ -78,20 +82,20 @@ class CNC:
 # main
 # ---------------------------------------------------------------------------- #
 cnc = CNC(dev)
-if not interactive:
+if not args.interactive:
     start = time.time()
 
 try:
-    if interactive:
+    if args.interactive:
         print('> ', end='', flush=True)
-    for line in sys.stdin:
+    for line in args.file:
         line = line.strip()
         if len(line) == 0 or line[0] == '(':
-            if interactive:
+            if args.interactive:
                 print('> ', end='', flush=True)
             continue
         cnc.write(line)
-        if interactive:
+        if args.interactive:
             while cnc.read() == 0:
                 pass
             print('> ', end='', flush=True)
@@ -101,7 +105,7 @@ except KeyboardInterrupt:
     cnc.ser.write(b'?')
     time.sleep(1)
 
-if not interactive:
+if not args.interactive:
     cnc.flush()
     h, r = divmod(time.time() - start, 3600)
     m, s = divmod(r, 60)
