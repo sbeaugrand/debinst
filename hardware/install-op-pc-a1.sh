@@ -13,6 +13,8 @@ install-op-/install-op-firefox-vdh.sh
 install-op-/install-op-firefox-vdhcoapp.sh
 install-op-/install-op-firefox-cookies.sh
 install-op-/install-op-firefox-automute.sh
+install-op-/install-op-fonts-cursive.sh
+install-op-/install-op-fonts-morse.sh
 install-op-/install-op-id3ed.sh
 install-op-/install-op-kiplot.sh
 install-op-/install-op-mp3gain.sh

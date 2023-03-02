@@ -11,6 +11,7 @@ source install-op-/install-op-arduino.sh || return 1
 source install-op-/install-op-id3ed.sh || return 1
 source install-op-/install-op-mp3gain.sh || return 1
 source install-ob-/install-61-colorgcc.sh || return 1
+source install-op-/install-op-fonts-cursive.sh || return 1
 source install-op-/install-op-fonts-morse.sh || return 1
 source install-op-/install-op-eeplot.sh || return 1
 source install-op-/install-op-kiplot.sh || return 1

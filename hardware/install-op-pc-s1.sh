@@ -6,6 +6,7 @@ install-op-/install-op-arduino.sh
 install-op-/install-op-autologin.sh
 install-op-/install-op-imscripts.sh
 install-op-/install-op-eeplot.sh
+install-op-/install-op-fonts-cursive.sh
 install-op-/install-op-fonts-morse.sh
 install-op-/install-op-id3ed.sh
 install-op-/install-op-kiplot.sh

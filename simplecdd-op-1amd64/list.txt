@@ -187,6 +187,7 @@ python3-lxml  # cnc (inkscape gcode text)
 printrun  # cnc
 libnode-dev  # camotics
 libqt5opengl5  # camotics
+pstoedit
 pv
 libboost-dev
 aptitude
