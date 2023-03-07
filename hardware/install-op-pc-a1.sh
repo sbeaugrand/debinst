@@ -1,40 +1,28 @@
 # ---------------------------------------------------------------------------- #
 # pc
 # ---------------------------------------------------------------------------- #
+source $idir/hardware/install-op-pc-a0.sh
+
 sourceList "
-install-op-/install-op-arduino.sh
 install-op-/install-op-autologin.sh
-install-op-/install-op-imscripts.sh
 install-op-/install-op-dafont.sh
-install-op-/install-op-eeplot.sh
 install-op-/install-op-firefox-abp.sh
 install-op-/install-op-firefox-safesearch.sh
 install-op-/install-op-firefox-vdh.sh
 install-op-/install-op-firefox-vdhcoapp.sh
 install-op-/install-op-firefox-cookies.sh
 install-op-/install-op-firefox-automute.sh
-install-op-/install-op-fonts-cursive.sh
-install-op-/install-op-fonts-morse.sh
-install-op-/install-op-id3ed.sh
-install-op-/install-op-kiplot.sh
-install-op-/install-op-mp3gain.sh
 install-op-/install-op-lingot.sh
-install-op-/install-op-m4acut.sh
 install-op-/install-op-meteo.sh
-install-op-/install-op-mraa-xc.sh
 install-op-/install-op-uncrustify.sh
 install-op-/install-op-upgrades.sh
 install-op-/install-op-ytdlp.sh
-install-op-/install-op-avidemux.sh
-install-op-/install-op-camotics.sh
 install-pr-/install-pr-alias.sh
 install-pr-/install-pr-bashrc.sh
 install-pr-/install-pr-pdcroix.sh
 install-op-/install-op-ssh-keygen.sh
 hardware/install-op-hotspot.sh
 hardware/install-op-lp-hpP1006.sh
-hardware/install-op-grbl-sim.sh
-hardware/marlin/install-op-marlin-src.sh
 -su
 hardware/install-op-scan-mustekA3.sh
 "

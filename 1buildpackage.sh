@@ -15,7 +15,7 @@ tardist=$2
 source 0install.sh
 
 # ---------------------------------------------------------------------------- #
-# downloadWheel
+## \fn downloadWheel
 # ---------------------------------------------------------------------------- #
 downloadWheel()
 {
@@ -40,7 +40,7 @@ downloadWheel()
 }
 
 # ---------------------------------------------------------------------------- #
-# makePackage
+## \fn makePackage
 # ---------------------------------------------------------------------------- #
 makePackage()
 {
@@ -86,25 +86,60 @@ makePackage()
 }
 
 # ---------------------------------------------------------------------------- #
+## \fn rSourceList
+# ---------------------------------------------------------------------------- #
+rSourceList()
+{
+    f=$1
+    echo "$f" >>$tmp
+    l=`grep "^source " $f | sed 's/^source //'`
+    if grep -q "sourceList " $f; then
+        l="$l `sed -n '/sourceList/,/"/{/"/!p}' $f | sed 's/#//'`"
+    fi
+    for f in $l; do
+        rSourceList `echo $f | sed 's@\$idir/@@'`
+    done
+}
+
+# ---------------------------------------------------------------------------- #
+## \fn check
+# ---------------------------------------------------------------------------- #
+check()
+{
+    list=`find . -name "*.sh" -exec grep -q '^repo=\$idir' {} \; -print |\
+     grep -v build | cut -c3-`
+    tmp=/tmp/1buildpackage.tmp
+    cat /dev/null >$tmp
+    rSourceList $buildpackage/prepare.sh
+    sourceList=`cat $tmp`
+    for f in $list; do
+        if echo "$f" | grep -q "buildpackage-"; then
+            continue
+        fi
+        if echo "$f" | grep -q "not-often-used"; then
+            continue
+        fi
+        found=n
+        for s in $sourceList; do
+            if grep -q "$f" $s; then
+                found=y
+                break
+            fi
+        done
+        if [ "$found" = n ]; then
+            logTodo "$buildpackage/prepare.sh: missing $f"
+        fi
+        pkg="install-"`grep '^repo=\$idir' "$f" | awk -F / '{ print $NF }'`
+        if ! grep -q "$pkg" $buildpackage/list.txt; then
+            logTodo "$buildpackage/list.txt: missing $pkg"
+        fi
+    done
+}
+
+# ---------------------------------------------------------------------------- #
 # main
 # ---------------------------------------------------------------------------- #
-list=`find . -name "*.sh" -exec grep -q '^repo=\$idir' {} \; -print |\
- grep -v build | cut -c3-`
-for f in $list; do
-    if echo "$f" | grep -q "buildpackage-"; then
-        continue
-    fi
-    if echo "$f" | grep -q "not-often-used"; then
-        continue
-    fi
-    if ! grep -q "source $f" $buildpackage/prepare.sh; then
-        echo "warn: $buildpackage/prepare.sh: missing source $f"
-    fi
-    pkg="install-"`grep '^repo=\$idir' "$f" | awk -F / '{ print $NF }'`
-    if ! grep -q "$pkg" $buildpackage/list.txt; then
-        echo "warn: $buildpackage/list.txt: missing $pkg"
-    fi
-done
+check
 
 rm -fr $buildpackage/build
 
