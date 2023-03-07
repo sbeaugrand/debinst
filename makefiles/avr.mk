@@ -27,8 +27,6 @@ CFLAGS   += -g -Os -mmcu=$(ATMEL)
 CXXFLAGS += -g -Os -mmcu=$(ATMEL) -fno-exceptions
 WARNINGS  = -Wall -Wextra
 
-.SUFFIXES:
-
 .PHONY: all
 all:
 	@echo

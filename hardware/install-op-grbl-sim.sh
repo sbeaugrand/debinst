@@ -15,7 +15,7 @@ fi
 
 if notFile $dir/gvalidate.exe; then
     pushd $dir || return 1
-    make new >>$log 2>&1
+    make >>$log 2>&1 new
     popd
 fi
 
@@ -27,7 +27,7 @@ fi
 file=$bdir/grbl/grbl.hex
 if notFile $file; then
     pushd $bdir/grbl || return 1
-    make
+    make >>$log 2>&1
     logTodo "example for ARD-CNC-Kit1: avrdude -c arduino -p atmega328p -D -P /dev/ttyACM0 -U flash:w:grbl.hex"
     popd
 fi

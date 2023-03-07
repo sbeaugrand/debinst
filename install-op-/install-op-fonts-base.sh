@@ -20,7 +20,7 @@ copyFiles()
     ext=$1
     dir=$texdir/$2
     mkdir -p $dir
-    find . -name "*.$ext" -exec cp -uv {} $dir/ \;
+    find . -name "*.$ext" -exec cp -uv {} $dir/ \; >>$log
 }
 
 copyMap()

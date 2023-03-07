@@ -9,7 +9,7 @@ CMAKE_OPT="
 -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++
 -DBUILDSWIG=OFF
 "
-source projects/arm/mraa.sh
+source armbian/install-11-mraa.sh
 
 CMAKE_OPT="
 -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc
