@@ -44,6 +44,7 @@ define add-extra-packages
 	@echo libdebian-installer4 >>$1
 	@for i in `cat ../$(LPKG)/build/list.txt`; do\
 	 $(call add-extra-package,$1,$$i); done
+	@if grep -q libdvd $1; then echo libdvd-pkg >>$1; fi
 endef
 
 amd64/simple-cdd.conf i386/simple-cdd.conf: simple-cdd.conf

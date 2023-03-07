@@ -195,7 +195,6 @@ anacron
 lame
 libmp3lame-dev  # ffmpeg
 libdvdread-dev
-libdvd-pkg  # libdvdcss
 libdvdnav-dev
 libfaac-dev
 libaom-dev  # ffmpeg
