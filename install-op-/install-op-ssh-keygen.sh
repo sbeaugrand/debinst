@@ -6,5 +6,5 @@
 # ---------------------------------------------------------------------------- #
 file=$home/.ssh/id_rsa
 if notFile $file; then
-    sudo -u $user ssh-keygen -t rsa
+    ssh-keygen -t rsa
 fi

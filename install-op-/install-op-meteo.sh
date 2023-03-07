@@ -8,7 +8,6 @@ file=$home/.config/lxpanel/LXDE/panels/panel
 
 if ! isFile $file; then
     cp /etc/xdg/lxpanel/default/panels/panel $file
-    chown $user.$user $file
 fi
 if ! isFile $bdir/panel; then
     cp $file $bdir/panel

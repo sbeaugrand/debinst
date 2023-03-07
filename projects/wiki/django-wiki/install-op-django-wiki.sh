@@ -5,6 +5,11 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+if [ `whoami` != "root" ]; then
+    logError "try --root"
+    return 1
+fi
+
 project=django-wiki
 app=wiki
 host=mondomaine.net

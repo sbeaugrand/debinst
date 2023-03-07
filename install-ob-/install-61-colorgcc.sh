@@ -18,7 +18,6 @@ if isFile $file; then
         cp $file cc
         cp $file avr-g++
         cp $file avr-gcc
-        chown -R $user.$user .
         popd
     fi
 fi

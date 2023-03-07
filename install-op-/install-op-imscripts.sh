@@ -13,7 +13,6 @@ downloadScript()
     file=`readlink -f $repo/$script`
     if notFile $file; then
         curl -s "$url?scriptname=$script&dirname=$script" -o $file || return 1
-        chown $user.$user $file
         chmod 755 $file
     fi
     if notFile $home/.local/bin/$script; then

@@ -40,7 +40,7 @@ pull:
 not-often-used:
 	@ls -1 --color=no install-op-/install-op-*.sh |\
 	 xargs -I {} bash -c "grep -q {} hardware/*.sh || test -x {} || echo {}" |\
-	 grep -v '\(-src.sh\|codecs\)'
+	 grep -v '\(-src.sh\|codecs\|kivy\)'
 
 .PHONY: pkgs
 pkgs:

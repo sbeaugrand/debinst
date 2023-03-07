@@ -89,5 +89,3 @@ file=$home/.mplayer/config
 if notFile $file || notGrep x11 $file; then
     cp install-op-/install-op-mplayer/config $file
 fi
-
-chown -R $user.$user $home/.mplayer

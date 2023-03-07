@@ -19,9 +19,9 @@ source 0install.sh
 # pull
 pushd $bdir/$name || exit 1
 if [ -n "$branch" ]; then
-    sudo -u $user git checkout $branch
+    git checkout $branch
 fi
-sudo -u $user git pull --ff-only
+git pull --ff-only
 popd
 
 # tar

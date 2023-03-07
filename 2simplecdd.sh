@@ -36,6 +36,6 @@ for i in `cat $lpkg/list.txt`; do
 done
 
 cd $simplecdd
-sudo -u $user make LPKG=$lpkg
+make LPKG=$lpkg
 stat -c '%s' $bdir/$simplecdd/images/debian-*-DVD-1.iso |\
  awk '{ printf "%.1f GB\n",$0 / 1e9 }'

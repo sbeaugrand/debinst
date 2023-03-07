@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-gitconfig="sudo -u $user git config --global"
+gitconfig="git config --global"
 
 if ! $gitconfig --get user.name >/dev/null 2>&1; then
     logTodo "git config --global user.name $user"

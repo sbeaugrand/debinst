@@ -14,7 +14,7 @@
 # screen.desktop
 # ---------------------------------------------------------------------------- #
 dir=$home/.local/share/applications
-sudo -u $user mkdir -p $dir
+mkdir -p $dir
 file=$dir/screen.desktop
 if notFile $file; then
     cat >$file <<EOF

@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 file=`ls $home/.tuxguitar-*/config.properties 2>/dev/null`
 if [ -z "$file" ]; then
-    sudo -u $user tuxguitar >>$log 2>&1 &
+    tuxguitar >>$log 2>&1 &
     sleep 10
     pid=`pgrep -f tuxguitar`
     if [ -n "$pid" ]; then

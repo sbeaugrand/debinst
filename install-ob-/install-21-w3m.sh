@@ -9,7 +9,6 @@ file=$home/.w3m/config
 if notFile $file; then
     mkdir -p $home/.w3m
     echo "anchor_color cyan" >$file
-    chown -R $user.$user $home/.w3m
 elif notGrep "anchor_color cyan" $file; then
     sed -i 's/anchor_color .*/anchor_color cyan/' $file
 fi

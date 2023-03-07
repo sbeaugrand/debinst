@@ -8,7 +8,6 @@ file=$home/.config/lxpanel/LXDE/panels/panel
 
 if notFile $file; then
     cp /etc/xdg/lxpanel/default/panels/panel $file
-    chown $user.$user $file
 fi
 if notFile $bdir/panel; then
     cp $file $bdir/panel
@@ -26,7 +25,6 @@ addButton()
         tr '\n' '@' |\
 sed "s/Button/Button {@            id=$app.desktop@        }@        Button/" |\
         tr '@' '\n' >$file
-    chown $user.$user $file
     rm $bdir/panel.bak
     return 0
 }
@@ -50,7 +48,6 @@ delPattern()
         sed "s/@  *Config {@  *}//g" |\
         sed "s/@  *Plugin {@  *}//g" |\
         tr '@' '\n' >$file
-    chown $user.$user $file
     rm $bdir/panel.bak
     return 0
 }
@@ -88,7 +85,6 @@ if ! grep -q "ShowAllDesks=" $file; then
         tr '\n' '@' |\
         sed "s/\(type=taskbar@  Config {\)/\1@    ShowAllDesks=0/" |\
         tr '@' '\n' >$file
-    chown $user.$user $file
     rm $bdir/panel.bak
 elif notGrep "ShowAllDesks=0" $file; then
     sed -i 's/ShowAllDesks=.*/ShowAllDesks=0/' $file

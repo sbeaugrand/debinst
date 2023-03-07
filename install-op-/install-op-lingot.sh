@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 file=$home/.config/lingot/lingot.conf
 if notFile $file; then
-    sudo -u $user lingot >>$log 2>&1 &
+    lingot >>$log 2>&1 &
     sleep 2
     pkill -15 lingot
 fi

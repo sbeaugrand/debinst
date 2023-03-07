@@ -55,7 +55,7 @@ chown $user.$user $dir
 
 # install
 cd /home/$user/install/debinst
-./0install.sh\
+sudo -u $user ./0install.sh\
  install-ob-/install-02-bashrc.sh\
  install-ob-/install-03-screen.sh
 

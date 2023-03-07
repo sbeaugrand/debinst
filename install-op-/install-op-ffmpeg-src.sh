@@ -19,7 +19,6 @@ if notFile $repo/$pkg; then
         pushd $bdir/$src || return 1
         apt-get source $name
         dpkg-source -x ${name}_${version}*.dsc
-        chown -R $user.$user $bdir/$src
         popd
     fi
     pushd $bdir/$src || return 1

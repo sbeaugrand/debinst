@@ -9,7 +9,7 @@ if [ ! -d $home/.mozilla/firefox ]; then
         logError "DISPLAY is not set"
         return 0
     fi
-    sudo -u $user firefox --headless >>$log 2>&1 &
+    firefox --headless >>$log 2>&1 &
     sleep 20
     pid=`pgrep firefox`
     if [ -n "$pid" ]; then
@@ -61,26 +61,25 @@ user_pref("privacy.sanitize.pending", "[{\"id\":\"shutdown\",\"itemsToClear\":[\
 user_pref("privacy.sanitize.sanitizeOnShutdown", true);
 
 EOF
-chown $user.$user user.js
 file=`ls $idir/install-ob-/install-*-firefox/key4-pr-.db`
 if notFile key4.db; then
-    [ -n "$file" ] && sudo -u $user cp $file key4.db
+    [ -n "$file" ] && cp $file key4.db
 fi
 file=`ls $idir/install-ob-/install-*-firefox/logins-pr-.json`
 if notFile logins.json; then
-    [ -n "$file" ] && sudo -u $user cp $file logins.json
+    [ -n "$file" ] && cp $file logins.json
 fi
 popd
 
 dir=`ls -d $home/.mozilla/firefox/*.default-esr`
 if [ -n "$dir" ]; then
     pushd $dir || return 1
-    sudo -u $user cp -a ../*.default/user.js .
+    cp -a ../*.default/user.js .
     if notFile key4.db; then
-        sudo -u $user cp -a ../*.default/key4.db .
+        cp -a ../*.default/key4.db .
     fi
     if notFile logins.json; then
-        sudo -u $user cp -a ../*.default/logins.json .
+        cp -a ../*.default/logins.json .
     fi
     popd
 fi

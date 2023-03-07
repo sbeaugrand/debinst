@@ -43,7 +43,7 @@ if [ -z "$file" ]; then
 fi
 
 if [ -z "$file" ]; then
-    sudo -u $user mkdir -p `ls -d install-ob-/install-*-wallpaper`/build
+    mkdir -p `ls -d install-ob-/install-*-wallpaper`/build
     name=$bdir/fractal-${w}x${h}
     spanX=5E-04
     spanY=`echo $spanX | awk '{ printf "%E",$1 * '$h' / '$w' }'`

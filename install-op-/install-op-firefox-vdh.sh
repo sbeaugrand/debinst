@@ -19,8 +19,8 @@ if [ -n "$json" ]; then
 fi
 
 if ! pgrep firefox >/dev/null; then
-    sudo -u $user firefox &
+    firefox &
     sleep 5
 fi
 
-sudo -u $user firefox $repo/$file
+firefox $repo/$file

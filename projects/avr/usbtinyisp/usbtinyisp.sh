@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 repo=$idir/../repo
-[ -d $repo ] || sudo -u $user mkdir $repo
+[ -d $repo ] || mkdir $repo
 
 url=http://learn.adafruit.com/system/assets/assets/000/010/327/original
 file=usbtiny_v2.0_firm.zip

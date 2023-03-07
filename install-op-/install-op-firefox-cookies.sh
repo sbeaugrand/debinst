@@ -14,9 +14,9 @@ if [ -n "$file" ]; then
 fi
 
 if ! pgrep firefox >/dev/null; then
-    sudo -u $user firefox &
+    firefox &
     sleep 5
 fi
 
-sudo -u $user firefox\
+firefox\
  https://addons.mozilla.org/firefox/downloads/latest/i-dont-care-about-cookies
