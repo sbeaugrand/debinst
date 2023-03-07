@@ -1,15 +1,19 @@
 # ---------------------------------------------------------------------------- #
-## \file install-op-cal-src.sh
+## \file repo.mk
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-repo=$idir/../repo
-[ -d $repo ] || mkdir $repo
-url=http://dante.ctan.org/tex-archive
+TARDEPEND  += makefiles/repo.mk
 
-file=calendar.zip
-download $url/macros/plain/contrib/$file || return 1
+.SUFFIXES:
 
-file=moonphase.mf
-download $url/fonts/moonphase/$file || return 1
+ifeq ($(idir),)
+ REPO = $(HOME)/install/repo
+else
+ REPO = $(idir)/../repo
+endif
+BDIR  = $(HOME)/data/install-build
+
+$(shell mkdir -p $(REPO))
+$(shell mkdir -p $(BDIR))

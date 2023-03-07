@@ -4,49 +4,40 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-ifeq ($(idir),)
- REPO  = $(HOME)/install/repo
-else
- REPO  = $(idir)/../repo
-endif
-BDIR   = $(HOME)/data/install-build
-PYBAR  = $(BDIR)/pyBar
-EPB_SI = $(BDIR)/EPB_SI
-
 PROJECT = $(shell basename `readlink -f .`)
+PROROOT = ../..
 DAT2SVG = ../dat2svg.py
 SRCDIR  = $(shell pwd)
 PDFOBJECTS = $(patsubst %.dat,build/%.pdf,$(wildcard *.dat))
-SVGOBJECTS = $(patsubst %.dat,build/%.svg,$(wildcard *.dat))
-
-.SUFFIXES:
 
 .PHONY: all
 all: $(PROJECT).pdf
 
+include $(PROROOT)/makefiles/repo.mk
+
 $(PROJECT).pdf: $(PROJECT).tex\
- build $(REPO) $(PDFOBJECTS) $(EPB_SI)/EPB_SI.sty build/EPB_SI
+ build $(PDFOBJECTS) $(BDIR)/EPB_SI/EPB_SI.sty build/EPB_SI
 	@cd build && pdflatex --halt-on-error ../$<
 	@mv build/$@ .
 
-build $(REPO):
+build:
 	@mkdir $@
 
 $(PDFOBJECTS): build/defo%.pdf: build/defo%.svg
 	@rsvg-convert -f pdf -o $@ $<
 
-$(SVGOBJECTS): build/defo%.svg: defo%.dat $(DAT2SVG) $(PYBAR)/pyBar.py
-	cd $(PYBAR) && \
+build/defo%.svg: defo%.dat $(BDIR)/pyBar/pyBar.py $(DAT2SVG)
+	@cd $(BDIR)/pyBar && \
 	python3 -c '\
 	src="'$(SRCDIR)/$<'"; \
 	dst="'$(SRCDIR)/$@'"; \
 	exec(open("'$(SRCDIR)/$(DAT2SVG)'").read())'
 
-$(PYBAR)/pyBar.py:
-	git clone -q https://github.com/Philippe-Lawrence/pyBar.git $(PYBAR)
+$(BDIR)/pyBar/pyBar.py:
+	git clone -q https://github.com/Philippe-Lawrence/pyBar.git $(BDIR)/pyBar
 	@sed -i '/set_user_dir/D' $@
 
-$(EPB_SI)/EPB_SI.sty: $(REPO)/EPB_SI.zip
+$(BDIR)/EPB_SI/EPB_SI.sty: $(REPO)/EPB_SI.zip
 	@unzip -o $< -d $(BDIR)
 	@touch $@
 
@@ -64,5 +55,5 @@ clean:
 .PHONY: mrproper
 mrproper: clean
 	@$(RM) build/*
-	@rmdir build
+	@test ! -d build || rmdir build
 	@$(RM) *.pdf

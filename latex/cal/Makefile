@@ -22,13 +22,6 @@ ifneq ($(MAKECMDGOALS),dist-cal)
  endif
 endif
 
-ifeq ($(idir),)
- REPO = $(HOME)/install/repo
-else
- REPO = $(idir)/../repo
-endif
-BDIR  = $(HOME)/data/install-build
-
 .PHONY: all
 all:
 	@echo
@@ -39,9 +32,9 @@ all:
 	@echo " [WIDTH=61.0 HEIGHT=29.7 STRAIGHT_STYLUS_LENGTH=6.5]"
 	@echo
 
-LDLIBS = -lm
 PROROOT = ..
-PROJECT = cal
+include $(PROROOT)/makefiles/repo.mk
+LDLIBS = -lm
 include $(PROROOT)/makefiles/ccpp.mk
 
 .PHONY: cal dist-cal

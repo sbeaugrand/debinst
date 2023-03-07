@@ -10,28 +10,28 @@ SUBDIRS = \
 rdmpafsym \
 rdmpaf \
 
-.PHONY: $(SUBDIRS)
+PDFS = $(join $(addsuffix /,$(SUBDIRS)),$(addsuffix .pdf,$(SUBDIRS)))
+define submake
+ for dir in $(SUBDIRS); do $(MAKE) -C $$dir $1; done
+endef
 
 .SUFFIXES:
 
 .PHONY: all
-all:
-	@for dir in $(SUBDIRS); do \
-		$(MAKE) --no-print-directory -C $$dir all; \
-		files="$$files $$dir/$$dir.pdf"; \
-	done && \
-	pdfjam $$files -o $(PROJECT).pdf
+all: $(PROJECT).pdf
+$(PROJECT).pdf: $(PDFS)
+	@$(call submake,all)
+	@pdfjam -q -o $@ $(PDFS)
+
+$(PDFS):
 
 .PHONY: clean
 clean:
-	@for dir in $(SUBDIRS); do \
-		$(MAKE) --no-print-directory -C $$dir clean; \
-	done
+	@$(call submake,clean)
 
 .PHONY: mrproper
 mrproper:
-	@for dir in $(SUBDIRS); do \
-		$(MAKE) --no-print-directory -C $$dir mrproper; \
-	done
+	@$(call submake,mrproper)
+	@$(RM) $(PROJECT).pdf
 
 include $(PROROOT)/makefiles/tar.mk
