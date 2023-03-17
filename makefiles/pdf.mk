@@ -9,9 +9,9 @@ TARGETS += "| livret | portrait | extrait"
 
 .SUFFIXES:
 
-%.pdf: build %.tex
+%.pdf: %.tex
 	@echo TEXINPUTS=$(TEXINPUTS)
-	@cd build && export TEXINPUTS=$(TEXINPUTS) &&\
+	@mkdir -p build && cd build && export TEXINPUTS=$(TEXINPUTS) &&\
 	 pdflatex --halt-on-error ../$(PROJECT).tex
 	@mv build/$@ .
 

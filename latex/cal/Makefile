@@ -189,4 +189,5 @@ portrait-%.pdf: %.pdf
 dist-clean:
 	@$(RM) *.pdf build/*.tex build/*.dat build/moon-*
 
+PROJECT=cal
 include $(PROROOT)/makefiles/tar.mk

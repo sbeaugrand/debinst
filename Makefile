@@ -83,6 +83,7 @@ tar:
 	 --exclude=*-cache*\
 	 --exclude=*.ps\
 	 --exclude=*.nc\
+	 --exclude=*.ngc\
 	 --exclude=*.hex\
 	 --exclude=*.ged\
 	 --exclude=*.toc\
