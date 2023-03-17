@@ -159,6 +159,8 @@ texlive-pstricks
 texlive-extra-utils  # pdfjam
 texlive-science  # siunitx
 texlive-music
+texlive-metapost  # mfplain.mp
+gv
 ntpdate
 rsync
 hexedit

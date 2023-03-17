@@ -33,6 +33,17 @@ copyMap()
     fi
 }
 
+tracepfb()
+{
+    font=$1
+    pushd $dir || return 1
+    tfm=$texdir/fonts/tfm/public/$name/$font.tfm
+    enc=$idir/install-ob-/install-13-fonts/T1-WGL4.enc
+    mftrace --formats=pfb -V --tfmfile=$tfm -e $enc $font.mf >>$log 2>&1
+    mv $font.pfb $texdir/fonts/type1/public/frcursive/
+    popd
+}
+
 if notFile $texdir/tex/latex/$name/$name.sty; then
     pushd $bdir/$name || return 1
     copyFiles mf fonts/source/public/$name
