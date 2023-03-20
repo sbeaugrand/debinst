@@ -8,7 +8,7 @@
 # ---------------------------------------------------------------------------- #
 PROROOT = ..
 include $(PROROOT)/makefiles/pro.mk
-FONT = frcf10
+FONTS = frcr6=frcf6 frcr10=frcf10 frcr14=frcf14
 include $(PROROOT)/makefiles/gcode.mk
 
 ZNGCS = $(addprefix z-,$(wildcard [^z]*.ngc))
