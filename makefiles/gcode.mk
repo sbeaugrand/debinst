@@ -6,6 +6,9 @@
 # ---------------------------------------------------------------------------- #
 PDFLATEX = pdflatex --halt-on-error ../$(PROJECT).tex
 PDF2GCODE = $(shell which pdftogcode.sh)
+GCODE2GRBL = $(shell which gcode2grbl.awk)
+GRBLSIMPL = $(shell which grblsimplify.sh)
+FEEDR ?= 10.0# inches/min
 
 .SUFFIXES:
 
@@ -14,10 +17,18 @@ all: $(PROJECT).pdf
 $(PROJECT).pdf: $(PROJECT).tex
 	@mkdir -p build && cd build && TEXINPUTS="../font-n:" $(PDFLATEX)
 	@mv build/$@ .
+
 .PHONY: gcode
 gcode: $(PROJECT).ngc
 $(PROJECT).ngc: $(PROJECT).pdf $(PDF2GCODE)
 	@$(PDF2GCODE) $< $(FONTS)
+
+.PHONY: grbl
+grbl: grbl-$(PROJECT).ngc
+grbl-$(PROJECT).ngc: build/grbl-$(PROJECT).ngc $(GRBLSIMPL)
+	@$(GRBLSIMPL) $< >$@
+build/grbl-$(PROJECT).ngc: $(PROJECT).ngc $(GCODE2GRBL)
+	@sed 's/^#1001 = 10.0/#1001 = $(FEEDR)/' $< | $(GCODE2GRBL) >$@
 
 .PHONY: stick
 stick: stick.ngc

@@ -27,6 +27,17 @@ hardware/install-op-alsa-order.sh
 hardware/install-op-scan-mustekA3.sh
 "
 
+file=/etc/X11/xorg.conf.d/99-mode.conf
+if notFile $file; then
+    cat >$tmpf <<EOF
+Section "Monitor"
+  Identifier "`xrandr | grep -m 1 connected | cut -d ' ' -f 1`"
+  DisplaySize 382 215
+EndSection
+EOF
+    sudoRoot cp $tmpf $file
+fi
+
 if notLink $home/.gramps && isDir /data/gramps; then
     ln -s /data/gramps $home/.gramps
 fi

@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 repo=$idir/../repo
 
-gitClone https://github.com/parogers/gsim.git || return 1
+gitClone https://github.com/sbeaugrand/gsim.git || return 1
 
 if notWhich gsim; then
     pushd $bdir/gsim || return 1

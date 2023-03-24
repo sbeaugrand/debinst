@@ -34,6 +34,7 @@ Section "Monitor"
   Identifier "`xrandr | grep -m 1 connected | cut -d ' ' -f 1`"
 `gtf 1920 1080 60`
   Option "PreferredMode" "1920x1080_60.00"
+  DisplaySize 346 194
 EndSection
 EOF
     sudoRoot cp $tmpf $file
