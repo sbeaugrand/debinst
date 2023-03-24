@@ -15,6 +15,7 @@ isFile $file || return 1
 
 /usr/sbin/ntpdate -u ntp.u-psud.fr
 $file `date +%FT%Tw%w`
+logTodo "update rtc clock during time changes"
 
 if ! systemctl -q is-enabled rtc 2>>$log; then
     pushd ../projects/arm/ds1302 || return 1

@@ -60,4 +60,8 @@ EOF
     fi
 }
 
-bashrc $home/.bashrc
+if [ -n "$muttUser" ]; then
+    bashrc $muttHome/.bashrc
+else
+    bashrc $home/.bashrc
+fi

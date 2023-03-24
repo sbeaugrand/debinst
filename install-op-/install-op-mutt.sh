@@ -241,3 +241,12 @@ if [ -n "$id" ]; then
         echo "encrypt-to $id" >>$muttHome/.gnupg/gpg.conf
     fi
 fi
+
+# ---------------------------------------------------------------------------- #
+# bashrc
+# ---------------------------------------------------------------------------- #
+file=$muttHome/.bashrc
+if notGrep "XAUTHORITY" $file; then
+    echo "test -f ~/.Xauthority && export XAUTHORITY=~/.Xauthority" >>$file
+fi
+source install-ob-/install-02-bashrc.sh
