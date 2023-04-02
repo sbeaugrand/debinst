@@ -1,17 +1,18 @@
 # ---------------------------------------------------------------------------- #
-## \file Makefile
+## \file gcodefont.py
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note Example : make grbl
-##            or : make gsim
 # ---------------------------------------------------------------------------- #
-PROROOT = ..
-include $(PROROOT)/makefiles/pro.mk
-FONTS = frcr14=frcf14
-FEEDR = 40.0# inches/min
-include $(PROROOT)/makefiles/gcode.mk
+from abc import ABC, abstractmethod
 
-.PHONY: gsim
-gsim: grbl-$(PROJECT).ngc
-	@gsim $<
+
+class GcodeFont(ABC):
+    def __init__(self, width, sep):
+        self.width = width
+        self.height = width
+        self.sep = sep
+
+    @abstractmethod
+    def draw(self, s, x, y, a=0):
+        pass

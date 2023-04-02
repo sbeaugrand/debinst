@@ -1,6 +1,6 @@
 #!/bin/bash
 # ---------------------------------------------------------------------------- #
-## \file cadran.sh
+## \file sundial.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
@@ -63,6 +63,6 @@ for ((m = mBegin; m != mEnd + 1; ++m)); do
         esac
     fi
     for ((j = jMin; j <= jMax; ++j)); do
-        build/cadran $y-$m-$j $lat $lon $hour $len $dec $ang >>$file 2>/dev/null
+        build/sundial $y-$m-$j $lat $lon $hour $len $dec $ang >>$file 2>/dev/null
     done
 done

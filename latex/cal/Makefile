@@ -14,10 +14,11 @@ MOON = build/moon-events
 #CFLAGS += -DWITH_EQUATION_OF_TIME
 CFLAGS += -DWITH_AZIMUT
 #CFLAGS += -DWITH_DECLINATION
+GCODE_FONT = 7seg
 
 include config.mk
 ifneq ($(MAKECMDGOALS),dist-cal)
- ifneq ($(MAKECMDGOALS),dist-cadran)
+ ifneq ($(MAKECMDGOALS),dist-sundial)
   -include config-pr-symlink.mk
  endif
 endif
@@ -25,10 +26,10 @@ endif
 .PHONY: all
 all:
 	@echo
-	@echo -n "Usage: make { cal | cadran | testAlgos | testPaques | testSun "
+	@echo -n "Usage: make { cal | sundial | testAlgos | testEaster | testSun "
 	@echo -n $(TARGETS)
-	@echo -n " | portrait-cal$(YEAR).pdf | portrait-cadran.pdf"
-	@echo -n " | dist-clean | dist-cal | dist-cadran }"
+	@echo -n " | portrait-cal$(YEAR).pdf | portrait-sundial.pdf"
+	@echo -n " | dist-clean | dist-cal | dist-sundial }"
 	@echo " [WIDTH=61.0 HEIGHT=29.7 STRAIGHT_STYLUS_LENGTH=6.5]"
 	@echo
 
@@ -91,8 +92,8 @@ azimut: build/azimut
 testAlgos: build build/testAlgos
 	@build/testAlgos && echo OK
 
-.PHONY: testPaques
-testPaques:
+.PHONY: testEaster
+testEaster:
 	testPaques.sh | diff -y --suppress-common-lines testPaquesDim.ref -
 	cd build && TEXINPUTS="..:" pdflatex ../testPaques.tex | grep G= |\
 	 diff -y --suppress-common-lines ../testPaquesLun.ref -
@@ -110,8 +111,8 @@ testSun: build build/sun
 testAzimut:
 	@build/azimut 2021-06-21 48.44728 1.48749 7.66666 | diff testAzimut.ref -
 
-.PHONY: cadran dist-cadran
-cadran dist-cadran: build cadran.pdf
+.PHONY: sundial dist-sundial
+sundial dist-sundial: build sundial.pdf
 
 build/config.tex: $(MAKEFILE_LIST)
 	@echo "\\\newlength{\sousStylaire}" >$@
@@ -127,38 +128,15 @@ build/config.tex: $(MAKEFILE_LIST)
 	@echo "$(STYLUS_ANGLE) $(STRAIGHT_STYLUS_LENGTH)" |\
 	 awk '{ a=(90-$$1)*3.14159/180; printf "{%fcm}\n",$$2*sin(a)/cos(a) }' >>$@
 
-build/%.dat: cadran.sh build/cadran
+build/%.dat: sundial.sh build/sundial
 	$< $(YEAR) $(LAT) $(LON)\
 	 $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $(STYLUS_ANGLE) $@
 
-cadran.pdf: cadran.tex build/config.tex\
- build/hiv07.dat build/pri07.dat build/ete07.dat build/aut07.dat\
- build/hiv08.dat build/pri08.dat build/ete08.dat build/aut08.dat\
- build/hiv09.dat build/pri09.dat build/ete09.dat build/aut09.dat\
- build/hiv10.dat build/pri10.dat build/ete10.dat build/aut10.dat\
- build/hiv11.dat build/pri11.dat build/ete11.dat build/aut11.dat\
- build/hiv12.dat build/pri12.dat build/ete12.dat build/aut12.dat\
- build/hiv13.dat build/pri13.dat build/ete13.dat build/aut13.dat\
- build/hiv14.dat build/pri14.dat build/ete14.dat build/aut14.dat\
- build/hiv15.dat build/pri15.dat build/ete15.dat build/aut15.dat\
- build/hiv16.dat build/pri16.dat build/ete16.dat build/aut16.dat\
- build/hiv17.dat build/pri17.dat build/ete17.dat build/aut17.dat\
- build/hiv07_5.dat build/pri07_5.dat build/ete07_5.dat build/aut07_5.dat\
- build/hiv08_5.dat build/pri08_5.dat build/ete08_5.dat build/aut08_5.dat\
- build/hiv09_5.dat build/pri09_5.dat build/ete09_5.dat build/aut09_5.dat\
- build/hiv10_5.dat build/pri10_5.dat build/ete10_5.dat build/aut10_5.dat\
- build/hiv11_5.dat build/pri11_5.dat build/ete11_5.dat build/aut11_5.dat\
- build/hiv12_5.dat build/pri12_5.dat build/ete12_5.dat build/aut12_5.dat\
- build/hiv13_5.dat build/pri13_5.dat build/ete13_5.dat build/aut13_5.dat\
- build/hiv14_5.dat build/pri14_5.dat build/ete14_5.dat build/aut14_5.dat\
- build/hiv15_5.dat build/pri15_5.dat build/ete15_5.dat build/aut15_5.dat\
- build/hiv16_5.dat build/pri16_5.dat build/ete16_5.dat build/aut16_5.dat
+sundial.pdf: sundial.tex
 	cd build && pdflatex --halt-on-error ../$<
 	mv build/$@ .
 
-.PHONY: gcode
-gcode: cadran.nc
-cadran.nc: gcode.py gcode7seg.py build/config.tex\
+sundial.pdf sundial.ngc sundialTool1.ngc sundialTool2.ngc: build/config.tex\
  build/hiv07.dat build/pri07.dat build/ete07.dat build/aut07.dat\
  build/hiv08.dat build/pri08.dat build/ete08.dat build/aut08.dat\
  build/hiv09.dat build/pri09.dat build/ete09.dat build/aut09.dat\
@@ -180,7 +158,15 @@ cadran.nc: gcode.py gcode7seg.py build/config.tex\
  build/hiv14_5.dat build/pri14_5.dat build/ete14_5.dat build/aut14_5.dat\
  build/hiv15_5.dat build/pri15_5.dat build/ete15_5.dat build/aut15_5.dat\
  build/hiv16_5.dat build/pri16_5.dat build/ete16_5.dat build/aut16_5.dat
-	@$< >$@
+
+.PHONY: gcode
+gcode: sundial.ngc sundialTool1.ngc sundialTool2.ngc
+sundial.ngc: gcode.py
+	@$< -f $(GCODE_FONT) >$@
+sundialTool1.ngc: gcode.py
+	@$< -f $(GCODE_FONT) -t 1 >$@
+sundialTool2.ngc: gcode.py
+	@$< -f $(GCODE_FONT) -t 2 >$@
 
 portrait-%.pdf: %.pdf
 	pdfjam -q --angle 90 -o $@ $<
@@ -189,5 +175,6 @@ portrait-%.pdf: %.pdf
 dist-clean:
 	@$(RM) *.pdf build/*.tex build/*.dat build/moon-*
 
-PROJECT=cal
+PROJECT = cal
+TARDEPEND += gcodefonts/*.py gcodefonts/Makefile
 include $(PROROOT)/makefiles/tar.mk

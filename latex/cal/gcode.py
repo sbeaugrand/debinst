@@ -5,7 +5,22 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-from gcode7seg import *
+import argparse
+from gcodefonts import *
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-f',
+                    '--font',
+                    default='7seg',
+                    choices=['7seg', 'oeralinda'],
+                    help='default: 7seg')
+parser.add_argument('-t',
+                    '--tool',
+                    type=int,
+                    default=3,
+                    choices=[1, 2, 3],
+                    help='default: 3 (1 & 2)')
+args = parser.parse_args()
 
 scale = 10
 hmin = 7
@@ -28,12 +43,12 @@ if width < 300:
     width = 300
     height = 200
     marginY = 10
-    font = gcode7seg(width=2, sep=1)
+    font = GcodeFonts.create(args.font, width=2, sep=1)
 else:
     width = 600
     height = 300
     marginY = 5
-    font = gcode7seg(width=4, sep=2)
+    font = GcodeFonts.create(args.font, width=4, sep=2)
 marginX = 5
 
 
@@ -69,7 +84,7 @@ def dat2gcode(file):
                     first = False
                 else:
                     uv2gcode('G1', x, y)
-            else:
+            elif not first:
                 print('M5')
                 first = True
 
@@ -80,17 +95,19 @@ def dat2gcode(file):
 def analemme(hour):
     global first
     first = True
-    if hour.find('_') >= 0:
+    if args.tool == 3 and hour.find('_') >= 0:
         print('S{}'.format(sregular))
-        print('G0 F{}'.format(fregular))
+        print('F{}'.format(fregular))
     dat2gcode('build/ete{}.dat'.format(hour))
     dat2gcode('build/aut{}.dat'.format(hour))
     dat2gcode('build/hiv{}.dat'.format(hour))
     dat2gcode('build/pri{}.dat'.format(hour))
-    print('M5')
-    if hour.find('_') >= 0:
+    if not first:
+        print('M5')
+        first = True
+    if args.tool == 3 and hour.find('_') >= 0:
         print('S{}'.format(sbold))
-        print('G0 F{}'.format(fbold))
+        print('F{}'.format(fbold))
 
 
 # ---------------------------------------------------------------------------- #
@@ -112,11 +129,11 @@ def decorations(hour):
             print('M5')
             if hour.find('_') < 0:
                 if saison == 'hiv':
-                    uv2gcode('G0', x1 - font.width, y1 + font.width)
-                    font.draw('{}'.format(int(hour) + 1))
+                    font.draw('{}'.format(int(hour) + 1), x1 - font.width,
+                              y1 + font.width)
                 if saison == 'ete':
-                    uv2gcode('G0', x1 - font.width, y1 - font.width * 3)
-                    font.draw('{}'.format(int(hour) + 2))
+                    font.draw('{}'.format(int(hour) + 2), x1 - font.width,
+                              y1 - font.height - font.width)
 
 
 # ---------------------------------------------------------------------------- #
@@ -125,14 +142,20 @@ def decorations(hour):
 def loop(a, b, f):
     if a < b:
         for i in range(a, b):
-            f('{:02d}'.format(i))
-            f('{:02d}_5'.format(i))
-        f('{:02d}'.format(b))
+            if args.tool & 1:
+                f('{:02d}'.format(i))
+            if args.tool & 2:
+                f('{:02d}_5'.format(i))
+        if args.tool & 1:
+            f('{:02d}'.format(b))
     else:
-        f('{:02d}'.format(a))
+        if args.tool & 1:
+            f('{:02d}'.format(a))
         for i in range(a - 1, b - 1, -1):
-            f('{:02d}_5'.format(i))
-            f('{:02d}'.format(i))
+            if args.tool & 2:
+                f('{:02d}_5'.format(i))
+            if args.tool & 1:
+                f('{:02d}'.format(i))
 
 
 # ---------------------------------------------------------------------------- #
@@ -144,47 +167,52 @@ if not horizon < 1:
     offsetY -= horizon
 
 print('G21')  # Programmation en mm
-print('S{}'.format(sbold))
-print('G0 F{}'.format(fbold))
+if args.tool & 1:
+    print('S{}'.format(sbold))
+    print('F{}'.format(fbold))
+else:
+    print('S{}'.format(sregular))
+    print('F{}'.format(fregular))
 
 first = True
 loop(hmin, hmax, analemme)
 
-print('(horizon)')
-xy2gcode('G0', width / 2 - marginX, horizon)
-print('M3')
-xy2gcode('G1', 0, horizon)
-print('M5')
-
-print('(sous-stylaire)')
-if horizon < 1:
-    xy2gcode('G0', 0, 0)
+if args.tool & 1:
+    print('(horizon)')
+    xy2gcode('G0', width / 2 - marginX, horizon)
     print('M3')
-    xy2gcode('G1', 0, sousStylaire)
-else:
-    xy2gcode('G0', 0, -2)
-    print('M3')
-    xy2gcode('G1', 0, 2)
+    xy2gcode('G1', 0, horizon)
     print('M5')
-    xy2gcode('G0', -2, 0)
+
+    print('(sous-stylaire)')
+    if horizon < 1:
+        xy2gcode('G0', 0, 0)
+        print('M3')
+        xy2gcode('G1', 0, sousStylaire)
+    else:
+        xy2gcode('G0', 0, -2)
+        print('M3')
+        xy2gcode('G1', 0, 2)
+        print('M5')
+        xy2gcode('G0', -2, 0)
+        print('M3')
+        xy2gcode('G1', 2, 0)
+    print('M5')
+
+    print('(horizon)')
+    xy2gcode('G0', 0, horizon)
     print('M3')
-    xy2gcode('G1', 2, 0)
-print('M5')
+    xy2gcode('G1', -width / 2 + marginX, horizon)
+    print('M5')
 
-print('(horizon)')
-xy2gcode('G0', 0, horizon)
-print('M3')
-xy2gcode('G1', -width / 2 + marginX, horizon)
-print('M5')
-
-saison = 'hiv'
-loop(hmin, hmax, decorations)
-saison = 'aut'
-loop(hmax, hmin, decorations)
-saison = 'pri'
-loop(hmin, hmax, decorations)
-saison = 'ete'
-loop(hmax, hmin, decorations)
+    saison = 'hiv'
+    loop(hmin, hmax, decorations)
+    saison = 'aut'
+    loop(hmax, hmin, decorations)
+    saison = 'pri'
+    loop(hmin, hmax, decorations)
+    saison = 'ete'
+    loop(hmax, hmin, decorations)
 
 print('G0 X0 Y0')
 print('M2')

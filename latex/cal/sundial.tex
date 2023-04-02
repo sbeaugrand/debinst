@@ -1,5 +1,5 @@
 % ---------------------------------------------------------------------------- %
-%% \file cadran.tex
+%% \file sundial.tex
 %% \author Sebastien Beaugrand
 %% \sa http://beaugrand.chez.com/
 %% \copyright CeCILL 2.1 Free Software license
@@ -23,7 +23,7 @@
 \fi
 \addtolength{\ymin}{\sousStylaire}
 
-\newcommand\cadran{
+\newcommand\sundial{
   \ifdim\horizon<1cm
     \draw (-0.1,\sousStylaire) -- (0.1,\sousStylaire);
     \draw (0,0) -- (0,\sousStylaire);
@@ -128,24 +128,24 @@
 \begin{document}
 \begin{tikzpicture}
   \clip (-\width/2,\ymin) rectangle (\width/2,\sousStylaire);
-  \cadran
+  \sundial
 \end{tikzpicture}
 \ifdim\width>59cm
   \newpage
   \setpapersize{custom}{210mm}{297mm}
   \begin{tikzpicture}
     \clip (-\width/2,\ymin) rectangle (-\width/6,\sousStylaire);
-    \cadran
+    \sundial
   \end{tikzpicture}
   \newpage
   \begin{tikzpicture}
     \clip (-\width/6,\ymin) rectangle (\width/6,\sousStylaire);
-    \cadran
+    \sundial
   \end{tikzpicture}
   \newpage
   \begin{tikzpicture}
     \clip (\width/6,\ymin) rectangle (\width/2,\sousStylaire);
-    \cadran
+    \sundial
   \end{tikzpicture}
 \fi
 

@@ -25,12 +25,12 @@ build/$(PROJECT).dvi: $(PROJECT).tex
 
 .PHONY: gcode
 gcode: tock4.nc tock6.nc
-tock4.nc: tock.py gcodeOeraLinda.py
+tock4.nc: tock.py
 	@./$< 4 >$@
 	@echo
 	@grep -H 'margin' $@
 	@echo
-tock6.nc: tock.py gcodeOeraLinda.py
+tock6.nc: tock.py
 	@./$< 6 >$@
 	@echo
 	@grep -H 'margin' $@
@@ -52,4 +52,5 @@ mrproper: clean
 	@rmdir build
 	@$(RM) *.pdf
 
+TARDEPEND += gcodefonts/*.py gcodefonts/Makefile
 include $(PROROOT)/makefiles/tar.mk

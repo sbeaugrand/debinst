@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # ---------------------------------------------------------------------------- #
-## \file cadran3D.py
+## \file sundial3D.py
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
@@ -24,10 +24,10 @@ parser = argparse.ArgumentParser(
     epilog='''
 example: pip3 install pymeeus
          pip3 install solidpython
-         ./cadran3D.py -s sphere     --draft -o ~/cadran3Ds.scad
-         ./cadran3D.py -s polyhedron --draft -o ~/cadran3Dp.scad
-         ./cadran3D.py -s wall       --draft -o ~/cadran3Dw.scad
-         openscad ~/cadran3Dw.scad &
+         ./sundial3D.py -s sphere     --draft -o ~/sundial3Ds.scad
+         ./sundial3D.py -s polyhedron --draft -o ~/sundial3Dp.scad
+         ./sundial3D.py -s wall       --draft -o ~/sundial3Dw.scad
+         openscad ~/sundial3Dw.scad &
 ''',
     formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument('--lat',

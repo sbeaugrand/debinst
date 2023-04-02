@@ -22,6 +22,7 @@ build
 */i386/profiles/i386.postinst
 */i386/simple-cdd.conf
 __pycache__
+*.egg-info
 *.7z
 README.html
 *.tgz

@@ -8,7 +8,7 @@
 import sys
 from math import *
 from scipy.optimize import fsolve
-from gcodeOeraLinda import *
+from gcodefonts import *
 
 RPLATEAU = 150
 n = int(sys.argv[1])
@@ -16,12 +16,12 @@ if n == 4:
     l = 220
     circleRadius = 6
     quinzeAngle = radians(26.9 / 2)
-    font = gcodeOeraLinda(width=4, sep=1)
+    font = GcodeFonts.create('oeralinda', width=4, sep=1)
 elif n == 6:
     l = 235
     circleRadius = 5.5
     quinzeAngle = radians(35.3 / 2)
-    font = gcodeOeraLinda(width=4, sep=1)
+    font = GcodeFonts.create('oeralinda', width=4, sep=1)
 
 
 def f(x):
@@ -69,7 +69,8 @@ def drawWithCartesian(branchAngle, u, v, num, numAngle):
     print("G3 X{:.3f} Y{:.3f} I{}".format(x + circleRadius, y, -circleRadius))
     print("M5")
     print("(n={},a={:.1f})".format(num, degrees(branchAngle + numAngle)))
-    font.draw(x, y, "{}".format(num), branchAngle + numAngle)
+    font.draw(str(num), x - font.width / 2, y - font.height / 2,
+              branchAngle + numAngle)
     if num == 18:
         print("S300")
 
@@ -103,7 +104,7 @@ print("(margin={:.1f}mm)".format(RPLATEAU -
                                  (-yorig - hinit + hincr + circleRadius)))
 print("G21")
 print("S300")
-print("G0 F300")
+print("F300")
 for a in range(0, 360, int(360 / n)):
     drawBranch(radians(a))
 print("G0 X0 Y0")

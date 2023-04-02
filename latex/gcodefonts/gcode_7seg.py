@@ -1,21 +1,16 @@
 # ---------------------------------------------------------------------------- #
-## \file gcode7seg.py
+## \file gcode_7seg.py
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-class gcodeFont:
-    def __init__(self, width, sep):
-        self.width = width
-        self.sep = sep
-
-    def draw(self, s):
-        pass
+from gcodefont import *
 
 
-class gcode7seg(gcodeFont):
+class Gcode7seg(GcodeFont):
     def __init__(self, width, sep):
         super().__init__(width, sep)
+        self.height = width * 2
 
     def __uv2gcode(self, code, x, y):
         print('{} X{:.2f} Y{:.2f}'.format(code, x, y))
@@ -60,7 +55,7 @@ class gcode7seg(gcodeFont):
         if d != 0 and d != 1 and d != 7:
             self.__segH2gcode(0, self.width)
 
-    def __drawChar(self, c):
+    def __draw_char(self, c):
         n = ord(c) - ord('0')
         if n < 0 or n > 9:
             return 0
@@ -68,11 +63,12 @@ class gcode7seg(gcodeFont):
         self.__uv2gcode('G0', self.width + self.sep, 0)
         return 1
 
-    def draw(self, s):
+    def draw(self, s, x, y, a=0):
         print('({})'.format(s))
+        self.__uv2gcode('G0', x, y)
         print('G91')
         l = 0
         for c in s:
-            l += self.__drawChar(c)
+            l += self.__draw_char(c)
         #self.__uv2gcode('G0', -l * (self.width + self.sep), 0)
         print('G90')

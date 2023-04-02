@@ -12,6 +12,7 @@ install-op-/install-op-firefox-vdh.sh
 install-op-/install-op-firefox-vdhcoapp.sh
 install-op-/install-op-firefox-cookies.sh
 install-op-/install-op-firefox-automute.sh
+install-op-/install-op-fonts-gcodefonts.sh
 install-op-/install-op-lingot.sh
 install-op-/install-op-meteo.sh
 install-op-/install-op-uncrustify.sh
