@@ -115,8 +115,11 @@ def analemme(hour):
 # ---------------------------------------------------------------------------- #
 def decorations(hour):
     with open('build/{}{}.dat'.format(saison, hour)) as f:
-        x1, y1 = [float(x) * scale for x in f.readline().split()]
-        x2, y2 = [float(x) * scale for x in f.readline().split()]
+        try:
+            x1, y1 = [float(x) * scale for x in f.readline().split()]
+            x2, y2 = [float(x) * scale for x in f.readline().split()]
+        except:
+            return
         x1 += offsetX
         y1 += offsetY
         x2 += offsetX

@@ -141,9 +141,9 @@ int main(int argc, char* argv[])
              COS(stylusAngle) * COS(gnomonicDeclination)) * COS(H) -
             (SIN(lat) * SIN(stylusAngle) + COS(lat) *
              COS(stylusAngle) * COS(gnomonicDeclination)) * TAN(dec);
-        printf("%.7f %.7f\n",
-               straightStylusLength * nx / Q,
-               straightStylusLength * ny / Q);
+        gX = -nx;
+        gY = -ny;
+        gZ = Q;
     }
 #elif defined(WITH_AZIMUT)
     // Apparent Sideral Time
@@ -154,7 +154,11 @@ int main(int argc, char* argv[])
     // Azimut
     double a = azimut(ra, dec, theta0, lat, -lon);
 #   ifndef NDEBUG
-    fprintf(stderr, "debug: theta0 = %.7f, azi = %.7f, ele = %.7f\n", theta0, a, h);
+    fprintf(stderr,
+            "debug: theta0 = %.7f, azi = %.7f, ele = %.7f\n",
+            theta0,
+            a,
+            h);
 #   endif
 
     gX = 0;
@@ -163,13 +167,6 @@ int main(int argc, char* argv[])
     rotx(h);
     roty(a - gnomonicDeclination);
     rotx(stylusAngle - 90);
-    double x = -straightStylusLength * gX / gZ;
-    double y = -straightStylusLength * gY / gZ;
-    if (gZ > 0 &&
-        x > -500 && x < 500 &&
-        y > -500 && y < 500) {
-        printf("%.7f %.7f\n", x, y);
-    }
 #else
 #   if defined(WITH_DECLINATION)
     gX = COS(ra) * COS(dec);
@@ -187,14 +184,18 @@ int main(int argc, char* argv[])
     roty(90 - lat);
     rotz(-gnomonicDeclination);
     roty(stylusAngle);
-    if (gZ > 0) {
-        double x = -straightStylusLength * gY / gZ;
-        double y = straightStylusLength * gX / gZ;
-        if (x > -500 && x < 500 &&
-            y > -500 && y < 500) {
-            printf("%.7f %.7f\n", x, y);
-    }
+    rotz(90);
 #endif
+
+    if (gZ > 0) {
+        double x = -straightStylusLength * gX / gZ;
+        double y = -straightStylusLength * gY / gZ;
+        double sousStylaire = straightStylusLength * TAN(lat);
+        if (x > -30 && x < 30 &&
+            y > -29 + sousStylaire && y < sousStylaire) {
+            printf("%.7f %.7f\n", x, y);
+        }
+    }
 
     return EXIT_SUCCESS;
 }

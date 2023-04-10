@@ -9,6 +9,12 @@ PDF2GCODE = $(shell which pdftogcode.sh)
 GCODE2GRBL = $(shell which gcode2grbl.awk)
 GRBLSIMPL = $(shell which grblsimplify.sh)
 FEEDR ?= 10.0# inches/min
+TARDEPEND +=\
+ gcodefonts/*.py\
+ gcodefonts/Makefile\
+ bin/pdftogcode.sh\
+ bin/gcode2grbl.awk\
+ bin/grblsimplify.sh\
 
 .SUFFIXES:
 

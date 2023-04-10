@@ -26,11 +26,17 @@ endif
 .PHONY: all
 all:
 	@echo
-	@echo -n "Usage: make { cal | sundial | testAlgos | testEaster | testSun "
-	@echo -n $(TARGETS)
-	@echo -n " | portrait-cal$(YEAR).pdf | portrait-sundial.pdf"
-	@echo -n " | dist-clean | dist-cal | dist-sundial }"
-	@echo " [WIDTH=61.0 HEIGHT=29.7 STRAIGHT_STYLUS_LENGTH=6.5]"
+	@echo "Usage: make cal"
+	@echo "       make { portrait-cal$(YEAR).pdf }"
+	@echo "       make { testAlgos | testEaster | testSun }"
+	@echo "       make sundial"
+	@echo "       make { portrait-sundial.pdf }"
+	@echo "       make { pygcode | gcode | grbl }"
+	@echo "       make azimut"
+	@echo "       make { testAzimut }"
+	@echo "       make dist-clean"
+	@echo "       make { dist-cal | dist-sundial }"
+	@echo "  [WIDTH=61.0 HEIGHT=29.7 STRAIGHT_STYLUS_LENGTH=6.5]"
 	@echo
 
 PROROOT = ..
@@ -41,13 +47,15 @@ include $(PROROOT)/makefiles/ccpp.mk
 .PHONY: cal dist-cal
 cal dist-cal: build cal$(YEAR).pdf
 
-cal$(YEAR).pdf: cal.tex\
+%.pdf: %.tex
+	cd build && TEXINPUTS="calendar:..:"\
+	 pdflatex --halt-on-error --shell-escape ../$<
+	mv build/$@ .
+
+cal$(YEAR).pdf:\
  build/sun $(MOON)\
  build/moonphase.mf build/calendar build/calendar/calend0.tex\
  build/year.tex build/lat.tex build/lon.tex build/h0.tex build/vacances$(YEAR).tex
-	cd build && TEXINPUTS="calendar:..:"\
-	 pdflatex --halt-on-error --shell-escape ../cal.tex
-	mv build/cal.pdf $@
 
 build/moonphase.mf: $(REPO)/moonphase.mf
 	@ln -sf $< $@
@@ -85,9 +93,6 @@ build/vacances$(YEAR).tex: vacances.sh $(MAKEFILE_LIST)
 build/%: build/%.o build/algos.o
 	$(LINK.c) $^ $(LDLIBS) -o $@
 
-.PHONY: azimut
-azimut: build/azimut
-
 .PHONY: testAlgos
 testAlgos: build build/testAlgos
 	@build/testAlgos && echo OK
@@ -107,9 +112,11 @@ testEaster:
 testSun: build build/sun
 	@build/sun `date +%Y-%m-%d` $(LAT) $(LON) $(H0)
 
+.PHONY: azimut
+azimut: build/azimut
 .PHONY: testAzimut
-testAzimut:
-	@build/azimut 2021-06-21 48.44728 1.48749 7.66666 | diff testAzimut.ref -
+testAzimut: build/azimut
+	@$< 2021-06-21 48.44728 1.48749 7.66666 | diff $@.ref -
 
 .PHONY: sundial dist-sundial
 sundial dist-sundial: build sundial.pdf
@@ -132,11 +139,7 @@ build/%.dat: sundial.sh build/sundial
 	$< $(YEAR) $(LAT) $(LON)\
 	 $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $(STYLUS_ANGLE) $@
 
-sundial.pdf: sundial.tex
-	cd build && pdflatex --halt-on-error ../$<
-	mv build/$@ .
-
-sundial.pdf sundial.ngc sundialTool1.ngc sundialTool2.ngc: build/config.tex\
+sundial.pdf sundialTool1.pdf pysundialTool1.ngc: build/config.tex\
  build/hiv07.dat build/pri07.dat build/ete07.dat build/aut07.dat\
  build/hiv08.dat build/pri08.dat build/ete08.dat build/aut08.dat\
  build/hiv09.dat build/pri09.dat build/ete09.dat build/aut09.dat\
@@ -147,7 +150,9 @@ sundial.pdf sundial.ngc sundialTool1.ngc sundialTool2.ngc: build/config.tex\
  build/hiv14.dat build/pri14.dat build/ete14.dat build/aut14.dat\
  build/hiv15.dat build/pri15.dat build/ete15.dat build/aut15.dat\
  build/hiv16.dat build/pri16.dat build/ete16.dat build/aut16.dat\
- build/hiv17.dat build/pri17.dat build/ete17.dat build/aut17.dat\
+ build/hiv17.dat build/pri17.dat build/ete17.dat build/aut17.dat
+
+sundial.pdf sundialTool2.pdf pysundialTool2.ngc: build/config.tex\
  build/hiv07_5.dat build/pri07_5.dat build/ete07_5.dat build/aut07_5.dat\
  build/hiv08_5.dat build/pri08_5.dat build/ete08_5.dat build/aut08_5.dat\
  build/hiv09_5.dat build/pri09_5.dat build/ete09_5.dat build/aut09_5.dat\
@@ -159,14 +164,20 @@ sundial.pdf sundial.ngc sundialTool1.ngc sundialTool2.ngc: build/config.tex\
  build/hiv15_5.dat build/pri15_5.dat build/ete15_5.dat build/aut15_5.dat\
  build/hiv16_5.dat build/pri16_5.dat build/ete16_5.dat build/aut16_5.dat
 
-.PHONY: gcode
-gcode: sundial.ngc sundialTool1.ngc sundialTool2.ngc
-sundial.ngc: gcode.py
-	@$< -f $(GCODE_FONT) >$@
-sundialTool1.ngc: gcode.py
+.PHONY: pygcode
+pygcode: pysundialTool1.ngc pysundialTool2.ngc
+pysundialTool1.ngc: gcode.py
 	@$< -f $(GCODE_FONT) -t 1 >$@
-sundialTool2.ngc: gcode.py
+pysundialTool2.ngc: gcode.py
 	@$< -f $(GCODE_FONT) -t 2 >$@
+
+.PHONY: gcode grbl
+gcode: sundialTool1.ngc sundialTool2.ngc
+grbl: grbl-sundialTool1.ngc grbl-sundialTool2.ngc
+sundialTool1.ngc grbl-sundialTool1.ngc: sundialTool1.pdf
+	@$(MAKE) --no-print-directory -f grbl.mk $@ PROJECT=sundialTool1
+sundialTool2.ngc grbl-sundialTool2.ngc: sundialTool2.pdf
+	@$(MAKE) --no-print-directory -f grbl.mk $@ PROJECT=sundialTool2
 
 portrait-%.pdf: %.pdf
 	pdfjam -q --angle 90 -o $@ $<
@@ -176,5 +187,4 @@ dist-clean:
 	@$(RM) *.pdf build/*.tex build/*.dat build/moon-*
 
 PROJECT = cal
-TARDEPEND += gcodefonts/*.py gcodefonts/Makefile
 include $(PROROOT)/makefiles/tar.mk

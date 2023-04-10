@@ -1,0 +1,86 @@
+% ---------------------------------------------------------------------------- %
+%% \file sundialTool2.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass[a4paper]{article}
+\pagestyle{empty}
+\usepackage{vmargin}
+\input config.tex
+\setpapersize{custom}{\width}{\height}
+\addtolength\width{-1cm}
+\addtolength\height{-1cm}
+\setmarginsrb{5mm}{5mm}{5mm}{5mm}{0mm}{0mm}{0mm}{0mm}
+\usepackage{tikz}
+\parindent0mm
+
+\newlength{\ymin}
+\setlength{\ymin}{-\height}
+\ifdim\horizon<1cm
+\else
+  \addtolength{\sousStylaire}{\horizon}
+\fi
+\addtolength{\ymin}{\sousStylaire}
+
+\newcommand\sundial{
+  \ifdim\horizon<1cm
+    \draw (-0.1,\sousStylaire) -- (0.1,\sousStylaire);
+    \draw (0,0) -- (0,\sousStylaire);
+  \else
+    \draw (-0.2,0) -- (0.2,0);
+    \draw (0,-0.2) -- (0,0.2);
+  \fi
+  \draw (-\width/2,\horizon) -- (\width/2,\horizon);
+  %\clip (-\width/2,\ymin) rectangle (\width/2,0);
+  \draw[color=black,very thin ] plot file{hiv07_5.dat};
+  \draw[color=black,very thin ] plot file{pri07_5.dat};
+  \draw[color=black,very thin ] plot file{ete07_5.dat};
+  \draw[color=black,very thin ] plot file{aut07_5.dat};
+  \draw[color=black,very thin ] plot file{hiv08_5.dat};
+  \draw[color=black,very thin ] plot file{pri08_5.dat};
+  \draw[color=black,very thin ] plot file{ete08_5.dat};
+  \draw[color=black,very thin ] plot file{aut08_5.dat};
+  \draw[color=black,very thin ] plot file{hiv09_5.dat};
+  \draw[color=black,very thin ] plot file{pri09_5.dat};
+  \draw[color=black,very thin ] plot file{ete09_5.dat};
+  \draw[color=black,very thin ] plot file{aut09_5.dat};
+  \draw[color=black,very thin ] plot file{hiv10_5.dat};
+  \draw[color=black,very thin ] plot file{pri10_5.dat};
+  \draw[color=black,very thin ] plot file{ete10_5.dat};
+  \draw[color=black,very thin ] plot file{aut10_5.dat};
+  \draw[color=black,very thin ] plot file{hiv11_5.dat};
+  \draw[color=black,very thin ] plot file{pri11_5.dat};
+  \draw[color=black,very thin ] plot file{ete11_5.dat};
+  \draw[color=black,very thin ] plot file{aut11_5.dat};
+  \draw[color=black,very thin ] plot file{hiv12_5.dat};
+  \draw[color=black,very thin ] plot file{pri12_5.dat};
+  \draw[color=black,very thin ] plot file{ete12_5.dat};
+  \draw[color=black,very thin ] plot file{aut12_5.dat};
+  \draw[color=black,very thin ] plot file{hiv13_5.dat};
+  \draw[color=black,very thin ] plot file{pri13_5.dat};
+  \draw[color=black,very thin ] plot file{ete13_5.dat};
+  \draw[color=black,very thin ] plot file{aut13_5.dat};
+  \draw[color=black,very thin ] plot file{hiv14_5.dat};
+  \draw[color=black,very thin ] plot file{pri14_5.dat};
+  \draw[color=black,very thin ] plot file{ete14_5.dat};
+  \draw[color=black,very thin ] plot file{aut14_5.dat};
+  \draw[color=black,very thin ] plot file{hiv15_5.dat};
+  \draw[color=black,very thin ] plot file{pri15_5.dat};
+  \draw[color=black,very thin ] plot file{ete15_5.dat};
+  \draw[color=black,very thin ] plot file{aut15_5.dat};
+  \draw[color=black,very thin ] plot file{hiv16_5.dat};
+  \draw[color=black,very thin ] plot file{pri16_5.dat};
+  \draw[color=black,very thin ] plot file{ete16_5.dat};
+  \draw[color=black,very thin ] plot file{aut16_5.dat};
+}
+
+\begin{document}
+\fontencoding{T1}\fontfamily{frc}\selectfont
+\Huge
+\begin{tikzpicture}
+  \clip (-\width/2,\ymin) rectangle (\width/2,\sousStylaire);
+  \sundial
+\end{tikzpicture}
+
+\end{document}
