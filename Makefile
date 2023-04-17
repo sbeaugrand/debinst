@@ -11,30 +11,23 @@ PROJECT = debinst
 .PHONY: all
 all:
 
-.PHONY: readme
-readme: README.html
-	@lynx $<
-
-%.html: %.md
-	@cmark-gfm $< >$@
-
 .PHONY: versions
 versions:
 	@grep --color "^version=" *.sh */*.sh
 
-.PHONY: pull
-pull:
+.PHONY: updaterepo
+updaterepo:
 	@grep -r --color=always\
 	 --exclude-dir=build\
 	 --exclude-dir=armbian\
-	 --exclude-dir=rpi\
 	 --exclude-dir=mobian\
+	 --exclude-dir=raspbian\
 	 --exclude-dir=install-pr*\
 	 --exclude-dir=not-often-used\
-	 --exclude=README.*\
+	 --exclude=*.md\
 	 --exclude=Makefile\
 	 "gitClone " | tee /dev/stderr |\
-	 sed 's#.*/\(.*\)\..*#repo=$(HOME)/install/repo ./4updaterepo.sh \1#'
+	 sed -e 's#.*/##' -e 's/ .*//' -e 's#^#todo: ./4updaterepo.sh #' -e 's/\.git//'
 
 .PHONY: not-often-used
 not-often-used:

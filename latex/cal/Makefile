@@ -187,4 +187,11 @@ dist-clean:
 	@$(RM) *.pdf build/*.tex build/*.dat build/moon-*
 
 PROJECT = cal
+TARDEPEND +=\
+ gcodefonts/*.py\
+ gcodefonts/Makefile\
+ bin/pdftogcode.sh\
+ bin/gcode2grbl.awk\
+ bin/grblsimplify.sh\
+ makefiles/gcode.mk
 include $(PROROOT)/makefiles/tar.mk

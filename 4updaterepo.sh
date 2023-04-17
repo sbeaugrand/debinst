@@ -25,7 +25,13 @@ git pull --ff-only
 popd
 
 # tar
+repoSav=$repo
+repo=$idir/../repo
 file=$repo/$name.tar
+if [ ! -f $file ]; then
+    repo=$repoSav
+    file=$repo/$name.tar
+fi
 pushd $bdir || exit 1
 echo tar cf $file $name/.git
 eval tar cf $file $name/.git
