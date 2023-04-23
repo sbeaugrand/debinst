@@ -1,4 +1,3 @@
 debinst
-install-bin
 install-repo
 install-wheels-amd64
