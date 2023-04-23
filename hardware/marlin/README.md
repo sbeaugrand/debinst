@@ -49,3 +49,33 @@ M105
 M140 S0
 M105
 ```
+
+# PrusaSlicer config
+
+## install
+```
+colordiff -y -W 160 --suppress-common-lines PrusaSlicer-Prusa_i3_Rework/filament/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/filament/Prusa_i3_Rework.ini
+colordiff -y -W 160 --suppress-common-lines PrusaSlicer-Prusa_i3_Rework/printer/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/printer/Prusa_i3_Rework.ini
+colordiff -y -W 160 --suppress-common-lines PrusaSlicer-Prusa_i3_Rework/print/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/print/Prusa_i3_Rework.ini
+cp -auv PrusaSlicer-Prusa_i3_Rework/filament/* ~/.config/PrusaSlicer/filament/
+cp -auv PrusaSlicer-Prusa_i3_Rework/printer/* ~/.config/PrusaSlicer/printer/
+cp -auv PrusaSlicer-Prusa_i3_Rework/print/* ~/.config/PrusaSlicer/print/
+```
+
+## Recreate Default_Marlin2
+Configuration Wizard => Custom Printer => Name Default_Marlin2 => Firmware Marlin 2 => Finish
+
+## Update Prusa_i3_Rework
+Print Settings => Save current Print Settings
+Filament Settings => Save current Filament Settings
+Printer Settings => Save current Printer Settings
+
+## Save
+```
+colordiff -y -W 160 --suppress-common-lines ~/.config/PrusaSlicer/filament/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/filament/Prusa_i3_Rework.ini
+colordiff -y -W 160 --suppress-common-lines ~/.config/PrusaSlicer/printer/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/printer/Prusa_i3_Rework.ini
+colordiff -y -W 160 --suppress-common-lines ~/.config/PrusaSlicer/print/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/print/Prusa_i3_Rework.ini
+cp -auv ~/.config/PrusaSlicer/filament/* PrusaSlicer-Prusa_i3_Rework/filament/
+cp -auv ~/.config/PrusaSlicer/printer/* PrusaSlicer-Prusa_i3_Rework/printer/
+cp -auv ~/.config/PrusaSlicer/print/* PrusaSlicer-Prusa_i3_Rework/print/
+```
