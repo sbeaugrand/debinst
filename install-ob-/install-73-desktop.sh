@@ -38,6 +38,15 @@ if notGrep 'key="Super_L"' $file; then
     openbox --reconfigure
 fi
 
+if notGrep "C-A-l" $file; then
+    sed -i 's#</keyboard>#  <!-- Lock screen -->\
+  <keybind key="C-A-l">\
+    <action name="Execute"><command>xscreensaver-command -lock</command></action>\
+  </keybind>\
+</keyboard>#' $file
+    openbox --reconfigure
+fi
+
 if notGrep "C-A-t" $file; then
     sed -i 's#</keyboard>#  <!-- Terminal -->\
   <keybind key="C-A-t">\
