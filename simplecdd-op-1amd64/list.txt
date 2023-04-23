@@ -15,6 +15,7 @@ libglib2.0-dev
 xorg-dev
 emacs-lucid
 elpa-php-mode
+elpa-yaml-mode
 aspell-fr
 myspell-fr
 indent
@@ -148,6 +149,7 @@ xli
 libreoffice
 upower
 libnotify-bin  # notify-send
+notification-daemon  # notify-send
 numlockx
 sysv-rc-conf
 gnome-screenshot
