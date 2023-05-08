@@ -66,4 +66,6 @@ dep:
 
 -include $(CDEP) $(CXXDEP)
 
+ifeq ($(OBJECTS_NDEP_MAKEFILE_LIST),)
 $(OBJECTS): $(MAKEFILE_LIST)
+endif

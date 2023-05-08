@@ -116,27 +116,24 @@ def analemme(hour):
 def decorations(hour):
     with open('build/{}{}.dat'.format(saison, hour)) as f:
         try:
-            x1, y1 = [float(x) * scale for x in f.readline().split()]
-            x2, y2 = [float(x) * scale for x in f.readline().split()]
+            x, y = [float(x) * scale for x in f.readline().split()]
         except:
             return
-        x1 += offsetX
-        y1 += offsetY
-        x2 += offsetX
-        y2 += offsetY
-        if x1 >= marginX and x1 < width - marginX and \
-           y1 >= marginY and y1 < height - marginY:
-            print('G0 X{:.2f} Y{:.2f}'.format(x1 + 0.5, y1))
+        x += offsetX
+        y += offsetY
+        if x >= marginX and x < width - marginX and \
+           y >= marginY and y < height - marginY:
+            print('G0 X{:.2f} Y{:.2f}'.format(x + 0.5, y))
             print('M3')
-            print('G3 X{:.2f} Y{:.2f} I-0.5'.format(x1 + 0.5, y1))
+            print('G3 X{:.2f} Y{:.2f} I-0.5'.format(x + 0.5, y))
             print('M5')
             if hour.find('_') < 0:
                 if saison == 'hiv':
-                    font.draw('{}'.format(int(hour) + 1), x1 - font.width,
-                              y1 + font.width)
+                    font.draw('{}'.format(int(hour) + 1), x - font.width,
+                              y + font.width)
                 if saison == 'ete':
-                    font.draw('{}'.format(int(hour) + 2), x1 - font.width,
-                              y1 - font.height - font.width)
+                    font.draw('{}'.format(int(hour) + 2), x - font.width,
+                              y - font.height - font.width)
 
 
 # ---------------------------------------------------------------------------- #

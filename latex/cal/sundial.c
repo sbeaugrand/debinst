@@ -191,9 +191,17 @@ int main(int argc, char* argv[])
         double x = -straightStylusLength * gX / gZ;
         double y = -straightStylusLength * gY / gZ;
         double sousStylaire = straightStylusLength * TAN(lat);
-        if (x > -30 && x < 30 &&
-            y > -29 + sousStylaire && y < sousStylaire) {
-            printf("%.7f %.7f\n", x, y);
+        if (((month >= 3 && month < 6) || (month == 6 && day < 21)) &&
+            (hour - truncf(hour) < 0.1)) {
+            if (x > -29.5 && x < 29.5 &&
+                y > -28.5 + sousStylaire && y < sousStylaire) {
+                printf("%.7f %.7f\n", x, y);
+            }
+        } else {
+            if (x > -29.9 && x < 29.9 &&
+                y > -29.5 + sousStylaire && y < sousStylaire) {
+                printf("%.7f %.7f\n", x, y);
+            }
         }
     }
 

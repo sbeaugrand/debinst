@@ -9,9 +9,9 @@
 \usepackage{vmargin}
 \input config.tex
 \setpapersize{custom}{\width}{\height}
-\addtolength\width{-1cm}
-\addtolength\height{-1cm}
-\setmarginsrb{5mm}{5mm}{5mm}{5mm}{0mm}{0mm}{0mm}{0mm}
+\addtolength\width{-12mm}
+\addtolength\height{-2mm}
+\setmarginsrb{6mm}{1mm}{6mm}{1mm}{0mm}{0mm}{0mm}{0mm}
 \usepackage{tikz}
 \parindent0mm
 
@@ -24,15 +24,6 @@
 \addtolength{\ymin}{\sousStylaire}
 
 \newcommand\sundial{
-  \ifdim\horizon<1cm
-    \draw (-0.1,\sousStylaire) -- (0.1,\sousStylaire);
-    \draw (0,0) -- (0,\sousStylaire);
-  \else
-    \draw (-0.2,0) -- (0.2,0);
-    \draw (0,-0.2) -- (0,0.2);
-  \fi
-  \draw (-\width/2,\horizon) -- (\width/2,\horizon);
-  %\clip (-\width/2,\ymin) rectangle (\width/2,0);
   \draw[color=black,very thin ] plot file{hiv07_5.dat};
   \draw[color=black,very thin ] plot file{pri07_5.dat};
   \draw[color=black,very thin ] plot file{ete07_5.dat};
@@ -80,7 +71,10 @@
 \Huge
 \begin{tikzpicture}
   \clip (-\width/2,\ymin) rectangle (\width/2,\sousStylaire);
+  \draw[blue, very thin] (\width/2,\sousStylaire) rectangle (-\width/2,\ymin);
   \sundial
+  \input decorations_5
+  \draw (0,\ymin+30) node {La vérité n'a pas d'heure};
 \end{tikzpicture}
 
 \end{document}

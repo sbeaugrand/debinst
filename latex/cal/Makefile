@@ -31,7 +31,7 @@ all:
 	@echo "       make { testAlgos | testEaster | testSun }"
 	@echo "       make sundial"
 	@echo "       make { portrait-sundial.pdf }"
-	@echo "       make { pygcode | gcode | grbl }"
+	@echo "       make { pygcode | gcode | grbl | laser }"
 	@echo "       make azimut"
 	@echo "       make { testAzimut }"
 	@echo "       make dist-clean"
@@ -42,6 +42,7 @@ all:
 PROROOT = ..
 include $(PROROOT)/makefiles/repo.mk
 LDLIBS = -lm
+OBJECTS_NDEP_MAKEFILE_LIST = y
 include $(PROROOT)/makefiles/ccpp.mk
 
 .PHONY: cal dist-cal
@@ -139,7 +140,23 @@ build/%.dat: sundial.sh build/sundial
 	$< $(YEAR) $(LAT) $(LON)\
 	 $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $(STYLUS_ANGLE) $@
 
-sundial.pdf sundialTool1.pdf pysundialTool1.ngc: build/config.tex\
+sundial.pdf: build/config.tex $(DATAS) $(DATAS_5)
+
+pysundialTool1.ngc: build/config.tex $(DATAS)
+
+pysundialTool2.ngc: build/config.tex $(DATAS_5)
+
+sundialTool1.pdf: build/config.tex build/decorations.tex
+
+sundialTool2.pdf: build/config.tex build/decorations_5.tex
+
+build/decorations.tex: deco2tex.py $(DATAS)
+	@$< -t 1 >$@
+
+build/decorations_5.tex: deco2tex.py $(DATAS_5)
+	@$< -t 2 >$@
+
+DATAS =\
  build/hiv07.dat build/pri07.dat build/ete07.dat build/aut07.dat\
  build/hiv08.dat build/pri08.dat build/ete08.dat build/aut08.dat\
  build/hiv09.dat build/pri09.dat build/ete09.dat build/aut09.dat\
@@ -152,7 +169,7 @@ sundial.pdf sundialTool1.pdf pysundialTool1.ngc: build/config.tex\
  build/hiv16.dat build/pri16.dat build/ete16.dat build/aut16.dat\
  build/hiv17.dat build/pri17.dat build/ete17.dat build/aut17.dat
 
-sundial.pdf sundialTool2.pdf pysundialTool2.ngc: build/config.tex\
+DATAS_5 =\
  build/hiv07_5.dat build/pri07_5.dat build/ete07_5.dat build/aut07_5.dat\
  build/hiv08_5.dat build/pri08_5.dat build/ete08_5.dat build/aut08_5.dat\
  build/hiv09_5.dat build/pri09_5.dat build/ete09_5.dat build/aut09_5.dat\
@@ -174,10 +191,44 @@ pysundialTool2.ngc: gcode.py
 .PHONY: gcode grbl
 gcode: sundialTool1.ngc sundialTool2.ngc
 grbl: grbl-sundialTool1.ngc grbl-sundialTool2.ngc
-sundialTool1.ngc grbl-sundialTool1.ngc: sundialTool1.pdf
+sundialTool1.ngc grbl-sundialTool1.ngc: sundialTool1.pdf FORCE
 	@$(MAKE) --no-print-directory -f grbl.mk $@ PROJECT=sundialTool1
-sundialTool2.ngc grbl-sundialTool2.ngc: sundialTool2.pdf
+	@grblminmax.awk $@
+sundialTool2.ngc grbl-sundialTool2.ngc: sundialTool2.pdf FORCE
 	@$(MAKE) --no-print-directory -f grbl.mk $@ PROJECT=sundialTool2
+	@grblminmax.awk $@
+
+.PHONY: laser
+laser: laser-grbl-sundial.ngc
+laser-grbl-sundial.ngc: laser-grbl-sundialTool1.ngc laser-grbl-sundialTool2.ngc
+	@cat $^ | sed\
+	 -e '0,/^M2/{/^M2/d}'\
+	 -e '0,/(M9/{/(M9/d}'\
+	 -e 's/(M9.*/G0 X0 Y0/'\
+	 >$@
+laser-grbl-sundialTool1.ngc: grbl-sundialTool1.ngc $(MAKEFILE_LIST)
+	@sed\
+	 -e 's/M3 S15000.*/S300/'\
+	 -e 's/G00 Z0.100 F.*/F12.0\n(begin1)\n(begin2)/'\
+	 -e 's/G00 Z0.100/M5/'\
+	 -e 's/G00 Z-0.010/M3/'\
+	 $< |\
+	 sed '/(begin2)/,/G01 X0.001 Y0.001/d' |\
+	 sed '/(begin1)/,/G01 X0.001 Y0.001/d' |\
+	 cat >$@
+laser-grbl-sundialTool2.ngc: grbl-sundialTool2.ngc $(MAKEFILE_LIST)
+	@sed\
+	 -e 's/M3 S15000.*/S300/'\
+	 -e 's/G00 Z0.100 F.*/F48.0\n(begin1)\n(begin2)/'\
+	 -e 's/G00 Z0.100/M5/'\
+	 -e 's/G00 Z-0.010/M3/'\
+	 $< |\
+	 sed '/(begin2)/,/G01 X0.001 Y0.001/d' |\
+	 sed '/(begin1)/,/G01 X0.001 Y0.001/d' |\
+	 cat >$@
+
+.PHONY: FORCE
+FORCE:
 
 portrait-%.pdf: %.pdf
 	pdfjam -q --angle 90 -o $@ $<
