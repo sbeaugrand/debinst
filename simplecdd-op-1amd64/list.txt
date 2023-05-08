@@ -58,6 +58,7 @@ libsdl2-mixer-dev  # kivy
 libsdl2-ttf-dev  # kivy
 libasound2-dev
 vlc
+simplescreenrecorder
 mftrace
 fontforge
 avr-libc
