@@ -31,7 +31,24 @@ if \$DISPLAY != '' && executable('xsel')
     xnoremap <C-C> :w !xsel -i -b<CR>
 endif
 EOF
+    return 0
 }
-
 vimrc $home/.vimrc
-return 0
+
+vimdir=`ls -d /usr/share/vim/vim[0-9][0-9]`
+if [ ! -d "$vimdir" ]; then
+    return 1
+fi
+
+file=$vimdir/filetype.vim
+isFile $file || return 1
+
+if notGrep Vagrantfile $file; then
+    cp $file $tmpf
+    cat >>$tmpf <<EOF
+
+" Vagrantfile
+au BufNewFile,BufRead Vagrantfile setfiletype ruby
+EOF
+    sudoRoot cp $tmpf $file
+fi

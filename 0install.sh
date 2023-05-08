@@ -141,7 +141,7 @@ sudoRoot()
     else
         if echo "$*" | grep -q "$tmpf"; then
             logInfo "$tmpf:"
-            sed 's/^/       /' $tmpf
+            tail -n 30 $tmpf | sed 's/^/       /'
         fi
         echo -n " sudo: $* (O/n) " | tee -a $log
         read ret

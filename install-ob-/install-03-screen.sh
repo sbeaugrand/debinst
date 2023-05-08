@@ -72,8 +72,6 @@ EOF
     cat >>$file <<EOF
 xterm*foreground: white
 xterm*background: black
-xterm*scrollBar: true
-xterm*rightScrollBar: true
 xterm*vt100*translations: #override <Key>F9: secure()
 EOF
     if [ -n "$DISPLAY" ]; then

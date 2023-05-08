@@ -90,6 +90,7 @@ tar:
 	 --exclude=*.egg-info\
 	 --exclude=*.7z\
 	 --exclude=README.html\
+	 --exclude=.vagrant\
 	\
 	 --exclude=homepage/html\
 	 --exclude=homepage/images\
