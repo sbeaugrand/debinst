@@ -48,15 +48,13 @@ include $(PROROOT)/makefiles/ccpp.mk
 .PHONY: cal dist-cal
 cal dist-cal: build cal$(YEAR).pdf
 
-%.pdf: %.tex
-	cd build && TEXINPUTS="calendar:..:"\
-	 pdflatex --halt-on-error --shell-escape ../$<
-	mv build/$@ .
-
-cal$(YEAR).pdf:\
+cal$(YEAR).pdf: cal.tex\
  build/sun $(MOON)\
  build/moonphase.mf build/calendar build/calendar/calend0.tex\
  build/year.tex build/lat.tex build/lon.tex build/h0.tex build/vacances$(YEAR).tex
+	cd build && TEXINPUTS="calendar:..:"\
+	 pdflatex --halt-on-error --shell-escape ../$<
+	mv build/cal.pdf $@
 
 build/moonphase.mf: $(REPO)/moonphase.mf
 	@ln -sf $< $@
