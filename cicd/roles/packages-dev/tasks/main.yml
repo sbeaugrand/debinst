@@ -1,0 +1,25 @@
+---
+- name: install packages
+  apt:
+    cache_valid_time: 36000
+    install_recommends: no
+    name:
+      - cmake
+      - cppcheck
+      - g++
+      - gawk
+      - gcc
+      - git
+      - gdb
+      - librabbitmq-dev
+      - make
+      - qtbase5-dev
+      - rabbitmq-server
+      - subversion
+      - uncrustify
+      - valgrind
+  become: yes
+
+- name: install python packages
+  pip:
+    name: gitlabci-local

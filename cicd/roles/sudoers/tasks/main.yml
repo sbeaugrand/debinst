@@ -1,0 +1,10 @@
+- name: sudoers
+  blockinfile:
+    path: "/etc/sudoers.d/{{ user }}"
+    create: yes
+    block: |
+      Defaults rootpw
+      {{ user }} ALL=(root) ALL
+      {{ user }} ALL=({{ user }}) ALL
+    mode: 0440
+  become: yes

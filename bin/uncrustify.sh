@@ -6,7 +6,8 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ -z "$1" ]; then
-    list=`find . \( -name "*.[ch]" -o -name "*.cpp" \) -print | grep -v "/doc/"`
+    list=`find . -type d -name build -prune -false -o\
+ \( -name "*.[ch]" -o -name "*.cpp" \) -print | grep -v "/doc/"`
 else
     list="$*"
 fi

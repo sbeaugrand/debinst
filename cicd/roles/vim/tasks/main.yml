@@ -1,0 +1,17 @@
+---
+- name: apt install vim
+  apt:
+    install_recommends: no
+    name:
+      - vim
+  become: yes
+
+- name: vimrc
+  blockinfile:
+    create: yes
+    path: "{{ home }}/.vimrc"
+    marker: '" {mark} ANSIBLE MANAGED BLOCK'
+    block: |
+      set tabstop =4
+      set shiftwidth =4
+      set softtabstop =4

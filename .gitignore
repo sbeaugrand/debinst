@@ -25,6 +25,7 @@ __pycache__
 *.egg-info
 *.7z
 README.html
+.vagrant
 *.tgz
 *.png
 *.jpg

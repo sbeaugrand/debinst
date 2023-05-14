@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  vars:
+    user: "{{ lookup('env', 'USER') }}"
+    home: /home/{{ user }}
+  roles:
+    - sudoers
+    - packages
+    - packages-dev
+    - timezone
+    - screen
+    - vim
+    #
+    - libvirt

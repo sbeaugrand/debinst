@@ -1,0 +1,4 @@
+---
+- name: set-timezone
+  command: timedatectl set-timezone Europe/Paris
+  become: yes

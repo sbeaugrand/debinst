@@ -1,0 +1,11 @@
+---
+- name: install packages
+  apt:
+    cache_valid_time: 36000
+    install_recommends: no
+    name:
+      - lubuntu-desktop
+      - xterm
+      - emacs-lucid
+      - elpa-yaml-mode
+  become: yes

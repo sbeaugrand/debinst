@@ -1,0 +1,10 @@
+---
+- name: bashrc
+  lineinfile:
+    path: "{{ home }}/.bashrc"
+    line: 'test $TERM = screen && echo -e "\ek`hostname`\e\\"'
+
+- name: bash_logout
+  lineinfile:
+    path: "{{ home }}/.bash_logout"
+    line: 'test $TERM = screen && echo -e "\eklocalhost\e\\"'

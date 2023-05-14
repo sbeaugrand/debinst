@@ -1,0 +1,19 @@
+stages:
+  - build
+  - tests
+build:
+  stage: build
+  script:
+    - mkdir -p build
+    - cd build
+    - cmake ..
+    - make --no-print-directory clean
+    - make --no-print-directory
+tests:
+  stage: tests
+  script:
+    - ./build/project &
+    - sleep 1
+    - curl -u guest:guest -H "content-type:application/json" -X POST -d'{"properties":{"delivery_mode":1},"routing_key":"projectqueue","payload":"status","payload_encoding":"string"}' http://localhost:15672/api/exchanges/%2f/amq.default/publish -o -
+    - echo -n
+    - curl -u guest:guest -H "content-type:application/json" -X POST -d'{"properties":{"delivery_mode":1},"routing_key":"projectqueue","payload":"quit","payload_encoding":"string"}' http://localhost:15672/api/exchanges/%2f/amq.default/publish -o -

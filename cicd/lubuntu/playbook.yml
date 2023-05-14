@@ -1,0 +1,16 @@
+---
+- hosts: default
+  vars:
+    user: vagrant
+    home: /home/{{ user }}
+  roles:
+    - sudoers
+    - packages-guest
+    - packages-dev
+    - timezone
+    - screen
+    - vim
+    #
+    - lubuntu-desktop
+    - screen-remote
+    - rabbitmq-server

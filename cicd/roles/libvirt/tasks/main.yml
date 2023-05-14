@@ -1,0 +1,27 @@
+---
+- name: data link
+  file:
+    state: link
+    src: /data
+    path: "/home/{{ user }}/data"
+
+- name: vagrant link
+  file:
+    state: link
+    src: data/vagrant
+    path: "/home/{{ user }}/.vagrant.d"
+
+- name: install libvirt packages
+  apt:
+    install_recommends: no
+    name:
+      - vagrant-libvirt
+      - libvirt-daemon-system
+  become: yes
+
+- name: add user to the libvirt group
+  user:
+    append: yes
+    name: "{{ user }}"
+    groups: libvirt
+  become: yes
