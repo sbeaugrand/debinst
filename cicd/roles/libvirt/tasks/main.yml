@@ -3,13 +3,18 @@
   file:
     state: link
     src: /data
-    path: "/home/{{ user }}/data"
+    path: "{{ home }}/data"
+
+- name: vagrant dir
+  file:
+    state: directory
+    path: "{{ home }}/data/vagrant.d"
 
 - name: vagrant link
   file:
     state: link
-    src: data/vagrant
-    path: "/home/{{ user }}/.vagrant.d"
+    src: "{{ home }}/data/vagrant.d"
+    path: "{{ home }}/.vagrant.d"
 
 - name: install libvirt packages
   apt:

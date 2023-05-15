@@ -1,9 +1,0 @@
----
-- name: install packages
-  apt:
-    cache_valid_time: 36000
-    install_recommends: no
-    name:
-      - aptitude
-      - python3-pip
-      - vim

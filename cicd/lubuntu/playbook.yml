@@ -4,8 +4,6 @@
     user: vagrant
     home: /home/{{ user }}
   roles:
-    - sudoers
-    - packages-guest
     - packages-dev
     - timezone
     - screen
@@ -13,4 +11,3 @@
     #
     - lubuntu-desktop
     - screen-remote
-    - rabbitmq-server

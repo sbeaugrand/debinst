@@ -14,6 +14,7 @@ xvkbd
 libglib2.0-dev
 xorg-dev
 emacs-lucid
+elpa-dpkg-dev-el
 elpa-php-mode
 elpa-yaml-mode
 aspell-fr

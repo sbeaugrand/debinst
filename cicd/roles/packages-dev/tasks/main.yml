@@ -5,7 +5,6 @@
     install_recommends: no
     name:
       - cmake
-      - cppcheck
       - g++
       - gawk
       - gcc
@@ -13,11 +12,12 @@
       - gdb
       - librabbitmq-dev
       - make
+      - python3-pip
       - qtbase5-dev
       - rabbitmq-server
       - subversion
-      - uncrustify
       - valgrind
+      - vim
   become: yes
 
 - name: install python packages

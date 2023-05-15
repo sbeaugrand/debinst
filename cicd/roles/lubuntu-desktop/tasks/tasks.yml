@@ -6,6 +6,4 @@
     name:
       - lubuntu-desktop
       - xterm
-      - emacs-lucid
-      - elpa-yaml-mode
   become: yes
