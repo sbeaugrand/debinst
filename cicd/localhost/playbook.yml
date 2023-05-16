@@ -6,8 +6,11 @@
   roles:
     - sudoers
     - packages
+    #
+    - bashrc
     - packages-dev
     - timezone
+    - rabbitmq
     - screen
     - vim
     #

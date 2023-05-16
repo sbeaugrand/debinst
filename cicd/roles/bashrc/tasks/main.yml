@@ -1,0 +1,36 @@
+---
+- name: bashrc
+  blockinfile:
+    path: "{{ home }}/.bashrc"
+    create: yes
+    block: |
+      export PS1='\u:\w> '
+      export PATH={{ home }}/.local/bin:/usr/local/bin:/usr/bin:/bin:{{ home }}/install/debinst/bin:{{ home }}/install/bin:.
+      export SCREENDIR={{ home }}/.screen
+      
+      alias l='ls'
+      alias lrt='ls -lrt'
+      alias ls='ls --color=always'
+      alias ll='ls -l'
+      alias cp='cp -i'
+      alias mv='mv -i'
+      alias rm='rm -i'
+      alias df='df -h'
+      alias du='du -h'
+      
+      alias purge='rm -f *~'
+      alias rpurge='find . -name \*~ -exec rm {} \;'
+      alias grep='grep --color=auto'
+      alias rgrep='grep --color=auto -rI --exclude-dir=build'
+      alias rfind='find . -type d -name build -prune -false -o -name'
+      alias sortdu=$'du -b | awk \'{ printf "%12d %s\\n", $1, $2 }\' | LC_ALL=C sort'
+
+      bind '"\e[1;5A": history-search-backward'
+      bind '"\e[1;5B": history-search-forward'
+      bind 'set bell-style none'
+      test -n "$DISPLAY" && xset -b
+      setxkbmap -option "nbsp:none"
+
+      alias kc='TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa && source /run/lock/.keychain/*-sh'
+      test -d /run/lock/.keychain && kc
+      cd

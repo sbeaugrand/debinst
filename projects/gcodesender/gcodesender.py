@@ -109,9 +109,4 @@ if not args.interactive:
     cnc.flush()
     h, r = divmod(time.time() - start, 3600)
     m, s = divmod(r, 60)
-    print('time: {}h{}m{}s'.format(int(h), int(m), int(s)))
-    try:
-        while True:
-            time.sleep(0.1)
-    except KeyboardInterrupt:
-        pass
+    print('time: {}h{}m{:.2f}s'.format(int(h), int(m), s))
