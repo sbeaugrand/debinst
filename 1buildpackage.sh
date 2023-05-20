@@ -119,6 +119,9 @@ check()
         if echo "$f" | grep -q "not-often-used"; then
             continue
         fi
+        if echo "$f" | grep -q "4updaterepo"; then
+            continue
+        fi
         found=n
         for s in $sourceList; do
             if grep -q "$f" $s; then
