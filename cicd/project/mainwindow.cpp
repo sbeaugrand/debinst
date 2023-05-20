@@ -1,24 +1,23 @@
+#include <QApplication>
 #include <QThreadPool>
 #include <QEvent>
 #include <iostream>
 #include "mainwindow.h"
+#include "mqexception.h"
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
-    // Create the button, make "this" the parent
-    m_button = new QPushButton("My Button", this);
-    // set size and location of the button
-    m_button->setGeometry(QRect(QPoint(100, 100), QSize(200, 50)));
+    mButton = new QPushButton("My Button", this);
+    mButton->setGeometry(QRect(QPoint(100, 100), QSize(200, 50)));
+    connect(mButton, &QPushButton::released, this, &MainWindow::handleButton);
 
-    // Connect button signal to appropriate slot
-    connect(m_button, &QPushButton::released, this, &MainWindow::handleButton);
+    mMessageJob = new mq::MessageJob(
+        QApplication::applicationName().toStdString());
 
-    mMessageJob = new MessageJob("localhost",
-                                 AMQP_PROTOCOL_PORT,
-                                 "projectqueue");
-    //connect(this, &MainWindow::quitSignal, mMessageJob, &MessageJob::quit);
-    connect(mMessageJob, &MessageJob::quitSignal, this, &MainWindow::quit);
+    connect(mMessageJob, &mq::MessageJob::clickSignal, mButton, &QPushButton::click);
+    connect(mMessageJob, &mq::MessageJob::closeSignal, this, &MainWindow::quit);
+
     QThreadPool::globalInstance()->start(mMessageJob);
 }
 
@@ -30,12 +29,12 @@ void MainWindow::quit()
 bool MainWindow::event(QEvent* event)
 {
     if (event->type() == QEvent::Close) {
-        mMessageJob->quit();
+        mMessageJob->close();
     }
     return QMainWindow::event(event);
 }
 
 void MainWindow::handleButton()
 {
-    m_button->setText("Example");
+    mButton->setText("Example");
 }

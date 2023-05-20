@@ -1,11 +1,4 @@
 ---
-- name: apt install vim
-  apt:
-    install_recommends: no
-    name:
-      - vim
-  become: yes
-
 - name: vimrc
   blockinfile:
     create: yes

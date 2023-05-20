@@ -22,6 +22,7 @@
     name:
       - vagrant-libvirt
       - libvirt-daemon-system
+      - dnsmasq-base
   become: yes
 
 - name: add user to the libvirt group

@@ -14,14 +14,15 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public:
     explicit MainWindow(QWidget* parent = nullptr);
-private slots:
-    void handleButton();
-    void quit();
 signals:
     void quitSignal();
 private:
+    void quit();
     bool event(QEvent* event) override;
-    QPushButton* m_button;
-    MessageJob* mMessageJob;
+    void handleButton();
+
+    QPushButton* mButton;
+    mq::MessageJob* mMessageJob;
 };
-#endif  // MAINWINDOW_H
+
+#endif

@@ -12,7 +12,6 @@
       - gdb
       - librabbitmq-dev
       - make
-      - python3-pip
       - qtbase5-dev
       - rabbitmq-server
       - subversion

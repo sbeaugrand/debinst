@@ -3,7 +3,3 @@
   community.rabbitmq.rabbitmq_plugin:
     names: rabbitmq_management
   become: yes
-
-- name: Create a queue
-  community.rabbitmq.rabbitmq_queue:
-    name: projectqueue
