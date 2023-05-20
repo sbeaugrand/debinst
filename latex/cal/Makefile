@@ -118,9 +118,9 @@ testAzimut: build/azimut
 	@$< 2021-06-21 48.44728 1.48749 7.66666 | diff $@.ref -
 
 .PHONY: sundial dist-sundial
-sundial dist-sundial: build sundial.pdf
+sundial dist-sundial: sundial.pdf
 
-build/config.tex: $(MAKEFILE_LIST)
+build/config.tex: build $(MAKEFILE_LIST)
 	@echo "\\\newlength{\sousStylaire}" >$@
 	@echo -n "\setlength{\sousStylaire}" >>$@
 	@echo "$(LAT) $(STRAIGHT_STYLUS_LENGTH)" |\
@@ -137,22 +137,6 @@ build/config.tex: $(MAKEFILE_LIST)
 build/%.dat: sundial.sh build/sundial
 	$< $(YEAR) $(LAT) $(LON)\
 	 $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $(STYLUS_ANGLE) $@
-
-sundial.pdf: build/config.tex $(DATAS) $(DATAS_5)
-
-pysundialTool1.ngc: build/config.tex $(DATAS)
-
-pysundialTool2.ngc: build/config.tex $(DATAS_5)
-
-sundialTool1.pdf: build/config.tex build/decorations.tex
-
-sundialTool2.pdf: build/config.tex build/decorations_5.tex
-
-build/decorations.tex: deco2tex.py $(DATAS)
-	@$< -t 1 >$@
-
-build/decorations_5.tex: deco2tex.py $(DATAS_5)
-	@$< -t 2 >$@
 
 DATAS =\
  build/hiv07.dat build/pri07.dat build/ete07.dat build/aut07.dat\
@@ -178,6 +162,22 @@ DATAS_5 =\
  build/hiv14_5.dat build/pri14_5.dat build/ete14_5.dat build/aut14_5.dat\
  build/hiv15_5.dat build/pri15_5.dat build/ete15_5.dat build/aut15_5.dat\
  build/hiv16_5.dat build/pri16_5.dat build/ete16_5.dat build/aut16_5.dat
+
+sundial.pdf: build/config.tex $(DATAS) $(DATAS_5)
+
+pysundialTool1.ngc: build/config.tex $(DATAS)
+
+pysundialTool2.ngc: build/config.tex $(DATAS_5)
+
+sundialTool1.pdf: build/config.tex build/decorations.tex
+
+sundialTool2.pdf: build/config.tex build/decorations_5.tex
+
+build/decorations.tex: deco2tex.py $(DATAS)
+	@$< -t 1 >$@
+
+build/decorations_5.tex: deco2tex.py $(DATAS_5)
+	@$< -t 2 >$@
 
 .PHONY: pygcode
 pygcode: pysundialTool1.ngc pysundialTool2.ngc
@@ -234,6 +234,7 @@ portrait-%.pdf: %.pdf
 .PHONY: dist-clean
 dist-clean:
 	@$(RM) *.pdf build/*.tex build/*.dat build/moon-*
+	@$(RM) *.ngc build/*.ngc build/*.pdf
 
 PROJECT = cal
 TARDEPEND +=\
