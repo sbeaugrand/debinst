@@ -12,18 +12,18 @@ rem suppression des mises a jour adobe
 sc config adobearmservice start= disabled
 
 rem suppression du service des paiements nfc
-sc config semgrsvc start= disable
+sc config semgrsvc start= disabled
 
 rem https://lecrabeinfo.net/desactiver-services-inutiles-windows-10.html
-rem scanner sc config stisvc start= disable
-rem ipv6 sc config iphlpsvc start= disable
+rem scanner sc config stisvc start= disabled
+rem ipv6 sc config iphlpsvc start= disabled
 sc config lmhosts start= disabled
 sc config scardsvr start= disabled
 sc config trkwks start= disabled
 sc config sessionenv start= disabled
 sc config wpcmonsvc start= disabled
 sc config diagtrack start= disabled
-rem inconnu sc config cscservice start= disable
+rem inconnu sc config cscservice start= disabled
 sc config mapsbroker start= disabled
 sc config rasauto start= disabled
 sc config rasman start= disabled
@@ -53,7 +53,7 @@ sc config wersvc start= disabled
 sc config dps start= disabled
 sc config vmicrdv start= disabled
 sc config tabletinputservice start= disabled
-rem restaurations sc config fhsvc start= disable
+rem restaurations sc config fhsvc start= disabled
 sc config scdeviceenum start= disabled
 sc config vmicvmsession start= disabled
 sc config msiscsi start= disabled
@@ -65,7 +65,7 @@ sc config vmictimesync start= disabled
 sc config phonesvc start= disabled
 sc config wisvc start= disabled
 sc config vmickvpexchange start= disabled
-rem imprimante sc config spooler start= disable
+rem imprimante sc config spooler start= disabled
 sc config scpolicysvc start= disabled
 sc config fax start= disabled
 sc config tapisrv start= disabled
