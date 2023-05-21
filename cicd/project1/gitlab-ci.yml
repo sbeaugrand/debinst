@@ -7,7 +7,6 @@
 variables:
   PROJECT: project-one
   VERSION: 1.0
-  EXE: project
 stages:
   - build
   - tests
@@ -24,12 +23,12 @@ build:
 tests:
   stage: tests
   script:
-    - ./build/$EXE &
+    - ./build/$PROJECT &
     - sleep 1
-    - ./client.py -q $EXE -m click
+    - ./client.py -q $PROJECT -m click
     - sleep 1
-    - ./client.py -q $EXE -m status
-    - ./client.py -q $EXE -m quit
+    - ./client.py -q $PROJECT -m status
+    - ./client.py -q $PROJECT -m quit
 package:
   stage: package
   script:
@@ -38,9 +37,10 @@ package:
     - mkdir -p build/$PROJECT-$VERSION
     - cd build/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
-    - echo "data/project-one /usr/bin/" >debian/$PROJECT.install
+    - echo "data/$PROJECT /usr/bin/" >debian/$PROJECT.install
+    - cp -a ../../debian/* debian/
     - mkdir -p data
-    - cp -a ../$EXE data/$PROJECT
+    - cp -a ../$PROJECT data/$PROJECT
     - dpkg-buildpackage --no-sign
 install:
   stage: install

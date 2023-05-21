@@ -1,5 +1,5 @@
 QT += core widgets
-TARGET = project
+TARGET = project-one
 TEMPLATE = app 
 CONFIG += c++20
 QMAKE_CXXFLAGS += -std=c++20
