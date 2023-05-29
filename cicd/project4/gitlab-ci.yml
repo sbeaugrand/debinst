@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 variables:
-  PROJECT: project-one
+  PROJECT: project-four
   VERSION: 1.0
 include:
   - local: /../makefiles/package.yml
@@ -19,15 +19,14 @@ build:
   script:
     - mkdir -p build
     - cd build
+    - test -f abstractstubserver.h || jsonrpcstub ../spec.json --cpp-server=AbstractStubServer
     - cmake ..
     - make --no-print-directory clean
     - make --no-print-directory
 tests:
   stage: tests
   script:
-    - ./build/$PROJECT &
+    - build/$PROJECT &
     - sleep 1
-    - ./client.py -q $PROJECT -m click
-    - sleep 1
-    - ./client.py -q $PROJECT -m status
-    - ./client.py -q $PROJECT -m quit
+    - curl -d '{"jsonrpc":"2.0","method":"status","id":1}' http://localhost:8383/
+    - curl -d '{"jsonrpc":"2.0","method":"quit"}' http://localhost:8383/ || true

@@ -1,6 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
+#pragma once
 #include <QMainWindow>
 #include <QPushButton>
 #include "messagejob.h"
@@ -24,5 +22,3 @@ private:
     QPushButton* mButton;
     mq::MessageJob* mMessageJob;
 };
-
-#endif

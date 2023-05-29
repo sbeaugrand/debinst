@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------------- #
+## \file package.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+package:
+  stage: package
+  script:
+    - export DEBEMAIL=seb@localhost
+    - export DEBFULLNAME=seb
+    - mkdir -p build/$PROJECT-$VERSION
+    - cd build/$PROJECT-$VERSION
+    - dh_make --native --single --yes || true
+    - echo "data/$PROJECT /usr/bin/" >debian/$PROJECT.install
+    - test ! -d ../..debian || cp -a ../../debian/* debian/
+    - mkdir -p data
+    - cp -a ../$PROJECT data/$PROJECT
+    - dpkg-buildpackage --no-sign
+install:
+  stage: install
+  script:
+    - sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb

@@ -1,0 +1,43 @@
+# ---------------------------------------------------------------------------- #
+## \file gitlab-ci.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+variables:
+  PROJECT: libsimple-amqp-client
+  VERSION: 2.5.1
+stages:
+  - build
+  - package
+  - install
+build:
+  stage: build
+  script:
+    - test -f v$VERSION.tar.gz || curl -OL https://github.com/alanxz/SimpleAmqpClient/archive/refs/tags/v$VERSION.tar.gz
+    - test -d SimpleAmqpClient-$VERSION || tar xzf v$VERSION.tar.gz
+    - mkdir -p build
+    - cd build
+    - cmake ../SimpleAmqpClient-$VERSION
+    - make --no-print-directory clean
+    - make --no-print-directory
+package:
+  stage: package
+  script:
+    - export DEBEMAIL=seb@localhost
+    - export DEBFULLNAME=seb
+    - mkdir -p build/$PROJECT-$VERSION
+    - cd build/$PROJECT-$VERSION
+    - dh_make --native --single -c mit --yes || true
+    - echo "data/libSimpleAmqpClient.so* /usr/lib/" >debian/$PROJECT.install
+    - echo "data/*.h /usr/include/SimpleAmqpClient/" >>debian/$PROJECT.install
+    - echo "data/libSimpleAmqpClient.pc /usr/lib/pkgconfig/" >>debian/$PROJECT.install
+    - mkdir -p data
+    - cp -a ../*.so* data/
+    - cp -a ../../SimpleAmqpClient-$VERSION/src/SimpleAmqpClient/*.h data/
+    - cp -a ../*.pc data/
+    - dpkg-buildpackage --no-sign
+install:
+  stage: install
+  script:
+    - sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb

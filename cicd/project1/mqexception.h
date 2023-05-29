@@ -4,8 +4,7 @@
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
-#ifndef MQEXCEPTION_H
-#define MQEXCEPTION_H
+#pragma once
 #include <amqp.h>
 
 namespace mq {
@@ -31,5 +30,3 @@ private:
 };
 
 }
-
-#endif

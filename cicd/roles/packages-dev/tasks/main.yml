@@ -10,8 +10,13 @@
       - gcc
       - git
       - gdb
+      - libboost-chrono-dev  # SimpleAmqpClient
+      - libboost-system-dev  # SimpleAmqpClient
+      - libjsonrpccpp-dev
+      - libjsonrpccpp-tools
       - librabbitmq-dev
       - make
+      - python3-pika
       - qtbase5-dev
       - rabbitmq-server
       - subversion

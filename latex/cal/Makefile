@@ -45,6 +45,11 @@ LDLIBS = -lm
 OBJECTS_NDEP_MAKEFILE_LIST = y
 include $(PROROOT)/makefiles/ccpp.mk
 
+%.pdf: %.tex
+	cd build && TEXINPUTS="..:"\
+	 pdflatex --halt-on-error --shell-escape ../$<
+	mv build/$@ .
+
 .PHONY: cal dist-cal
 cal dist-cal: build cal$(YEAR).pdf
 
@@ -120,7 +125,8 @@ testAzimut: build/azimut
 .PHONY: sundial dist-sundial
 sundial dist-sundial: sundial.pdf
 
-build/config.tex: build $(MAKEFILE_LIST)
+build/config.tex: $(MAKEFILE_LIST)
+	@mkdir -p build
 	@echo "\\\newlength{\sousStylaire}" >$@
 	@echo -n "\setlength{\sousStylaire}" >>$@
 	@echo "$(LAT) $(STRAIGHT_STYLUS_LENGTH)" |\
@@ -162,6 +168,10 @@ DATAS_5 =\
  build/hiv14_5.dat build/pri14_5.dat build/ete14_5.dat build/aut14_5.dat\
  build/hiv15_5.dat build/pri15_5.dat build/ete15_5.dat build/aut15_5.dat\
  build/hiv16_5.dat build/pri16_5.dat build/ete16_5.dat build/aut16_5.dat
+
+$(DATAS): build/config.tex
+
+$(DATAS_5): build/config.tex
 
 sundial.pdf: build/config.tex $(DATAS) $(DATAS_5)
 

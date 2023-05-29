@@ -13,6 +13,7 @@ quit()
     exit $1
 }
 
+sudo -k true || exit 1
 /usr/sbin/rfkill unblock wifi
 sleep 1
 nmcli con up hotspot

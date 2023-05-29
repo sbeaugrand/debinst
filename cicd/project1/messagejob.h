@@ -4,9 +4,7 @@
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
-#ifndef MESSAGEJOB_H
-#define MESSAGEJOB_H
-
+#pragma once
 #include <amqp.h>
 #include <amqp_tcp_socket.h>
 #include <QObject>
@@ -40,5 +38,3 @@ private:
 };
 
 }
-
-#endif

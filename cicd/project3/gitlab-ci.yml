@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 variables:
-  PROJECT: project-one
+  PROJECT: project-three
   VERSION: 1.0
 include:
   - local: /../makefiles/package.yml
@@ -27,7 +27,5 @@ tests:
   script:
     - ./build/$PROJECT &
     - sleep 1
-    - ./client.py -q $PROJECT -m click
-    - sleep 1
-    - ./client.py -q $PROJECT -m status
-    - ./client.py -q $PROJECT -m quit
+    - ../project1/client.py -q $PROJECT -m status
+    - ../project1/client.py -q $PROJECT -m quit
