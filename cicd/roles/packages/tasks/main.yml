@@ -13,7 +13,6 @@
       - emacs-lucid
       - keychain
       - pv
-      - python3-pip
       - rsync
       - screen
       - uncrustify

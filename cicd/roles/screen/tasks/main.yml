@@ -15,14 +15,3 @@
       # C-a e
       bind e stuff 'printf "\eklocalhost\e\\\\"'
       shelltitle "localhost"
-
-- name: Xresources
-  blockinfile:
-    path: "{{ home }}/.Xresources"
-    create: yes
-    marker: ';: {mark} ANSIBLE MANAGED BLOCK'
-    block: |
-      xterm*font: 9x15
-      xterm*foreground: white
-      xterm*background: black
-      xterm*vt100*translations: #override <Key>F9: secure()

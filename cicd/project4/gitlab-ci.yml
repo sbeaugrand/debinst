@@ -7,13 +7,9 @@
 variables:
   PROJECT: project-four
   VERSION: 1.0
+  VMBUILD: lubuntu
 include:
   - local: /../makefiles/package.yml
-stages:
-  - build
-  - tests
-  - package
-  - install
 build:
   stage: build
   script:

@@ -21,6 +21,7 @@
     install_recommends: no
     name:
       - vagrant-libvirt
+      - vagrant-sshfs
       - libvirt-daemon-system
       - dnsmasq-base
   become: yes

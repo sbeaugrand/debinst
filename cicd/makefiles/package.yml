@@ -4,20 +4,46 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+stages:
+  - build
+  - tests
+  - package
+  - install
+  - remote
+  - deploy
 package:
   stage: package
   script:
     - export DEBEMAIL=seb@localhost
     - export DEBFULLNAME=seb
-    - mkdir -p build/$PROJECT-$VERSION
+    - mkdir -p build/$PROJECT-$VERSION/data
     - cd build/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
     - echo "data/$PROJECT /usr/bin/" >debian/$PROJECT.install
-    - test ! -d ../..debian || cp -a ../../debian/* debian/
-    - mkdir -p data
     - cp -a ../$PROJECT data/$PROJECT
+    - test ! -d ../../debian || cp -a ../../debian/* debian/
     - dpkg-buildpackage --no-sign
 install:
   stage: install
   script:
     - sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb
+remote:
+  stage: remote
+  script:
+    - export PROPATH=$(basename `readlink -f .`)
+    - cd ../$VMBUILD
+    - rsync -a -i -f '- build' ../$PROPATH/ .vagrant/$PROPATH/
+    - rsync -a -i -f '- build' ../makefiles/ .vagrant/makefiles/
+    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build && make package"
+    - cp .vagrant/$PROPATH/build/${PROJECT}_${VERSION}_amd64.deb ../$PROPATH/build/
+  artifacts:
+    paths:
+      - build/${PROJECT}_${VERSION}_amd64.deb
+deploy:
+  image: ubuntu:jammy
+  stage: deploy
+  script:
+    - ls -l
+    - ls -l build
+    #- apt-get install -y ./build/${PROJECT}_${VERSION}_amd64.deb
+    #- ldd -d -r /usr/bin/$PROJECT

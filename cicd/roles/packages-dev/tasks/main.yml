@@ -4,10 +4,10 @@
     cache_valid_time: 36000
     install_recommends: no
     name:
+      - build-essential
       - cmake
-      - g++
+      - dh-make
       - gawk
-      - gcc
       - git
       - gdb
       - libboost-chrono-dev  # SimpleAmqpClient
@@ -15,8 +15,8 @@
       - libjsonrpccpp-dev
       - libjsonrpccpp-tools
       - librabbitmq-dev
-      - make
       - python3-pika
+      - python3-pip
       - qtbase5-dev
       - rabbitmq-server
       - subversion
