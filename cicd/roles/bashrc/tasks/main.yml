@@ -29,7 +29,7 @@
       bind '"\e[1;5B": history-search-forward'
       bind 'set bell-style none'
       test -n "$DISPLAY" && xset -b
-      setxkbmap -option "nbsp:none"
+      test -n "$DISPLAY" && setxkbmap -option "nbsp:none"
 
       alias kc='TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa && source /run/lock/.keychain/*-sh'
       test -d /run/lock/.keychain && kc

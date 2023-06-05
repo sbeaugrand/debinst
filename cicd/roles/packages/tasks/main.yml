@@ -7,6 +7,7 @@
       - aptitude
       - cppcheck
       - curl
+      - docker.io
       - elpa-dpkg-dev-el
       - elpa-markdown-mode
       - elpa-yaml-mode
@@ -17,4 +18,11 @@
       - screen
       - uncrustify
       - xterm
+  become: yes
+
+- name: add user to the docker group
+  user:
+    append: yes
+    name: "{{ user }}"
+    groups: docker
   become: yes
