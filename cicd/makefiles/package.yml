@@ -7,12 +7,14 @@
 stages:
   - build
   - tests
-  - package
+  - binpackage
+  - libpackage
   - install
   - remote
+  - rinstall
   - deploy
-package:
-  stage: package
+binpackage:
+  stage: binpackage
   script:
     - export DEBEMAIL=seb@localhost
     - export DEBFULLNAME=seb
@@ -34,13 +36,19 @@ remote:
     - cd ../$VMBUILD
     - rsync -a -i -f '- build' ../$PROPATH/ .vagrant/$PROPATH/
     - rsync -a -i -f '- build' ../makefiles/ .vagrant/makefiles/
-    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build && make package"
+    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build && make $PACKAGE"
+rinstall:
+  stage: rinstall
+  script:
+    - export PROPATH=$(basename `readlink -f .`)
+    - cd ../$VMBUILD
+    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb"
 deploy:
   image: ubuntu:22.10
   stage: deploy
   script:
     - export PROPATH=$(basename `readlink -f .`)
-    - cp ../$VMBUILD/.vagrant/$PROPATH/build/${PROJECT}_${VERSION}_amd64.deb build/
+    - cp -a ../$VMBUILD/.vagrant/$PROPATH/build/${PROJECT}_${VERSION}_amd64.deb build/
     - apt update
     - apt-get install -y ./build/${PROJECT}_${VERSION}_amd64.deb
     - ldd -d -r /usr/bin/$PROJECT
