@@ -20,6 +20,7 @@
       - qtbase5-dev
       - rabbitmq-server
       - subversion
+      - systemd-coredump  # coredumpctl debug
       - valgrind
       - vim
   become: yes

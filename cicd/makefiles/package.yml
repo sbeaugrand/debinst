@@ -6,15 +6,29 @@
 # ---------------------------------------------------------------------------- #
 stages:
   - build
-  - tests
-  - binpackage
-  - libpackage
+  - test
+  - package
   - install
-  - remote
+  - rbuild
+  - rpackage
   - rinstall
   - deploy
-binpackage:
-  stage: binpackage
+build:
+  stage: build
+  except:
+    variables:
+      - $PACKAGE =~ '/^lib/'
+  script:
+    - mkdir -p build
+    - cd build
+    - cmake ..
+    - make --no-print-directory clean
+    - make --no-print-directory
+package:
+  stage: package
+  except:
+    variables:
+      - $PACKAGE =~ '/^lib/'
   script:
     - export DEBEMAIL=seb@localhost
     - export DEBFULLNAME=seb
@@ -29,26 +43,37 @@ install:
   stage: install
   script:
     - sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb
-remote:
-  stage: remote
+rbuild:
+  stage: rbuild
   script:
     - export PROPATH=$(basename `readlink -f .`)
-    - cd ../$VMBUILD
+    - cd ../$VM
     - rsync -a -i -f '- build' ../$PROPATH/ .vagrant/$PROPATH/
     - rsync -a -i -f '- build' ../makefiles/ .vagrant/makefiles/
-    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build && make $PACKAGE"
+    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build"
+rpackage:
+  stage: rpackage
+  script:
+    - export PROPATH=$(basename `readlink -f .`)
+    - cd ../$VM
+    - rsync -a -i -f '- build' ../$PROPATH/ .vagrant/$PROPATH/
+    - rsync -a -i -f '- build' ../makefiles/ .vagrant/makefiles/
+    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make package"
 rinstall:
   stage: rinstall
   script:
     - export PROPATH=$(basename `readlink -f .`)
-    - cd ../$VMBUILD
+    - cd ../$VM
     - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb"
 deploy:
   image: ubuntu:22.10
   stage: deploy
   script:
     - export PROPATH=$(basename `readlink -f .`)
-    - cp -a ../$VMBUILD/.vagrant/$PROPATH/build/${PROJECT}_${VERSION}_amd64.deb build/
+    - cd ../$VM/.vagrant/$PROPATH
+    - cp -a build/${PROJECT}_${VERSION}_amd64.deb ../../../$PROPATH/build/
+    - test -z "$DEP" || cp -a $DEP ../../../$PROPATH/build/
+    - cd -
     - apt update
-    - apt-get install -y ./build/${PROJECT}_${VERSION}_amd64.deb
+    - apt-get install -y $DEP ./build/${PROJECT}_${VERSION}_amd64.deb
     - ldd -d -r /usr/bin/$PROJECT

@@ -4,18 +4,20 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-gitlabci = gitlabci-local -c gitlab-ci.yml
+VM ?= lubuntu
+
+gitlabci = gitlabci-local -c gitlab-ci.yml -e VM=$(VM)
 propath = $(shell basename `readlink -f .`)
 
 .SUFFIXES:
 
-.PHONY: build install remote rinstall
-build install remote rinstall:
-	@$(gitlabci) -H $@
+.PHONY: build install rbuild rinstall
+build install rbuild rinstall:
+	@$(gitlabci) -H -R -p $@
 
-.PHONY: tests binpackage libpackage
-tests binpackage libpackage: all
-	@$(gitlabci) -H $@
+.PHONY: test package rpackage
+test package rpackage: all
+	@$(gitlabci) -H -R $@
 
 .PHONY: deploy
 deploy:

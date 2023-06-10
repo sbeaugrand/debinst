@@ -18,7 +18,7 @@ public:
            jsonrpc::serverVersion_t type = jsonrpc::JSONRPC_SERVER_V2) :
         AbstractStubServer(conn, type) {}
 
-    virtual std::string status() { return "status: ok"; }
+    virtual std::string status() { return "ok"; }
     virtual void quit() { exit(0); }
 };
 

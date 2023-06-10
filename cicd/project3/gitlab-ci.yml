@@ -6,21 +6,12 @@
 # ---------------------------------------------------------------------------- #
 variables:
   PROJECT: project-three
-  PACKAGE: binpackage
   VERSION: 1.0
-  VMBUILD: lubuntu
+  DEP: ../project2/build/libsimple-amqp-client_2.5.1_amd64.deb
 include:
   - local: /../makefiles/package.yml
-build:
-  stage: build
-  script:
-    - mkdir -p build
-    - cd build
-    - cmake ..
-    - make --no-print-directory clean
-    - make --no-print-directory
-tests:
-  stage: tests
+test:
+  stage: test
   script:
     - ./build/$PROJECT &
     - sleep 1

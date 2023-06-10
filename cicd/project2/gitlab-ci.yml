@@ -6,9 +6,7 @@
 # ---------------------------------------------------------------------------- #
 variables:
   PROJECT: libsimple-amqp-client
-  PACKAGE: libpackage
   VERSION: 2.5.1
-  VMBUILD: lubuntu
 include:
   - local: /../makefiles/package.yml
 build:
@@ -21,17 +19,19 @@ build:
     - cmake SimpleAmqpClient-$VERSION
     - make --no-print-directory clean
     - make --no-print-directory
-libpackage:
-  stage: libpackage
+package:
+  stage: package
   script:
     - export DEBEMAIL=seb@localhost
     - export DEBFULLNAME=seb
     - mkdir -p build/$PROJECT-$VERSION/data
     - cd build/$PROJECT-$VERSION
-    - dh_make --native --single --yes || true
-    - echo "data/libSimpleAmqpClient.so* /usr/lib/" >debian/$PROJECT.install
+    - dh_make --native --single --yes -c custom --copyrightfile ../../../copyright || true
+    - echo "data/libSimpleAmqpClient.so.7.0.1 /usr/lib/" >debian/$PROJECT.install
     - echo "data/*.h /usr/include/SimpleAmqpClient/" >>debian/$PROJECT.install
     - echo "data/libSimpleAmqpClient.pc /usr/lib/pkgconfig/" >>debian/$PROJECT.install
+    - echo "/usr/lib/libSimpleAmqpClient.so.7.0.1 /usr/lib/libSimpleAmqpClient.so.7" >debian/$PROJECT.links
+    - echo "/usr/lib/libSimpleAmqpClient.so.7 /usr/lib/libSimpleAmqpClient.so" >>debian/$PROJECT.links
     - |
       sed -i '/^Description: /,${d}' debian/control
     - |
@@ -41,7 +41,7 @@ libpackage:
        It derives inspiration from the puka AMQP library in that it abstracts away the
        underlying AMQP wire concept of channels and uses them as an error/consumer scope.
        This should make writing simple single-threaded AMQP-enabled apps easy.' >>debian/control
-    - cp --preserve=links ../*.so* data/
+    - cp -a ../*.so.7.0.1 data/
     - cp -a ../SimpleAmqpClient-$VERSION/src/SimpleAmqpClient/*.h data/
     - cp -a ../*.pc data/
     - dpkg-buildpackage --no-sign
