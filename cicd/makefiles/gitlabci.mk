@@ -5,8 +5,9 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 VM ?= lubuntu
+BUILD ?= Debug
 
-gitlabci = gitlabci-local -c gitlab-ci.yml -e VM=$(VM)
+gitlabci = gitlabci-local -c gitlab-ci.yml -e VM=$(VM) -e BUILD=$(BUILD)
 propath = $(shell basename `readlink -f .`)
 
 .SUFFIXES:

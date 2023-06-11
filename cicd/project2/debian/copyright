@@ -1,5 +1,5 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: #PACKAGE#
+Upstream-Name: libsimple-amqp-client
 Source: https://github.com/alanxz/SimpleAmqpClient
 
 Files: *
@@ -7,7 +7,7 @@ Copyright: 2010-2014 Alan Antonuk
 License: MIT
 
 Files: debian/*
-Copyright: #YEAR# #USERNAME# <#EMAIL#>
+Copyright: 2023 seb <seb@localhost>
 License: CeCILL 2.1
 
 License: MIT

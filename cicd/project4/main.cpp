@@ -14,12 +14,12 @@
 class Server : public AbstractStubServer
 {
 public:
-    Server(jsonrpc::AbstractServerConnector& conn,
-           jsonrpc::serverVersion_t type = jsonrpc::JSONRPC_SERVER_V2) :
-        AbstractStubServer(conn, type) {}
+    explicit Server(jsonrpc::AbstractServerConnector& conn,
+                    jsonrpc::serverVersion_t type = jsonrpc::JSONRPC_SERVER_V2)
+        : AbstractStubServer(conn, type) {}
 
-    virtual std::string status() { return "ok"; }
-    virtual void quit() { exit(0); }
+    virtual std::string status() override { return "ok"; }
+    virtual void quit() override { exit(0); }
 };
 
 /******************************************************************************!

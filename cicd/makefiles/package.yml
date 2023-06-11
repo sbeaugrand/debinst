@@ -21,7 +21,7 @@ build:
   script:
     - mkdir -p build
     - cd build
-    - cmake ..
+    - cmake .. -DCMAKE_BUILD_TYPE=$BUILD
     - make --no-print-directory clean
     - make --no-print-directory
 package:
@@ -30,8 +30,8 @@ package:
     variables:
       - $PACKAGE =~ '/^lib/'
   script:
-    - export DEBEMAIL=seb@localhost
-    - export DEBFULLNAME=seb
+    - export DEBEMAIL=`git config --global --get user.email`
+    - export DEBFULLNAME=`git config --global --get user.name`
     - mkdir -p build/$PROJECT-$VERSION/data
     - cd build/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
@@ -50,7 +50,7 @@ rbuild:
     - cd ../$VM
     - rsync -a -i -f '- build' ../$PROPATH/ .vagrant/$PROPATH/
     - rsync -a -i -f '- build' ../makefiles/ .vagrant/makefiles/
-    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build"
+    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build BUILD=Release && strip build/$PROJECT"
 rpackage:
   stage: rpackage
   script:

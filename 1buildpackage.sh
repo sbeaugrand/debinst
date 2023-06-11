@@ -164,6 +164,7 @@ ls -1 -d 2>/dev/null\
  .ssh/id*\
  .ssh/authorized_keys\
  .gnupg\
+ .password-store\
  .config/supertuxkart/*/*.xml\
  .config/libreoffice/*/user/pack/wordbook/*\
  .local/share/evolution/addressbook/system/contacts.db

@@ -22,11 +22,11 @@ build:
 package:
   stage: package
   script:
-    - export DEBEMAIL=seb@localhost
-    - export DEBFULLNAME=seb
+    - export DEBEMAIL=`git config --global --get user.email`
+    - export DEBFULLNAME=`git config --global --get user.name`
     - mkdir -p build/$PROJECT-$VERSION/data
     - cd build/$PROJECT-$VERSION
-    - dh_make --native --single --yes -c custom --copyrightfile ../../../copyright || true
+    - dh_make --native --single --yes || true
     - echo "data/libSimpleAmqpClient.so.7.0.1 /usr/lib/" >debian/$PROJECT.install
     - echo "data/*.h /usr/include/SimpleAmqpClient/" >>debian/$PROJECT.install
     - echo "data/libSimpleAmqpClient.pc /usr/lib/pkgconfig/" >>debian/$PROJECT.install
@@ -44,4 +44,5 @@ package:
     - cp -a ../*.so.7.0.1 data/
     - cp -a ../SimpleAmqpClient-$VERSION/src/SimpleAmqpClient/*.h data/
     - cp -a ../*.pc data/
+    - test ! -d ../../debian || cp -a ../../debian/* debian/
     - dpkg-buildpackage --no-sign
