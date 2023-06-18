@@ -50,7 +50,7 @@ patch
 libmpg123-dev
 normalize-audio
 gocr
-libnetpbm10-dev
+#libnetpbm10-dev
 libpng-dev
 libx264-dev  # ffmpeg
 libvorbis-dev  # ffmpeg
@@ -94,16 +94,16 @@ octave-signal
 alsa-utils
 pulseaudio
 pavucontrol
-xmms2-plugin-m3u
-xmms2-plugin-musepack
-xmms2-plugin-ices
-xmms2-plugin-pulse
+#xmms2-plugin-m3u
+#xmms2-plugin-musepack
+#xmms2-plugin-ices
+#xmms2-plugin-pulse
 libmad0
-xmms2-plugin-mad
-xmms2-plugin-faad
-xmms2-dev
-libxmmsclient-dev
-xmms2
+#xmms2-plugin-mad
+#xmms2-plugin-faad
+#xmms2-dev
+#libxmmsclient-dev
+#xmms2
 sqlite3
 sqlitebrowser
 mpg123
@@ -170,7 +170,7 @@ ntpdate
 rsync
 hexedit
 curl
-curlftpfs
+#curlftpfs
 icoutils
 famfamfam-silk  # tux.png
 inkscape
@@ -204,7 +204,7 @@ lame
 libmp3lame-dev  # ffmpeg
 libdvdread-dev
 libdvdnav-dev
-libfaac-dev
+#libfaac-dev
 libaom-dev  # ffmpeg
 lsdvd
 subversion
@@ -242,8 +242,8 @@ ftp
 ispell
 lsof
 manpages-fr-dev
-manpages-fr-extra
-gcc-doc
+#manpages-fr-extra
+#gcc-doc
 manpages-dev
 info
 netcat-traditional

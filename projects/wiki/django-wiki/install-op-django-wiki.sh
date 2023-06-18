@@ -50,7 +50,7 @@ dir=$idir/projects/wiki/$project/build
 if notDir $dir; then
     mkdir $dir
 fi
-chown $user.www-data $dir
+chown $user:www-data $dir
 chmod 775 $dir
 
 if notDir $dir/$app; then
@@ -217,7 +217,7 @@ Todo:
 cd $idir/projects/wiki/$project/build
 python3 manage.py migrate
 
-sudo chown $user.www-data db.sqlite3
+sudo chown $user:www-data db.sqlite3
 chmod 664 db.sqlite3
 
 python3 manage.py createsuperuser

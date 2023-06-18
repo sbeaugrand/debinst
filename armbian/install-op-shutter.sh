@@ -29,7 +29,7 @@ if [ ! -d /boot/grub ]; then
         ls -l $file
         cp -a $file $bdir/shutter.txt
         mv $file /run/shutter.txt
-        chown root.root /run/shutter.txt
+        chown root:root /run/shutter.txt
         ln -s /run/shutter.txt $file
     fi
 fi

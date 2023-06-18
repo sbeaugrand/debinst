@@ -31,7 +31,7 @@ fi
 dir=/mnt/mp3
 if notDir $dir; then
     mkdir $dir
-    chown $user.$user $dir
+    chown $user:$user $dir
 fi
 
 file=/usr/bin/mp3-toggle.sh

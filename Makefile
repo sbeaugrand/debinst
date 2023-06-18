@@ -41,7 +41,7 @@ pkgs:
 
 .PHONY: iso
 iso:
-	@./2simplecdd.sh simplecdd-op-1amd64 buildpackage-op-1
+	@./2simplecdd.sh simplecdd-op-1arch64 buildpackage-op-1
 
 .PHONY: iso32
 iso32:

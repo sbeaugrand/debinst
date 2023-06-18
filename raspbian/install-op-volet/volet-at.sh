@@ -191,7 +191,7 @@ if [ ! -f $file ]; then
     sudo mkdir -p $dir/atjobs
     sudo mkdir -p $dir/atspool
     echo 0 | sudo tee $file >/dev/null
-    sudo chown -R daemon.daemon $dir
+    sudo chown -R daemon:daemon $dir
     sudo chmod -R 770 $dir
     sudo /etc/init.d/atd start
 fi

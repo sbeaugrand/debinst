@@ -7,5 +7,5 @@
 file=/home/pi/.vimrc
 if notFile $file; then
     echo "syntax on" >$file
-    chown pi.pi $file
+    chown pi:pi $file
 fi

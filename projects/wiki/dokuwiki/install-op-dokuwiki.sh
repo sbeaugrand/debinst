@@ -22,13 +22,13 @@ if notDir $dwdir; then
     else
         logError "pages-pr- not found"
     fi
-    chown -R www-data.www-data $dwdir
+    chown -R www-data:www-data $dwdir
 fi
 
 file=$dwdir/.htaccess
 if notFile $file; then
     cp $file.dist $file
-    chown www-data.www-data $file
+    chown www-data:www-data $file
 fi
 
 file=$dwdir/data/pages/start.txt
@@ -45,7 +45,7 @@ if [ ! -f $file ]; then
 
 [[nouvellePage|Nouvelle page]]
 EOF
-    chown www-data.www-data $file
+    chown www-data:www-data $file
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -64,13 +64,13 @@ if notFile $file; then
 start   @ALL    0
 start   @user   2
 EOF
-    chown www-data.www-data $file
+    chown www-data:www-data $file
 fi
 
 file=$dwdir/conf/users.auth.php
 if notFile $file; then
     cp -a users-pr-auth.php $file
-    chown www-data.www-data $file
+    chown www-data:www-data $file
 fi
 
 file=$dwdir/conf/local.php
@@ -84,7 +84,7 @@ if notFile $file; then
 //FIXME
 \$conf['disableactions'] = 'manifest';
 EOF
-    chown www-data.www-data $file
+    chown www-data:www-data $file
 fi
 
 file=$dwdir/conf/license.local.php
@@ -96,7 +96,7 @@ if notFile $file; then
     'url'  => 'http://www.cecill.info',
 );
 EOF
-    chown www-data.www-data $file
+    chown www-data:www-data $file
 fi
 
 if [ -f config-pr-.sh ]; then

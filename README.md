@@ -21,7 +21,7 @@ La liste des paquets debian sont dans: simplecdd-op-1amd64/list.txt
 
 La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 
-# Création d'une debian nouvelle version sur clé USB
+# Création d'une debian nouvelle version sur clé USB (bullseye)
 ```
 make pkgs
 pv debian-live-11.0.0-amd64-lxde.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
@@ -38,6 +38,34 @@ sudo apt-get update
 sudo apt-get install dh-make dosfstools mtools simple-cdd xorriso
 sudo passwd
 make iso
+```
+
+# wip bookworm : Création d'une debian nouvelle version sur clé USB
+[https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/)
+```
+make pkgs
+gnome-boxes debian-live-12.0.0-amd64-lxde.iso
+sudo apt update
+sudo apt install -y sshfs
+sudo mkdir /mnt/a1
+sudo chown user:user /mnt/a1
+sshfs seb@10.0.2.2:/ /mnt/a1
+grep -A15 debinst/README /mnt/a1/home/*/install/debinst/README.md
+ln -s /mnt/a1/data /home/user/data
+cd /mnt/a1/home/*/install/debinst
+rm simplecdd-op-1amd64/amd64/simple-cdd.conf
+rm -fr ~/data/install-build/simplecdd-op-1amd64
+sudo apt-get install -y dh-make dosfstools mtools simple-cdd xorriso
+sudo passwd
+make iso
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
+mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11
+curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11/Components-amd64.yml.gz https://debian.mirror.ate.info/dists/bookworm/main/dep11/Components-amd64.yml.gz
+mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11
+curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz https://debian.mirror.ate.info/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz
+make iso
+cd
+fusermount3 -u /mnt/a1
 ```
 
 # Création d'une machine virtuelle dans windows

@@ -64,7 +64,7 @@ if notDir $FOLDER; then
     mkdir -p $FOLDER/brouillons/new
     mkdir -p $FOLDER/brouillons/tmp
     chmod 700 $FOLDER
-    chown -R $muttUser.$muttUser $FOLDER
+    chown -R $muttUser:$muttUser $FOLDER
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -88,7 +88,7 @@ EOF
         cat $muttHome/.fetchmailrc.in >>$file
     fi
     chmod 700 $file
-    chown $muttUser.$muttUser $file
+    chown $muttUser:$muttUser $file
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -108,7 +108,7 @@ EOF
     if [ -f $muttHome/.procmailrc.in ]; then
         cat $muttHome/.procmailrc.in >>$file
     fi
-    chown $muttUser.$muttUser $file
+    chown $muttUser:$muttUser $file
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -182,7 +182,7 @@ bind attach <return> view-mailcap
 
 set crypt_use_gpgme=no
 EOF
-    chown $muttUser.$muttUser $file
+    chown $muttUser:$muttUser $file
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -196,7 +196,7 @@ EOF
     if [ -f $muttHome/.mailrc.in ]; then
         cat $muttHome/.mailrc.in >>$file
     fi
-    chown $muttUser.$muttUser $file
+    chown $muttUser:$muttUser $file
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -206,7 +206,7 @@ file=$muttHome/.w3m/config
 if notFile $file; then
     mkdir -p $muttHome/.w3m
     echo "anchor_color cyan" >$file
-    chown -R $muttUser.$muttUser $muttHome/.w3m
+    chown -R $muttUser:$muttUser $muttHome/.w3m
 elif notGrep "anchor_color cyan" $file; then
     sed -i 's/anchor_color .*/anchor_color cyan/' $file
 fi
@@ -216,7 +216,7 @@ if notFile $file; then
     cat >$file <<EOF
 keymap y EXTERN_LINK 'url=%s && printf %s "\$url" | xsel && printf %s "\$url" | xsel -b &'
 EOF
-    chown $muttUser.$muttUser $file
+    chown $muttUser:$muttUser $file
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -228,7 +228,7 @@ if notFile $file; then
     cat >$file <<EOF
 image/*; qiv -tfi %s; description="Image"; test=test "\$DISPLAY"
 EOF
-    chown $muttUser.$muttUser $file
+    chown $muttUser:$muttUser $file
 fi
 
 # ---------------------------------------------------------------------------- #

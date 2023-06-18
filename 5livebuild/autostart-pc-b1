@@ -7,6 +7,6 @@ xrandr --output eDP --brightness 0.75
 sudo /sbin/modprobe cfg80211
 sudo /sbin/insmod /lib/modules/KERNEL/updates/dkms/8821ce.ko
 nmcli con add type wifi con-name SSID ssid SSID 802-11-wireless-security.key-mgmt WPA-PSK 802-11-wireless-security.psk WPAK
-sudo chown root.lp /etc/cups/ppd/TS5000LAN.ppd
+sudo chown root:lp /etc/cups/ppd/TS5000LAN.ppd
 sudo cupsctl --debug-logging
 sudo systemctl start cups

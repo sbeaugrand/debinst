@@ -22,7 +22,7 @@ movePackage()
         return 1
     fi
     mv $src $dst
-    chown -R $user.$user $dst
+    chown -R $user:$user $dst
 }
 
 # user
@@ -39,7 +39,7 @@ fi
 # lpkg
 dir=/home/$user/install
 mkdir $dir
-chown $user.$user $dir
+chown $user:$user $dir
 
 movePackage debinst
 for i in `cat $dir/debinst/LPKG/list.txt`; do
@@ -51,7 +51,7 @@ done
 # data
 dir=/home/$user/data
 mkdir $dir
-chown $user.$user $dir
+chown $user:$user $dir
 
 # install
 cd /home/$user/install/debinst

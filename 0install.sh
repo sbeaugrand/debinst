@@ -91,13 +91,13 @@ isDir()
 log=/dev/stderr
 isDir $data || exit 1
 log=$bdir/0install.log
-[ -d $bdir ] || (mkdir $bdir && chown $user.$user $bdir)
-[ -d $repo ] || (mkdir $repo && chown $user.$user $repo)
-[ -d $idir/../repo ] || (mkdir $idir/../repo && chown $user.$user $idir/../repo)
+[ -d $bdir ] || (mkdir $bdir && chown $user:$user $bdir)
+[ -d $repo ] || (mkdir $repo && chown $user:$user $repo)
+[ -d $idir/../repo ] || (mkdir $idir/../repo && chown $user:$user $idir/../repo)
 if [ ! -d $home/.local/bin ]; then
     mkdir -p $home/.local/bin
-    chown $user.$user $home/.local
-    chown $user.$user $home/.local/bin
+    chown $user:$user $home/.local
+    chown $user:$user $home/.local/bin
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -125,7 +125,7 @@ logrotate()
 if ! grep -q " / ext4 ro," /proc/mounts; then
     logrotate $log
     cat /dev/null >$log
-    chown $user.$user $log
+    chown $user:$user $log
 else
     log=/dev/stderr
     logError "Read-only file system, log=/dev/stderr"
@@ -274,7 +274,7 @@ download()
         pushd $repo || return 1
         echo curl -Ls $url -o $file >>$log
         curl -Ls $url -o $file || return 1
-        chown $user.$user $file
+        chown $user:$user $file
         popd
         echo " download: $repo/$file downloaded" >>$log
     else
@@ -319,13 +319,13 @@ untar()
                 pushd $bdir || return 1
             fi
             $tar $repo/$file
-            chown -R $user.$user $bdir/$dir
+            chown -R $user:$user $bdir/$dir
             popd
         fi
     elif notDir $bdir/$dir; then
         pushd $bdir || return 1
         $tar $repo/$file
-        chown -R $user.$user $bdir/$dir
+        chown -R $user:$user $bdir/$dir
         popd
     fi
 
