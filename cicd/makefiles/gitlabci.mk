@@ -5,9 +5,14 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 VM ?= lubuntu
+IMAGE ?= ubuntu:22.10
 BUILD ?= Debug
 
-gitlabci = gitlabci-local -c gitlab-ci.yml -e VM=$(VM) -e BUILD=$(BUILD)
+gitlabci = gitlabci-local\
+ -e VM=$(VM)\
+ -e IMAGE=$(IMAGE)\
+ -e BUILD=$(BUILD)\
+ -c gitlab-ci.yml
 propath = $(shell basename `readlink -f .`)
 
 .SUFFIXES:

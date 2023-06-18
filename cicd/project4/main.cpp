@@ -28,9 +28,9 @@ public:
 int
 main(int, char**)
 {
-    jsonrpc::HttpServer httpserver(8383);
-    Server s(httpserver, jsonrpc::JSONRPC_SERVER_V1V2);
-    s.StartListening();
+    jsonrpc::HttpServer httpserver(8383, "", "", 5);  // 5 threads
+    Server server(httpserver, jsonrpc::JSONRPC_SERVER_V1V2);
+    server.StartListening();
 
     for (;;) {
     }

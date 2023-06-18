@@ -1,0 +1,9 @@
+---
+- name: autostart
+  blockinfile:
+    path: "{{ home }}/.config/lxsession/LXDE/autostart"
+    block: |
+      @xscreensaver -no-splash
+      @/usr/bin/numlockx on
+      @amixer -q set Capture nocap
+      @/usr/sbin/rfkill block all

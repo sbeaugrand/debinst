@@ -13,6 +13,8 @@ stages:
   - rpackage
   - rinstall
   - deploy
+variables:
+  RSYNC: rsync --checksum --delete -a --exclude=*~ --exclude=build -i
 build:
   stage: build
   except:
@@ -48,16 +50,16 @@ rbuild:
   script:
     - export PROPATH=$(basename `readlink -f .`)
     - cd ../$VM
-    - rsync -a -i -f '- build' ../$PROPATH/ .vagrant/$PROPATH/
-    - rsync -a -i -f '- build' ../makefiles/ .vagrant/makefiles/
+    - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
+    - $RSYNC ../makefiles/ .vagrant/makefiles/
     - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build BUILD=Release && strip build/$PROJECT"
 rpackage:
   stage: rpackage
   script:
     - export PROPATH=$(basename `readlink -f .`)
     - cd ../$VM
-    - rsync -a -i -f '- build' ../$PROPATH/ .vagrant/$PROPATH/
-    - rsync -a -i -f '- build' ../makefiles/ .vagrant/makefiles/
+    - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
+    - $RSYNC ../makefiles/ .vagrant/makefiles/
     - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make package"
 rinstall:
   stage: rinstall
@@ -66,7 +68,7 @@ rinstall:
     - cd ../$VM
     - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb"
 deploy:
-  image: ubuntu:22.10
+  image: $IMAGE
   stage: deploy
   script:
     - export PROPATH=$(basename `readlink -f .`)
