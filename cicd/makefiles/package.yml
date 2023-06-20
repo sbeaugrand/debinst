@@ -14,6 +14,9 @@ stages:
   - rinstall
   - deploy
 variables:
+  VERSION: 1.0
+  BUILD: Debug
+  STRIP: strip
   RSYNC: rsync --checksum --delete -a --exclude=*~ --exclude=build -i
 build:
   stage: build
@@ -52,7 +55,7 @@ rbuild:
     - cd ../$VM
     - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
     - $RSYNC ../makefiles/ .vagrant/makefiles/
-    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build BUILD=Release && strip build/$PROJECT"
+    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build BUILD=$BUILD && (test $BUILD = Debug || $STRIP build/$PROJECT)"
 rpackage:
   stage: rpackage
   script:

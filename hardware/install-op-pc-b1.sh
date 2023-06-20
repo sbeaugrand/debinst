@@ -22,11 +22,6 @@ if notLink $home/.gramps && isDir /data/gramps; then
     ln -s /data/gramps $home/.gramps
 fi
 
-file=/etc/fstab
-if grep -q 'mnt' $file; then
-    sudoRoot sed -i "'/mnt/d'" /etc/fstab
-fi
-
 file=$home/.config/lxsession/LXDE/autostart
 if notGrep brightness $file; then
     if [ -z "$DISPLAY" ]; then

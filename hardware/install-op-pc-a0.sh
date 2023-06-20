@@ -2,7 +2,6 @@
 # pc
 # ---------------------------------------------------------------------------- #
 sourceList "
-install-ob-/install-61-colorgcc.sh
 install-op-/install-op-cal-src.sh
 install-op-/install-op-arduino.sh
 install-op-/install-op-imscripts.sh

@@ -45,7 +45,7 @@ iso:
 
 .PHONY: iso32
 iso32:
-	@./2simplecdd.sh simplecdd-op-1i386 buildpackage-op-1
+	@./2simplecdd.sh simplecdd-op-1arch86 buildpackage-op-1
 
 .PHONY: clean
 clean:

@@ -41,6 +41,10 @@ package:
        It derives inspiration from the puka AMQP library in that it abstracts away the
        underlying AMQP wire concept of channels and uses them as an error/consumer scope.
        This should make writing simple single-threaded AMQP-enabled apps easy.' >>debian/control
+    - |
+      sed -i 's/Section: .*/Section: libdevel/' debian/control
+    - |
+      sed -i 's#Homepage: .*#Homepage: https://github.com/alanxz/SimpleAmqpClient#' debian/control
     - cp -a ../*.so.7.0.1 data/
     - cp -a ../SimpleAmqpClient-$VERSION/src/SimpleAmqpClient/*.h data/
     - cp -a ../*.pc data/

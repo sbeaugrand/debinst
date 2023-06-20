@@ -6,7 +6,6 @@
 # ---------------------------------------------------------------------------- #
 variables:
   PROJECT: project-three
-  VERSION: 1.0
   DEP: ../project2/build/libsimple-amqp-client_2.5.1_amd64.deb
 include:
   - local: /../makefiles/package.yml

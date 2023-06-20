@@ -2,8 +2,10 @@
 # pc
 # ---------------------------------------------------------------------------- #
 sourceList "
+install-op-/install-op-colorgcc.sh
 install-op-/install-op-diffchar.sh
 install-op-/install-op-firefox-vdh.sh
+install-op-/install-op-fstab.sh
 install-op-/install-op-id3ed.sh
 install-op-/install-op-meteo.sh
 install-op-/install-op-mp3gain.sh

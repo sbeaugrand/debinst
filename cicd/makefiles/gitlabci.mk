@@ -7,11 +7,13 @@
 VM ?= lubuntu
 IMAGE ?= ubuntu:22.10
 BUILD ?= Debug
+STRIP ?= strip
 
 gitlabci = gitlabci-local\
  -e VM=$(VM)\
  -e IMAGE=$(IMAGE)\
  -e BUILD=$(BUILD)\
+ -e STRIP=$(STRIP)\
  -c gitlab-ci.yml
 propath = $(shell basename `readlink -f .`)
 

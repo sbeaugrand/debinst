@@ -3,6 +3,7 @@
 # ---------------------------------------------------------------------------- #
 sourceList "
 install-op-/install-op-autologin.sh
+install-op-/install-op-fstab.sh
 install-pr-/install-pr-alias.sh
 install-pr-/install-pr-bashrc.sh
 hardware/install-op-fix-suspend.sh
