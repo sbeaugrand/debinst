@@ -11,3 +11,6 @@
     home: /home/{{ user }}
   roles:
     - lxde
+  handlers:
+    - name: openbox reconfigure
+      command: openbox --reconfigure

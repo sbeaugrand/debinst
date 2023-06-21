@@ -22,3 +22,6 @@
     #
     - libvirt
     - lxde
+  handlers:
+    - name: openbox reconfigure
+      command: openbox --reconfigure

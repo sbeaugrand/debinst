@@ -8,6 +8,6 @@
  ANSIBLE_GATHERING=explicit\
  ansible-playbook\
  -i $idir/cicd/localhost/inventory.yml\
- install-*-ansible.yml
+ $idir/install-ob-/install-*-ansible.yml
 
 openbox --reconfigure

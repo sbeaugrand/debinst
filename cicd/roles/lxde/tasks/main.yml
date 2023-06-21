@@ -34,6 +34,8 @@
         <keybind key="C-A-l">
           <action name="Execute"><command>xscreensaver-command -lock</command></action>
         </keybind>
+  notify:
+    - openbox reconfigure
 
 - name: mxterm
   blockinfile:
@@ -44,12 +46,16 @@
         <application title="mxterm">
           <maximized>yes</maximized>
         </application>
+  notify:
+    - openbox reconfigure
 
 - name: Super_L
   lineinfile:
     path: "{{ home }}/.config/openbox/lxde-rc.xml"
     search_string: '  <keybind key="A-F1">'
     line: '  <keybind key="Super_L">'
+  notify:
+    - openbox reconfigure
 
 - name: desktop trash
   lineinfile:

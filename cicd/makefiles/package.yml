@@ -17,6 +17,7 @@ variables:
   VERSION: 1.0
   BUILD: Debug
   STRIP: strip
+  IMAGE: ubuntu:22.10
   RSYNC: rsync --checksum --delete -a --exclude=*~ --exclude=build -i
 build:
   stage: build
