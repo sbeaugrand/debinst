@@ -15,9 +15,9 @@ systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-
 ```
 make pkgs
 make iso  # or make iso32
-pv ~/data/install-build/simplecdd-op-1amd64/images/debian-*-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
+pv ~/data/install-build/simplecdd-op-1arch64/images/debian-*-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
-La liste des paquets debian sont dans: simplecdd-op-1amd64/list.txt
+La liste des paquets debian sont dans: simplecdd-op-1arch64/list.txt
 
 La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 
@@ -32,8 +32,8 @@ sudo mkdir /mnt/a1
 sudo mount /dev/sda1 /mnt/a1
 ln -s /mnt/a1/home/*/data /home/user/data
 cd /mnt/a1/home/*/install/debinst
-rm simplecdd-op-1amd64/amd64/simple-cdd.conf
-rm -fr ~/data/install-build/simplecdd-op-1amd64
+rm simplecdd-op-1arch64/amd64/simple-cdd.conf
+rm -fr ~/data/install-build/simplecdd-op-1arch64
 sudo apt-get update
 sudo apt-get install dh-make dosfstools mtools simple-cdd xorriso
 sudo passwd
@@ -53,8 +53,8 @@ sshfs seb@10.0.2.2:/ /mnt/a1
 grep -A15 debinst/README /mnt/a1/home/*/install/debinst/README.md
 ln -s /mnt/a1/data /home/user/data
 cd /mnt/a1/home/*/install/debinst
-rm simplecdd-op-1amd64/amd64/simple-cdd.conf
-rm -fr ~/data/install-build/simplecdd-op-1amd64
+rm simplecdd-op-1arch64/amd64/simple-cdd.conf
+rm -fr ~/data/install-build/simplecdd-op-1arch64
 sudo apt-get install -y dh-make dosfstools mtools simple-cdd xorriso
 make iso
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771

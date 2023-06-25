@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 PROJECT = $(shell basename `readlink -f .`)
 CODENAME = $(shell lsb_release -sc)
-MIRROR = $(HOME)/data/install-build/simplecdd-op-1amd64/tmp/mirror
+MIRROR = $(HOME)/data/install-build/simplecdd-op-1arch64/tmp/mirror
 CHROOTDIR = build/config/includes.chroot
 SKELDIR = $(CHROOTDIR)/etc/skel
 RSYNC = rsync -aO -i --delete --delete-excluded
@@ -67,7 +67,7 @@ sync: list skel
 list:\
  build/config/package-lists/amd64.list\
  build/config/package-lists/base.list
-build/config/package-lists/amd64.list: ../simplecdd-op-1amd64/list.txt
+build/config/package-lists/amd64.list: ../simplecdd-op-1arch64/list.txt
 	@sed 's/#.*//' $< |\
 	 grep -v ":i386" |\
 	 grep -v "wine" |\
