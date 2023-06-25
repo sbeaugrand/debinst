@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-repo=$idir/../repo
+#repo=$idir/../repo
 
 gitClone https://github.com/colorgcc/colorgcc.git || return 1
 

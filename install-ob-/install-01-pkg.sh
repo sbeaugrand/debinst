@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-listFile="simplecdd-op-1amd64/list.txt"
+listFile="simplecdd-op-1arch64/list.txt"
 sta=`lsb_release -sc`
 
 if [ "`dpkg --print-architecture`" = "amd64" ] &&
@@ -21,12 +21,15 @@ export DEBIAN_FRONTEND=noninteractive
 file=/etc/apt/sources.list.d/debian.list
 if notFile $file; then
     cat >$tmpf <<EOF
-deb http://httpredir.debian.org/debian $sta main contrib non-free
-deb http://httpredir.debian.org/debian/ $sta-updates main contrib non-free
-deb-src http://httpredir.debian.org/debian $sta main contrib non-free
-deb-src http://httpredir.debian.org/debian/ $sta-updates main contrib non-free
+deb http://httpredir.debian.org/debian $sta main contrib non-free-firmware
+deb http://httpredir.debian.org/debian/ $sta-updates main contrib non-free-firmware
+deb-src http://httpredir.debian.org/debian $sta main contrib non-free-firmware
+deb-src http://httpredir.debian.org/debian/ $sta-updates main contrib non-free-firmware
 EOF
     sudoRoot cp $tmpf $file
+    if grep -q "hypervisor" /proc/cpuinfo; then
+        return 0
+    fi
     if isOnline; then
         logInfo "apt-get update ..."
         sudoRoot apt-get -q -y update

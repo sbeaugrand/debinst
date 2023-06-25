@@ -248,6 +248,9 @@ isFile()
 # ---------------------------------------------------------------------------- #
 isOnline()
 {
+    if grep -q "hypervisor" /proc/cpuinfo; then
+        return 0
+    fi
     if isFile /proc/net/arp; then
         if ((`cat /proc/net/arp | wc -l` < 2)); then
             return 1

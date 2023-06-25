@@ -9,5 +9,3 @@
  ansible-playbook\
  -i $idir/cicd/localhost/inventory.yml\
  $idir/install-ob-/install-*-ansible.yml
-
-openbox --reconfigure

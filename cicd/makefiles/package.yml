@@ -19,6 +19,7 @@ variables:
   STRIP: strip
   IMAGE: ubuntu:22.10
   RSYNC: rsync --checksum --delete -a --exclude=*~ --exclude=build -i
+  CMAKE: cmake .. -DCMAKE_BUILD_TYPE=$BUILD
 build:
   stage: build
   except:
@@ -27,9 +28,9 @@ build:
   script:
     - mkdir -p build
     - cd build
-    - cmake .. -DCMAKE_BUILD_TYPE=$BUILD
+    - $CMAKE
     - make --no-print-directory clean
-    - make --no-print-directory
+    - make --no-print-directory -j`nproc`
 package:
   stage: package
   except:

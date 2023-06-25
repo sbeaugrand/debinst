@@ -10,6 +10,10 @@
     user: "{{ lookup('env', 'USER') }}"
     home: /home/{{ user }}
   roles:
+    - bashrc
+    - screen
+    - vim
+    - xterm
     - lxde
   handlers:
     - name: openbox reconfigure

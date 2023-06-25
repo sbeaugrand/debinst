@@ -16,7 +16,6 @@ vimrc()
     notGrep ruler       $1 && echo "set ruler"          >>$1
     notGrep notitle     $1 && echo "set notitle"        >>$1
     notGrep syntax      $1 && echo "syntax on"          >>$1
-    notGrep peachpuff   $1 && echo "colo peachpuff"     >>$1
     notGrep comment     $1 && echo "hi comment ctermfg=blue cterm=bold" >>$1
     notGrep expandtab   $1 && cat >>$1 <<EOF
 let _curfile = expand("%:t")

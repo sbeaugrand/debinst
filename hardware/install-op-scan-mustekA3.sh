@@ -31,7 +31,7 @@ fi
 file=/usr/lib/i386-linux-gnu/libtiff.so
 if notFile $file.4; then
     mkdir -p /usr/lib/i386-linux-gnu
-    ln -sf $file.5 $file.4
+    ln -sf $file.6 $file.4
 fi
 
 file=/etc/udev/rules.d/56-sane-backends-autoconfig.rules

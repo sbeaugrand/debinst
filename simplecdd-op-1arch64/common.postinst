@@ -53,12 +53,6 @@ dir=/home/$user/data
 mkdir $dir
 chown $user:$user $dir
 
-# install
-cd /home/$user/install/debinst
-sudo -u $user ./0install.sh\
- install-ob-/install-02-bashrc.sh\
- install-ob-/install-03-screen.sh
-
 # libdvdcss
 cp /home/$user/install/repo/libdvdcss_*.orig.tar.bz2 /usr/src/libdvd-pkg/
 dpkg-reconfigure -pcritical libdvd-pkg

@@ -158,7 +158,7 @@ for i in `cat $buildpackage/list.txt`; do
 done
 
 echo "to save: "
-echo "echo \""
+echo "cd && echo \""
 pushd $home
 ls -1 -d 2>/dev/null\
  .ssh/id*\

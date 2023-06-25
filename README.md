@@ -56,7 +56,6 @@ cd /mnt/a1/home/*/install/debinst
 rm simplecdd-op-1amd64/amd64/simple-cdd.conf
 rm -fr ~/data/install-build/simplecdd-op-1amd64
 sudo apt-get install -y dh-make dosfstools mtools simple-cdd xorriso
-sudo passwd
 make iso
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
 mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11

@@ -8,7 +8,7 @@ BUILD ?= Debug
 
 .PHONY: all clean
 all clean: build/Makefile
-	@cd build && make --no-print-directory -j4 $@
+	@cd build && make --no-print-directory -j`nproc` $@
 
 build/Makefile:
 	@mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=$(BUILD)

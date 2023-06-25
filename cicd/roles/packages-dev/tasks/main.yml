@@ -23,6 +23,7 @@
       - systemd-coredump  # coredumpctl debug
       - valgrind
       - vim
+      - chrony
   become: yes
 
 - name: install python packages

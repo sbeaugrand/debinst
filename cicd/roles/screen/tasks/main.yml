@@ -15,3 +15,17 @@
       # C-a e
       bind e stuff 'printf "\eklocalhost\e\\\\"'
       shelltitle "localhost"
+
+- name: screen.desktop
+  blockinfile:
+    path: "{{ home }}/.local/share/applications/screen.desktop"
+    create: yes
+    block: |
+      [Desktop Entry]
+      Name=Screen
+      Comment=Ligne de commande
+      Exec=xterm -T mxterm -e "SCREENDIR={{ home }}/.screen screen"
+      Icon=lxterminal
+      Terminal=false
+      Type=Application
+      Categories=TerminalEmulator;System;Utility;
