@@ -7,6 +7,7 @@
 #include <iostream>
 #include <jsonrpccpp/server/connectors/httpserver.h>
 #include "build/abstractstubserver.h"
+#include <thread>
 
 /******************************************************************************!
  * \class Server
@@ -32,7 +33,9 @@ main(int, char**)
     Server server(httpserver, jsonrpc::JSONRPC_SERVER_V1V2);
     server.StartListening();
 
+    using namespace std::chrono_literals;
     for (;;) {
+        std::this_thread::sleep_for(100ms);
     }
 
     return 0;

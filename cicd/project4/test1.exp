@@ -1,0 +1,22 @@
+#!/usr/bin/expect -f
+# ---------------------------------------------------------------------------- #
+## \file test1.exp
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+set url http://localhost:8383/
+
+spawn build/project-four
+set id $spawn_id
+sleep 1
+
+spawn curl -d \{"jsonrpc":"2.0","method":"status","id":1\} $url
+expect \{"id":1,"jsonrpc":"2.0","result":"ok"\}
+expect eof
+
+spawn curl -d \{"jsonrpc":"2.0","method":"quit"\} $url
+expect "curl: (52) Empty reply from server"
+expect eof
+
+expect -i $id eof

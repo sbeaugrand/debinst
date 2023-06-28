@@ -8,7 +8,6 @@ PROJECT ?= $(shell basename `readlink -f .`)
 VM ?= lubuntu
 IMAGE ?= ubuntu:22.10
 BUILD ?= Debug
-STRIP ?= strip
 ifeq ($(CMAKE),)
  NCMAKE = cmake .. -DCMAKE_BUILD_TYPE=$(BUILD)
 else ifeq ($(CMAKE),qmake)
@@ -21,7 +20,6 @@ gitlabci = gitlabci-local\
  -e VM=$(VM)\
  -e IMAGE=$(IMAGE)\
  -e BUILD=$(BUILD)\
- -e STRIP=$(STRIP)\
  -e CMAKE="$(NCMAKE)"\
  -c gitlab-ci.yml
 propath = $(shell basename `readlink -f .`)

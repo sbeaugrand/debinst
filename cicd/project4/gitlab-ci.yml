@@ -6,7 +6,6 @@
 # ---------------------------------------------------------------------------- #
 variables:
   PROJECT: project-four
-  URL: http://localhost:8383/
 include:
   - local: /../makefiles/package.yml
 prebuild:
@@ -18,7 +17,4 @@ prebuild:
 test:
   stage: test
   script:
-    - build/$PROJECT &
-    - sleep 1
-    - curl -d '{"jsonrpc":"2.0","method":"status","id":1}' $URL
-    - curl -d '{"jsonrpc":"2.0","method":"quit"}' $URL || true
+    ./test1.exp

@@ -14,6 +14,7 @@ stages:
   - rinstall
   - deploy
 variables:
+  PROJECT: $(shell basename `readlink -f .`)
   VERSION: 1.0
   BUILD: Debug
   STRIP: strip
@@ -57,7 +58,7 @@ rbuild:
     - cd ../$VM
     - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
     - $RSYNC ../makefiles/ .vagrant/makefiles/
-    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build BUILD=$BUILD && (test $BUILD = Debug || $STRIP build/$PROJECT)"
+    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build BUILD=$BUILD CMAKE='$CMAKE' && (test $BUILD = Debug || $STRIP build/$PROJECT)"
 rpackage:
   stage: rpackage
   script:
