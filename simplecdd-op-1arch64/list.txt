@@ -124,6 +124,7 @@ colordiff
 uncrustify
 #universalindentgui
 cppcheck
+expect
 #wine32
 wine
 cups

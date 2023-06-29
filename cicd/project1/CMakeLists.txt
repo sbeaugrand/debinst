@@ -7,12 +7,10 @@
 set(PROJECT project-one)
 
 cmake_minimum_required(VERSION 3.18)
-project(${PROJECT} VERSION 1.0.0 LANGUAGES CXX)
+project(${PROJECT})
+set(USE_QT true)
 include(../makefiles/include.cmake)
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
 add_executable(${PROJECT}

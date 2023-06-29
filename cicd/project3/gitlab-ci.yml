@@ -9,10 +9,7 @@ variables:
   DEP: ../project2/build/libsimple-amqp-client_2.5.1_amd64.deb
 include:
   - local: /../makefiles/package.yml
-test:
+test1:
   stage: test
   script:
-    - ./build/$PROJECT &
-    - sleep 1
-    - ../project1/client.py -q $PROJECT -m status
-    - ../project1/client.py -q $PROJECT -m quit
+    - ./test1.exp

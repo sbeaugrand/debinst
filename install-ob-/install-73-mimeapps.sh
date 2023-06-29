@@ -15,8 +15,16 @@ addmimeapps()
 if notGrep "Default Applications" $file; then
     echo "[Default Applications]" >>$file
 fi
+addmimeapps "application/pdf=org.gnome.Evince.desktop;"
+addmimeapps "application/x-shellscript=mousepad.desktop;"
+addmimeapps "audio/mpeg=vlc.desktop;"
+addmimeapps "audio/x-wav=vlc.desktop;"
 addmimeapps "image/jpeg=gpicview.desktop;"
 addmimeapps "image/png=gpicview.desktop;"
-addmimeapps "application/pdf=org.gnome.Evince.desktop;"
 addmimeapps "message/rfc822=emacs.desktop;"
 addmimeapps "text/plain=mousepad.desktop;"
+addmimeapps "text/x-python=mousepad.desktop;"
+addmimeapps "video/mp4=vlc.desktop;"
+addmimeapps "video/mpeg=vlc.desktop;"
+addmimeapps "video/webm=vlc.desktop;"
+addmimeapps "video/x-matroska=vlc.desktop;"

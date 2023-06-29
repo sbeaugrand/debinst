@@ -7,7 +7,7 @@
 set(PROJECT project-three)
 
 cmake_minimum_required(VERSION 3.18)
-project(${PROJECT} VERSION 1.0.0 LANGUAGES CXX)
+project(${PROJECT})
 include(../makefiles/include.cmake)
 
 add_executable(${PROJECT}

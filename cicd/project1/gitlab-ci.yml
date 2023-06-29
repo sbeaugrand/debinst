@@ -8,12 +8,7 @@ variables:
   PROJECT: project-one
 include:
   - local: /../makefiles/package.yml
-test:
+test1:
   stage: test
   script:
-    - ./build/$PROJECT &
-    - sleep 1
-    - ./client.py -q $PROJECT -m click
-    - sleep 1
-    - ./client.py -q $PROJECT -m status
-    - ./client.py -q $PROJECT -m quit
+    - ./test1.exp

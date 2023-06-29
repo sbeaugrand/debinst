@@ -14,7 +14,7 @@ prebuild:
     - mkdir -p build
     - cd build
     - test -f abstractstubserver.h || jsonrpcstub ../spec.json --cpp-server=AbstractStubServer
-test:
+test1:
   stage: test
   script:
     ./test1.exp

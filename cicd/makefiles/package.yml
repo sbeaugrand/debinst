@@ -58,7 +58,11 @@ rbuild:
     - cd ../$VM
     - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
     - $RSYNC ../makefiles/ .vagrant/makefiles/
-    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make build BUILD=$BUILD CMAKE='$CMAKE' && (test $BUILD = Debug || $STRIP build/$PROJECT)"
+    - |
+      vagrant ssh -c "
+      cd /vagrant/.vagrant/$PROPATH &&
+      make build BUILD=$BUILD CMAKE='$CMAKE' &&
+      (test $BUILD = Debug || $STRIP build/$PROJECT)"
 rpackage:
   stage: rpackage
   script:
@@ -72,7 +76,10 @@ rinstall:
   script:
     - export PROPATH=$(basename `readlink -f .`)
     - cd ../$VM
-    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb"
+    - |
+      vagrant ssh -c "
+      cd /vagrant/.vagrant/$PROPATH &&
+      sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb"
 deploy:
   image: $IMAGE
   stage: deploy

@@ -1,0 +1,22 @@
+#!/usr/bin/expect -f
+# ---------------------------------------------------------------------------- #
+## \file test1.exp
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+spawn build/project-three
+set id $spawn_id
+sleep 1
+
+spawn ../project1/client.py -q project-three -m status
+expect -i $id "status"
+expect "b'status: ok'"
+expect eof
+
+spawn ../project1/client.py -q project-three -m quit
+expect -i $id "quit"
+expect "b'quit: ok'"
+expect eof
+
+expect -i $id eof

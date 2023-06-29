@@ -15,3 +15,9 @@ endif()
 add_compile_options(
   "-Wall" "-Wextra" "-O1" "-D_FORTIFY_SOURCE=2"
 )
+
+if(USE_QT)
+    set(CMAKE_AUTOMOC ON)
+    set(CMAKE_AUTORCC ON)
+    set(CMAKE_AUTOUIC ON)
+endif()
