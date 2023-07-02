@@ -1,16 +1,8 @@
 # ---------------------------------------------------------------------------- #
-## \file gitlab-ci.yml
+## \file Makefile
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-variables:
-  PROJECT: project-three
-  DEP: ../project2/build/libsimple-amqp-client_2.5.1_amd64.deb
-include:
-  - local: /../makefiles/package.yml
-test1:
-  stage: test
-  script:
-    - make --no-print-directory
-    - ./test1.exp
+include ../makefiles/cmake.mk
+include ../makefiles/gitlabci.mk

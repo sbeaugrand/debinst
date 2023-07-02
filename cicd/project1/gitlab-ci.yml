@@ -11,4 +11,5 @@ include:
 test1:
   stage: test
   script:
+    - make --no-print-directory
     - ./test1.exp

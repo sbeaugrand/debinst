@@ -1,0 +1,24 @@
+#!/usr/bin/expect -f
+# ---------------------------------------------------------------------------- #
+## \file test1.exp
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+set url tcp://127.0.0.1:8899
+
+spawn build/server $url
+set server $spawn_id
+sleep 1
+spawn build/client $url
+
+expect "client: send status"
+expect -i $server "send ok"
+expect "recv ok"
+
+expect "client: send quit"
+expect -i $server "send ok"
+expect "recv ok"
+
+expect -i $server eof
+expect eof

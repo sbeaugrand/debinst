@@ -1,0 +1,23 @@
+#!/usr/bin/expect -f
+# ---------------------------------------------------------------------------- #
+## \file test1.exp
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+spawn build/server -d
+set server $spawn_id
+sleep 1
+spawn build/client -d
+
+expect -i $server "onNewConnection"
+expect "WebSocket connected"
+expect -i $server "Message received: \"status\""
+expect "Message received: \"alert\""
+expect "Message received: \"status\""
+expect -i $server "Message received: \"quit\""
+expect "Message received: \"quit\""
+expect -i $server "socketDisconnected"
+
+expect -i $server eof
+expect eof

@@ -13,8 +13,11 @@ prebuild:
   script:
     - mkdir -p build
     - cd build
-    - test -f abstractstubserver.h || jsonrpcstub ../spec.json --cpp-server=AbstractStubServer
+    - >
+      test -f abstractstubserver.h ||
+      jsonrpcstub ../spec.json --cpp-server=AbstractStubServer
 test1:
   stage: test
   script:
-    ./test1.exp
+    - make --no-print-directory
+    - ./test1.exp

@@ -20,6 +20,8 @@
       - libboost-system-dev  # SimpleAmqpClient
       - libjsonrpccpp-dev
       - libjsonrpccpp-tools
+      - libnng-dev
+      - libqt5websockets5-dev
       - librabbitmq-dev
       - python3-pika
       - python3-pip
