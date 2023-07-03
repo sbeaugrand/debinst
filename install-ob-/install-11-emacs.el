@@ -96,7 +96,7 @@
 (setq win-ypos 0)
 (setq win-num (truncate (/ x-width (* x-font nb-cols))))
 (if ( = x-width 1024) (progn (set-scroll-bar-mode nil) (setq win-edge 3)))
-(if ( = x-width 1920) (setq win-edge 6))
+(if ( = x-width 1920) (setq win-edge 4))
 (if (>  x-width 1920) (setq win-edge 4))
 (if (>  x-width 1920) (setq win-ypos 64))
 (if (> win-num 1) (progn

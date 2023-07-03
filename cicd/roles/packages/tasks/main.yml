@@ -21,6 +21,7 @@
       - pv
       - rsync
       - screen
+      - sshfs
       - uncrustify
       - xterm
   become: yes

@@ -62,6 +62,11 @@ void EchoServer::processTextMessage(QString message)
             pClient->sendTextMessage("alert");
         }
         pClient->sendTextMessage(message);
+        if (message == "quit") {
+            m_clients.removeAll(pClient);
+            pClient->deleteLater();
+            m_pWebSocketServer->close();
+        }
     }
 }
 
@@ -75,7 +80,6 @@ void EchoServer::socketDisconnected()
         m_clients.removeAll(pClient);
         pClient->deleteLater();
     }
-    m_pWebSocketServer->close();
 }
 
 /******************************************************************************!

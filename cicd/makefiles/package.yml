@@ -14,13 +14,16 @@ stages:
   - rinstall
   - deploy
 variables:
+  VM: lubuntu
+  IMAGE: ubuntu:22.10
+  BUILD: Debug
+  CMAKE: cmake .. -DCMAKE_BUILD_TYPE=$BUILD
   PROJECT: $(shell basename `readlink -f .`)
   VERSION: 1.0
-  BUILD: Debug
   STRIP: strip
-  IMAGE: ubuntu:22.10
   RSYNC: rsync --checksum --delete -a --exclude=*~ --exclude=build -i
-  CMAKE: cmake .. -DCMAKE_BUILD_TYPE=$BUILD
+  SSH: vagrant ssh -c
+  USERPATH: /vagrant/.vagrant
 build:
   stage: build
   except:
@@ -59,8 +62,7 @@ rbuild:
     - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
     - $RSYNC ../makefiles/ .vagrant/makefiles/
     - |
-      vagrant ssh -c "
-      cd /vagrant/.vagrant/$PROPATH &&
+      $SSH "cd $USERPATH/$PROPATH &&
       make build BUILD=$BUILD CMAKE='$CMAKE' &&
       (test $BUILD = Debug || $STRIP build/$PROJECT)"
 rpackage:
@@ -70,15 +72,14 @@ rpackage:
     - cd ../$VM
     - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
     - $RSYNC ../makefiles/ .vagrant/makefiles/
-    - vagrant ssh -c "cd /vagrant/.vagrant/$PROPATH && make package"
+    - $SSH "cd $USERPATH/$PROPATH && make package"
 rinstall:
   stage: rinstall
   script:
     - export PROPATH=$(basename `readlink -f .`)
     - cd ../$VM
     - |
-      vagrant ssh -c "
-      cd /vagrant/.vagrant/$PROPATH &&
+      $SSH "cd $USEPATH/$PROPATH &&
       sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb"
 deploy:
   image: $IMAGE
