@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f
+# ---------------------------------------------------------------------------- #
+## \file test2.exp
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+set ip [lindex $argv 0]
+set url ws://$ip:1234
+
+spawn build/client -d -u $url
+
+expect "WebSocket connected"
+expect "Message received: \"alert\""
+expect "Message received: \"status\""
+expect "Message received: \"quit\""
+
+expect eof

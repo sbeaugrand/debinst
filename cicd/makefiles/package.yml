@@ -10,6 +10,7 @@ stages:
   - package
   - install
   - rbuild
+  - rtest
   - rpackage
   - rinstall
   - deploy
@@ -65,6 +66,14 @@ rbuild:
       $SSH "cd $USERPATH/$PROPATH &&
       make build BUILD=$BUILD CMAKE='$CMAKE' &&
       (test $BUILD = Debug || $STRIP build/$PROJECT)"
+rtest:
+  stage: rtest
+  before_script:
+    - export PROPATH=$(basename `readlink -f .`)
+    - cd ../$VM
+    - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
+    - $RSYNC ../makefiles/ .vagrant/makefiles/
+    - cd -
 rpackage:
   stage: rpackage
   script:

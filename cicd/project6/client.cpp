@@ -64,11 +64,20 @@ main(int argc, char** argv)
         dbgOption(QStringList() << "d" << "debug",
                   QCoreApplication::translate(
                       "main", "Debug output [default: off]."));
+
+    QCommandLineOption
+        urlOption(QStringList() << "u" << "url",
+                  QCoreApplication::translate(
+                      "main", "[ws://localhost:1234]."),
+                  QCoreApplication::translate(
+                      "main", "url"), QLatin1String("ws://localhost:1234"));
+
     parser.addOption(dbgOption);
+    parser.addOption(urlOption);
     parser.process(a);
     bool debug = parser.isSet(dbgOption);
 
-    EchoClient client(QUrl(QStringLiteral("ws://localhost:1234")), debug);
+    EchoClient client(QUrl(parser.value(urlOption)), debug);
     QObject::connect(&client, &EchoClient::closed, &a, &QCoreApplication::quit);
 
     return a.exec();

@@ -26,9 +26,12 @@ propath = $(shell basename `readlink -f .`)
 
 .SUFFIXES:
 
-.PHONY: build install rbuild rinstall test package rpackage
-build install rbuild rinstall test package rpackage:
+.PHONY: build install rbuild rinstall test rtest package rpackage
+build install rbuild rinstall test rtest package rpackage:
 	@$(gitlabci) -H -R -p $@
+
+test%:
+	@$(gitlabci) -H -R $@
 
 .PHONY: deploy
 deploy:

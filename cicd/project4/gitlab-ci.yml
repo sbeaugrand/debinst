@@ -21,3 +21,12 @@ test1:
   script:
     - make --no-print-directory
     - ./test1.exp
+test2:
+  extends: rtest
+  script:
+    - make --no-print-directory
+    - cd ../$VM
+    - $SSH "cd $USERPATH/$PROPATH && build/$PROJECT" &
+    - export IP=`$SSH "hostname -I"`
+    - cd -
+    - ./test2.exp $IP
