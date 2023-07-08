@@ -4,10 +4,16 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+HOST ?= lubuntu
+-include ../$(HOST)/host.mk
+
 PROJECT ?= $(shell basename `readlink -f .`)
-VM ?= lubuntu
 IMAGE ?= ubuntu:22.10
 BUILD ?= Debug
+URI ?= exemple@ip
+SSH ?= vagrant ssh -c
+USERPATH ?= /vagrant/.vagrant
+
 ifeq ($(CMAKE),)
  NCMAKE = cmake .. -DCMAKE_BUILD_TYPE=$(BUILD)
 else ifeq ($(CMAKE),qmake)
@@ -16,26 +22,30 @@ else
  NCMAKE = $(CMAKE)
 endif
 
-gitlabci = gitlabci-local\
- -e VM=$(VM)\
+gitlabci = ~/.local/bin/gitlabci-local\
+ -e HOST=$(HOST)\
  -e IMAGE=$(IMAGE)\
  -e BUILD=$(BUILD)\
  -e CMAKE="$(NCMAKE)"\
+ -e URI=$(URI)\
+ -e SSH="$(SSH)"\
+ -e USERPATH=$(USERPATH)\
  -c gitlab-ci.yml
 propath = $(shell basename `readlink -f .`)
 
 .SUFFIXES:
 
-.PHONY: build install rbuild rinstall test rtest package rpackage
-build install rbuild rinstall test rtest package rpackage:
+.PHONY: \
+build test package install rbuild rtest rpackage rinstall rdeploy
+build test package install rbuild rtest rpackage rinstall rdeploy:
 	@$(gitlabci) -H -R -p $@
-
-test%:
-	@$(gitlabci) -H -R $@
 
 .PHONY: deploy
 deploy:
 	@$(gitlabci) -E docker $@
+
+test%:
+	@$(gitlabci) -H -R $@
 
 .PHONY: tar
 tar:

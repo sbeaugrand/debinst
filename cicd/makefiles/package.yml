@@ -9,13 +9,14 @@ stages:
   - test
   - package
   - install
+  - deploy
   - rbuild
   - rtest
   - rpackage
   - rinstall
-  - deploy
+  - rdeploy
 variables:
-  VM: lubuntu
+  HOST: lubuntu
   IMAGE: ubuntu:22.10
   BUILD: Debug
   CMAKE: cmake .. -DCMAKE_BUILD_TYPE=$BUILD
@@ -25,6 +26,8 @@ variables:
   RSYNC: rsync --checksum --delete -a --exclude=*~ --exclude=build -i
   SSH: vagrant ssh -c
   USERPATH: /vagrant/.vagrant
+  URI: example@ip
+  SCPTARGET: $URI:$USERPATH/
 build:
   stage: build
   except:
@@ -55,11 +58,23 @@ install:
   stage: install
   script:
     - sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb
+deploy:
+  image: $IMAGE
+  stage: deploy
+  script:
+    - export PROPATH=$(basename `readlink -f .`)
+    - cd ../$HOST/.vagrant/$PROPATH
+    - cp -a build/${PROJECT}_${VERSION}_amd64.deb ../../../$PROPATH/build/
+    - test -z "$DEP" || cp -a $DEP ../../../$PROPATH/build/
+    - cd -
+    - apt update
+    - apt-get install -y $DEP ./build/${PROJECT}_${VERSION}_amd64.deb
+    - ldd -d -r /usr/bin/$PROJECT
 rbuild:
   stage: rbuild
   script:
     - export PROPATH=$(basename `readlink -f .`)
-    - cd ../$VM
+    - cd ../$HOST
     - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
     - $RSYNC ../makefiles/ .vagrant/makefiles/
     - |
@@ -70,7 +85,7 @@ rtest:
   stage: rtest
   before_script:
     - export PROPATH=$(basename `readlink -f .`)
-    - cd ../$VM
+    - cd ../$HOST
     - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
     - $RSYNC ../makefiles/ .vagrant/makefiles/
     - cd -
@@ -78,7 +93,7 @@ rpackage:
   stage: rpackage
   script:
     - export PROPATH=$(basename `readlink -f .`)
-    - cd ../$VM
+    - cd ../$HOST
     - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
     - $RSYNC ../makefiles/ .vagrant/makefiles/
     - $SSH "cd $USERPATH/$PROPATH && make package"
@@ -86,19 +101,17 @@ rinstall:
   stage: rinstall
   script:
     - export PROPATH=$(basename `readlink -f .`)
-    - cd ../$VM
+    - cd ../$HOST
     - |
       $SSH "cd $USEPATH/$PROPATH &&
       sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb"
-deploy:
-  image: $IMAGE
-  stage: deploy
+rdeploy:
+  stage: rdeploy
   script:
     - export PROPATH=$(basename `readlink -f .`)
-    - cd ../$VM/.vagrant/$PROPATH
-    - cp -a build/${PROJECT}_${VERSION}_amd64.deb ../../../$PROPATH/build/
-    - test -z "$DEP" || cp -a $DEP ../../../$PROPATH/build/
-    - cd -
-    - apt update
-    - apt-get install -y $DEP ./build/${PROJECT}_${VERSION}_amd64.deb
-    - ldd -d -r /usr/bin/$PROJECT
+    - cd ../$HOST
+    - scp .vagrant/$PROPATH/build/${PROJECT}_${VERSION}_amd64.deb $SCPTARGET
+    - |
+      $SSH "cd $USERPATH &&
+      sudo apt-get reinstall -y ./${PROJECT}_${VERSION}_amd64.deb
+      ldd -d -r /usr/bin/$PROJECT"
