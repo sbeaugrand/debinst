@@ -26,8 +26,3 @@ file=/usr/lib/x86_64-linux-gnu/libv8.so.$version
 if notLink $file; then
     sudoRoot ln -s /usr/lib/x86_64-linux-gnu/libv8.so $file
 fi
-
-file=$home/.local/bin/$app
-if notFile $file; then
-    cp $repo/$app $file
-fi

@@ -46,3 +46,12 @@ if isOnline; then
 
     sudoRoot apt-get -q -y install --no-install-recommends $list
 fi
+
+pyver=`python3 -c '
+import sys
+print("{}.{}".format(sys.version_info.major, sys.version_info.minor))'`
+
+file=/usr/lib/python$pyver/EXTERNALLY-MANAGED
+if isFile $file; then
+    sudoRoot mv $file $file.bak
+fi

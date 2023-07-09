@@ -38,5 +38,5 @@ if notGrep hdmi $file; then
 fi
 
 if notWhich chromium; then
-    sudoRoot apt-get install chromium
+    sudoRoot apt-get -q -y install --no-install-recommends chromium
 fi

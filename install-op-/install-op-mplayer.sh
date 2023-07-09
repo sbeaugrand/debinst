@@ -67,7 +67,8 @@ fi
 # ---------------------------------------------------------------------------- #
 if notFile $home/.local/bin/mencoder; then
     pushd $bdir/$mplayer
-    ./configure --prefix=$home/.local --disable-ffmpeg_a >>$log 2>&1
+    ./configure --prefix=$home/.local --disable-ffmpeg_a --enable-ffmpeg_so\
+     --extra-libs="-L$home/.local/lib -lavdevice -lavfilter -lavformat -lavcodec -lpostproc -lswresample -lswscale -lavutil -laom -lvorbisenc -llzma" >>$log 2>&1
     make >>$log 2>&1
     make >>$log 2>&1 install
     popd

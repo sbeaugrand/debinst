@@ -15,6 +15,7 @@ make umount
 make ssh-copy-id
 make mount
 cd ../project4
+make build
 make HOST=remotehost rbuild
 make HOST=remotehost rtest
 cd -

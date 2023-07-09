@@ -29,6 +29,8 @@
       - vagrant-sshfs
       - libvirt-daemon-system
       - dnsmasq-base
+      - qemu-utils
+      - qemu-system-x86
   become: yes
 
 - name: add user to the libvirt group

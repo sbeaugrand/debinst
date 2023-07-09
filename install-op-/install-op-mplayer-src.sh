@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 name=mplayer
-version=1.4+ds1
+version=1.5+svn38408
 pkg=$name-$version.tgz
 src=$name-apt-src
 repo=$idir/../repo

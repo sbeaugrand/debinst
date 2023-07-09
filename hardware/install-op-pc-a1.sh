@@ -14,11 +14,13 @@ install-op-/install-op-firefox-cookies.sh
 install-op-/install-op-firefox-automute.sh
 install-op-/install-op-fonts-gcodefonts.sh
 install-op-/install-op-fstab.sh
+install-op-/install-op-kivy.sh
 install-op-/install-op-lingot.sh
 install-op-/install-op-meteo.sh
 install-op-/install-op-uncrustify.sh
 install-op-/install-op-upgrades.sh
 install-op-/install-op-ytdlp.sh
+mobian/kivy/install-op-2048.sh
 install-pr-/install-pr-alias.sh
 install-pr-/install-pr-bashrc.sh
 install-pr-/install-pr-pdcroix.sh
@@ -78,5 +80,8 @@ if notLink $home/.gramps && isDir /data/gramps; then
 fi
 
 if notWhich chromium; then
-    sudoRoot apt-get install chromium
+    sudoRoot apt-get -q -y install --no-install-recommends chromium
+fi
+if notWhich evolution; then
+    sudoRoot apt-get -q -y install --no-install-recommends evolution
 fi
