@@ -19,6 +19,7 @@
       - emacs-lucid
       - keychain
       - pv
+      - rfkill
       - rsync
       - screen
       - sshfs

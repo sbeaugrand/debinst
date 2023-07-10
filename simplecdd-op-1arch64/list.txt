@@ -273,6 +273,7 @@ hplip
 cmark-gfm
 retext
 pandoc
+rfkill
 bluez
 bluez-tools
 libbluetooth-dev  # pybluez

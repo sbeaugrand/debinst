@@ -5,7 +5,7 @@ make mount
 cd ../project4
 make rbuild
 make rpackage
-make HOST=remotehost rdeploy
+make rdeploy HOST=remotehost
 cd -
 make umount
 ```

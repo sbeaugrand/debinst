@@ -13,6 +13,8 @@ BUILD ?= Debug
 URI ?= exemple@ip
 SSH ?= vagrant ssh -c
 USERPATH ?= /vagrant/.vagrant
+BHOST ?= $(HOST)
+SUDOPASS ?= example
 
 ifeq ($(CMAKE),)
  NCMAKE = cmake .. -DCMAKE_BUILD_TYPE=$(BUILD)
@@ -30,6 +32,8 @@ gitlabci = ~/.local/bin/gitlabci-local\
  -e URI=$(URI)\
  -e SSH="$(SSH)"\
  -e USERPATH=$(USERPATH)\
+ -e BHOST=$(BHOST)\
+ -e SUDOPASS=$(SUDOPASS)\
  -c gitlab-ci.yml
 propath = $(shell basename `readlink -f .`)
 

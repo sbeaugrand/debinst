@@ -10,7 +10,7 @@ ifeq ($(URI),)
  TARGETS = local
 else
  TARGETS = ssh-copy-id | local | remote | mount | umount
- SUDOPASS ?= --extra-vars "ansible_sudo_pass=example"
+ BECOMEPASS ?= --extra-vars "ansible_sudo_pass=example"
 endif
 
 .PHONY: all
@@ -23,11 +23,11 @@ ssh-copy-id:
 
 .PHONY: local
 local:
-	@ansible-playbook $(SUDOPASS) $(LOCAL) playbook.yml
+	@ansible-playbook $(BECOMEPASS) $(LOCAL) playbook.yml
 
 .PHONY: remote
 remote:
-	@ansible-playbook $(SUDOPASS) playbook.yml
+	@ansible-playbook $(BECOMEPASS) playbook.yml
 
 .PHONY: mount
 mount:

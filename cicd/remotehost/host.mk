@@ -9,3 +9,5 @@
 URI = vagrant@192.168.121.9
 SSH = ssh $(URI)
 USERPATH = /home/vagrant
+BHOST = lubuntu
+SUDOPASS =

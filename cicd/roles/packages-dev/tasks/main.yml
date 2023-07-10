@@ -36,4 +36,6 @@
 
 - name: install python packages
   pip:
-    name: gitlabci-local
+    name:
+      - gitlabci-local
+      - colored==1.4.4

@@ -20,14 +20,12 @@ variables:
   IMAGE: ubuntu:22.10
   BUILD: Debug
   CMAKE: cmake .. -DCMAKE_BUILD_TYPE=$BUILD
-  PROJECT: $(shell basename `readlink -f .`)
+  PROJECT: example
   VERSION: 1.0
   STRIP: strip
   RSYNC: rsync --checksum --delete -a --exclude=*~ --exclude=build -i
   SSH: vagrant ssh -c
   USERPATH: /vagrant/.vagrant
-  URI: example@ip
-  SCPTARGET: $URI:$USERPATH/
 build:
   stage: build
   except:
@@ -45,14 +43,28 @@ package:
     variables:
       - $PACKAGE =~ '/^lib/'
   script:
-    - export DEBEMAIL=`git config --global --get user.email`
-    - export DEBFULLNAME=`git config --global --get user.name`
+    - export DEBEMAIL=$DEBEMAIL
+    - export DEBFULLNAME=$DEBFULLNAME
+    - |
+      test -n "$DEBFULLNAME" ||
+      export DEBFULLNAME=`git config --global --get user.name`
+    - |
+      test -n "$DEBEMAIL" ||
+      export DEBEMAIL=`git config --global --get user.email`
     - mkdir -p build/$PROJECT-$VERSION/data
     - cd build/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
     - echo "data/$PROJECT /usr/bin/" >debian/$PROJECT.install
     - cp -a ../$PROJECT data/$PROJECT
     - test ! -d ../../debian || cp -a ../../debian/* debian/
+    - test ! -d ../../data || cp -a ../../data/* data/
+    - test ! -d ../../share || cp -a ../../share/* data/
+    - |
+      test ! -f ../../share/$PROJECT.service ||
+      echo "data/$PROJECT.service /lib/systemd/system" >>debian/$PROJECT.install
+    - |
+      test ! -d ../../share || ls ../../share |
+      sed "s#\(.*\)#data/\1 /usr/share/$PROJECT/#" >>debian/$PROJECT.install
     - dpkg-buildpackage --no-sign
 install:
   stage: install
@@ -107,11 +119,16 @@ rinstall:
       sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb"
 rdeploy:
   stage: rdeploy
+  variables:
+    URI: example@ip
+    SCPTARGET: $URI:$USERPATH/
+    BHOST: $HOST
+    SUDOPASS: example
   script:
     - export PROPATH=$(basename `readlink -f .`)
-    - cd ../$HOST
+    - cd ../$BHOST
     - scp .vagrant/$PROPATH/build/${PROJECT}_${VERSION}_amd64.deb $SCPTARGET
     - |
-      $SSH "cd $USERPATH &&
-      sudo apt-get reinstall -y ./${PROJECT}_${VERSION}_amd64.deb
+      $SSH "cd $USERPATH && echo $SUDOPASS |
+      sudo -S apt-get reinstall -y ./${PROJECT}_${VERSION}_amd64.deb
       ldd -d -r /usr/bin/$PROJECT"
