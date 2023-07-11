@@ -60,7 +60,7 @@ package:
     - test ! -d ../../data || cp -a ../../data/* data/
     - test ! -d ../../share || cp -a ../../share/* data/
     - |
-      test ! -f ../../share/$PROJECT.service ||
+      test ! -f ../../data/$PROJECT.service ||
       echo "data/$PROJECT.service /lib/systemd/system" >>debian/$PROJECT.install
     - |
       test ! -d ../../share || ls ../../share |
@@ -127,8 +127,15 @@ rdeploy:
   script:
     - export PROPATH=$(basename `readlink -f .`)
     - cd ../$BHOST
+    - |
+      test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
+      TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
+    - test ! -f ~/.ssh/id_rsa || source /run/lock/.keychain/*-sh
     - scp .vagrant/$PROPATH/build/${PROJECT}_${VERSION}_amd64.deb $SCPTARGET
     - |
+      $SSH "! systemctl -q is-active $PROJECT ||
+      echo $SUDOPASS | sudo -S -p \"wait\" systemctl stop $PROJECT"
+    - |
       $SSH "cd $USERPATH && echo $SUDOPASS |
-      sudo -S apt-get reinstall -y ./${PROJECT}_${VERSION}_amd64.deb
+      sudo -S apt-get reinstall -y ./${PROJECT}_${VERSION}_amd64.deb &&
       ldd -d -r /usr/bin/$PROJECT"

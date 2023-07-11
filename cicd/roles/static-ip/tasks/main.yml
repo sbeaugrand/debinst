@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: ip {{ address }}
+  blockinfile:
+    path: /etc/network/interfaces
+    create: yes
+    block: |
+      auto {{ interface }}
+      iface {{ interface }} inet static
+        address {{ address }}
+        netmask {{ netmask }}
+        gateway {{ gateway }}
+  become: yes

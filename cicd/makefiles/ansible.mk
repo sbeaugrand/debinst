@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------- #
-## \file Makefile
+## \file ansible.mk
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
@@ -12,6 +12,13 @@ else
  TARGETS = ssh-copy-id | local | remote | mount | umount
  BECOMEPASS ?= --extra-vars "ansible_sudo_pass=example"
 endif
+
+define kc
+ test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||\
+  TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
+ test ! -f ~/.ssh/id_rsa || . /run/lock/.keychain/*-sh
+ $1
+endef
 
 .PHONY: all
 all:
@@ -32,10 +39,7 @@ remote:
 .PHONY: mount
 mount:
 	@mkdir -p .vagrant
-	@test -d /run/lock/.keychain ||\
-	 TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
-	@. /run/lock/.keychain/*-sh &&\
-	 sshfs $(URI):$(USERPATH)/ .vagrant
+	@$(call kc,sshfs $(URI):$(USERPATH)/ .vagrant)
 
 .PHONY: umount
 umount:

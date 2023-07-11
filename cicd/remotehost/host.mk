@@ -6,8 +6,9 @@
 # ---------------------------------------------------------------------------- #
 
 # Example to test with vm, ip = vagrant ssh -c "hostname -I"
-URI = vagrant@192.168.121.9
+IP = 192.168.121.9
+URI = vagrant@$(IP)
 SSH = ssh $(URI)
 USERPATH = /home/vagrant
 BHOST = lubuntu
-SUDOPASS =
+SUDOPASS = vagrant
