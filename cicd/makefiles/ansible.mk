@@ -9,7 +9,7 @@
 ifeq ($(URI),)
  TARGETS = local
 else
- TARGETS = ssh-copy-id | local | remote | mount | umount
+ TARGETS = ssh-copy-id | local | remote | mount | umount | ssh [CMD=\"\"] | halt
  BECOMEPASS ?= --extra-vars "ansible_sudo_pass=example"
 endif
 
@@ -44,3 +44,11 @@ mount:
 .PHONY: umount
 umount:
 	@fusermount3 -u .vagrant
+
+.PHONY: ssh
+ssh:
+	@$(call kc,ssh -t $(URI) $(CMD))
+
+.PHONY: halt
+halt:
+	@$(call kc,ssh -t $(URI) "sudo shutdown -P +0")

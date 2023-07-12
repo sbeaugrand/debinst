@@ -21,3 +21,6 @@ cppcheck:
 	 -i build\
 	 --suppress=missingIncludeSystem\
 	 $(CPPCHECKINC) .
+
+.PHONY: FORCE
+FORCE:
