@@ -5,8 +5,8 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 
-# Example to test with vm, ip = vagrant ssh -c "hostname -I"
-IP = 192.168.121.9
+# Example to test with vm
+include ../lubuntu/host.mk
 URI = vagrant@$(IP)
 SSH = ssh $(URI)
 USERPATH = /home/vagrant

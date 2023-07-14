@@ -5,7 +5,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-spawn build/server -d
+spawn build/project-six -d
 set server $spawn_id
 sleep 1
 spawn build/client -d

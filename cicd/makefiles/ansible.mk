@@ -6,7 +6,9 @@
 # ---------------------------------------------------------------------------- #
 -include host.mk
 
-ifeq ($(URI),)
+ifeq ($(wildcard Vagrantfile),Vagrantfile)
+ TARGETS = up | add-ip | del-ip | get-ip
+else ifeq ($(URI),)
  TARGETS = local
 else
  TARGETS = ssh-copy-id | local | remote | mount | umount | ssh [CMD=\"\"] | halt
@@ -20,9 +22,33 @@ define kc
  $1
 endef
 
+define dhcp
+ sudo virsh net-update vagrant-libvirt $1 ip-dhcp-host\
+  '<host mac="$(MAC)" ip="$(IP)"/>'\
+  --live --config --parent-index 0
+endef
+
+.SUFFIXES:
+
 .PHONY: all
 all:
 	@echo "Usage: make { $(TARGETS) }"
+
+.PHONY: add-ip
+add-ip:
+	@$(call dhcp,add-last)
+
+.PHONY: del-ip
+del-ip:
+	@$(call dhcp,delete)
+
+.PHONY: get-ip
+get-ip:
+	@echo $(IP)
+
+.PHONY: up
+up:
+	@vagrant up --no-provision
 
 .PHONY: ssh-copy-id
 ssh-copy-id:

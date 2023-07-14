@@ -54,17 +54,19 @@ package:
     - mkdir -p build/$PROJECT-$VERSION/data
     - cd build/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
-    - echo "data/$PROJECT /usr/bin/" >debian/$PROJECT.install
-    - cp -a ../$PROJECT data/$PROJECT
-    - test ! -d ../../debian || cp -a ../../debian/* debian/
-    - test ! -d ../../data || cp -a ../../data/* data/
-    - test ! -d ../../share || cp -a ../../share/* data/
+    - cat /dev/null >debian/$PROJECT.install
+    - |
+      test ! -f ../$PROJECT || cp -a ../$PROJECT data/$PROJECT &&
+      echo "data/$PROJECT /usr/bin/" >>debian/$PROJECT.install
     - |
       test ! -f ../../data/$PROJECT.service ||
       echo "data/$PROJECT.service /lib/systemd/system" >>debian/$PROJECT.install
     - |
       test ! -d ../../share || ls ../../share |
       sed "s#\(.*\)#data/\1 /usr/share/$PROJECT/#" >>debian/$PROJECT.install
+    - test ! -d ../../debian || cp -a ../../debian/* debian/
+    - test ! -d ../../data   || cp -a ../../data/*   data/
+    - test ! -d ../../share  || cp -a ../../share/*  data/
     - dpkg-buildpackage --no-sign
 install:
   stage: install
@@ -115,7 +117,7 @@ rinstall:
     - export PROPATH=$(basename `readlink -f .`)
     - cd ../$HOST
     - |
-      $SSH "cd $USEPATH/$PROPATH &&
+      $SSH "cd $USERPATH/$PROPATH &&
       sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb"
 rdeploy:
   stage: rdeploy

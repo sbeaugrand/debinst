@@ -1,6 +1,1 @@
-.PHONY: all
-all:
-
-.PHONY: up
-up:
-	@vagrant up --no-provision
+include ../makefiles/ansible.mk

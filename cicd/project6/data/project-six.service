@@ -1,0 +1,14 @@
+# ---------------------------------------------------------------------------- #
+## \file project-six.service
+# ---------------------------------------------------------------------------- #
+[Unit]
+Description=Project 6
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/project-six -d
+
+[Install]
+WantedBy=default.target

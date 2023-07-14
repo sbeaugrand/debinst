@@ -1,0 +1,3 @@
+data/libSimpleAmqpClient.so.7.0.1 /usr/lib/
+data/*.h /usr/include/SimpleAmqpClient/
+data/libSimpleAmqpClient.pc /usr/lib/pkgconfig/

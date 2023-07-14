@@ -18,8 +18,16 @@ test2:
   script:
     - make --no-print-directory
     - cd ../$HOST
-    - $SSH "cd $USERPATH/$PROPATH && build/server" &
+    - $SSH "cd $USERPATH/$PROPATH && build/$PROJECT" &
     - sleep 1
-    - export IP=`$SSH "hostname -I"`
+    - export IP=`make --no-print-directory get-ip`
+    - cd -
+    - ./test2.exp $IP
+test3:
+  stage: test
+  script:
+    - make --no-print-directory
+    - cd ../$HOST
+    - export IP=`make --no-print-directory get-ip`
     - cd -
     - ./test2.exp $IP

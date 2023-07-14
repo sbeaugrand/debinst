@@ -11,14 +11,17 @@ include:
   - local: /../makefiles/package.yml
 build:
   stage: build
+  variables:
+    URL: https://github.com/alanxz/SimpleAmqpClient/archive/refs/tags
+    TGZ: v$VERSION.tar.gz
   script:
     - mkdir -p build
     - cd build
-    - test -f v$VERSION.tar.gz || curl -OL https://github.com/alanxz/SimpleAmqpClient/archive/refs/tags/v$VERSION.tar.gz
-    - test -d SimpleAmqpClient-$VERSION || tar xzf v$VERSION.tar.gz
+    - test -f $TGZ || curl -OL $URL/$TGZ
+    - test -d SimpleAmqpClient-$VERSION || tar xzf $TGZ
     - cmake SimpleAmqpClient-$VERSION
     - make --no-print-directory clean
-    - make --no-print-directory
+    - make --no-print-directory -j`nproc`
 package:
   stage: package
   script:
@@ -27,11 +30,6 @@ package:
     - mkdir -p build/$PROJECT-$VERSION/data
     - cd build/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
-    - echo "data/libSimpleAmqpClient.so.7.0.1 /usr/lib/" >debian/$PROJECT.install
-    - echo "data/*.h /usr/include/SimpleAmqpClient/" >>debian/$PROJECT.install
-    - echo "data/libSimpleAmqpClient.pc /usr/lib/pkgconfig/" >>debian/$PROJECT.install
-    - echo "/usr/lib/libSimpleAmqpClient.so.7.0.1 /usr/lib/libSimpleAmqpClient.so.7" >debian/$PROJECT.links
-    - echo "/usr/lib/libSimpleAmqpClient.so.7 /usr/lib/libSimpleAmqpClient.so" >>debian/$PROJECT.links
     - |
       sed -i '/^Description: /,${d}' debian/control
     - |
@@ -45,7 +43,7 @@ package:
       sed -i 's/Section: .*/Section: libdevel/' debian/control
     - |
       sed -i 's#Homepage: .*#Homepage: https://github.com/alanxz/SimpleAmqpClient#' debian/control
-    - cp -a ../*.so.7.0.1 data/
+    - find .. -maxdepth 1 -type f -name "*.so*" -exec cp -a {} data/ \;
     - cp -a ../SimpleAmqpClient-$VERSION/src/SimpleAmqpClient/*.h data/
     - cp -a ../*.pc data/
     - test ! -d ../../debian || cp -a ../../debian/* debian/
