@@ -15,6 +15,7 @@ stages:
   - rpackage
   - rinstall
   - rdeploy
+  - stest  # tests with remote service installed
 variables:
   HOST: lubuntu
   IMAGE: ubuntu:22.10
@@ -102,6 +103,9 @@ rtest:
     - cd ../$HOST
     - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
     - $RSYNC ../makefiles/ .vagrant/makefiles/
+    - $SSH "cd $USERPATH/$PROPATH && build/$PROJECT" &
+    - sleep 1
+    - export IP=`make --no-print-directory get-ip`
     - cd -
 rpackage:
   stage: rpackage

@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-set(PROJECT project-five)
+set(PROJECT project-seven)
 
 cmake_minimum_required(VERSION 3.18)
 project(${PROJECT})
@@ -17,7 +17,7 @@ add_executable(${CLIENT}
 target_link_libraries(${CLIENT} PRIVATE nng)
 target_link_libraries(${CLIENT} PRIVATE pthread)
 
-set(SERVER server)
+set(SERVER ${PROJECT})
 add_executable(${SERVER}
     server.cpp
 )

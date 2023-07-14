@@ -16,7 +16,7 @@ add_executable(${CLIENT}
 )
 target_link_libraries(${CLIENT} PRIVATE nng)
 
-set(SERVER server)
+set(SERVER ${PROJECT})
 add_executable(${SERVER}
     server.cpp
 )

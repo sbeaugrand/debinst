@@ -25,9 +25,4 @@ test2:
   extends: rtest
   script:
     - make --no-print-directory
-    - cd ../$HOST
-    - $SSH "cd $USERPATH/$PROPATH && build/$PROJECT" &
-    - sleep 1
-    - export IP=`make --no-print-directory get-ip`
-    - cd -
     - ./test2.exp $IP
