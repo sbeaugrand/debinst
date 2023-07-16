@@ -10,12 +10,15 @@
     user: vagrant
     home: /home/{{ user }}
   roles:
+    # Common roles
     - bashrc
     - packages-dev
     - timezone
     - rabbitmq
-    - screen
     - vim
-    #
-    #- lubuntu-desktop
+    # Remote roles
     - screen-remote
+    # Desktop roles
+    #- lubuntu-desktop
+    #- screen
+    #- screensaver-off

@@ -12,16 +12,18 @@
   roles:
     - sudoers
     - packages
-    #
+    # Common roles
     - bashrc
     - packages-dev
     - timezone
     - rabbitmq
-    - screen
     - vim
-    #
+    # Local roles
     - libvirt
+    # Desktop roles
     - lxde
+    - screen
+    - screensaver-on
   handlers:
     - name: openbox reconfigure
       command: openbox --reconfigure

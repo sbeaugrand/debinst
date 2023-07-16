@@ -6,6 +6,8 @@
 # ---------------------------------------------------------------------------- #
 # /usr/share/icons/silk/16x16/tux.png : apt install famfamfam-silk
 # ---------------------------------------------------------------------------- #
+# ftp : rclone config create chez ftp host chez.com user beaugrand pass ***
+# ---------------------------------------------------------------------------- #
 PROJECT = homepage
 BROWSER = firefox
 URL = chez.com
@@ -47,8 +49,17 @@ rsync: mount dorsync umount
 
 .PHONY: mount
 mount: htmls pdf
+	@#----- curlftpfs method
+	@#mkdir -p /tmp/$(URL)
+	@#curlftpfs $(URL) /tmp/$(URL)
+	@#----- avfs method
+	@#mkdir ~/.avfs
+	@#mountavfs
+	@#grep $(URL) ~/.netrc | sed -e 's/.*password //' -e 's/ .*//' >~/.avfs/#ftp_ctl:`grep $(URL) ~/.netrc | sed -e 's/.*login //' -e 's/ .*//'`@$(URL)/password
+	@#ln -s ~/.avfs/#ftp:`grep $(URL) ~/.netrc | sed -e 's/.*login //' -e 's/ .*//'`@$(URL) /tmp/$(URL)
+	@#----- rclone method
 	@mkdir -p /tmp/$(URL)
-	@curlftpfs $(URL) /tmp/$(URL)
+	@rclone mount chez: /tmp/chez.com --daemon
 
 .PHONY: dorsync
 dorsync:
@@ -77,6 +88,12 @@ dorsync:
 
 .PHONY: umount
 umount:
+	@#----- curlftpfs method
+	@#fusermount -u /tmp/$(URL)
+	@#----- avfs method
+	@#umountavfs
+	@#$(RM) /tmp/$(URL)
+	@#----- rclone method
 	@fusermount -u /tmp/$(URL)
 
 .PHONY: tgz

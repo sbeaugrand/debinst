@@ -172,7 +172,7 @@ ntpdate
 rsync
 hexedit
 curl
-#curlftpfs
+rclone
 icoutils
 famfamfam-silk  # tux.png
 inkscape

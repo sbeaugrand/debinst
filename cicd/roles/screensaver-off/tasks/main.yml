@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: mode off
+  blockinfile:
+    path: "{{ home }}/.xscreensaver"
+    block: |
+      mode: off
+
+- name: /etc/xdg/lxsession/LXDE/autostart
+  lineinfile:
+    path: "/etc/xdg/lxsession/LXDE/autostart"
+    regexp: 'xscreensaver'
+    state: absent
+
+- name: {{ home }}/.config/lxsession/LXDE/autostart
+  lineinfile:
+    path: "{{ home }}/.config/lxsession/LXDE/autostart"
+    regexp: 'xscreensaver'
+    state: absent

@@ -1,3 +1,4 @@
-- debian 12
+- debian 12: fix xmms2-dev, camotics, iwlwifi
+- armbian: bookworm release
 - Replace KiPlot by KiBot ?
 - Doc
