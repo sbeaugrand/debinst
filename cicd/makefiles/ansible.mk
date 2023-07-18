@@ -16,9 +16,9 @@ else
 endif
 
 define kc
- test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||\
+ @test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||\
   TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
- test ! -f ~/.ssh/id_rsa || . /run/lock/.keychain/*-sh
+ @test ! -f ~/.ssh/id_rsa || . /run/lock/.keychain/*-sh
  $1
 endef
 
@@ -65,7 +65,7 @@ remote:
 .PHONY: mount
 mount:
 	@mkdir -p .vagrant
-	@$(call kc,sshfs $(URI):$(USERPATH)/ .vagrant)
+	$(call kc,sshfs $(URI):$(USERPATH)/ .vagrant)
 
 .PHONY: umount
 umount:

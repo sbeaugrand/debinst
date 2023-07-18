@@ -9,6 +9,6 @@
 include ../lubuntu/host.mk
 URI = vagrant@$(IP)
 SSH = ssh $(URI)
-USERPATH = /home/vagrant
+USERPATH = /vagrant/.vagrant
 BHOST = lubuntu
 SUDOPASS = vagrant

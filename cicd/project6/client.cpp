@@ -76,8 +76,9 @@ main(int argc, char** argv)
     parser.addOption(urlOption);
     parser.process(a);
     bool debug = parser.isSet(dbgOption);
+    QUrl url(parser.value(urlOption));
 
-    EchoClient client(QUrl(parser.value(urlOption)), debug);
+    EchoClient client(url, debug);
     QObject::connect(&client, &EchoClient::closed, &a, &QCoreApplication::quit);
 
     return a.exec();
