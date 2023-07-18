@@ -95,6 +95,7 @@ umount:
 	@#$(RM) /tmp/$(URL)
 	@#----- rclone method
 	@fusermount -u /tmp/$(URL)
+	@rmdir /tmp/$(URL)
 
 .PHONY: tgz
 tgz:\

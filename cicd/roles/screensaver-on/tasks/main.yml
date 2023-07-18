@@ -5,8 +5,6 @@
 # ---------------------------------------------------------------------------- #
 ---
 - name: one 21
-  blockinfile:
-    path: "{{ home }}/.xscreensaver"
-    block: |
-      mode: one
-      selected: 21
+  copy:
+    src: xscreensaver
+    dest: "{{ home }}/.xscreensaver"
