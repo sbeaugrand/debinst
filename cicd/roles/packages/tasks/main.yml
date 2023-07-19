@@ -16,6 +16,7 @@
       - elpa-dpkg-dev-el
       - elpa-cmake-mode
       - elpa-markdown-mode
+      - elpa-systemd
       - elpa-yaml-mode
       - emacs-lucid
       - keychain

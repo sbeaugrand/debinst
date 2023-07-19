@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 # /usr/share/icons/silk/16x16/tux.png : apt install famfamfam-silk
 # ---------------------------------------------------------------------------- #
-# ftp : rclone config create chez ftp host chez.com user beaugrand pass ***
+# ftp : rclone config create chezcom ftp host chez.com user beaugrand pass ***
 # ---------------------------------------------------------------------------- #
 PROJECT = homepage
 BROWSER = firefox
@@ -58,8 +58,9 @@ mount: htmls pdf
 	@#grep $(URL) ~/.netrc | sed -e 's/.*password //' -e 's/ .*//' >~/.avfs/#ftp_ctl:`grep $(URL) ~/.netrc | sed -e 's/.*login //' -e 's/ .*//'`@$(URL)/password
 	@#ln -s ~/.avfs/#ftp:`grep $(URL) ~/.netrc | sed -e 's/.*login //' -e 's/ .*//'`@$(URL) /tmp/$(URL)
 	@#----- rclone method
-	@mkdir -p /tmp/$(URL)
-	@rclone mount chez: /tmp/chez.com --daemon
+	@mkdir /tmp/$(URL)
+	@rclone mount `echo $(URL) | tr -d .`: /tmp/$(URL) --daemon
+	@sleep 1
 
 .PHONY: dorsync
 dorsync:

@@ -18,6 +18,7 @@ elpa-cmake-mode
 elpa-dpkg-dev-el
 elpa-markdown-mode
 elpa-php-mode
+elpa-systemd
 elpa-yaml-mode
 aspell-fr
 myspell-fr
