@@ -6,9 +6,8 @@
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QCommandLineOption>
 #include <QtCore/QDebug>
-
-#include "QtWebSockets/qwebsocketserver.h"
-#include "QtWebSockets/qwebsocket.h"
+#include <QWebsSocketServer>
+#include <QWebSocket>
 #include "server.h"
 
 QT_USE_NAMESPACE

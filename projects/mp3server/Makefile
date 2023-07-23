@@ -75,7 +75,7 @@ server: build build/$(SERVER)
 build/$(SERVER): build/$(SERVER).o build/player.o build/httpServer.o \
 	build/resources.o build/log.o build/html.o build/common.o
 	$(CC) $^ -lxmmsclient -o $@
-build/player.o: player.c
+build/player.o: player-xmms.c
 	$(CC) $(CFLAGS) -I/usr/include/xmms2 -c $< -o $@
 
 .PHONY: client

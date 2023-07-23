@@ -7,9 +7,11 @@
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++20" COMPILER_SUPPORTS_CXX20)
 if(COMPILER_SUPPORTS_CXX20)
-    add_compile_options("-std=c++20")
+    set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_EXTENSIONS OFF)
 else()
-    add_compile_options("-std=c++17")
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
 
 add_compile_options(

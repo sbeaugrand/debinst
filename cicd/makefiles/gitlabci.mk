@@ -51,6 +51,9 @@ deploy:
 test%:
 	@$(gitlabci) -H -R $@
 
+.PHONY: pipeline
+pipeline: test rbuild rtest rpackage rdeploy stest
+
 .PHONY: tar
 tar:
 	@cd .. && tar cvzf $(propath).tgz\
