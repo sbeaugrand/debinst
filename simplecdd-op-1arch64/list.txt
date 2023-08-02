@@ -244,8 +244,8 @@ firefox-esr-l10n-fr
 ftp
 ispell
 lsof
+manpages-fr
 manpages-fr-dev
-#manpages-fr-extra
 #gcc-doc
 manpages-dev
 info
@@ -253,6 +253,7 @@ netcat-traditional
 libc6-i386
 sudo
 network-manager-gnome
+wpasupplicant  # wifi
 dh-make  # simple-cdd
 mplayer
 mencoder
