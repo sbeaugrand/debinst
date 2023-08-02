@@ -3,6 +3,23 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note Workarround for md5_buffer error :
+##         mkdir src && cd src && apt source libsane1
+##         cp sane-backends-1.2.1/include/md5.h .
+##         cp sane-backends-1.2.1/lib/md5.c .
+##         vi Makefile
+##           CFLAGS = -fPIC
+##           all: libmd5.so
+##           lib%.so: %.o
+##                   $(LINK.c) $< -shared -o $@
+##           build:
+##                   docker run --rm -v $$PWD:/build -w /build i386/gcc:4.9 make
+##           install:
+##                   cp libmd5.so $$HOME/.local/lib/
+##         make build
+##         make install
+##         LD_PRELOAD=~/.local/lib/libmd5.so scanimage -L
+##         docker rmi i386/gcc:4.9
 # ---------------------------------------------------------------------------- #
 if [ `whoami` != "root" ]; then
     logError "try ./0install.sh --root hardware/install-op-scan-mustekA3.sh"

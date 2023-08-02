@@ -166,11 +166,21 @@ if [ -n "$ret" ]; then
 fi
 
 # ---------------------------------------------------------------------------- #
+# workarround for md5_buffer error, see install-op-scan-mustekA3.sh
+# ---------------------------------------------------------------------------- #
+file=~/.local/lib/libmd5.so
+if [ -f $file ]; then
+    ldpreload="LD_PRELOAD=$file"
+fi
+
+# ---------------------------------------------------------------------------- #
 # main
 # ---------------------------------------------------------------------------- #
-echo "scanimage $ascan | convert -units PixelsPerInch - $aconv $image.$ext"
+echo "$ldpreload scanimage $ascan |\
+ convert -units PixelsPerInch - $aconv $image.$ext"
 echo -n "? (O/n) "
 read ret
 if [ "$ret" != n ]; then
-    scanimage $ascan | convert -units PixelsPerInch - $aconv $image.$ext
+    eval $ldpreload scanimage $ascan |\
+        convert -units PixelsPerInch - $aconv $image.$ext
 fi
