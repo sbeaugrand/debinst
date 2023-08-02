@@ -3,6 +3,9 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note FIXME: Workaround for bookworm :
+##         curl -O http://ftp.fr.debian.org/debian/pool/main/d/dnscrypt-proxy/dnscrypt-proxy_2.0.45+ds1-1.1+b1_amd64.deb
+##         sudo apt install ./dnscrypt-proxy_2.0.45+ds1-1.1+b1_amd64.deb
 # ---------------------------------------------------------------------------- #
 dns=127.0.2.1
 ipr=127.0.2.2
@@ -11,7 +14,7 @@ ipr=127.0.2.2
 # dnscrypt-proxy
 # ---------------------------------------------------------------------------- #
 if notFile /usr/sbin/dnscrypt-proxy || notWhich lxpolkit; then
-    sudoRoot apt-get -y install dnscrypt-proxy lxpolkit
+    sudoRoot apt-get -y install dnscrypt-proxy lxpolkit || return 1
 fi
 
 file=/etc/dnscrypt-proxy/dnscrypt-proxy.toml
@@ -91,8 +94,16 @@ ResultAny=no
 ResultInactive=no
 ResultActive=auth_admin_keep
 EOF
-    file=/var/lib/polkit-1/localauthority/50-local.d/10-network-manager.pkla
-    sudoRoot cp $tmpf $file
+    dir=/var/lib/polkit-1/localauthority/50-local.d
+    if ! sudo test -d $dir; then
+        sudoRoot mkdir $dir
+    fi
+    file=$dir/10-network-manager.pkla
+    if sudo test -f $file; then
+        logWarn "$file already exists"
+    else
+        sudoRoot cp $tmpf $file
+    fi
     rm $tmpf
 fi
 
