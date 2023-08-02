@@ -187,14 +187,15 @@ void sendRequestAndReceive(const char* action)
         fprintf(file, "err");
         return;
     }
-    // nonblock
-    flags = fcntl(sock, F_GETFL);
-    fcntl(sock, F_SETFL, flags | O_NONBLOCK);
 
     fprintf(file, "GET /%s ", action);
-    if (send(sock, bufferGet(gBuffer), gBuffer->size, 0) !=
+    if ((size = send(sock, bufferGet(gBuffer), gBuffer->size, 0)) <
         (ssize_t) gBuffer->size) {
-        ERROR("send");
+        if (size < 0) {
+            ERRNO("send");
+        } else {
+            ERROR("send %zu %zd", gBuffer->size, size);
+        }
         close(sock);
         fprintf(file, "err");
         return;
@@ -206,6 +207,10 @@ void sendRequestAndReceive(const char* action)
         fprintf(file, "err");
         return;
     }
+
+    // nonblock
+    flags = fcntl(sock, F_GETFL);
+    fcntl(sock, F_SETFL, flags | O_NONBLOCK);
 
     file = bufferInit(gBuffer);
     while ((size = recv(sock, recvBuff, TCP_MSS_DEFAULT, 0)) == -1) {

@@ -31,6 +31,11 @@ CLIENT = mp3client
 CFLAGS = -g -DNDEBUG
 CXXFLAGS = -g -DNDEBUG
 
+PLAYER = xmms
+CFLAGS += -I/usr/include/xmms2
+#PLAYER = mpd
+#CFLAGS += -DMPD
+
 .PHONY: all
 all: server client
 
@@ -74,9 +79,9 @@ vclient:
 server: build build/$(SERVER)
 build/$(SERVER): build/$(SERVER).o build/player.o build/httpServer.o \
 	build/resources.o build/log.o build/html.o build/common.o
-	$(CC) $^ -lxmmsclient -o $@
-build/player.o: player-xmms.c
-	$(CC) $(CFLAGS) -I/usr/include/xmms2 -c $< -o $@
+	$(CC) $^ -l$(PLAYER)client -o $@
+build/player.o: player-$(PLAYER).c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: client
 client: build build/$(CLIENT)

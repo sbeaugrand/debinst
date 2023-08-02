@@ -648,10 +648,14 @@ void mp3serverStartAlbum(const char* album)
 
     logMp3log(album);
 
+#   ifdef MPD
+    strcpy(m3u, album);
+#   else
     strcpy(m3u, "file://");
     strcat(m3u, mp3serverGetMp3rootDir());
     strcat(m3u, "/mp3/");
     strcat(m3u, album);
+#   endif
     strcat(m3u, "/00.m3u");
     DEBUG("m3u = %s", m3u);
 

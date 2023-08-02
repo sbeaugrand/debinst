@@ -168,7 +168,7 @@ struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
             DEBUG("id = %d", id);
             if (count == pos) {
                 fprintf(buffFile, "->");
-                DEBUG("id == pos");
+                DEBUG("count == pos");
             } else {
                 fprintf(buffFile, "  ");
             }

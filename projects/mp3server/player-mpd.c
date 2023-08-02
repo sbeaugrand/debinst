@@ -15,6 +15,10 @@
 #include "html.h"
 #include "common.h"
 
+const int32_t STATE_UNKNOWN = 0;
+const int32_t STATE_PLAY = 2;
+const int32_t STATE_PAUSE = 3;
+
 struct mpd_connection* gConn = NULL;
 
 /******************************************************************************!
@@ -22,9 +26,13 @@ struct mpd_connection* gConn = NULL;
  ******************************************************************************/
 int playerIsError(const char* func)
 {
-    if (mpd_connection_get_error(gConn) != MPD_ERROR_SUCCESS) {
+    enum mpd_error err = mpd_connection_get_error(gConn);
+    if (err != MPD_ERROR_SUCCESS) {
+        if (err == MPD_ERROR_CLOSED) {
+            return err;
+        }
         ERROR("%s: %s\n", func, mpd_connection_get_error_message(gConn));
-        return 1;
+        return -1;
     }
     return 0;
 }
@@ -36,7 +44,7 @@ int playerInit()
 {
     gConn = mpd_connection_new(NULL, 0, 0);
     if (gConn == NULL) {
-        ERROR("%s: %s\n", __FUNCTION__, "gConn == NULL");
+        ERROR("gConn == NULL");
         return 1;
     }
     if (playerIsError(__FUNCTION__)) {
@@ -44,7 +52,34 @@ int playerInit()
         gConn = NULL;
         return 2;
     }
+    if (! mpd_connection_set_keepalive(gConn, true)) {
+        ERROR("set_keepalive");
+        return 3;
+    }
     return 0;
+}
+
+/******************************************************************************!
+ * \fn playerGetMPDStatus
+ ******************************************************************************/
+struct mpd_status* playerGetMPDStatus()
+{
+    struct mpd_status* status = mpd_run_status(gConn);
+    int err = playerIsError(__FUNCTION__);
+    if (err) {
+        if (err == MPD_ERROR_CLOSED) {
+            DEBUG("reconnect");
+            playerInit();
+            status = mpd_run_status(gConn);
+            err = playerIsError(__FUNCTION__);
+            if (err) {
+                return NULL;
+            }
+        } else {
+            return NULL;
+        }
+    }
+    return status;
 }
 
 /******************************************************************************!
@@ -53,10 +88,11 @@ int playerInit()
 int32_t playerGetStatus()
 {
     enum mpd_state res;
-    struct mpd_status* status = mpd_run_status(gConn);
-    if (playerIsError(__FUNCTION__)) {
+    struct mpd_status* status = playerGetMPDStatus();
+    if (status == NULL) {
         return STATE_UNKNOWN;
     }
+
     res = mpd_status_get_state(status);
     mpd_status_free(status);
 
@@ -74,10 +110,11 @@ int32_t playerGetStatus()
 int32_t playerGetPlaytime()
 {
     unsigned res;
-    struct mpd_status* status = mpd_run_status(gConn);
-    if (playerIsError(__FUNCTION__)) {
+    struct mpd_status* status = playerGetMPDStatus();
+    if (status == NULL) {
         return 0;
     }
+
     res = mpd_status_get_elapsed_ms(status);
     mpd_status_free(status);
 
@@ -90,10 +127,11 @@ int32_t playerGetPlaytime()
 int playerGetPosition()
 {
     unsigned res;
-    struct mpd_status* status = mpd_run_status(gConn);
-    if (playerIsError(__FUNCTION__)) {
+    struct mpd_status* status = playerGetMPDStatus();
+    if (status == NULL) {
         return 0;
     }
+
     res = mpd_status_get_song_pos(status);
     mpd_status_free(status);
     DEBUG("pos = %d", res);
@@ -115,11 +153,13 @@ struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
     char href[LINE_SIZE];
     FILE* buffFile = bufferInit(buffer);
     int length;
+    const char* tag;
 
-    struct mpd_status* status = mpd_run_status(gConn);
-    if (playerIsError(__FUNCTION__)) {
+    struct mpd_status* status = playerGetMPDStatus();
+    if (status == NULL) {
         return buffer;
     }
+
     pos = mpd_status_get_song_pos(status);
     DEBUG("pos = %d", pos);
     length = mpd_status_get_queue_length(status);
@@ -140,27 +180,31 @@ struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
         DEBUG("id = %d", id);
         if (count == pos) {
             fprintf(buffFile, "->");
-            DEBUG("id == pos");
+            DEBUG("count == pos");
         } else {
             fprintf(buffFile, "  ");
         }
 
         fprintf(buffFile, "[%02d] ", count + 1);
-        fprintf(buffFile, "%s", mpd_song_get_tag(song, MPD_TAG_ARTIST, id));
-        fprintf(buffFile, " - ");
-        if (count == pos) {
-            fprintf(buffFile, "%s", mpd_song_get_tag(song, MPD_TAG_TITLE, id));
-        } else {
-            if (format == HTML) {
-                sprintf(href, "<a href=\"/pos/%d\">%s</a>",
-                        count, mpd_song_get_tag(song, MPD_TAG_TITLE, id));
-                fprintf(buffFile, "%s", href);
-            } else {
-                fprintf(buffFile, "%s",
-                        mpd_song_get_tag(song, MPD_TAG_TITLE, id));
-            }
+        tag = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
+        if (tag != NULL) {
+            fprintf(buffFile, "%s", tag);
         }
-        DEBUG("%s", mpd_song_get_tag(song, MPD_TAG_TITLE, id));
+        fprintf(buffFile, " - ");
+        tag = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
+        if (tag != NULL) {
+            if (count == pos) {
+                fprintf(buffFile, "%s", tag);
+            } else {
+                if (format == HTML) {
+                    sprintf(href, "<a href=\"/pos/%d\">%s</a>", count, tag);
+                    fprintf(buffFile, "%s", href);
+                } else {
+                    fprintf(buffFile, "%s", tag);
+                }
+            }
+            DEBUG("%s", tag);
+        }
         duration = mpd_song_get_duration_ms(song);
         duration /= 1000;
         if (count == pos) {
@@ -203,6 +247,12 @@ struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
  ******************************************************************************/
 void playerStop()
 {
+    struct mpd_status* status = playerGetMPDStatus();
+    if (status == NULL) {
+        return;
+    }
+    mpd_status_free(status);
+
     mpd_run_stop(gConn);
     if (playerIsError(__FUNCTION__)) {
     }
@@ -213,6 +263,12 @@ void playerStop()
  ******************************************************************************/
 void playerStart()
 {
+    struct mpd_status* status = playerGetMPDStatus();
+    if (status == NULL) {
+        return;
+    }
+    mpd_status_free(status);
+
     mpd_run_play(gConn);
     if (playerIsError(__FUNCTION__)) {
     }
@@ -223,6 +279,12 @@ void playerStart()
  ******************************************************************************/
 void playerStartId(int pos)
 {
+    struct mpd_status* status = playerGetMPDStatus();
+    if (status == NULL) {
+        return;
+    }
+    mpd_status_free(status);
+
     if (pos < 0) {
         mpd_run_previous(gConn);
     } else {
@@ -239,6 +301,12 @@ void playerStartId(int pos)
  ******************************************************************************/
 void playerStartRel(int pos)
 {
+    struct mpd_status* status = playerGetMPDStatus();
+    if (status == NULL) {
+        return;
+    }
+    mpd_status_free(status);
+
     mpd_run_seek_pos(gConn, pos, 0);
     if (playerIsError(__FUNCTION__)) {
         return;
@@ -326,6 +394,7 @@ struct Buffer* playerCurrentTitle(struct Buffer* buffer)
     int32_t status;
     int pos;
     struct mpd_song* song = NULL;
+    const char* tag;
 #   if defined(__arm__) || defined(__aarch64__)
     const char* c;
 #   endif
@@ -339,23 +408,31 @@ struct Buffer* playerCurrentTitle(struct Buffer* buffer)
     // Position
     pos = playerGetPosition();
     fprintf(buffFile, "%02d ", pos + 1);
+    if (pos < 0) {
+        return buffer;
+    }
 
     // Title
     song = mpd_run_get_queue_song_pos(gConn, pos);
     if (playerIsError(__FUNCTION__)) {
         return buffer;
     }
+    tag = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
 #   if defined(__arm__) || defined(__aarch64__)
-    for (c = mpd_song_get_tag(song, MPD_TAG_TITLE, pos); *c != '\0'; ++c) {
-        if (c[0] == ' ' &&
-            c[1] == '-' &&
-            c[2] == ' ') {
-            strval = c + 3;
-            break;
+    if (tag != NULL) {
+        for (c = tag; *c != '\0'; ++c) {
+            if (c[0] == ' ' &&
+                c[1] == '-' &&
+                c[2] == ' ') {
+                tag = c + 3;
+                break;
+            }
         }
     }
 #   endif
-    fprintf(buffFile, "%s", mpd_song_get_tag(song, MPD_TAG_TITLE, pos));
+    if (tag != NULL) {
+        fprintf(buffFile, "%s", tag);
+    }
     mpd_song_free(song);
 
     return buffer;
@@ -367,8 +444,17 @@ struct Buffer* playerCurrentTitle(struct Buffer* buffer)
 void playerQuit()
 {
     if (gConn == NULL) {
-        ERROR("%s: %s\n", __FUNCTION__, "gConn == NULL");
+        ERROR("gConn == NULL");
         return;
     }
+
+    struct mpd_status* status = playerGetMPDStatus();
+    if (status == NULL) {
+        gConn = NULL;
+        return;
+    }
+    mpd_status_free(status);
+
     mpd_connection_free(gConn);
+    gConn = NULL;
 }

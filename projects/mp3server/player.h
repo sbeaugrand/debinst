@@ -9,10 +9,6 @@
 #include "httpServer.h"
 #include "common.h"
 
-const int32_t STATE_UNKNOWN = 0;
-const int32_t STATE_PLAY = 2;
-const int32_t STATE_PAUSE = 3;
-
 int playerInit();
 int32_t playerGetStatus();
 int32_t playerGetPlaytime();
