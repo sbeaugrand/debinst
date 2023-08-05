@@ -39,4 +39,11 @@ if notFile $file; then
  wifi-sec.psk "$psk"
 fi
 
+if ! systemctl -q is-enabled nftables; then
+    sudoRoot systemctl enable nftables
+fi
+if ! systemctl -q is-active nftables; then
+    sudoRoot systemctl start nftables
+fi
+
 logTodo "client ip example $client gateway $ip"

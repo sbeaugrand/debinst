@@ -106,6 +106,8 @@ libmad0
 #xmms2-dev
 #libxmmsclient-dev
 #xmms2
+libmpdclient-dev
+mpd
 sqlite3
 sqlitebrowser
 mpg123
@@ -254,6 +256,7 @@ libc6-i386
 sudo
 network-manager-gnome
 wpasupplicant  # wifi
+polkitd-pkla  # hotspot permissions
 dh-make  # simple-cdd
 mplayer
 mencoder
