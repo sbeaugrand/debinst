@@ -144,7 +144,6 @@ int playerGetPosition()
  ******************************************************************************/
 struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
 {
-    unsigned id;
     int32_t playtime;
     int pos;
     unsigned duration;
@@ -176,8 +175,7 @@ struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
         if (playerIsError(__FUNCTION__)) {
             return buffer;
         }
-        id = mpd_song_get_id(song);
-        DEBUG("id = %d", id);
+        DEBUG("id = %d", mpd_song_get_id(song));
         if (count == pos) {
             fprintf(buffFile, "->");
             DEBUG("count == pos");

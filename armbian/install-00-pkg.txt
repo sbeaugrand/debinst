@@ -13,6 +13,8 @@ xmms2-plugin-mp4
 libxmmsclient6
 xmms2-dev
 libxmmsclient-dev
+#libmpdclient-dev  # alternative
+#mpd
 git
 subversion
 python-dev

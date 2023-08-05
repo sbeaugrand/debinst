@@ -18,6 +18,22 @@
 ##   make C=rpi
 ##   make C=rpi install
 ##   make C=rpi start
+##
+##  Cross compile for armhf (Nanopi Neo) with sysroot
+##   cd
+##   mkdir armhf
+##   cd armhf
+##   mkdir usr
+##   rsync -a -i seb@pi:/usr/include usr/
+##   rsync -a -i seb@pi:/usr/lib usr/
+##   ln -s usr/lib
+##   cd usr
+##   mkdir local
+##   rsync -a -i seb@pi:/usr/local/include local/
+##   rsync -a -i seb@pi:/usr/local/lib local/
+##   vi ~/armhf/usr/include/c++/10/cstdlib +/include_next  # => include
+##   make C=pi SYSROOT=~/armhf
+##   make C=pi SYSROOT=~/armhf oled-message
 # ---------------------------------------------------------------------------- #
 PROROOT = ..
 include ${PROROOT}/makefiles/pro.mk
@@ -28,13 +44,34 @@ user ?= $(USER)
 
 SERVER = mp3server
 CLIENT = mp3client
-CFLAGS = -g -DNDEBUG
-CXXFLAGS = -g -DNDEBUG
+CCXXFLAGS = -g -DNDEBUG\
+ -I$(SYSROOT)/usr/local/include\
+ -I$(SYSROOT)/usr/local/include/upm\
+
+ifneq ($(SYSROOT),)
+ XC = arm-linux-gnueabihf
+ CC = $(XC)-gcc
+ CXX = $(XC)-g++
+ CXXVER = 10
+ CCXXFLAGS +=\
+  -I$(SYSROOT)/usr/include/$(XC)\
+  -I$(SYSROOT)/usr/include/$(XC)/c++/$(CXXVER)\
+  -I$(SYSROOT)/usr/include/c++/$(CXXVER)\
+  -I$(SYSROOT)/usr/include
+ LDFLAGS =\
+  -L$(SYSROOT)/usr/lib/$(XC)\
+  -L$(SYSROOT)/usr/lib/gcc/$(XC)/$(CXXVER)\
+  -Wl,--sysroot=$(SYSROOT)
+endif
+CFLAGS = $(CCXXFLAGS)
+CXXFLAGS = $(CCXXFLAGS)
 
 PLAYER = xmms
-CFLAGS += -I/usr/include/xmms2
+CFLAGS += -I$(SYSROOT)/usr/include/xmms2
 #PLAYER = mpd
 #CFLAGS += -DMPD
+
+SERVERFLAGS = -l$(PLAYER)client
 
 .PHONY: all
 all: server client
@@ -46,16 +83,19 @@ endif
 ifeq ($(C),pi)
  GPIO = mraa
  DEVOBJ = build/oled.o build/lirc.o
- CXXFLAGS += -I/usr/local/include/upm -I/usr/local/include
- DEVFLAGS = -lupm-lcd -lstdc++ -llirc_client
- include $(PROROOT)/makefiles/arm64.mk
+ CLIENTFLAGS = -lupm-lcd -lstdc++ -llirc_client
+ ifeq ($(SYSROOT),)
+  include $(PROROOT)/makefiles/arm64.mk
+ else
+  include $(PROROOT)/makefiles/ccpp.mk
+ endif
 endif
 ifeq ($(C),rpi)
  DEVOBJ = build/$(CLIENT)-lcd16x2.o build/$(CLIENT)-button.o
  DEVLIB = $(HOME)/data/install-build/WiringPi/devLib
  CFLAGS += -I$(DEVLIB) -DRPI -I/usr/local/include
  OBJECTS = $(DEVLIB)/lcd.o
- DEVFLAGS = -lwiringPi -lwiringPiDev -lpthread
+ CLIENTFLAGS = -lwiringPi -lwiringPiDev -lpthread
  include $(PROROOT)/makefiles/arm.mk
 endif
 include $(PROROOT)/debug/debug.mk
@@ -79,14 +119,14 @@ vclient:
 server: build build/$(SERVER)
 build/$(SERVER): build/$(SERVER).o build/player.o build/httpServer.o \
 	build/resources.o build/log.o build/html.o build/common.o
-	$(CC) $^ -l$(PLAYER)client -o $@
+	$(CC) $^ $(LDFLAGS) $(SERVERFLAGS) -o $@
 build/player.o: player-$(PLAYER).c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: client
 client: build build/$(CLIENT)
 build/$(CLIENT): build/$(CLIENT).o build/common.o build/setup.o $(DEVOBJ)
-	$(CC) $^ $(LDFLAGS) $(DEVFLAGS) -o $@
+	$(CC) $^ $(LDFLAGS) $(CLIENTFLAGS) -o $@
 
 .PHONY: oled-message
 oled-message: build build/oled-message
