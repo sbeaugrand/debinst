@@ -109,7 +109,7 @@ int32_t playerGetStatus()
  ******************************************************************************/
 int32_t playerGetPlaytime()
 {
-    unsigned res;
+    unsigned int res;
     struct mpd_status* status = playerGetMPDStatus();
     if (status == NULL) {
         return 0;
@@ -126,7 +126,7 @@ int32_t playerGetPlaytime()
  ******************************************************************************/
 int playerGetPosition()
 {
-    unsigned res;
+    unsigned int res;
     struct mpd_status* status = playerGetMPDStatus();
     if (status == NULL) {
         return 0;
@@ -134,7 +134,7 @@ int playerGetPosition()
 
     res = mpd_status_get_song_pos(status);
     mpd_status_free(status);
-    DEBUG("pos = %d", res);
+    DEBUG("pos = %u", res);
 
     return res;
 }
@@ -146,7 +146,7 @@ struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
 {
     int32_t playtime;
     int pos;
-    unsigned duration;
+    unsigned int duration;
     struct mpd_song* song = NULL;
     int count = 0;
     char href[LINE_SIZE];
@@ -210,18 +210,18 @@ struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
             if (playtime != 0) {
                 playtime /= 1000;
                 fprintf(buffFile,
-                        " (%02d:%02d/%02d:%02d)",
+                        " (%02d:%02d/%02u:%02u)",
                         playtime / 60,
                         playtime % 60,
                         duration / 60,
                         duration % 60);
             } else {
-                fprintf(buffFile, " (%02d:%02d)",
+                fprintf(buffFile, " (%02u:%02u)",
                         duration / 60,
                         duration % 60);
             }
         } else {
-            fprintf(buffFile, " (%02d:%02d)",
+            fprintf(buffFile, " (%02u:%02u)",
                     duration / 60,
                     duration % 60);
         }

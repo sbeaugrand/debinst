@@ -27,14 +27,8 @@ struct timeval gTempo = {
     0, 0
 };
 
-#define WEIGHTS 19
-int gWeights[WEIGHTS] = {
-    8, 7, 6, 5, 4, 3, 2,
-    6, 4, 2,
-    3, 2, 1,
-    3, 2, 1,
-    3, 2, 1
-};
+unsigned int gNbWeights = 0;
+int* gWeights = NULL;
 
 /******************************************************************************!
  * \fn mp3serverWaitMp3rootDir
@@ -76,28 +70,37 @@ void mp3serverWeightsInit()
     char line[LINE_SIZE];
     char* ptr;
     FILE* fp;
-    int i;
+    FILE* buffFile;
+    unsigned int i;
 
+    gNbWeights = 0;
     strcpy(filename, mp3serverGetMp3rootDir());
     strcat(filename, "/.mp3weights");
     fp = fopen(filename, "r");
-    if (fp != NULL) {
-        i = 0;
-        DEBUG("weights =");
-        while (fgets(line, LINE_SIZE, fp) != NULL) {
-            ptr = strtok(line, " ");
-            for (; ptr != NULL && i < WEIGHTS; ++i) {
-                gWeights[i] = atoi(ptr);
-                DEBUG(" %d", gWeights[i]);
-                ptr = strtok(NULL, " ");
-            }
-        }
-        fclose(fp);
-        if (i != WEIGHTS) {
-            ERROR("number of weights does not match");
-            mp3serverQuit(EXIT_FAILURE);
+    if (fp == NULL) {
+        ERROR(".mp3weights not found");
+        return;
+    }
+
+    buffFile = bufferInit(gBuffer);
+    while (fgets(line, LINE_SIZE, fp) != NULL) {
+        ptr = strtok(line, " ");
+        for (; ptr != NULL; ++gNbWeights) {
+            fprintf(buffFile, "%d ", atoi(ptr));
+            ptr = strtok(NULL, " ");
         }
     }
+    fclose(fp);
+    DEBUG("nb weights = %u", gNbWeights);
+    DEBUG("weights =");
+    i = 0;
+    gWeights = malloc(gNbWeights * sizeof(int));
+    ptr = strtok(bufferGet(gBuffer), " ");
+    do {
+        gWeights[i] = atoi(ptr);
+        DEBUG(" %d", gWeights[i]);
+        ++i;
+    } while ((ptr = strtok(NULL, " ")) != NULL);
 }
 
 /******************************************************************************!
@@ -160,6 +163,9 @@ void mp3serverQuit(int status)
     }
     if (gPartRoot != NULL) {
         mp3serverDeletePartList(gPartRoot);
+    }
+    if (gWeights != NULL) {
+        free(gWeights);
     }
     playerQuit();
     httpQuit();
@@ -598,7 +604,8 @@ void mp3serverReadMp3List()
         }
         if (strcmp(part, prev) != 0) {
             nbParts++;
-            if (nbParts > WEIGHTS) {
+            if (gNbWeights > 0 && nbParts > gNbWeights) {
+                ERROR("nbParts > gNbWeights");
                 break;
             }
             strcpy(prev, part);
@@ -637,6 +644,14 @@ void mp3serverReadMp3List()
         part_elem->count++;
     }
     fclose(fd);
+
+    if (gNbWeights == 0) {
+        gNbWeights = nbParts;
+        gWeights = malloc(gNbWeights * sizeof(int));
+        for (nbParts = 0; nbParts < gNbWeights; ++nbParts) {
+            gWeights[nbParts] = 1;
+        }
+    }
 }
 
 /******************************************************************************!
@@ -701,9 +716,16 @@ int mp3serverGetRandomNumber(unsigned int min, unsigned int max)
                 for (i -= 2; i >= 0 && line[i] != '\n'; --i) {
                     ;
                 }
-                seed = atoi(line + (i + 1));
-                srand(seed);
-                r = rand();
+                if (i >= 0) {
+                    seed = atoi(line + (i + 1));
+                    srand(seed);
+                    r = rand();
+                } else {
+                    ERROR("i < 0");
+                    seed = time(NULL);
+                    srand(seed);
+                    r = seed;
+                }
             } else {
                 ERROR("fread");
                 seed = time(NULL);
@@ -752,7 +774,7 @@ struct Buffer* mp3serverMp3rand(enum tFormat format)
     int part;
     int max;
     int r;
-    int i;
+    unsigned int i;
     FILE* buffFile;
 
     if (gPartRoot == NULL) {
@@ -763,7 +785,7 @@ struct Buffer* mp3serverMp3rand(enum tFormat format)
     }
 
     max = 0;
-    for (i = 0; i < WEIGHTS; i++) {
+    for (i = 0; i < gNbWeights; i++) {
         max += gWeights[i];
     }
     r = mp3serverGetRandomNumber(0, max - 1);
@@ -771,7 +793,7 @@ struct Buffer* mp3serverMp3rand(enum tFormat format)
 
     part = 1;
     max = 0;
-    for (i = 0; i < WEIGHTS; ++i) {
+    for (i = 0; i < gNbWeights; ++i) {
         max += gWeights[i];
         if (r < max) {
             break;
@@ -902,11 +924,11 @@ int main()
     getrlimit(RLIMIT_CORE, &rlim);
     DEBUG("rlimit_core = %lu(cur) %lu(max)", rlim.rlim_cur, rlim.rlim_max);
 
+    gBuffer = bufferNew();
+    mp3serverWeightsInit();
     mp3serverReadMp3List();
     playerInit();
-    mp3serverWeightsInit();
     createResources();
-    gBuffer = bufferNew();
     httpRunServer(gBuffer);
     playerResume();
 

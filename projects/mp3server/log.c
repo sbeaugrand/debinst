@@ -66,8 +66,10 @@ void logUnreadAlbum()
     const char* mp3rootDir;
 
     //FIXME: debug
+    /*
     FILE* flog = NULL;
     char last[LINE_SIZE];
+    */
 
     mp3rootDir = mp3serverGetMp3rootDir();
     DEBUG("effacement de la derniere selection");
@@ -75,6 +77,7 @@ void logUnreadAlbum()
     strcat(line, "/.mp3last");
 
     //FIXME: debug
+    /*
     if ((flog = fopen(line, "r")) != NULL) {
         if (fgets(last, LINE_SIZE, flog) == NULL) {
             ERROR("fgets");
@@ -86,6 +89,7 @@ void logUnreadAlbum()
         ERROR("fread");
         return;
     }
+    */
 
     unlink(line);
     strcpy(line, mp3rootDir);

@@ -1,10 +1,3 @@
 variableScope
 missingInclude
-nullPointer:log.c:146
-nullPointer:player-xmms.c:182
-nullPointer:player-xmms.c:187
-nullPointer:player-xmms.c:191
-nullPointer:player-xmms.c:194
-nullPointer:player-xmms.c:197
-nullPointerRedundantCheck:log.c:138
 unmatchedSuppression:log.c:146
