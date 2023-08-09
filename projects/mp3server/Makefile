@@ -31,9 +31,8 @@
 ##   mkdir local
 ##   rsync -a -i seb@pi:/usr/local/include local/
 ##   rsync -a -i seb@pi:/usr/local/lib local/
-##   vi ~/armhf/usr/include/c++/10/cstdlib +/include_next  # => include
-##   make C=pi SYSROOT=~/armhf
-##   make C=pi SYSROOT=~/armhf oled-message
+##   make C=pi SYSROOT=/data/armhf
+##   make C=pi SYSROOT=/data/armhf oled-message
 # ---------------------------------------------------------------------------- #
 PROROOT = ..
 include ${PROROOT}/makefiles/pro.mk
@@ -44,34 +43,46 @@ user ?= $(USER)
 
 SERVER = mp3server
 CLIENT = mp3client
-CCXXFLAGS = -g -DNDEBUG\
- -I$(SYSROOT)/usr/local/include\
- -I$(SYSROOT)/usr/local/include/upm\
 
 ifneq ($(SYSROOT),)
  XC = arm-linux-gnueabihf
  CC = $(XC)-gcc
  CXX = $(XC)-g++
  CXXVER = 10
- CCXXFLAGS +=\
+ CFLAGS = --sysroot=$(SYSROOT) -nostdinc\
+  -I${SYSROOT}/usr/lib/gcc/${XC}/${CXXVER}/include\
   -I$(SYSROOT)/usr/include/$(XC)\
-  -I$(SYSROOT)/usr/include/$(XC)/c++/$(CXXVER)\
-  -I$(SYSROOT)/usr/include/c++/$(CXXVER)\
-  -I$(SYSROOT)/usr/include
- LDFLAGS =\
-  -L$(SYSROOT)/usr/lib/$(XC)\
+
+ CXXFLAGS = --sysroot=$(SYSROOT) -nostdinc\
+  -I${SYSROOT}/usr/lib/gcc/${XC}/${CXXVER}/include\
+  -I$(SYSROOT)/usr/include/$(XC)\
+
+ CFLAGS +=\
+  -isystem $(SYSROOT)/usr/include\
+
+ CXXFLAGS +=\
+  -isystem $(SYSROOT)/usr/include/c++/$(CXXVER)\
+  -isystem $(SYSROOT)/usr/include/$(XC)/c++/$(CXXVER)\
+  -isystem $(SYSROOT)/usr/include\
+
+ LDFLAGS = --sysroot=$(SYSROOT)\
   -L$(SYSROOT)/usr/lib/gcc/$(XC)/$(CXXVER)\
-  -Wl,--sysroot=$(SYSROOT)
+  -L$(SYSROOT)/usr/lib/$(XC)\
+
 endif
-CFLAGS = $(CCXXFLAGS)
-CXXFLAGS = $(CCXXFLAGS)
 
 PLAYER = xmms
 CFLAGS += -I$(SYSROOT)/usr/include/xmms2
 #PLAYER = mpd
 #CFLAGS += -DMPD
-
 SERVERFLAGS = -l$(PLAYER)client
+
+CXXFLAGS +=\
+ -I$(SYSROOT)/usr/local/include\
+ -I$(SYSROOT)/usr/local/include/upm\
+
+CFLAGS += -Wfatal-errors -g -DNDEBUG
+CXXFLAGS += -Wfatal-errors -g -DNDEBUG
 
 .PHONY: all
 all: server client
