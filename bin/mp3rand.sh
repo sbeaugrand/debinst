@@ -53,6 +53,9 @@ if [ "$1" = "-r" ] || [ ! -r "$list" ]; then
     echo "generation du fichier $list ..."
     cd "$dir/mp3"
     find -L . -name 00.m3u -print | LC_ALL=C sort | cut -c3- >"$list"
+    if systemctl -q is-enabled mpd; then
+        mpc update
+    fi
     exit $?
 fi
 

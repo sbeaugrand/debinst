@@ -15,6 +15,7 @@ xmms2-dev
 libxmmsclient-dev
 #libmpdclient-dev  # alternative
 #mpd
+#mpc
 git
 subversion
 python-dev
