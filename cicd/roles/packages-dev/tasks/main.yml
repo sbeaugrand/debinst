@@ -18,6 +18,7 @@
       - gdb
       - libboost-chrono-dev  # SimpleAmqpClient
       - libboost-system-dev  # SimpleAmqpClient
+      - libcpp-httplib-dev
       - libjsonrpccpp-dev
       - libjsonrpccpp-tools
       - libnng-dev
