@@ -150,6 +150,7 @@
 (add-hook            'js-mode-hook 'indent4)
 (add-hook    'javascript-mode-hook 'indent4)
 (add-hook 'nxhtml-mumamo-mode-hook 'indent4)
+(setq cmake-tab-width 4)
 
 ; Suppression des espaces en fin de ligne a l'enregistrement
 (add-hook 'c++-mode-hook '(lambda ()

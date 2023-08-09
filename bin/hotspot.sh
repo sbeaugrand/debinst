@@ -51,7 +51,16 @@ trap "echo; quit 0" SIGINT
 echo
 echo -n "Ctrl-c pour fermer "
 
+max=$1
+if [ -z "$max" ]; then
+    max=60
+fi
+count=0
 while true; do
-    sleep 900
-    notify-send "wifi" "hotspot ouvert"
+    sudo sleep 600
+    ((count++))
+    if ((count == max)); then
+        quit 0
+    fi
+    notify-send "wifi" "hotspot ouvert $count"
 done
