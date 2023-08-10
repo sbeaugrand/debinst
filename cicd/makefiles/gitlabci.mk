@@ -15,6 +15,8 @@ SSH ?= vagrant ssh -c
 USERPATH ?= /vagrant/.vagrant
 BHOST ?= $(HOST)
 SUDOPASS ?= example
+XC ?= aarch64-linux-gnu
+XCVER ?= 12
 
 ifeq ($(CMAKE),)
  NCMAKE = cmake .. -DCMAKE_BUILD_TYPE=$(BUILD)
@@ -34,6 +36,8 @@ gitlabci = ~/.local/bin/gitlabci-local\
  -e USERPATH=$(USERPATH)\
  -e BHOST=$(BHOST)\
  -e SUDOPASS=$(SUDOPASS)\
+ -e XC=$(XC)\
+ -e XCVER=$(XCVER)\
  -c gitlab-ci.yml
 propath = $(shell basename `readlink -f .`)
 

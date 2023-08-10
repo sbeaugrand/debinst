@@ -19,20 +19,12 @@
 ##   make C=rpi install
 ##   make C=rpi start
 ##
-##  Cross compile for armhf (Nanopi Neo) with sysroot
-##   cd /data
-##   mkdir arm-linux-gnueabihf-10
-##   cd arm-linux-gnueabihf-10
-##   mkdir usr
-##   rsync -a -i seb@pi:/usr/include usr/
-##   rsync -a -i seb@pi:/usr/lib usr/
-##   ln -s usr/lib
-##   cd usr
-##   mkdir local
-##   rsync -a -i seb@pi:/usr/local/include local/
-##   rsync -a -i seb@pi:/usr/local/lib local/
-##   make C=pi SYSROOT=/data/arm-linux-gnueabihf-10
-##   make C=pi SYSROOT=/data/arm-linux-gnueabihf-10 oled-message
+##  Cross compile for arm with sysroot
+##   See ../../cicd/remotehost-xc/README.md
+##   make C=pi XC=aarch64-linux-gnu XCVER=10
+##   make C=pi XC=aarch64-linux-gnu XCVER=10 oled-message
+##   make C=pi XC=arm-linux-gnueabihf XCVER=10
+##   make C=pi XC=arm-linux-gnueabihf XCVER=10 oled-message
 # ---------------------------------------------------------------------------- #
 PROROOT = ..
 include ${PROROOT}/makefiles/pro.mk
@@ -44,29 +36,32 @@ user ?= $(USER)
 SERVER = mp3server
 CLIENT = mp3client
 
-ifneq ($(SYSROOT),)
- XC = arm-linux-gnueabihf
+ifneq ($(XC),)
+ XCVER ?= 12
+ XCDIR ?= /data
+ SYSROOT = $(XCDIR)/$(XC)-$(XCVER)
  CC = $(XC)-gcc
  CXX = $(XC)-g++
- CXXVER = 10
  CFLAGS = --sysroot=$(SYSROOT) -nostdinc\
-  -I${SYSROOT}/usr/lib/gcc/${XC}/${CXXVER}/include\
+  -I${SYSROOT}/usr/lib/gcc/${XC}/${XCVER}/include\
   -I$(SYSROOT)/usr/include/$(XC)\
 
  CXXFLAGS = --sysroot=$(SYSROOT) -nostdinc\
-  -I${SYSROOT}/usr/lib/gcc/${XC}/${CXXVER}/include\
+  -I${SYSROOT}/usr/lib/gcc/${XC}/${XCVER}/include\
   -I$(SYSROOT)/usr/include/$(XC)\
 
  CFLAGS +=\
   -isystem $(SYSROOT)/usr/include\
+  -isystem $(SYSROOT)/usr/local/include\
 
  CXXFLAGS +=\
-  -isystem $(SYSROOT)/usr/include/c++/$(CXXVER)\
-  -isystem $(SYSROOT)/usr/include/$(XC)/c++/$(CXXVER)\
+  -isystem $(SYSROOT)/usr/include/c++/$(XCVER)\
+  -isystem $(SYSROOT)/usr/include/$(XC)/c++/$(XCVER)\
   -isystem $(SYSROOT)/usr/include\
+  -isystem $(SYSROOT)/usr/local/include\
 
  LDFLAGS = --sysroot=$(SYSROOT)\
-  -L$(SYSROOT)/usr/lib/gcc/$(XC)/$(CXXVER)\
+  -L$(SYSROOT)/usr/lib/gcc/$(XC)/$(XCVER)\
   -L$(SYSROOT)/usr/lib/$(XC)\
 
 endif
@@ -78,7 +73,6 @@ CFLAGS += -I$(SYSROOT)/usr/include/xmms2
 SERVERFLAGS = -l$(PLAYER)client
 
 CXXFLAGS +=\
- -I$(SYSROOT)/usr/local/include\
  -I$(SYSROOT)/usr/local/include/upm\
 
 CFLAGS += -Wfatal-errors -g -DNDEBUG

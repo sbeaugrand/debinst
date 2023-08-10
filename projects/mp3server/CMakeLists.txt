@@ -3,45 +3,21 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note Only cross compile for armhf (Nanopi Neo) with sysroot
+## \note Only cross compile for arm with sysroot
+##       See ../../cicd/remotehost-xc/README.md
 ##       mkdir build && cd build
-##       cmake .. -DCMAKE_SYSROOT=/data/arm-linux-gnueabihf-10
+##       cmake .. -DXC=arm-linux-gnueabihf -DXCVER=10
 ##       make
 # ---------------------------------------------------------------------------- #
 set(PROJECT mp3server)
+
 cmake_minimum_required(VERSION 3.18)
 project(${PROJECT})
+include(../../cicd/makefiles/include.cmake)
 
-if(CMAKE_SYSROOT)
-    SET(XC arm-linux-gnueabihf)
-    SET(CXXVER 10)
-    SET(CMAKE_C_COMPILER ${XC}-gcc)
-    SET(CMAKE_CXX_COMPILER ${XC}-g++)
-endif()
-
-include(include.cmake)
 add_compile_options(
-    "-g" "-DNDEBUG" "-nostdinc"
+    "-g" "-DNDEBUG"
 )
-
-if(CMAKE_SYSROOT)
-    include_directories(
-	${CMAKE_SYSROOT}/usr/lib/gcc/${XC}/${CXXVER}/include
-	${CMAKE_SYSROOT}/usr/include/${XC}
-    )
-    set(CMAKE_C_STANDARD_INCLUDE_DIRECTORIES
-	${CMAKE_SYSROOT}/usr/include
-    )
-    set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES
-	${CMAKE_SYSROOT}/usr/include/c++/${CXXVER}
-	${CMAKE_SYSROOT}/usr/include/${XC}/c++/${CXXVER}
-	${CMAKE_SYSROOT}/usr/include
-    )
-    link_directories(
-	${CMAKE_SYSROOT}/usr/lib/gcc/${XC}/${CXXVER}
-	${CMAKE_SYSROOT}/usr/lib/${XC}
-    )
-endif()
 
 set(SERVER server)
 add_executable(${SERVER}
@@ -70,7 +46,6 @@ add_executable(${CLIENT}
     lirc.c
 )
 target_include_directories(${CLIENT} PRIVATE
-    ${CMAKE_SYSROOT}/usr/local/include
     ${CMAKE_SYSROOT}/usr/local/include/upm
     ../debug
 )

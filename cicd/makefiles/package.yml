@@ -28,8 +28,14 @@ variables:
   VERSION: 1.0
   STRIP: strip
   RSYNC: rsync --checksum --delete -a --exclude=*~ --exclude=build -i
+  URI: example@ip
   SSH: vagrant ssh -c
   USERPATH: /vagrant/.vagrant
+  SCPTARGET: $URI:$USERPATH/
+  SUDOPASS: example
+  XC: aarch64-linux-gnu
+  XCVER: 12
+  XCDIR: /data
 build:
   stage: build
   except:
@@ -129,10 +135,7 @@ rinstall:
 rdeploy:
   stage: rdeploy
   variables:
-    URI: example@ip
-    SCPTARGET: $URI:$USERPATH/
     BHOST: $HOST
-    SUDOPASS: example
   script:
     - export PROPATH=$(basename `readlink -f .`)
     - cd ../$BHOST
@@ -150,22 +153,14 @@ rdeploy:
       ldd -d -r /usr/bin/$PROJECT"
 xbuild:
   stage: xbuild
-  variables:
-    XC: arm-linux-gnueabihf
-    CXXVER: 10
   script:
     - mkdir -p build-$XC
     - cd build-$XC
-    - $CMAKE -DCMAKE_SYSROOT=/data/$XC-$CXXVER -DXC=$XC -DCXXVER=$CXXVER
+    - $CMAKE -DXC=$XC -DXCVER=$XCVER -DXCDIR=$XCDIR
     - make --no-print-directory clean
     - make --no-print-directory -j`nproc`
 xdeploy:
   stage: xdeploy
-  variables:
-    XC: arm-linux-gnueabihf
-    URI: example@ip
-    SCPTARGET: $URI:$USERPATH/
-    SUDOPASS: example
   script:
     - export PROPATH=$(basename `readlink -f .`)
     - >

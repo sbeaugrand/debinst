@@ -57,10 +57,11 @@ if [ -z "$max" ]; then
 fi
 count=0
 while true; do
-    sudo sleep 600
+    sleep 600
     ((count++))
     if ((count == max)); then
         quit 0
     fi
     notify-send "wifi" "hotspot ouvert $count"
+    sudo true
 done
