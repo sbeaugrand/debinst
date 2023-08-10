@@ -65,7 +65,7 @@ tar:
 	@cd .. && tar cvzf $(PROJECT).tgz\
 	 --exclude=*~\
 	 --exclude=.*.swp\
-	 --exclude=build\
+	 --exclude=build*\
 	 --exclude=*.pdf\
 	 --exclude=*.a\
 	 --exclude=*.ko\

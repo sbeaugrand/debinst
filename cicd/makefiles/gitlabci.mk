@@ -44,6 +44,11 @@ build test package install rbuild rtest rpackage rinstall rdeploy stest
 build test package install rbuild rtest rpackage rinstall rdeploy stest:
 	@$(gitlabci) -H -R -p $@
 
+.PHONY: \
+xbuild xdeploy xtest
+xbuild xdeploy xtest:
+	@$(gitlabci) -H -R -p $@
+
 .PHONY: deploy
 deploy:
 	@$(gitlabci) -E docker $@
@@ -53,6 +58,9 @@ test%:
 
 .PHONY: pipeline
 pipeline: test rbuild rtest rpackage rdeploy stest
+
+.PHONY: xpipeline
+xpipeline: test xbuild xdeploy xtest
 
 .PHONY: tar
 tar:

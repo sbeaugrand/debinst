@@ -26,3 +26,8 @@ test2:
   script:
     - make --no-print-directory
     - ./test2.exp $IP
+test3:
+  extends: xtest
+  script:
+    - make --no-print-directory
+    - ./test2.exp $IP

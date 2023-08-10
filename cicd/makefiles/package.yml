@@ -16,6 +16,9 @@ stages:
   - rinstall
   - rdeploy
   - stest  # tests with remote service installed
+  - xbuild
+  - xdeploy
+  - xtest
 variables:
   HOST: lubuntu
   IMAGE: ubuntu:22.10
@@ -145,3 +148,41 @@ rdeploy:
       $SSH "cd $USERPATH && echo $SUDOPASS | sudo -S
       apt-get install --reinstall -y ./${PROJECT}_${VERSION}_*.deb &&
       ldd -d -r /usr/bin/$PROJECT"
+xbuild:
+  stage: xbuild
+  variables:
+    XC: arm-linux-gnueabihf
+    CXXVER: 10
+  script:
+    - mkdir -p build-$XC
+    - cd build-$XC
+    - $CMAKE -DCMAKE_SYSROOT=/data/$XC-$CXXVER -DXC=$XC -DCXXVER=$CXXVER
+    - make --no-print-directory clean
+    - make --no-print-directory -j`nproc`
+xdeploy:
+  stage: xdeploy
+  variables:
+    XC: arm-linux-gnueabihf
+    URI: example@ip
+    SCPTARGET: $URI:$USERPATH/
+    SUDOPASS: example
+  script:
+    - export PROPATH=$(basename `readlink -f .`)
+    - >
+      test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
+      TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
+    - test ! -f ~/.ssh/id_rsa || source /run/lock/.keychain/*-sh
+    - scp build-$XC/$PROJECT $SCPTARGET
+    - >
+      $SSH "cd $USERPATH && echo $SUDOPASS | sudo -S
+      cp $USERPATH/$PROJECT /usr/bin/ &&
+      ldd -d -r /usr/bin/$PROJECT"
+xtest:
+  stage: xtest
+  before_script:
+    - export PROPATH=$(basename `readlink -f .`)
+    - cd ../$HOST
+    - $SSH "/usr/bin/$PROJECT" &
+    - sleep 2
+    - export IP=`make --no-print-directory get-ip`
+    - cd -

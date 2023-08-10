@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 ## \note Only cross compile for armhf (Nanopi Neo) with sysroot
 ##       mkdir build && cd build
-##       cmake .. -DCMAKE_SYSROOT=/data/armhf
+##       cmake .. -DCMAKE_SYSROOT=/data/arm-linux-gnueabihf-10
 ##       make
 # ---------------------------------------------------------------------------- #
 set(PROJECT mp3server)

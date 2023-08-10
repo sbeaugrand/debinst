@@ -20,9 +20,9 @@
 ##   make C=rpi start
 ##
 ##  Cross compile for armhf (Nanopi Neo) with sysroot
-##   cd
-##   mkdir armhf
-##   cd armhf
+##   cd /data
+##   mkdir arm-linux-gnueabihf-10
+##   cd arm-linux-gnueabihf-10
 ##   mkdir usr
 ##   rsync -a -i seb@pi:/usr/include usr/
 ##   rsync -a -i seb@pi:/usr/lib usr/
@@ -31,8 +31,8 @@
 ##   mkdir local
 ##   rsync -a -i seb@pi:/usr/local/include local/
 ##   rsync -a -i seb@pi:/usr/local/lib local/
-##   make C=pi SYSROOT=/data/armhf
-##   make C=pi SYSROOT=/data/armhf oled-message
+##   make C=pi SYSROOT=/data/arm-linux-gnueabihf-10
+##   make C=pi SYSROOT=/data/arm-linux-gnueabihf-10 oled-message
 # ---------------------------------------------------------------------------- #
 PROROOT = ..
 include ${PROROOT}/makefiles/pro.mk
