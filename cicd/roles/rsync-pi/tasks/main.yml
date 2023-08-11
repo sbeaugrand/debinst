@@ -1,0 +1,25 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: rsync-pi
+  synchronize:
+    src: "{{ src }}"
+    dest: "{{ dest }}"
+    times: "{{ times }}"
+    archive: no
+    recursive: yes
+    links: yes
+    checksum: yes
+    delete: yes
+    rsync_opts:
+      - '--exclude=build'
+      - '--exclude=kicad'
+      - '--exclude=__pycache__'
+      - '--exclude=*.pdf'
+      - '--exclude=*.ko'
+      - '--exclude=*.dtbo'
+      - '--exclude=*.a'
+      - '--exclude=sompi'

@@ -1,0 +1,15 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+- name: /etc/sudoers.d/{{ user }}
+  blockinfile:
+    path: "/etc/sudoers.d/{{ user }}"
+    create: yes
+    block: |
+      {{ user }} ALL=(root) NOPASSWD:/sbin/halt
+      {{ user }} ALL=(root) NOPASSWD:/usr/sbin/rtc
+      {{ user }} ALL=(root) NOPASSWD:/usr/sbin/shutter-restart.sh
+    mode: 0440
+  become: yes

@@ -1,0 +1,39 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: install packages
+  apt:
+    cache_valid_time: 36000
+    install_recommends: no
+    name:
+      - apt-utils
+      - vim
+      - alsa-utils
+      - gcc
+      - g++
+      - make
+      - cmake
+      - libmpdclient-dev
+      - mpd
+      - mpc
+      - git
+      - subversion
+      - ntp
+      - sntp
+      - ntpdate
+      - libusb-dev
+      - cryptsetup
+      - lirc
+      - ir-keytable
+      - liblircclient-dev
+      - netcat-traditional
+      - aptitude
+      - i2c-tools
+      - swig  # mraa python
+      - python3-dev  # mraa python
+      - gpiod
+      - libgpiod-dev
+  become: yes

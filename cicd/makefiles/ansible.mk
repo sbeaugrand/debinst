@@ -60,7 +60,7 @@ local:
 
 .PHONY: remote
 remote:
-	@ansible-playbook $(BECOMEPASS) playbook.yml
+	@user=$(user) ansible-playbook $(BECOMEPASS) playbook.yml
 
 .PHONY: mount
 mount:

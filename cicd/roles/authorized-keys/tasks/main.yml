@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: authorized_keys dir
+  file:
+    path: "{{ home }}/.ssh"
+    state: directory
+    mode: 0700
+
+- name: authorized_keys file
+  copy:
+    src: authorized_keys-pr-
+    dest: "{{ home }}/.ssh/authorized_keys"
+
+- name: no password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '.*PasswordAuthentication yes'
+    line: 'PasswordAuthentication no'
+  become: yes

@@ -1,0 +1,74 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: dirs
+  file:
+    path: "{{ home }}/install/debinst/latex"
+    state: directory
+
+- name: armbian
+  import_role:
+    name: rsync-pi
+  vars:
+    src: "../../armbian"
+    dest: "{{ home }}/install/debinst/armbian"
+    times: no
+
+- name: 0install.sh
+  import_role:
+    name: rsync-pi
+  vars:
+    src: "../../0install.sh"
+    dest: "{{ home }}/install/debinst/0install.sh"
+    times: no
+
+- name: bin
+  import_role:
+    name: rsync-pi
+  vars:
+    src: "../../bin"
+    dest: "{{ home }}/install/debinst/bin"
+    times: no
+
+- name: makefiles
+  import_role:
+    name: rsync-pi
+  vars:
+    src: "../../makefiles"
+    dest: "{{ home }}/install/debinst/makefiles"
+    times: no
+
+- name: projets
+  import_role:
+    name: rsync-pi
+  vars:
+    src: "../../projects"
+    dest: "{{ home }}/install/debinst/projects"
+    times: no
+
+- name: projets
+  import_role:
+    name: rsync-pi
+  vars:
+    src: "../../latex/cal"
+    dest: "{{ home }}/install/debinst/latex/cal"
+    times: no
+
+- name: makefiles link
+  file:
+    path: "{{ home }}/install/debinst/latex/makefiles"
+    src: "../makefiles"
+    state: link
+
+- name: build dir
+  file:
+    path: "{{ home }}/data/install-build"
+    state: directory
+
+- name: repo dir
+  file:
+    path: "{{ home }}/data/install-repo"
+    state: directory

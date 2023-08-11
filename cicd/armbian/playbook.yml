@@ -1,0 +1,20 @@
+# ---------------------------------------------------------------------------- #
+## \file playbook.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- hosts: pis
+  vars:
+    user: "{{ lookup('env', 'user') }}"
+    home: /home/{{ user }}
+  roles:
+    - sudoers-pi
+    - bashrc-pi
+    - packages-pi
+    - projects-pi
+    - vim
+    # Remote roles
+    - screen-remote
+    - authorized-keys
