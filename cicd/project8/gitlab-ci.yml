@@ -13,3 +13,8 @@ test1:
   script:
     - make --no-print-directory
     - ./test1.exp
+test2:
+  extends: xtest
+  script:
+    - make --no-print-directory
+    - ./test2.exp $IP

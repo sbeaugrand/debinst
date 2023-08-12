@@ -1,0 +1,27 @@
+#!/usr/bin/expect -f
+# ---------------------------------------------------------------------------- #
+## \file test2.exp
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+set ip [lindex $argv 0]
+set port 8080
+
+spawn build/project-eight $port
+sleep 1
+
+spawn build/client $ip $port /
+expect "it works"
+
+spawn build/client $ip $port /?f=html
+expect "<html>it works</html>"
+
+spawn curl http://$ip:$port/
+expect "it works"
+
+spawn curl http://$ip:$port/?f=html
+expect "<html>it works</html>"
+
+spawn curl http://$ip:$port/kill
+expect "kill"

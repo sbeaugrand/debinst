@@ -24,7 +24,6 @@
       alias ro='sudo mount -o ro,remount /'
 
       export MP3DIR=/mnt/mp3
-      export LC_ALL=C
       export XMMS_PATH=unix:///run/xmms-ipc-ip
 
       alias volet='sudo /home/$USER/install/debinst/projects/arm/sompi/sompi.sh'

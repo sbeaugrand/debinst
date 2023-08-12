@@ -32,7 +32,6 @@ variables:
   SSH: vagrant ssh -c
   USERPATH: /vagrant/.vagrant
   SCPTARGET: $URI:$USERPATH/
-  SUDOPASS: example
   XC: aarch64-linux-gnu
   XCVER: 12
   XCDIR: /data
@@ -144,6 +143,7 @@ rdeploy:
       TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
     - test ! -f ~/.ssh/id_rsa || source /run/lock/.keychain/*-sh
     - scp .vagrant/$PROPATH/build/${PROJECT}_${VERSION}_*.deb $SCPTARGET
+    - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
       $SSH "! systemctl -q is-active $PROJECT ||
       echo $SUDOPASS | sudo -S -p \"wait\" systemctl stop $PROJECT"
@@ -168,6 +168,7 @@ xdeploy:
       TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
     - test ! -f ~/.ssh/id_rsa || source /run/lock/.keychain/*-sh
     - scp build-$XC/$PROJECT $SCPTARGET
+    - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
       $SSH "cd $USERPATH && echo $SUDOPASS | sudo -S
       cp $USERPATH/$PROJECT /usr/bin/ &&

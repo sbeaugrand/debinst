@@ -36,4 +36,5 @@
       - python3-dev  # mraa python
       - gpiod
       - libgpiod-dev
+      - libcpp-httplib-dev
   become: yes
