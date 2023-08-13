@@ -13,6 +13,7 @@
       - cppcheck
       - curl
       - docker.io
+      - dpkg-cross
       - elpa-dpkg-dev-el
       - elpa-cmake-mode
       - elpa-markdown-mode

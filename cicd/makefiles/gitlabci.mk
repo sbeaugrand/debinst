@@ -14,10 +14,13 @@ URI ?= exemple@ip
 SSH ?= vagrant ssh -c
 USERPATH ?= /vagrant/.vagrant
 BHOST ?= $(HOST)
-XC ?= aarch64-linux-gnu
-XCVER ?= 12
+ifneq ($(XC),)
+ XCVER ?= 12
+ OPTS += -e XC=$(XC)
+ OPTS += -e XCVER=$(XCVER)
+endif
 ifneq ($(SUDOPASS),)
- OPTS = -e SUDOPASS=$(SUDOPASS)
+ OPTS += -e SUDOPASS=$(SUDOPASS)
 endif
 
 ifeq ($(CMAKE),)
@@ -37,8 +40,6 @@ gitlabci = ~/.local/bin/gitlabci-local\
  -e SSH="$(SSH)"\
  -e USERPATH=$(USERPATH)\
  -e BHOST=$(BHOST)\
- -e XC=$(XC)\
- -e XCVER=$(XCVER)\
  $(OPTS)\
  -c gitlab-ci.yml
 propath = $(shell basename `readlink -f .`)
@@ -51,8 +52,8 @@ build test package install rbuild rtest rpackage rinstall rdeploy stest:
 	@$(gitlabci) -H -R -p $@
 
 .PHONY: \
-xbuild xdeploy xtest
-xbuild xdeploy xtest:
+xbuild xpackage xinstall xdeploy xtest
+xbuild xpackage xinstall xdeploy xtest:
 	@$(gitlabci) -H -R -p $@
 
 .PHONY: deploy
@@ -66,7 +67,7 @@ test%:
 pipeline: test rbuild rtest rpackage rdeploy stest
 
 .PHONY: xpipeline
-xpipeline: test xbuild xdeploy xtest
+xpipeline: test xbuild xpackage xdeploy xtest
 
 .PHONY: tar
 tar:

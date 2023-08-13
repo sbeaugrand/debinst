@@ -1,0 +1,4 @@
+libcpp-httplib 0.11 libcpp-httplib0.11 (>= 0.11.4)
+libstdc++ 6 libstdc++6 (>= 12.2.0-14)
+libgcc_s 1 libgcc-s1 (>= 12.2.0-14)
+libc 6 libc6 (>= 2.36-9)

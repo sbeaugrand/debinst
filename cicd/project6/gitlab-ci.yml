@@ -19,10 +19,7 @@ test2:
     - make --no-print-directory
     - ./test2.exp $IP
 test3:
-  stage: stest
+  extends: stest
   script:
     - make --no-print-directory
-    - cd ../$HOST
-    - export IP=`make --no-print-directory get-ip`
-    - cd -
     - ./test2.exp $IP

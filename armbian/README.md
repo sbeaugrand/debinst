@@ -75,6 +75,7 @@ Démarrer sur la Pi
 ./find-ip.sh
 keychain ~/.ssh/id_rsa
 make ssh user=root [host=pi]  # password: 1234
+locale-gen  # if LC_ALL cannot change locale
 exit
 make rsync [user=$USER] [host=pi] [shutter=y]
 make ssh

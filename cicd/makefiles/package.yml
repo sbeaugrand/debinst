@@ -5,20 +5,22 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 stages:
-  - build
-  - test
-  - package
-  - install
-  - deploy
-  - rbuild
-  - rtest
-  - rpackage
-  - rinstall
-  - rdeploy
-  - stest  # tests with remote service installed
-  - xbuild
-  - xdeploy
-  - xtest
+  - build     # build
+  - test      # test build
+  - package   # build package
+  - install   # install package
+  - deploy    # install package from build host to docker container
+  - rbuild    # build on remote (build host)
+  - rtest     # test build on remote (build host)
+  - rpackage  # build package on remote (build host)
+  - rinstall  # install remote package on remote host
+  - rdeploy   # install package from build host to target host
+  - stest     # tests with remote service installed
+  - xbuild    # cross build
+  - xpackage  # cross build package
+  - xdeploy   # install cross-builded package
+  - xinstall  # install cross-compiled binary (reinstall project binary)
+  - xtest     # tests with remote package or binary installed
 variables:
   HOST: lubuntu
   IMAGE: ubuntu:22.10
@@ -32,7 +34,7 @@ variables:
   SSH: vagrant ssh -c
   USERPATH: /vagrant/.vagrant
   SCPTARGET: $URI:$USERPATH/
-  XC: aarch64-linux-gnu
+  BDIR: build$XC
   XCVER: 12
   XCDIR: /data
 build:
@@ -60,8 +62,8 @@ package:
     - >
       test -n "$DEBEMAIL" ||
       export DEBEMAIL=`git config --global --get user.email`
-    - mkdir -p build/$PROJECT-$VERSION/data
-    - cd build/$PROJECT-$VERSION
+    - mkdir -p $BDIR/$PROJECT-$VERSION/data
+    - cd $BDIR/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
     - cat /dev/null >debian/$PROJECT.install
     - >
@@ -76,7 +78,7 @@ package:
     - test ! -d ../../debian || cp -a ../../debian/* debian/
     - test ! -d ../../data   || cp -a ../../data/*   data/
     - test ! -d ../../share  || cp -a ../../share/*  data/
-    - dpkg-buildpackage --no-sign
+    - dpkg-buildpackage --no-sign $OPTS
 install:
   stage: install
   script:
@@ -85,7 +87,7 @@ deploy:
   image: $IMAGE
   stage: deploy
   script:
-    - export PROPATH=$(basename `readlink -f .`)
+    - PROPATH=$(basename `readlink -f .`)
     - cd ../$HOST/.vagrant/$PROPATH
     - cp -a build/${PROJECT}_${VERSION}_amd64.deb ../../../$PROPATH/build/
     - test -z "$DEP" || cp -a $DEP ../../../$PROPATH/build/
@@ -96,7 +98,7 @@ deploy:
 rbuild:
   stage: rbuild
   script:
-    - export PROPATH=$(basename `readlink -f .`)
+    - PROPATH=$(basename `readlink -f .`)
     - cd ../$HOST
     - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
     - $RSYNC ../makefiles/ .vagrant/makefiles/
@@ -107,18 +109,18 @@ rbuild:
 rtest:
   stage: rtest
   before_script:
-    - export PROPATH=$(basename `readlink -f .`)
+    - PROPATH=$(basename `readlink -f .`)
     - cd ../$HOST
     - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
     - $RSYNC ../makefiles/ .vagrant/makefiles/
     - $SSH "cd $USERPATH/$PROPATH && build/$PROJECT" &
     - sleep 1
-    - export IP=`make --no-print-directory get-ip`
+    - IP=`make --no-print-directory get-ip`
     - cd -
 rpackage:
   stage: rpackage
   script:
-    - export PROPATH=$(basename `readlink -f .`)
+    - PROPATH=$(basename `readlink -f .`)
     - cd ../$HOST
     - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
     - $RSYNC ../makefiles/ .vagrant/makefiles/
@@ -126,7 +128,7 @@ rpackage:
 rinstall:
   stage: rinstall
   script:
-    - export PROPATH=$(basename `readlink -f .`)
+    - PROPATH=$(basename `readlink -f .`)
     - cd ../$HOST
     - >
       $SSH "cd $USERPATH/$PROPATH &&
@@ -136,13 +138,14 @@ rdeploy:
   variables:
     BHOST: $HOST
   script:
-    - export PROPATH=$(basename `readlink -f .`)
-    - cd ../$BHOST
+    - PROPATH=$(basename `readlink -f .`)
+    - test -n "$XC" || BDIR=.vagrant/$PROPATH/build
+    - test -n "$XC" || cd ../$BHOST
     - >
       test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
       TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
     - test ! -f ~/.ssh/id_rsa || source /run/lock/.keychain/*-sh
-    - scp .vagrant/$PROPATH/build/${PROJECT}_${VERSION}_*.deb $SCPTARGET
+    - scp $BDIR/${PROJECT}_${VERSION}_*.deb $SCPTARGET
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
       $SSH "! systemctl -q is-active $PROJECT ||
@@ -151,23 +154,47 @@ rdeploy:
       $SSH "cd $USERPATH && echo $SUDOPASS | sudo -S
       apt-get install --reinstall -y ./${PROJECT}_${VERSION}_*.deb &&
       ldd -d -r /usr/bin/$PROJECT"
+stest:
+  stage: stest
+  before_script:
+    - cd ../$HOST
+    - IP=`make --no-print-directory get-ip`
+    - cd -
 xbuild:
   stage: xbuild
   script:
-    - mkdir -p build-$XC
-    - cd build-$XC
+    - test -n "$XC" || XC=aarch64-linux-gnu
+    - mkdir -p build$XC
+    - cd build$XC
     - $CMAKE -DXC=$XC -DXCVER=$XCVER -DXCDIR=$XCDIR
     - make --no-print-directory clean
     - make --no-print-directory -j`nproc`
+xpackage:
+  stage: xpackage
+  extends: package
+  before_script:
+    - test -n "$XC" || XC=aarch64-linux-gnu
+    - BDIR=build$XC
+    - CONFIG_SITE=/etc/dpkg-cross/cross-config.arm64
+    - test "$XC" != "aarch64-linux-gnu" || OPTS="-aarm64"
+    - test "$XC" != "arm-linux-gnueabihf" || OPTS="-aarmhf"
+    - export DEB_BUILD_OPTIONS=nocheck
 xdeploy:
   stage: xdeploy
+  extends: rdeploy
+  before_script:
+    - test -n "$XC" || XC=aarch64-linux-gnu
+    - BDIR=build$XC
+xinstall:
+  stage: xinstall
   script:
-    - export PROPATH=$(basename `readlink -f .`)
+    - test -n "$XC" || XC=aarch64-linux-gnu
+    - BDIR=build$XC
     - >
       test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
       TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
     - test ! -f ~/.ssh/id_rsa || source /run/lock/.keychain/*-sh
-    - scp build-$XC/$PROJECT $SCPTARGET
+    - scp $BDIR/$PROJECT $SCPTARGET
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
       $SSH "cd $USERPATH && echo $SUDOPASS | sudo -S
@@ -176,9 +203,8 @@ xdeploy:
 xtest:
   stage: xtest
   before_script:
-    - export PROPATH=$(basename `readlink -f .`)
     - cd ../$HOST
     - $SSH "/usr/bin/$PROJECT" &
     - sleep 2
-    - export IP=`make --no-print-directory get-ip`
+    - IP=`make --no-print-directory get-ip`
     - cd -

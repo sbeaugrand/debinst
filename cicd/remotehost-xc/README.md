@@ -15,22 +15,25 @@ rsync -a -i $user@$host:/usr/local/include local/
 rsync -a -i $user@$host:/usr/local/lib local/
 ```
 
-# Sysroot cross compilation example 1
+# Sysroot cross compilation example
 ```
 cd project4
 make build
 make test
-make HOST=remotehost-xc xpipeline  # or
-
 make HOST=remotehost-xc xbuild
-make HOST=remotehost-xc xdeploy
+make HOST=remotehost-xc xinstall
 make HOST=remotehost-xc xtest
 ```
 
-# Sysroot cross compilation example 2
+# Sysroot cross build package example
 ```
 cd project8
 make build
 make test
-make HOST=armbian xpipeline
+make HOST=armbian xpipeline  # or
+
+make HOST=armbian xbuild
+make HOST=armbian xpackage
+make HOST=armbian xdeploy
+make HOST=armbian xtest
 ```
