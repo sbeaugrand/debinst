@@ -16,6 +16,7 @@
     delete: yes
     rsync_opts:
       - '--exclude=build'
+      - '--exclude=build-*'
       - '--exclude=kicad'
       - '--exclude=__pycache__'
       - '--exclude=*.pdf'

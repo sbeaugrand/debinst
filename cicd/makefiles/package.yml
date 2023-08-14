@@ -29,12 +29,12 @@ variables:
   PROJECT: example
   VERSION: 1.0
   STRIP: strip
-  RSYNC: rsync --checksum --delete -a --exclude=*~ --exclude=build -i
+  RSYNC: rsync --checksum --delete -a --exclude=*~ --exclude=build* -i
   URI: example@ip
   SSH: vagrant ssh -c
   USERPATH: /vagrant/.vagrant
   SCPTARGET: $URI:$USERPATH/
-  BDIR: build$XC
+  BDIR: build
   XCVER: 12
   XCDIR: /data
 build:
@@ -164,8 +164,8 @@ xbuild:
   stage: xbuild
   script:
     - test -n "$XC" || XC=aarch64-linux-gnu
-    - mkdir -p build$XC
-    - cd build$XC
+    - mkdir -p build-$XC
+    - cd build-$XC
     - $CMAKE -DXC=$XC -DXCVER=$XCVER -DXCDIR=$XCDIR
     - make --no-print-directory clean
     - make --no-print-directory -j`nproc`
@@ -174,7 +174,7 @@ xpackage:
   extends: package
   before_script:
     - test -n "$XC" || XC=aarch64-linux-gnu
-    - BDIR=build$XC
+    - BDIR=build-$XC
     - CONFIG_SITE=/etc/dpkg-cross/cross-config.arm64
     - test "$XC" != "aarch64-linux-gnu" || OPTS="-aarm64"
     - test "$XC" != "arm-linux-gnueabihf" || OPTS="-aarmhf"
@@ -184,12 +184,12 @@ xdeploy:
   extends: rdeploy
   before_script:
     - test -n "$XC" || XC=aarch64-linux-gnu
-    - BDIR=build$XC
+    - BDIR=build-$XC
 xinstall:
   stage: xinstall
   script:
     - test -n "$XC" || XC=aarch64-linux-gnu
-    - BDIR=build$XC
+    - BDIR=build-$XC
     - >
       test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
       TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa

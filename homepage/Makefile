@@ -72,7 +72,8 @@ dorsync:
 	 -f'-s_*~'\
 	 -f'-s_*.swp'\
 	 -f'-s_*-pr-*'\
-	 -f'-s_build*'\
+	 -f'-s_build'\
+	 -f'-s_build-*'\
 	 -f'-s_debinst/homepage/debinst'\
 	 -f'-s_debinst/homepage/php'\
 	 -f'-s_livret-*.pdf'\

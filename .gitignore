@@ -1,6 +1,7 @@
 *~
 .*.swp
-build*
+build
+build-*
 *.pdf
 *.a
 *.ko

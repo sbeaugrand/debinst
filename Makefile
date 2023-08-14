@@ -19,6 +19,7 @@ versions:
 updaterepo:
 	@grep -r --color=always\
 	 --exclude-dir=build\
+	 --exclude-dir=build-*\
 	 --exclude-dir=armbian\
 	 --exclude-dir=mobian\
 	 --exclude-dir=raspbian\
@@ -65,7 +66,8 @@ tar:
 	@cd .. && tar cvzf $(PROJECT).tgz\
 	 --exclude=*~\
 	 --exclude=.*.swp\
-	 --exclude=build*\
+	 --exclude=build\
+	 --exclude=build-*\
 	 --exclude=*.pdf\
 	 --exclude=*.a\
 	 --exclude=*.ko\
