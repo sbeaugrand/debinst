@@ -1,2 +1,5 @@
-mode: one
+timeout:  0:05:00
+mode:     one
 selected: 21
+splash:   False
+unfade:   False

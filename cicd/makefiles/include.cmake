@@ -5,6 +5,9 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if(XC)
+    if(NOT DEFINED XCVER)
+        set(XCVER 12)
+    endif()
     if(NOT DEFINED XCDIR)
         set(XCDIR /data)
     endif()

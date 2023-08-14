@@ -5,7 +5,8 @@
 ## \copyright CeCILL 2.1 Free Software license
 ## \note Only cross compile for arm with sysroot
 ##       See ../../cicd/remotehost-xc/README.md
-##       mkdir build && cd build
+##       mkdir build- && cd build-
+##       cmake .. -DXC=aarch64-linux-gnu  # or :
 ##       cmake .. -DXC=arm-linux-gnueabihf -DXCVER=10
 ##       make
 # ---------------------------------------------------------------------------- #
@@ -16,13 +17,16 @@ project(${PROJECT})
 include(../../cicd/makefiles/include.cmake)
 
 add_compile_options(
-    "-g" "-DNDEBUG"
+    "-g"
+    "-DNDEBUG"
+    "-DMPD"
 )
 
-set(SERVER server)
+set(SERVER mp3server)
 add_executable(${SERVER}
     mp3server.c
-    player-xmms.c
+    #player-xmms.c
+    player-mpd.c
     httpServer.c
     resources.c
     log.c
@@ -30,14 +34,15 @@ add_executable(${SERVER}
     common.c
 )
 target_include_directories(${SERVER} PRIVATE
-    ${CMAKE_SYSROOT}/usr/include/xmms2
+    #${CMAKE_SYSROOT}/usr/include/xmms2
     ../debug
 )
 target_link_libraries(${SERVER} PRIVATE
-    xmmsclient
+    #xmmsclient
+    mpdclient
 )
 
-set(CLIENT client)
+set(CLIENT mp3client)
 add_executable(${CLIENT}
     mp3client.c
     common.c

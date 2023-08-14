@@ -380,7 +380,7 @@ void playerResume()
 /******************************************************************************!
  * \fn playerM3u
  ******************************************************************************/
-void playerM3u(char* m3u)
+void playerM3u(const char* m3u)
 {
     xmmsc_result_t* res;
     xmmsc_result_t* res2;

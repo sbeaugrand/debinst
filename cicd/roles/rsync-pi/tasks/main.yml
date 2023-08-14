@@ -4,7 +4,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: rsync-pi
+- name: src {{ src }}
   synchronize:
     src: "{{ src }}"
     dest: "{{ dest }}"

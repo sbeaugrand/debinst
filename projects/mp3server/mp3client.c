@@ -189,6 +189,7 @@ void sendRequestAndReceive(const char* action)
     }
 
     fprintf(file, "GET /%s ", action);
+    fflush(file);
     if ((size = send(sock, bufferGet(gBuffer), gBuffer->size, 0)) <
         (ssize_t) gBuffer->size) {
         if (size < 0) {

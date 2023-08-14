@@ -73,8 +73,8 @@ umount:
 
 .PHONY: ssh
 ssh:
-	@$(call kc,ssh -t $(URI) $(CMD))
+	@$(call kc,ssh -t $(URI) $(CMD)); true
 
 .PHONY: halt
 halt:
-	@$(call kc,ssh -t $(URI) "sudo shutdown -P +0")
+	@$(call kc,ssh -t $(URI) "sudo shutdown -P +0"); true

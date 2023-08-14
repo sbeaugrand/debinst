@@ -21,8 +21,8 @@
 ##
 ##  Cross compile for arm with sysroot
 ##   See ../../cicd/remotehost-xc/README.md
-##   make C=pi XC=aarch64-linux-gnu XCVER=10
-##   make C=pi XC=aarch64-linux-gnu XCVER=10 oled-message
+##   make C=pi XC=aarch64-linux-gnu
+##   make C=pi XC=aarch64-linux-gnu oled-message
 ##   make C=pi XC=arm-linux-gnueabihf XCVER=10
 ##   make C=pi XC=arm-linux-gnueabihf XCVER=10 oled-message
 # ---------------------------------------------------------------------------- #
@@ -66,10 +66,10 @@ ifneq ($(XC),)
 
 endif
 
-PLAYER = xmms
-CFLAGS += -I$(SYSROOT)/usr/include/xmms2
-#PLAYER = mpd
-#CFLAGS += -DMPD
+#PLAYER = xmms
+#CFLAGS += -I$(SYSROOT)/usr/include/xmms2
+PLAYER = mpd
+CFLAGS += -DMPD
 SERVERFLAGS = -l$(PLAYER)client
 
 CXXFLAGS +=\

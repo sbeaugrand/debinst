@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------- #
-## \file install-pr-mp3server-mnt.sh
+## \file install-op-mp3server-mnt.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
@@ -9,7 +9,7 @@ if ! isDir /mnt/mp3/mp3; then
 
 Todo :
 sudo mount /dev/sda1 /mnt/mp3
-../0install.sh --root install-op-mp3server-ro.sh
+../0install.sh --root install-op-mpd.sh
 sudo umount /mnt/mp3
 
 EOF

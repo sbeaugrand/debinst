@@ -31,7 +31,8 @@ int playerIsError(const char* func)
         if (err == MPD_ERROR_CLOSED) {
             return err;
         }
-        ERROR("%s: %s\n", func, mpd_connection_get_error_message(gConn));
+        ERROR("%s: %s", func, mpd_connection_get_error_message(gConn));
+        mpd_connection_clear_error(gConn);
         return -1;
     }
     return 0;
@@ -65,18 +66,11 @@ int playerInit()
 struct mpd_status* playerGetMPDStatus()
 {
     struct mpd_status* status = mpd_run_status(gConn);
-    int err = playerIsError(__FUNCTION__);
-    if (err) {
-        if (err == MPD_ERROR_CLOSED) {
-            DEBUG("reconnect");
-            playerInit();
-            status = mpd_run_status(gConn);
-            err = playerIsError(__FUNCTION__);
-            if (err) {
-                return NULL;
-            }
-        } else {
-            return NULL;
+    if (playerIsError(__FUNCTION__) == MPD_ERROR_CLOSED) {
+        DEBUG("reconnect");
+        playerInit();
+        status = mpd_run_status(gConn);
+        if (playerIsError(__FUNCTION__)) {
         }
     }
     return status;
@@ -357,7 +351,7 @@ void playerResume()
     }
 
     // Seek
-    mpd_send_seek_current(gConn, milliseconds / 1000.0, false);
+    mpd_run_seek_current(gConn, milliseconds / 1000.0, false);
     if (playerIsError(__FUNCTION__)) {
     }
 
@@ -367,15 +361,20 @@ void playerResume()
 /******************************************************************************!
  * \fn playerM3u
  ******************************************************************************/
-void playerM3u(char* m3u)
+void playerM3u(const char* m3u)
 {
     playerStop();
 
-    mpd_run_clear(gConn);
+    if (! mpd_run_clear(gConn)) {
+        ERROR("mpd_run_clear");
+    }
     if (playerIsError(__FUNCTION__)) {
     }
 
-    mpd_run_load(gConn, m3u);
+    DEBUG("m3u = %s", m3u);
+    if (! mpd_run_load(gConn, m3u)) {
+        ERROR("mpd_run_load");
+    }
     if (playerIsError(__FUNCTION__)) {
     }
 

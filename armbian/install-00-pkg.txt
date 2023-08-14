@@ -5,20 +5,20 @@ gcc
 g++
 make
 cmake
-xmms2
-xmms2-plugin-m3u
-#xmms-plugin-musepack
-xmms2-plugin-faad
-xmms2-plugin-mp4
-libxmmsclient6
-xmms2-dev
-libxmmsclient-dev
-#libmpdclient-dev  # alternative
-#mpd
-#mpc
+#xmms2
+#xmms2-plugin-m3u
+##xmms-plugin-musepack
+#xmms2-plugin-faad
+#xmms2-plugin-mp4
+#libxmmsclient6
+#xmms2-dev
+#libxmmsclient-dev
+libmpdclient-dev  # alternative
+mpd
+mpc
 git
 subversion
-python-dev
+#python-dev
 ntp
 sntp
 ntpdate
@@ -35,3 +35,4 @@ swig  # mraa python
 python3-dev  # mraa python
 gpiod
 libgpiod-dev
+pkg-config

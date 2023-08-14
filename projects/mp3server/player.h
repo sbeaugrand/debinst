@@ -20,7 +20,7 @@ void playerStartId(int pos);
 void playerStartRel(int pos);
 void playerPause();
 void playerResume();
-void playerM3u(char* m3u);
+void playerM3u(const char* m3u);
 struct Buffer* playerCurrentTitle(struct Buffer* buffer);
 void playerQuit();
 

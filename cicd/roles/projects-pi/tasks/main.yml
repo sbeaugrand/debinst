@@ -13,8 +13,8 @@
   import_role:
     name: rsync-pi
   vars:
-    src: "../../armbian"
-    dest: "{{ home }}/install/debinst/armbian"
+    src: "../../../debinst/armbian"
+    dest: "{{ home }}/install/debinst"
     times: no
 
 - name: 0install.sh
@@ -22,7 +22,7 @@
     name: rsync-pi
   vars:
     src: "../../0install.sh"
-    dest: "{{ home }}/install/debinst/0install.sh"
+    dest: "{{ home }}/install/debinst"
     times: no
 
 - name: bin
@@ -30,15 +30,15 @@
     name: rsync-pi
   vars:
     src: "../../bin"
-    dest: "{{ home }}/install/debinst/bin"
+    dest: "{{ home }}/install/debinst"
     times: no
 
 - name: makefiles
   import_role:
     name: rsync-pi
   vars:
-    src: "../../makefiles"
-    dest: "{{ home }}/install/debinst/makefiles"
+    src: "../../../debinst/makefiles"
+    dest: "{{ home }}/install/debinst"
     times: no
 
 - name: projets
@@ -46,7 +46,7 @@
     name: rsync-pi
   vars:
     src: "../../projects"
-    dest: "{{ home }}/install/debinst/projects"
+    dest: "{{ home }}/install/debinst"
     times: no
 
 - name: projets
@@ -54,7 +54,7 @@
     name: rsync-pi
   vars:
     src: "../../latex/cal"
-    dest: "{{ home }}/install/debinst/latex/cal"
+    dest: "{{ home }}/install/debinst/latex"
     times: no
 
 - name: makefiles link
