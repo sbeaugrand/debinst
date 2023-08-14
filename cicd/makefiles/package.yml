@@ -179,6 +179,7 @@ xpackage:
     - test "$XC" != "aarch64-linux-gnu" || OPTS="-aarm64"
     - test "$XC" != "arm-linux-gnueabihf" || OPTS="-aarmhf"
     - export DEB_BUILD_OPTIONS=nocheck
+    - export XC XCVER XCDIR
 xdeploy:
   stage: xdeploy
   extends: rdeploy

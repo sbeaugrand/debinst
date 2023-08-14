@@ -15,7 +15,7 @@
 #export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 override_dh_shlibdeps:
-	dh_shlibdeps -- -l/data/aarch64-linux-gnu-12/usr/lib/aarch64-linux-gnu
+	dh_shlibdeps -- -l$(XCDIR)/$(XC)-$(XCVER)/usr/lib/$(XC)
 
 %:
 	dh $@
