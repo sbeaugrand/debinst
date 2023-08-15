@@ -585,7 +585,7 @@ void controlC(int sig)
         keypadQuit();
         displayQuit();
 #       endif
-        fprintf(stderr, "\nok");
+        fprintf(stderr, "\n");
         exit(EXIT_SUCCESS);
     }
 }

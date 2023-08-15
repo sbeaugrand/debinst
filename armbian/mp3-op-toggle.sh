@@ -5,7 +5,6 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-#user=rock
 dev=/dev/sda1
 log=/var/log/mp3toggle.log
 
@@ -24,8 +23,6 @@ if grep -q " /mnt/mp3 " /etc/mtab; then
     oled-message "umount" 0 5 >>$log 2>&1
     systemctl stop mp3server >>$log 2>&1
     systemctl stop mpd >>$log 2>&1
-    #sudo -u $user XMMS_PATH=unix:///run/xmms-ipc-ip\
-    # /usr/bin/xmms2 server shutdown >>$log 2>&1
 
     umount /mnt/mp3 >>$log 2>&1 || err "umount"
     if [ -x /usr/bin/oscreensaver ]; then

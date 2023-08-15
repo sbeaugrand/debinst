@@ -36,7 +36,7 @@ termes.
 ## [Orange Pi Zero](https://www.armbian.com/orange-pi-zero/)
 ![Orange Pi Zero](https://www.armbian.com/wp-content/uploads/2018/02/orangepizero-300x169.png)
 ```
-sha256sum -c Armbian_22.08.2_Orangepizero_bullseye_current_5.15.69.img.xz.sha
+sha256sum -c Armbian_23.5.2_Orangepizero_bookworm_current_6.1.30_minimal.img.xz.sha
 ```
 
 ## [Nanopi Neo](https://www.armbian.com/nanopi-neo/)
@@ -75,7 +75,6 @@ Démarrer sur la Pi
 ./find-ip.sh
 keychain ~/.ssh/id_rsa
 make ssh user=root [host=pi]  # password: 1234
-locale-gen  # if LC_ALL cannot change locale
 exit
 make rsync [user=$USER] [host=pi] [shutter=y]
 make ssh

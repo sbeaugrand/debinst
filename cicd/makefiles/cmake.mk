@@ -18,7 +18,7 @@ cppcheck:
 	@eval cppcheck -q --enable=all\
 	 `test -f cppcheck.supp && echo --suppressions-list=cppcheck.supp`\
 	 --template='{id}:{file}:{line}\ \({severity}\)\ {message}'\
-	 -i build\
+	 -i build -i build-*\
 	 --suppress=missingIncludeSystem\
 	 $(CPPCHECKINC) .
 

@@ -43,7 +43,7 @@ int playerIsError(const char* func)
  ******************************************************************************/
 int playerInit()
 {
-    gConn = mpd_connection_new(NULL, 0, 0);
+    gConn = mpd_connection_new("/run/mpd.sock", 0, 0);
     if (gConn == NULL) {
         ERROR("gConn == NULL");
         return 1;
@@ -167,6 +167,12 @@ struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
     for (count = 0; count < length; ++count) {
         song = mpd_run_get_queue_song_pos(gConn, count);
         if (playerIsError(__FUNCTION__)) {
+            if (song != NULL) {
+                mpd_song_free(song);
+            }
+            return buffer;
+        }
+        if (song == NULL) {
             return buffer;
         }
         DEBUG("id = %d", mpd_song_get_id(song));
@@ -239,14 +245,18 @@ struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
  ******************************************************************************/
 void playerStop()
 {
+    bool res;
     struct mpd_status* status = playerGetMPDStatus();
     if (status == NULL) {
         return;
     }
     mpd_status_free(status);
 
-    mpd_run_stop(gConn);
+    res = mpd_run_stop(gConn);
     if (playerIsError(__FUNCTION__)) {
+    }
+    if (! res) {
+        ERROR("mpd_run_stop");
     }
 }
 
@@ -255,14 +265,18 @@ void playerStop()
  ******************************************************************************/
 void playerStart()
 {
+    bool res;
     struct mpd_status* status = playerGetMPDStatus();
     if (status == NULL) {
         return;
     }
     mpd_status_free(status);
 
-    mpd_run_play(gConn);
+    res = mpd_run_play(gConn);
     if (playerIsError(__FUNCTION__)) {
+    }
+    if (! res) {
+        ERROR("mpd_run_play");
     }
 }
 
@@ -271,6 +285,7 @@ void playerStart()
  ******************************************************************************/
 void playerStartId(int pos)
 {
+    bool res;
     struct mpd_status* status = playerGetMPDStatus();
     if (status == NULL) {
         return;
@@ -278,11 +293,15 @@ void playerStartId(int pos)
     mpd_status_free(status);
 
     if (pos < 0) {
-        mpd_run_previous(gConn);
+        res = mpd_run_previous(gConn);
     } else {
-        mpd_run_next(gConn);
+        res = mpd_run_next(gConn);
     }
     if (playerIsError(__FUNCTION__)) {
+        return;
+    }
+    if (! res) {
+        ERROR("mpd_run_ previous next");
         return;
     }
     playerStart();
@@ -293,14 +312,19 @@ void playerStartId(int pos)
  ******************************************************************************/
 void playerStartRel(int pos)
 {
+    bool res;
     struct mpd_status* status = playerGetMPDStatus();
     if (status == NULL) {
         return;
     }
     mpd_status_free(status);
 
-    mpd_run_seek_pos(gConn, pos, 0);
+    res = mpd_run_seek_pos(gConn, pos, 0);
     if (playerIsError(__FUNCTION__)) {
+        return;
+    }
+    if (! res) {
+        ERROR("mpd_run_seek_pos");
         return;
     }
     playerStart();
@@ -311,12 +335,16 @@ void playerStartRel(int pos)
  ******************************************************************************/
 void playerPause()
 {
+    bool res;
 	if (playerGetStatus(gConn) == STATE_PAUSE) {
-        mpd_run_play(gConn);
+        res = mpd_run_play(gConn);
 	} else {
-        mpd_run_pause(gConn, true);
+        res = mpd_run_pause(gConn, true);
 	}
     if (playerIsError(__FUNCTION__)) {
+    }
+    if (! res) {
+        ERROR("mpd_run_ play pause");
     }
 }
 
@@ -325,6 +353,7 @@ void playerPause()
  ******************************************************************************/
 void playerResume()
 {
+    bool res;
     int32_t status;
     char filename[LINE_SIZE];
     FILE* fp;
@@ -351,8 +380,11 @@ void playerResume()
     }
 
     // Seek
-    mpd_run_seek_current(gConn, milliseconds / 1000.0, false);
+    res = mpd_run_seek_current(gConn, milliseconds / 1000.0, false);
     if (playerIsError(__FUNCTION__)) {
+    }
+    if (! res) {
+        ERROR("mpd_run_seek_current");
     }
 
     unlink(filename);
@@ -363,19 +395,23 @@ void playerResume()
  ******************************************************************************/
 void playerM3u(const char* m3u)
 {
+    bool res;
+
     playerStop();
 
-    if (! mpd_run_clear(gConn)) {
-        ERROR("mpd_run_clear");
-    }
+    res = mpd_run_clear(gConn);
     if (playerIsError(__FUNCTION__)) {
+    }
+    if (! res) {
+        ERROR("mpd_run_clear");
     }
 
     DEBUG("m3u = %s", m3u);
-    if (! mpd_run_load(gConn, m3u)) {
-        ERROR("mpd_run_load");
-    }
+    res = mpd_run_load(gConn, m3u);
     if (playerIsError(__FUNCTION__)) {
+    }
+    if (! res) {
+        ERROR("mpd_run_load");
     }
 
     playerStart();
@@ -412,6 +448,13 @@ struct Buffer* playerCurrentTitle(struct Buffer* buffer)
     // Title
     song = mpd_run_get_queue_song_pos(gConn, pos);
     if (playerIsError(__FUNCTION__)) {
+        if (song != NULL) {
+            mpd_song_free(song);
+        }
+        return buffer;
+    }
+    if (song == NULL) {
+        ERROR("mpd_run_get_queue_song_pos");
         return buffer;
     }
     tag = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);

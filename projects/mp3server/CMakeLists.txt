@@ -19,7 +19,6 @@ include(../../cicd/makefiles/include.cmake)
 add_compile_options(
     "-g"
     "-DNDEBUG"
-    "-DMPD"
 )
 
 set(SERVER mp3server)

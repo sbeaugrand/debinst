@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 TARDEPEND  += makefiles/ccpp.mk
-WARNINGS   ?= -Wall -Wextra -O1 -D_FORTIFY_SOURCE=2
+WARNINGS   ?= -Wall -Wextra -O1 -D_FORTIFY_SOURCE=2 -Wfatal-errors
 CFLAGS     += $(WARNINGS)
 CXXFLAGS   += $(WARNINGS)
 COBJECTS   ?= $(patsubst %.c,%.o,$(wildcard *.c))
@@ -51,6 +51,7 @@ cppcheck:
 	@eval cppcheck -q --enable=all\
 	 `test -f cppcheck.supp && echo --suppressions-list=cppcheck.supp`\
 	 --template='{id}:{file}:{line}\ \({severity}\)\ {message}'\
+	 -i build -i build-*\
 	 $(CPPCHECKINC) .
 
 .PHONY: dep

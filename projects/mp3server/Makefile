@@ -69,14 +69,13 @@ endif
 #PLAYER = xmms
 #CFLAGS += -I$(SYSROOT)/usr/include/xmms2
 PLAYER = mpd
-CFLAGS += -DMPD
 SERVERFLAGS = -l$(PLAYER)client
 
 CXXFLAGS +=\
  -I$(SYSROOT)/usr/local/include/upm\
 
-CFLAGS += -Wfatal-errors -g -DNDEBUG
-CXXFLAGS += -Wfatal-errors -g -DNDEBUG
+CFLAGS += -g -DNDEBUG
+CXXFLAGS += -g -DNDEBUG
 
 .PHONY: all
 all: server client
