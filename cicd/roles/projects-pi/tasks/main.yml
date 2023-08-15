@@ -15,7 +15,6 @@
   vars:
     src: "../../../debinst/armbian"
     dest: "{{ home }}/install/debinst"
-    times: no
 
 - name: 0install.sh
   import_role:
@@ -23,7 +22,6 @@
   vars:
     src: "../../0install.sh"
     dest: "{{ home }}/install/debinst"
-    times: no
 
 - name: bin
   import_role:
@@ -31,7 +29,6 @@
   vars:
     src: "../../bin"
     dest: "{{ home }}/install/debinst"
-    times: no
 
 - name: makefiles
   import_role:
@@ -39,7 +36,6 @@
   vars:
     src: "../../../debinst/makefiles"
     dest: "{{ home }}/install/debinst"
-    times: no
 
 - name: projets
   import_role:
@@ -47,7 +43,6 @@
   vars:
     src: "../../projects"
     dest: "{{ home }}/install/debinst"
-    times: no
 
 - name: projets
   import_role:
@@ -55,7 +50,6 @@
   vars:
     src: "../../latex/cal"
     dest: "{{ home }}/install/debinst/latex"
-    times: no
 
 - name: makefiles link
   file:

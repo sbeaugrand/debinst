@@ -8,7 +8,7 @@
   synchronize:
     src: "{{ src }}"
     dest: "{{ dest }}"
-    times: "{{ times }}"
+    times: "{{ times | default(false) }}"
     archive: no
     recursive: yes
     links: yes
@@ -23,4 +23,4 @@
       - '--exclude=*.ko'
       - '--exclude=*.dtbo'
       - '--exclude=*.a'
-      - '--exclude=sompi'
+      - "--exclude={{ exclude | default('sompi') }}"

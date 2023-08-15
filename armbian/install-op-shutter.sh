@@ -35,6 +35,6 @@ if [ ! -d /boot/grub ]; then
 fi
 
 pushd shutter || return 1
-make --no-print-directory install
+make --no-print-directory install user=$user
 /usr/sbin/shutter-restart.sh
 popd

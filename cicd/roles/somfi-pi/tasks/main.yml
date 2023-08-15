@@ -1,0 +1,26 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: sompi
+  import_role:
+    name: rsync-pi
+  vars:
+    src: "../../projects/arm/sompi"
+    dest: "{{ home }}/install/debinst/projects/arm"
+    exclude: 'none'
+    times: yes
+
+- name: stat /run/shutter.at
+  stat:
+    path: "/run/shutter.at"
+  register: st
+
+- name: reset /run/shutter.at
+  copy:
+    src: shutter.at
+    dest: "/run/shutter.at"
+  when: st.stat.exists
+  become: yes

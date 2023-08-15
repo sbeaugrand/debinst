@@ -73,13 +73,15 @@ pv Armbian*.img.xz | xz -dc - | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 Démarrer sur la Pi
 ```
 ./find-ip.sh
+cd ../cicd/armbian
+vi playbook.yml  # somfi-pi
 keychain ~/.ssh/id_rsa
 make ssh user=root [host=pi]  # password: 1234
 exit
-make rsync [user=$USER] [host=pi] [shutter=y]
+make ssh-copy-id
+make remote
 make ssh
 cd install/debinst/armbian
-which make >/dev/null || sudo apt install make
 make install
 sudo reboot
 make ssh

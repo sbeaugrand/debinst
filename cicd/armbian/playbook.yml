@@ -13,8 +13,9 @@
     - sudoers-pi
     - bashrc-pi
     - packages-pi
-    - projects-pi
     - vim
-    # Remote roles
     - screen-remote
     - authorized-keys
+    # Optionnal
+    - projects-pi
+    #- somfi-pi
