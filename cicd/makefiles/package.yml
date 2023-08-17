@@ -188,6 +188,8 @@ xdeploy:
     - BDIR=build-$XC
 xinstall:
   stage: xinstall
+  variables:
+    BLIST: $PROJECT
   script:
     - test -n "$XC" || XC=aarch64-linux-gnu
     - BDIR=build-$XC
@@ -195,11 +197,12 @@ xinstall:
       test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
       TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
     - test ! -f ~/.ssh/id_rsa || source /run/lock/.keychain/*-sh
-    - scp $BDIR/$PROJECT $SCPTARGET
+    - cd $BDIR
+    - scp $BLIST $SCPTARGET
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
       $SSH "cd $USERPATH && echo $SUDOPASS | sudo -S
-      cp $USERPATH/$PROJECT /usr/bin/ &&
+      cp $BLIST /usr/bin/ &&
       ldd -d -r /usr/bin/$PROJECT"
 xtest:
   stage: xtest

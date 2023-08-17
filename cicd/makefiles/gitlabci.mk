@@ -69,6 +69,9 @@ pipeline: test rbuild rtest rpackage rdeploy stest
 .PHONY: xpipeline
 xpipeline: test xbuild xpackage xdeploy xtest
 
+.PHONY: xbit
+xbit: test xbuild xinstall xtest
+
 .PHONY: tar
 tar:
 	@cd .. && tar cvzf $(propath).tgz\

@@ -19,6 +19,8 @@ rsync -a -i $user@$host:/usr/local/lib local/
 ```
 cd project4
 make build
+make HOST=remotehost-xc xbit  # or :
+
 make test
 make HOST=remotehost-xc xbuild
 make HOST=remotehost-xc xinstall
@@ -29,9 +31,9 @@ make HOST=remotehost-xc xtest
 ```
 cd project8
 make build
-make test
-make HOST=armbian xpipeline  # or
+make HOST=armbian xpipeline  # or :
 
+make test
 make HOST=armbian xbuild
 make HOST=armbian xpackage
 make HOST=armbian xdeploy
