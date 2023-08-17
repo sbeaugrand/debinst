@@ -105,10 +105,10 @@ $(PROJECT).pdf: $(PROJECT).tex\
  build/I0000I0009.png\
 
 export-pr-H%.tex: export-pr-%.csv gramps2tex.php randomColor.php
-	@php gramps2tex.php $< 1 8 576 50 >$@
+	php gramps2tex.php $< 1 8 576 50 >$@
 
 export-pr-F%.tex: export-pr-%.csv gramps2tex.php randomColor.php
-	@php gramps2tex.php $< 2 8 576 50 >$@
+	php gramps2tex.php $< 2 8 576 50 >$@
 
 build/ellipse1.png:
 	@convert -size $(PHOTO_W1)x$(PHOTO_H1) xc:white -fill black\

@@ -60,22 +60,18 @@ class DepartementList
 {
     var $randomColor;
     var $deparList;
-    var $colorList;
-    var $colorIter;
 
     /**************************************************************************!
      * \fn construct
      **************************************************************************/
     function __construct() {
-        $this->randomColor = new RandomColor(0.5);
-        $this->colorIter = 0;
+        $this->randomColor = new RandomColor(0.45);
     }
     /**************************************************************************!
      * \fn add
      **************************************************************************/
     public function add($d) {
         $this->deparList[] = new Departement($d);
-        $this->colorList[] = $this->addColor($d);
     }
     /**************************************************************************!
      * \fn getColor
@@ -86,16 +82,16 @@ class DepartementList
                 continue;
             }
             if (empty($dep->color)) {
-                $dep->color = $this->colorList[$this->colorIter];
-                $this->colorIter++;
+                $dep->color = $this->addColor($d);
             }
-            return $dep->color;
+            return $this->colorName($d);
         }
     }
     /**************************************************************************!
      * \fn addColor
      **************************************************************************/
     private function addColor($d) {
+        //fwrite(STDERR, 'addColor: '.$d."\n");
         $c = $this->colorName($d);
         list($r, $g, $b) = $this->randomColor->nextRgb(0.24, 0.99);
         print '\definecolor{'.$c.GENRE_M.'}{rgb}{'.$r.','.$g.','.$b."}\n";
@@ -236,12 +232,21 @@ class Arbre
     /**************************************************************************!
      * \fn construct
      **************************************************************************/
-    function __construct($parent, $lmax, $below, $left, $right) {
+    function __construct($lmax, $below, $left, $right) {
         $this->niveau = 0;
         $this->anneeMariage = 0;
         $this->villeMariage = '';
         $this->pass = 0;
         $this->pass2 = 0;
+        $this->lmax = $lmax;
+        $this->below = $below;
+        $this->left = $left;
+        $this->right = $right;
+    }
+    /**************************************************************************!
+     * \fn init
+     **************************************************************************/
+    public function init($parent) {
         $this->parent = $parent;
         if ($this->parent == 1) {
             $this->sens = -1;
@@ -250,10 +255,6 @@ class Arbre
         }
         $this->offsetNode = -26.6 * $this->sens;
         $this->offsetDate = -26.6 * $this->sens;
-        $this->lmax = $lmax;
-        $this->below = $below;
-        $this->left = $left;
-        $this->right = $right;
     }
     /**************************************************************************!
      * \fn readCSV
@@ -441,6 +442,39 @@ class Arbre
             }
         }
     }
+    /**************************************************************************!
+     * \fn browseNode
+     **************************************************************************/
+    public function browseNode($n, $genre) {
+        if (empty($n)) {
+            return;
+        }
+        $i = $this->individus[$n];
+        $couleur = $i->getColor($genre, $this->departementList);
+        ++$this->niveau;
+        if ($this->niveau < $this->lmax) {
+            $this->browseParents($n);
+        }
+        --$this->niveau;
+    }
+    /**************************************************************************!
+     * \fn browseParents
+     **************************************************************************/
+    private function browseParents($n) {
+        if (array_key_exists($n, $this->famille)) {
+            if ($this->parent == 1) {
+                $this->browseNode($this->mariage[$this->famille[$n]][1],
+                                  GENRE_M);
+                $this->browseNode($this->mariage[$this->famille[$n]][2],
+                                  GENRE_F);
+            } else {
+                $this->browseNode($this->mariage[$this->famille[$n]][2],
+                                  GENRE_F);
+                $this->browseNode($this->mariage[$this->famille[$n]][1],
+                                  GENRE_M);
+            }
+        }
+    }
 }
 
 /******************************************************************************!
@@ -464,8 +498,13 @@ if ($argv[1] == 'tests') {
     testAge('2000', '2001-12-31', 1);
     print "OK\n";
 } else {
-    $a = new Arbre($parent, $lmax, $below, $left, $right);
+    $a = new Arbre($lmax, $below, $left, $right);
     $a->readCSV($filename);
+    $a->init(1);
+    $a->browseNode($a->getFirstNodeParent(1), GENRE_M);
+    $a->init(2);
+    $a->browseNode($a->getFirstNodeParent(2), GENRE_F);
+    $a->init($parent);
     fwrite(STDERR, 'Lieux: '.count($a->lieu)."\n");
     fwrite(STDERR, 'Individus: '.count($a->individus)."\n");
     fwrite(STDERR, 'Mariages: '.count($a->mariage)."\n");
