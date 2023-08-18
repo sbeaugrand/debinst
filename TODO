@@ -1,5 +1,3 @@
-- mp3server: replace libxmmsclient-dev by libmpdclient-dev
 - debian 12: fix camotics
-- armbian: bookworm release
 - Replace KiPlot by KiBot ?
 - Doc

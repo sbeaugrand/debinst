@@ -28,10 +28,11 @@ int playerIsError(const char* func)
 {
     enum mpd_error err = mpd_connection_get_error(gConn);
     if (err != MPD_ERROR_SUCCESS) {
-        if (err == MPD_ERROR_CLOSED) {
+        if (err == MPD_ERROR_CLOSED ||
+            err == MPD_ERROR_SYSTEM) {
             return err;
         }
-        ERROR("%s: %s", func, mpd_connection_get_error_message(gConn));
+        ERROR("%s: %d: %s", func, err, mpd_connection_get_error_message(gConn));
         mpd_connection_clear_error(gConn);
         return -1;
     }
@@ -43,6 +44,9 @@ int playerIsError(const char* func)
  ******************************************************************************/
 int playerInit()
 {
+    if (gConn != NULL) {
+        mpd_connection_free(gConn);
+    }
     gConn = mpd_connection_new("/run/mpd.sock", 0, 0);
     if (gConn == NULL) {
         ERROR("gConn == NULL");
@@ -65,8 +69,14 @@ int playerInit()
  ******************************************************************************/
 struct mpd_status* playerGetMPDStatus()
 {
+    int res;
     struct mpd_status* status = mpd_run_status(gConn);
-    if (playerIsError(__FUNCTION__) == MPD_ERROR_CLOSED) {
+    res = playerIsError(__FUNCTION__);
+    if (res == MPD_ERROR_CLOSED ||
+        res == MPD_ERROR_SYSTEM) {
+        if (status != NULL) {
+            mpd_status_free(status);
+        }
         DEBUG("reconnect");
         playerInit();
         status = mpd_run_status(gConn);

@@ -920,16 +920,22 @@ int main()
     getrlimit(RLIMIT_CORE, &rlim);
     DEBUG("rlimit_core = %lu(cur) %lu(max)", rlim.rlim_cur, rlim.rlim_max);
 
+    if (playerInit() != 0) {
+        return EXIT_FAILURE;
+    }
     gBuffer = bufferNew();
     mp3serverWeightsInit();
     mp3serverReadMp3List();
-    playerInit();
     createResources();
     httpRunServer(gBuffer);
     playerResume();
 
     if (signal(SIGINT, controlC) == SIG_ERR) {
         ERROR("signal ctrl-c");
+        return EXIT_FAILURE;
+    }
+    if (signal(SIGPIPE, SIG_IGN) == SIG_ERR) {
+        ERROR("signal sigpipe");
         return EXIT_FAILURE;
     }
 

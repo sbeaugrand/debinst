@@ -42,7 +42,7 @@ sha256sum -c Armbian_23.5.2_Orangepizero_bookworm_current_6.1.30_minimal.img.xz.
 ## [Nanopi Neo](https://www.armbian.com/nanopi-neo/)
 ![Nanopi Neo](https://www.armbian.com/wp-content/uploads/2018/02/nanopineo-300x169.png)
 ```
-sha256sum -c Armbian_22.08.1_Nanopineo_bullseye_current_5.15.63.img.xz.sha
+sha256sum -c Armbian_23.5.2_Nanopineo_bookworm_current_6.1.30_minimal.img.xz.sha
 ```
 
 ## [Rockpi S](https://www.armbian.com/rockpi-s/)
