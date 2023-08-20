@@ -21,6 +21,6 @@
 - name: reset /run/shutter.at
   copy:
     src: shutter.at
-    dest: "/run/shutter.at"
+    dest: "/run/"
   when: st.stat.exists
   become: yes

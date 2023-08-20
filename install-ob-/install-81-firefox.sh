@@ -26,7 +26,7 @@ sed -i -e '/parent_directory/d' -e 's/)$/);/' user.js
 
 file=$idir/install-ob-/install-*-firefox/homepage-pr-.html
 if [ ! -f $file ]; then
-    file=`ls $idir/install-ob-/install-*-firefox/homepage.html`
+    file=`ls $idir/cicd/roles/homepage/tasks/homepage/homepage.html`
 fi
 if [ -n "$file" ]; then
     cat >>user.js <<EOF

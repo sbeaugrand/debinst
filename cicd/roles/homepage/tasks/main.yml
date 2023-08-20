@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: copy homepage dir
+  copy:
+    src: "{{ src }}"
+    dest: "{{ home }}/.local/share/"
+
+- name: stat chromium.desktop
+  stat:
+    path: "/usr/share/applications/chromium.desktop"
+  register: st
+
+- name: copy chromium.desktop
+  copy:
+    src: "/usr/share/applications/chromium.desktop"
+    dest: "{{ home }}/.local/share/applications/"
+    force: no
+  when: st.stat.exists
+
+- name: homepage
+  lineinfile:
+    path: "{{ home }}/.local/share/applications/chromium.desktop"
+    regexp: '^Exec='
+    line: Exec=/usr/bin/chromium -homepage {{ home }}/.local/share/homepage/homepage.html %U
+  when: st.stat.exists

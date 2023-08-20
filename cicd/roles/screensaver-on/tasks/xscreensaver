@@ -1,4 +1,4 @@
-timeout:  0:05:00
+timeout:  0:10:00
 mode:     one
 selected: 21
 splash:   False

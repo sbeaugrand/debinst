@@ -24,6 +24,9 @@
     - lxde
     - screen
     - screensaver-on
+    - role: homepage
+      vars:
+        src: homepage
   handlers:
     - name: openbox reconfigure
       command: openbox --reconfigure

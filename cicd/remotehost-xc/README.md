@@ -2,7 +2,7 @@
 ```
 cd /data
 mkdir aarch64-linux-gnu-12 && cd aarch64-linux-gnu-12  # or :
-mkdir arm-linux-gnueabihf-10 && cd arm-linux-gnueabihf-10
+mkdir arm-linux-gnueabihf-12 && cd arm-linux-gnueabihf-12
 mkdir usr
 user=$USER
 host=pi

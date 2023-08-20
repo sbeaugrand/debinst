@@ -1,0 +1,25 @@
+body {
+    background-color: #779999;
+}
+a {
+    color: wheat;
+    visited: wheat;
+    hover: white;
+    active: red
+}
+table {
+    width: 80%;
+    height: 80%;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #779999;
+    border-spacing: 50px;
+}
+td {
+    width: 33%;
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+    background-color: darkslategray;
+}
