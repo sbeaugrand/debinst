@@ -8,7 +8,7 @@ user=$USER
 host=pi
 rsync -a -i $user@$host:/usr/include usr/
 rsync -a -i $user@$host:/usr/lib usr/
-ln -s usr/lib
+rsync -a -i $user@$host:/lib ./
 cd usr
 mkdir local
 rsync -a -i $user@$host:/usr/local/include local/
@@ -38,4 +38,15 @@ make HOST=armbian xbuild
 make HOST=armbian xpackage
 make HOST=armbian xdeploy
 make HOST=armbian xtest
+```
+
+# Cross build with old cross compiler
+```
+cd ubuntu1804  # example for gcc-7
+rsync -a -i /data/aarch64-linux-gnu-7 .vagrant/
+cd project4
+vi gitlab-ci.yml  # XC: aarch64-linux-gnu, XCVER: 7, XCDIR: /vagrant/.vagrant
+make rbuild
+make HOST=ubuntu1804 rxbuild
+make BHOST=ubuntu1804 HOST=remotehost-xc rxinstall
 ```

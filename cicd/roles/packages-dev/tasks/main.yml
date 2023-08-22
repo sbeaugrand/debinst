@@ -16,6 +16,9 @@
       - gawk
       - git
       - gdb
+      - g++-aarch64-linux-gnu
+      - g++-arm-linux-gnueabihf
+      - libc6-dev-armhf-cross
       - libboost-chrono-dev  # SimpleAmqpClient
       - libboost-system-dev  # SimpleAmqpClient
       - libcpp-httplib-dev

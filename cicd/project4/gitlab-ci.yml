@@ -6,6 +6,9 @@
 # ---------------------------------------------------------------------------- #
 variables:
   PROJECT: project-four
+  XC: arm-linux-gnueabihf
+  XCVER: 10
+  XCDIR: /vagrant/.vagrant  # rxbuild
 include:
   - local: /../makefiles/package.yml
 prebuild:

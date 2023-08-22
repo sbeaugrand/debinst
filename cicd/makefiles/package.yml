@@ -21,6 +21,8 @@ stages:
   - xdeploy   # install cross-builded package
   - xinstall  # install cross-compiled binary (reinstall project binary)
   - xtest     # tests with remote package or binary installed
+  - rxbuild   # remote cross build (for old cross compilers)
+  - rxinstall # remote install cross-compiled binary
 variables:
   HOST: lubuntu
   IMAGE: ubuntu:22.10
@@ -212,3 +214,34 @@ xtest:
     - sleep 2
     - IP=`make --no-print-directory get-ip`
     - cd -
+rxbuild:
+  stage: rxbuild
+  script:
+    - PROPATH=$(basename `readlink -f .`)
+    - cd ../$HOST
+    - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
+    - $RSYNC ../makefiles/ .vagrant/makefiles/
+    - >
+      $SSH "cd $USERPATH/$PROPATH &&
+      make xbuild BUILD=$BUILD CMAKE='$CMAKE' &&
+      (test $BUILD = Debug || $STRIP build/$PROJECT)"
+rxinstall:
+  stage: rxinstall
+  variables:
+    BHOST: $HOST
+    BLIST: $PROJECT
+  script:
+    - test -n "$XC" || XC=aarch64-linux-gnu
+    - PROPATH=$(basename `readlink -f .`)
+    - BDIR=../$BHOST/.vagrant/$PROPATH/build-$XC
+    - >
+      test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
+      TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
+    - test ! -f ~/.ssh/id_rsa || source /run/lock/.keychain/*-sh
+    - cd $BDIR
+    - scp $BLIST $URI:/run/lock/
+    - test -n "$SUDOPASS" || read -s SUDOPASS
+    - >
+      $SSH "cd /run/lock && echo $SUDOPASS | sudo -S
+      mv $BLIST /usr/bin/ &&
+      ldd -d -r /usr/bin/$PROJECT"
