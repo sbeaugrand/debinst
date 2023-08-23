@@ -6,7 +6,7 @@
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QCommandLineOption>
 #include <QtCore/QDebug>
-#include <QWebsSocketServer>
+#include <QWebSocketServer>
 #include <QWebSocket>
 #include "server.h"
 

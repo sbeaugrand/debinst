@@ -203,8 +203,8 @@ xinstall:
     - scp $BLIST $SCPTARGET
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
-      $SSH "cd $USERPATH && echo $SUDOPASS | sudo -S
-      cp $BLIST /usr/bin/ &&
+      $SSH "cd $USERPATH && echo $SUDOPASS | sudo -S true && echo &&
+      sudo cp $BLIST /usr/bin/ &&
       ldd -d -r /usr/bin/$PROJECT"
 xtest:
   stage: xtest
@@ -242,6 +242,6 @@ rxinstall:
     - scp $BLIST $URI:/run/lock/
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
-      $SSH "cd /run/lock && echo $SUDOPASS | sudo -S
-      mv $BLIST /usr/bin/ &&
+      $SSH "cd /run/lock && echo $SUDOPASS | sudo -S true && echo &&
+      sudo mv $BLIST /usr/bin/ &&
       ldd -d -r /usr/bin/$PROJECT"
