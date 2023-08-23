@@ -12,7 +12,7 @@ set(USE_QT true)
 include(../makefiles/include.cmake)
 
 find_package(Qt5 REQUIRED COMPONENTS WebSockets
-    PATHS ${CMAKE_SYSROOT}/usr/lib/${XC}/cmake/Qt5)
+    PATHS ${CMAKE_SYSROOT}/usr/lib/${XC}/cmake/Qt5 NO_DEFAULT_PATH)
 
 set(CLIENT client)
 add_executable(${CLIENT}
