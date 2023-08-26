@@ -6,9 +6,6 @@
 # ---------------------------------------------------------------------------- #
 variables:
   PROJECT: project-six
-  XC: arm-linux-gnueabihf
-  XCVER: 12
-  #XCDIR: /vagrant/.vagrant  # rxbuild
 include:
   - local: /../makefiles/package.yml
 test1:

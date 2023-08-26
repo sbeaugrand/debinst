@@ -1,0 +1,6 @@
+libjsoncpp 24 libjsoncpp25
+libjsonrpccpp-common 0 libjsonrpccpp-common0
+libjsonrpccpp-server 0 libjsonrpccpp-server0
+libstdc++ 6 libstdc++6 (>= 12.2.0-14)
+libgcc_s 1 libgcc-s1 (>= 12.2.0-14)
+libc 6 libc6 (>= 2.36-9)

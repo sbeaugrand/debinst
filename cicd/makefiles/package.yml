@@ -22,6 +22,7 @@ stages:
   - xinstall  # install cross-compiled binary (reinstall project binary)
   - xtest     # tests with remote package or binary installed
   - rxbuild   # remote cross build (for old cross compilers)
+  - rxpackage # remote cross build package
   - rxinstall # remote install cross-compiled binary
 variables:
   HOST: lubuntu
@@ -164,8 +165,9 @@ stest:
     - cd -
 xbuild:
   stage: xbuild
+  variables:
+    XC: aarch64-linux-gnu
   script:
-    - test -n "$XC" || XC=aarch64-linux-gnu
     - mkdir -p build-$XC
     - cd build-$XC
     - $CMAKE -DXC=$XC -DXCVER=$XCVER -DXCDIR=$XCDIR
@@ -174,26 +176,30 @@ xbuild:
 xpackage:
   stage: xpackage
   extends: package
+  variables:
+    XC: aarch64-linux-gnu
   before_script:
-    - test -n "$XC" || XC=aarch64-linux-gnu
     - BDIR=build-$XC
     - CONFIG_SITE=/etc/dpkg-cross/cross-config.arm64
     - test "$XC" != "aarch64-linux-gnu" || OPTS="-aarm64"
     - test "$XC" != "arm-linux-gnueabihf" || OPTS="-aarmhf"
     - export DEB_BUILD_OPTIONS=nocheck
-    - export XC XCVER XCDIR
+    - export XC=$XC
+    - export XCVER=$XCVER
+    - export XCDIR=$XCDIR
 xdeploy:
   stage: xdeploy
   extends: rdeploy
+  variables:
+    XC: aarch64-linux-gnu
   before_script:
-    - test -n "$XC" || XC=aarch64-linux-gnu
     - BDIR=build-$XC
 xinstall:
   stage: xinstall
   variables:
+    XC: aarch64-linux-gnu
     BLIST: $PROJECT
   script:
-    - test -n "$XC" || XC=aarch64-linux-gnu
     - BDIR=build-$XC
     - >
       test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
@@ -216,6 +222,10 @@ xtest:
     - cd -
 rxbuild:
   stage: rxbuild
+  variables:
+    XC: aarch64-linux-gnu
+    XCVER: 12
+    XCDIR: /vagrant/.vagrant
   script:
     - PROPATH=$(basename `readlink -f .`)
     - cd ../$HOST
@@ -223,15 +233,29 @@ rxbuild:
     - $RSYNC ../makefiles/ .vagrant/makefiles/
     - >
       $SSH "cd $USERPATH/$PROPATH &&
-      make xbuild BUILD=$BUILD CMAKE='$CMAKE' &&
+      make xbuild BUILD=$BUILD CMAKE='$CMAKE'
+      XC=$XC XCVER=$XCVER XCDIR=$XCDIR &&
       (test $BUILD = Debug || $STRIP build/$PROJECT)"
+rxpackage:
+  stage: rxpackage
+  variables:
+    XC: aarch64-linux-gnu
+    XCVER: 12
+    XCDIR: /vagrant/.vagrant
+  script:
+    - PROPATH=$(basename `readlink -f .`)
+    - cd ../$HOST
+    - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
+    - $RSYNC ../makefiles/ .vagrant/makefiles/
+    - $SSH "cd $USERPATH/$PROPATH &&
+      make xpackage XC=$XC XCVER=$XCVER XCDIR=$XCDIR"
 rxinstall:
   stage: rxinstall
   variables:
+    XC: aarch64-linux-gnu
     BHOST: $HOST
     BLIST: $PROJECT
   script:
-    - test -n "$XC" || XC=aarch64-linux-gnu
     - PROPATH=$(basename `readlink -f .`)
     - BDIR=../$BHOST/.vagrant/$PROPATH/build-$XC
     - >

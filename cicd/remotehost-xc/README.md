@@ -18,7 +18,7 @@ rsync -a -i $user@$host:/usr/local/lib local/
 # Sysroot cross compilation example
 ```
 cd project4
-make build
+make build  # for prebuild and test
 make HOST=remotehost-xc xbit  # or :
 
 make test
@@ -30,7 +30,7 @@ make HOST=remotehost-xc xtest
 # Sysroot cross build package example
 ```
 cd project8
-make build
+make build  # for prebuild and test
 make HOST=armbian xpipeline  # or :
 
 make test
@@ -42,11 +42,20 @@ make HOST=armbian xtest
 
 # Cross build with old cross compiler
 ```
-cd ubuntu1804  # example for gcc-7
+cd ubuntu1804  # example with gcc-7
 rsync -a -i /data/aarch64-linux-gnu-7 .vagrant/
 cd project4
-vi gitlab-ci.yml  # XC: aarch64-linux-gnu, XCVER: 7, XCDIR: /vagrant/.vagrant
-make rbuild
+make HOST=ubuntu1804 rbuild  # prebuild
 make HOST=ubuntu1804 rxbuild
 make BHOST=ubuntu1804 HOST=remotehost-xc rxinstall
+```
+
+# Sysroot cross build package with old cross compiler
+```
+cd lubuntu  # example with gcc-12
+rsync -a -i /data/arm-linux-gnueabihf-12 .vagrant/
+cd project6
+make rbuild  # prebuild; default host is lubuntu
+make rxbuild
+make rxpackage
 ```

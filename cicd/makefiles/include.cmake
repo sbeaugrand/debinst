@@ -11,10 +11,12 @@ if(XC)
     if(NOT DEFINED XCDIR)
         set(XCDIR /data)
     endif()
-    set(CMAKE_SYSROOT ${XCDIR}/${XC}-${XCVER})
     set(CMAKE_C_COMPILER ${XC}-gcc)
     set(CMAKE_CXX_COMPILER ${XC}-g++)
+    set(CMAKE_SYSROOT ${XCDIR}/${XC}-${XCVER})
+    message("CMAKE_SYSROOT=${CMAKE_SYSROOT}")
     add_compile_options(
+        # Try it or comment it
         "-nostdinc"
     )
     include_directories(

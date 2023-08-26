@@ -1,0 +1,7 @@
+libQt5WebSockets 5 libqt5websockets5 (>= 5.15.8-2)
+libQt5Network 5 libqt5network5 (>= 5.15.8-2)
+libQt5Core 5 libqt5core5 (>= 5.15.8-2)
+libstdc++ 6 libstdc++6 (>= 12.2.0-14)
+libgcc_s 1 libgcc-s1 (>= 12.2.0-14)
+libc 6 libc6 (>= 2.36-9)
+ld-linux-armhf 3 libc6 (>= 2.36-9)
