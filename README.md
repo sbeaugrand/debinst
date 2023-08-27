@@ -15,6 +15,12 @@ systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-
 ```
 make pkgs
 make iso  # or make iso32
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
+mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11
+curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11/Components-amd64.yml.gz https://debian.mirror.ate.info/dists/bookworm/main/dep11/Components-amd64.yml.gz
+mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11
+curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz https://debian.mirror.ate.info/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz
+make iso
 pv ~/data/install-build/simplecdd-op-1arch64/images/debian-*-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
 La liste des paquets debian sont dans: simplecdd-op-1arch64/list.txt
@@ -40,7 +46,7 @@ sudo passwd
 make iso
 ```
 
-# wip bookworm : Création d'une debian nouvelle version sur clé USB
+# Création d'une debian nouvelle version sur clé USB (bookworm)
 [https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/)
 ```
 make pkgs
@@ -49,7 +55,8 @@ sudo apt update
 sudo apt install -y sshfs
 sudo mkdir /mnt/a1
 sudo chown user:user /mnt/a1
-sshfs seb@10.0.2.2:/ /mnt/a1
+user=...
+sshfs $user@10.0.2.2:/ /mnt/a1
 grep -A15 debinst/README /mnt/a1/home/*/install/debinst/README.md
 ln -s /mnt/a1/data /home/user/data
 cd /mnt/a1/home/*/install/debinst

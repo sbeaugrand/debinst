@@ -23,7 +23,7 @@ all:
 mirror:\
  $(MIRROR)/dists/$(CODENAME)/main/Contents-amd64.gz\
  $(MIRROR)/dists/$(CODENAME)/contrib/Contents-amd64.gz\
- $(MIRROR)/dists/$(CODENAME)/non-free/Contents-amd64.gz
+ $(MIRROR)/dists/$(CODENAME)/non-free-firmware/Contents-amd64.gz
 $(MIRROR)/dists/$(CODENAME)/%/Contents-amd64.gz:\
  $(MIRROR)/dists/$(CODENAME)/%/Contents-amd64
 	@gzip -k -f $<
@@ -31,8 +31,8 @@ $(MIRROR)/dists/$(CODENAME)/main/Contents-amd64: FORCE
 	cd $(MIRROR) && apt-ftparchive contents pool/main >$@
 $(MIRROR)/dists/$(CODENAME)/contrib/Contents-amd64: FORCE
 	cd $(MIRROR) && apt-ftparchive contents pool/contrib >$@
-$(MIRROR)/dists/$(CODENAME)/non-free/Contents-amd64: FORCE
-	cd $(MIRROR) && apt-ftparchive contents pool/non-free >$@
+$(MIRROR)/dists/$(CODENAME)/non-free-firmware/Contents-amd64: FORCE
+	cd $(MIRROR) && apt-ftparchive contents pool/non-free-firmware >$@
 
 .PHONY: http
 http:
@@ -49,7 +49,7 @@ config: build
 	 --parent-debian-installer-distribution $(CODENAME)\
 	 --debian-installer-distribution $(CODENAME)\
 	 --iso-volume "Debian $(CODENAME) `date +%Y%m%d-%H:%M`"\
-	 --archive-areas "main contrib non-free"\
+	 --archive-areas "main contrib non-free-firmware"\
 	 --bootappend-live "boot=live persistence components locales=fr_FR.UTF-8 keyboard-layouts=fr timezone=Europe/Paris"\
 	 --apt-recommends false\
 	 --update false\
@@ -124,8 +124,8 @@ $(SKELDIR)/.local/lib/codecs: FORCE
 .PHONY: aptsources
 aptsources: build/chroot/etc/apt/sources.list.d/debian.list build/chroot/etc/apt/sources.list
 build/chroot/etc/apt/sources.list.d/debian.list: FORCE
-	@echo "deb http://httpredir.debian.org/debian $(CODENAME) main contrib non-free" | sudo tee $@ >/dev/null
-	@echo "deb http://httpredir.debian.org/debian/ $(CODENAME)-updates main contrib non-free" | sudo tee -a $@ >/dev/null
+	@echo "deb http://httpredir.debian.org/debian $(CODENAME) main contrib non-free-firmware" | sudo tee $@ >/dev/null
+	@echo "deb http://httpredir.debian.org/debian/ $(CODENAME)-updates main contrib non-free-firmware" | sudo tee -a $@ >/dev/null
 build/chroot/etc/apt/sources.list: FORCE
 	@sudo sed -i 's/^/#/' $@
 

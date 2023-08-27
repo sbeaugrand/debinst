@@ -159,7 +159,6 @@ upower
 libnotify-bin  # notify-send
 notification-daemon  # notify-send
 numlockx
-sysv-rc-conf
 gnome-screenshot
 mtpaint
 texlive-latex-extra
