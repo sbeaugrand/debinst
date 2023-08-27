@@ -1,0 +1,41 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: launchbar
+  blockinfile:
+    path: "{{ home }}/.config/lxpanel/LXDE/panels/panel"
+    marker: "{mark}"
+    marker_begin: '  type=launchbar'
+    marker_end: '  type=pager'
+    block: |
+      # {
+        Config {
+          Button {
+            id=screen.desktop
+          }
+          Button {
+            id=firefox-esr.desktop
+          }
+          Button {
+            id=emacs.desktop
+          }
+          Button {
+            id=thunar.desktop
+          }
+        }
+      }
+      Plugin {
+  notify:
+    - lxpanelctl restart
+
+- name: autohide
+  lineinfile:
+    path: "{{ home }}/.config/lxpanel/LXDE/panels/panel"
+    insertafter: 'height='
+    regexp: 'autohide='
+    line: '  autohide=1'
+  notify:
+    - lxpanelctl restart

@@ -23,7 +23,7 @@ addButton()
     cp $file $bdir/panel.bak
     cat $bdir/panel.bak |\
         tr '\n' '@' |\
-sed "s/Button/Button {@            id=$app.desktop@        }@        Button/" |\
+        sed "s/Button/Button {@      id=$app.desktop@    }@    Button/" |\
         tr '@' '\n' >$file
     rm $bdir/panel.bak
     return 0

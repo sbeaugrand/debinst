@@ -22,6 +22,7 @@
     - libvirt
     # Desktop roles
     - lxde
+    - lxpanel
     - screen
     - screensaver-on
     - role: homepage
@@ -30,3 +31,5 @@
   handlers:
     - name: openbox reconfigure
       command: openbox --reconfigure
+    - name: lxpanelctl restart
+      command: lxpanelctl restart
