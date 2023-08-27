@@ -1,0 +1,42 @@
+---
+#- name: install gitlab-runner (440 MiB)
+#  apt:
+#    install_recommends: no
+#    deb: https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb
+#  become: yes
+
+- name: config gitlab-runner
+  blockinfile:
+    path: /etc/gitlab-runner/config.toml
+    block: |
+      [[runners]]
+      name = "shell executor runner"
+      url = "https://gitlab/"
+      executor = "shell"
+      shell = "bash"
+  become: yes
+
+- name: gitlab ip
+  lineinfile:
+    path: /etc/hosts
+    regexp: ' gitlab$'
+    line: "{{ ip }} gitlab"
+  become: yes
+
+- name: install python-gitlab for gitlab_runner
+  pip:
+    name: python-gitlab
+  become: yes
+
+- name: register runner
+  community.general.gitlab_runner:
+    api_url: https://gitlab/
+    api_token: "{{ api_token }}"
+    registration_token: "{{ reg_token }}"
+    description: buildvm runner
+    validate_certs: no
+    access_level: not_protected
+    access_level_on_creation: true
+    project: root/project
+    #state: absent
+  become: yes

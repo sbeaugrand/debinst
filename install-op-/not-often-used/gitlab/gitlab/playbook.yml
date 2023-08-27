@@ -1,0 +1,8 @@
+---
+- hosts: default
+  roles:
+    - timezone
+    - role: ansible-role-gitlab
+      vars:
+        gitlab_time_zone: Europe/Paris
+  become: yes

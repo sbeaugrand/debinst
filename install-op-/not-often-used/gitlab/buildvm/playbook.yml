@@ -1,0 +1,13 @@
+---
+- hosts: default
+  gather_facts: no
+  roles:
+    - packages
+    - packages-dev
+    - timezone
+    - role: gitlab-runner
+      vars:
+        ip: 192.168.121.193
+        api_token: glpat-kesdgfmV139azwSUGNRB
+        #reg_token: 46ZqmUs-xq2r8BjqPWfo
+        reg_token: GR1348941dwcxUhpqKJ7Z19b4dykM

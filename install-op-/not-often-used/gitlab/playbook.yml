@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  vars:
+    user: "{{ lookup('env', 'USER') }}"
+  roles:
+    - libvirt
