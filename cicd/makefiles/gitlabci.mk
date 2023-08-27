@@ -55,8 +55,8 @@ build test package install rbuild rtest rpackage rinstall rdeploy stest:
 	@$(gitlabci) -H -R -p $@
 
 .PHONY: \
-xbuild xpackage xinstall xdeploy xtest rxbuild rxpackage rxinstall
-xbuild xpackage xinstall xdeploy xtest rxbuild rxpackage rxinstall:
+xbuild xpackage xinstall xdeploy xtest rxbuild rxpackage rxdeploy rxinstall
+xbuild xpackage xinstall xdeploy xtest rxbuild rxpackage rxdeploy rxinstall:
 	@$(gitlabci) -H -R -p $@
 
 .PHONY: deploy

@@ -23,6 +23,7 @@ stages:
   - xtest     # tests with remote package or binary installed
   - rxbuild   # remote cross build (for old cross compilers)
   - rxpackage # remote cross build package
+  - rxdeploy  # remote install cross-builded package
   - rxinstall # remote install cross-compiled binary
 variables:
   HOST: lubuntu
@@ -249,6 +250,14 @@ rxpackage:
     - $RSYNC ../makefiles/ .vagrant/makefiles/
     - $SSH "cd $USERPATH/$PROPATH &&
       make xpackage XC=$XC XCVER=$XCVER XCDIR=$XCDIR"
+rxdeploy:
+  stage: rxdeploy
+  extends: rdeploy
+  variables:
+    XC: aarch64-linux-gnu
+  before_script:
+    - PROPATH=$(basename `readlink -f .`)
+    - BDIR=../$BHOST/.vagrant/$PROPATH/build-$XC
 rxinstall:
   stage: rxinstall
   variables:

@@ -58,4 +58,5 @@ cd project6
 make rbuild  # prebuild; default host is lubuntu
 make rxbuild
 make rxpackage
+make rxdeploy BHOST=lubuntu HOST=remotehost-xc
 ```
