@@ -5,31 +5,12 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
+- name: import localhost playbook
+  import_playbook: ../makefiles/localhost.yml
+
 - hosts: localhost
   vars:
     user: "{{ lookup('env', 'USER') }}"
     home: /home/{{ user }}
   roles:
-    - sudoers
-    - packages
-    # Common roles
-    - bashrc
-    - packages-dev
-    - timezone
     - rabbitmq
-    - vim
-    # Local roles
-    - libvirt
-    # Desktop roles
-    - lxde
-    - lxpanel
-    - screen
-    - screensaver-on
-    - role: homepage
-      vars:
-        src: homepage
-  handlers:
-    - name: openbox reconfigure
-      command: openbox --reconfigure
-    - name: lxpanelctl restart
-      command: lxpanelctl restart

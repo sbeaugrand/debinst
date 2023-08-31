@@ -1,20 +1,19 @@
 # ---------------------------------------------------------------------------- #
-## \file playbook.yml
+## \file virtualhost.yml
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: import virtualhost playbook
-  import_playbook: ../makefiles/virtualhost.yml
-
-- hosts: default
+- hosts: "{{ host | default('default') }}"
   vars:
     user: vagrant
     home: /home/{{ user }}
   roles:
-    - rabbitmq
-    # Desktop roles
-    #- lubuntu-desktop
-    #- screen
-    #- screensaver-off
+    # Common roles
+    - bashrc
+    - packages-dev
+    - timezone
+    - vim
+    # Remote roles
+    - screen-remote

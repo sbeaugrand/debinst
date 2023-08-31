@@ -12,8 +12,10 @@ fi
 file=$dir/org.freedesktop.Notifications.service
 if notFile $file; then
     cat >$file <<EOF
+# BEGIN ANSIBLE MANAGED BLOCK
 [D-BUS Service]
 Name=org.freedesktop.Notifications
 Exec=/usr/lib/notification-daemon/notification-daemon
+# END ANSIBLE MANAGED BLOCK
 EOF
 fi
