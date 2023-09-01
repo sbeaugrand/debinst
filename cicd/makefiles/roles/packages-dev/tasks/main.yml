@@ -1,0 +1,32 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: install dev packages
+  apt:
+    cache_valid_time: 36000
+    install_recommends: no
+    name:
+      - build-essential
+      - cmake
+      - dh-make
+      - expect
+      - gawk
+      - git
+      - gdb
+      - g++-aarch64-linux-gnu
+      - g++-arm-linux-gnueabihf
+      - python3-pip
+      - systemd-coredump  # coredumpctl debug
+      - valgrind
+      - vim
+      - chrony
+  become: yes
+
+- name: install python packages
+  pip:
+    name:
+      - gitlabci-local
+      - colored==1.4.4

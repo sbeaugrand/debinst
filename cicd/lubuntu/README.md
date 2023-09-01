@@ -1,6 +1,6 @@
 # Enable desktop
 ```
-vi playbook.yml +/desktop
+vi playbook.yml +/Desktop
 ```
 
 # Start and set IP address

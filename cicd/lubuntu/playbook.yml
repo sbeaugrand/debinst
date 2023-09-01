@@ -13,9 +13,9 @@
     user: vagrant
     home: /home/{{ user }}
   roles:
-    - packages-dev
+    - packages-dev-examples
     - rabbitmq
     # Desktop roles
-    #- lubuntu-desktop
+    #- packages-lubuntu
     #- screen
     #- screensaver-off

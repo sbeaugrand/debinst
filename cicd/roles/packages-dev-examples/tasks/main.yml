@@ -4,20 +4,11 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: install packages
+- name: install dev packages for examples
   apt:
     cache_valid_time: 36000
     install_recommends: no
     name:
-      - build-essential
-      - cmake
-      - dh-make
-      - expect
-      - gawk
-      - git
-      - gdb
-      - g++-aarch64-linux-gnu
-      - g++-arm-linux-gnueabihf
       - libboost-chrono-dev  # SimpleAmqpClient
       - libboost-system-dev  # SimpleAmqpClient
       - libcpp-httplib-dev
@@ -27,18 +18,7 @@
       - libqt5websockets5-dev
       - librabbitmq-dev
       - python3-pika
-      - python3-pip
       - qtbase5-dev
       - rabbitmq-server
       - subversion
-      - systemd-coredump  # coredumpctl debug
-      - valgrind
-      - vim
-      - chrony
   become: yes
-
-- name: install python packages
-  pip:
-    name:
-      - gitlabci-local
-      - colored==1.4.4

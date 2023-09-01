@@ -11,19 +11,21 @@
     home: /home/{{ user }}
   roles:
     - sudoers
+    - packages-localhost
     # Common roles
     - bashrc
+    - packages-dev
     - timezone
     - vim
     # Local roles
     - libvirt
     # Desktop roles
-    - xterm
     - lxde
     - lxpanel
     - notifications
     - screen
     - screensaver-on
+    - xterm
     - role: homepage
       vars:
         src: homepage

@@ -12,6 +12,7 @@
   roles:
     # Common roles
     - bashrc
+    - packages-dev
     - timezone
     - vim
     # Remote roles
