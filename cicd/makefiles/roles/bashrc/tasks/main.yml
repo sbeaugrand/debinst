@@ -10,8 +10,15 @@
     create: yes
     block: |
       export PS1='\u:\w> '
-      export PATH={{ home }}/.local/bin:/usr/local/bin:/usr/bin:/bin:{{ home }}/install/debinst/bin:{{ home }}/install/bin:.
       export SCREENDIR={{ home }}/.screen
+      PATH={{ home }}/.local/bin:/usr/local/bin:/usr/bin:/bin
+      if [ -d {{ home }}/install/debinst/bin ]; then
+          PATH=$PATH:{{ home }}/install/debinst/bin
+      fi
+      if [ -d {{ home }}/bin ]; then
+          PATH=$PATH:{{ home }}/bin
+      fi
+      export PATH=$PATH:.
       
       alias l='ls'
       alias lrt='ls -lrt'

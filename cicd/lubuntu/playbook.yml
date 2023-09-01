@@ -13,6 +13,7 @@
     user: vagrant
     home: /home/{{ user }}
   roles:
+    - packages-dev
     - rabbitmq
     # Desktop roles
     #- lubuntu-desktop

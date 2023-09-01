@@ -13,4 +13,6 @@
     user: "{{ lookup('env', 'USER') }}"
     home: /home/{{ user }}
   roles:
+    - packages
+    - packages-dev
     - rabbitmq
