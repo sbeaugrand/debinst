@@ -369,7 +369,7 @@ selectScale()
     if [ $aspect != '1' ] && [ -z "$deinterlace" ]; then
         myRead "deinterlace ? (y/n)" "n"
         if [ $ret = y ]; then
-            deinterlace="pp=fd,"
+            deinterlace="yadif=0,"
         fi
     fi
     if [ -n "$res" ]; then
@@ -599,6 +599,7 @@ makeVideo()
         fi
     else
         if ((pass & 1)); then
+            set -x
             mencoder $filters $sid\
               -ovc lavc -lavcopts vcodec=mpeg4:vpass=1:vbitrate=$rate:$mpeg4opt\
               -oac mp3lame -lameopts cbr:br=$audiobr:vol=$volume:aq=9 -aid $aid\
@@ -608,6 +609,7 @@ makeVideo()
             info="$filters $sid vbitrate=$rate:$mpeg4opt"
             info="$info cbr:br=$audiobr:vol=$volume:aq=0 $mencOpt -aid $aid"
             info="%"`expr length "$info"`"%$info"
+            set -x
             mencoder $filters $sid\
               -ovc lavc -lavcopts vcodec=mpeg4:vpass=2:vbitrate=$rate:$mpeg4opt\
               -oac mp3lame -lameopts cbr:br=$audiobr:vol=$volume:aq=0 -aid $aid\
@@ -798,7 +800,7 @@ readOptions()
                 checkNumericValue $nbcd "nbcd" 1 2
                 ;;
             -D | -deinterlace | --deinterlace)
-                deinterlace="pp=fd," ;;
+                deinterlace="yadif=0," ;;
             -s | -subtitle | --subtitle)
                 subtitle=yes ;;
             -S | -split | --split)

@@ -1,0 +1,2 @@
+Package: camotics-build-deps
+Depends: scons, build-essential, libqt5websockets5-dev, libqt5opengl5-dev, libnode-dev, libglu1-mesa-dev, pkgconf, git, qttools5-dev-tools

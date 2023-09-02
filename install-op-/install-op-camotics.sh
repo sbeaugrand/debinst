@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-version=1.2.0
+version=1.3.0
 repo=$idir/../repo
 
 if isOnline; then
@@ -12,6 +12,11 @@ if isOnline; then
     version=`curl -s $url | grep Version | sed 's#.* \([0-9.]\+\).*#\1#'`
 fi
 logInfo "camotics version=$version"
+
+if [ $version != "1.3.0" ]; then
+    logTodo "vi $idir/install-op-/install-op-camotics/README.md"
+    return 0
+fi
 
 url=https://camotics.org/builds/release/debian-stable-64bit
 app=camotics_${version}_amd64.deb
