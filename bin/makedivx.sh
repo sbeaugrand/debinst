@@ -604,6 +604,7 @@ makeVideo()
               -ovc lavc -lavcopts vcodec=mpeg4:vpass=1:vbitrate=$rate:$mpeg4opt\
               -oac mp3lame -lameopts cbr:br=$audiobr:vol=$volume:aq=9 -aid $aid\
               -ffourcc DIVX -o $name $mencOpt $list
+            { set +x; } 2>/dev/null
         fi
         if ((pass & 2)); then
             info="$filters $sid vbitrate=$rate:$mpeg4opt"
@@ -614,6 +615,7 @@ makeVideo()
               -ovc lavc -lavcopts vcodec=mpeg4:vpass=2:vbitrate=$rate:$mpeg4opt\
               -oac mp3lame -lameopts cbr:br=$audiobr:vol=$volume:aq=0 -aid $aid\
               -ffourcc DIVX -o $name -info comment="$info" $mencOpt $list
+            { set +x; } 2>/dev/null
         fi
     fi
 }

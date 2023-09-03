@@ -6,7 +6,7 @@
 ---
 - name: bashrc
   blockinfile:
-    path: "{{ home }}/.bashrc"
+    path: "/home/{{ user }}/.bashrc"
     create: yes
     block: |
       export PS1='\u:\w> '

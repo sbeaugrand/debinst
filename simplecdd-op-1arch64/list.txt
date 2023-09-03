@@ -257,6 +257,7 @@ network-manager-gnome
 wpasupplicant  # wifi
 polkitd-pkla  # hotspot permissions
 dh-make  # simple-cdd
+equivs
 mplayer
 mencoder
 ffmpeg
