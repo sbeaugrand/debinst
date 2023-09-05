@@ -6,7 +6,6 @@
 # ---------------------------------------------------------------------------- #
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/ubuntu2204"
-  config.vm.define "default"
   config.vm.hostname = "ubuntu2204"
   config.trigger.before [:up, :destroy] do |trigger|
     trigger.run = {inline: "bash -c 'lsmod | grep -q tun || sudo modprobe tun'"}

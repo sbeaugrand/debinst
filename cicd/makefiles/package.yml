@@ -39,6 +39,7 @@ variables:
   USERPATH: /vagrant/.vagrant
   SCPTARGET: $URI:$USERPATH/
   BDIR: build
+  BHOST: $HOST
   XCVER: 12
   XCDIR: /data
 build:
@@ -139,8 +140,6 @@ rinstall:
       sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb"
 rdeploy:
   stage: rdeploy
-  variables:
-    BHOST: $HOST
   script:
     - PROPATH=$(basename `readlink -f .`)
     - test -n "$XC" || BDIR=.vagrant/$PROPATH/build
@@ -225,7 +224,6 @@ rxbuild:
   stage: rxbuild
   variables:
     XC: aarch64-linux-gnu
-    XCVER: 12
     XCDIR: /vagrant/.vagrant
   script:
     - PROPATH=$(basename `readlink -f .`)
@@ -236,12 +234,11 @@ rxbuild:
       $SSH "cd $USERPATH/$PROPATH &&
       make xbuild BUILD=$BUILD CMAKE='$CMAKE'
       XC=$XC XCVER=$XCVER XCDIR=$XCDIR &&
-      (test $BUILD = Debug || $STRIP build/$PROJECT)"
+      (test $BUILD = Debug || $STRIP build-$XC/$PROJECT)"
 rxpackage:
   stage: rxpackage
   variables:
     XC: aarch64-linux-gnu
-    XCVER: 12
     XCDIR: /vagrant/.vagrant
   script:
     - PROPATH=$(basename `readlink -f .`)
@@ -262,7 +259,6 @@ rxinstall:
   stage: rxinstall
   variables:
     XC: aarch64-linux-gnu
-    BHOST: $HOST
     BLIST: $PROJECT
   script:
     - PROPATH=$(basename `readlink -f .`)

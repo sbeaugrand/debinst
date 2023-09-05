@@ -64,12 +64,13 @@ remote:
 
 .PHONY: mount
 mount:
-	@mkdir -p .vagrant
+	@mkdir .vagrant
 	$(call kc,sshfs $(URI):$(USERPATH)/ .vagrant)
 
 .PHONY: umount
 umount:
 	@fusermount3 -u .vagrant
+	@rmdir .vagrant
 
 .PHONY: ssh
 ssh:

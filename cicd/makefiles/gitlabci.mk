@@ -13,10 +13,10 @@ BUILD ?= Debug
 URI ?= exemple@ip
 SSH ?= vagrant ssh -c
 USERPATH ?= /vagrant/.vagrant
-BHOST ?= $(HOST)
 ifneq ($(XC),)
- XCVER ?= 12
  OPTS += -e XC=$(XC)
+endif
+ifneq ($(XCVER),)
  OPTS += -e XCVER=$(XCVER)
 endif
 ifneq ($(XCDIR),)
@@ -24,6 +24,9 @@ ifneq ($(XCDIR),)
 endif
 ifneq ($(SUDOPASS),)
  OPTS += -e SUDOPASS=$(SUDOPASS)
+endif
+ifneq ($(BHOST),)
+ OPTS += -e BHOST=$(BHOST)
 endif
 
 ifeq ($(CMAKE),)
@@ -42,7 +45,6 @@ gitlabci = ~/.local/bin/gitlabci-local\
  -e URI=$(URI)\
  -e SSH="$(SSH)"\
  -e USERPATH=$(USERPATH)\
- -e BHOST=$(BHOST)\
  $(OPTS)\
  -c gitlab-ci.yml
 propath = $(shell basename `readlink -f .`)

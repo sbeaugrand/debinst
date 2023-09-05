@@ -1,4 +1,4 @@
-# Build on docker
+# Build with docker
 ```
 docker build -t camotics .
 docker run -v $PWD:/pwd camotics cp CAMotics/camotics_1.3.0_amd64.deb /pwd/
@@ -9,7 +9,7 @@ docker rmi camotics
 docker rmi debian:stable-slim
 ```
 
-# Build on localhost
+# Build without docker
 ```
 sudo apt install equivs
 equivs-build camotics-control
