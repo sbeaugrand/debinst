@@ -45,9 +45,9 @@ make HOST=armbian xtest
 cd ubuntu1804  # example with gcc-7
 rsync -a -i /data/aarch64-linux-gnu-7 .vagrant/
 cd project4
-make HOST=ubuntu1804 rbuild  # prebuild
-make HOST=ubuntu1804 rxbuild
-make BHOST=ubuntu1804 HOST=remotehost-xc rxinstall
+make BHOST=ubuntu1804 rbuild  # prebuild
+make BHOST=ubuntu1804 rxbuild
+make BHOST=ubuntu1804 rxinstall HOST=remotehost-xc
 ```
 
 # Sysroot cross build package with old cross compiler
@@ -55,8 +55,8 @@ make BHOST=ubuntu1804 HOST=remotehost-xc rxinstall
 cd lubuntu  # example with gcc-12
 rsync -a -i /data/arm-linux-gnueabihf-12 .vagrant/
 cd project6
-make rbuild  # prebuild; default host is lubuntu
+make rbuild  # prebuild
 make rxbuild
 make rxpackage
-make rxdeploy BHOST=lubuntu HOST=remotehost-xc
+make rxdeploy HOST=remotehost-xc
 ```

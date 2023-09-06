@@ -21,8 +21,8 @@ make umount
 make mount
 cd ../project4
 make build
-make HOST=remotehost rbuild
-make HOST=remotehost rtest
+make BHOST=remotehost rbuild
+make BHOST=remotehost rtest
 cd -
 make umount
 ```
@@ -33,8 +33,8 @@ cd ../lubuntu
 make up
 cd ../project4
 make build
-make HOST=remotehost rbuild
-make HOST=remotehost rtest
+make BHOST=remotehost rbuild
+make BHOST=remotehost rtest
 ```
 
 # Example 4: tests with remote service
@@ -42,9 +42,9 @@ make HOST=remotehost rtest
 make mount
 cd ../project6
 make build
-make HOST=remotehost rbuild
-make HOST=remotehost rpackage
-make HOST=remotehost rinstall
+make BHOST=remotehost rbuild
+make BHOST=remotehost rpackage
+make BHOST=remotehost rinstall
 make HOST=remotehost stest
 cd -
 make umount
@@ -56,8 +56,8 @@ cd ../lubuntu
 make up
 cd ../project6
 make build
-make HOST=remotehost rbuild
-make HOST=remotehost rpackage
-make HOST=remotehost rinstall
+make BHOST=remotehost rbuild
+make BHOST=remotehost rpackage
+make BHOST=remotehost rinstall
 make HOST=remotehost stest
 ```

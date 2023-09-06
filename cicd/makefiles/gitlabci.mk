@@ -5,7 +5,19 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 HOST ?= lubuntu
--include ../$(HOST)/host.mk
+BHOST ?= lubuntu
+ifeq (,$(findstring $(MAKECMDGOALS),\
+ rbuild\
+ rtest\
+ rpackage\
+ rinstall\
+ rxbuild\
+ rxpackage\
+ ))
+ -include ../$(HOST)/host.mk
+else
+ -include ../$(BHOST)/host.mk
+endif
 
 PROJECT ?= $(shell basename `readlink -f .`)
 IMAGE ?= ubuntu:22.10
@@ -25,9 +37,6 @@ endif
 ifneq ($(SUDOPASS),)
  OPTS += -e SUDOPASS=$(SUDOPASS)
 endif
-ifneq ($(BHOST),)
- OPTS += -e BHOST=$(BHOST)
-endif
 
 ifeq ($(CMAKE),)
  NCMAKE = cmake .. -DCMAKE_BUILD_TYPE=$(BUILD)
@@ -39,6 +48,7 @@ endif
 
 gitlabci = ~/.local/bin/gitlabci-local\
  -e HOST=$(HOST)\
+ -e BHOST=$(BHOST)\
  -e IMAGE=$(IMAGE)\
  -e BUILD=$(BUILD)\
  -e CMAKE="$(NCMAKE)"\
@@ -76,6 +86,11 @@ xpipeline: test xbuild xpackage xdeploy xtest
 
 .PHONY: xbit
 xbit: test xbuild xinstall xtest
+
+.PHONY: start stop restart
+start stop restart:
+	@$(SSH) -q -t "echo $(SUDOPASS) | sudo -S true && echo &&\
+	 sudo systemctl $@ $(PROJECT)"
 
 .PHONY: tar
 tar:
