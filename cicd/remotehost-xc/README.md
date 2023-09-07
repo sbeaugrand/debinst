@@ -19,6 +19,7 @@ rsync -a -i $user@$host:/usr/local/lib local/
 ```
 cd project4
 make build  # for prebuild and test
+make test
 make HOST=remotehost-xc xbit  # or :
 
 make test
@@ -46,8 +47,12 @@ cd ubuntu1804  # example with gcc-7
 rsync -a -i /data/aarch64-linux-gnu-7 .vagrant/
 cd project4
 make BHOST=ubuntu1804 rbuild  # prebuild
+make BHOST=ubuntu1804 rxbit HOST=remotehost-xc  # or :
+
 make BHOST=ubuntu1804 rxbuild
 make BHOST=ubuntu1804 rxinstall HOST=remotehost-xc
+make HOST=remotehost-xc restart
+make HOST=remotehost-xc stest
 ```
 
 # Sysroot cross build package with old cross compiler

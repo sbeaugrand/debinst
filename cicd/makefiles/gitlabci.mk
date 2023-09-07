@@ -85,11 +85,14 @@ pipeline: test rbuild rtest rpackage rdeploy stest
 xpipeline: test xbuild xpackage xdeploy xtest
 
 .PHONY: xbit
-xbit: test xbuild xinstall xtest
+xbit: xbuild xinstall xtest
+
+.PHONY: rxbit
+rxbit: rxbuild rxinstall restart stest
 
 .PHONY: start stop restart
 start stop restart:
-	@$(SSH) -q -t "echo $(SUDOPASS) | sudo -S true && echo &&\
+	@$(SSH) -q -t "echo $(SUDOPASS) | sudo -S -p '' true &&\
 	 sudo systemctl $@ $(PROJECT)"
 
 .PHONY: tar
