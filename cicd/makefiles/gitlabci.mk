@@ -79,7 +79,13 @@ test%:
 	@$(gitlabci) -H -R $@
 
 .PHONY: pipeline
-pipeline: test rbuild rtest rpackage rdeploy stest
+pipeline:
+	@$(MAKE) --no-print-directory test
+	@$(MAKE) --no-print-directory rbuild
+	@$(MAKE) --no-print-directory rtest
+	@$(MAKE) --no-print-directory rpackage
+	@$(MAKE) --no-print-directory rdeploy
+	@$(MAKE) --no-print-directory stest
 
 .PHONY: xpipeline
 xpipeline: test xbuild xpackage xdeploy xtest
@@ -88,11 +94,16 @@ xpipeline: test xbuild xpackage xdeploy xtest
 xbit: xbuild xinstall xtest
 
 .PHONY: rxbit
-rxbit: rxbuild rxinstall restart stest
+rxbit:
+	@$(MAKE) --no-print-directory rxbuild
+	@$(MAKE) --no-print-directory rxinstall
+	@$(MAKE) --no-print-directory restart
+	@$(MAKE) --no-print-directory stest
 
 .PHONY: start stop restart
 start stop restart:
-	@$(SSH) -q -t "echo $(SUDOPASS) | sudo -S -p '' true &&\
+	@$(SSH) -q -t "echo $(SUDOPASS) |\
+	 sudo -S -p 'sudo systemctl $@ $(PROJECT)' true && echo &&\
 	 sudo systemctl $@ $(PROJECT)"
 
 .PHONY: tar

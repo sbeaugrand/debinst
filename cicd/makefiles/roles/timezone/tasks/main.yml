@@ -4,6 +4,12 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
+- name: get-timezone
+  command: timedatectl show --property=Timezone
+  register: tz
+  changed_when: no
+
 - name: set-timezone
-  command: timedatectl set-timezone Europe/Paris
+  command: timedatectl set-timezone {{ tzone | default('Europe/Paris') }}
+  when: tzone | default('Europe/Paris') not in tz.stdout
   become: yes

@@ -60,6 +60,7 @@ user_pref("privacy.trackingprotection.socialtracking.enabled", true);
 user_pref("network.cookie.lifetimePolicy", 2);
 user_pref("accessibility.force_disabled", 1);
 user_pref("clipboard.autocopy", true);
+user_pref("pdfjs.disabled", false);
 
 user_pref("privacy.sanitize.pending", "[{\"id\":\"shutdown\",\"itemsToClear\":[\"cache\",\"cookies\",\"history\",\"formdata\",\"downloads\",\"sessions\"],\"options\":{}},{\"id\":\"newtab-container\",\"itemsToClear\":[],\"options\":{}}]");
 user_pref("privacy.sanitize.sanitizeOnShutdown", true);
