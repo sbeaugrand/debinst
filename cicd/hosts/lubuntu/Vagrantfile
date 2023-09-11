@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-load "../makefiles/Vagrantfile"
+load "../../makefiles/Vagrantfile"
 
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/ubuntu2210"

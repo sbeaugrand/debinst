@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 ---
 - name: import virtualhost playbook
-  import_playbook: ../makefiles/virtualhost.yml
+  import_playbook: ../../makefiles/virtualhost.yml
 
 - hosts: default
   vars:

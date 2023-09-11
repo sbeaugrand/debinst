@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 ---
 - name: import localhost playbook
-  import_playbook: ../makefiles/localhost.yml
+  import_playbook: ../../makefiles/localhost.yml
 
 - hosts: localhost
   vars:

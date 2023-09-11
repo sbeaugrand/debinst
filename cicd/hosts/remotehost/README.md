@@ -8,7 +8,7 @@ make remote
 # Example 1: build on vm, deploy on remote
 ```
 make mount
-cd ../project4
+cd ../../project4
 make rbuild
 make rpackage
 make rdeploy HOST=remotehost
@@ -19,7 +19,7 @@ make umount
 # Example 2: tests with remote
 ```
 make mount
-cd ../project4
+cd ../../project4
 make build
 make BHOST=remotehost rbuild
 make BHOST=remotehost rtest
@@ -31,7 +31,7 @@ make umount
 ```
 cd ../lubuntu
 make up
-cd ../project4
+cd ../../project4
 make build
 make BHOST=remotehost rbuild
 make BHOST=remotehost rtest
@@ -40,7 +40,7 @@ make BHOST=remotehost rtest
 # Example 4: tests with remote service
 ```
 make mount
-cd ../project6
+cd ../../project6
 make build
 make BHOST=remotehost rbuild
 make BHOST=remotehost rpackage
@@ -54,7 +54,7 @@ make umount
 ```
 cd ../lubuntu
 make up
-cd ../project6
+cd ../../project6
 make build
 make BHOST=remotehost rbuild
 make BHOST=remotehost rpackage

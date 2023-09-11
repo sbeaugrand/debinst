@@ -4,6 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+HDIR ?= ../hosts
 HOST ?= lubuntu
 BHOST ?= lubuntu
 ifeq (,$(findstring $(MAKECMDGOALS),\
@@ -14,9 +15,9 @@ ifeq (,$(findstring $(MAKECMDGOALS),\
  rxbuild\
  rxpackage\
  ))
- -include ../$(HOST)/host.mk
+ -include $(HDIR)/$(HOST)/host.mk
 else
- -include ../$(BHOST)/host.mk
+ -include $(HDIR)/$(BHOST)/host.mk
 endif
 
 PROJECT ?= $(shell basename `readlink -f .`)

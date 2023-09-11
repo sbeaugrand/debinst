@@ -38,6 +38,7 @@ variables:
   SSH: vagrant ssh -c
   USERPATH: /vagrant/.vagrant
   SCPTARGET: $URI:$USERPATH/
+  HDIR: ../hosts
   BDIR: build
   BHOST: $HOST
   XCVER: 12
@@ -91,22 +92,22 @@ install:
 deploy:
   image: $IMAGE
   stage: deploy
+  variables:
+    PKG: ${PROJECT}_${VERSION}_amd64.deb
   script:
     - PROPATH=$(basename `readlink -f .`)
-    - cd ../$HOST/.vagrant/$PROPATH
-    - cp -a build/${PROJECT}_${VERSION}_amd64.deb ../../../$PROPATH/build/
-    - test -z "$DEP" || cp -a $DEP ../../../$PROPATH/build/
-    - cd -
+    - cp -a $HDIR/$HOST/.vagrant/$PROPATH/build/$PKG build/
+    - test -z "$DEP" || cp -a $HDIR/$HOST/.vagrant/$PROPATH/$DEP build/
     - apt update
-    - apt-get install -y $DEP ./build/${PROJECT}_${VERSION}_amd64.deb
+    - apt-get install -y $DEP ./build/$PKG
     - ldd -d -r /usr/bin/$PROJECT
 rbuild:
   stage: rbuild
   script:
     - PROPATH=$(basename `readlink -f .`)
-    - cd ../$BHOST
-    - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
-    - $RSYNC ../makefiles/ .vagrant/makefiles/
+    - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
+    - $RSYNC ../makefiles/ $HDIR/$BHOST/.vagrant/makefiles/
+    - cd $HDIR/$BHOST
     - >
       $SSH "cd $USERPATH/$PROPATH &&
       make build BUILD=$BUILD CMAKE='$CMAKE' &&
@@ -115,9 +116,9 @@ rtest:
   stage: rtest
   before_script:
     - PROPATH=$(basename `readlink -f .`)
-    - cd ../$BHOST
-    - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
-    - $RSYNC ../makefiles/ .vagrant/makefiles/
+    - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
+    - $RSYNC ../makefiles/ $HDIR/$BHOST/.vagrant/makefiles/
+    - cd $HDIR/$BHOST
     - $SSH "cd $USERPATH/$PROPATH && build/$PROJECT" &
     - sleep 1
     - IP=`make --no-print-directory get-ip`
@@ -126,15 +127,15 @@ rpackage:
   stage: rpackage
   script:
     - PROPATH=$(basename `readlink -f .`)
-    - cd ../$BHOST
-    - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
-    - $RSYNC ../makefiles/ .vagrant/makefiles/
+    - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
+    - $RSYNC ../makefiles/ $HDIR/$BHOST/.vagrant/makefiles/
+    - cd $HDIR/$BHOST
     - $SSH "cd $USERPATH/$PROPATH && make package"
 rinstall:
   stage: rinstall
   script:
     - PROPATH=$(basename `readlink -f .`)
-    - cd ../$BHOST
+    - cd $HDIR/$BHOST
     - >
       $SSH "cd $USERPATH/$PROPATH &&
       sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb"
@@ -143,7 +144,7 @@ rdeploy:
   script:
     - PROPATH=$(basename `readlink -f .`)
     - test -n "$XC" || BDIR=.vagrant/$PROPATH/build
-    - test -n "$XC" || cd ../$BHOST
+    - test -n "$XC" || cd $HDIR/$BHOST
     - >
       test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
       TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
@@ -160,7 +161,7 @@ rdeploy:
 stest:
   stage: stest
   before_script:
-    - cd ../$HOST
+    - cd $HDIR/$HOST
     - IP=`make --no-print-directory get-ip`
     - cd -
 xbuild:
@@ -215,7 +216,7 @@ xinstall:
 xtest:
   stage: xtest
   before_script:
-    - cd ../$HOST
+    - cd $HDIR/$HOST
     - $SSH "/usr/bin/$PROJECT" &
     - sleep 2
     - IP=`make --no-print-directory get-ip`
@@ -227,9 +228,9 @@ rxbuild:
     XCDIR: /vagrant/.vagrant
   script:
     - PROPATH=$(basename `readlink -f .`)
-    - cd ../$BHOST
-    - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
-    - $RSYNC ../makefiles/ .vagrant/makefiles/
+    - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
+    - $RSYNC ../makefiles/ $HDIR/$BHOST/.vagrant/makefiles/
+    - cd $HDIR/$BHOST
     - >
       $SSH "cd $USERPATH/$PROPATH &&
       make xbuild BUILD=$BUILD CMAKE='$CMAKE'
@@ -242,9 +243,9 @@ rxpackage:
     XCDIR: /vagrant/.vagrant
   script:
     - PROPATH=$(basename `readlink -f .`)
-    - cd ../$BHOST
-    - $RSYNC ../$PROPATH/ .vagrant/$PROPATH/
-    - $RSYNC ../makefiles/ .vagrant/makefiles/
+    - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
+    - $RSYNC ../makefiles/ $HDIR/$BHOST/.vagrant/makefiles/
+    - cd $HDIR/$BHOST
     - $SSH "cd $USERPATH/$PROPATH &&
       make xpackage XC=$XC XCVER=$XCVER XCDIR=$XCDIR"
 rxdeploy:
@@ -254,7 +255,7 @@ rxdeploy:
     XC: aarch64-linux-gnu
   before_script:
     - PROPATH=$(basename `readlink -f .`)
-    - BDIR=../$BHOST/.vagrant/$PROPATH/build-$XC
+    - BDIR=$HDIR/$BHOST/.vagrant/$PROPATH/build-$XC
 rxinstall:
   stage: rxinstall
   variables:
@@ -262,7 +263,7 @@ rxinstall:
     BLIST: $PROJECT
   script:
     - PROPATH=$(basename `readlink -f .`)
-    - BDIR=../$BHOST/.vagrant/$PROPATH/build-$XC
+    - BDIR=$HDIR/$BHOST/.vagrant/$PROPATH/build-$XC
     - >
       test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
       TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
