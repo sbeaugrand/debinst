@@ -9,30 +9,30 @@ year=$1
 format=$2
 zone=$3
 
-if [ "$year" = "2022" ]; then
-    vAsmZoneB=01; vAsdZoneB=01; vAemZoneB=01; vAedZoneB=02;
-    vAsmZoneA=01; vAsdZoneA=01; vAemZoneA=01; vAedZoneA=02;
-    vAsmZoneC=01; vAsdZoneC=01; vAemZoneC=01; vAedZoneC=02;
+if [ "$year" = "2024" ]; then
+    vAsmZoneA=01; vAsdZoneA=01; vAemZoneA=01; vAedZoneA=07;
+    vAsmZoneC=01; vAsdZoneC=01; vAemZoneC=01; vAedZoneC=07;
+    vAsmZoneB=01; vAsdZoneB=01; vAemZoneB=01; vAedZoneB=07;
 
-    vBsmZoneB=02; vBsdZoneB=06; vBemZoneB=02; vBedZoneB=20;
-    vBsmZoneA=02; vBsdZoneA=13; vBemZoneA=02; vBedZoneA=27;
-    vBsmZoneC=02; vBsdZoneC=20; vBemZoneC=03; vBedZoneC=06;
+    vBsmZoneC=02; vBsdZoneC=11; vBemZoneC=02; vBedZoneC=25;
+    vBsmZoneA=02; vBsdZoneA=18; vBemZoneA=03; vBedZoneA=03;
+    vBsmZoneB=02; vBsdZoneB=25; vBemZoneB=03; vBedZoneB=10;
 
-    vCsmZoneB=04; vCsdZoneB=10; vCemZoneB=04; vCedZoneB=24;
-    vCsmZoneA=04; vCsdZoneA=17; vCemZoneA=05; vCedZoneA=01;
-    vCsmZoneC=04; vCsdZoneC=24; vCemZoneC=05; vCedZoneC=08;
+    vCsmZoneC=04; vCsdZoneC=07; vCemZoneC=04; vCedZoneC=21;
+    vCsmZoneA=04; vCsdZoneA=14; vCemZoneA=04; vCedZoneA=28;
+    vCsmZoneB=04; vCsdZoneB=21; vCemZoneB=05; vCedZoneB=05;
 
-    vDsmZoneA=07; vDsdZoneA=07; vDemZoneA=08; vDedZoneA=31;
-    vDsmZoneB=07; vDsdZoneB=07; vDemZoneB=08; vDedZoneB=31;
-    vDsmZoneC=07; vDsdZoneC=07; vDemZoneC=08; vDedZoneC=31;
+    vDsmZoneB=07; vDsdZoneB=07; vDemZoneB=09; vDedZoneB=01;
+    vDsmZoneA=07; vDsdZoneA=07; vDemZoneA=09; vDedZoneA=01;
+    vDsmZoneC=07; vDsdZoneC=07; vDemZoneC=09; vDedZoneC=01;
 
-    vEsmZoneB=10; vEsdZoneB=23; vEemZoneB=11; vEedZoneB=06;
-    vEsmZoneA=10; vEsdZoneA=23; vEemZoneA=11; vEedZoneA=06;
-    vEsmZoneC=10; vEsdZoneC=23; vEemZoneC=11; vEedZoneC=06;
+    vEsmZoneB=10; vEsdZoneB=20; vEemZoneB=11; vEedZoneB=03;
+    vEsmZoneC=10; vEsdZoneC=20; vEemZoneC=11; vEedZoneC=03;
+    vEsmZoneA=10; vEsdZoneA=20; vEemZoneA=11; vEedZoneA=03;
 
-    vFsmZoneC=12; vFsdZoneC=18; vFemZoneC=12; vFedZoneC=31;
-    vFsmZoneB=12; vFsdZoneB=18; vFemZoneB=12; vFedZoneB=31;
-    vFsmZoneA=12; vFsdZoneA=18; vFemZoneA=12; vFedZoneA=31;
+    vFsmZoneA=12; vFsdZoneA=22; vFemZoneA=12; vFedZoneA=31;
+    vFsmZoneC=12; vFsdZoneC=22; vFemZoneC=12; vFedZoneC=31;
+    vFsmZoneB=12; vFsdZoneB=22; vFemZoneB=12; vFedZoneB=31;
 elif [ "$year" = "2023" ]; then
     vAsmZoneC=01; vAsdZoneC=01; vAemZoneC=01; vAedZoneC=02;
     vAsmZoneB=01; vAsdZoneB=01; vAemZoneB=01; vAedZoneB=02;

@@ -47,7 +47,7 @@ build:
   stage: build
   except:
     variables:
-      - $PACKAGE =~ '/^lib/'
+      - $PROJECT =~ '/^lib/'
   script:
     - mkdir -p build
     - cd build
@@ -58,7 +58,7 @@ package:
   stage: package
   except:
     variables:
-      - $PACKAGE =~ '/^lib/'
+      - $PROJECT =~ '/^lib/'
   script:
     - export DEBEMAIL=$DEBEMAIL
     - export DEBFULLNAME=$DEBFULLNAME
@@ -106,7 +106,7 @@ rbuild:
   script:
     - PROPATH=$(basename `readlink -f .`)
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
-    - $RSYNC ../makefiles/ $HDIR/$BHOST/.vagrant/makefiles/
+    - $RSYNC ../makefiles $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
     - >
       $SSH "cd $USERPATH/$PROPATH &&
@@ -117,7 +117,7 @@ rtest:
   before_script:
     - PROPATH=$(basename `readlink -f .`)
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
-    - $RSYNC ../makefiles/ $HDIR/$BHOST/.vagrant/makefiles/
+    - $RSYNC ../makefiles $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
     - $SSH "cd $USERPATH/$PROPATH && build/$PROJECT" &
     - sleep 1
@@ -128,7 +128,7 @@ rpackage:
   script:
     - PROPATH=$(basename `readlink -f .`)
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
-    - $RSYNC ../makefiles/ $HDIR/$BHOST/.vagrant/makefiles/
+    - $RSYNC ../makefiles $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
     - $SSH "cd $USERPATH/$PROPATH && make package"
 rinstall:
@@ -229,7 +229,7 @@ rxbuild:
   script:
     - PROPATH=$(basename `readlink -f .`)
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
-    - $RSYNC ../makefiles/ $HDIR/$BHOST/.vagrant/makefiles/
+    - $RSYNC ../makefiles $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
     - >
       $SSH "cd $USERPATH/$PROPATH &&
@@ -244,7 +244,7 @@ rxpackage:
   script:
     - PROPATH=$(basename `readlink -f .`)
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
-    - $RSYNC ../makefiles/ $HDIR/$BHOST/.vagrant/makefiles/
+    - $RSYNC ../makefiles $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
     - $SSH "cd $USERPATH/$PROPATH &&
       make xpackage XC=$XC XCVER=$XCVER XCDIR=$XCDIR"

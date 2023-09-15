@@ -7,7 +7,7 @@
 # ---------------------------------------------------------------------------- #
 set url tcp://127.0.0.1:8899
 
-spawn build/server $url
+spawn build/project-seven $url
 set server $spawn_id
 sleep 1
 spawn build/client $url

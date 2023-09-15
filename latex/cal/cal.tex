@@ -7,9 +7,9 @@
 \documentclass[a4paper]{article}
 \usepackage{vmargin}
 \setpapersize{custom}{297mm}{210mm}
-\setmarginsrb{8mm}{10mm}{8mm}{10mm}{0mm}{0mm}{0mm}{0mm}
+\setmarginsrb{6mm}{10mm}{6mm}{10mm}{0mm}{0mm}{0mm}{0mm}
 \renewcommand\normalsize{%
- \usefont{T1}{ptm}{m}{n}\fontsize{8pt}{9pt}\selectfont}
+ \usefont{T1}{phv}{m}{n}\fontsize{8pt}{9pt}\selectfont}
 \usepackage[french]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -169,7 +169,7 @@
       | sed 's/:/$:$/g' >meridien-h.txt}
   }{}
   \IfFileExists{meridien-h.txt}{%
-    \textcolor{tgrey}{\vspace*{-3pt}\hspace*{3.5pt}\input{meridien-h.txt}}
+    \textcolor{tgrey}{\vspace*{-3pt}\hspace*{3.0pt}\input{meridien-h.txt}}
   }{}
   \normalsize
   &
@@ -285,7 +285,7 @@
     \divide\tmp4 \multiply\tmp4
     \ifnum\tmp=\annee \last=29 \fi
   \fi
-  \begin{tabular}[t]{|p{8pt}|p{8pt}|p{\dimjour}@{}r@{}r|}
+  \begin{tabular}[t]{|p{10pt}@{}|p{10pt}@{}|p{\dimjour}@{}r@{}r|}
   \multicolumn{5}{p{\dimmois}}{}\\ \hline
   \multicolumn{5}{|@{}c@{}|}{\textbf{
     \ifcase\mois
@@ -305,6 +305,7 @@
   \global\advance\mois1
   \ifnum\mois<#1 \repeat\\
   % Bas de page
+  \scriptsize
   \begin{tabular}{lllr}
   \textcolor{red}{Zone A :}
   Besançon, Bordeaux, Clermont-Ferrand, Dijon,
@@ -335,6 +336,7 @@
   }{}\\
   \multicolumn{4}{@{}p{\dimseme}@{}}{}
   \end{tabular}
+  \normalsize
   \end{center}
   \end{minipage}
 }
@@ -391,7 +393,7 @@
 \zoneB=0
 \zoneC=0
 \summer=0
-\setlength{\dimseme}{799pt}
+\setlength{\dimseme}{806pt}
 \setlength{\dimmois}{127pt}
 \setlength{\dimjour}{84pt}
 \semestre{7}
