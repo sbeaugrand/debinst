@@ -1,3 +1,9 @@
+/******************************************************************************!
+ * \file oled-message.cpp
+ * \author Sebastien Beaugrand
+ * \sa http://beaugrand.chez.com/
+ * \copyright CeCILL 2.1 Free Software license
+ ******************************************************************************/
 #include "mraa/i2c.h"
 #include "ssd1306.hpp"
 
