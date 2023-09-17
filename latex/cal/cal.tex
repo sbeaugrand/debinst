@@ -6,8 +6,14 @@
 % ---------------------------------------------------------------------------- %
 \documentclass[a4paper]{article}
 \usepackage{vmargin}
-\setpapersize{custom}{297mm}{210mm}
-\setmarginsrb{6mm}{10mm}{6mm}{10mm}{0mm}{0mm}{0mm}{0mm}
+\newlength{\width}
+\setlength{\width}{297mm}
+\newlength{\height}
+\setlength{\height}{210mm}
+\newlength{\margin}
+\setlength{\margin}{7mm}
+\setpapersize{custom}{\width}{\height}
+\setmarginsrb{\margin}{10mm}{\margin}{10mm}{0mm}{0mm}{0mm}{0mm}
 \renewcommand\normalsize{%
  \usefont{T1}{phv}{m}{n}\fontsize{8pt}{9pt}\selectfont}
 \usepackage[french]{babel}
@@ -20,7 +26,7 @@
 \definecolor{tgrey}{gray}{0.5}
 \usepackage{graphics}
 \usepackage{setspace}
-\tabcolsep=2pt
+\tabcolsep=1pt
 \parindent0pt
 \parskip0pt
 
@@ -106,12 +112,15 @@
   \ifnum\mois=\vFsmZoneA \ifnum\jourdumois=\vFsdZoneA
     \global\zoneA=1 \global\zoneB=1 \global\zoneC=1 \fi \fi
 
-  \ifnum\zoneA=1 \textcolor{red}    {\vline width 1pt}
-    \else \phantom{\textcolor{red}  {\vline width 1pt}} \fi
-  \ifnum\zoneB=1 \textcolor{blue}   {\vline width 1pt}
-    \else \phantom{\textcolor{blue} {\vline width 1pt}} \fi
-  \ifnum\zoneC=1 \textcolor{green}  {\vline width 1pt}
-    \else \phantom{\textcolor{green}{\vline width 1pt}} \fi
+  \ifnum\zoneA=1 \textcolor{red}    {\vline width 1pt}%
+    \else \phantom{\textcolor{red}  {\vline width 1pt}}\fi
+  \hspace*{2pt}%
+  \ifnum\zoneB=1 \textcolor{blue}   {\vline width 1pt}%
+    \else \phantom{\textcolor{blue} {\vline width 1pt}}\fi
+  \hspace*{2pt}%
+  \ifnum\zoneC=1 \textcolor{green}  {\vline width 1pt}%
+    \else \phantom{\textcolor{green}{\vline width 1pt}}\fi
+  \hspace*{1pt}
 
   \ifnum\mois=\vAemZoneA \ifnum\jourdumois=\vAedZoneA
     \global\zoneA=0 \global\zoneB=0 \global\zoneC=0 \fi \fi
@@ -183,7 +192,7 @@
       | sed 's/:/$:$/g' >meridien-m.txt}
   }{}
   \IfFileExists{meridien-m.txt}{%
-    \textcolor{tgrey}{\vspace*{-3pt}\hspace*{-0.5pt}\input{meridien-m.txt}}
+    \textcolor{tgrey}{\vspace*{-3pt}\hspace*{1.0pt}\input{meridien-m.txt}}
   }{}
   \normalsize
   &
@@ -253,7 +262,6 @@
   &
   % Phases de la lune
   \ifnum\jourdumois=\Day \ifnum\mois=\Month
-    \hspace{\stretch{1}}
     \begin{picture}(7,7)(0,1.5){\moonfont\char\moon}\end{picture}
     $\nextmoonphasenumber$
   \fi \fi
@@ -285,7 +293,7 @@
     \divide\tmp4 \multiply\tmp4
     \ifnum\tmp=\annee \last=29 \fi
   \fi
-  \begin{tabular}[t]{|p{10pt}@{}|p{10pt}@{}|p{\dimjour}@{}r@{}r|}
+  \begin{tabular}[t]{|p{10pt}|p{10pt}|p{\dimjour}@{}p{10pt}@{}r|}
   \multicolumn{5}{p{\dimmois}}{}\\ \hline
   \multicolumn{5}{|@{}c@{}|}{\textbf{
     \ifcase\mois
@@ -393,9 +401,20 @@
 \zoneB=0
 \zoneC=0
 \summer=0
-\setlength{\dimseme}{806pt}
-\setlength{\dimmois}{127pt}
-\setlength{\dimjour}{84pt}
+\setlength{\dimseme}{\width}
+\addtolength{\dimseme}{-\margin}
+\addtolength{\dimseme}{-\margin}
+\newlength{\diviseur}
+\setlength{\diviseur}{6pt}% 6 mois
+\setlength{\dimmois}{\dimseme}
+\addtolength{\dimmois}{-24pt}% marges
+\setlength{\dimmois}{\dimexpr \numexpr \dimmois / \diviseur \relax pt\relax}
+\setlength{\dimjour}{\dimmois}
+\addtolength{\dimjour}{-10pt}% jour
+\addtolength{\dimjour}{-10pt}% jour
+\addtolength{\dimjour}{-10pt}% lune
+\addtolength{\dimjour}{-8pt}% vacances
+\addtolength{\dimjour}{-6pt}% marges
 \semestre{7}
 \newpage
 \semestre{13}
