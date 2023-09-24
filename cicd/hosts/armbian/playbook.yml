@@ -16,6 +16,6 @@
     - vim
     - screen-remote
     - authorized-keys
-    # Optionnal
+    # Optional
     - projects-pi
     #- somfi-pi

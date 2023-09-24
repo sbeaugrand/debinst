@@ -72,6 +72,9 @@ package:
     - cd $BDIR/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
     - cat /dev/null >debian/$PROJECT.install
+    - test ! -d ../../debian || cp -a ../../debian/* debian/
+    - test ! -d ../../data   || cp -a ../../data/*   data/
+    - test ! -d ../../share  || cp -a ../../share/*  data/
     - >
       test ! -f ../$PROJECT || cp -a ../$PROJECT data/$PROJECT &&
       echo "data/$PROJECT /usr/bin/" >>debian/$PROJECT.install
@@ -81,9 +84,6 @@ package:
     - >
       test ! -d ../../share || ls ../../share |
       sed "s#\(.*\)#data/\1 /usr/share/$PROJECT/#" >>debian/$PROJECT.install
-    - test ! -d ../../debian || cp -a ../../debian/* debian/
-    - test ! -d ../../data   || cp -a ../../data/*   data/
-    - test ! -d ../../share  || cp -a ../../share/*  data/
     - dpkg-buildpackage --no-sign $OPTS
 install:
   stage: install

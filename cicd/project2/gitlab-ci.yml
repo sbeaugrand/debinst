@@ -30,6 +30,8 @@ package:
     - mkdir -p build/$PROJECT-$VERSION/data
     - cd build/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
+    - cat /dev/null >debian/$PROJECT.install
+    - test ! -d ../../debian || cp -a ../../debian/* debian/
     - |
       sed -i '/^Description: /,${d}' debian/control
     - |
@@ -46,5 +48,4 @@ package:
     - find .. -maxdepth 1 -type f -name "*.so*" -exec cp -a {} data/ \;
     - cp -a ../SimpleAmqpClient-$VERSION/src/SimpleAmqpClient/*.h data/
     - cp -a ../*.pc data/
-    - test ! -d ../../debian || cp -a ../../debian/* debian/
     - dpkg-buildpackage --no-sign

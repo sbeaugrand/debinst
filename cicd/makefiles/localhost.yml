@@ -20,6 +20,7 @@
     # Local roles
     - libvirt
     # Desktop roles
+    - emacs
     - lxde
     - lxpanel
     - notifications
@@ -29,6 +30,11 @@
     - role: homepage
       vars:
         src: homepage
+    # Optional
+    #- dell7510
+    #- uncrustify
+    #- upgrade
+    #- weather
   handlers:
     - name: openbox reconfigure
       command: openbox --reconfigure

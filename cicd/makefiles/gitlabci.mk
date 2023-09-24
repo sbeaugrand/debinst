@@ -113,5 +113,5 @@ tar:
 	 --exclude=*~\
 	 --exclude=.*.swp\
 	 --exclude=build\
-	 makefiles\
+	 makefiles/*.*\
 	 $(propath)

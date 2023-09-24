@@ -15,6 +15,7 @@ fi
 
 if notGrep weather $file; then
     cat >>$file <<EOF
+# BEGIN ANSIBLE MANAGED BLOCK
 Plugin {
   type=weather
   Config {
@@ -30,6 +31,7 @@ Plugin {
     provider=openweathermap
   }
 }
+# END ANSIBLE MANAGED BLOCK
 EOF
     lxpanelctl restart
 fi

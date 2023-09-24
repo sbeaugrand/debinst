@@ -8,6 +8,7 @@ file=/etc/cron.weekly/aptupgrade
 if notFile $file; then
     cat >$tmpf <<EOF
 #!/bin/sh
+# BEGIN ANSIBLE MANAGED BLOCK
 export DISPLAY=:0.0
 export XAUTHORITY=$home/.Xauthority
 xmessage Debut de mise a jour >/var/log/aptupgrade 2>&1 &
@@ -18,6 +19,7 @@ apt-get -y dist-upgrade >>/var/log/aptupgrade 2>&1
 apt-get -y autoremove >>/var/log/aptupgrade 2>&1
 apt-get -y autoclean >>/var/log/aptupgrade 2>&1
 xmessage Fin de mise a jour >>/var/log/aptupgrade 2>&1
+# END ANSIBLE MANAGED BLOCK
 EOF
     chmod 755 $tmpf
     sudoRoot cp $tmpf $file

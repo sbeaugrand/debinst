@@ -1,0 +1,27 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: paris
+  blockinfile:
+    path: "{{ home }}/.config/lxpanel/LXDE/panels/panel"
+    block: |
+      Plugin {
+        type=weather
+        Config {
+          alias=Paris
+          city=Paris
+          state=Île-de-France
+          country=France
+          units=c
+          interval=20
+          enabled=1
+          latitude=48,856610
+          longitude=2,351499
+          provider=openweathermap
+        }
+      }
+  notify:
+    - lxpanelctl restart

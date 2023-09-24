@@ -12,6 +12,7 @@
   roles:
     - bashrc
     - screen
+    - emacs
     - vim
     - xterm
     - lxde

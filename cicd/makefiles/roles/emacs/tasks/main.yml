@@ -1,18 +1,11 @@
 # ---------------------------------------------------------------------------- #
-## \file playbook.yml
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: import localhost playbook
-  import_playbook: ../../makefiles/localhost.yml
-
-- hosts: localhost
-  vars:
-    user: "{{ lookup('env', 'USER') }}"
-    home: /home/{{ user }}
-  roles:
-    - packages-dev-examples
-    # Optional
-    #- rabbitmq
+- name: emacs.el
+  copy:
+    src: emacs.el
+    dest: "{{ home }}/.emacs"
+    force: no

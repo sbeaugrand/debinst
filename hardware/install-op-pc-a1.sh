@@ -34,12 +34,14 @@ hardware/install-op-scan-mustekA3.sh
 file=/etc/X11/xorg.conf.d/99-mode.conf
 if notFile $file; then
     cat >$tmpf <<EOF
+# BEGIN ANSIBLE MANAGED BLOCK
 Section "Monitor"
   Identifier "`xrandr | grep -m 1 connected | cut -d ' ' -f 1`"
 `gtf 1920 1080 60`
   Option "PreferredMode" "1920x1080_60.00"
   DisplaySize 346 194
 EndSection
+# END ANSIBLE MANAGED BLOCK
 EOF
     sudoRoot cp $tmpf $file
 fi
