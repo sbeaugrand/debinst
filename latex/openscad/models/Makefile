@@ -5,6 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 OBJECTS  = $(patsubst %.scad,%.stl,$(wildcard *.scad))
+OBJECTS += $(patsubst %.svg,%.pdf,$(wildcard *.svg))
 OBJECTS := $(addprefix build/,$(OBJECTS))
 
 .SUFFIXES:
@@ -16,4 +17,7 @@ build:
 	@mkdir build
 
 build/%.stl: %.scad
-	openscad -q -o $@ $<
+	openscad -q -D export=true -o $@ $<
+
+build/%.pdf: %.svg
+	rsvg-convert -f pdf -o $@ $<
