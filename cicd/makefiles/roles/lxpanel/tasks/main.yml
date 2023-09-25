@@ -4,6 +4,26 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
+- name: copy default panel
+  copy:
+    src: /etc/xdg/lxpanel/default/panels/panel
+    dest: "{{ home }}/.config/lxpanel/LXDE/panels/panel"
+    force: no
+  notify:
+    - lxpanelctl restart
+
+- name: suppr launchbar spaces
+  lineinfile:
+    path: "{{ home }}/.config/lxpanel/LXDE/panels/panel"
+    regexp: '    type = launchbar'
+    line: '  type=launchbar'
+
+- name: suppr pager spaces
+  lineinfile:
+    path: "{{ home }}/.config/lxpanel/LXDE/panels/panel"
+    regexp: '    type = pager'
+    line: '  type=pager'
+
 - name: launchbar
   blockinfile:
     path: "{{ home }}/.config/lxpanel/LXDE/panels/panel"

@@ -25,6 +25,12 @@
       - chrony
   become: yes
 
+- name: Remove EXTERNALLY-MANAGED file
+  ansible.builtin.file:
+    path: /usr/lib/python3.11/EXTERNALLY-MANAGED
+    state: absent
+  become: yes
+
 - name: install python packages
   pip:
     name:

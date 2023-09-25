@@ -40,3 +40,5 @@
       command: openbox --reconfigure
     - name: lxpanelctl restart
       command: lxpanelctl restart
+    - name: xrdb Xresources
+      command: xrdb {{ home }}/.Xresources

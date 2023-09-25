@@ -16,3 +16,9 @@
         DisplaySize 346 194
       EndSection
   become: yes
+
+- name: brightness
+  lineinfile:
+    path: "{{ home }}/.config/lxsession/LXDE/autostart"
+    regexp: 'brightness'
+    line: '@xrandr --output eDP-1 --brightness 0.55'
