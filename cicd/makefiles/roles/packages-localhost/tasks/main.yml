@@ -5,9 +5,21 @@
 # ---------------------------------------------------------------------------- #
 ---
 - name: debian.list
-  copy:
-    src: debian.list
-    dest: /etc/apt/sources.list.d/debian.list
+  blockinfile:
+    path: /etc/apt/sources.list.d/debian.list
+    create: yes
+    block: |
+      deb http://httpredir.debian.org/debian {{ ansible_distribution_release }} main contrib non-free-firmware
+      deb http://httpredir.debian.org/debian/ {{ ansible_distribution_release }}-updates main contrib non-free-firmware
+      deb-src http://httpredir.debian.org/debian {{ ansible_distribution_release }} main contrib non-free-firmware
+      deb-src http://httpredir.debian.org/debian/ {{ ansible_distribution_release }}-updates main contrib non-free-firmware
+  become: yes
+
+- name: sources.list
+  lineinfile:
+    path: /etc/apt/sources.list
+    regexp: '^deb cdrom'
+    line: '#'
   become: yes
 
 - name: install localhost packages

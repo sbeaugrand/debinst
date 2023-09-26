@@ -12,6 +12,7 @@
 - name: notifications service
   blockinfile:
     path: "{{ home }}/.local/share/dbus-1/services/org.freedesktop.Notifications.service"
+    create: yes
     block: |
       [D-BUS Service]
       Name=org.freedesktop.Notifications

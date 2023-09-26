@@ -9,6 +9,7 @@
   import_playbook: ../../makefiles/localhost.yml
 
 - hosts: localhost
+  gather_facts: no
   vars:
     user: "{{ lookup('env', 'USER') }}"
     home: /home/{{ user }}

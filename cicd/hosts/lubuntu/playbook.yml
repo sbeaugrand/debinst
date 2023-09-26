@@ -9,6 +9,7 @@
   import_playbook: ../../makefiles/virtualhost.yml
 
 - hosts: default
+  gather_facts: no
   vars:
     user: vagrant
     home: /home/{{ user }}
