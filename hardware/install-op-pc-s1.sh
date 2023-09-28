@@ -14,7 +14,6 @@ install-op-/install-op-id3ed.sh
 install-op-/install-op-kiplot.sh
 install-op-/install-op-mp3gain.sh
 install-op-/install-op-mraa-xc.sh
-install-op-/install-op-uncrustify.sh
 install-op-/install-op-avidemux.sh
 install-op-/install-op-camotics.sh
 install-pr-/install-pr-alias.sh
@@ -23,6 +22,7 @@ install-op-/install-op-ssh-keygen.sh
 hardware/install-op-lp-hpP1006.sh
 hardware/install-op-grbl-sim.sh
 hardware/marlin/install-op-marlin-src.sh
+-role=uncrustify install-op-/install-op-ansible.sh
 -su
 install-pr-/install-pr-swap.sh
 hardware/install-op-alsa-order.sh

@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------- #
-## \file playbook.yml
+## \file install-02-ansible.yml
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
@@ -16,6 +16,7 @@
     - vim
     - xterm
     - lxde
+    - notifications
     - screensaver-on
   handlers:
     - name: openbox reconfigure

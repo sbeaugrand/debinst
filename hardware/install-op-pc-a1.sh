@@ -16,9 +16,6 @@ install-op-/install-op-fonts-gcodefonts.sh
 install-op-/install-op-fstab.sh
 install-op-/install-op-kivy.sh
 install-op-/install-op-lingot.sh
-install-op-/install-op-meteo.sh
-install-op-/install-op-uncrustify.sh
-install-op-/install-op-upgrades.sh
 install-op-/install-op-ytdlp.sh
 mobian/kivy/install-op-2048.sh
 install-pr-/install-pr-alias.sh
@@ -27,6 +24,9 @@ install-pr-/install-pr-pdcroix.sh
 install-op-/install-op-ssh-keygen.sh
 hardware/install-op-hotspot.sh
 hardware/install-op-lp-hpP1006.sh
+-role=uncrustify install-op-/install-op-ansible.sh
+-role=weather    install-op-/install-op-ansible.sh
+-role=upgrade    install-op-/install-op-ansible.sh
 -su
 hardware/install-op-scan-mustekA3.sh
 "
