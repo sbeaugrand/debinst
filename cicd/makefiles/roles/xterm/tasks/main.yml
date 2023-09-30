@@ -14,4 +14,5 @@
       xterm*foreground: white
       xterm*background: black
       xterm*vt100*translations: #override <Key>F9: secure()
-  notify: xrdb Xresources
+  notify:
+    - xrdb Xresources

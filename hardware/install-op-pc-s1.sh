@@ -22,7 +22,7 @@ install-op-/install-op-ssh-keygen.sh
 hardware/install-op-lp-hpP1006.sh
 hardware/install-op-grbl-sim.sh
 hardware/marlin/install-op-marlin-src.sh
--role=uncrustify install-op-/install-op-ansible.sh
+-list=[\'uncrustify\'] install-op-/install-op-ansible.sh
 -su
 install-pr-/install-pr-swap.sh
 hardware/install-op-alsa-order.sh

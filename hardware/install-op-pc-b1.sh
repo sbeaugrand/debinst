@@ -14,8 +14,7 @@ install-op-/install-op-ssh-keygen.sh
 install-op-/install-op-ssh-server.sh
 hardware/install-op-lp-ts5000.sh
 hardware/install-op-ipod.sh
--role=weather install-op-/install-op-ansible.sh
--role=upgrade install-op-/install-op-ansible.sh
+-list=[\'weather\',\'upgrade\'] install-op-/install-op-ansible.sh
 "
 
 if notLink $home/.gramps && isDir /data/gramps; then

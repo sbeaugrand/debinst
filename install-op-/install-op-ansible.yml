@@ -9,8 +9,11 @@
   vars:
     user: "{{ lookup('env', 'USER') }}"
     home: /home/{{ user }}
-  roles:
-    - "{{ role }}"
+  tasks:
+    - name: include roles
+      include_role:
+        name: "{{ item }}"
+      loop: "{{ list }}"
   handlers:
     - name: lxpanelctl restart
       command: lxpanelctl restart

@@ -24,9 +24,7 @@ install-pr-/install-pr-pdcroix.sh
 install-op-/install-op-ssh-keygen.sh
 hardware/install-op-hotspot.sh
 hardware/install-op-lp-hpP1006.sh
--role=uncrustify install-op-/install-op-ansible.sh
--role=weather    install-op-/install-op-ansible.sh
--role=upgrade    install-op-/install-op-ansible.sh
+-list=[\'uncrustify\',\'weather\',\'upgrade\'] install-op-/install-op-ansible.sh
 -su
 hardware/install-op-scan-mustekA3.sh
 "

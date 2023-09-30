@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-version=2.8.0
+version=2.8.1
 repo=$idir/../repo
 
 if isOnline; then

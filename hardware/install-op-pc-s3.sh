@@ -16,9 +16,7 @@ install-pr-/install-pr-w3m.sh
 install-pr-/install-pr-xmms2.sh
 hardware/install-op-lp-mfc9330cdw.sh
 install-op-/install-op-mplayer.sh
--role=uncrustify install-op-/install-op-ansible.sh
--role=weather    install-op-/install-op-ansible.sh
--role=upgrade    install-op-/install-op-ansible.sh
+-list=[\'uncrustify\',\'weather\',\'upgrade\'] install-op-/install-op-ansible.sh
 -su
 install-pr-/install-pr-swap.sh
 "

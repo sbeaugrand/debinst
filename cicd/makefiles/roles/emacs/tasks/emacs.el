@@ -167,7 +167,6 @@
   (font-lock-mode 1)))
 
 ; Modes
-(add-to-list 'auto-mode-alist '( "todo"     . text-mode))
 (add-to-list 'auto-mode-alist '( ".php$"    . php-mode))
 (add-to-list 'auto-mode-alist '(".wsdl$"    . sgml-mode))
 (add-to-list 'auto-mode-alist '( ".xsd$"    . sgml-mode))

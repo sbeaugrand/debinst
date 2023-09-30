@@ -9,10 +9,8 @@ file=/etc/sudoers.d/$user
 if notFile $file; then
     logInfo "add $file"
     su -c "echo '
-# BEGIN ANSIBLE MANAGED BLOCK
 Defaults rootpw
 $user ALL=(root) ALL
 $user ALL=($user) ALL
-# END ANSIBLE MANAGED BLOCK
 ' >$file && chmod 440 $file"
 fi

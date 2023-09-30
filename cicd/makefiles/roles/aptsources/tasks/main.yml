@@ -1,0 +1,30 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: debian.list
+  blockinfile:
+    path: /etc/apt/sources.list.d/debian.list
+    create: yes
+    block: |
+      deb http://httpredir.debian.org/debian {{ ansible_distribution_release }} main contrib non-free-firmware
+      deb http://httpredir.debian.org/debian/ {{ ansible_distribution_release }}-updates main contrib non-free-firmware
+      deb-src http://httpredir.debian.org/debian {{ ansible_distribution_release }} main contrib non-free-firmware
+      deb-src http://httpredir.debian.org/debian/ {{ ansible_distribution_release }}-updates main contrib non-free-firmware
+  register: sources
+  become: yes
+
+- name: sources.list
+  lineinfile:
+    path: /etc/apt/sources.list
+    regexp: '^deb cdrom'
+    line: '#'
+  become: yes
+
+- name: apt update
+  apt:
+    update_cache: yes
+  when: sources.changed
+  become: yes

@@ -9,8 +9,8 @@
     path: "/home/{{ user }}/.bashrc"
     create: yes
     block: |
-      export PS1='\u:\w> '
-      export SCREENDIR={{ home }}/.screen
+      PS1='\u:\w> '
+      SCREENDIR={{ home }}/.screen
       PATH={{ home }}/.local/bin:/usr/local/bin:/usr/bin:/bin
       if [ -d {{ home }}/install/debinst/bin ]; then
           PATH=$PATH:{{ home }}/install/debinst/bin

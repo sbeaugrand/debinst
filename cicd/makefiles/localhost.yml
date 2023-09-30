@@ -10,14 +10,14 @@
     user: "{{ lookup('env', 'USER') }}"
     home: /home/{{ user }}
   roles:
-    - sudoers
-    - packages-localhost
+    - aptsources
     # Common roles
     - bashrc
     - packages-dev
     - timezone
     - vim
     # Local roles
+    - packages-localhost
     - libvirt
     # Desktop roles
     - emacs

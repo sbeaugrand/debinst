@@ -11,6 +11,14 @@ cd debinst
 systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-op-/install-op-mplayer.sh'
 ```
 
+# Installation légère sur une debian existante
+```
+cd install/debinst
+./0install.sh install-ob-/install-00-sudoers.sh
+cd cicd/hosts/localhost
+make local
+```
+
 # Création d'une nouvelle debian sur clé USB
 ```
 make pkgs
