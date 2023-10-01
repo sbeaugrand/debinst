@@ -8,7 +8,6 @@ list=`echo $args | cut -d '=' -f 2`
 logInfo "ansible role $list"
 
 ANSIBLE_ROLES_PATH=$idir/cicd/makefiles/roles \
-ANSIBLE_GATHERING=explicit \
 ansible-playbook\
  -i $idir/cicd/hosts/localhost/inventory.yml\
  $idir/install-op-/install-op-ansible.yml\

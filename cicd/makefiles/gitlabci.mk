@@ -21,7 +21,7 @@ else
 endif
 
 PROJECT ?= $(shell basename `readlink -f .`)
-IMAGE ?= ubuntu:22.10
+IMAGE ?= ubuntu:23.04
 BUILD ?= Debug
 URI ?= exemple@ip
 SSH ?= vagrant ssh -c

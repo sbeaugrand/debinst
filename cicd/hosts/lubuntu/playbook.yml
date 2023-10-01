@@ -16,7 +16,3 @@
   roles:
     - packages-dev-examples
     - rabbitmq
-    # Desktop roles
-    #- packages-lubuntu
-    #- screen
-    #- screensaver-off

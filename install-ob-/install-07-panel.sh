@@ -63,12 +63,14 @@ delPattern wincmd
 if notGrep batt $file; then
     if upower -e | grep -q battery; then
         cat >>$file <<EOF
+# BEGIN BATTERY ANSIBLE MANAGED BLOCK
 Plugin {
   type=batt
   Config {
     AlarmTime=120
   }
 }
+# BEGIN BATTERY ANSIBLE MANAGED BLOCK
 EOF
     fi
 fi

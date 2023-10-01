@@ -4,8 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
- ANSIBLE_ROLES_PATH=$idir/cicd/makefiles/roles\
- ANSIBLE_GATHERING=explicit\
- ansible-playbook\
+ANSIBLE_ROLES_PATH=$idir/cicd/makefiles/roles \
+ansible-playbook\
  -i $idir/cicd/hosts/localhost/inventory.yml\
  $idir/install-ob-/install-*-ansible.yml

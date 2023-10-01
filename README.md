@@ -13,10 +13,10 @@ systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-
 
 # Installation légère sur une debian existante
 ```
-cd install/debinst
-./0install.sh install-ob-/install-00-sudoers.sh
-cd cicd/hosts/localhost
+cd install/debinst/cicd/hosts/localhost
+make sudoers
 make local
+make extraroles
 ```
 
 # Création d'une nouvelle debian sur clé USB

@@ -1,0 +1,25 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: upower
+  command: upower -e
+  register: pow
+  changed_when: no
+
+- name: lxpanel battery plugin
+  blockinfile:
+    path: "{{ home }}/.config/lxpanel/LXDE/panels/panel"
+    marker: '# {mark} BATTERY ANSIBLE MANAGED BLOCK'
+    block: |
+      Plugin {
+        type=batt
+        Config {
+          AlarmTime=120
+        }
+      }
+  when: pow.stdout.find('battery') != -1
+  notify:
+    - lxpanelctl restart

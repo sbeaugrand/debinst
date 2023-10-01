@@ -8,8 +8,10 @@
 
 ifeq ($(wildcard Vagrantfile),Vagrantfile)
  TARGETS = up | add-ip | del-ip | get-ip
+ AARGS = -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory
 else ifeq ($(URI),)
  TARGETS = local
+ AARGS = -e host=all
 else
  TARGETS = ssh-copy-id | local | remote | mount | umount | ssh [CMD=\"\"] | halt
  BECOMEPASS ?= --extra-vars "ansible_sudo_pass=example"
@@ -61,6 +63,16 @@ local:
 .PHONY: remote
 remote:
 	@user=$(user) ansible-playbook $(BECOMEPASS) playbook.yml
+
+.PHONY: extraroles
+extraroles:
+	@ansible-playbook ../../makefiles/includeroles.yml $(AARGS)\
+	 -e list=$(EXTRAROLES)
+
+.PHONY: sudoers
+sudoers:
+	@ansible-playbook ../../makefiles/includeroles.yml $(AARGS)\
+	 -e list="['sudoers']" --become-method ansible.builtin.su
 
 .PHONY: mount
 mount:
