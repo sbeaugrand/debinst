@@ -17,13 +17,13 @@
 
 ; Deplacements
 (global-set-key [S-right]  'other-window)
-(global-set-key [S-left]   '(lambda () (interactive) (other-window -1)))
-(global-set-key [S-up]     '(lambda () (interactive) (scroll-down   1)))
-(global-set-key [S-down]   '(lambda () (interactive) (scroll-up     1)))
-(global-set-key [M-right]  '(lambda () (interactive) (forward-char  1)
-                                                     (scroll-left   1)))
-(global-set-key [M-left]   '(lambda () (interactive) (backward-char 1)
-                                                     (scroll-right  1)))
+(global-set-key [S-left]   #'(lambda () (interactive) (other-window -1)))
+(global-set-key [S-up]     #'(lambda () (interactive) (scroll-down   1)))
+(global-set-key [S-down]   #'(lambda () (interactive) (scroll-up     1)))
+(global-set-key [M-right]  #'(lambda () (interactive) (forward-char  1)
+                                                      (scroll-left   1)))
+(global-set-key [M-left]   #'(lambda () (interactive) (backward-char 1)
+                                                      (scroll-right  1)))
 (global-set-key [\home]    'beginning-of-line)
 (global-set-key [\end]     'end-of-line)
 (global-set-key [(meta g)] 'goto-line)
@@ -64,7 +64,7 @@
   (set-face-background 'menu "DarkSlateGray")
   (set-face-background 'scroll-bar "DarkSlateGray")
   (set-face-background 'region "DarkSlateGray")
-  (add-hook 'sh-mode-hook '(lambda ()
+  (add-hook 'sh-mode-hook #'(lambda ()
     (set-face-foreground 'sh-heredoc "wheat")))
 )
 (frame-setup)
@@ -142,13 +142,13 @@
 (setq cmake-tab-width 4)
 
 ; Suppression des espaces en fin de ligne a l'enregistrement
-(add-hook 'c++-mode-hook '(lambda ()
+(add-hook 'c++-mode-hook #'(lambda ()
   (add-hook 'write-contents-hooks 'delete-trailing-whitespace nil t)))
-(add-hook   'c-mode-hook '(lambda ()
+(add-hook   'c-mode-hook #'(lambda ()
   (add-hook 'write-contents-hooks 'delete-trailing-whitespace nil t)))
-(add-hook  'sh-mode-hook '(lambda ()
+(add-hook  'sh-mode-hook #'(lambda ()
   (add-hook 'write-contents-hooks 'delete-trailing-whitespace nil t)))
-(add-hook  'js-mode-hook '(lambda ()
+(add-hook  'js-mode-hook #'(lambda ()
   (add-hook 'write-contents-hooks 'delete-trailing-whitespace nil t)))
 
 ; Nouveaux types
@@ -161,7 +161,7 @@
 (autoload 'php-mode "php-mode" nil t)
 (autoload 'javascript-mode "javascript" nil t)
 (autoload 'nxhtml-mumamo-mode "nxhtml/autostart.el" nil t)
-(add-hook 'nxhtml-mumamo-mode-hook '(lambda ()
+(add-hook 'nxhtml-mumamo-mode-hook #'(lambda ()
   (setq mumamo-background-colors nil)
   (font-lock-mode 0)
   (font-lock-mode 1)))
@@ -217,17 +217,17 @@
       (split-window (selected-window)    (+ nb-cols win-edge)    t nil))
   (delete-frame (previous-frame))
 )
-(global-set-key [f1] '(lambda () (interactive)
+(global-set-key [f1] #'(lambda () (interactive)
   (setq after-make-frame-functions 'after-make-frame)
   (setq num 1) (if (< win-num num) (setq num win-num))
   (make-frame)
 ))
-(global-set-key [f2] '(lambda () (interactive)
+(global-set-key [f2] #'(lambda () (interactive)
   (setq after-make-frame-functions 'after-make-frame)
   (setq num 2) (if (< win-num num) (setq num win-num))
   (make-frame)
 ))
-(global-set-key [f3] '(lambda () (interactive)
+(global-set-key [f3] #'(lambda () (interactive)
   (setq after-make-frame-functions 'after-make-frame)
   (setq num 3) (if (< win-num num) (setq num win-num))
   (make-frame)
@@ -245,7 +245,7 @@
     (kill-this-buffer)
   ))
 )
-(add-hook 'kill-emacs-hook '(lambda ()
+(add-hook 'kill-emacs-hook #'(lambda ()
   (select-window (window-at 0 0))
   (setq list-buffers nil)
   (if (> win-num 2) (save-prev-buffer-file-name))
@@ -258,7 +258,7 @@
 ))
 
 ; Chargement des derniers fichiers utilises
-(global-set-key [f4] '(lambda () (interactive)
+(global-set-key [f4] #'(lambda () (interactive)
   (if (file-readable-p "~/.emacs-last") (progn
     (delete-other-windows)
     (find-file "~/.emacs-last")
@@ -283,11 +283,11 @@
 
 ; Buffer precedent
 (setq last-prev-buffer nil)
-(global-set-key [f5] '(lambda () (interactive)
+(global-set-key [f5] #'(lambda () (interactive)
   (setq last-prev-buffer (current-buffer))
   (switch-to-buffer (other-buffer))
 ))
-(global-set-key [f6] '(lambda () (interactive)
+(global-set-key [f6] #'(lambda () (interactive)
   (switch-to-buffer (other-buffer last-prev-buffer))
 ))
 
@@ -303,15 +303,15 @@
   )
   (fill-region min max)
 )
-(global-set-key [f10] '(lambda () (interactive)
+(global-set-key [f10] #'(lambda () (interactive)
   (justify-buffer)
 ))
 
 ; Largeur du texte
-(add-hook  'tex-mode-hook '(lambda ()
-			     (setq fill-column nb-cols) (auto-fill-mode 1)))
-(add-hook 'text-mode-hook '(lambda ()
-			     (setq fill-column nb-cols) (auto-fill-mode 1)))
+(add-hook  'tex-mode-hook #'(lambda ()
+			      (setq fill-column nb-cols) (auto-fill-mode 1)))
+(add-hook 'text-mode-hook #'(lambda ()
+			      (setq fill-column nb-cols) (auto-fill-mode 1)))
 
 ; Orthographe
 (setq flyspell-mode nil)
@@ -321,7 +321,7 @@
 (setq ispell-dictionary "francais")
 (setq flyspell-large-region 10000)
 
-(global-set-key [f11] '(lambda () (interactive)
+(global-set-key [f11] #'(lambda () (interactive)
   (if flyspell-mode
     (flyspell-mode 0)
     (progn
@@ -403,4 +403,4 @@
   (goto-char 0)
   (switch-to-buffer (current-buffer))
 )
-(global-set-key [f12] '(lambda () (interactive) (key-bindings-help)))
+(global-set-key [f12] #'(lambda () (interactive) (key-bindings-help)))
