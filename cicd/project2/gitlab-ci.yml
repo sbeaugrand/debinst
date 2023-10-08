@@ -48,4 +48,4 @@ package:
     - find .. -maxdepth 1 -type f -name "*.so*" -exec cp -a {} data/ \;
     - cp -a ../SimpleAmqpClient-$VERSION/src/SimpleAmqpClient/*.h data/
     - cp -a ../*.pc data/
-    - dpkg-buildpackage --no-sign
+    - SOURCE_DATE_EPOCH=`date +%s` dpkg-buildpackage --no-sign

@@ -33,7 +33,7 @@ variables:
   PROJECT: example
   VERSION: 1.0
   STRIP: strip
-  RSYNC: rsync --checksum --delete -a --exclude=*~ --exclude=build* -i
+  RSYNC: rsync -c --delete -a --exclude=*~ --exclude=build --exclude=build-* -i
   URI: example@ip
   SSH: vagrant ssh -c
   USERPATH: /vagrant/.vagrant
@@ -84,7 +84,7 @@ package:
     - >
       test ! -d ../../share || ls ../../share |
       sed "s#\(.*\)#data/\1 /usr/share/$PROJECT/#" >>debian/$PROJECT.install
-    - dpkg-buildpackage --no-sign $OPTS
+    - SOURCE_DATE_EPOCH=`date +%s` dpkg-buildpackage --no-sign $OPTS
 install:
   stage: install
   script:

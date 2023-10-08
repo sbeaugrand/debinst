@@ -10,7 +10,9 @@ dev=/dev/${dev:-sda1}
 
 cat <<EOF
 
+sudo su
 swapoff $dev
+mkfs.ext4 $dev
 cryptsetup -d /dev/urandom create cryptedswap $dev
 mkswap /dev/mapper/cryptedswap
 echo "cryptedswap $dev /dev/urandom swap" >>/etc/crypttab
