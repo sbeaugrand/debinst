@@ -1,3 +1,19 @@
+# scad to SVG with gl2ps
+```
+git clone https://github.com/Open-Cascade-SAS/gl2ps.git
+git clone https://github.com/openscad/openscad.git
+cd openscad
+git submodule update --init --recursive
+git apply openscad.patch
+mkdir build
+cd build
+cmake ..
+make
+LANG=C ./openscad
+File => Export => Export as Image
+../faces2edges.py -f out.svg >../out.svg
+```
+
 # scad to SVG with blender
 ```
 cd models
