@@ -80,7 +80,7 @@ if notLink $home/.gramps && isDir /data/gramps; then
 fi
 
 if notWhich chromium; then
-    sudoRoot apt-get -q -y install --no-install-recommends chromium
+    sudoRoot apt-get -q -y install --no-install-recommends chromium webext-ublock-origin-chromium
 fi
 if notWhich evolution; then
     sudoRoot apt-get -q -y install --no-install-recommends evolution

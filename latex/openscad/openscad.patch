@@ -19,7 +19,7 @@ index e14df598e..53d873cdb 100644
      ${GLEW_SOURCES})
  endif()
 diff --git a/src/gui/QGLView.cc b/src/gui/QGLView.cc
-index 484356f17..471327a35 100644
+index 484356f17..51476a245 100644
 --- a/src/gui/QGLView.cc
 +++ b/src/gui/QGLView.cc
 @@ -57,6 +57,7 @@
@@ -30,7 +30,7 @@ index 484356f17..471327a35 100644
  
  QGLView::QGLView(QWidget *parent) : QOpenGLWidget(parent)
  {
-@@ -351,6 +352,21 @@ const QImage& QGLView::grabFrame()
+@@ -351,6 +352,22 @@ const QImage& QGLView::grabFrame()
  {
    // Force reading from front buffer. Some configurations will read from the back buffer here.
    glReadBuffer(GL_FRONT);
@@ -48,6 +48,7 @@ index 484356f17..471327a35 100644
 +      GLView::paintGL();
 +      state = gl2psEndPage();
 +  }
++  fclose(fp);
 +
    this->frame = grabFramebuffer();
    return this->frame;

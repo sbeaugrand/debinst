@@ -14,8 +14,8 @@
       - curl
       - docker.io
       - dpkg-cross
-      - elpa-dpkg-dev-el
       - elpa-cmake-mode
+      - elpa-dpkg-dev-el
       - elpa-markdown-mode
       - elpa-systemd
       - elpa-yaml-mode
