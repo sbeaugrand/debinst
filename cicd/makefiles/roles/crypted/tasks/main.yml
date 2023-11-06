@@ -1,0 +1,61 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+## \note Source:
+##       https://github.com/
+##       make-github-pseudonymous-again/blog/blob/master/content/post/
+##       2018-05-24-automatically-mount-luks-encrypted-device-with-systemd.md
+##
+##       Usage example :
+##       sudo dd if=/dev/random of=/root/luksKey bs=512 count=8
+##       sudo cryptsetup luksAddKey /dev/sda3 /root/luksKey
+##       ansible-playbook ../../makefiles/includeroles.yml \
+##         -e host=all -e list="['crypted']" -e dev=sda3 -e mnt=data
+##       sudo systemctl start sda3.mount
+##
+##       Disable :
+##       sudo cryptsetup luksRemoveKey /dev/sda3 /root/luksKey
+##
+##       Re-enable :
+##       sudo cryptsetup luksAddKey /dev/sda3 /root/luksKey
+# ---------------------------------------------------------------------------- #
+---
+- name: "{{ mnt }}.mount"
+  blockinfile:
+    path: /etc/systemd/system/{{ mnt }}.mount
+    create: yes
+    block: |
+      [Unit]
+      Conflicts=umount.target
+      Before=umount.target
+      BindsTo={{ mnt }}.service
+      After={{ mnt }}.service dev-mapper-{{ mnt }}.device
+
+      [Mount]
+      What=/dev/mapper/{{ mnt }}
+      Where=/{{ mnt }}
+      Type=ext4
+      Options=defaults,rw,noexec,x-systemd.automount,relatime
+  become: yes
+
+- name: "{{ mnt }}.service"
+  blockinfile:
+    path: /etc/systemd/system/{{ mnt }}.service
+    create: yes
+    block: |
+      [Unit]
+      BindsTo={{ mnt }}.mount
+      Requires=dev-{{ dev }}.device
+      After=dev-{{ dev }}.device
+      DefaultDependencies=no
+
+      [Service]
+      Type=oneshot
+      RemainAfterExit=yes
+      ExecStart=cryptsetup luksOpen -d /root/luksKey /dev/{{ dev }} {{ mnt }}
+      ExecStop=cryptsetup luksClose {{ mnt }}
+
+      [Install]
+      RequiredBy={{ mnt }}.mount
+  become: yes

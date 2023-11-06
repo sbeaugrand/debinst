@@ -25,5 +25,7 @@
   lineinfile:
     path: "{{ home }}/.local/share/applications/chromium.desktop"
     regexp: '^Exec='
-    line: Exec=/usr/bin/chromium -homepage {{ home }}/.local/share/homepage/homepage.html %U
+    line: >
+      Exec=/usr/bin/chromium
+      -homepage {{ home }}/.local/share/homepage/homepage.html %U
   when: st.stat.exists

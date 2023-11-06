@@ -91,6 +91,12 @@ pipeline:
 .PHONY: xpipeline
 xpipeline: test xbuild xpackage xdeploy xtest
 
+.PHONY: rbpd
+rbpd:
+	@$(MAKE) --no-print-directory rbuild
+	@$(MAKE) --no-print-directory rpackage
+	@$(MAKE) --no-print-directory rdeploy
+
 .PHONY: xbit
 xbit: xbuild xinstall xtest
 
