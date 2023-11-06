@@ -8,7 +8,7 @@ version=1.10.4
 file=id3ed-$version.tar.gz
 repo=$idir/../repo
 
-download http://distfiles.gentoo.org/distfiles/$file || return 1
+download https://distfiles.gentoo.org/distfiles/f9/$file || return 1
 untar $file || return 1
 
 if notWhich id3ed; then

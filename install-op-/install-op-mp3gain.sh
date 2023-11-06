@@ -4,11 +4,11 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-version=1.5.2
-file=mp3gain-1_5_2-src.zip
+version=1.6.2
+file=mp3gain-1_6_2-src.zip
 repo=$idir/../repo
 
-download http://distfiles.gentoo.org/distfiles/$file || return 1
+download https://distfiles.gentoo.org/distfiles/2b/$file || return 1
 
 if notDir $bdir/mp3gain-$version; then
     pushd $bdir || return 1

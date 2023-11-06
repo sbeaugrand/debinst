@@ -52,8 +52,8 @@ patch
 libmpg123-dev
 normalize-audio
 gocr
-#libnetpbm10-dev
-libpng-dev
+#libnetpbm10-dev  # transcode
+#libpng-dev  # subtitleripper
 libx264-dev  # ffmpeg
 libvorbis-dev  # ffmpeg
 libsdl2-dev  # ffplay
