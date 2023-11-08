@@ -21,5 +21,11 @@ OBJECTS =\
 CXXFLAGS = -Irc-switch
 include $(PROROOT)/makefiles/arduino.mk
 
-RCSwitch.cpp:
+RCSwitch.cpp: rc-switch
+	@ln -sf rc-switch/RCSwitch.cpp $@
+
+ReceiveDemo_Simple.cpp: rc-switch
+	@ln -sf rc-switch/examples/ReceiveDemo_Simple/ReceiveDemo_Simple.ino $@
+
+rc-switch:
 	@git clone https://github.com/sui77/rc-switch.git

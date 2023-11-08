@@ -1,1 +1,0 @@
-rc-switch/examples/ReceiveDemo_Simple/ReceiveDemo_Simple.ino
