@@ -7,13 +7,14 @@
 -include host.mk
 
 ifeq ($(wildcard Vagrantfile),Vagrantfile)
- TARGETS = up | add-ip | del-ip | get-ip
+ TARGETS = up | add-ip | del-ip | get-ip | extraroles
  AARGS = -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory
 else ifeq ($(URI),)
- TARGETS = local
+ TARGETS = sudoers | local | extraroles
  AARGS = --extra-vars host=all
 else
- TARGETS = ssh-copy-id | local | remote | mount | umount | ssh [CMD=\"\"] | halt
+ TARGETS = ssh-copy-id | local | remote | extraroles\
+ | mount | umount | ssh [CMD=\"\"] | halt
  BECOMEPASS ?= --extra-vars ansible_sudo_pass=example
 endif
 

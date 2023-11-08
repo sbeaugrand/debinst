@@ -8,17 +8,7 @@
 ##       2018-05-24-automatically-mount-luks-encrypted-device-with-systemd.md
 ##
 ##       Usage example :
-##       sudo dd if=/dev/random of=/root/luksKey bs=512 count=8
-##       sudo cryptsetup luksAddKey /dev/sda3 /root/luksKey
-##       ansible-playbook ../../makefiles/includeroles.yml \
-##         -e host=all -e list="['crypted']" -e dev=sda3 -e mnt=data
-##       sudo systemctl start sda3.mount
-##
-##       Disable :
-##       sudo cryptsetup luksRemoveKey /dev/sda3 /root/luksKey
-##
-##       Re-enable :
-##       sudo cryptsetup luksAddKey /dev/sda3 /root/luksKey
+##       https://github.com/sbeaugrand/debinst/tree/master/cicd/hosts/localhost
 # ---------------------------------------------------------------------------- #
 ---
 - name: "{{ mnt }}.mount"
@@ -37,7 +27,10 @@
       Where=/{{ mnt }}
       Type=ext4
       Options=defaults,rw,noexec,x-systemd.automount,relatime
-  become: yes
+
+      [Install]
+      WantedBy=multi-user.target
+    become: yes
 
 - name: "{{ mnt }}.service"
   blockinfile:
@@ -53,8 +46,8 @@
       [Service]
       Type=oneshot
       RemainAfterExit=yes
-      ExecStart=cryptsetup luksOpen -d /root/luksKey /dev/{{ dev }} {{ mnt }}
-      ExecStop=cryptsetup luksClose {{ mnt }}
+      ExecStart=cryptsetup open -d /root/luksKey /dev/{{ dev }} {{ mnt }}
+      ExecStop=cryptsetup close {{ mnt }}
 
       [Install]
       RequiredBy={{ mnt }}.mount
