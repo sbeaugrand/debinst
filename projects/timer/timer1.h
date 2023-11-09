@@ -31,7 +31,7 @@ void sigalarm_handler(int s) {
 }
 
 void timer1AttachInterrupt(void (*isr)())
-{   
+{
     struct sigaction sa;
 
     if (gIsr != NULL) {

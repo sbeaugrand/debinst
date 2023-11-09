@@ -40,7 +40,7 @@ const char* getTimestamp();
 /* Example
 #include <time.h>
 const char* getTimestamp()
-{   
+{
     static char timestamp[20];
     time_t t;
     struct tm* l;

@@ -16,5 +16,5 @@ printf('<?php $termes = array('."\n");
 foreach($s as $v) {
     printf("'%s',\n", $v);
 }
-printf("); ?>\n"); 
+printf("); ?>\n");
 ?>

@@ -45,7 +45,7 @@ EOF
     sudoRoot systemctl restart dnscrypt-proxy
 fi
 
-file=/etc/dnscrypt-proxy/blocked-names.txt 
+file=/etc/dnscrypt-proxy/blocked-names.txt
 if notFile $file; then
     cat >$tmpf <<EOF
 www.filmstreaming.*
@@ -54,7 +54,7 @@ EOF
     rm $tmpf
 fi
 
-file=/etc/dnscrypt-proxy/cloaking-rules.txt 
+file=/etc/dnscrypt-proxy/cloaking-rules.txt
 if notFile $file; then
     cat >$tmpf <<EOF
 www.google.*             forcesafesearch.google.com

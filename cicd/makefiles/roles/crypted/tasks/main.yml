@@ -26,11 +26,11 @@
       What=/dev/mapper/{{ mnt }}
       Where=/{{ mnt }}
       Type=ext4
-      Options=defaults,rw,noexec,x-systemd.automount,relatime
+      Options=defaults,rw,x-systemd.automount,relatime
 
       [Install]
       WantedBy=multi-user.target
-    become: yes
+  become: yes
 
 - name: "{{ mnt }}.service"
   blockinfile:

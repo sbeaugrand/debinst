@@ -36,7 +36,7 @@ class RandomColor
      * \note HSV values in [0..1[
      **************************************************************************/
     private function hsvToRgb($h, $s, $v)
-    {   
+    {
         $h_i = intval($h * 6);
         $f = $h * 6 - $h_i;
         $p = $v * (1 - $s);

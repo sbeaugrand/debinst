@@ -97,7 +97,7 @@ class DepartementList
         print '\definecolor{'.$c.GENRE_M.'}{rgb}{'.$r.','.$g.','.$b."}\n";
         list($r, $g, $b) = $this->randomColor->rgb(0.12, 0.99);
         print '\definecolor{'.$c.GENRE_F.'}{rgb}{'.$r.','.$g.','.$b."}\n";
-        return $c;        
+        return $c;
     }
     /**************************************************************************!
      * \fn colorName

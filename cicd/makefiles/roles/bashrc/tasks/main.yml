@@ -19,7 +19,7 @@
           PATH=$PATH:{{ home }}/bin
       fi
       export PATH=$PATH:.
-      
+
       alias l='ls'
       alias lrt='ls -lrt'
       alias ls='ls --color=always'
@@ -29,7 +29,7 @@
       alias rm='rm -i'
       alias df='df -h'
       alias du='du -h'
-      
+
       alias purge='rm -f *~'
       alias rpurge='find . -name \*~ -exec rm {} \;'
       alias grep='grep --color=auto'
