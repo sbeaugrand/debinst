@@ -18,7 +18,7 @@ if notFile /usr/sbin/dnscrypt-proxy || notWhich lxpolkit; then
 fi
 
 file=/etc/dnscrypt-proxy/dnscrypt-proxy.toml
-if notFile $file; then
+if notGrep "parental" $file; then
     cat >$tmpf <<EOF
 # Empty listen_addresses to use systemd socket activation
 listen_addresses = []
@@ -110,6 +110,21 @@ fi
 # ---------------------------------------------------------------------------- #
 # apache
 # ---------------------------------------------------------------------------- #
+file=/etc/apache2/mods-enabled/ssl.conf
+if notLink $file; then
+    sudoRoot ln -s /etc/apache2/mods-available/ssl.conf $file
+fi
+
+file=/etc/apache2/mods-enabled/ssl.load
+if notLink $file; then
+    sudoRoot ln -s /etc/apache2/mods-available/ssl.load $file
+fi
+
+file=/etc/apache2/mods-enabled/socache_shmcb.load
+if notLink $file; then
+    sudoRoot ln -s /etc/apache2/mods-available/socache_shmcb.load $file
+fi
+
 dir=$bdir/blocked-query-response
 if notDir $dir; then
     mkdir $dir
@@ -140,21 +155,24 @@ EOF
 fi
 
 file=/etc/apache2/sites-enabled/blocked-query-response.conf
+dir=`readlink -f $dir`
 if notFile $file; then
     cat >$tmpf <<EOF
 <VirtualHost $ipr:80>
-	DocumentRoot $dir
+  DocumentRoot $dir
+  ServerName blocked
 </VirtualHost>
 <IfModule mod_ssl.c>
-	<VirtualHost $ipr:443>
-		DocumentRoot $dir
-		SSLEngine on
-		SSLCertificateFile	/etc/ssl/certs/ssl-cert-snakeoil.pem
-		SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
-	</VirtualHost>
+  <VirtualHost $ipr:443>
+    DocumentRoot $dir
+    ServerName blocked
+    SSLEngine on
+    SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
+    SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+  </VirtualHost>
 </IfModule>
 <Directory $dir>
-    Require all granted
+  Require all granted
 </Directory>
 EOF
     sudoRoot cp $tmpf $file

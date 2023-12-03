@@ -26,6 +26,7 @@
       - rsync
       - screen
       - sshfs
+      - sshpass  # ansible_password
       - uncrustify
       - xterm
   become: yes

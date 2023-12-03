@@ -29,3 +29,7 @@ ReceiveDemo_Simple.cpp: rc-switch
 
 rc-switch:
 	@git clone https://github.com/sui77/rc-switch.git
+
+test:
+	@stty -F /dev/ttyACM0 9600
+	@cat /dev/ttyACM0
