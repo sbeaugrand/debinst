@@ -24,14 +24,14 @@ updaterepo:
 	 --exclude-dir=mobian\
 	 --exclude-dir=raspbian\
 	 --exclude-dir=install-pr*\
-	 --exclude-dir=not-often-used\
+	 --exclude-dir=not-used\
 	 --exclude=*.md\
 	 --exclude=Makefile\
 	 "gitClone " | tee /dev/stderr |\
 	 sed -e 's#.*/##' -e 's/ .*//' -e 's#^#todo: ./4updaterepo.sh #' -e 's/\.git//'
 
-.PHONY: not-often-used
-not-often-used:
+.PHONY: not-used
+not-used:
 	@ls -1 --color=no install-op-/install-op-*.sh |\
 	 xargs -I {} bash -c "grep -q {} hardware/*.sh || test -x {} || echo {}" |\
 	 grep -v '\(-src.sh\|codecs\|kivy\)'

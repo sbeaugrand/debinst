@@ -116,7 +116,7 @@ check()
         if echo "$f" | grep -q "buildpackage-"; then
             continue
         fi
-        if echo "$f" | grep -q "not-often-used"; then
+        if echo "$f" | grep -q "not-used"; then
             continue
         fi
         if echo "$f" | grep -q "4updaterepo"; then
