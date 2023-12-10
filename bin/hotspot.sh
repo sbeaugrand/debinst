@@ -28,7 +28,7 @@ quit()
 }
 
 /usr/sbin/rfkill unblock wifi
-sudo -K
+sudo -k
 sudo true || quit 1
 nmcli con up hotspot || exit $?
 

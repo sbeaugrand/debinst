@@ -14,20 +14,41 @@ if [ -z "$connection" ]; then
     exit 1
 fi
 
-if [ -z "$1" ]; then
-    dns=$dns1
-    if nmcli con show "$connection" | grep "ipv4.dns:" | grep -q "$dns"; then
-        dns=$dns2
-    fi
-else
+ipv4dns()
+{
     dns=$1
-    if nmcli con show "$connection" | grep "ipv4.dns:" | grep -q "$dns"; then
-        exit 0
-    fi
-fi
+    sudo nmcli con mod "$connection" ipv4.dns "$dns"\
+         ipv4.ignore-auto-dns yes\
+         ipv6.ignore-auto-dns yes || exit 1
+    nmcli con down "$connection" && nmcli con up "$connection"
+    echo "dns=$dns"
+}
 
-sudo nmcli con mod "$connection" ipv4.dns "$dns"\
- ipv4.ignore-auto-dns yes\
- ipv6.ignore-auto-dns yes || exit 1
-nmcli con down "$connection" && nmcli con up "$connection"
-echo "dns=$dns"
+quit()
+{
+    ipv4dns $dns1
+    exit $1
+}
+
+sudo -k
+sudo true || quit 1
+ipv4dns $dns2
+
+trap "echo; quit 0" SIGINT
+echo
+echo -n "Ctrl-c pour fermer "
+
+max=$1
+if [ -z "$max" ]; then
+    max=60
+fi
+count=0
+while true; do
+    sleep 600
+    ((count++))
+    if ((count == max)); then
+        quit 0
+    fi
+    notify-send "dns" "$count"
+    sudo true
+done
