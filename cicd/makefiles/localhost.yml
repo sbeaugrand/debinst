@@ -21,6 +21,7 @@
     - role: libvirt
       when: ansible_virtualization_role == 'host'
     # Desktop roles
+    - elpa-markdown
     - emacs
     - lxde
     - lxpanel

@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: patch
+  patch:
+    src: markdown-mode.patch
+    dest: /usr/share/emacs/site-lisp/elpa-src/markdown-mode-2.5/markdown-mode.el
+  become: yes
+
+- name: remove elc
+  file:
+    path: /usr/share/emacs/site-lisp/elpa/markdown-mode-2.5/markdown-mode.elc
+    state: absent
+  become: yes
