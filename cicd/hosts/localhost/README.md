@@ -31,3 +31,9 @@ sudo cryptsetup luksAddKey /dev/sda3 /root/luksKey
 sudo cryptsetup luksRemoveKey /dev/sda3 /root/luksKey
 sudo systemctl disable data.mount
 ```
+
+# owa-html5-notifications
+```
+make extraroles EXTRAROLES="[\'notifications-owa\']"
+chromium  # Manage extensions => Developer mode => Load unpacked
+```
