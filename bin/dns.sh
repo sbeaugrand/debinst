@@ -38,17 +38,25 @@ trap "echo; quit 0" SIGINT
 echo
 echo -n "Ctrl-c pour fermer "
 
+interval=10
+((sleep = interval * 60))
 max=$1
 if [ -z "$max" ]; then
-    max=60
+    max=600
 fi
-count=0
+minutes=0
+id=0
 while true; do
-    sleep 600
-    ((count++))
-    if ((count == max)); then
+    sleep $sleep
+    ((minutes = minutes + interval))
+    if ((minutes == max)); then
         quit 0
     fi
-    notify-send "dns" "$count"
+    ((hh = minutes / 60))
+    ((mm = minutes - hh * 60))
+    if ((mm == 0)); then
+        mm=00
+    fi
+    id=`notify-send -p -r $id "dns" "${hh}h$mm"`
     sudo true
 done

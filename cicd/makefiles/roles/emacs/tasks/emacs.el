@@ -135,11 +135,12 @@
 (add-hook             'c-mode-hook 'indent4)
 (add-hook            'sh-mode-hook 'indent4)
 (add-hook           'php-mode-hook 'indent4)
-(add-hook            'js-mode-hook 'indent4)
-(add-hook    'javascript-mode-hook 'indent4)
+(add-hook            'js-mode-hook 'indent2)
+(add-hook    'javascript-mode-hook 'indent2)
 (add-hook 'nxhtml-mumamo-mode-hook 'indent4)
 (add-hook         'cmake-mode-hook 'indent4)
 (setq cmake-tab-width 4)
+(setq js-indent-level 2)
 
 ; Suppression des espaces en fin de ligne a l'enregistrement
 (add-hook 'c++-mode-hook #'(lambda ()
@@ -150,12 +151,6 @@
   (add-hook 'write-contents-hooks 'delete-trailing-whitespace nil t)))
 (add-hook  'js-mode-hook #'(lambda ()
   (add-hook 'write-contents-hooks 'delete-trailing-whitespace nil t)))
-
-; Nouveaux types
-(setq c++-font-lock-extra-types
-  (list "UInt" "SInt" "UCar" "ULong" "UInt8" "UInt16" "UInt32" "UInt64"))
-(setq   c-font-lock-extra-types
-  (list "UInt" "SInt" "UCar" "ULong" "UInt8" "UInt16" "UInt32" "UInt64"))
 
 ; HTML / PHP / JavaScript
 (autoload 'php-mode "php-mode" nil t)
