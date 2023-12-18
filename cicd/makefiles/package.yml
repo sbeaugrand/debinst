@@ -43,6 +43,7 @@ variables:
   BHOST: $HOST
   XCVER: 12
   XCDIR: /data
+  PRIVKEY: $HOME/.ssh/id_rsa
 build:
   stage: build
   except:
@@ -146,9 +147,9 @@ rdeploy:
     - test -n "$XC" || BDIR=.vagrant/$PROPATH/build
     - test -n "$XC" || cd $HDIR/$BHOST
     - >
-      test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
-      TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
-    - test ! -f ~/.ssh/id_rsa || source /run/lock/.keychain/*-sh
+      test ! -f $PRIVKEY || test -d /run/lock/.keychain ||
+      TMPDIR=/run/lock keychain --dir /run/lock --nogui $PRIVKEY
+    - test ! -f $PRIVKEY || source /run/lock/.keychain/*-sh
     - scp $BDIR/${PROJECT}_${VERSION}_*.deb $SCPTARGET
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
@@ -203,9 +204,9 @@ xinstall:
   script:
     - BDIR=build-$XC
     - >
-      test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
-      TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
-    - test ! -f ~/.ssh/id_rsa || source /run/lock/.keychain/*-sh
+      test ! -f $PRIVKEY || test -d /run/lock/.keychain ||
+      TMPDIR=/run/lock keychain --dir /run/lock --nogui $PRIVKEY
+    - test ! -f $PRIVKEY || source /run/lock/.keychain/*-sh
     - cd $BDIR
     - scp $BLIST $SCPTARGET
     - test -n "$SUDOPASS" || read -s SUDOPASS
@@ -265,9 +266,9 @@ rxinstall:
     - PROPATH=$(basename `readlink -f .`)
     - BDIR=$HDIR/$BHOST/.vagrant/$PROPATH/build-$XC
     - >
-      test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||
-      TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
-    - test ! -f ~/.ssh/id_rsa || source /run/lock/.keychain/*-sh
+      test ! -f $PRIVKEY || test -d /run/lock/.keychain ||
+      TMPDIR=/run/lock keychain --dir /run/lock --nogui $PRIVKEY
+    - test ! -f $PRIVKEY || source /run/lock/.keychain/*-sh
     - cd $BDIR
     - scp $BLIST $URI:/run/lock/
     - test -n "$SUDOPASS" || read -s SUDOPASS

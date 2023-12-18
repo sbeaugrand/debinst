@@ -4,6 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+privkey = ~/.ssh/id_rsa
 -include host.mk
 
 ifeq ($(wildcard Vagrantfile),Vagrantfile)
@@ -19,9 +20,9 @@ else
 endif
 
 define kc
- @test ! -f ~/.ssh/id_rsa || test -d /run/lock/.keychain ||\
-  TMPDIR=/run/lock keychain --dir /run/lock --nogui ~/.ssh/id_rsa
- @test ! -f ~/.ssh/id_rsa || . /run/lock/.keychain/*-sh
+ @test ! -f $(privkey) || test -d /run/lock/.keychain ||\
+  TMPDIR=/run/lock keychain --dir /run/lock --nogui $(privkey)
+ @test ! -f $(privkey) || . /run/lock/.keychain/*-sh
  $1
 endef
 
