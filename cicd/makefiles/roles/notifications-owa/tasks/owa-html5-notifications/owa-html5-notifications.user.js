@@ -24,4 +24,9 @@ function owaNotifySend() {
   new Notification(text);
 }
 
-window.setInterval(owaNotifySend, 300000);
+if (Notification.permission !== "denied") {
+  window.setInterval(owaNotifySend, 300000);
+}
+if (Notification.permission === "default") {
+  Notification.requestPermission();
+}

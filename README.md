@@ -1,5 +1,5 @@
 # Installation sur une debian existante
-```
+```sh
 cd
 mkdir data
 mkdir install
@@ -12,7 +12,7 @@ systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-
 ```
 
 # Installation légère sur une debian existante
-```
+```sh
 cd install/debinst/cicd/hosts/localhost
 make sudoers
 make local
@@ -20,7 +20,7 @@ make extraroles
 ```
 
 # Création d'une nouvelle debian sur clé USB
-```
+```sh
 make pkgs
 make iso  # or make iso32
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
@@ -36,12 +36,12 @@ La liste des paquets debian sont dans: simplecdd-op-1arch64/list.txt
 La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 
 # Création d'une debian nouvelle version sur clé USB (bullseye)
-```
+```sh
 make pkgs
 pv debian-live-11.0.0-amd64-lxde.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
 Démarrer la live
-```
+```sh
 sudo mkdir /mnt/a1
 sudo mount /dev/sda1 /mnt/a1
 ln -s /mnt/a1/home/*/data /home/user/data
@@ -56,7 +56,7 @@ make iso
 
 # Création d'une debian nouvelle version sur clé USB (bookworm)
 [https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/)
-```
+```sh
 make pkgs
 gnome-boxes debian-live-12.0.0-amd64-lxde.iso
 sudo apt update
@@ -83,7 +83,7 @@ fusermount3 -u /mnt/a1
 ```
 
 # Création d'une machine virtuelle dans windows
-```
+```sh
 ./1buildpackage.sh buildpackage-op-2min dist
 ./2simplecdd.sh simplecdd-op-2min buildpackage-op-2min
 cd 3packer && make tar
@@ -92,14 +92,14 @@ cd 3packer && make tar
 
 # Création d'une debian live
 Mettre à jour le mirroir local :
-```
+```sh
 make iso
 cd 5livebuild
 systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c 'make mirror'
 make http
 ```
 Configurer et créer :
-```
+```sh
 cd 5livebuild
 df .  # >21G or: mkdir /data/live && ln -s /data/live build
 make config
@@ -115,7 +115,7 @@ pv build/live-image-amd64.hybrid.iso | sudo dd bs=4M oflag=dsync of=/dev/sdb
 
 # [Installation sur ARM (armbian)](armbian/README.md)
 
-# [Installation sur Raspberry Pi (raspbian)](rpi/README.md)
+# [Installation sur Raspberry Pi (raspbian)](raspbian/README.md)
 
 # [Installation sur PinePhone (mobian)](mobian/README.md)
 

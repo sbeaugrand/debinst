@@ -1,0 +1,20 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: mkdir .local/share/mime/packages
+  file:
+    name: "{{ home }}/.local/share/mime/packages"
+    state: directory
+
+- name: copy text-markdown.xml
+  copy:
+    src: text-markdown.xml
+    dest: "{{ home }}/.local/share/mime/packages/text-markdown.xml"
+  register: xml
+
+- name: update-mime-database
+  command: update-mime-database {{ home }}/.local/share/mime
+  when: xml.changed

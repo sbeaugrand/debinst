@@ -7,5 +7,10 @@
       "matches": ["https://*/owa/*"],
       "js": ["owa-html5-notifications.user.js"]
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "addon@example.com"
+    }
+  }
 }

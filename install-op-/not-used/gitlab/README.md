@@ -1,12 +1,12 @@
 # ansible-role-gitlab
-```
+```sh
 cd roles
 git clone https://github.com/geerlingguy/ansible-role-gitlab.git
 vi ansible-role-gitlab/tasks/main.yml +/async  # comment async and poll
 ```
 
 # gitlab vm
-```
+```sh
 cd gitlab
 vagrant up
 vagrant ssh
@@ -15,7 +15,7 @@ ip -c a
 ```
 
 # host
-```
+```sh
 sudo vi /etc/hosts +  # 192.168.121.193 gitlab
 https://gitlab/admin/users/new
 https://gitlab/-/profile/personal_access_tokens
@@ -25,7 +25,7 @@ glpat-kesdgfmV139azwSUGNRB
 ```
 
 # buildvm
-```
+```sh
 cd buildvm
 vi playbook.yml  # ip, api_token
 vagrant up
@@ -37,7 +37,7 @@ openssl s_client -connect gitlab:443 </dev/null 2>/dev/null | openssl x509 -noou
 ```
 
 # project
-```
+```sh
 cd project
 git init
 git remote add origin https://project:glpat-kesdgfmV139azwSUGNRB@gitlab/root/project.git

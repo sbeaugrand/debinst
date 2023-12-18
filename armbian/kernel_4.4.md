@@ -1,3 +1,142 @@
+# Installation sur debian radxa
+```sh
+gunzip -k rockpis_debian_buster_minimal_arm64_20200615_1225-gpt.img.gz
+umount /media/$USER/*
+pv rockpis*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
+```
+Démarrer sur Rock PI S
+```sh
+make ssh USER=rock [HOST=rps]  # password: rock
+sudo apt-get update
+sudo apt-get install rsync
+exit
+make rsync USER=rock [HOST=rps]
+make ssh USER=rock
+cd install/debinst/armbian
+make install
+```
+
+# Installation sur armbian kernel 4.4
+```sh
+xz -k -d Armbian_20.11_Rockpi-s_buster_legacy_4.4.243_minimal.img.xz
+umount /media/$USER/*
+pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
+```
+Démarrer sur Rock PI S
+```sh
+make ssh USER=root [HOST=rps]  # password: 1234
+exit
+make rsync [USER=$USER] [HOST=rps]
+make ssh
+cd install/debinst/armbian
+sudo apt install make
+make install
+```
+
+# Infrared receiver on RockpiS
+
+* [Infrared receiver](https://www.velleman.eu/products/view/?id=435548)
+* [Remote control](https://joy-it.net/en/products/SBC-IRC01)
+
+# Diagram for VMA317 infrared receiver
+
+A NPN transistor inverter circuit is added to have the right pulse/space times.
+The inverter implies GPIO_ACTIVE_HIGH configuration instead of GPIO_ACTIVE_LOW.
+```
+ 3v3             GPIO2_A4               GND   --> RockpiS pins
+  |                 |                    |
+  O                 O                    O    --> Inverter pins
+  |                 |                    |
+  |                 \                    |
+  |                 / 1k                 |
+  |                 \                    |
+  |       10k       |     NPN            |
+  |------/\/\/\-----+-----\_/------------|
+  |                        |             |
+  |                        \             |
+  |                        / 100k        |
+  |                        \             |
+  |                        |             |
+  O                        O             O    --> VMA317 pins
+  |     LED       1k       |             |
+  |-----|>|-----/\/\/\-----|             |
+  |                        |             |
+  |          47k           |      C      |
+  |---------/\/\/\---------+-----| |-----|
+  |                        |             |
+  O                        O             O    --> 1838 pins
+  |          100k          |     NPN     |
+  |---------/\/\/\---------+-----\_/-----|
+  |                               |      |
+```
+
+# Diagram for 1838 only
+```
+ 3v3                    GPIO2_A4        GND   --> RockpiS pins
+  |                        |             |
+  |                        \             |
+  |                        / 1k          |
+  |                        \             |
+  |          47k           |             |
+  |---------/\/\/\---------+             |
+  |                        |             |
+  O                        O             O    --> 1838 pins
+  |          100k          |     NPN     |
+  |---------/\/\/\---------+-----\_/-----|
+  |                               |      |
+```
+
+# Compiler
+```sh
+sudo apt-get install device-tree-compiler
+sudo apt-get install u-boot-tools
+export ARCH=arm64
+export CROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
+```
+
+# Modules and device tree overlay for radxa kernel
+```sh
+git clone https://github.com/radxa/kernel.git -b stable-4.4-rockpis radxa-kernel
+cd radxa-kernel
+make rk3308_linux_defconfig
+ssh rock@rps uname -r  # 4.4.143-52-rockchip-g7ed61b60d176
+make EXTRAVERSION=-52-rockchip-g7ed61b60d176 LOCALVERSION= drivers/media/rc/gpio-ir-recv.ko obj-m=gpio-ir-recv.o
+make EXTRAVERSION=-52-rockchip-g7ed61b60d176 LOCALVERSION= drivers/media/rc/ir-nec-decoder.ko obj-m=ir-nec-decoder.o
+cp drivers/media/rc/gpio-ir-recv.ko ~/install/debinst/armbian/lirc/
+cp drivers/media/rc/ir-nec-decoder.ko ~/install/debinst/armbian/lirc/
+cp ~/install/debinst/armbian/lirc/rockpis-gpio-ir-recv-high-OR-low.dts arch/arm64/boot/dts/rockchip/overlay/rockpis-gpio-ir-recv.dts
+vi arch/arm64/boot/dts/rockchip/overlay/Makefile  # rockpis-gpio-ir-recv.dtbo
+make dtbs
+cp arch/arm64/boot/dts/rockchip/overlay/rockpis-gpio-ir-recv.dtbo ~/install/debinst/armbian/lirc/
+```
+
+# Modules for armbian kernel 4.4 (not needed for 5.9)
+```sh
+git clone https://github.com/armbian/build.git armbian-build
+git clone https://github.com/piter75/rockchip-kernel.git -b rockpis-develop-4.4 armbian-kernel
+cd armbian-kernel
+export user=xxx
+ssh $user@rps uname -r  # 4.4.243-rockpis
+grep -m1 SUBLEVEL Makefile  # SUBLEVEL = 228
+sed -i 's/SUBLEVEL = 228/SUBLEVEL = 243/' Makefile  # or :
+find ../armbian-build/patch/kernel/rockpis-legacy -type f -name '*.patch' -print0 | sort -z | xargs -t -0 -n 1 patch -p1 -N -i
+cp ../armbian-build/config/kernel/linux-rockpis-legacy.config .config
+make oldconfig
+sudo apt-get install libssl-dev
+make EXTRAVERSION=-rockpis LOCALVERSION= drivers/media/rc/gpio-ir-recv.ko obj-m=gpio-ir-recv.o
+cp drivers/media/rc/gpio-ir-recv.ko ~/install/debinst/armbian/lirc/
+```
+
+# Config
+```sh
+make rsync [USER=$USER] [HOST=rps]
+make ssh
+cd install/debinst/armbian
+vi install-op-lirc.sh +/overlay  # rockpis-gpio-ir-recv-high-OR-low.dts
+make lirc
+sudo reboot
+```
+
 # Licence
 
 Copyright Sébastien Beaugrand
@@ -31,146 +170,3 @@ sécurité de leurs systèmes et ou de leurs données et, plus généralement,
 Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
 pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
-
-# Installation sur debian radxa
-```
-gunzip -k rockpis_debian_buster_minimal_arm64_20200615_1225-gpt.img.gz
-umount /media/$USER/*
-pv rockpis*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
-```
-Démarrer sur Rock PI S
-```
-make ssh USER=rock [HOST=rps]  # password: rock
-sudo apt-get update
-sudo apt-get install rsync
-exit
-make rsync USER=rock [HOST=rps]
-make ssh USER=rock
-cd install/debinst/armbian
-make install
-```
-
-# Installation sur armbian kernel 4.4
-```
-xz -k -d Armbian_20.11_Rockpi-s_buster_legacy_4.4.243_minimal.img.xz
-umount /media/$USER/*
-pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
-```
-Démarrer sur Rock PI S
-```
-make ssh USER=root [HOST=rps]  # password: 1234
-exit
-make rsync [USER=$USER] [HOST=rps]
-make ssh
-cd install/debinst/armbian
-sudo apt install make
-make install
-```
-
-# Infrared receiver on RockpiS
-
-* [Infrared receiver](https://www.velleman.eu/products/view/?id=435548)
-* [Remote control](https://joy-it.net/en/products/SBC-IRC01)
-
-# Diagram for VMA317 infrared receiver
-
-A NPN transistor inverter circuit is added to have the right pulse/space times.
-The inverter implies GPIO_ACTIVE_HIGH configuration instead of GPIO_ACTIVE_LOW.
-```
-```
-```
- 3v3             GPIO2_A4               GND   --> RockpiS pins
-  |                 |                    |
-  O                 O                    O    --> Inverter pins
-  |                 |                    |
-  |                 \                    |
-  |                 / 1k                 |
-  |                 \                    |
-  |       10k       |     NPN            |
-  |------/\/\/\-----+-----\_/------------|
-  |                        |             |
-  |                        \             |
-  |                        / 100k        |
-  |                        \             |
-  |                        |             |
-  O                        O             O    --> VMA317 pins
-  |     LED       1k       |             |
-  |-----|>|-----/\/\/\-----|             |
-  |                        |             |
-  |          47k           |      C      |
-  |---------/\/\/\---------+-----| |-----|
-  |                        |             |
-  O                        O             O    --> 1838 pins
-  |          100k          |     NPN     |
-  |---------/\/\/\---------+-----\_/-----|
-  |                               |      |
-```
-
-# Diagram for 1838 only
-```
-```
-```
- 3v3                    GPIO2_A4        GND   --> RockpiS pins
-  |                        |             |
-  |                        \             |
-  |                        / 1k          |
-  |                        \             |
-  |          47k           |             |
-  |---------/\/\/\---------+             |
-  |                        |             |
-  O                        O             O    --> 1838 pins
-  |          100k          |     NPN     |
-  |---------/\/\/\---------+-----\_/-----|
-  |                               |      |
-```
-
-# Compiler
-```
-sudo apt-get install device-tree-compiler
-sudo apt-get install u-boot-tools
-export ARCH=arm64
-export CROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-```
-
-# Modules and device tree overlay for radxa kernel
-```
-git clone https://github.com/radxa/kernel.git -b stable-4.4-rockpis radxa-kernel
-cd radxa-kernel
-make rk3308_linux_defconfig
-ssh rock@rps uname -r  # 4.4.143-52-rockchip-g7ed61b60d176
-make EXTRAVERSION=-52-rockchip-g7ed61b60d176 LOCALVERSION= drivers/media/rc/gpio-ir-recv.ko obj-m=gpio-ir-recv.o
-make EXTRAVERSION=-52-rockchip-g7ed61b60d176 LOCALVERSION= drivers/media/rc/ir-nec-decoder.ko obj-m=ir-nec-decoder.o
-cp drivers/media/rc/gpio-ir-recv.ko ~/install/debinst/armbian/lirc/
-cp drivers/media/rc/ir-nec-decoder.ko ~/install/debinst/armbian/lirc/
-cp ~/install/debinst/armbian/lirc/rockpis-gpio-ir-recv-high-OR-low.dts arch/arm64/boot/dts/rockchip/overlay/rockpis-gpio-ir-recv.dts
-vi arch/arm64/boot/dts/rockchip/overlay/Makefile  # rockpis-gpio-ir-recv.dtbo
-make dtbs
-cp arch/arm64/boot/dts/rockchip/overlay/rockpis-gpio-ir-recv.dtbo ~/install/debinst/armbian/lirc/
-```
-
-# Modules for armbian kernel 4.4 (not needed for 5.9)
-```
-git clone https://github.com/armbian/build.git armbian-build
-git clone https://github.com/piter75/rockchip-kernel.git -b rockpis-develop-4.4 armbian-kernel
-cd armbian-kernel
-export user=xxx
-ssh $user@rps uname -r  # 4.4.243-rockpis
-grep -m1 SUBLEVEL Makefile  # SUBLEVEL = 228
-sed -i 's/SUBLEVEL = 228/SUBLEVEL = 243/' Makefile  # or :
-find ../armbian-build/patch/kernel/rockpis-legacy -type f -name '*.patch' -print0 | sort -z | xargs -t -0 -n 1 patch -p1 -N -i
-cp ../armbian-build/config/kernel/linux-rockpis-legacy.config .config
-make oldconfig
-sudo apt-get install libssl-dev
-make EXTRAVERSION=-rockpis LOCALVERSION= drivers/media/rc/gpio-ir-recv.ko obj-m=gpio-ir-recv.o
-cp drivers/media/rc/gpio-ir-recv.ko ~/install/debinst/armbian/lirc/
-```
-
-# Config
-```
-make rsync [USER=$USER] [HOST=rps]
-make ssh
-cd install/debinst/armbian
-vi install-op-lirc.sh +/overlay  # rockpis-gpio-ir-recv-high-OR-low.dts
-make lirc
-sudo reboot
-```

@@ -1,19 +1,19 @@
 # Installation sur armbian
 ## [Nanopi Neo](https://www.armbian.com/nanopi-neo/)
 ![Nanopi Neo](https://www.armbian.com/wp-content/uploads/2018/02/nanopineo-300x169.png)
-```
+```sh
 sha256sum -c Armbian_23.5.2_Nanopineo_bookworm_current_6.1.30_minimal.img.xz.sha
 ```
 
 ## [Orange Pi Zero](https://www.armbian.com/orange-pi-zero/)
 ![Orange Pi Zero](https://www.armbian.com/wp-content/uploads/2018/02/orangepizero-300x169.png)
-```
+```sh
 sha256sum -c Armbian_23.5.2_Orangepizero_bookworm_current_6.1.30_minimal.img.xz.sha
 ```
 
 ## [Rockpi S](https://www.armbian.com/rockpi-s/)
 ![Rockpi S](https://www.armbian.com/wp-content/uploads/2019/11/rockpi-s-300x169.png)
-```
+```sh
 sha256sum -c Armbian_23.5.2_Rockpi-s_bookworm_current_6.1.32_minimal.img.xz.sha
 
 # Without boot from the built-in SDNAND :
@@ -32,12 +32,12 @@ pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
 
 ## Installation
-```
+```sh
 umount /media/$USER/*
 pv Armbian*.img.xz | xz -dc - | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
 Démarrer sur la Pi
-```
+```sh
 ./find-ip.sh
 cd ../cicd/armbian
 vi playbook.yml  # somfi-pi
@@ -58,8 +58,6 @@ make volume
 Optionnel:
 
 # Infrared receiver - TSOP1838
-```
-```
 ```
  3v3                     Pin 7          GND   --> Pi pins
   |                        |             |
@@ -83,23 +81,23 @@ sudo ir-keytable -p nec -t
 ```
 
 # Real Time Clock - DS1302
-```
+```sh
 make rtc
 ```
 
 # Oled i2c display - SH1106
-```
+```sh
 make oled
 make oscreensaver
 ```
 
 # MP3 server
-```
+```sh
 make mp3server
 ```
 
 # Shutter
-```
+```sh
 make shutter
 ```
 
@@ -115,11 +113,9 @@ make shutter
 |Volume audio confortable               |<center>X   |<center>X     |            |
 
 <br/>
+
 # USB to TTL - CH340G
 ```
-```
-```
-                 Pi pins
 Module           5V  2
  5V _            5V  4
 VCC _            GND 6
@@ -131,7 +127,7 @@ GND ____________ GND 14
 Command for RockpiS : `sudo screen /dev/ttyUSB0 1500000`
 
 # Device Tree recompilation
-```
+```sh
 git clone https://github.com/armbian/build.git armbian-build
 cd armbian-build
 ./compile.sh  BOARD=rockpi-s BRANCH=current KERNEL_ONLY=yes KERNEL_CONFIGURE=no

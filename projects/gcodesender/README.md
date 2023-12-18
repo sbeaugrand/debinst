@@ -1,5 +1,5 @@
 # Example 1
-```
+```sh
 cd ~/install/debinst/latex/cal
 make gcode
 
@@ -7,7 +7,7 @@ cat cadran.nc | ~/install/debinst/projects/gcodesender/gcodesender.py
 ```
 
 # Example 2
-```
+```sh
 cd ~/install/debinst/latex/tock
 make gcode
 
@@ -16,7 +16,7 @@ cat tock6.nc | ~/install/debinst/projects/gcodesender/gcodesender.py
 ```
 
 # Example 3
-```
+```sh
 identify photo.jpg
 convert photo.jpg -resize 840x resized.png  # x840 when landscape
 ~/install/debinst/projects/gcodesender/img1foreground.py resized.png foreground.png
@@ -28,7 +28,7 @@ cat photo.nc | ~/install/debinst/projects/gcodesender/gcodesender.py
 ```
 
 # Tests
-```
+```sh
 make test
 make itest
 ```

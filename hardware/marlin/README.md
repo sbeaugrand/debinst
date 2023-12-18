@@ -53,7 +53,7 @@ M105
 # PrusaSlicer config
 
 ## install
-```
+```sh
 colordiff -y -W 160 --suppress-common-lines PrusaSlicer-Prusa_i3_Rework/filament/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/filament/Prusa_i3_Rework.ini
 colordiff -y -W 160 --suppress-common-lines PrusaSlicer-Prusa_i3_Rework/printer/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/printer/Prusa_i3_Rework.ini
 colordiff -y -W 160 --suppress-common-lines PrusaSlicer-Prusa_i3_Rework/print/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/print/Prusa_i3_Rework.ini
@@ -71,7 +71,7 @@ Filament Settings => Save current Filament Settings
 Printer Settings => Save current Printer Settings
 
 ## Save
-```
+```sh
 colordiff -y -W 160 --suppress-common-lines ~/.config/PrusaSlicer/filament/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/filament/Prusa_i3_Rework.ini
 colordiff -y -W 160 --suppress-common-lines ~/.config/PrusaSlicer/printer/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/printer/Prusa_i3_Rework.ini
 colordiff -y -W 160 --suppress-common-lines ~/.config/PrusaSlicer/print/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/print/Prusa_i3_Rework.ini

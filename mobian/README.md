@@ -1,11 +1,11 @@
 # Installation sur mobian
-```
+```sh
 gzip -k -d mobian-pinephone-phosh-20220116.img.gz
 umount /media/$USER/*
 pv mobian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
 Démarrer King's Cross sur PinePhone
-```
+```sh
 debian> ./ipforward.sh
 mobian$ echo "nameserver 212.27.40.240" | sudo tee /etc/resolv.conf
 mobian$ echo "nameserver 212.27.40.241" | sudo tee /etc/resolv.conf
@@ -23,32 +23,32 @@ make install
 ```
 
 # Sharing internet from your PC via USB with iftables
-```
+```sh
 make ssh
 ipf
 ```
 See also: [mobian networking](https://wiki.mobian-project.org/doku.php?id=networking)
 
 # Carnet d'adresse
-```
+```sh
 make contacts
 ```
 
 # X11 forwarding example to configure mobile data connection
-```
+```sh
 make xssh
 mobian@mobian:~$ sudo cp .Xauthority /root/
 mobian@mobian:~$ sudo GDK_BACKEND=x11 nm-connection-editor
 ```
 
 # Récupération des photos et mms
-```
+```sh
 rsync -ri mobian@mobian:/home/mobian/Images/ Images/
 rsync -ri mobian@mobian:/home/mobian/.local/share/chatty/mms/ mms/
 ```
 
 # Unable to receive SMS messages
-```
+```sh
 mmcli -m any --messaging-list-sms
 mmcli -m 0 --sms 2
 mmcli -m 0 --messaging-delete-sms=2
