@@ -55,7 +55,7 @@ make iso
 ```
 
 # Création d'une debian nouvelle version sur clé USB (bookworm)
-[https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/)
+https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/
 ```sh
 make pkgs
 gnome-boxes debian-live-12.0.0-amd64-lxde.iso
@@ -132,7 +132,7 @@ Ce logiciel est régi par la licence CeCILL soumise au droit français et
 respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions
 de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
-sur le site "[http://www.cecill.info](http://www.cecill.info)".
+sur le site "http://www.cecill.info".
 
 En contrepartie de l'accessibilité au code source et des droits de copie,
 de modification et de redistribution accordés par cette licence, il n'est

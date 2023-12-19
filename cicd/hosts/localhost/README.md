@@ -34,12 +34,13 @@ sudo systemctl disable data.mount
 
 # Markdown
 
+## Chromium
+https://github.com/md-reader/md-reader
+
 ## Firefox
+https://addons.mozilla.org/en-US/firefox/addon/markdown-viewer-webext
 ```sh
 make extraroles EXTRAROLES="[\'mime-markdown\']"
-```
-[markdown-viewer-webext](https://addons.mozilla.org/en-US/firefox/addon/markdown-viewer-webext)
-```sh
 firefox about:addons  # Preferences => Custom CSS
 ```
 ```css
@@ -63,19 +64,17 @@ firefox about:addons  # Preferences => Custom CSS
 ```
 
 # owa-html5-notifications
-```sh
-make extraroles EXTRAROLES="[\'notifications-owa\']"
-```
 
 ## Chromium
 ```sh
+make extraroles EXTRAROLES="[\'notifications-owa\']"
 chromium  # Manage extensions => Developer mode => Load unpacked
 ```
 
 ## Firefox
 ```sh
-cd ~/.local/share/owa-html5-notifications
-zip -r -FS ../owa-html5-notifications.zip *
+cd ../../makefiles/roles/notifications-owa/tasks/firefox
+zip -r -FS ~/.local/share/owa-html5-notifications.zip *
 firefox about:config  # xpinstall.signatures.required false
 firefox about:addons  # Install Add-on From File
 ```

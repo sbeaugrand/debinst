@@ -19,7 +19,7 @@ https://www.puttygen.com/download-putty#PuTTY_for_windows
 ```sh
 choco install -y putty
 ```
-(https://www.puttygen.com/download.php?val=4)
+https://www.puttygen.com/download.php?val=4
 ```sh
 git-bash.exe
 ls -l 3packer.sh 3packer

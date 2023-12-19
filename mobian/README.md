@@ -55,9 +55,9 @@ mmcli -m 0 --messaging-delete-sms=2
 ```
 
 # There is no support for seperate internet and MMS APNs
-[https://gitlab.gnome.org/GNOME/gnome-control-center/-/issues/1460](https://gitlab.gnome.org/GNOME/gnome-control-center/-/issues/1460)<br/>
-[https://gitlab.com/kop316/mmsd/-/issues/5](https://gitlab.com/kop316/mmsd/-/issues/5)<br/>
-[https://gitlab.freedesktop.org/NetworkManager/NetworkManager/-/issues/958](https://gitlab.freedesktop.org/NetworkManager/NetworkManager/-/issues/958)
+https://gitlab.gnome.org/GNOME/gnome-control-center/-/issues/1460<br/>
+https://gitlab.com/kop316/mmsd/-/issues/5<br/>
+https://gitlab.freedesktop.org/NetworkManager/NetworkManager/-/issues/958
 
 # Licence
 
