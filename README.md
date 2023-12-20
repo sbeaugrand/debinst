@@ -11,13 +11,7 @@ cd debinst
 systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-op-/install-op-mplayer.sh'
 ```
 
-# Installation légère sur une debian existante
-```sh
-cd install/debinst/cicd/hosts/localhost
-make sudoers
-make local
-make extraroles
-```
+# [Installation légère sur une debian existante](cicd/hosts/localhost/README.md#Installation)
 
 # Création d'une nouvelle debian sur clé USB
 ```sh
