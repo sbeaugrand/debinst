@@ -22,17 +22,17 @@ sudo apt install make
 make install
 ```
 
-# Sharing internet from your PC via USB with iftables
+## Carnet d'adresse
+```sh
+make contacts
+```
+
+# Sharing internet from your PC via USB with nftables
 ```sh
 make ssh
 ipf
 ```
 See also: [mobian networking](https://wiki.mobian-project.org/doku.php?id=networking)
-
-# Carnet d'adresse
-```sh
-make contacts
-```
 
 # X11 forwarding example to configure mobile data connection
 ```sh

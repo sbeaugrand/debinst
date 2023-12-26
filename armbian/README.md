@@ -15,21 +15,26 @@ sha256sum -c Armbian_23.5.2_Orangepizero_bookworm_current_6.1.30_minimal.img.xz.
 ![Rockpi S](https://www.armbian.com/wp-content/uploads/2019/11/rockpi-s-300x169.png)
 ```sh
 sha256sum -c Armbian_23.5.2_Rockpi-s_bookworm_current_6.1.32_minimal.img.xz.sha
-
-# Without boot from the built-in SDNAND :
-df .  # 6,7G needed
-git clone -b v22.08 https://github.com/armbian/build.git armbian-build
-cd armbian-build
-sed -i 's/^IDBLOADER_BLOB/#IDBLOADER_BLOB/' config/sources/families/rockpis.conf
-touch .ignore_changes
-sudo rm ./cache/sources/u-boot/*/idbloader.bin
-sudo apt install debootstrap
-sudo modprobe loop
-systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './compile.sh BOARD=rockpi-s BRANCH=edge BUILD_MINIMAL=yes BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no CLEAN_LEVEL=, RELEASE=bullseye SKIP_EXTERNAL_TOOLCHAINS=yes EXTRAWIFI=no'
-cd output/images
-ls -l Armbian_22.08.2_Rockpi-s_bullseye_edge_5.19.17_minimal.img
-pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 ```
+
+<details>
+  <summary>Without boot from the built-in SDNAND</summary>
+
+  ```sh
+  df .  # 6,7G needed
+  git clone -b v22.08 https://github.com/armbian/build.git armbian-build
+  cd armbian-build
+  sed -i 's/^IDBLOADER_BLOB/#IDBLOADER_BLOB/' config/sources/families/rockpis.conf
+  touch .ignore_changes
+  sudo rm ./cache/sources/u-boot/*/idbloader.bin
+  sudo apt install debootstrap
+  sudo modprobe loop
+  systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './compile.sh BOARD=rockpi-s BRANCH=edge BUILD_MINIMAL=yes BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no CLEAN_LEVEL=, RELEASE=bullseye SKIP_EXTERNAL_TOOLCHAINS=yes EXTRAWIFI=no'
+  cd output/images
+  ls -l Armbian_22.08.2_Rockpi-s_bullseye_edge_5.19.17_minimal.img
+  pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
+  ```
+</details>
 
 ## Installation
 ```sh
@@ -55,91 +60,116 @@ cd install/debinst/armbian
 rw
 make volume
 ```
-Optionnel:
 
-# Infrared receiver - TSOP1838
-```
- 3v3                     Pin 7          GND   --> Pi pins
-  |                        |             |
-  |                        \             |
-  |                        / 1k          |
-  |                        \             |
-  |          47k           |             |
-  |---------/\/\/\---------+             |
-  |                        |             |
-  O                        O             O    --> 1838 pins
-  |          100k          |     NPN     |
-  |---------/\/\/\---------+-----\_/-----|
-  |                               |      |
-```
-```
-make lirc
-sudo reboot
-# Tests:
-mode2 -d /dev/lirc0 -H default
-sudo ir-keytable -p nec -t
-```
+## Optionnel
 
-# Real Time Clock - DS1302
-```sh
-make rtc
-```
+<details>
+  <summary>Infrared receiver - TSOP1838</summary>
 
-# Oled i2c display - SH1106
-```sh
-make oled
-make oscreensaver
-```
+  ```
+   3v3                     Pin 7          GND   --> Pi pins
+    |                        |             |
+    |                        \             |
+    |                        / 1k          |
+    |                        \             |
+    |          47k           |             |
+    |---------/\/\/\---------+             |
+    |                        |             |
+    O                        O             O    --> 1838 pins
+    |          100k          |     NPN     |
+    |---------/\/\/\---------+-----\_/-----|
+    |                               |      |
+  ```
+  ```
+  make lirc
+  sudo reboot
+  # Tests:
+  mode2 -d /dev/lirc0 -H default
+  sudo ir-keytable -p nec -t
+  ```
+</details>
 
-# MP3 server
-```sh
-make mp3server
-```
+<details>
+  <summary>Real Time Clock - DS1302</summary>
 
-# Shutter
-```sh
-make shutter
-```
+  ```sh
+  make rtc
+  ```
+</details>
+
+<details>
+  <summary>Oled i2c display - SH1106</summary>
+
+  ```sh
+  make oled
+  make oscreensaver
+  ```
+</details>
+
+<details>
+  <summary>MP3 server</summary>
+
+  ```sh
+  make mp3server
+  ```
+</details>
+
+<details>
+  <summary>Shutter</summary>
+
+  ```sh
+  make shutter
+  ```
+</details>
 
 # Comparaison
 <br/>
 
-|                                       |Nanopi Neo  |Orange Pi Zero|Rockpi S    |
-|---------------------------------------|------------|--------------|------------|
-|Temps pour monter un disque            |<center>45 s|<center>45 s  |<center>15 s|
-|Le disque resiste au débranchement RJ45|<center>X   |              |<center>X   |
-|RJ45 bien orientée                     |<center>X   |              |<center>X   |
-|Barrette soudée incluse                |<center>X   |              |<center>X   |
-|Volume audio confortable               |<center>X   |<center>X     |            |
+|                                       |Nanopi Neo|Orange Pi Zero|Rockpi S|
+|---------------------------------------|----------|--------------|--------|
+|Temps pour monter un disque            |45 s      |45 s          |15 s    |
+|Le disque resiste au débranchement RJ45|X         |              |X       |
+|RJ45 bien orientée                     |X         |              |X       |
+|Barrette soudée incluse                |X         |              |X       |
+|Volume audio confortable               |X         |X             |        |
 
 <br/>
 
-# USB to TTL - CH340G
-```
-Module           5V  2
- 5V _            5V  4
-VCC _            GND 6
-3V3 _|     _____ TX  8
- TX _____ /_____ RX  10
- RX _____/           12
-GND ____________ GND 14
-```
-Command for RockpiS : `sudo screen /dev/ttyUSB0 1500000`
+# Divers
 
-# Device Tree recompilation
-```sh
-git clone https://github.com/armbian/build.git armbian-build
-cd armbian-build
-./compile.sh  BOARD=rockpi-s BRANCH=current KERNEL_ONLY=yes KERNEL_CONFIGURE=no
-export user=xxx
-export host=xxx
-scp output/debs/linux-image-current-rockchip64_21.02.0-trunk_arm64.deb $user@$host:/home/$user/
-scp output/debs/linux-dtb-current-rockchip64_21.02.0-trunk_arm64.deb $user@$host:/home/$user/
-ssh $user@$host
-sudo dpkg -i linux-image-current-rockchip64_21.02.0-trunk_arm64.deb
-sudo dpkg -i linux-dtb-current-rockchip64_21.02.0-trunk_arm64.deb
-sudo reboot
-```
+<details>
+  <summary>USB to TTL - CH340G</summary>
+
+  ```
+  Module           5V  2
+   5V _            5V  4
+  VCC _            GND 6
+  3V3 _|     _____ TX  8
+   TX _____ /_____ RX  10
+   RX _____/           12
+  GND ____________ GND 14
+  ```
+  Command for RockpiS : `sudo screen /dev/ttyUSB0 1500000`
+</details>
+
+<details>
+  <summary>Device Tree recompilation</summary>
+
+  ```sh
+  git clone https://github.com/armbian/build.git armbian-build
+  cd armbian-build
+  ./compile.sh  BOARD=rockpi-s BRANCH=current KERNEL_ONLY=yes KERNEL_CONFIGURE=no
+  export user=xxx
+  export host=xxx
+  scp output/debs/linux-image-current-rockchip64_21.02.0-trunk_arm64.deb $user@$host:/home/$user/
+  scp output/debs/linux-dtb-current-rockchip64_21.02.0-trunk_arm64.deb $user@$host:/home/$user/
+  ssh $user@$host
+  sudo dpkg -i linux-image-current-rockchip64_21.02.0-trunk_arm64.deb
+  sudo dpkg -i linux-dtb-current-rockchip64_21.02.0-trunk_arm64.deb
+  sudo reboot
+  ```
+</details>
+
 [Lien pour le noyau 4.4](kernel_4.4.md)
 
 # Licence

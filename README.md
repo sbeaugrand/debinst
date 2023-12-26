@@ -11,9 +11,9 @@ cd debinst
 systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-op-/install-op-mplayer.sh'
 ```
 
-# [Installation légère sur une debian existante](cicd/hosts/localhost/README.md#Installation)
+# [Installation légère sur une debian existante avec ansible](cicd/hosts/localhost/README.md#Installation)
 
-# Création d'une nouvelle debian sur clé USB
+# Création d'une debian sur clé USB
 ```sh
 make pkgs
 make iso  # or make iso32
@@ -76,13 +76,7 @@ cd
 fusermount3 -u /mnt/a1
 ```
 
-# Création d'une machine virtuelle dans windows
-```sh
-./1buildpackage.sh buildpackage-op-2min dist
-./2simplecdd.sh simplecdd-op-2min buildpackage-op-2min
-cd 3packer && make tar
-```
-[Suite](3packer/README.md)
+# [Création d'une machine virtuelle dans windows](3packer/README.md)
 
 # Création d'une debian live
 Mettre à jour le mirroir local :
@@ -105,15 +99,47 @@ make aptsources
 systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c 'make binary'
 pv build/live-image-amd64.hybrid.iso | sudo dd bs=4M oflag=dsync of=/dev/sdb
 ```
-[Suite optionnelle](5livebuild/README.md)
+
+<details>
+  <summary>Persistance et quatrième partition</summary>
+
+  ```
+  /sbin/fdisk /dev/sdb
+  n
+  p
+  3
+  16777216  # echo " 8 GB" | awk '{ print $1 * 1024 * 2048 }'
+  67108863  # echo "32 GB" | awk '{ print $1 * 1024 * 2048 }' | awk '{ print $0 - 1 }'
+  n
+  p
+  67108864  # echo "32 GB" | awk '{ print $1 * 1024 * 2048 }'
+  134217727 # echo "64 GB" | awk '{ print $1 * 1024 * 2048 }' | awk '{ print $0 - 1 }'
+  w
+  ```
+  ```sh
+  /sbin/mkfs.ext2 /dev/sdb3
+  /sbin/mkfs.ext2 /dev/sdb4
+  /sbin/e2label /dev/sdb3 persistence
+  mount /mnt/b3
+  echo "/ union" >/mnt/b3/persistence.conf
+  umount /mnt/b3
+  ```
+</details>
+
+<details>
+  <summary>Exemple pour une configuration avancée</summary>
+
+  ```sh
+  ln -s autostart-pc-b1 autostart-pr-symlink
+  ln -s user-config-pc-b1.mk user-config-pr-symlink.mk
+  ```
+</details>
 
 # [Installation sur ARM (armbian)](armbian/README.md)
 
 # [Installation sur Raspberry Pi (raspbian)](raspbian/README.md)
 
 # [Installation sur PinePhone (mobian)](mobian/README.md)
-
-# [Exemples de personnalisation](doc/custom.md)
 
 # Licence CeCILL 2.1
 

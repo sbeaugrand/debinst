@@ -1,4 +1,9 @@
 # Création d'une machine virtuelle dans windows
+```sh
+./1buildpackage.sh buildpackage-op-2min dist
+./2simplecdd.sh simplecdd-op-2min buildpackage-op-2min
+cd 3packer && make tar
+```
 https://www.virtualbox.org/wiki/Downloads
 ```sh
 choco install -y --version=6.0.14 virtualbox

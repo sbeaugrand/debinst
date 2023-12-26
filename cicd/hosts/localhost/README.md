@@ -27,7 +27,9 @@ make extraroles
       background-color: black;
       --text: #aaaaaa;
       --link: #00cccc;
+      --back: black;
       --alt-link: #00aaaa;
+      --alt-back: #222222;
     }
     h1 {
       color: #eeeeee;
@@ -44,13 +46,16 @@ make extraroles
 
 # Crypted partition
 
-## Usage example
-```shell
-sudo dd if=/dev/random of=/root/luksKey bs=512 count=8
-sudo cryptsetup luksAddKey /dev/sda3 /root/luksKey
-ansible-playbook ../../makefiles/includeroles.yml -e host=all -e list="['crypted']" -e dev=sda3 -e mnt=data
-sudo systemctl enable data.mount
-```
+<details>
+  <summary>Usage example</summary>
+
+  ```shell
+  sudo dd if=/dev/random of=/root/luksKey bs=512 count=8
+  sudo cryptsetup luksAddKey /dev/sda3 /root/luksKey
+  ansible-playbook ../../makefiles/includeroles.yml -e host=all -e list="['crypted']" -e dev=sda3 -e mnt=data
+  sudo systemctl enable data.mount
+  ```
+</details>
 
 <details>
   <summary>Disable</summary>
