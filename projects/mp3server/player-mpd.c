@@ -329,12 +329,16 @@ void playerStartRel(int pos)
     }
     mpd_status_free(status);
 
-    res = mpd_run_seek_pos(gConn, pos, 0);
+    if (pos > 0) {
+        res = mpd_run_next(gConn);
+    } else {
+        res = mpd_run_previous(gConn);
+    }
     if (playerIsError(__FUNCTION__)) {
         return;
     }
     if (! res) {
-        ERROR("mpd_run_seek_pos");
+        ERROR("mpd_run_ next previous");
         return;
     }
     playerStart();
