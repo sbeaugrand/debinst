@@ -124,8 +124,8 @@ $(SKELDIR)/.local/lib/codecs: FORCE
 .PHONY: aptsources
 aptsources: build/chroot/etc/apt/sources.list.d/debian.list build/chroot/etc/apt/sources.list
 build/chroot/etc/apt/sources.list.d/debian.list: FORCE
-	@echo "deb http://httpredir.debian.org/debian $(CODENAME) main contrib non-free-firmware" | sudo tee $@ >/dev/null
-	@echo "deb http://httpredir.debian.org/debian/ $(CODENAME)-updates main contrib non-free-firmware" | sudo tee -a $@ >/dev/null
+	@echo "deb https://deb.debian.org/debian $(CODENAME) main contrib non-free-firmware" | sudo tee $@ >/dev/null
+	@echo "deb https://deb.debian.org/debian/ $(CODENAME)-updates main contrib non-free-firmware" | sudo tee -a $@ >/dev/null
 build/chroot/etc/apt/sources.list: FORCE
 	@sudo sed -i 's/^/#/' $@
 

@@ -9,10 +9,6 @@ PROJECT = 3packer
 .PHONY: all
 all:
 
-.PHONY: readme
-readme:
-	@cmark-gfm README.md | lynx -stdin
-
 .PHONY: clean
 clean:
 	@$(RM) *~

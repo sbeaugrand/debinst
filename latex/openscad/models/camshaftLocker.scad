@@ -38,7 +38,7 @@ module camshaftLocker() {
         union() {
             translate([0,0,-1]) rotate([0,0,180/nPulley-1]) camshaftPulley();
             translate([entraxe,0,-1]) rotate([0,0,180/nPulley-1]) camshaftPulley();
-            translate([entraxe/2-1,-bLocker-1,-1]) cube([2,hLocker+2,hPulley/2+1]);
+            translate([entraxe/2,-bLocker-1,-1]) cube([2,hLocker+2,hPulley/2+1]);
             translate([entraxe/2,tLocker+6,-1]) cylinder(h=hPulley+2, r=10, $fn=180);
         }
     }

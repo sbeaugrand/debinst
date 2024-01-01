@@ -22,10 +22,10 @@ file=/etc/apt/sources.list.d/debian.list
 if notFile $file; then
     cat >$tmpf <<EOF
 # BEGIN ANSIBLE MANAGED BLOCK
-deb http://httpredir.debian.org/debian $sta main contrib non-free-firmware
-deb http://httpredir.debian.org/debian/ $sta-updates main contrib non-free-firmware
-deb-src http://httpredir.debian.org/debian $sta main contrib non-free-firmware
-deb-src http://httpredir.debian.org/debian/ $sta-updates main contrib non-free-firmware
+deb https://deb.debian.org/debian $sta main contrib non-free-firmware
+deb https://deb.debian.org/debian/ $sta-updates main contrib non-free-firmware
+deb-src https://deb.debian.org/debian $sta main contrib non-free-firmware
+deb-src https://deb.debian.org/debian/ $sta-updates main contrib non-free-firmware
 # END ANSIBLE MANAGED BLOCK
 EOF
     sudoRoot cp $tmpf $file

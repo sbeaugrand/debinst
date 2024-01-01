@@ -9,10 +9,10 @@
     path: /etc/apt/sources.list.d/debian.list
     create: yes
     block: |
-      deb http://httpredir.debian.org/debian {{ ansible_distribution_release }} main contrib non-free-firmware
-      deb http://httpredir.debian.org/debian/ {{ ansible_distribution_release }}-updates main contrib non-free-firmware
-      deb-src http://httpredir.debian.org/debian {{ ansible_distribution_release }} main contrib non-free-firmware
-      deb-src http://httpredir.debian.org/debian/ {{ ansible_distribution_release }}-updates main contrib non-free-firmware
+      deb https://deb.debian.org/debian {{ ansible_distribution_release }} main contrib non-free-firmware
+      deb https://deb.debian.org/debian/ {{ ansible_distribution_release }}-updates main contrib non-free-firmware
+      deb-src https://deb.debian.org/debian {{ ansible_distribution_release }} main contrib non-free-firmware
+      deb-src https://deb.debian.org/debian/ {{ ansible_distribution_release }}-updates main contrib non-free-firmware
   register: sources
   become: yes
 

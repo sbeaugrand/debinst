@@ -7,8 +7,7 @@
 gitClone https://github.com/Ordissimo/scangearmp2.git || return 1
 
 if notWhich scangearmp2; then
-    pushd $bdir/scangearmp2 || return 1
-    mkdir -p build
+    mkdir -p $bdir/scangearmp2/build
     pushd $bdir/scangearmp2/build || return 1
     PATH=$PATH:/usr/share/intltool-debian cmake -DCMAKE_INSTALL_PREFIX=$home/.local .. >>$log 2>&1
     make >>$log 2>&1
@@ -58,6 +57,7 @@ EOF
 fi
 
 cat <<EOF
+Todo:
 
 https://www.canon.fr/support/business-product-support/
 tar xzf cnijfilter2-5.40-1-deb.tar.gz

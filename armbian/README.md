@@ -45,7 +45,7 @@ Démarrer sur la Pi
 ```sh
 ./find-ip.sh
 cd ../cicd/armbian
-vi playbook.yml  # somfi-pi
+vi playbook.yml  # enable somfi-pi
 keychain ~/.ssh/id_rsa
 make ssh user=root [host=pi]  # password: 1234
 exit
@@ -169,8 +169,6 @@ make volume
   sudo reboot
   ```
 </details>
-
-[Lien pour le noyau 4.4](kernel_4.4.md)
 
 # Licence
 

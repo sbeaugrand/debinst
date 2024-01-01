@@ -276,8 +276,6 @@ pdfposter
 qpdf
 mupdf-tools  # mutool
 hplip
-cmark-gfm
-retext
 pandoc
 rfkill
 bluez

@@ -4,12 +4,39 @@ cd
 mkdir data
 mkdir install
 cd install
-tar xzf debinst-dist.tgz
+git clone https://github.com/sbeaugrand/debinst.git
 cd debinst
 ./0install.sh
-./0install.sh hardware/install-op-pc-...
-systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-op-/install-op-mplayer.sh'
 ```
+<details>
+  <summary>Installations optionnelles</summary>
+
+  ```
+  ./0install.sh hardware/install-op-pc-...
+  ./0install.sh install-op-/install-op-...
+  ```
+</details>
+<details>
+  <summary>MPlayer</summary>
+
+  ```
+  systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-op-/install-op-mplayer.sh'
+  ```
+</details>
+<details>
+  <summary>Contrôle parental</summary>
+
+  ```
+  ./0install.sh install-op-/install-op-parental-control.sh
+  ```
+</details>
+<details>
+  <summary>Hotspot</summary>
+
+  ```
+  ./0install.sh hardware/install-op-hotspot.sh
+  ```
+</details>
 
 # [Installation légère sur une debian existante avec ansible](cicd/hosts/localhost/README.md#Installation)
 
@@ -19,9 +46,9 @@ make pkgs
 make iso  # or make iso32
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
 mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11
-curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11/Components-amd64.yml.gz https://debian.mirror.ate.info/dists/bookworm/main/dep11/Components-amd64.yml.gz
+curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11/Components-amd64.yml.gz https://deb.debian.org/debian/dists/bookworm/main/dep11/Components-amd64.yml.gz
 mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11
-curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz https://debian.mirror.ate.info/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz
+curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz https://deb.debian.org/debian/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz
 make iso
 pv ~/data/install-build/simplecdd-op-1arch64/images/debian-*-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
@@ -29,54 +56,44 @@ La liste des paquets debian sont dans: simplecdd-op-1arch64/list.txt
 
 La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 
-# Création d'une debian nouvelle version sur clé USB (bullseye)
-```sh
-make pkgs
-pv debian-live-11.0.0-amd64-lxde.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
-```
-Démarrer la live
-```sh
-sudo mkdir /mnt/a1
-sudo mount /dev/sda1 /mnt/a1
-ln -s /mnt/a1/home/*/data /home/user/data
-cd /mnt/a1/home/*/install/debinst
-rm simplecdd-op-1arch64/amd64/simple-cdd.conf
-rm -fr ~/data/install-build/simplecdd-op-1arch64
-sudo apt-get update
-sudo apt-get install dh-make dosfstools mtools simple-cdd xorriso
-sudo passwd
-make iso
-```
+[No kernel modules were found](doc/no-kernel-modules-were-found.md)
 
-# Création d'une debian nouvelle version sur clé USB (bookworm)
+# Création d'une debian nouvelle version sur clé USB
 https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/
 ```sh
+sudo apt install openssh-server
 make pkgs
-gnome-boxes debian-live-12.0.0-amd64-lxde.iso
+gnome-boxes debian-live-12.4.0-amd64-lxde.iso
+```
+```sh
+# lxterminal
 sudo apt update
 sudo apt install -y sshfs
 sudo mkdir /mnt/a1
 sudo chown user:user /mnt/a1
 user=...
 sshfs $user@10.0.2.2:/ /mnt/a1
-grep -A15 debinst/README /mnt/a1/home/*/install/debinst/README.md
+grep -A15 debinst/README /mnt/a1/home/$user/install/debinst/README.md
 ln -s /mnt/a1/data /home/user/data
-cd /mnt/a1/home/*/install/debinst
+cd /mnt/a1/home/$user/install/debinst
 rm simplecdd-op-1arch64/amd64/simple-cdd.conf
 rm -fr ~/data/install-build/simplecdd-op-1arch64
 sudo apt-get install -y dh-make dosfstools mtools simple-cdd xorriso
+sudo vi /usr/share/simple-cdd/tools/build/debian-cd +/rsync  # suppr -a
 make iso
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
 mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11
-curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11/Components-amd64.yml.gz https://debian.mirror.ate.info/dists/bookworm/main/dep11/Components-amd64.yml.gz
+curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11/Components-amd64.yml.gz https://deb.debian.org/debian/dists/bookworm/main/dep11/Components-amd64.yml.gz
 mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11
-curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz https://debian.mirror.ate.info/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz
+curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz https://deb.debian.org/debian/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz
 make iso
 cd
 fusermount3 -u /mnt/a1
+exit
 ```
-
-# [Création d'une machine virtuelle dans windows](3packer/README.md)
+```sh
+sudo apt remove openssh-server
+```
 
 # Création d'une debian live
 Mettre à jour le mirroir local :
@@ -140,6 +157,8 @@ pv build/live-image-amd64.hybrid.iso | sudo dd bs=4M oflag=dsync of=/dev/sdb
 # [Installation sur Raspberry Pi (raspbian)](raspbian/README.md)
 
 # [Installation sur PinePhone (mobian)](mobian/README.md)
+
+# [Création d'une machine virtuelle dans windows](3packer/README.md)
 
 # Licence CeCILL 2.1
 

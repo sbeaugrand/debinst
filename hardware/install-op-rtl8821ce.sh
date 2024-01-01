@@ -1,5 +1,6 @@
 #FIXME: workaround
 cat <<EOF
+Todo:
 
 sudo apt-get install dkms
 git clone https://github.com/tomaspinho/rtl8821ce
