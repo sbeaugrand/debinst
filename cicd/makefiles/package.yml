@@ -33,7 +33,12 @@ variables:
   PROJECT: example
   VERSION: 1.0
   STRIP: strip
-  RSYNC: rsync -c --delete -a --exclude=*~ --exclude=build --exclude=build-* -i
+  RSYNC: >
+         rsync --checksum --delete -a -i
+         --exclude=*~
+         --exclude=build
+         --exclude=build-*
+         --exclude=__pycache__
   URI: example@ip
   SSH: vagrant ssh -c
   USERPATH: /vagrant/.vagrant
