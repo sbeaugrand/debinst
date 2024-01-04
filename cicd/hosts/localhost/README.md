@@ -44,6 +44,19 @@ make extraroles
   ```
 </details>
 
+<details>
+  <summary>Mermaid</summary>
+
+  ```sh
+  sudo apt install npm
+  cd ~/.local
+  npm i @mermaid-js/mermaid-cli
+  cd bin
+  ln -s ../node_modules/.bin/mmdc
+  mmdc -i README.template.md -o README.md -t dark -b transparent
+  ```
+</details>
+
 # Crypted partition
 
 <details>
