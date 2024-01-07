@@ -53,7 +53,8 @@ make extraroles
   npm i @mermaid-js/mermaid-cli
   cd bin
   ln -s ../node_modules/.bin/mmdc
-  mmdc -i README.template.md -o README.md -t dark -b transparent
+  vi Makefile  # include ../makefiles/mermaid.mk
+  make mermaid
   ```
 </details>
 

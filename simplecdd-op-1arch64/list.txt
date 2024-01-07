@@ -126,7 +126,6 @@ strace
 valgrind
 colordiff
 uncrustify
-#universalindentgui
 cppcheck
 expect
 #wine32

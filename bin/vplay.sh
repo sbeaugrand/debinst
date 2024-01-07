@@ -4,10 +4,13 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note Alternatives
+##       \ls --zero *.avi | xargs -I {} -0 mplayer -geometry +1280+0 -fs {}
+##       \ls *.avi | xargs -I {} -d '\n' mplayer -geometry +1280+0 -fs {}
 # ---------------------------------------------------------------------------- #
 mplayer="mplayer -geometry +1280+0 -fs"
 while [ -n "$1" ]; do
-    if echo "$1" | grep '\.' >/dev/null; then
+    if echo "$1" | grep -q '\.'; then
         break
     fi
     if [ -n "$opts" ]; then
@@ -20,9 +23,17 @@ done
 
 if [ -z "$1" ]; then
     echo "Usage: `basename $0` [options] <filename> [1|2]"
+    echo "       `basename $0` [options] <filename>..."
     exit 1
 fi
 file="$1"
+if echo "$2" | grep -q '\.'; then
+    while [ -n "$1" ]; do
+        $mplayer $opt "$1"
+        shift
+    done
+    exit $?
+fi
 part=${2:-3}
 
 nbsec=`ffprobe -v fatal -show_entries format=duration\

@@ -43,13 +43,9 @@ cd debinst
 # Création d'une debian sur clé USB
 ```sh
 make pkgs
-make iso  # or make iso32
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
-mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11
-curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11/Components-amd64.yml.gz https://deb.debian.org/debian/dists/bookworm/main/dep11/Components-amd64.yml.gz
-mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11
-curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz https://deb.debian.org/debian/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz
-make iso
+sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadata file'  # comment 2 lignes
+make iso  # or make iso32
 pv ~/data/install-build/simplecdd-op-1arch64/images/debian-*-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
 La liste des paquets debian sont dans: simplecdd-op-1arch64/list.txt
@@ -80,12 +76,8 @@ rm simplecdd-op-1arch64/amd64/simple-cdd.conf
 rm -fr ~/data/install-build/simplecdd-op-1arch64
 sudo apt-get install -y dh-make dosfstools mtools simple-cdd xorriso
 sudo vi /usr/share/simple-cdd/tools/build/debian-cd +/rsync  # suppr -a
-make iso
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
-mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11
-curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/main/dep11/Components-amd64.yml.gz https://deb.debian.org/debian/dists/bookworm/main/dep11/Components-amd64.yml.gz
-mkdir ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11
-curl -o ~/data/install-build/simplecdd-op-1arch64/tmp/mirror/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz https://deb.debian.org/debian/dists/bookworm/non-free-firmware/dep11/Components-amd64.yml.gz
+sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadata file'  # comment 2 lines
 make iso
 cd
 fusermount3 -u /mnt/a1

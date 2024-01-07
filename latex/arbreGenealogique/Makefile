@@ -154,17 +154,17 @@ endef
 build/I0000.png: $(PHOTOS)/sebastien.png build/ellipse2.png
 	$(call photo,2,40,60,-resize 50%,,-normalize $(BRIGHTNESS),2016)
 
-build/I0001.png: $(PHOTOS)/emma2022.jpg build/ellipse1.png
-	$(call photo,1,500,800,-resize 70%,,-normalize,2022)
+build/I0001.png: $(PHOTOS)/emma2023.jpg build/ellipse1.png
+	$(call photo,1,200,50,-resize 52%,,-normalize,2023)
 
-build/I0002.png: $(PHOTOS)/eric2022.jpg build/ellipse1.png
-	$(call photo,1,350,500,-resize 60%,,-normalize,2022)
+build/I0002.png: $(PHOTOS)/eric2023.jpg build/ellipse1.png
+	$(call photo,1,150,0,-resize 48%,,-normalize,2023)
 
-build/I0003.png: $(PHOTOS)/erwann2022.jpg build/ellipse1.png
-	$(call photo,1,400,500,-resize 60%,,-normalize,2022)
+build/I0003.png: $(PHOTOS)/erwann2023.jpg build/ellipse1.png
+	$(call photo,1,350,200,-resize 60%,,-normalize,2023)
 
-build/I0004.png: $(PHOTOS)/eline2022.jpg build/ellipse1.png
-	$(call photo,1,350,500,-resize 60%,,-normalize,2022)
+build/I0004.png: $(PHOTOS)/eline2023.jpg build/ellipse1.png
+	$(call photo,1,350,200,-resize 60%,,-normalize,2023)
 
 build/I0005.png: $(PHOTOS)/audrey.jpg build/ellipse2.png
 	$(call photo,2,100,50,-resize 200%,,-normalize,2016)
