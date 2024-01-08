@@ -8,4 +8,4 @@
 mermaid: README.md
 README.md: README.template.md
 	@mmdc -i $< -o $@ -t dark -b transparent
-	@sed -i 's/black/#007700/g' README-*.svg
+	@sed -i 's/black/#00ff00/g' README-*.svg

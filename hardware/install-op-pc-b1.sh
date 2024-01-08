@@ -31,6 +31,8 @@ if notGrep brightness $file; then
     echo "@xrandr --output $output --brightness 0.75" >>$file
 fi
 
+sed -i 's/rfkill block all/rfkill block bluetooth/' $file
+
 file=$home/.bashrc
 if notGrep hdmi $file; then
     echo "alias hdmi='xrandr --output eDP --mode 1600x900 --scale 1x1 --output HDMI-A-0 --same-as eDP --scale 0.9x1'" >>$file
