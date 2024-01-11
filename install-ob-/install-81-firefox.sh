@@ -23,9 +23,15 @@ pushd $home/.mozilla/firefox/*.default || return 1
 #sed 's/US/FR/' $repo/_Firefox-88 >user.js || return 1
 download https://github.com/pyllyukko/user.js/raw/master/user.js
 sed 's/US/FR/' $repo/user.js >user.js || return 1
-sed -i -e '/autofillForms/d' -e '/rememberSignons/d' -e '/showSearch/d' user.js
-sed -i -e '/parent_directory/d' -e 's/)$/);/' user.js
-sed -i '/resistFingerprinting/d' user.js
+sed -i\
+ -e '/autofillForms/d'\
+ -e '/rememberSignons/d'\
+ -e '/showSearch/d'\
+ -e '/parent_directory/d'\
+ -e '/resistFingerprinting/d'\
+ -e '/use_document_fonts/d'\
+ -e 's/)$/);/'\
+ user.js
 
 file=$idir/install-ob-/install-*-firefox/homepage-pr-.html
 if [ ! -f $file ]; then
