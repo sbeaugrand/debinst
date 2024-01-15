@@ -142,11 +142,10 @@ check()
 # ---------------------------------------------------------------------------- #
 # main
 # ---------------------------------------------------------------------------- #
-check
-
 rm -fr $buildpackage/build
 
 if [ -f $buildpackage/prepare.sh ]; then
+    check
     source $buildpackage/prepare.sh || echo "error"
 fi
 

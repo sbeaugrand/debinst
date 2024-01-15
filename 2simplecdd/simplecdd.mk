@@ -42,6 +42,7 @@ define add-extra-packages
 	@echo perl-openssl-defaults >>$1
 	@echo dbus-x11 >>$1
 	@echo libdebian-installer4 >>$1
+	@echo zstd >>$1
 	@for i in `cat ../$(LPKG)/build/list.txt`; do\
 	 $(call add-extra-package,$1,$$i); done
 	@if grep -q libdvd $1; then echo libdvd-pkg >>$1; fi

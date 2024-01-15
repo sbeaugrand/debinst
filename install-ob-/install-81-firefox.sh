@@ -30,6 +30,7 @@ sed -i\
  -e '/parent_directory/d'\
  -e '/resistFingerprinting/d'\
  -e '/use_document_fonts/d'\
+ -e '/accept_languages/d'\
  -e 's/)$/);/'\
  user.js
 

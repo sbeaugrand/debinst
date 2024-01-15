@@ -54,6 +54,14 @@ La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 
 [No kernel modules were found](doc/no-kernel-modules-were-found.md)
 
+# Création d'une debian légère sur clé USB
+```sh
+./1buildpackage.sh buildpackage-op-3ansible dist
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
+sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadata file'  # comment 2 lignes
+./2simplecdd.sh simplecdd-op-3ansible buildpackage-op-3ansible
+```
+
 # Création d'une debian nouvelle version sur clé USB
 https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/
 ```sh

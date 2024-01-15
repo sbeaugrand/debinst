@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------- #
+## \file list.txt
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+xterm
+screen
+vim
+sudo
+make
+ansible
+firmware-amd-graphics
+firmware-misc-nonfree
+firmware-brcm80211
+firmware-realtek
+firmware-iwlwifi

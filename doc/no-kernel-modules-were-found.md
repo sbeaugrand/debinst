@@ -1,7 +1,16 @@
-# Simple CDD - No kernel modules were found
+# Simple CDD - No kernel modules were found - method 1
 ```sh
-sdir=...  # simple_cdd_dir
-build-simple-cdd --conf simple-cdd.conf --dvd
+sdir=~/data/install-build/simplecdd-op-1arch64  # simple_cdd_dir
+make iso
+file $sdir/tmp/cd-build/bookworm/CD1/install.amd/vmlinuz  # 6.1.0.15
+find $sdir/tmp/mirror -name '*6.1.0-16*' -print | sed -e 's#.*/##' -e 's/_.*//' | tee simplecdd-op-1arch64/amd64/profiles/default.excludes
+make iso
+```
+
+# Simple CDD - No kernel modules were found - method 2
+```sh
+sdir=~/data/install-build/simplecdd-op-1arch64  # simple_cdd_dir
+make iso
 file $sdir/tmp/cd-build/bookworm/CD1/install.amd/vmlinuz  # 6.1.0.15
 cd /tmp
 ```
@@ -29,6 +38,6 @@ cp initrd.gz cdrom/xen/
 ```sh
 python3 -m http.server
 vi simple-cdd.conf  # export DI_WWW_HOME=http://0.0.0.0:8000
-build-simple-cdd --conf simple-cdd.conf --dvd
+make iso
 file $sdir/tmp/cd-build/bookworm/CD1/install.amd/vmlinuz  # 6.1.0.17
 ```

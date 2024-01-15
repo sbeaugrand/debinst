@@ -53,12 +53,6 @@ dir=/home/$user/data
 mkdir $dir
 chown $user:$user $dir
 
-# install
-cd /home/$user/install/debinst
-./0install.sh\
- install-02-bashrc.sh\
- install-03-screen.sh
-
 # cleanup
 if [ ! -s $log ]; then
     rm $log

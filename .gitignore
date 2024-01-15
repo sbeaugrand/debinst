@@ -16,6 +16,7 @@ build-*
 *.hex
 *.ged
 *.toc
+*/amd64/profiles/default.excludes
 */amd64/profiles/amd64.packages
 */amd64/profiles/amd64.postinst
 */amd64/simple-cdd.conf
