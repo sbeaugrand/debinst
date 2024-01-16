@@ -1,5 +1,6 @@
 # Installation
 ```shell
+vi playbook.yml +/Optional
 make sudoers
 make local
 make extraroles

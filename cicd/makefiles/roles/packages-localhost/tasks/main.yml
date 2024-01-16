@@ -12,7 +12,6 @@
       - aptitude
       - cppcheck
       - curl
-      - docker.io
       - dpkg-cross
       - elpa-cmake-mode
       - elpa-dpkg-dev-el
@@ -29,11 +28,4 @@
       - sshpass  # ansible_password
       - uncrustify
       - xterm
-  become: yes
-
-- name: add user to the docker group
-  user:
-    append: yes
-    name: "{{ user }}"
-    groups: docker
   become: yes
