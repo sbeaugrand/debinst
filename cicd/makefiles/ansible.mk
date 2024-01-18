@@ -8,8 +8,11 @@ privkey = ~/.ssh/id_rsa
 -include host.mk
 
 ifeq ($(wildcard Vagrantfile),Vagrantfile)
+ HOST ?= default
  TARGETS = up | add-ip | del-ip | get-ip | extraroles
- AARGS = -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory
+ AARGS = -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory\
+ --extra-vars user=vagrant\
+ --extra-vars host=$(HOST)
 else ifeq ($(URI),)
  TARGETS = sudoers | local | extraroles
  AARGS = --extra-vars host=all

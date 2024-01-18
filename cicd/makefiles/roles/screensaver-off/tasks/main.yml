@@ -15,6 +15,7 @@
     path: "/etc/xdg/lxsession/LXDE/autostart"
     regexp: 'xscreensaver'
     state: absent
+  become: yes
 
 - name: {{ home }}/.config/lxsession/LXDE/autostart
   lineinfile:

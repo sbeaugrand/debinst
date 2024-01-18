@@ -8,7 +8,7 @@
 - name: import virtualhost playbook
   import_playbook: ../../makefiles/virtualhost.yml
 
-- hosts: default
+- hosts: "{{ host | default('default') }}"
   gather_facts: no
   vars:
     user: vagrant
