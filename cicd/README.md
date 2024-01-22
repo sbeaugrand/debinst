@@ -1,8 +1,8 @@
 |Project|Dependancies                     |
 |-------|---------------------------------|
 |   1   |RabbitMQ + Qt widgets            |
-|   2   |SimpleAmqpClient                 |
-|   3   |SimpleAmqpClient library         |
+|   2   |SimpleAmqpClient library         |
+|   3   |SimpleAmqpClient                 |
 |   4   |jsonrpccpp + microhttpd + jsoncpp|
 |   5   |NNG reqrep0                      |
 |   6   |Qt websockets                    |

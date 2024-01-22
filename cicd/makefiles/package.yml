@@ -39,6 +39,8 @@ variables:
          --exclude=build
          --exclude=build-*
          --exclude=__pycache__
+         --exclude=.git
+         --exclude=.svn
   URI: example@ip
   SSH: vagrant ssh -c
   USERPATH: /vagrant/.vagrant
@@ -79,7 +81,7 @@ package:
     - dh_make --native --single --yes || true
     - cat /dev/null >debian/$PROJECT.install
     - test ! -d ../../debian || cp -a ../../debian/* debian/
-    - test ! -d ../../data   || cp -a ../../data/*   data/
+    - test ! -d ../../data   || cp -L ../../data/*   data/
     - test ! -d ../../share  || cp -a ../../share/*  data/
     - >
       test ! -f ../$PROJECT || cp -a ../$PROJECT data/$PROJECT &&

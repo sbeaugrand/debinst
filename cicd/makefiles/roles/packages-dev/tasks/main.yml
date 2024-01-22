@@ -35,4 +35,5 @@
   pip:
     name:
       - gitlabci-local
-      - colored==1.4.4
+      - colored==1.4.4  # gitlabci-local
+      - idna  # gitlabci-local
