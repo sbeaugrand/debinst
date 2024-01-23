@@ -5,7 +5,12 @@
 
 function owaNotifySend() {
   try {
-    var elem = document.querySelector('div[aria-label="conversation"]');
+    var elem = document.querySelector('span[class*="reminders-title"]');
+    if (elem != null) {
+      new Notification(elem.innerHTML);
+      return;
+    }
+    elem = document.querySelector('div[aria-label="conversation"]');
     if (elem == null) {
       return;
     }
