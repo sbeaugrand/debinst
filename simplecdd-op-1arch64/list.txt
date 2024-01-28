@@ -255,6 +255,7 @@ sudo
 network-manager-gnome
 wpasupplicant  # wifi
 polkitd-pkla  # hotspot permissions
+tcpdump
 dh-make  # simple-cdd
 equivs
 mplayer

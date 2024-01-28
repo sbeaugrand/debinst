@@ -24,6 +24,10 @@ quit()
         sudo nft delete rule filter FORWARD handle $wlp
     fi
 
+    if [ -n "$tcpdump" ]; then
+        kill -15 $tcpdump
+    fi
+
     exit $1
 }
 
@@ -32,9 +36,9 @@ sudo -k
 sudo true || quit 1
 nmcli con up hotspot || exit $?
 
+enp=`cat /proc/net/dev | cut -d ':' -f 1 | grep -m 1 '^enp'`
+wlp=`cat /proc/net/dev | cut -d ':' -f 1 | grep -m 1 '^wlp'`
 if sudo nft list chain filter FORWARD 2>/dev/null | grep -q docker; then
-    enp=`cat /proc/net/dev | cut -d ':' -f 1 | grep -m 1 '^enp'`
-    wlp=`cat /proc/net/dev | cut -d ':' -f 1 | grep -m 1 '^wlp'`
     if [ -n "$enp" ] && [ -n "$wlp" ]; then
         if ! sudo nft list chain filter FORWARD 2>/dev/null | grep -q "$wlp"; then
             sudo nft add rule filter FORWARD iifname $wlp oifname $enp counter accept
@@ -47,7 +51,16 @@ if sudo nft list chain filter FORWARD 2>/dev/null | grep -q docker; then
     fi
 fi
 
+if which tcpdump >/dev/null 2>&1; then
+    sudo tcpdump -i $wlp -w /var/log/hotspot.pcap -U 'dst 10.66.0.2 and port 53' 2>/dev/null &
+    tcpdump=$?
+fi
+
 trap "echo; quit 0" SIGINT
+if [ -n "$tcpdump" ]; then
+    echo
+    echo "log: tcpdump -r /var/log/hotspot.pcap"
+fi
 echo
 echo -n "Ctrl-c pour fermer "
 
