@@ -28,6 +28,7 @@ cd debinst
 
   ```
   ./0install.sh install-op-/install-op-parental-control.sh
+  ./0install.sh install-op-/install-op-parental-control2.sh
   ```
 </details>
 <details>
