@@ -20,7 +20,7 @@ cat <<EOF
 
 Todo:
 adb install Kiwi\ Browser\ -\ Fast\ \&\ Quiet_120.0.6099.116_Apkpure.apk
-adb shell "cd /storage/self/primary/Android/data && mkdir kiwi"
-adb push ctpar.user.js manifest.json /storage/self/primary/Android/data/
+adb shell "cd /storage/self/primary/Android/data && mkdir com.github.kiwibrowser"
+adb push kiwictp.user.js manifest.json /storage/self/primary/Android/data/com.github.kiwibrowser/
 
 EOF
