@@ -57,8 +57,9 @@ if which tcpdump >/dev/null 2>&1; then
 fi
 
 trap "echo; quit 0" SIGINT
+echo
+echo "log: cat /var/log/dnscrypt-proxy/query.log"
 if [ -n "$tcpdump" ]; then
-    echo
     echo "log: tcpdump -r /var/log/hotspot.pcap"
 fi
 echo

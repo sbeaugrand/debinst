@@ -49,6 +49,9 @@ file=/etc/dnscrypt-proxy/blocked-names.txt
 if notFile $file; then
     cat >$tmpf <<EOF
 www.filmstreaming.*
+play*.googleapis.com
+play.google.com
+app-measurement.com
 EOF
     sudoRoot cp $tmpf $file
     rm $tmpf
@@ -125,7 +128,7 @@ if notLink $file; then
     sudoRoot ln -s /etc/apache2/mods-available/socache_shmcb.load $file
 fi
 
-dir=$bdir/blocked-query-response
+dir=$bdir/ctpar
 if notDir $dir; then
     mkdir $dir
 fi
