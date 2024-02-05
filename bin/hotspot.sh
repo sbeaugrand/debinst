@@ -58,10 +58,13 @@ fi
 
 trap "echo; quit 0" SIGINT
 echo
-echo "log: cat /var/log/dnscrypt-proxy/query.log"
+echo "logs:"
+echo "cat /var/log/dnscrypt-proxy/query.log"
 if [ -n "$tcpdump" ]; then
-    echo "log: tcpdump -r /var/log/hotspot.pcap"
+    echo "tcpdump -r /var/log/hotspot.pcap"
 fi
+echo "http://127.0.2.2/log.php"
+echo "sudo journalctl -S-1d | grep ctpar"
 echo
 echo -n "Ctrl-c pour fermer "
 
