@@ -4,11 +4,11 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-version=1.6.3
-file=net.downloadhelper.coapp-$version-1_amd64.deb
+version=2.0.10
+file=vdhcoapp-$version-linux-x86_64.deb
 
 if notFile $repo/$file; then
-    download https://github.com/mi-g/vdhcoapp/releases/download/v$version/$file
+    download https://github.com/aclap-dev/vdhcoapp/releases/download/v$version/$file
 fi
 
 if notDir /opt/net.downloadhelper.coapp; then

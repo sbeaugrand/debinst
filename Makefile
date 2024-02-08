@@ -27,8 +27,11 @@ updaterepo:
 	 --exclude-dir=not-used\
 	 --exclude=*.md\
 	 --exclude=Makefile\
-	 "gitClone " | tee /dev/stderr |\
-	 sed -e 's#.*/##' -e 's/ .*//' -e 's#^#todo: ./4updaterepo.sh #' -e 's/\.git//'
+	 "gitClone " | tee /dev/stderr | sed\
+	 -e 's#.*/##'\
+	 -e 's/ .*//'\
+	 -e 's#^#todo: ./4updaterepo.sh #'\
+	 -e 's/\.git//'
 
 .PHONY: not-used
 not-used:

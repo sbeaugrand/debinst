@@ -9,11 +9,17 @@ if (isset($_POST['t'])) {
         shell_exec('systemd-cat -t ctpar echo '.$log);
     }
 } else {
-    print '<!DOCTYPE html><html><head></head><body><code>';
+    if (file_exists('users.php')) {
+        include_once('users.php');
+    }
+    print '<!DOCTYPE html><html><head></head><body><pre><code>';
     $lines = file('/tmp/ctpar.log');
     foreach ($lines as $line) {
-        print htmlspecialchars($line)."<br/>\n";
+        foreach ($users as $ip => $user) {
+            $line = str_replace($ip, $user, $line);
+        }
+        print htmlspecialchars($line);
     }
-    print '</code></body></html>';
+    print '</pre></code></body></html>';
 }
 ?>
