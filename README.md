@@ -24,18 +24,18 @@ cd debinst
   ```
 </details>
 <details>
+  <summary>Hotspot</summary>
+
+  ```
+  ./0install.sh hardware/install-op-hotspot.sh
+  ```
+</details>
+<details>
   <summary>Contrôle parental</summary>
 
   ```
   ./0install.sh install-op-/install-op-parental-control.sh
   ./0install.sh install-op-/install-op-parental-control2.sh
-  ```
-</details>
-<details>
-  <summary>Hotspot</summary>
-
-  ```
-  ./0install.sh hardware/install-op-hotspot.sh
   ```
 </details>
 
@@ -53,7 +53,7 @@ La liste des paquets debian sont dans: simplecdd-op-1arch64/list.txt
 
 La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 
-[No kernel modules were found](doc/no-kernel-modules-were-found.md)
+[~~No kernel modules were found~~](doc/no-kernel-modules-were-found.md)
 
 # Création d'une debian légère sur clé USB
 ```sh

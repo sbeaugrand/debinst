@@ -8,6 +8,7 @@ xterm
 screen
 vim
 sudo
+network-manager-gnome
 make
 ansible
 firmware-amd-graphics
