@@ -76,6 +76,7 @@ make extraroles
   <summary>Disable</summary>
 
   ```sh
+  sudo cryptsetup --test-passphrase open /dev/sda3
   sudo cryptsetup luksRemoveKey /dev/sda3 /root/luksKey
   ```
 </details>

@@ -142,15 +142,15 @@ fi
 # montage
 # ---------------------------------------------------------------------------- #
 if [ ! -e /dev/mapper/$crypted ]; then
-    echo -n "key size ? [128] "
-    read keysize
-    echo -e "${clear}key size ? [128] "
-    if [ -z "$keysize" ]; then
-       keysize=128
-    fi
-    if [ "$keysize" = 0 ]; then
+    if sudo /sbin/cryptsetup isLuks $dev; then
         cmd="sudo /sbin/cryptsetup luksOpen $dev $crypted"
     else
+        echo -n "key size ? [128] "
+        read keysize
+        echo -e "${clear}key size ? [128] "
+        if [ -z "$keysize" ]; then
+            keysize=128
+        fi
         cmd="sudo /sbin/cryptsetup -s \$keysize open --type plain $dev $crypted"
     fi
     echo $cmd
@@ -186,19 +186,17 @@ fi
 # ---------------------------------------------------------------------------- #
 # demontage
 # ---------------------------------------------------------------------------- #
-echo "demontage de $dir"
 cd
 if [ -f $dir/bash_logout ]; then
     source $dir/bash_logout
 fi
 while ! sudo /usr/bin/umount $dir; do
+    if ! grep -q "/dev/mapper/$crypted" /etc/mtab; then
+        break;
+    fi
     bash --norc
 done
-while ! sudo /sbin/cryptsetup close $crypted; do
-    bash --norc
-done
+sudo /sbin/cryptsetup close $crypted
 if [ $USER = root ]; then
     rm -f ~/.emacs-last ~/.emacs-places
 fi
-echo "exit ou Ctrl-d pour sortir"
-bash --norc
