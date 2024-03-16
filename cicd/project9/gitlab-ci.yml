@@ -1,0 +1,20 @@
+# ---------------------------------------------------------------------------- #
+## \file gitlab-ci.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+variables:
+  PROJECT: project-nine
+include:
+  - local: /../makefiles/package.yml
+test1:
+  stage: test
+  script:
+    - make --no-print-directory
+    - ./test1.exp
+test2:
+  stage: test
+  script:
+    - make --no-print-directory
+    - ./test2.exp

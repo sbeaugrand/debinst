@@ -17,6 +17,7 @@
       - libnng-dev
       - libqt5websockets5-dev
       - librabbitmq-dev
+      - libsocket++-dev
       - python3-pika
       - qtbase5-dev
       - rabbitmq-server

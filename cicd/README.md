@@ -8,3 +8,4 @@
 |   6   |Qt websockets                    |
 |   7   |NNG pair0                        |
 |   8   |cpp-httplib                      |
+|   9   |libsocket++-dev                  |
