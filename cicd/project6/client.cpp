@@ -26,7 +26,8 @@ EchoClient::EchoClient(const QUrl& url, bool debug, QObject* parent) :
     m_webSocket.open(QUrl(url));
 }
 
-void EchoClient::onConnected()
+void
+EchoClient::onConnected()
 {
     if (m_debug) {
         qDebug() << "WebSocket connected";
@@ -36,7 +37,8 @@ void EchoClient::onConnected()
     m_webSocket.sendTextMessage(QStringLiteral("status"));
 }
 
-void EchoClient::onTextMessageReceived(QString message)
+void
+EchoClient::onTextMessageReceived(QString message)
 {
     if (m_debug) {
         qDebug() << "Message received:" << message;

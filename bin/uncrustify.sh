@@ -12,6 +12,9 @@ else
     list="$*"
 fi
 for f in $list; do
+    if [ -L $f ]; then
+        continue
+    fi
     echo "uncrustify $f"
     uncrustify -q -c ~/.uncrustify.cfg -o $f.tmp -f $f
     if ! diff $f $f.tmp >/dev/null; then

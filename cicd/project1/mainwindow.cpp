@@ -24,12 +24,14 @@ MainWindow::MainWindow(QWidget* parent)
     QThreadPool::globalInstance()->start(mMessageJob);
 }
 
-void MainWindow::quit()
+void
+MainWindow::quit()
 {
     emit quitSignal();
 }
 
-bool MainWindow::event(QEvent* event)
+bool
+MainWindow::event(QEvent* event)
 {
     if (event->type() == QEvent::Close) {
         mMessageJob->close();
@@ -37,7 +39,8 @@ bool MainWindow::event(QEvent* event)
     return QMainWindow::event(event);
 }
 
-void MainWindow::handleButton()
+void
+MainWindow::handleButton()
 {
     mButton->setText("Example");
 }

@@ -36,7 +36,8 @@ EchoServer::~EchoServer()
     qDeleteAll(m_clients.begin(), m_clients.end());
 }
 
-void EchoServer::onNewConnection()
+void
+EchoServer::onNewConnection()
 {
     QWebSocket* pSocket = m_pWebSocketServer->nextPendingConnection();
     if (m_debug) {
@@ -50,7 +51,8 @@ void EchoServer::onNewConnection()
     m_clients << pSocket;
 }
 
-void EchoServer::processTextMessage(QString message)
+void
+EchoServer::processTextMessage(QString message)
 {
     QWebSocket* pClient = qobject_cast<QWebSocket*>(sender());
     if (m_debug) {
@@ -69,7 +71,8 @@ void EchoServer::processTextMessage(QString message)
     }
 }
 
-void EchoServer::socketDisconnected()
+void
+EchoServer::socketDisconnected()
 {
     QWebSocket* pClient = qobject_cast<QWebSocket*>(sender());
     if (m_debug) {
