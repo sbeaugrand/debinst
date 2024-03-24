@@ -3,9 +3,9 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note https://addons.mozilla.org/en-US/firefox/addon/video-downloadhelper/
 # ---------------------------------------------------------------------------- #
-version=8410
+# https://addons.mozilla.org/en-US/firefox/addon/video-downloadhelper/
+version=8228
 file=addon-$version-latest.xpi
 url=https://addons.mozilla.org/firefox/downloads/latest/video-downloadhelper
 

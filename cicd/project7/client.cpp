@@ -21,7 +21,7 @@ class RecvThread
 {
 public:
     explicit RecvThread(nng_socket sock) {
-        mThread = std::thread(RecvThread::recv, this, sock);
+        mThread = std::thread(RecvThread::run, this, sock);
     }
     ~RecvThread() {
         loop = false;
@@ -38,7 +38,7 @@ public:
     std::mutex mutex;
     std::string message;
 private:
-    static void recv(RecvThread* self, nng_socket sock) {
+    static void run(RecvThread* self, nng_socket sock) {
         char* buf = NULL;
         size_t sz;
         int rv;
