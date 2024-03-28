@@ -20,9 +20,9 @@ quit()
     if [ -n "$enp" ]; then
         sudo nft delete rule filter FORWARD handle $enp
     fi
-    if [ -n "$wlp" ]; then
-        sudo nft delete rule filter FORWARD handle $wlp
-    fi
+    for i in $wlp; do
+        sudo nft delete rule filter FORWARD handle $i
+    done
 
     if [ -n "$tcpdump" ]; then
         kill -15 $tcpdump
@@ -50,6 +50,22 @@ if sudo nft list chain filter FORWARD 2>/dev/null | grep -q docker; then
         echo "warn: interface not found"
     fi
 fi
+
+file=~/.local/bin/hotspot-pr-.sh
+if [ -f $file ]; then
+    source $file
+fi
+# Example :
+# vi ~/.local/bin/hotspot-pr-.sh
+# if ! sudo nft list ruleset 2>/dev/null | grep -q 'ip saddr 10.66.0.39'; then
+#     hex=`echo "youtube" | hexdump -e '1/1 "%02x"' | sed 's/0a$/\n/'`
+#     len=`echo $hex | awk '{ print length() * 4 }'`
+#     sudo nft add chain ip filter input { type filter hook input priority 0 \; }
+#     # m.youtube.com 160 + 8 * 3 = 184
+#     sudo nft add rule filter input ip saddr 10.66.0.39 meta l4proto udp udp dport 53 @th,184,$len 0x$hex counter drop
+#     # www.youtube.com 160 + 8 * 5 = 200
+#     sudo nft add rule filter input ip saddr 10.66.0.39 meta l4proto udp udp dport 53 @th,200,$len 0x$hex counter drop
+# fi
 
 if which tcpdump >/dev/null 2>&1; then
     sudo tcpdump -i $wlp -w /var/log/hotspot.pcap -U 'dst 10.66.0.2 and port 53' 2>/dev/null &
