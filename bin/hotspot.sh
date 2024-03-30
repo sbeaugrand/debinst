@@ -51,20 +51,33 @@ if sudo nft list chain filter FORWARD 2>/dev/null | grep -q docker; then
     fi
 fi
 
-file=~/.local/bin/hotspot-pr-.sh
+hexDomain()
+{
+    domain=$1
+    for s in `echo $domain | tr '.' ' '`; do
+        echo -n $s | awk '{ printf "%02x",length() }'
+        echo -n $s | hexdump -v -e '1/1 "%02x"'
+    done
+}
+addFilter()
+{
+    ip=$1
+    domain=$2
+    hex=`hexDomain $domain`
+    len=`echo $hex | awk '{ print length() * 4 }'`
+    sudo nft add chain ip filter input { type filter hook input priority 0 \; }
+    sudo nft add rule filter input ip saddr $ip meta l4proto udp udp dport 53 @th,160,$len 0x$hex counter drop
+}
+file=${0%.*}-pr-.sh
 if [ -f $file ]; then
     source $file
 fi
 # Example :
-# vi ~/.local/bin/hotspot-pr-.sh
-# if ! sudo nft list ruleset 2>/dev/null | grep -q 'ip saddr 10.66.0.39'; then
-#     hex=`echo "youtube" | hexdump -e '1/1 "%02x"' | sed 's/0a$/\n/'`
-#     len=`echo $hex | awk '{ print length() * 4 }'`
-#     sudo nft add chain ip filter input { type filter hook input priority 0 \; }
-#     # m.youtube.com 160 + 8 * 3 = 184
-#     sudo nft add rule filter input ip saddr 10.66.0.39 meta l4proto udp udp dport 53 @th,184,$len 0x$hex counter drop
-#     # www.youtube.com 160 + 8 * 5 = 200
-#     sudo nft add rule filter input ip saddr 10.66.0.39 meta l4proto udp udp dport 53 @th,200,$len 0x$hex counter drop
+# vi ~/install/debinst/bin/hotspot-pr-.sh
+# ip=10.66.0.39
+# if ! sudo nft list ruleset 2>/dev/null | grep -q 'ip saddr $ip'; then
+#     addFilter $ip m.youtube
+#     addFilter $ip www.youtube
 # fi
 
 if which tcpdump >/dev/null 2>&1; then
