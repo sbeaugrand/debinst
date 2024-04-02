@@ -75,7 +75,7 @@ fi
 # Example :
 # vi ~/install/debinst/bin/hotspot-pr-.sh
 # ip=10.66.0.39
-# if ! sudo nft list ruleset 2>/dev/null | grep -q 'ip saddr $ip'; then
+# if ! sudo nft list ruleset 2>/dev/null | grep -q "ip saddr $ip"; then
 #     addFilter $ip m.youtube
 #     addFilter $ip www.youtube
 # fi
