@@ -13,7 +13,8 @@
 /******************************************************************************!
  * \fn digitalInit
  ******************************************************************************/
-int digitalInit(uint8_t pin, uint8_t mode)
+int
+digitalInit(uint8_t pin, uint8_t mode)
 {
     pinMode(pin, mode);
     return 1;
@@ -22,7 +23,8 @@ int digitalInit(uint8_t pin, uint8_t mode)
 /******************************************************************************!
  * \fn digitalQuit
  ******************************************************************************/
-int digitalQuit(uint8_t pin)
+int
+digitalQuit(uint8_t pin)
 {
     pin = pin;
     return 1;

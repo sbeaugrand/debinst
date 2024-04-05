@@ -15,7 +15,8 @@
 /******************************************************************************!
  * \fn digitalInit
  ******************************************************************************/
-int digitalInit(uint8_t pin, uint8_t mode)
+int
+digitalInit(uint8_t pin, uint8_t mode)
 {
     char buf[33];
     int fd;
@@ -54,7 +55,8 @@ int digitalInit(uint8_t pin, uint8_t mode)
 /******************************************************************************!
  * \fn digitalRead
  ******************************************************************************/
-int digitalRead(uint8_t pin)
+int
+digitalRead(uint8_t pin)
 {
     static char buf[29];
     int fd;
@@ -80,7 +82,8 @@ int digitalRead(uint8_t pin)
 /******************************************************************************!
  * \fn digitalWrite
  ******************************************************************************/
-void digitalWrite(uint8_t pin, uint8_t val)
+void
+digitalWrite(uint8_t pin, uint8_t val)
 {
     static char buf[29];
     int fd;
@@ -103,7 +106,8 @@ void digitalWrite(uint8_t pin, uint8_t val)
 /******************************************************************************!
  * \fn digitalQuit
  ******************************************************************************/
-int digitalQuit(uint8_t pin)
+int
+digitalQuit(uint8_t pin)
 {
     char buf[4];
     int fd;

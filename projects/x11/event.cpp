@@ -57,7 +57,8 @@ static MappingNotifyCallback gMappingNotifyCallback;
 /******************************************************************************!
  * \fn operator==
  ******************************************************************************/
-bool operator==(const Input& i1, const Input& i2)
+bool
+operator==(const Input& i1, const Input& i2)
 {
     return ! (i1 != i2);
 }
@@ -65,7 +66,8 @@ bool operator==(const Input& i1, const Input& i2)
 /******************************************************************************!
  * \fn operator!=
  ******************************************************************************/
-bool operator!=(const Input& i1, const Input& i2)
+bool
+operator!=(const Input& i1, const Input& i2)
 {
     int mask = i1.mCmpMask & i2.mCmpMask;
 
@@ -90,7 +92,7 @@ Event::Event(Display* display) :
 {
     mDisplay = display->id();
     addInput(0, 0, MappingNotify, &gMappingNotifyCallback,
-             (int(Callback::*) (const Event*))
+             (int (Callback::*)(const Event*))
              & MappingNotifyCallback::mappingNotify);
 }
 
@@ -104,18 +106,20 @@ Event::~Event()
 /******************************************************************************!
  * \fn addWindowWithExposeCB
  ******************************************************************************/
-void Event::addWindowWithExposeCB(Window* w)
+void
+Event::addWindowWithExposeCB(Window* w)
 {
     addInput(w, ExposureMask, Expose, &gExposeCallback,
-             (int(Callback::*) (const Event*))
+             (int (Callback::*)(const Event*))
              & ExposeCallback::expose);
 }
 
 /******************************************************************************!
  * \fn addInput
  ******************************************************************************/
-void Event::addInput(Window* window, long mask, long type, Callback* cbObj,
-                     int (Callback::* cbFunc)(const Event*))
+void
+Event::addInput(Window* window, long mask, long type, Callback* cbObj,
+                int (Callback::* cbFunc)(const Event*))
 {
     if (mask || type) {
         Input input(window, mask, type, cbObj, cbFunc);
@@ -144,7 +148,8 @@ void Event::addInput(Window* window, long mask, long type, Callback* cbObj,
 /******************************************************************************!
  * \fn delInput
  ******************************************************************************/
-void Event::delInput(Window* window)
+void
+Event::delInput(Window* window)
 {
     std::list<Input>::iterator it;
     Window* w;
@@ -161,7 +166,8 @@ void Event::delInput(Window* window)
 /******************************************************************************!
  * \fn run
  ******************************************************************************/
-int Event::run()
+int
+Event::run()
 {
     std::list<Input>::iterator it;
     Input input;
@@ -218,7 +224,8 @@ int Event::run()
 /******************************************************************************!
  * \fn getNextKey
  ******************************************************************************/
-KeySym Event::getNextKey() const
+KeySym
+Event::getNextKey() const
 {
     //return XKeycodeToKeysym(mDisplay, mEvent.xkey.keycode, 0);
     return XkbKeycodeToKeysym(mDisplay, mEvent.xkey.keycode, 0,
@@ -228,7 +235,8 @@ KeySym Event::getNextKey() const
 /******************************************************************************!
  * \fn getNextState
  ******************************************************************************/
-int Event::getNextState() const
+int
+Event::getNextState() const
 {
     return mEvent.xkey.state;
 }

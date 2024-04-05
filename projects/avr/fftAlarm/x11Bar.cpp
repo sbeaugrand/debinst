@@ -44,7 +44,8 @@ Bar::~Bar()
 /******************************************************************************!
  * \fn draw
  ******************************************************************************/
-void Bar::draw(uint8_t* buff) const
+void
+Bar::draw(uint8_t* buff) const
 {
     int m = 0;
     int j = -1;
@@ -81,7 +82,8 @@ void Bar::draw(uint8_t* buff) const
 /******************************************************************************!
  * \fn keyPress
  ******************************************************************************/
-int Bar::keyPress(const Event* event)
+int
+Bar::keyPress(const Event* event)
 {
     KeySym ks = event->getNextKey();
 
@@ -94,8 +96,9 @@ int Bar::keyPress(const Event* event)
 /******************************************************************************!
  * \fn run
  ******************************************************************************/
-void Bar::run(Callback* loopObj,
-              int (Callback::* loopFunc)(const Event*))
+void
+Bar::run(Callback* loopObj,
+         int (Callback::* loopFunc)(const Event*))
 {
     try {
         mDisplay = new Display(4);

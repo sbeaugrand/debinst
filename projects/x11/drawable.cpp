@@ -39,7 +39,8 @@ Drawable::Drawable(Display* display)
 /******************************************************************************!
  * \fn init
  ******************************************************************************/
-void Drawable::init(Display* display)
+void
+Drawable::init(Display* display)
 {
     mDisplay = display;
     mX11Display = mDisplay->id();
@@ -51,7 +52,8 @@ void Drawable::init(Display* display)
 /******************************************************************************!
  * \fn getPosition
  ******************************************************************************/
-void Drawable::getPosition(int* x, int* y)
+void
+Drawable::getPosition(int* x, int* y)
 {
     *x = mIndic.x;
     *y = mIndic.y;
@@ -60,7 +62,8 @@ void Drawable::getPosition(int* x, int* y)
 /******************************************************************************!
  * \fn setPosition
  ******************************************************************************/
-void Drawable::setPosition(int x, int y)
+void
+Drawable::setPosition(int x, int y)
 {
     mIndic.x = x;
     mIndic.y = y;
@@ -70,7 +73,8 @@ void Drawable::setPosition(int x, int y)
 /******************************************************************************!
  * \fn setSize
  ******************************************************************************/
-void Drawable::setSize(int w, int h)
+void
+Drawable::setSize(int w, int h)
 {
     mIndic.width = w;
     mIndic.height = h;
@@ -80,7 +84,8 @@ void Drawable::setSize(int w, int h)
 /******************************************************************************!
  * \fn contains
  ******************************************************************************/
-int Drawable::contains(int x, int y)
+int
+Drawable::contains(int x, int y)
 {
     return x >= mIndic.x &&
            x < mIndic.x + mIndic.width &&

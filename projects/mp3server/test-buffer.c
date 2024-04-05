@@ -12,7 +12,8 @@
 /******************************************************************************!
  * \fn checkSize
  ******************************************************************************/
-void checkSize(struct Buffer* b, size_t val)
+void
+checkSize(struct Buffer* b, size_t val)
 {
     //size_t s = strlen(bufferGet(b));
     bufferGet(b);
@@ -29,7 +30,8 @@ void checkSize(struct Buffer* b, size_t val)
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main()
+int
+main()
 {
     FILE* f;
     struct Buffer* b = bufferNew();

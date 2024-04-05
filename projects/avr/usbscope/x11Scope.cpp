@@ -52,7 +52,8 @@ Scope::~Scope()
 /******************************************************************************!
  * \fn drawMenu
  ******************************************************************************/
-void Scope::drawMenu() const
+void
+Scope::drawMenu() const
 {
     static char str[32];
     int p = mDisplay->getFontAscent() + mDisplay->getFontDescent();
@@ -99,7 +100,8 @@ void Scope::drawMenu() const
 /******************************************************************************!
  * \fn drawGrid
  ******************************************************************************/
-void Scope::drawGrid() const
+void
+Scope::drawGrid() const
 {
     int w = mWindow->getWidth();
     int h = mWindow->getHeight();
@@ -158,7 +160,8 @@ void Scope::drawGrid() const
 /******************************************************************************!
  * \fn drawPoints
  ******************************************************************************/
-void Scope::drawPoints(double time, double val1, double val2)
+void
+Scope::drawPoints(double time, double val1, double val2)
 {
     static double x1v1 = 0.0;
     static double y1v1 = 0.0;
@@ -206,7 +209,8 @@ void Scope::drawPoints(double time, double val1, double val2)
 /******************************************************************************!
  * \fn keyPress
  ******************************************************************************/
-int Scope::keyPress(const Event* event)
+int
+Scope::keyPress(const Event* event)
 {
     KeySym ks = event->getNextKey();
     double inc = (event->getNextState() & ShiftMask) ? 0.1 : 1.0;
@@ -284,8 +288,9 @@ int Scope::keyPress(const Event* event)
 /******************************************************************************!
  * \fn run
  ******************************************************************************/
-void Scope::run(Callback* loopObj,
-                int (Callback::* loopFunc)(const Event*))
+void
+Scope::run(Callback* loopObj,
+           int (Callback::* loopFunc)(const Event*))
 {
     try {
         mDisplay = new Display(3);

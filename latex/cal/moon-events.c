@@ -13,7 +13,8 @@
 /******************************************************************************!
  * \fn apogeeOrPerigee
  ******************************************************************************/
-int apogeeOrPerigee(int year, int month, int day, int apogee, double k)
+int
+apogeeOrPerigee(int year, int month, int day, int apogee, double k)
 {
     double t;
     double jde;
@@ -57,8 +58,9 @@ int apogeeOrPerigee(int year, int month, int day, int apogee, double k)
 /******************************************************************************!
  * \fn ascendingOrDescendingNode
  ******************************************************************************/
-int ascendingOrDescendingNode(int year, int month, int day,
-                              int ascending, double k)
+int
+ascendingOrDescendingNode(int year, int month, int day,
+                          int ascending, double k)
 {
     double t;
     double jde;
@@ -100,8 +102,9 @@ int ascendingOrDescendingNode(int year, int month, int day,
 /******************************************************************************!
  * \fn northOrSouthMaximumDeclination
  ******************************************************************************/
-int northOrSouthMaximumDeclination(int year, int month, int day,
-                                   int north, int k)
+int
+northOrSouthMaximumDeclination(int year, int month, int day,
+                               int north, int k)
 {
     double t;
     double jde;
@@ -147,7 +150,8 @@ int northOrSouthMaximumDeclination(int year, int month, int day,
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
     double fYear;
     int year;

@@ -12,7 +12,8 @@
 /******************************************************************************!
  * \fn analogInit
  ******************************************************************************/
-int analogInit()
+int
+analogInit()
 {
     ADMUX = (1 << REFS2) | (1 << REFS1) |  // Vref = 2.56 V
         (1 << MUX3) | (1 << MUX2) | (1 << MUX0);  // GND
@@ -39,7 +40,8 @@ int analogInit()
  * \fn analogRead
  * \note pin = next pin
  ******************************************************************************/
-int analogRead(uint8_t pin)
+int
+analogRead(uint8_t pin)
 {
     if (ADCSRA & (1 << ADSC)) {
         return -1;
@@ -59,7 +61,8 @@ int analogRead(uint8_t pin)
 /******************************************************************************!
  * \fn analogQuit
  ******************************************************************************/
-void analogQuit()
+void
+analogQuit()
 {
     ADCSRA &= ~(1 << ADEN);
 }

@@ -29,7 +29,8 @@ uint16_t TCNT1;
 #include "timer0.h"
 #include "timer1.h"
 
-int main(int argc, char** argv)
+int
+main(int argc, char** argv)
 {
     unsigned long period;
 

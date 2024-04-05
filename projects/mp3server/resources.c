@@ -23,7 +23,8 @@
 /******************************************************************************!
  * \fn sendPage
  ******************************************************************************/
-void sendPage(int sock, struct Buffer* buffer)
+void
+sendPage(int sock, struct Buffer* buffer)
 {
     char http_length[HTTP_LENGTH_SIZE];
     char* buffPtr;
@@ -56,7 +57,8 @@ void sendPage(int sock, struct Buffer* buffer)
 /******************************************************************************!
  * \fn sendMessage
  ******************************************************************************/
-void sendMessage(int sock, struct Buffer* buffer)
+void
+sendMessage(int sock, struct Buffer* buffer)
 {
     const char* buffPtr = bufferGet(buffer);
     unsigned int buffLen = buffer->size;
@@ -505,7 +507,8 @@ sendResourceDate(int sockClient, struct Buffer* buffer, enum tFormat format)
 /******************************************************************************!
  * \fn bufferPrintFile
  ******************************************************************************/
-void bufferPrintFile(FILE* buffFile, const char* filename)
+void
+bufferPrintFile(FILE* buffFile, const char* filename)
 {
     char buf[BUFSIZ];
     int source;
@@ -625,7 +628,8 @@ sendResourceLog(int sockClient, struct Buffer* buffer, enum tFormat format)
 /******************************************************************************!
  * \fn createResources
  ******************************************************************************/
-void createResources()
+void
+createResources()
 {
     httpInit();
     httpAddResource(RESOURCE_NAME_ROOT, sendResourceRoot);

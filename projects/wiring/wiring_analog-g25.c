@@ -18,7 +18,8 @@ static int analogFD = -1;
 /******************************************************************************!
  * \fn analogInit
  ******************************************************************************/
-int analogInit()
+int
+analogInit()
 {
     analogFD = -1;
     return 1;
@@ -27,7 +28,8 @@ int analogInit()
 /******************************************************************************!
  * \fn analogRead
  ******************************************************************************/
-int analogRead(uint8_t pin)
+int
+analogRead(uint8_t pin)
 {
     static char buffer[67];
     static uint8_t lastPin = 255;
@@ -56,7 +58,8 @@ int analogRead(uint8_t pin)
 /******************************************************************************!
  * \fn analogQuit
  ******************************************************************************/
-void analogQuit()
+void
+analogQuit()
 {
     if (analogFD >= 0) {
         close(analogFD);

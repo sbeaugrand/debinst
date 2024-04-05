@@ -18,7 +18,8 @@ struct gpiod_line* lines[GPIOD_MAX_PIN_COUNT] = { NULL };
 /******************************************************************************!
  * \fn debugValues
  ******************************************************************************/
-void debugValues()
+void
+debugValues()
 {
     int n;
     int i;
@@ -39,7 +40,8 @@ void debugValues()
 /******************************************************************************!
  * \fn digitalInit
  ******************************************************************************/
-int digitalInit(uint8_t pin, uint8_t mode)
+int
+digitalInit(uint8_t pin, uint8_t mode)
 {
     struct gpiod_chip* chip;
     struct gpiod_line* line;
@@ -82,7 +84,8 @@ int digitalInit(uint8_t pin, uint8_t mode)
 /******************************************************************************!
  * \fn digitalRead
  ******************************************************************************/
-int digitalRead(uint8_t pin)
+int
+digitalRead(uint8_t pin)
 {
     struct gpiod_line* line;
     int val;
@@ -107,7 +110,8 @@ int digitalRead(uint8_t pin)
 /******************************************************************************!
  * \fn digitalWrite
  ******************************************************************************/
-void digitalWrite(uint8_t pin, uint8_t val)
+void
+digitalWrite(uint8_t pin, uint8_t val)
 {
     struct gpiod_line* line;
 
@@ -126,7 +130,8 @@ void digitalWrite(uint8_t pin, uint8_t val)
 /******************************************************************************!
  * \fn digitalQuit
  ******************************************************************************/
-int digitalQuit(uint8_t pin)
+int
+digitalQuit(uint8_t pin)
 {
     struct gpiod_chip* chip;
     struct gpiod_line* line;

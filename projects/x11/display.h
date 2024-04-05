@@ -25,7 +25,7 @@ public:
 
     ::Display* id()         const { return mDisplay; }
     GC gc()                 const { return mGC; }
-    ::Window root()         const { return mRoot;  }
+    ::Window root()         const { return mRoot; }
     int depth()             const { return mDepth; }
     ULong black()           const { return mBlack; }
     ULong white()           const { return mWhite; }
@@ -46,7 +46,7 @@ public:
     void flush() { XFlush(mDisplay); }
 
 private:
-    ::Display * mDisplay;
+    ::Display* mDisplay;
     GC mGC;
     XFontStruct* mFontStruct;
     int mFontAscent;

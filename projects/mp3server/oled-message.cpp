@@ -9,7 +9,8 @@
 
 #define DEVICE_ADDRESS 0x3C
 
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
     if (argc != 4 && argc != 1) {
         return 1;

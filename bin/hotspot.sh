@@ -66,7 +66,7 @@ addFilter()
     hex=`hexDomain $domain`
     len=`echo $hex | awk '{ print length() * 4 }'`
     sudo nft add chain ip filter input { type filter hook input priority 0 \; }
-    sudo nft add rule filter input ip saddr $ip meta l4proto udp udp dport 53 @th,160,$len 0x$hex counter drop
+    sudo nft add rule filter input ip saddr $ip meta l4proto udp udp dport 53 @th,160,$len 0x$hex counter drop comment $domain
 }
 file=${0%.*}-pr-.sh
 if [ -f $file ]; then

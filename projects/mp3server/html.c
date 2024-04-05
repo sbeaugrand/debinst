@@ -9,7 +9,8 @@ const int DIR_PAGE_NB = 3;
 /******************************************************************************!
  * \fn htmlGetBegin
  ******************************************************************************/
-const char* htmlGetBegin()
+const char*
+htmlGetBegin()
 {
     static const char* r =
         "<html><head><title>PI</title>"
@@ -52,7 +53,8 @@ const char* htmlGetBegin()
 /******************************************************************************!
  * \fn htmlGetHtmlEnd
  ******************************************************************************/
-const char* htmlGetEnd()
+const char*
+htmlGetEnd()
 {
     static const char* r = "</pre></body></html>";
     return r;
@@ -61,7 +63,8 @@ const char* htmlGetEnd()
 /******************************************************************************!
  * \fn htmlGetEmpty
  ******************************************************************************/
-const char* htmlGetEmpty()
+const char*
+htmlGetEmpty()
 {
     static const char* r =
         "<html><head><title>PI</title></head>"
@@ -72,7 +75,8 @@ const char* htmlGetEmpty()
 /******************************************************************************!
  * \fn htmlGetTableBegin
  ******************************************************************************/
-const char* htmlGetTableBegin()
+const char*
+htmlGetTableBegin()
 {
     static const char* r = "<table><tr><td valign=\"top\">";
     return r;
@@ -81,7 +85,8 @@ const char* htmlGetTableBegin()
 /******************************************************************************!
  * \fn htmlGetTableNewTd
  ******************************************************************************/
-const char* htmlGetTableNewTd()
+const char*
+htmlGetTableNewTd()
 {
     static const char* r = "</td><td valign=\"top\">";
     return r;
@@ -90,7 +95,8 @@ const char* htmlGetTableNewTd()
 /******************************************************************************!
  * \fn htmlGetTableEnd
  ******************************************************************************/
-const char* htmlGetTableEnd()
+const char*
+htmlGetTableEnd()
 {
     static const char* r = "</td></tr></table>";
     return r;
@@ -99,7 +105,8 @@ const char* htmlGetTableEnd()
 /******************************************************************************!
  * \fn htmlGetHrefDir
  ******************************************************************************/
-const char* htmlGetHrefDir()
+const char*
+htmlGetHrefDir()
 {
     static const char* r = "<a href=\"/dir/";
     return r;
@@ -108,7 +115,8 @@ const char* htmlGetHrefDir()
 /******************************************************************************!
  * \fn htmlGetHrefAlbum
  ******************************************************************************/
-const char* htmlGetHrefAlbum()
+const char*
+htmlGetHrefAlbum()
 {
     static const char* r = "<a href=\"/album/";
     return r;

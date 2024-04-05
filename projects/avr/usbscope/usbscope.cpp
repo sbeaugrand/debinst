@@ -29,7 +29,8 @@ X11::Scope* gScope = NULL;
 /******************************************************************************!
  * \fn closeAll
  ******************************************************************************/
-void closeAll()
+void
+closeAll()
 {
     if (gScope != NULL) {
         delete gScope;
@@ -52,7 +53,8 @@ void closeAll()
 /******************************************************************************!
  * \fn status
  ******************************************************************************/
-void status(const char* str, int code)
+void
+status(const char* str, int code)
 {
     if (code < 0) {
         fprintf(stderr, "error: %s (err=%d)\n", str, code);
@@ -66,7 +68,8 @@ void status(const char* str, int code)
 /******************************************************************************!
  * \fn callback
  ******************************************************************************/
-void callback(struct libusb_transfer* transfer)
+void
+callback(struct libusb_transfer* transfer)
 {
     static struct timeval tv;
     static time_t tstart = 0;
@@ -126,7 +129,8 @@ public:
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main(int argc, char** argv)
+int
+main(int argc, char** argv)
 {
     if (argc != 2 && argc != 3) {
         printf("Usage: %s <file1> [file2]\n", argv[0]);

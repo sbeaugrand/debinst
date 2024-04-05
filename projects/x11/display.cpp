@@ -45,7 +45,8 @@ Display::Display(int argc, char** argv, char**, int colormapSize) :
 /******************************************************************************!
  * \fn open
  ******************************************************************************/
-void Display::open(char* display)
+void
+Display::open(char* display)
 {
     if (mDisplay != NULL) {
         return;
@@ -106,7 +107,8 @@ Display::~Display()
 /******************************************************************************!
  * \fn close
  ******************************************************************************/
-void Display::close()
+void
+Display::close()
 {
     delete[] mColormap;
     mColormap = NULL;
@@ -123,7 +125,8 @@ void Display::close()
 /******************************************************************************!
  * \fn addColor
  ******************************************************************************/
-void Display::addColor(int n, int r, int g, int b)
+void
+Display::addColor(int n, int r, int g, int b)
 {
     if (n < 0 || n >= mColormapSize) {
         std::cerr << "error: X11::Display::addColor" << std::endl;
@@ -140,7 +143,8 @@ void Display::addColor(int n, int r, int g, int b)
 /******************************************************************************!
  * \fn textWidth
  ******************************************************************************/
-int Display::textWidth(const char* s)
+int
+Display::textWidth(const char* s)
 {
     if (mFontStruct) {
         return XTextWidth(mFontStruct, s, strlen(s));

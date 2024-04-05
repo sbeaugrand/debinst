@@ -21,7 +21,8 @@ double gVOffs = 511.0;
 /******************************************************************************!
  * \fn analogSetFrequencies
  ******************************************************************************/
-void analogSetFrequencies(int argc, char* argv[])
+void
+analogSetFrequencies(int argc, char* argv[])
 {
     if (argc < 3) {
         ERROR("Usage: %s <valeurs-par-seconde> <frequence> [frequence]...",
@@ -35,7 +36,8 @@ void analogSetFrequencies(int argc, char* argv[])
 /******************************************************************************!
  * \fn analogInit
  ******************************************************************************/
-int analogInit()
+int
+analogInit()
 {
     return 1;
 }
@@ -43,7 +45,8 @@ int analogInit()
 /******************************************************************************!
  * \fn analogRead
  ******************************************************************************/
-int analogRead(__attribute__((__unused__)) uint8_t pin)
+int
+analogRead(__attribute__((__unused__)) uint8_t pin)
 {
     static double val;
     static int i;
@@ -61,6 +64,7 @@ int analogRead(__attribute__((__unused__)) uint8_t pin)
 /******************************************************************************!
  * \fn analogQuit
  ******************************************************************************/
-void analogQuit()
+void
+analogQuit()
 {
 }

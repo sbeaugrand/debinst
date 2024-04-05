@@ -26,7 +26,8 @@ unsigned long int manchester_data = 0xFFFFFFFF;
 /******************************************************************************!
  * \fn toManchester
  ******************************************************************************/
-void toManchester(unsigned char data, unsigned long int* data_manchester)
+void
+toManchester(unsigned char data, unsigned long int* data_manchester)
 {
     unsigned int i;
     *data_manchester = 0x02;  // STOP symbol
@@ -72,7 +73,8 @@ ISR(TIMER1_COMPA_vect)
 /******************************************************************************!
  * \fn write
  ******************************************************************************/
-int write(const char* data, int data_size)
+int
+write(const char* data, int data_size)
 {
     if (frame_index >= 0) {
         return -1;
@@ -92,7 +94,8 @@ int write(const char* data, int data_size)
 /******************************************************************************!
  * \fn setup
  ******************************************************************************/
-void setup()
+void
+setup()
 {
     pinMode(A_PINB0, OUTPUT);
 
@@ -121,7 +124,8 @@ void setup()
 /******************************************************************************!
  * \fn loop
  ******************************************************************************/
-void loop()
+void
+loop()
 {
 #   ifndef MESSAGE
     static char* msg = "Hello World";
@@ -134,7 +138,8 @@ void loop()
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main()
+int
+main()
 {
     setup();
     for (;;) {

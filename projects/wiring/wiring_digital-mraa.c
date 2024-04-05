@@ -17,7 +17,8 @@ mraa_gpio_context mraa_gpios[MRAA_MAX_PIN_COUNT] = { NULL };
 /******************************************************************************!
  * \fn digitalInit
  ******************************************************************************/
-int digitalInit(uint8_t pin, uint8_t mode)
+int
+digitalInit(uint8_t pin, uint8_t mode)
 {
     mraa_gpio_context gpio = mraa_gpios[pin - 1];
 
@@ -29,7 +30,7 @@ int digitalInit(uint8_t pin, uint8_t mode)
         }
     }
     if (mraa_gpio_dir(gpio, (mode == INPUT) ?
-        MRAA_GPIO_IN : MRAA_GPIO_OUT) != MRAA_SUCCESS) {
+                      MRAA_GPIO_IN : MRAA_GPIO_OUT) != MRAA_SUCCESS) {
         digitalQuit(pin);
         return 2;
     }
@@ -52,7 +53,8 @@ int digitalInit(uint8_t pin, uint8_t mode)
 /******************************************************************************!
  * \fn digitalRead
  ******************************************************************************/
-int digitalRead(uint8_t pin)
+int
+digitalRead(uint8_t pin)
 {
     mraa_gpio_context gpio = mraa_gpios[pin - 1];
     if (gpio == NULL) {
@@ -65,7 +67,8 @@ int digitalRead(uint8_t pin)
 /******************************************************************************!
  * \fn digitalWrite
  ******************************************************************************/
-void digitalWrite(uint8_t pin, uint8_t val)
+void
+digitalWrite(uint8_t pin, uint8_t val)
 {
     mraa_gpio_context gpio = mraa_gpios[pin - 1];
     if (gpio == NULL) {
@@ -80,7 +83,8 @@ void digitalWrite(uint8_t pin, uint8_t val)
 /******************************************************************************!
  * \fn digitalQuit
  ******************************************************************************/
-int digitalQuit(uint8_t pin)
+int
+digitalQuit(uint8_t pin)
 {
     mraa_gpio_context gpio = mraa_gpios[pin - 1];
     if (gpio == NULL) {

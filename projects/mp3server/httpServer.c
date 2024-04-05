@@ -22,7 +22,8 @@
 /******************************************************************************!
  * \fn httpInit
  ******************************************************************************/
-void httpInit()
+void
+httpInit()
 {
     hcreate(27);  // 21 + 25 %
 }
@@ -30,7 +31,8 @@ void httpInit()
 /******************************************************************************!
  * \fn httpAddResource
  ******************************************************************************/
-void httpAddResource(const char* name, void* func)
+void
+httpAddResource(const char* name, void* func)
 {
     ENTRY e;
 
@@ -71,7 +73,8 @@ httpSendResource(int sockClient, const char* resourceName,
  * \fn httpGetResourceName
  ******************************************************************************/
 #define RESOURCE_NAME_SIZE 16
-const char* httpGetResourceName(const char* buffer)
+const char*
+httpGetResourceName(const char* buffer)
 {
     static char resourceName[RESOURCE_NAME_SIZE];
     const char* c;
@@ -111,7 +114,8 @@ const char* httpGetResourceName(const char* buffer)
  * \fn httpGetResourceParam
  ******************************************************************************/
 #define RESOURCE_PARAM_SIZE 16
-const char* httpGetResourceParam(const char* buffer, const char* param)
+const char*
+httpGetResourceParam(const char* buffer, const char* param)
 {
     static char value[RESOURCE_PARAM_SIZE];
     const char* c;
@@ -169,7 +173,8 @@ const char* httpGetResourceParam(const char* buffer, const char* param)
 /******************************************************************************!
  * \fn httpRunServer
  ******************************************************************************/
-void httpRunServer(struct Buffer* buffer)
+void
+httpRunServer(struct Buffer* buffer)
 {
     static int sockServer;
     static int sockClient;
@@ -277,7 +282,8 @@ void httpRunServer(struct Buffer* buffer)
 /******************************************************************************!
  * \fn httpGetHttpOk
  ******************************************************************************/
-const char* httpGetHttpOk()
+const char*
+httpGetHttpOk()
 {
     static const char* r =
         "HTTP/1.0 200 OK\r\n"
@@ -290,7 +296,8 @@ const char* httpGetHttpOk()
 /******************************************************************************!
  * \fn httpGetHttpOkSize
  ******************************************************************************/
-size_t httpGetHttpOkSize()
+size_t
+httpGetHttpOkSize()
 {
     static size_t r = 0;
     if (r == 0) {
@@ -303,7 +310,8 @@ size_t httpGetHttpOkSize()
 /******************************************************************************!
  * \fn httpQuit
  ******************************************************************************/
-void httpQuit()
+void
+httpQuit()
 {
     hdestroy();
 }

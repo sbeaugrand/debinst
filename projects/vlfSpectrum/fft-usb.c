@@ -22,7 +22,8 @@ uint32_t gSize;
 /******************************************************************************!
  * \fn sockQuit
  ******************************************************************************/
-void sockQuit()
+void
+sockQuit()
 {
     if (gTransfer != NULL) {
         libusb_cancel_transfer(gTransfer);
@@ -44,7 +45,8 @@ void sockQuit()
 /******************************************************************************!
  * \fn status
  ******************************************************************************/
-void status(const char* str, int code)
+void
+status(const char* str, int code)
 {
     if (code < 0) {
         ERROR("%s (err=%d)\n", str, code);
@@ -58,7 +60,8 @@ void status(const char* str, int code)
 /******************************************************************************!
  * \fn callback
  ******************************************************************************/
-void callback(struct libusb_transfer* transfer)
+void
+callback(struct libusb_transfer* transfer)
 {
     static struct timeval tv;
     static time_t offset = 0;
@@ -83,7 +86,8 @@ void callback(struct libusb_transfer* transfer)
 /******************************************************************************!
  * \fn sockInit
  ******************************************************************************/
-void sockInit(int argc, char* argv[])
+void
+sockInit(int argc, char* argv[])
 {
     int r;
 
@@ -121,7 +125,8 @@ void sockInit(int argc, char* argv[])
 /******************************************************************************!
  * \fn sockRead
  ******************************************************************************/
-ssize_t sockRead(unsigned char* buff, size_t size)
+ssize_t
+sockRead(unsigned char* buff, size_t size)
 {
     static uint32_t count = 0;
     int r;

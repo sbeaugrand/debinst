@@ -20,7 +20,8 @@ int gSock = 0;
 /******************************************************************************!
  * \fn sockInit
  ******************************************************************************/
-void sockInit(int argc, char* argv[])
+void
+sockInit(int argc, char* argv[])
 {
     struct addrinfo ahints;
     struct addrinfo* ares;
@@ -76,7 +77,8 @@ void sockInit(int argc, char* argv[])
 /******************************************************************************!
  * \fn sockRead
  ******************************************************************************/
-ssize_t sockRead(unsigned char* buff, size_t count)
+ssize_t
+sockRead(unsigned char* buff, size_t count)
 {
     ssize_t len;
 
@@ -91,7 +93,8 @@ ssize_t sockRead(unsigned char* buff, size_t count)
 /******************************************************************************!
  * \fn sockQuit
  ******************************************************************************/
-void sockQuit()
+void
+sockQuit()
 {
     if (gSock != 0) {
         close(gSock);

@@ -25,14 +25,16 @@ int gCount;
 
 int16_t buff[N];
 
-void sigalarm_handler(int s) {
+void
+sigalarm_handler(int s) {
     s = s;
 }
 
 /******************************************************************************!
  * \fn sampleRate
  ******************************************************************************/
-int sampleRate()
+int
+sampleRate()
 {
     double t = gTimeval.tv_sec - gOffset.tv_sec +
         (gTimeval.tv_nsec - gOffset.tv_nsec) / 1000000000L;
@@ -42,7 +44,8 @@ int sampleRate()
 /******************************************************************************!
  * \fn quit
  ******************************************************************************/
-void quit(int status)
+void
+quit(int status)
 {
     if (status == EXIT_SUCCESS) {
         fprintf(stderr, "Sample rate = %d Hz\n", sampleRate());
@@ -53,7 +56,8 @@ void quit(int status)
 /******************************************************************************!
  * \fn sigpipe
  ******************************************************************************/
-void sigpipe(int sig)
+void
+sigpipe(int sig)
 {
     if (sig == SIGPIPE) {
         quit(EXIT_SUCCESS);
@@ -63,7 +67,8 @@ void sigpipe(int sig)
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
     char freqStr[16];
     int freq = atoi(argv[2]);

@@ -52,7 +52,8 @@ Window::Window(Window* parent)
  * \brief Initialise certains attributs et complete la hierarchie des fenetres
  *   entree : la fenetre parente pour une sous-fenetre, 0 sinon
  ******************************************************************************/
-void Window::init(Window* parent)
+void
+Window::init(Window* parent)
 {
     mWindow = 0;
     if ((mParent = parent)) {
@@ -67,7 +68,8 @@ void Window::init(Window* parent)
  * \brief Demande de creation de la fenetre et de sa pixmap associee aupres du
  *        serveur X
  ******************************************************************************/
-void Window::create(ULong color)
+void
+Window::create(ULong color)
 {
     if (mWindow != 0) {
         return;
@@ -111,7 +113,8 @@ Window::~Window()
 /******************************************************************************!
  * \fn clear
  ******************************************************************************/
-void Window::clear(ULong color)
+void
+Window::clear(ULong color)
 {
     mPixmap->clear(color);
 }
@@ -121,7 +124,8 @@ void Window::clear(ULong color)
  * \brief Positionne la fenetre dans sa fenetre parente
  *   entree : les coordonnees x et y du point superieur gauche de la fenetre
  ******************************************************************************/
-void Window::setPosition(int x, int y)
+void
+Window::setPosition(int x, int y)
 {
     Drawable::setPosition(x, y);
     if (mWindow) {
@@ -134,7 +138,8 @@ void Window::setPosition(int x, int y)
  * \brief Positionne ou change la taille de la fenetre
  *   entree : la largeur et la hauteur en pixels
  ******************************************************************************/
-void Window::setSize(int w, int h)
+void
+Window::setSize(int w, int h)
 {
     Drawable::setSize(w, h);
     if (mWindow) {
@@ -150,7 +155,8 @@ void Window::setSize(int w, int h)
  *        fenetre
  *   entree : un masque d'evenement(s)
  ******************************************************************************/
-void Window::addInput(ULong mask)
+void
+Window::addInput(ULong mask)
 {
     mEventMask |= mask;
     if (mWindow) {
@@ -164,7 +170,8 @@ void Window::addInput(ULong mask)
  *        interceptes par la fenetre
  *   entree : un masque d'evenement(s) ou rien
  ******************************************************************************/
-void Window::delInput(ULong mask)
+void
+Window::delInput(ULong mask)
 {
     mEventMask &= ~mask;
     if (mWindow) {
@@ -175,7 +182,8 @@ void Window::delInput(ULong mask)
 /******************************************************************************!
  * \fn delInput
  ******************************************************************************/
-void Window::delInput()
+void
+Window::delInput()
 {
     mEventMask = 0;
     if (mWindow) {
@@ -188,7 +196,8 @@ void Window::delInput()
  * \brief Positionne le titre de la fenetre (visible dans la barre de titre)
  *   entree : une chaine de caracteres
  ******************************************************************************/
-void Window::setTitle(const char* title)
+void
+Window::setTitle(const char* title)
 {
     if (const_cast<char*>(title) != mTitle) {
         strcpy(mTitle, title);
@@ -202,7 +211,8 @@ void Window::setTitle(const char* title)
 /******************************************************************************!
  * \fn refresh
  ******************************************************************************/
-void Window::refresh()
+void
+Window::refresh()
 {
     XCopyArea(mX11Display, mX11Pixmap, mWindow, mGC,
               0, 0, mIndic.width, mIndic.height, 0, 0);
@@ -211,7 +221,8 @@ void Window::refresh()
 /******************************************************************************!
  * \fn refresh
  ******************************************************************************/
-void Window::refresh(int x1, int y1, int x2, int y2)
+void
+Window::refresh(int x1, int y1, int x2, int y2)
 {
     XCopyArea(mX11Display, mX11Pixmap, mWindow, mGC,
               (x1 < x2) ? x1 : x2,
@@ -225,7 +236,8 @@ void Window::refresh(int x1, int y1, int x2, int y2)
 /******************************************************************************!
  * \fn refreshAll
  ******************************************************************************/
-void Window::refreshAll()
+void
+Window::refreshAll()
 {
     flush();
 
@@ -243,7 +255,8 @@ void Window::refreshAll()
 /******************************************************************************!
  * \fn flush
  ******************************************************************************/
-void Window::flush()
+void
+Window::flush()
 {
     XFlush(mX11Display);
 }
@@ -251,7 +264,8 @@ void Window::flush()
 /******************************************************************************!
  * \fn raise
  ******************************************************************************/
-void Window::raise(ULong color)
+void
+Window::raise(ULong color)
 {
     this->create(color);
     XMapRaised(mX11Display, mWindow);
@@ -268,7 +282,8 @@ void Window::raise(ULong color)
 /******************************************************************************!
  * \fn destroy
  ******************************************************************************/
-void Window::destroy()
+void
+Window::destroy()
 {
     mWindow = 0;
     delete this;
@@ -277,7 +292,8 @@ void Window::destroy()
 /******************************************************************************!
  * \fn operator==
  ******************************************************************************/
-int operator==(const Window& w1, const Window& w2)
+int
+operator==(const Window& w1, const Window& w2)
 {
     return w1.mWindow == w2.mWindow;
 }
@@ -285,7 +301,8 @@ int operator==(const Window& w1, const Window& w2)
 /******************************************************************************!
  * \fn operator!=
  ******************************************************************************/
-int operator!=(const Window& w1, const Window& w2)
+int
+operator!=(const Window& w1, const Window& w2)
 {
     return w1.mWindow != w2.mWindow;
 }

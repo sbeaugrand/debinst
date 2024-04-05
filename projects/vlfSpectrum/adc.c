@@ -32,7 +32,8 @@ time_t gOffset;
 /******************************************************************************!
  * \fn controlC
  ******************************************************************************/
-void controlC(int sig)
+void
+controlC(int sig)
 {
     if (sig == SIGINT) {
         analogQuit();
@@ -46,7 +47,8 @@ void controlC(int sig)
 /******************************************************************************!
  * \fn sockInit
  ******************************************************************************/
-void sockInit(const char* port)
+void
+sockInit(const char* port)
 {
     struct addrinfo ahints;
     struct addrinfo* ares;
@@ -86,7 +88,8 @@ void sockInit(const char* port)
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
     const unsigned int HEADER_SIZE = sizeof(uint32_t) << 1;
     const unsigned int SAMPLE_SIZE = 1 << (int) log2(TCP_MSS_DEFAULT -

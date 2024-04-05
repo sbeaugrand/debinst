@@ -17,7 +17,7 @@ void analogQuit();
 
 // arduino-1.0.6/hardware/arduino/cores/arduino/Arduino.h
 #define HIGH 0x1
-#define LOW  0x0
+#define LOW 0x0
 #define INPUT 0x0
 #define OUTPUT 0x1
 

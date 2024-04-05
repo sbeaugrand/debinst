@@ -30,7 +30,8 @@ Pixmap::Pixmap(Display* display)
 /******************************************************************************!
  * \fn create
  ******************************************************************************/
-void Pixmap::create()
+void
+Pixmap::create()
 {
     mPixmap =
         XCreatePixmap(mX11Display, mDisplay->root(),
@@ -48,7 +49,8 @@ Pixmap::~Pixmap()
 /******************************************************************************!
  * \fn setSize
  ******************************************************************************/
-void Pixmap::setSize(int w, int h)
+void
+Pixmap::setSize(int w, int h)
 {
     ::Pixmap save = mPixmap;
     int width = mIndic.width;
@@ -63,7 +65,8 @@ void Pixmap::setSize(int w, int h)
 /******************************************************************************!
  * \fn clear
  ******************************************************************************/
-void Pixmap::clear(ULong color)
+void
+Pixmap::clear(ULong color)
 {
     XSetForeground(mX11Display, mGC, color);
     XFillRectangle(mX11Display, mPixmap, mGC,

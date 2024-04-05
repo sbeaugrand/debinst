@@ -44,7 +44,8 @@
  *********************************************************************************
  */
 
-void delay(unsigned int howLong)
+void
+delay(unsigned int howLong)
 {
     struct timespec sleeper, dummy;
 
@@ -72,7 +73,8 @@ void delay(unsigned int howLong)
  *********************************************************************************
  */
 
-void delayMicrosecondsHard(unsigned int howLong)
+void
+delayMicrosecondsHard(unsigned int howLong)
 {
     struct timeval tNow, tLong, tEnd;
 
@@ -86,7 +88,8 @@ void delayMicrosecondsHard(unsigned int howLong)
     }
 }
 
-void delayMicroseconds(unsigned int howLong)
+void
+delayMicroseconds(unsigned int howLong)
 {
     struct timespec sleeper;
     unsigned int uSecs = howLong % 1000000;

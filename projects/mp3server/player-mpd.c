@@ -24,7 +24,8 @@ struct mpd_connection* gConn = NULL;
 /******************************************************************************!
  * \fn playerIsError
  ******************************************************************************/
-int playerIsError(const char* func)
+int
+playerIsError(const char* func)
 {
     enum mpd_error err = mpd_connection_get_error(gConn);
     if (err != MPD_ERROR_SUCCESS) {
@@ -42,7 +43,8 @@ int playerIsError(const char* func)
 /******************************************************************************!
  * \fn playerInit
  ******************************************************************************/
-int playerInit()
+int
+playerInit()
 {
     if (gConn != NULL) {
         mpd_connection_free(gConn);
@@ -67,7 +69,8 @@ int playerInit()
 /******************************************************************************!
  * \fn playerGetMPDStatus
  ******************************************************************************/
-struct mpd_status* playerGetMPDStatus()
+struct mpd_status*
+playerGetMPDStatus()
 {
     int res;
     struct mpd_status* status = mpd_run_status(gConn);
@@ -89,7 +92,8 @@ struct mpd_status* playerGetMPDStatus()
 /******************************************************************************!
  * \fn playerGetStatus
  ******************************************************************************/
-int32_t playerGetStatus()
+int32_t
+playerGetStatus()
 {
     enum mpd_state res;
     struct mpd_status* status = playerGetMPDStatus();
@@ -111,7 +115,8 @@ int32_t playerGetStatus()
 /******************************************************************************!
  * \fn playerGetPlaytime
  ******************************************************************************/
-int32_t playerGetPlaytime()
+int32_t
+playerGetPlaytime()
 {
     unsigned int res;
     struct mpd_status* status = playerGetMPDStatus();
@@ -128,7 +133,8 @@ int32_t playerGetPlaytime()
 /******************************************************************************!
  * \fn playerGetPosition
  ******************************************************************************/
-int playerGetPosition()
+int
+playerGetPosition()
 {
     unsigned int res;
     struct mpd_status* status = playerGetMPDStatus();
@@ -146,7 +152,8 @@ int playerGetPosition()
 /******************************************************************************!
  * \fn playerTitleList
  ******************************************************************************/
-struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
+struct Buffer*
+playerTitleList(struct Buffer* buffer, enum tFormat format)
 {
     int32_t playtime;
     int pos;
@@ -253,7 +260,8 @@ struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
 /******************************************************************************!
  * \fn playerStop
  ******************************************************************************/
-void playerStop()
+void
+playerStop()
 {
     bool res;
     struct mpd_status* status = playerGetMPDStatus();
@@ -273,7 +281,8 @@ void playerStop()
 /******************************************************************************!
  * \fn playerStart
  ******************************************************************************/
-void playerStart()
+void
+playerStart()
 {
     bool res;
     struct mpd_status* status = playerGetMPDStatus();
@@ -293,7 +302,8 @@ void playerStart()
 /******************************************************************************!
  * \fn playerStartId
  ******************************************************************************/
-void playerStartId(int pos)
+void
+playerStartId(int pos)
 {
     bool res;
     struct mpd_status* status = playerGetMPDStatus();
@@ -320,7 +330,8 @@ void playerStartId(int pos)
 /******************************************************************************!
  * \fn playerStartRel
  ******************************************************************************/
-void playerStartRel(int pos)
+void
+playerStartRel(int pos)
 {
     bool res;
     struct mpd_status* status = playerGetMPDStatus();
@@ -347,14 +358,15 @@ void playerStartRel(int pos)
 /******************************************************************************!
  * \fn playerPause
  ******************************************************************************/
-void playerPause()
+void
+playerPause()
 {
     bool res;
-	if (playerGetStatus(gConn) == STATE_PAUSE) {
+    if (playerGetStatus(gConn) == STATE_PAUSE) {
         res = mpd_run_play(gConn);
-	} else {
+    } else {
         res = mpd_run_pause(gConn, true);
-	}
+    }
     if (playerIsError(__FUNCTION__)) {
     }
     if (! res) {
@@ -365,7 +377,8 @@ void playerPause()
 /******************************************************************************!
  * \fn playerResume
  ******************************************************************************/
-void playerResume()
+void
+playerResume()
 {
     bool res;
     int32_t status;
@@ -407,7 +420,8 @@ void playerResume()
 /******************************************************************************!
  * \fn playerM3u
  ******************************************************************************/
-void playerM3u(const char* m3u)
+void
+playerM3u(const char* m3u)
 {
     bool res;
 
@@ -434,7 +448,8 @@ void playerM3u(const char* m3u)
 /******************************************************************************!
  * \fn playerCurrentTitle
  ******************************************************************************/
-struct Buffer* playerCurrentTitle(struct Buffer* buffer)
+struct Buffer*
+playerCurrentTitle(struct Buffer* buffer)
 {
     FILE* buffFile = bufferInit(buffer);
 
@@ -495,7 +510,8 @@ struct Buffer* playerCurrentTitle(struct Buffer* buffer)
 /******************************************************************************!
  * \fn playerQuit
  ******************************************************************************/
-void playerQuit()
+void
+playerQuit()
 {
     if (gConn == NULL) {
         ERROR("gConn == NULL");

@@ -12,7 +12,8 @@
 /******************************************************************************!
  * \fn bufferNew
  ******************************************************************************/
-struct Buffer* bufferNew()
+struct Buffer*
+bufferNew()
 {
     struct Buffer* b = malloc(sizeof(struct Buffer));
     if (b == NULL) {
@@ -27,7 +28,8 @@ struct Buffer* bufferNew()
 /******************************************************************************!
  * \fn bufferInit
  ******************************************************************************/
-FILE* bufferInit(struct Buffer* b)
+FILE*
+bufferInit(struct Buffer* b)
 {
     if (b == NULL) {
         return NULL;
@@ -43,7 +45,8 @@ FILE* bufferInit(struct Buffer* b)
 /******************************************************************************!
  * \fn bufferQuit
  ******************************************************************************/
-void bufferQuit(struct Buffer* b)
+void
+bufferQuit(struct Buffer* b)
 {
     if (b == NULL) {
         return;
@@ -60,7 +63,8 @@ void bufferQuit(struct Buffer* b)
 /******************************************************************************!
  * \fn bufferGet
  ******************************************************************************/
-char* bufferGet(struct Buffer* b)
+char*
+bufferGet(struct Buffer* b)
 {
     if (b == NULL) {
         return NULL;
@@ -76,7 +80,8 @@ char* bufferGet(struct Buffer* b)
 /******************************************************************************!
  * \fn getTimestamp
  ******************************************************************************/
-const char* getTimestamp()
+const char*
+getTimestamp()
 {
     static char timestamp[20];
     time_t t;
@@ -92,7 +97,8 @@ const char* getTimestamp()
 /******************************************************************************!
  * \fn nanoSleep
  ******************************************************************************/
-void nanoSleep(long nanoseconds)
+void
+nanoSleep(long nanoseconds)
 {
     struct timespec req = {
         0, nanoseconds

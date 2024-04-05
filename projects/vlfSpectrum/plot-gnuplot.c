@@ -35,7 +35,8 @@ static FILE* gPlotDebug = NULL;
 /******************************************************************************!
  * \fn threadPlotSamples
  ******************************************************************************/
-void* threadPlotSamples(void* arg)
+void*
+threadPlotSamples(void* arg)
 {
     static unsigned int last;
     unsigned int pos;
@@ -69,7 +70,8 @@ void* threadPlotSamples(void* arg)
 /******************************************************************************!
  * \fn threadPlotFFT
  ******************************************************************************/
-void* threadPlotFFT(void* arg)
+void*
+threadPlotFFT(void* arg)
 {
     const unsigned int SAMPLES_SIZE = *((unsigned int*) arg);
     unsigned int samplesPos;
@@ -111,9 +113,10 @@ void* threadPlotFFT(void* arg)
 /******************************************************************************!
  * \fn plotInit
  ******************************************************************************/
-void plotInit(unsigned int samplesSize,
-              const char* min,
-              const char* max)
+void
+plotInit(unsigned int samplesSize,
+         const char* min,
+         const char* max)
 {
     static unsigned int SAMPLES_SIZE = 0;
 
@@ -154,9 +157,10 @@ void plotInit(unsigned int samplesSize,
 /******************************************************************************!
  * \fn plotShowSamples
  ******************************************************************************/
-void plotShowSamples(fftw_complex* samples,
-                     unsigned int min,
-                     unsigned int max)
+void
+plotShowSamples(fftw_complex* samples,
+                unsigned int min,
+                unsigned int max)
 {
     int semValue;
 
@@ -172,8 +176,9 @@ void plotShowSamples(fftw_complex* samples,
 /******************************************************************************!
  * \fn plotShowFFT
  ******************************************************************************/
-void plotShowFFT(fftw_complex* samples,
-                 fftw_complex* output)
+void
+plotShowFFT(fftw_complex* samples,
+            fftw_complex* output)
 {
     int semValue;
 
@@ -188,7 +193,8 @@ void plotShowFFT(fftw_complex* samples,
 /******************************************************************************!
  * \fn plotQuit
  ******************************************************************************/
-void plotQuit()
+void
+plotQuit()
 {
     void* res;
 

@@ -19,7 +19,8 @@ xmmsc_connection_t* gConn = NULL;
 /******************************************************************************!
  * \fn playerInit
  ******************************************************************************/
-int playerInit()
+int
+playerInit()
 {
     int ret = 0;
 
@@ -37,7 +38,8 @@ int playerInit()
 /******************************************************************************!
  * \fn playerIsError
  ******************************************************************************/
-int playerIsError(xmmsv_t* val, const char* func)
+int
+playerIsError(xmmsv_t* val, const char* func)
 {
     const char* err;
 
@@ -55,7 +57,8 @@ int playerIsError(xmmsv_t* val, const char* func)
 /******************************************************************************!
  * \fn playerGetStatus
  ******************************************************************************/
-int32_t playerGetStatus()
+int32_t
+playerGetStatus()
 {
     xmmsc_result_t* res;
     xmmsv_t* val;
@@ -77,7 +80,8 @@ int32_t playerGetStatus()
 /******************************************************************************!
  * \fn playerGetPlaytime
  ******************************************************************************/
-int32_t playerGetPlaytime()
+int32_t
+playerGetPlaytime()
 {
     xmmsc_result_t* res;
     xmmsv_t* val;
@@ -108,7 +112,8 @@ int32_t playerGetPlaytime()
 /******************************************************************************!
  * \fn playerGetPosition
  ******************************************************************************/
-int playerGetPosition()
+int
+playerGetPosition()
 {
     xmmsc_result_t* res;
     xmmsv_t* val;
@@ -130,7 +135,8 @@ int playerGetPosition()
 /******************************************************************************!
  * \fn playerTitleList
  ******************************************************************************/
-struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
+struct Buffer*
+playerTitleList(struct Buffer* buffer, enum tFormat format)
 {
     xmmsc_result_t* res;
     xmmsv_t* val;
@@ -243,7 +249,8 @@ struct Buffer* playerTitleList(struct Buffer* buffer, enum tFormat format)
 /******************************************************************************!
  * \fn playerStop
  ******************************************************************************/
-void playerStop()
+void
+playerStop()
 {
     xmmsc_result_t* res;
     xmmsv_t* val;
@@ -259,7 +266,8 @@ void playerStop()
 /******************************************************************************!
  * \fn playerStart
  ******************************************************************************/
-void playerStart()
+void
+playerStart()
 {
     xmmsc_result_t* res;
     xmmsv_t* val;
@@ -275,7 +283,8 @@ void playerStart()
 /******************************************************************************!
  * \fn playerStartId
  ******************************************************************************/
-void playerStartId(int pos)
+void
+playerStartId(int pos)
 {
     xmmsc_result_t* res;
 
@@ -293,7 +302,8 @@ void playerStartId(int pos)
 /******************************************************************************!
  * \fn playerStartRel
  ******************************************************************************/
-void playerStartRel(int pos)
+void
+playerStartRel(int pos)
 {
     xmmsc_result_t* res;
 
@@ -311,7 +321,8 @@ void playerStartRel(int pos)
 /******************************************************************************!
  * \fn playerPause
  ******************************************************************************/
-void playerPause()
+void
+playerPause()
 {
     xmmsc_result_t* res;
     xmmsv_t* val;
@@ -336,7 +347,8 @@ void playerPause()
 /******************************************************************************!
  * \fn playerResume
  ******************************************************************************/
-void playerResume()
+void
+playerResume()
 {
     xmmsc_result_t* res;
     xmmsv_t* val;
@@ -380,7 +392,8 @@ void playerResume()
 /******************************************************************************!
  * \fn playerM3u
  ******************************************************************************/
-void playerM3u(const char* m3u)
+void
+playerM3u(const char* m3u)
 {
     xmmsc_result_t* res;
     xmmsc_result_t* res2;
@@ -423,7 +436,8 @@ void playerM3u(const char* m3u)
 /******************************************************************************!
  * \fn playerCurrentTitle
  ******************************************************************************/
-struct Buffer* playerCurrentTitle(struct Buffer* buffer)
+struct Buffer*
+playerCurrentTitle(struct Buffer* buffer)
 {
     FILE* buffFile = bufferInit(buffer);
 
@@ -514,7 +528,8 @@ struct Buffer* playerCurrentTitle(struct Buffer* buffer)
 /******************************************************************************!
  * \fn playerQuit
  ******************************************************************************/
-void playerQuit()
+void
+playerQuit()
 {
     if (gConn != NULL) {
         xmmsc_unref(gConn);

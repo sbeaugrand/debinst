@@ -12,7 +12,8 @@
 # include <signal.h>
 # include <errno.h>
 
-void timer1SetPeriod(unsigned long microseconds)
+void
+timer1SetPeriod(unsigned long microseconds)
 {
     struct itimerval it = { { 0, microseconds }, { 0, microseconds } };
     if (setitimer(ITIMER_REAL, &it, 0) != 0) {
@@ -20,9 +21,10 @@ void timer1SetPeriod(unsigned long microseconds)
     }
 }
 
-void (*gIsr)() = NULL;
+void (* gIsr)() = NULL;
 
-void sigalarm_handler(int s) {
+void
+sigalarm_handler(int s) {
     s = s;
     if (gIsr == NULL) {
         perror("gIsr == NULL");
@@ -30,7 +32,8 @@ void sigalarm_handler(int s) {
     (*gIsr)();
 }
 
-void timer1AttachInterrupt(void (*isr)())
+void
+timer1AttachInterrupt(void (* isr)())
 {
     struct sigaction sa;
 
@@ -58,7 +61,8 @@ void timer1AttachInterrupt(void (*isr)())
 /******************************************************************************!
  * \fn timer1SetPeriod
  ******************************************************************************/
-void timer1SetPeriod(unsigned long microseconds)
+void
+timer1SetPeriod(unsigned long microseconds)
 {
     uint8_t prescaler;
     uint32_t ocr;

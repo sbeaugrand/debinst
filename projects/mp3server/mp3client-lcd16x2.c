@@ -23,7 +23,8 @@ const unsigned int LCD_D7 = 16;
 /******************************************************************************!
  * \fn displayInit
  ******************************************************************************/
-void displayInit()
+void
+displayInit()
 {
     if (wiringPiSetup() == -1) {
         exit(EXIT_FAILURE);
@@ -34,7 +35,8 @@ void displayInit()
 /******************************************************************************!
  * \fn displayWrite
  ******************************************************************************/
-void displayWrite(const char* line1, const char* line2)
+void
+displayWrite(const char* line1, const char* line2)
 {
     static int fd = -1;
     static char buff[LCD_COLS + 1] = {
@@ -62,7 +64,8 @@ void displayWrite(const char* line1, const char* line2)
 /******************************************************************************!
  * \fn displayScreenSaver
  ******************************************************************************/
-int displayScreenSaver()
+int
+displayScreenSaver()
 {
     return 0;
 }
@@ -70,6 +73,7 @@ int displayScreenSaver()
 /******************************************************************************!
  * \fn displayQuit
  ******************************************************************************/
-void displayQuit()
+void
+displayQuit()
 {
 }

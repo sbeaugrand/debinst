@@ -26,7 +26,8 @@ enum sign {
 /******************************************************************************!
  * \fn longitude
  ******************************************************************************/
-double longitude(double jde)
+double
+longitude(double jde)
 {
     double t = julianTime(jde);
     double L = moonMeanLongitude(t);
@@ -42,7 +43,8 @@ double longitude(double jde)
 /******************************************************************************!
  * \fn theme
  ******************************************************************************/
-enum sign theme(double l)
+enum sign
+theme(double l)
 {
     //FIXME: approximatif et suffisant mais pourra quand meme etre ameliore'
     //FIXME: parallaxe ?
@@ -78,7 +80,8 @@ enum sign theme(double l)
 /******************************************************************************!
  * \fn printSign
  ******************************************************************************/
-void printSign(enum sign s)
+void
+printSign(enum sign s)
 {
     switch (s) {
     case POISSON:
@@ -126,7 +129,8 @@ void printSign(enum sign s)
 /******************************************************************************!
  * \fn themes
  ******************************************************************************/
-void themes(int year, int month, int day)
+void
+themes(int year, int month, int day)
 {
     double j1 = julianDay(year, month, day);
     double l1 = longitude(j1);
@@ -174,7 +178,8 @@ void themes(int year, int month, int day)
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
     int year;
     int month;

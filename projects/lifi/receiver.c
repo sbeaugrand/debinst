@@ -50,9 +50,10 @@ long shift_reg = 0;
                          (START_SYMBOL << 18) | \
                          STOP_SYMBOL)  // STOP/START/16bits/STOP
 #define SYNC_SYMBOL_MANCHESTER (0x6665)
-inline int is_a_word(long* manchester_word,
-                     int time_from_last_sync,
-                     unsigned int* detected_word)
+inline int
+is_a_word(long* manchester_word,
+          int time_from_last_sync,
+          unsigned int* detected_word)
 {
     if (time_from_last_sync >= 20 || frame_state == IDLE) {
         // We received enough bits to test the sync
@@ -77,11 +78,12 @@ inline int is_a_word(long* manchester_word,
 /******************************************************************************!
  * \fn insert_edge
  ******************************************************************************/
-inline int insert_edge(long* manchester_word,
-                       int8_t edge,
-                       int edge_period,
-                       int* time_from_last_sync,
-                       unsigned int* detected_word)
+inline int
+insert_edge(long* manchester_word,
+            int8_t edge,
+            int edge_period,
+            int* time_from_last_sync,
+            unsigned int* detected_word)
 {
     int new_word = 0;
     int is_a_word_value;
@@ -140,7 +142,8 @@ unsigned int detected_word = 0;
 int gNewWord = 0;
 char old_edge_val = 0;
 
-void sample_signal_edge()
+void
+sample_signal_edge()
 {
     char edge_val;
     int sensorValue = digitalRead(PIN_LED);
@@ -181,11 +184,12 @@ void sample_signal_edge()
 /******************************************************************************!
  * \fn add_byte_to_frame
  ******************************************************************************/
-int add_byte_to_frame(char* frame_buffer,
-                      int* frame_index,
-                      int* frame_size,
-                      enum receiver_state* frame_state,
-                      unsigned char data)
+int
+add_byte_to_frame(char* frame_buffer,
+                  int* frame_index,
+                  int* frame_size,
+                  enum receiver_state* frame_state,
+                  unsigned char data)
 {
     if (data == SYNC_SYMBOL  /*&& (*frame_index) < 0*/) {
         DEBUG("SYNC");
@@ -224,7 +228,8 @@ int add_byte_to_frame(char* frame_buffer,
 /******************************************************************************!
  * \fn setup
  ******************************************************************************/
-void setup()
+void
+setup()
 {
     int ret;
     if ((ret = digitalInit(PIN_LED, INPUT)) != 0) {
@@ -237,7 +242,8 @@ void setup()
 /******************************************************************************!
  * \fn loop
  ******************************************************************************/
-void loop()
+void
+loop()
 {
     int i;
     unsigned char received_data;
@@ -270,7 +276,8 @@ void loop()
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
     setup();
     if (argc > 1) {

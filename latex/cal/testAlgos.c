@@ -18,7 +18,8 @@ const char* gTestRef;
 /******************************************************************************!
  * \fn test
  ******************************************************************************/
-void test(const char* testName, double cur, double ref)
+void
+test(const char* testName, double cur, double ref)
 {
     static char sCur[32];
     static char sRef[32];
@@ -37,7 +38,8 @@ void test(const char* testName, double cur, double ref)
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main()
+int
+main()
 {
     double jd;
     double t;

@@ -12,7 +12,8 @@
 /******************************************************************************!
  * \fn timer0SetPeriod
  ******************************************************************************/
-void timer0SetPeriod(unsigned long microseconds)
+void
+timer0SetPeriod(unsigned long microseconds)
 {
     uint8_t prescaler;
     uint16_t ocr;

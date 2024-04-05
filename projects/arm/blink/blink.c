@@ -8,7 +8,8 @@
 #include <stdlib.h>
 #include "wiringPi.h"
 
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
     int led;
     int button;

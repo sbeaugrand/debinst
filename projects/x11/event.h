@@ -80,7 +80,7 @@ public:
     XEvent mEvent;
 
 private:
-    ::Display * mDisplay;
+    ::Display* mDisplay;
     Callback* mCallbackObj;
     int (Callback::* mCallbackFunc)(const Event*);
     Bool mLoop;

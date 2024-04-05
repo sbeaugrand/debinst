@@ -38,7 +38,8 @@ static fftw_plan gPlan2;
 /******************************************************************************!
  * \fn controlC
  ******************************************************************************/
-void controlC(int sig)
+void
+controlC(int sig)
 {
     if (sig == SIGINT) {
         fftw_destroy_plan(gPlan1);
@@ -55,7 +56,8 @@ void controlC(int sig)
 /******************************************************************************!
  * \fn initFFT
  ******************************************************************************/
-void initFFT(unsigned int size)
+void
+initFFT(unsigned int size)
 {
     unsigned int i;
 
@@ -97,7 +99,8 @@ void initFFT(unsigned int size)
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
     const unsigned int HEADER_SIZE = sizeof(uint32_t) << 1;
     const unsigned int SAMPLE_SIZE = 1 << (int) log2(TCP_MSS_DEFAULT -

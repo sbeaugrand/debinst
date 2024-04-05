@@ -39,7 +39,8 @@ enum {
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main()
+int
+main()
 {
     // Globales
     uint8_t gBuff[BUFF_SIZE] = {
@@ -95,8 +96,7 @@ int main()
                 }
             }
 
-            switch (gState)
-            {
+            switch (gState) {
             case STATE_IDLE:
                 // Vitesse
                 if ((ADCSRA & (1 << ADIF)) == (1 << ADIF)) {

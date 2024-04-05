@@ -15,7 +15,8 @@
 /******************************************************************************!
  * \fn logGetLastAlbum
  ******************************************************************************/
-int logGetLastAlbum(char (*lastPart)[LINE_SIZE])
+int
+logGetLastAlbum(char (*lastPart)[LINE_SIZE])
 {
     FILE* flog = NULL;
     char line[LINE_SIZE];
@@ -60,16 +61,17 @@ int logGetLastAlbum(char (*lastPart)[LINE_SIZE])
 /******************************************************************************!
  * \fn logUnreadAlbum
  ******************************************************************************/
-void logUnreadAlbum()
+void
+logUnreadAlbum()
 {
     char line[LINE_SIZE];
     const char* mp3rootDir;
 
     //FIXME: debug
     /*
-    FILE* flog = NULL;
-    char last[LINE_SIZE];
-    */
+       FILE* flog = NULL;
+       char last[LINE_SIZE];
+     */
 
     mp3rootDir = mp3serverGetMp3rootDir();
     DEBUG("effacement de la derniere selection");
@@ -78,18 +80,18 @@ void logUnreadAlbum()
 
     //FIXME: debug
     /*
-    if ((flog = fopen(line, "r")) != NULL) {
+       if ((flog = fopen(line, "r")) != NULL) {
         if (fgets(last, LINE_SIZE, flog) == NULL) {
             ERROR("fgets");
         }
         fclose(flog);
         last[strlen(last) - 1] = '\0';
         ERROR("%s", last);
-    } else {
+       } else {
         ERROR("fread");
         return;
-    }
-    */
+       }
+     */
 
     unlink(line);
     strcpy(line, mp3rootDir);
@@ -163,7 +165,8 @@ logFillDatesFromLogs(struct bloc_list* bloc_artist_root, const char* artist,
  * \fn logMp3log
  ******************************************************************************/
 #define DATESIZE 17
-void logMp3log(const char* album)
+void
+logMp3log(const char* album)
 {
     char prevDate[DATESIZE];
     char nextDate[DATESIZE];

@@ -31,7 +31,8 @@ Device::~Device()
 /******************************************************************************!
  * \fn open
  ******************************************************************************/
-void Device::open(uint16_t vendor_id, uint16_t device_id)
+void
+Device::open(uint16_t vendor_id, uint16_t device_id)
 {
     int r = libusb_init(NULL);
     this->status("libusb_init", r);
@@ -51,7 +52,8 @@ void Device::open(uint16_t vendor_id, uint16_t device_id)
 /******************************************************************************!
  * \fn close
  ******************************************************************************/
-void Device::close()
+void
+Device::close()
 {
     if (mTransfer != NULL) {
         libusb_cancel_transfer(mTransfer);
@@ -73,8 +75,9 @@ void Device::close()
 /******************************************************************************!
  * \fn submit
  ******************************************************************************/
-void Device::submit(UChar endpoint, int length,
-                    void (* callback)(struct libusb_transfer* transfer))
+void
+Device::submit(UChar endpoint, int length,
+               void (* callback)(struct libusb_transfer* transfer))
 {
     mTransfer = libusb_alloc_transfer(0);
     this->status("libusb_alloc_transfer", (mTransfer == NULL) ? -1 : 0);
@@ -91,7 +94,8 @@ void Device::submit(UChar endpoint, int length,
 /******************************************************************************!
  * \fn submit
  ******************************************************************************/
-void Device::submit(struct libusb_transfer* transfer) const
+void
+Device::submit(struct libusb_transfer* transfer) const
 {
     libusb_submit_transfer(transfer);
 }
@@ -99,7 +103,8 @@ void Device::submit(struct libusb_transfer* transfer) const
 /******************************************************************************!
  * \fn status
  ******************************************************************************/
-void Device::status(const char* str, int code)
+void
+Device::status(const char* str, int code)
 {
     if (code < 0) {
         fprintf(stderr, "error: %s (err=%d)\n", str, code);

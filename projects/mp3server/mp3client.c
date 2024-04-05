@@ -51,7 +51,8 @@ enum displayMode {
 /******************************************************************************!
  * \fn mp3clientWaitMp3rootDir
  ******************************************************************************/
-void mp3clientWaitMp3rootDir(const char* root)
+void
+mp3clientWaitMp3rootDir(const char* root)
 {
     char filename[LINE_SIZE];
     char line[LCD_COLS + 1];
@@ -74,7 +75,8 @@ void mp3clientWaitMp3rootDir(const char* root)
 /******************************************************************************!
  * \fn mp3clientGetMp3rootDir
  ******************************************************************************/
-const char* mp3clientGetMp3rootDir()
+const char*
+mp3clientGetMp3rootDir()
 {
     static char* root = NULL;
 
@@ -91,7 +93,8 @@ const char* mp3clientGetMp3rootDir()
 /******************************************************************************!
  * \fn loadAbrev
  ******************************************************************************/
-void loadAbrev()
+void
+loadAbrev()
 {
     struct part_list* part_elem = NULL;
     struct part_list* part_prev = NULL;
@@ -134,7 +137,8 @@ void loadAbrev()
 /******************************************************************************!
  * \fn isPortOpen
  ******************************************************************************/
-int isPortOpen(int port)
+int
+isPortOpen(int port)
 {
     int sock;
     struct sockaddr_in sin;
@@ -160,7 +164,8 @@ int isPortOpen(int port)
 /******************************************************************************!
  * \fn sendRequestAndReceive
  ******************************************************************************/
-void sendRequestAndReceive(const char* action)
+void
+sendRequestAndReceive(const char* action)
 {
     int sock;
     struct sockaddr_in sockaddrServeur;
@@ -249,7 +254,8 @@ void sendRequestAndReceive(const char* action)
 /******************************************************************************!
  * \fn sendPid
  ******************************************************************************/
-void sendPid(pid_t pid)
+void
+sendPid(pid_t pid)
 {
     char cmd[16];
 
@@ -263,7 +269,8 @@ void sendPid(pid_t pid)
 /******************************************************************************!
  * \fn getBufferLine
  ******************************************************************************/
-unsigned int getBufferLine(int pos, char (*line)[LINE_SIZE])
+unsigned int
+getBufferLine(int pos, char (*line)[LINE_SIZE])
 {
     const char* c;
     int i;
@@ -318,7 +325,8 @@ unsigned int getBufferLine(int pos, char (*line)[LINE_SIZE])
 /******************************************************************************!
  * \fn changeAlbum
  ******************************************************************************/
-void changeAlbum(int albumPos)
+void
+changeAlbum(int albumPos)
 {
     char line[LINE_SIZE];
     char cmd[LINE_SIZE];
@@ -336,7 +344,8 @@ void changeAlbum(int albumPos)
 /******************************************************************************!
  * \fn drawDate
  ******************************************************************************/
-int drawDate(int isDay)
+int
+drawDate(int isDay)
 {
     char line1[11];
     char line2[9];
@@ -362,7 +371,8 @@ int drawDate(int isDay)
 /******************************************************************************!
  * \fn drawAlbum
  ******************************************************************************/
-void drawAlbum()
+void
+drawAlbum()
 {
     char line1[LINE_SIZE];
     char line2[LINE_SIZE];
@@ -418,7 +428,8 @@ void drawAlbum()
 /******************************************************************************!
  * \fn changePart
  ******************************************************************************/
-void changePart(char* line)
+void
+changePart(char* line)
 {
     struct part_list* part_elem;
     char part[LINE_SIZE];
@@ -458,7 +469,8 @@ void changePart(char* line)
 /******************************************************************************!
  * \fn drawBuffer
  ******************************************************************************/
-unsigned int drawBuffer(int albumPos)
+unsigned int
+drawBuffer(int albumPos)
 {
     char line[LINE_SIZE];
     int i;
@@ -522,7 +534,8 @@ unsigned int drawBuffer(int albumPos)
 /******************************************************************************!
  * \fn drawTitle
  ******************************************************************************/
-void drawTitle()
+void
+drawTitle()
 {
     int i;
     const char* buffPtr = bufferGet(gBuffer);
@@ -541,7 +554,8 @@ void drawTitle()
 /******************************************************************************!
  * \fn signalFromServer
  ******************************************************************************/
-void signalFromServer(int sig)
+void
+signalFromServer(int sig)
 {
     if (sig == SIGUSR1) {
 #       if ! defined(__arm__) && ! defined(__aarch64__)
@@ -560,7 +574,8 @@ void signalFromServer(int sig)
 /******************************************************************************!
  * \fn deletePartList
  ******************************************************************************/
-void deletePartList(struct part_list* part)
+void
+deletePartList(struct part_list* part)
 {
     struct part_list* next;
 
@@ -575,7 +590,8 @@ void deletePartList(struct part_list* part)
 /******************************************************************************!
  * \fn controlC
  ******************************************************************************/
-void controlC(int sig)
+void
+controlC(int sig)
 {
     if (sig == SIGINT) {
         deletePartList(gPartRoot);
@@ -593,7 +609,8 @@ void controlC(int sig)
 /******************************************************************************!
  * \fn state1forAlbum
  ******************************************************************************/
-void state1forAlbum()
+void
+state1forAlbum()
 {
     if (leftButton()) {
         // Changement d'artiste
@@ -631,7 +648,8 @@ void state1forAlbum()
 /******************************************************************************!
  * \fn state2forArtist
  ******************************************************************************/
-char state2forArtist()
+char
+state2forArtist()
 {
     char line[LINE_SIZE + 8];  // + "artist//"
     char charPrev = '\0';
@@ -684,7 +702,8 @@ char state2forArtist()
 /******************************************************************************!
  * \fn state3forArtist
  ******************************************************************************/
-void state3forArtist(char charPrev)
+void
+state3forArtist(char charPrev)
 {
     char line[LINE_SIZE + 8];  // + "artist//"
     const char* buffPtr;
@@ -763,7 +782,8 @@ void state3forArtist(char charPrev)
 /******************************************************************************!
  * \fn state4heure
  ******************************************************************************/
-void state4heure()
+void
+state4heure()
 {
     if (setupTime()) {
         gClientState = STATE5_DATE;
@@ -774,7 +794,8 @@ void state4heure()
 /******************************************************************************!
  * \fn state5date
  ******************************************************************************/
-void state5date()
+void
+state5date()
 {
     if (setupDate()) {
         gPosDisplay = 0;
@@ -792,7 +813,8 @@ void state5date()
 /******************************************************************************!
  * \fn state0normal
  ******************************************************************************/
-int state0normal()
+int
+state0normal()
 {
     if (haltButton()) {
         displayWrite("ARRET", "");
@@ -898,7 +920,8 @@ int state0normal()
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main()
+int
+main()
 {
     struct timeval tv;
     char charPrev = '\0';

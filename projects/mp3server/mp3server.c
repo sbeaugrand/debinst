@@ -33,7 +33,8 @@ int* gWeights = NULL;
 /******************************************************************************!
  * \fn mp3serverWaitMp3rootDir
  ******************************************************************************/
-void mp3serverWaitMp3rootDir(const char* root)
+void
+mp3serverWaitMp3rootDir(const char* root)
 {
     char filename[LINE_SIZE];
 
@@ -47,7 +48,8 @@ void mp3serverWaitMp3rootDir(const char* root)
 /******************************************************************************!
  * \fn mp3serverGetMp3rootDir
  ******************************************************************************/
-const char* mp3serverGetMp3rootDir()
+const char*
+mp3serverGetMp3rootDir()
 {
     static char* root = NULL;
 
@@ -64,7 +66,8 @@ const char* mp3serverGetMp3rootDir()
 /******************************************************************************!
  * \fn mp3serverWeightsInit
  ******************************************************************************/
-void mp3serverWeightsInit()
+void
+mp3serverWeightsInit()
 {
     char filename[LINE_SIZE];
     char line[LINE_SIZE];
@@ -106,7 +109,8 @@ void mp3serverWeightsInit()
 /******************************************************************************!
  * \fn mp3serverTmOfTheDay
  ******************************************************************************/
-struct tm* mp3serverTmOfTheDay()
+struct tm*
+mp3serverTmOfTheDay()
 {
     time_t tOfTheDay;
     char dateOfTheDay[20];
@@ -121,7 +125,8 @@ struct tm* mp3serverTmOfTheDay()
 /******************************************************************************!
  * \fn mp3serverDeleteBlocList
  ******************************************************************************/
-void mp3serverDeleteBlocList(struct bloc_list* bloc)
+void
+mp3serverDeleteBlocList(struct bloc_list* bloc)
 {
     struct bloc_list* next;
     unsigned int i;
@@ -139,7 +144,8 @@ void mp3serverDeleteBlocList(struct bloc_list* bloc)
 /******************************************************************************!
  * \fn mp3serverDeletePartList
  ******************************************************************************/
-void mp3serverDeletePartList(struct part_list* part)
+void
+mp3serverDeletePartList(struct part_list* part)
 {
     struct part_list* next;
 
@@ -155,7 +161,8 @@ void mp3serverDeletePartList(struct part_list* part)
 /******************************************************************************!
  * \fn mp3serverQuit
  ******************************************************************************/
-void mp3serverQuit(int status)
+void
+mp3serverQuit(int status)
 {
     if (gBuffer != NULL) {
         bufferQuit(gBuffer);
@@ -175,7 +182,8 @@ void mp3serverQuit(int status)
 /******************************************************************************!
  * \fn controlC
  ******************************************************************************/
-void controlC(int sig)
+void
+controlC(int sig)
 {
     if (sig == SIGINT) {
         if (gClientPid != 0) {
@@ -291,7 +299,8 @@ mp3serverArtist(struct part_list* partRoot, const char** newAlbum)
 /******************************************************************************!
  * \fn mp3serverGetArtist
  ******************************************************************************/
-const char* mp3serverGetArtist(const char* a)
+const char*
+mp3serverGetArtist(const char* a)
 {
     static char artist[LINE_SIZE];
     struct part_list* part_elem;
@@ -338,7 +347,8 @@ const char* mp3serverGetArtist(const char* a)
 /******************************************************************************!
  * \fn mp3serverGetRelativeDate
  ******************************************************************************/
-const char* mp3serverGetRelativeDate(const char* ymd)
+const char*
+mp3serverGetRelativeDate(const char* ymd)
 {
     static char dateR[3];
     int y;
@@ -403,7 +413,8 @@ const char* mp3serverGetRelativeDate(const char* ymd)
 /******************************************************************************!
  * \fn mp3serverDirFilter
  ******************************************************************************/
-int mp3serverDirFilter(const struct dirent* d)
+int
+mp3serverDirFilter(const struct dirent* d)
 {
     if (d->d_name[0] == '.') {
         return 0;
@@ -420,7 +431,8 @@ int mp3serverDirFilter(const struct dirent* d)
 /******************************************************************************!
  * \fn mp3serverGetHtmlDir
  ******************************************************************************/
-struct Buffer* mp3serverGetHtmlDir(const char* dir)
+struct Buffer*
+mp3serverGetHtmlDir(const char* dir)
 {
     struct dirent** filelist = NULL;
     char fulldir[LINE_SIZE];
@@ -486,7 +498,8 @@ struct Buffer* mp3serverGetHtmlDir(const char* dir)
 /******************************************************************************!
  * \fn mp3serverMp3info
  ******************************************************************************/
-struct Buffer* mp3serverMp3info(const char* newAlbum, enum tFormat format)
+struct Buffer*
+mp3serverMp3info(const char* newAlbum, enum tFormat format)
 {
     char line[LINE_SIZE << 1];
     char curAlbum[LINE_SIZE];
@@ -565,7 +578,8 @@ struct Buffer* mp3serverMp3info(const char* newAlbum, enum tFormat format)
 /******************************************************************************!
  * \fn mp3serverReadMp3List
  ******************************************************************************/
-void mp3serverReadMp3List()
+void
+mp3serverReadMp3List()
 {
     FILE* fd;
     char listFilename[LINE_SIZE];
@@ -657,7 +671,8 @@ void mp3serverReadMp3List()
 /******************************************************************************!
  * \fn mp3serverStartAlbum
  ******************************************************************************/
-void mp3serverStartAlbum(const char* album)
+void
+mp3serverStartAlbum(const char* album)
 {
     char m3u[LINE_SIZE];
 
@@ -678,7 +693,8 @@ void mp3serverStartAlbum(const char* album)
 /******************************************************************************!
  * \fn mp3serverReadAlbum
  ******************************************************************************/
-void mp3serverReadAlbum()
+void
+mp3serverReadAlbum()
 {
     char album[LINE_SIZE];
 
@@ -691,7 +707,8 @@ void mp3serverReadAlbum()
 /******************************************************************************!
  * \fn mp3serverGetRandomNumber
  ******************************************************************************/
-int mp3serverGetRandomNumber(unsigned int min, unsigned int max)
+int
+mp3serverGetRandomNumber(unsigned int min, unsigned int max)
 {
     static int r = -1;
     char line[LINE_SIZE];
@@ -762,7 +779,8 @@ int mp3serverGetRandomNumber(unsigned int min, unsigned int max)
 /******************************************************************************!
  * \fn mp3serverMp3rand
  ******************************************************************************/
-struct Buffer* mp3serverMp3rand(enum tFormat format)
+struct Buffer*
+mp3serverMp3rand(enum tFormat format)
 {
     char album[LINE_SIZE];
     struct part_list* part_elem = gPartRoot;
@@ -834,7 +852,8 @@ struct Buffer* mp3serverMp3rand(enum tFormat format)
 /******************************************************************************!
  * \fn mp3serverSavePlaytime
  ******************************************************************************/
-void mp3serverSavePlaytime(int32_t playtime)
+void
+mp3serverSavePlaytime(int32_t playtime)
 {
     char timefile[LINE_SIZE];
     FILE* fp;
@@ -851,7 +870,8 @@ void mp3serverSavePlaytime(int32_t playtime)
 /******************************************************************************!
  * \fn mp3serverSignalToClient
  ******************************************************************************/
-void mp3serverSignalToClient(int sig)
+void
+mp3serverSignalToClient(int sig)
 {
 #   if defined(__arm__) || defined(__aarch64__)
     char cmd[32];
@@ -871,7 +891,8 @@ void mp3serverSignalToClient(int sig)
 /******************************************************************************!
  * \fn mp3serverStartTempo
  ******************************************************************************/
-void mp3serverStartTempo()
+void
+mp3serverStartTempo()
 {
     gettimeofday(&gTempo, NULL);
 }
@@ -879,7 +900,8 @@ void mp3serverStartTempo()
 /******************************************************************************!
  * \fn mp3serverStopTempo
  ******************************************************************************/
-int mp3serverStopTempo()
+int
+mp3serverStopTempo()
 {
     if (gTempo.tv_sec != 0) {
         gTempo.tv_sec = 0;
@@ -891,7 +913,8 @@ int mp3serverStopTempo()
 /******************************************************************************!
  * \fn mp3serverSetClientPid
  ******************************************************************************/
-void mp3serverSetClientPid(pid_t pid)
+void
+mp3serverSetClientPid(pid_t pid)
 {
     gClientPid = pid;
 }
@@ -899,7 +922,8 @@ void mp3serverSetClientPid(pid_t pid)
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
-int main()
+int
+main()
 {
     struct timeval tv;
     struct rlimit rlim;

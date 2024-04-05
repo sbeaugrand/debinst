@@ -26,7 +26,8 @@ char gDisplayBuff[LCD_COLS + 1] = {
 /******************************************************************************!
  * \fn displayInit
  ******************************************************************************/
-void displayInit()
+void
+displayInit()
 {
     if (gOled != nullptr) {
         return;
@@ -53,7 +54,8 @@ void displayInit()
 /******************************************************************************!
  * \fn displayWrite
  ******************************************************************************/
-void displayWrite(const char* line1, const char* line2)
+void
+displayWrite(const char* line1, const char* line2)
 {
     if (gOled == nullptr) {
         return;
@@ -72,7 +74,8 @@ void displayWrite(const char* line1, const char* line2)
 /******************************************************************************!
  * \fn displayScreenSaver
  ******************************************************************************/
-int displayScreenSaver()
+int
+displayScreenSaver()
 {
     static char* root = NULL;
 
@@ -138,7 +141,8 @@ int displayScreenSaver()
 /******************************************************************************!
  * \fn displayQuit
  ******************************************************************************/
-void displayQuit()
+void
+displayQuit()
 {
     if (gOled == nullptr) {
         return;
