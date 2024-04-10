@@ -31,3 +31,13 @@ test3:
   script:
     - make --no-print-directory
     - ./test2.exp $IP
+test4:
+  stage: test
+  script:
+    - make --no-print-directory
+    - ./test4.exp
+test5:
+  stage: test
+  script:
+    - make --no-print-directory
+    - ./test5.exp

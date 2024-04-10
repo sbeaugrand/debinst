@@ -28,6 +28,7 @@ cd debinst
 
   ```
   ./0install.sh hardware/install-op-hotspot.sh
+  bin/hotspot
   ```
 </details>
 <details>

@@ -15,12 +15,21 @@
 class Server : public AbstractStubServer
 {
 public:
-    explicit Server(jsonrpc::AbstractServerConnector& conn,
-                    jsonrpc::serverVersion_t type = jsonrpc::JSONRPC_SERVER_V2)
-        : AbstractStubServer(conn, type) {}
-
-    virtual std::string status() override { return "ok"; }
-    virtual void quit() override { exit(0); }
+    explicit Server(jsonrpc::AbstractServerConnector& conn)
+        : AbstractStubServer(conn, jsonrpc::JSONRPC_SERVER_V1V2) {
+        this->StartListening();
+    }
+    virtual ~Server() {
+        std::cout << "Server::dtor" << std::endl;
+        this->StopListening();
+    }
+    virtual std::string status() override {
+        return "ok";
+    }
+    virtual void quit() override {
+        std::cout << "Server::quit" << std::endl;
+        exit(0);
+    }
 };
 
 /******************************************************************************!
@@ -29,9 +38,8 @@ public:
 int
 main(int, char**)
 {
-    jsonrpc::HttpServer httpserver(8383, "", "", 5);  // 5 threads
-    Server server(httpserver, jsonrpc::JSONRPC_SERVER_V1V2);
-    server.StartListening();
+    jsonrpc::HttpServer httpserver(8383, "", "", 2);  // 2 threads
+    Server server(httpserver);
 
     using namespace std::chrono_literals;
     for (;;) {

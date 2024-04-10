@@ -1,18 +1,21 @@
+#!/usr/bin/expect -f
 # ---------------------------------------------------------------------------- #
+## \file test4.exp
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
----
-- name: emacs.el
-  copy:
-    src: emacs.el
-    dest: "{{ home }}/.emacs"
-    force: no
+set url http://localhost:8383/
 
-- name: StartupNotify
-  lineinfile:
-    path: /usr/share/applications/emacs.desktop
-    regex: '^StartupNotify='
-    line: StartupNotify=false
-  become: yes
+spawn build/project-four
+set id $spawn_id
+sleep 1
+
+spawn php client.php url=$url method=status
+expect "ok"
+expect eof
+
+spawn php client.php url=$url method=quit
+expect eof
+
+expect -i $id eof
