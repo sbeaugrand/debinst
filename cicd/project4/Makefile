@@ -13,6 +13,9 @@ include ../makefiles/cmake.mk
 include ../makefiles/gitlabci.mk
 include ../makefiles/mermaid.mk
 
+build/abstractstubserver.h: spec.json
+	@cd build && jsonrpcstub ../spec.json --cpp-server=AbstractStubServer
+
 define send
  curl -d '{"jsonrpc":"2.0","method":"$1","id":1}' $(URL)
 endef
@@ -21,8 +24,8 @@ define notify
  curl -d '{"jsonrpc":"2.0","method":"$1"}' $(URL)
 endef
 
-.PHONY: status
-status:
+.PHONY: status object
+status object:
 	@$(call send,$@)
 
 .PHONY: quit

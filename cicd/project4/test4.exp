@@ -5,17 +5,24 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-set url http://localhost:8383/
+set server http://localhost:8383/
 
 spawn build/project-four
 set id $spawn_id
 sleep 1
 
-spawn php client.php url=$url method=status
+spawn php client.php server=$server method=status
 expect "ok"
 expect eof
 
-spawn php client.php url=$url method=quit
+spawn php client.php server=$server method=object
+expect "("
+expect "status] => ok"
+expect "value] => 0"
+expect ")"
+expect eof
+
+spawn php client.php server=$server method=quit
 expect eof
 
 expect -i $id eof

@@ -5,17 +5,24 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-set url http://localhost:8383/
+set server http://localhost:8383/
 
 spawn build/project-four
 set id $spawn_id
 sleep 1
 
-spawn client.py $url status
+spawn client.py $server status
 expect "ok"
 expect eof
 
-spawn client.py $url quit
+spawn client.py $server object
+expect "{"
+expect "    \"status\": \"ok\","
+expect "    \"value\": 0"
+expect "}"
+expect eof
+
+spawn client.py $server quit
 expect eof
 
 expect -i $id eof

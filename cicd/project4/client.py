@@ -9,7 +9,7 @@ import sys
 import json
 import requests
 
-url = sys.argv[1]
+server = sys.argv[1]
 method = sys.argv[2]
 
 data = {
@@ -20,8 +20,8 @@ if method != 'quit':
     data['id'] = 1
 
 try:
-    result = requests.post(url, json=data)
+    result = requests.post(server, json=data)
     j = json.loads(result.text)
-    print(j['result'])
+    print(json.dumps(j['result'], indent=4))
 except:
     pass

@@ -5,5 +5,9 @@
   },
   {
     "name": "quit"
+  },
+  {
+    "name": "object",
+    "returns": { }
   }
 ]

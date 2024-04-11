@@ -8,7 +8,7 @@
 if (PHP_SAPI === 'cli') {
     parse_str(implode('&', array_slice($argv, 1)), $_GET);
 }
-$url = $_GET['url'];
+$server = $_GET['server'];
 $method = $_GET['method'];
 
 $data = array(
@@ -29,17 +29,19 @@ $options = array(
 $context = stream_context_create($options);
 
 if ($method == "quit") {
-    $result = @file_get_contents($url, false, $context);
+    $result = @file_get_contents($server, false, $context);
 } else {
-    $result = file_get_contents($url, false, $context);
+    $result = file_get_contents($server, false, $context);
 }
 
 if ($result != null) {
     $json = json_decode($result);
     if (isset($json->error)) {
         print('error: '.$json->error->message."\n");
-    } else {
+    } else if (is_string($json->result)) {
         print($json->result."\n");
+    } else {
+        print_r($json->result);
     }
 }
 ?>

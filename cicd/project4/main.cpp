@@ -26,6 +26,12 @@ public:
     virtual std::string status() override {
         return "ok";
     }
+    virtual Json::Value object() override {
+        Json::Value result;
+        result["value"] = 0;
+        result["status"] = "ok";
+        return result;
+    }
     virtual void quit() override {
         std::cout << "Server::quit" << std::endl;
         exit(0);
