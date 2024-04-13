@@ -6,6 +6,8 @@
 # ---------------------------------------------------------------------------- #
 variables:
   PROJECT: project-four
+  lserver: http://localhost:8383/
+  verbose: -v
 include:
   - local: /../makefiles/package.yml
 prebuild:
@@ -41,3 +43,8 @@ test5:
   script:
     - make --no-print-directory
     - ./test5.exp
+test6:
+  stage: test
+  script:
+    - make --no-print-directory
+    - ./test6.py $lserver $verbose
