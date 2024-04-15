@@ -33,6 +33,7 @@ class send:
         self.c = pexpect.spawn('client.py {} {}'.format(lserver, method))
         if verbose:
             self.c.logfile = sys.stdout.buffer
+            print(method)
 
     def __del__(self):
         if err:

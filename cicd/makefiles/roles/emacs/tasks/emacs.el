@@ -399,3 +399,6 @@
   (switch-to-buffer (current-buffer))
 )
 (global-set-key [f12] #'(lambda () (interactive) (key-bindings-help)))
+
+; Gtk notify_startup_complete
+(shell-command "~/.local/bin/notify_startup_complete.py")
