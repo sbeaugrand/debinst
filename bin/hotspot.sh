@@ -63,6 +63,9 @@ addFilter()
 {
     ip=$1
     domain=$2
+    if sudo nft list ruleset 2>/dev/null | grep "ip saddr $ip " | grep -q "$domain"; then
+        return
+    fi
     hex=`hexDomain $domain`
     len=`echo $hex | awk '{ print length() * 4 }'`
     sudo nft add chain ip filter input { type filter hook input priority 0 \; }
@@ -74,11 +77,10 @@ if [ -f $file ]; then
 fi
 # Example :
 # vi ~/install/debinst/bin/hotspot-pr-.sh
-# ip=10.66.0.39
-# if ! sudo nft list ruleset 2>/dev/null | grep -q "ip saddr $ip"; then
+# for ip in 10.66.0.39; do
 #     addFilter $ip m.youtube
 #     addFilter $ip www.youtube
-# fi
+# done
 
 if which tcpdump >/dev/null 2>&1; then
     sudo tcpdump -i $wlp -w /var/log/hotspot.pcap -U 'dst 10.66.0.2 and port 53' 2>/dev/null &

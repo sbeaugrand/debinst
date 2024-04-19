@@ -1,6 +1,6 @@
-# Mermaid diagram class example
+# Mermaid class diagram example
 ```mermaid
-%% Mermaid diagram class example
+%% Mermaid class diagram example
 classDiagram
 class AbstractStubServer {
 	+status()* string
@@ -24,4 +24,15 @@ I -- J : Link(Solid)
 K ..> L : Dependency
 M ..|> N : Realization
 O .. P : Link(Dashed)
+```
+
+# Mermaid state diagram example
+```mermaid
+%% Mermaid state diagram example
+stateDiagram
+    direction LR
+    [*] --> NotReady
+    NotReady --> Ready: on Init event
+    Ready --> Exit: on Exit event
+    Exit --> [*]
 ```

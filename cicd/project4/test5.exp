@@ -17,7 +17,7 @@ expect eof
 
 spawn client.py $server object
 expect "{"
-expect "    \"status\": \"ok\","
+expect "    \"state\": \"not ready\","
 expect "    \"value\": 0"
 expect "}"
 expect eof

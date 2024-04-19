@@ -17,7 +17,7 @@ expect eof
 
 spawn php client.php server=$server method=object
 expect "("
-expect "status] => ok"
+expect "state] => not ready"
 expect "value] => 0"
 expect ")"
 expect eof

@@ -4,10 +4,10 @@
     "returns": "String"
   },
   {
-    "name": "quit"
-  },
-  {
     "name": "object",
     "returns": { }
+  },
+  {
+    "name": "quit"
   }
 ]

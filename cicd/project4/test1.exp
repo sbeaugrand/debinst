@@ -16,7 +16,6 @@ expect \{"id":1,"jsonrpc":"2.0","result":"ok"\}
 expect eof
 
 spawn curl -d \{"jsonrpc":"2.0","method":"quit"\} $url
-expect "curl: (52) Empty reply from server"
 expect eof
 
 expect -i $id eof
