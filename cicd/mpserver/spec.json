@@ -1,0 +1,37 @@
+[
+  {
+    "name": "list",
+    "returns": { }
+  },
+  {
+    "name": "rand",
+    "returns": { }
+  },
+  {
+    "name": "ok",
+    "returns": { }
+  },
+  {
+    "name": "play",
+    "returns": { }
+  },
+  {
+    "name": "pause",
+    "returns": { }
+  },
+  {
+    "name": "stop",
+    "returns": { }
+  },
+  {
+    "name": "prev",
+    "returns": { }
+  },
+  {
+    "name": "next",
+    "returns": { }
+  },
+  {
+    "name": "quit"
+  }
+]

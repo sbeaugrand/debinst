@@ -1,0 +1,27 @@
+# ---------------------------------------------------------------------------- #
+## \file gitlab-ci.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+variables:
+  PROJECT: mpserver
+  lserver: http://localhost:8383
+  musicdir: /data/mp3
+  verbose: -v
+include:
+  - local: /../makefiles/package.yml
+prebuild:
+  stage: build
+  script:
+    - mkdir -p build
+    - cd build
+    - >
+      test -f abstractstubserver.h ||
+      jsonrpcstub ../spec.json --cpp-server=AbstractStubServer
+test1:
+  stage: test
+  script:
+    - make --no-print-directory
+    - systemctl -q is-active mpd || sudo systemctl start mpd
+    - ./test1.py $lserver $musicdir $verbose
