@@ -362,7 +362,7 @@ void
 playerPause()
 {
     bool res;
-    if (playerGetStatus(gConn) == STATE_PAUSE) {
+    if (playerGetStatus() == STATE_PAUSE) {
         res = mpd_run_play(gConn);
     } else {
         res = mpd_run_pause(gConn, true);

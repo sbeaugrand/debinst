@@ -1,0 +1,6 @@
+/data/jsonrpccpp /usr/include/
+/data/*.so.* /usr/lib/
+/data/*.pc /usr/lib/pkgconfig/
+/data/*.cmake /usr/lib/libjson-rpc-cpp/cmake/
+/data/jsonrpcstub.1 /usr/share/man/man1/
+/data/jsonrpcstub /usr/bin/

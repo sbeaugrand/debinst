@@ -1,0 +1,64 @@
+# ---------------------------------------------------------------------------- #
+## \file gitlab-ci.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+variables:
+  PROJECT: libjsonrpccpp
+  VERSION: 1.4.1
+  URL: https://github.com/cinemast/libjson-rpc-cpp
+include:
+  - local: /../makefiles/package.yml
+build:
+  stage: build
+  script:
+    - >
+      test -d /usr/share/doc/libargtable2-dev ||
+      sudo apt install libargtable2-dev
+    - >
+      test -d /usr/share/doc/libcurl4-openssl-dev ||
+      sudo apt install libcurl4-openssl-dev
+    - >
+      test -d /usr/share/doc/libjsoncpp-dev ||
+      sudo apt install libjsoncpp-dev
+    - >
+      test -d /usr/share/doc/libmicrohttpd-dev ||
+      sudo apt install libmicrohttpd-dev
+    - mkdir -p build
+    - cd build
+    - test -f libjson-rpc-cpp || git clone $URL
+    - >
+      cmake libjson-rpc-cpp
+      -DCOMPILE_TESTS=NO
+      -DCOMPILE_EXAMPLES=NO
+      -DREDIS_SERVER=NO
+      -DREDIS_CLIENT=NO
+      -DFILE_DESCRIPTOR_SERVER=NO
+      -DFILE_DESCRIPTOR_CLIENT=NO
+    - make
+package:
+  stage: package
+  script:
+    - export DEBEMAIL=`git config --global --get user.email`
+    - export DEBFULLNAME=`git config --global --get user.name`
+    - mkdir -p build/$PROJECT-$VERSION/data
+    - cd build/$PROJECT-$VERSION
+    - dh_make --native --single --yes || true
+    - test ! -d ../../debian || cp -a ../../debian/* debian/
+    - |
+      sed -i '/^Description: /,${d}' debian/control
+    - cat debian/description >>debian/control
+    - |
+      sed -i 's/Section: .*/Section: libdevel/' debian/control
+    - |
+      sed -i "s#Homepage: .*#Homepage: $URL#" debian/control
+    - cp -a ../libjson-rpc-cpp/src/jsonrpccpp data/
+    - find data -type f -not -name "*.h" -exec rm {} \;
+    - cp -a ../gen/jsonrpccpp/common/jsonparser.h data/jsonrpccpp/common/
+    - find .. -name "*.so.$VERSION" -exec cp -a {} data/ \;
+    - find .. -name "*.pc" -exec cp -a {} data/ \;
+    - find .. -name "libjson-rpc-cpp*.cmake" -exec cp -a {} data/ \;
+    - find .. -name "jsonrpcstub.1" -exec cp -a {} data/ \;
+    - find .. -name "jsonrpcstub" -exec cp -a {} data/ \;
+    - SOURCE_DATE_EPOCH=`date +%s` dpkg-buildpackage --no-sign

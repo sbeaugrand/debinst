@@ -45,6 +45,7 @@
     block: |
         <application title="mxterm">
           <maximized>yes</maximized>
+          <decor>no</decor>
         </application>
   notify:
     - openbox reconfigure
