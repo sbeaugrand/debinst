@@ -27,7 +27,7 @@ build:
       sudo apt install libmicrohttpd-dev
     - mkdir -p build
     - cd build
-    - test -f libjson-rpc-cpp || git clone $URL
+    - test -d libjson-rpc-cpp || git clone $URL
     - >
       cmake libjson-rpc-cpp
       -DCOMPILE_TESTS=NO

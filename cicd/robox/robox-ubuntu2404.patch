@@ -1,0 +1,1651 @@
+diff --git a/generic-libvirt-x64.json b/generic-libvirt-x64.json
+index fd4a6671..2d08a1ff 100644
+--- a/generic-libvirt-x64.json
++++ b/generic-libvirt-x64.json
+@@ -3461,6 +3461,42 @@
+       ]
+     },
+     {
++      "type": "shell",
++      "timeout": "120m",
++      "scripts": [
++        "scripts/ubuntu2404/apt.sh",
++        "scripts/ubuntu2404/floppy.sh",
++        "scripts/ubuntu2404/fixkvp.sh",
++        "scripts/ubuntu2404/network.sh"
++      ],
++      "start_retry_timeout": "15m",
++      "expect_disconnect": "true",
++      "only": [
++        "generic-ubuntu2404-libvirt-x64"
++      ]
++    },
++    {
++      "type": "shell",
++      "timeout": "120m",
++      "scripts": [
++        "scripts/ubuntu2404/vagrant.sh",
++        "scripts/ubuntu2404/profile.sh",
++        "scripts/ubuntu2404/motd.sh",
++        "scripts/ubuntu2404/fixtty.sh",
++        "scripts/ubuntu2404/virtualbox.sh",
++        "scripts/ubuntu2404/parallels.sh",
++        "scripts/ubuntu2404/vmware.sh",
++        "scripts/ubuntu2404/qemu.sh",
++        "scripts/ubuntu2404/cleanup.sh"
++      ],
++      "pause_before": "120s",
++      "start_retry_timeout": "15m",
++      "expect_disconnect": "true",
++      "only": [
++        "generic-ubuntu2404-libvirt-x64"
++      ]
++    },
++     {
+       "scripts": [
+         "scripts/common/motd.sh",
+         "scripts/common/keys.sh",
+@@ -7551,6 +7587,54 @@
+       "ssh_handshake_attempts": 1000,
+       "ssh_timeout": "3600s",
+       "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now"
++    },
++    {
++      "type": "qemu",
++      "name": "generic-ubuntu2404-libvirt-x64",
++      "vm_name": "generic-ubuntu2404-libvirt-x64",
++      "output_directory": "output/generic-ubuntu2404-libvirt-x64",
++      "qemu_binary": "qemu-system-x86_64",
++      "boot_wait": "10s",
++      "boot_keygroup_interval": "1s",
++      "boot_command": [
++        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
++        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
++        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
++        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
++        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
++        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
++        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
++        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
++        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
++        "<tab><wait><tab><wait><tab><wait><tab><wait><tab><wait><tab><wait>",
++        "c<wait10>",
++        "set gfxpayload=keep<enter><wait10>",
++        "linux /casper/vmlinuz autoinstall quiet net.ifnames=0 biosdevname=0 ",
++        "cloud-config-url=\"http://{{.HTTPIP}}:{{.HTTPPort}}/generic.ubuntu2310.vagrant.cfg\" --- <enter><wait10>",
++        "initrd /casper/initrd<enter><wait10>",
++        "boot<enter>"
++      ],
++      "format": "qcow2",
++      "disk_size": "131072",
++      "disk_discard": "unmap",
++      "disk_detect_zeroes": "on",
++      "disk_cache": "unsafe",
++      "disk_image": false,
++      "disk_compression": true,
++      "disk_interface": "virtio-scsi",
++      "net_device": "virtio-net",
++      "cpus": 2,
++      "memory": 2048,
++      "http_directory": "http",
++      "headless": true,
++      "iso_url": "https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso",
++      "iso_checksum": "sha256:8762f7e74e4d64d72fceb5f70682e6b069932deedb4949c6975d0f0fe0a91be3",
++      "ssh_username": "root",
++      "ssh_password": "vagrant",
++      "ssh_port": 22,
++      "ssh_handshake_attempts": 1000,
++      "ssh_timeout": "3600s",
++      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now"
+     }
+   ],
+   "post-processors": [
+diff --git a/http/generic.ubuntu2404.vagrant.cfg b/http/generic.ubuntu2404.vagrant.cfg
+new file mode 100644
+index 00000000..2143855c
+--- /dev/null
++++ b/http/generic.ubuntu2404.vagrant.cfg
+@@ -0,0 +1,87 @@
++#cloud-config
++autoinstall:
++  version: 1
++  refresh-installer:
++    update: no
++  locale: en_US.UTF-8
++  keyboard:
++      layout: us
++      variant: ""
++      toggle: ""
++  network:
++      network:
++          version: 2
++          ethernets:
++              eth0:
++                 dhcp4: yes
++                 dhcp6: no
++  apt:
++      geoip: false
++      primary:
++          - arches: [default]
++            uri: https://mirrors.edge.kernel.org/ubuntu/
++            # uri: https://old-releases.ubuntu.com/ubuntu/
++      security:
++          - arches: [default]
++            uri: https://mirrors.edge.kernel.org/ubuntu/
++            # uri: https://old-releases.ubuntu.com/ubuntu/
++  storage:
++      layout:
++          name: lvm
++  identity:
++      username: root
++      hostname: ubuntu2404.localdomain
++      password: "$6$RsFnUPD4Axp9Y9yQ$jPjBajFAlATEBb8wa.xmvGimRz8I9vQgfGLWyuBOcqcyLxgt23KrsVWS3khrH19i6oqdMi75L0UYgWkkmHEyw/"
++  ssh:
++      install-server: yes
++      authorized-keys: []
++      allow-pw: yes
++  user-data:
++      disable_root: false
++  packages:
++      - sed
++      - curl
++      - sudo
++      - openssh-server
++      - linux-cloud-tools-virtual
++  output:
++    init: "> /var/log/cloud-init.log"
++    config: [ ">> /tmp/foo.out", "> /var/log/cloud-config.log" ]
++    final:
++      output: "| tee /tmp/final.stdout | tee /var/log/cloud-final.log"
++      error: "&1"
++  final_message: "System installation complete."
++  write_files:
++    - encoding: b64
++      content: W01hdGNoXQpOYW1lPWV0aDAKCltOZXR3b3JrXQpESENQPWlwdjQK
++      owner: root:root
++      path: /etc/systemd/network/eth0.network
++      permissions: '0644'
++  early-commands:
++    - systemctl stop ssh.socket
++    - systemctl stop ssh.service
++    - sed -i "s/#Cache=.*/Cache=yes/g" /etc/systemd/resolved.conf
++    - sed -i "s/#DNS=.*/DNS=4.2.2.1 4.2.2.2 208.67.220.220/g" /etc/systemd/resolved.conf
++    - sed -i "s/#FallbackDNS=.*/FallbackDNS=4.2.2.1 4.2.2.2 208.67.220.220/g" /etc/systemd/resolved.conf
++    - systemctl restart systemd-resolved
++  late-commands:
++    - sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"$/GRUB_CMDLINE_LINUX_DEFAULT=="\1 net.ifnames=0 biosdevname=0"/g' /target/etc/default/grub
++    - sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=" net.ifnames/GRUB_CMDLINE_LINUX_DEFAULT="net.ifnames/g' /target/etc/default/grub
++    - echo "PermitRootLogin yes" >> /target/etc/ssh/sshd_config
++    - sudo chroot /target /bin/bash -c '/usr/sbin/useradd --create-home --shell /bin/bash --password vagrant vagrant'
++    - sudo chroot /target /bin/bash -c 'printf "vagrant\nvagrant\n" | passwd root'
++    - curtin in-target --target=/target -- update-grub
++
++# End of life config additions.
++# sources_list: |
++#    deb $MIRROR lunar main restricted
++#    deb $MIRROR lunar-security main restricted
++# conf: |
++#    Acquire::AllowReleaseInfoChange::Suite "true";
++#    Acquire::AllowReleaseInfoChange::Origin "true";
++#    Acquire::AllowReleaseInfoChange::Label "true";
++#    Acquire::AllowReleaseInfoChange::Version "true";
++#    Acquire::AllowReleaseInfoChange::Codename "true";
++
++# End of life early command additions.
++# - printf "\n91.189.91.124 old-releases.ubuntu.com\n" >> /etc/hosts
+diff --git a/robox.sh b/robox.sh
+index dd6989db..0df378ec 100755
+--- a/robox.sh
++++ b/robox.sh
+@@ -912,7 +912,7 @@ REPOS+=( "https://mirrors.edge.kernel.org/ubuntu/dists/mantic/InRelease" )
+ 
+ # Ubuntu 24.04 (Unkown Unkown)
+ # This means the 24.04 ISO is available.
+-FUTURE+=( "https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso" )
++REPOS+=( "https://mirrors.edge.kernel.org/ubuntu/dists/noble/InRelease" )
+ 
+ # https://wiki.ubuntu.com/Releases
+ # This means the 24.04 repository is available.
+diff --git a/scripts/ubuntu2404/apt.sh b/scripts/ubuntu2404/apt.sh
+new file mode 100644
+index 00000000..9d6e42e2
+--- /dev/null
++++ b/scripts/ubuntu2404/apt.sh
+@@ -0,0 +1,193 @@
++#!/bin/bash
++
++# If the TERM environment variable is set to dumb, tput will generate spurrious error messages.
++[ "$TERM" == "dumb" ] && export TERM="vt100"
++
++retry() {
++  local COUNT=1
++  local DELAY=0
++  local RESULT=0
++  while [[ "${COUNT}" -le 10 ]]; do
++    [[ "${RESULT}" -ne 0 ]] && {
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++      echo -e "\n${*} failed... retrying ${COUNT} of 10.\n" >&2
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++    }
++    "${@}" && { RESULT=0 && break; } || RESULT="${?}"
++    COUNT="$((COUNT + 1))"
++
++    # Increase the delay with each iteration.
++    DELAY="$((DELAY + 10))"
++    sleep $DELAY
++  done
++
++  [[ "${COUNT}" -gt 10 ]] && {
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++    echo -e "\nThe command failed 10 times.\n" >&2
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++  }
++
++  return "${RESULT}"
++}
++
++error() {
++        if [ $? -ne 0 ]; then
++                printf "\n\nAPT failed... again.\n\n";
++                exit 1
++        fi
++}
++
++# To allow for automated installs, we disable interactive configuration steps.
++export DEBIAN_FRONTEND=noninteractive
++export DEBCONF_NONINTERACTIVE_SEEN=true
++
++# Temporarily disable IPv6, update the nameservers so packages download
++# properly. A more permanent soulution is applied by the network
++# configuration script.
++sysctl net.ipv6.conf.all.disable_ipv6=1
++printf "nameserver 4.2.2.1\nnameserver 4.2.2.2\nnameserver 208.67.220.220\n" > /etc/resolv.conf
++
++# Disable upgrades to new releases, and prevent notifications from being added to motd.
++sed -i -e 's/^Prompt=.*$/Prompt=never/' /etc/update-manager/release-upgrades
++
++if [ -f /usr/lib/ubuntu-release-upgrader/release-upgrade-motd ]; then
++cat <<-EOF > /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
++#!/bin/sh
++if [ -d /var/lib/ubuntu-release-upgrader/ ]; then
++  date +%s > /var/lib/ubuntu-release-upgrader/release-upgrade-available
++fi
++exit 0
++EOF
++fi
++
++# Remove a confusing, and potentially conflicting sources file left by the install process.
++[ -f /etc/apt/sources.list.curtin.old ] && rm --force /etc/apt/sources.list.curtin.old
++
++# If the APT configuration directory exists, we add our own config options.
++if [ -d /etc/apt/apt.conf.d/ ]; then
++
++# Disable APT periodic so it doesn't cause problems.
++if [ -f  /etc/apt/apt.conf.d/10periodic ]; then
++  sed -i "/^APT::Periodic::Enable/d" /etc/apt/apt.conf.d/10periodic
++  sed -i "/^APT::Periodic::AutocleanInterval/d" /etc/apt/apt.conf.d/10periodic
++  sed -i "/^APT::Periodic::Unattended-Upgrade/d" /etc/apt/apt.conf.d/10periodic
++  sed -i "/^APT::Periodic::Update-Package-Lists/d" /etc/apt/apt.conf.d/10periodic
++  sed -i "/^APT::Periodic::Download-Upgradeable-Packages/d" /etc/apt/apt.conf.d/10periodic
++fi
++
++cat <<-EOF >> /etc/apt/apt.conf.d/10periodic
++
++APT::Periodic::Enable "0";
++APT::Periodic::AutocleanInterval "0";
++APT::Periodic::Unattended-Upgrade "0";
++APT::Periodic::Update-Package-Lists "0";
++APT::Periodic::Download-Upgradeable-Packages "0";
++
++EOF
++
++# We disable APT retries, to avoid inconsistent error handling, as it only retries some errors. Instead we let the retry function detect, and retry a given command regardless of the error.
++cat <<-EOF >> /etc/apt/apt.conf.d/20retries
++
++APT::Acquire::Retries "0";
++
++EOF
++
++fi
++
++# Stop the active services/timers.
++systemctl --quiet list-unit-files apt-daily.timer &>/dev/null && systemctl --quiet is-active apt-daily.timer && systemctl stop apt-daily.timer
++systemctl --quiet list-unit-files apt-daily-upgrade.timer &>/dev/null && systemctl --quiet is-active apt-daily-upgrade.timer && systemctl stop apt-daily-upgrade.timer
++systemctl --quiet list-unit-files update-notifier-download.timer &>/dev/null && systemctl --quiet is-active update-notifier-download.timer && systemctl stop update-notifier-download.timer
++
++systemctl --quiet list-unit-files apt-news.service &>/dev/null && systemctl --quiet is-active apt-news.service && systemctl stop apt-news.service
++systemctl --quiet list-unit-files apt-daily.service &>/dev/null && systemctl --quiet is-active apt-daily.service && systemctl stop apt-daily.service
++systemctl --quiet list-unit-files apt-daily-upgrade.service &>/dev/null && systemctl --quiet is-active apt-daily-upgrade.service && systemctl stop apt-daily-upgrade.service
++
++systemctl --quiet list-unit-files snapd.socket &>/dev/null && systemctl --quiet is-active snapd.socket && systemctl stop snapd.socket
++systemctl --quiet list-unit-files snapd.service &>/dev/null && systemctl --quiet is-active snapd.service && systemctl stop snapd.service
++
++systemctl --quiet list-unit-files packagekit.service &>/dev/null && systemctl --quiet is-active packagekit.service && systemctl stop packagekit.service
++systemctl --quiet list-unit-files packagekit-offline-update.service &>/dev/null && systemctl --quiet is-active packagekit-offline-update.service && systemctl stop packagekit.service
++
++systemctl --quiet list-unit-files unattended-upgrades.service &>/dev/null && systemctl --quiet is-active unattended-upgrades.service && systemctl stop unattended-upgrades.service
++systemctl --quiet list-unit-files update-notifier-download.service &>/dev/null && systemctl --quiet is-active update-notifier-download.service && systemctl stop update-notifier-download.service
++
++# Disable them so they don't restart.
++systemctl --quiet list-unit-files apt-daily.timer &>/dev/null && systemctl --quiet is-enabled apt-daily.timer && systemctl disable apt-daily.timer
++systemctl --quiet list-unit-files apt-daily-upgrade.timer &>/dev/null && systemctl --quiet is-enabled apt-daily-upgrade.timer && systemctl disable apt-daily-upgrade.timer
++systemctl --quiet list-unit-files update-notifier-download.timer &>/dev/null && systemctl --quiet is-enabled update-notifier-download.timer && systemctl disable update-notifier-download.timer
++
++systemctl --quiet list-unit-files apt-news.service &>/dev/null && systemctl --quiet is-enabled apt-news.service && systemctl mask apt-news.service
++systemctl --quiet list-unit-files apt-daily.service &>/dev/null && systemctl --quiet is-enabled apt-daily.service && systemctl mask apt-daily.service
++systemctl --quiet list-unit-files apt-daily-upgrade.service &>/dev/null && systemctl --quiet is-enabled apt-daily-upgrade.service && systemctl mask apt-daily-upgrade.service
++
++# Package install/update triggers rely on the PackageKit.service to make system changes, and these operations fail
++# if the PackageKit.service is masked. So we only disable it.
++systemctl --quiet list-unit-files packagekit.service &>/dev/null && systemctl --quiet is-enabled packagekit.service && systemctl disable packagekit.service
++systemctl --quiet list-unit-files packagekit-offline-update.service &>/dev/null && systemctl --quiet is-enabled packagekit-offline-update.service && systemctl mask packagekit-offline-update.service
++
++systemctl --quiet list-unit-files snapd.socket &>/dev/null && systemctl --quiet is-enabled snapd.socket && systemctl disable snapd.socket
++systemctl --quiet list-unit-files snapd.service &>/dev/null && systemctl --quiet is-enabled snapd.service && systemctl mask snapd.service
++
++systemctl --quiet list-unit-files unattended-upgrades.service &>/dev/null && systemctl --quiet is-enabled unattended-upgrades.service && systemctl mask unattended-upgrades.service
++systemctl --quiet list-unit-files update-notifier-download.service &>/dev/null && systemctl --quiet is-enabled update-notifier-download.service && systemctl mask update-notifier-download.service
++
++# An unattended upgrade service doesn't fit the use use case for
++# vagrant boxes, so removal is an option, but since Ubuntu installs
++# it by default, and we want to keep the environment close to the default,
++# we'll just leave disabled for now.
++# apt-get -qq -y purge unattended-upgrades
++# cat <<-EOF | sudo debconf-set-selections
++# unattended-upgrades unattended-upgrades/enable_auto_updates boolean false
++# EOF
++
++# Truncate the sources list in order to force a status purge.
++# truncate --size=0 /etc/apt/sources.list
++
++# Run clean/autoclean/purge/update first, this will work around problems with ghost packages, and/or
++# conflicting data in the repo index cache. After the cleanup is complete, we can proceed with the
++# update/upgrade/install commands below.
++apt-get --assume-yes clean ; error
++apt-get --assume-yes autoclean ; error
++apt-get --assume-yes update ; error
++
++# # Enable this once 23.04 reaches the end of its life.
++# # Write out a nice and compact sources list.
++# cat <<-EOF > /etc/apt/sources.list
++#
++# deb https://old-releases.ubuntu.com/ubuntu/ lunar main restricted universe multiverse
++# deb https://old-releases.ubuntu.com/ubuntu/ lunar-updates main restricted universe multiverse
++# deb https://old-releases.ubuntu.com/ubuntu/ lunar-backports main restricted universe multiverse
++# deb https://old-releases.ubuntu.com/ubuntu/ lunar-security main restricted universe multiverse
++#
++# # deb-src https://old-releases.ubuntu.com/ubuntu/ lunar main restricted universe multiverse
++# # deb-src https://old-releases.ubuntu.com/ubuntu/ lunar-updates main restricted universe multiverse
++# # deb-src https://old-releases.ubuntu.com/ubuntu/ lunar-backports main restricted universe multiverse
++# # deb-src https://old-releases.ubuntu.com/ubuntu/ lunar-security main restricted universe multiverse
++#
++# EOF
++#
++# # Some of the ubuntu archive servers appear to be missing files/packages..
++# printf "\n91.189.91.124 old-releases.ubuntu.com\n" >> /etc/hosts
++
++# Update the package database.
++retry apt-get --assume-yes -o Dpkg::Options::="--force-confnew" update ; error
++
++# Ensure the linux-tools and linux-cloud-tools get updated with the kernel.
++retry apt-get --assume-yes -o Dpkg::Options::="--force-confnew" install linux-cloud-tools-virtual
++
++# Upgrade the installed packages.
++retry apt-get --assume-yes -o Dpkg::Options::="--force-confnew" upgrade ; error
++retry apt-get --assume-yes -o Dpkg::Options::="--force-confnew" dist-upgrade ; error
++
++# Needed to retrieve source code, and other misc system tools.
++retry apt-get --assume-yes install vim vim-nox gawk git git-man liberror-perl wget curl rsync gnupg  sudo sysstat lsof pciutils usbutils lsb-release psmisc ; error
++
++# Enable the sysstat collection service.
++sed -i -e "s|.*ENABLED=\".*\"|ENABLED=\"true\"|g" /etc/default/sysstat
++
++# Start the services we just added so the system will track its own performance.
++systemctl enable sysstat.service && systemctl start sysstat.service
++
++# Setup vim as the default editor.
++printf "alias vi=vim\n" >> /etc/profile.d/vim.sh
+diff --git a/scripts/ubuntu2404/cleanup.sh b/scripts/ubuntu2404/cleanup.sh
+new file mode 100644
+index 00000000..c626bd24
+--- /dev/null
++++ b/scripts/ubuntu2404/cleanup.sh
+@@ -0,0 +1,69 @@
++#!/bin/bash
++
++error() {
++  if [ $? -ne 0 ]; then
++    printf "\n\napt failed...\n\n";
++    exit 1
++  fi
++}
++
++# To allow for automated installs, we disable interactive configuration steps.
++export DEBIAN_FRONTEND=noninteractive
++export DEBCONF_NONINTERACTIVE_SEEN=true
++
++# Remove cloud init packages.
++dpkg -l eatmydata &>/dev/null && apt-get --assume-yes purge eatmydata
++dpkg -l libeatmydata1 &>/dev/null && apt-get --assume-yes purge libeatmydata1
++dpkg -l cloud-init &>/dev/null && apt-get --assume-yes purge cloud-init
++
++# We can probably also remove unattended-upgrades ... but we'll save that for later.
++# dpkg -l unattended-upgrades &>/dev/null && apt-get --assume-yes purge unattended-upgrades
++
++# Cleanup unused packages.
++apt-get --assume-yes autoremove; error
++apt-get --assume-yes autoclean; error
++
++# Restore the system default apt retry value.
++[ -f /etc/apt/apt.conf.d/20retries ] && rm --force /etc/apt/apt.conf.d/20retries
++
++# Remove leftover config files/directories.
++[ -d /etc/cloud/ ] && rm --recursive --force /etc/cloud/
++
++# Remove the workaround IP address for old-releases if its present.
++sed -i '/old-releases.ubuntu.com/d' /etc/hosts
++
++# Remove log files.
++[ -d /var/log/dist-upgrade/ ] && rm --recursive --force /var/log/dist-upgrade/
++[ -d /var/log/installer/ ] && rm --recursive --force /var/log/installer/
++
++[ -f /var/log/apt/eipp.log.xz ] && rm --force /var/log/apt/eipp.log.xz
++[ -f /var/log/cloud-init-output.log ] && rm --force /var/log/cloud-init-output.log
++[ -f /var/log/cloud-init.log ] && rm --force /var/log/cloud-init.log
++[ -f /var/log/bootstrap.log ] && rm --force /var/log/bootstrap.log
++[ -f /var/log/dmesg.1.gz ] && rm --force /var/log/dmesg.1.gz
++[ -f /var/log/dmesg.0 ] && rm --force /var/log/dmesg.0
++[ -f /var/log/dmesg ] && rm --force /var/log/dmesg
++
++[ -f /var/log/apt/history.log ] && truncate --size=0 truncate --size=0 /var/log/apt/history.log
++[ -f /var/log/apt/term.log ] && truncate --size=0 truncate --size=0 /var/log/apt/term.log
++[ -f /var/log/ubuntu-advantage-timer.log ] && truncate --size=0 truncate --size=0 /var/log/ubuntu-advantage-timer.log
++[ -f /var/log/ubuntu-advantage.log ] && truncate --size=0 truncate --size=0 /var/log/ubuntu-advantage.log
++[ -f /var/log/alternatives.log ] && truncate --size=0 truncate --size=0 /var/log/alternatives.log
++[ -f /var/log/dpkg.log ] && truncate --size=0 truncate --size=0 /var/log/dpkg.log
++[ -f /var/log/kern.log ] && truncate --size=0 /var/log/kern.log
++[ -f /var/log/syslog ] && truncate --size=0 /var/log/syslog
++
++# Remove the random seed so a unique value is used the first time the box is booted.
++systemctl --quiet is-active systemd-random-seed.service && systemctl stop systemd-random-seed.service
++[ -f /var/lib/systemd/random-seed ] && rm --force /var/lib/systemd/random-seed
++
++# *Unmask anything we might have masked in the apt module.
++systemctl --quiet list-unit-files apt-news.service &>/dev/null && [ "$(systemctl is-enabled apt-news.service)" == "masked" ] && systemctl unmask apt-news.service
++systemctl --quiet list-unit-files apt-daily.service &>/dev/null && [ "$(systemctl is-enabled apt-daily.service)" == "masked" ] && systemctl unmask apt-daily.service
++# systemctl --quiet list-unit-files apt-daily-upgrade.service &>/dev/null && [ "$(systemctl is-enabled apt-daily-upgrade.service)" == "masked" ] && systemctl unmask apt-daily-upgrade.service
++
++systemctl --quiet list-unit-files packagekit.service &>/dev/null && [ "$(systemctl is-enabled packagekit.service)" == "disabled" ] && systemctl enable packagekit.service
++systemctl --quiet list-unit-files packagekit-offline-update.service &>/dev/null && [ "$(systemctl is-enabled packagekit-offline-update.service)" == "masked" ] && systemctl unmask packagekit-offline-update.service
++
++systemctl --quiet list-unit-files snapd.service &>/dev/null && [ "$(systemctl is-enabled snapd.service)" == "masked" ] && systemctl unmask snapd.service
++systemctl --quiet list-unit-files snapd.socket &>/dev/null && [ "$(systemctl is-enabled snapd.socket)" == "disabled" ] && systemctl enable snapd.socket
+diff --git a/scripts/ubuntu2404/fixkvp.sh b/scripts/ubuntu2404/fixkvp.sh
+new file mode 100644
+index 00000000..ab77fb16
+--- /dev/null
++++ b/scripts/ubuntu2404/fixkvp.sh
+@@ -0,0 +1,29 @@
++#!/bin/bash -eux
++
++# Fix to prevent the kv-kvp-daemon from hanging for 90 seconds during boot.
++# https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1820063
++
++
++# Disable the daemon to remove the symlihk.
++systemctl disable hv-kvp-daemon.service
++
++# Override the default unit file with a version that won't hang during boot ups.
++cat <<-EOF > /etc/systemd/system/multi-user.target.wants/hv-kvp-daemon.service
++[Unit]
++Description=Hyper-V KVP Protocol Daemon
++ConditionVirtualization=microsoft
++ConditionPathExists=/dev/vmbus/hv_kvp
++DefaultDependencies=no
++BindsTo=sys-devices-virtual-misc-vmbus\x21hv_kvp.device
++After=systemd-remount-fs.service
++Before=shutdown.target cloud-init-local.service walinuxagent.service
++Conflicts=shutdown.target
++RequiresMountsFor=/var/lib/hyperv
++
++[Service]
++ExecStart=/usr/sbin/hv_kvp_daemon -n
++
++[Install]
++WantedBy=multi-user.target
++
++EOF
+diff --git a/scripts/ubuntu2404/fixtty.sh b/scripts/ubuntu2404/fixtty.sh
+new file mode 100644
+index 00000000..9a21734b
+--- /dev/null
++++ b/scripts/ubuntu2404/fixtty.sh
+@@ -0,0 +1,9 @@
++#!/bin/bash -eux
++
++# Fix the no tty bug with vagrant.
++# https://github.com/mitchellh/vagrant/issues/1673
++
++sed -i -e 's,^\(ACTIVE_CONSOLES="/dev/tty\).*,\11",' /etc/default/console-setup
++for f in /etc/init/tty[^1]*.conf; do
++  rm --force "$f"
++done
+diff --git a/scripts/ubuntu2404/floppy.sh b/scripts/ubuntu2404/floppy.sh
+new file mode 100644
+index 00000000..9a6bfc2b
+--- /dev/null
++++ b/scripts/ubuntu2404/floppy.sh
+@@ -0,0 +1,11 @@
++#!/bin/bash -eux
++
++printf 'blacklist floppy\n' > /etc/modprobe.d/floppy.conf
++
++# Then run this instead to rebuild all of the install
++# kernels without the floppy module.
++for kernel in /boot/config-*; do
++  [ -f "$kernel" ] || continue
++  KERNEL=${kernel#*-}
++  mkinitramfs -o "/boot/initrd.img-${KERNEL}.img" "${KERNEL}" || exit 1
++done
+diff --git a/scripts/ubuntu2404/limits.sh b/scripts/ubuntu2404/limits.sh
+new file mode 100644
+index 00000000..0da776c1
+--- /dev/null
++++ b/scripts/ubuntu2404/limits.sh
+@@ -0,0 +1,9 @@
++#!/bin/bash -eux
++
++# Find out how much RAM is installed, and what 50% would be in KB.
++TOTALMEM=`free -k | grep -E "^Mem:" | awk -F' ' '{print $2}'`
++HALFMEM=`echo $(($TOTALMEM/2))`
++
++# Setup the memory locking limits.
++printf "*    soft    memlock    $HALFMEM\n" > /etc/security/limits.d/50-magmad.conf
++printf "*    hard    memlock    $HALFMEM\n" >> /etc/security/limits.d/50-magmad.conf
+diff --git a/scripts/ubuntu2404/magma.sh b/scripts/ubuntu2404/magma.sh
+new file mode 100644
+index 00000000..7cd7cba0
+--- /dev/null
++++ b/scripts/ubuntu2404/magma.sh
+@@ -0,0 +1,283 @@
++#!/bin/bash -x
++
++retry() {
++  local COUNT=1
++  local DELAY=0
++  local RESULT=0
++  while [[ "${COUNT}" -le 10 ]]; do
++    [[ "${RESULT}" -ne 0 ]] && {
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++      echo -e "\\n${*} failed... retrying ${COUNT} of 10.\\n" >&2
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++    }
++    "${@}" && { RESULT=0 && break; } || RESULT="${?}"
++    COUNT="$((COUNT + 1))"
++
++    # Increase the delay with each iteration.
++    DELAY="$((DELAY + 10))"
++    sleep $DELAY
++  done
++
++  [[ "${COUNT}" -gt 10 ]] && {
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++    echo -e "\\nThe command failed 10 times.\\n" >&2
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++  }
++
++  return "${RESULT}"
++}
++
++# To allow for automated installs, we disable interactive configuration steps.
++export DEBIAN_FRONTEND=noninteractive
++export DEBCONF_NONINTERACTIVE_SEEN=true
++
++# The packages needed to compile Magma.
++retry apt-get --assume-yes install perl cmake gcc g++ gcc-multilib pkg-config libbsd-dev make autoconf autoconf-archive automake libtool flex bison gdb valgrind valgrind-mpi valgrind-dbg m4 python-pytest nasm libdigest-bcrypt-perl libdigest-crc-perl libdigest-hmac-perl libdigest-jhash-perl libdigest-md2-perl libdigest-md4-perl libdigest-sha-perl libdigest-sha3-perl libdigest-whirlpool-perl gnu-standards gettext
++
++# Need to retrieve the source code.
++retry apt-get --assume-yes install git git-man liberror-perl rsync wget
++
++# Needed to run the watcher and status scripts.
++retry apt-get --assume-yes install sysstat inotify-tools
++
++# Needed to run the stacie script.
++retry apt-get --assume-yes install python-crypto python-cryptography
++
++# Make sure the MySQLs server is available.
++retry apt-get --assume-yes install mysql-server
++
++# Install ClamAV.
++retry apt-get --assume-yes install clamav clamav-daemon clamav-freshclam
++systemctl --quiet is-enabled clamav-freshclam.service &> /dev/null && \
++  ( systemctl stop clamav-freshclam.service &> /dev/null ;
++  systemctl disable clamav-freshclam.service &> /dev/null ) || \
++  echo "clamav-freshclam.service already disabled" &> /dev/null
++systemctl --quiet is-enabled clamav-daemon.service &> /dev/null && \
++  ( systemctl stop clamav-daemon.service &> /dev/null ;
++  systemctl disable clamav-daemon.service &> /dev/null ) || \
++  echo "clamav-daemon.service already disabled" &> /dev/null
++systemctl --quiet is-enabled clamav-daemon.service &> /dev/null && \
++  ( systemctl stop clamav-daemon.service &> /dev/null ;
++  systemctl disable clamav-daemon.service &> /dev/null ) || \
++  echo "clamav-daemon.service already disabled" &> /dev/null
++
++# On Debian/Ubuntu there is no virus database package. We use freshclam instead.
++( cd /var/lib/clamav && rm -f main.cvd daily.cvd bytecode.cvd && \
++  curl -LSOs https://github.com/ladar/clamav-data/raw/main/main.cvd.[01-10] \
++  -LSOs https://github.com/ladar/clamav-data/raw/main/main.cvd.sha256 \
++  -LSOs https://github.com/ladar/clamav-data/raw/main/daily.cvd.[01-10] \
++  -LSOs https://github.com/ladar/clamav-data/raw/main/daily.cvd.sha256 \
++  -LSOs https://github.com/ladar/clamav-data/raw/main/bytecode.cvd \
++  -LSOs https://github.com/ladar/clamav-data/raw/main/bytecode.cvd.sha256 && \
++  cat main.cvd.01 main.cvd.02 main.cvd.03 main.cvd.04 main.cvd.05 \
++  main.cvd.06 main.cvd.07 main.cvd.08 main.cvd.09 main.cvd.10 > main.cvd && \
++  cat daily.cvd.01 daily.cvd.02 daily.cvd.03 daily.cvd.04 daily.cvd.05 \
++  daily.cvd.06 daily.cvd.07 daily.cvd.08 daily.cvd.09 daily.cvd.10 > daily.cvd && \
++  sha256sum -c main.cvd.sha256 daily.cvd.sha256 bytecode.cvd.sha256 || exit 1 ; \
++  rm -f main.cvd.[01-10] daily.cvd.[01-10] main.cvd.sha256 daily.cvd.sha256 bytecode.cvd.sha256 && \
++  cd $HOME/ )
++
++freshclam --quiet || \
++  echo "The freshclam attempt failed ... ignoring." &> /dev/null
++
++# Force MySQL/MariaDB except the old fashioned '0000-00-00' date format.
++if [ -d /etc/mysql/mysql.conf.d/ ]; then
++  printf "[mysqld]\nsql-mode=allow_invalid_dates\n" >> /etc/mysql/mysql.conf.d/server-mode.cnf
++fi
++
++if [ -d /etc/mysql/mariadb.conf.d/ ]; then
++  printf "[mysqld]\nsql-mode=allow_invalid_dates\n" >> /etc/mysql/mariadb.conf.d/server-mode.cnf
++fi
++
++# Create the mytool user and grant the required permissions.
++mysql --execute="CREATE USER mytool@localhost IDENTIFIED BY 'aComplex1'"
++mysql --execute="GRANT ALL ON *.* TO mytool@localhost"
++
++# The postfix server for message relays.
++retry apt-get --assume-yes install postfix
++
++# Configure the postfix hostname and origin parameters.
++printf "\ninet_interfaces = localhost\n" >> /etc/postfix/main.cf
++printf "inet_protocols = ipv4\n" >> /etc/postfix/main.cf
++printf "myhostname = relay.magma.localdomain\n" >> /etc/postfix/main.cf
++printf "myorigin = magma.localdomain\n" >> /etc/postfix/main.cf
++printf "transport_maps = hash:/etc/postfix/transport\n" >> /etc/postfix/main.cf
++
++# Configure postfix to listen for relays on port 2525 so it doesn't conflict with magma.
++sed -i -e "s/^smtp\([ ]*inet\)/127.0.0.1:2525\1/" /etc/postfix/master.cf
++
++printf "\nmagma.localdomain         smtp:[127.0.0.1]:7000\n" >> /etc/postfix/transport
++printf "magmadaemon.com         smtp:[127.0.0.1]:7000\n" >> /etc/postfix/transport
++postmap /etc/postfix/transport
++
++# Setup the the box. This runs as root
++if [ -d /home/vagrant/ ]; then
++  OUTPUT="/home/vagrant/magma-build.sh"
++else
++  OUTPUT="/root/magma-build.sh"
++fi
++
++# Grab a snapshot of the development branch.
++cat <<-EOF > $OUTPUT
++#!/bin/bash
++
++error() {
++  if [ \$? -ne 0 ]; then
++    printf "Compilation of the bundled Magma dependencies failed.\n\n";
++    exit 1
++  fi
++}
++
++if [ -x /usr/bin/id ]; then
++  ID=\`/usr/bin/id -u\`
++  if [ -n "\$ID" -a "\$ID" -eq 0 ]; then
++    systemctl start mariadb.service
++    systemctl start postfix.service
++    systemctl start memcached.service
++  fi
++fi
++
++# If the TERM environment variable is missing, then tput may trigger a fatal error.
++if [[ -n "\$TERM" ]] && [[ "\$TERM" -ne "dumb" ]]; then
++  export TPUT="tput"
++else
++  export TPUT="tput -Tvt100"
++fi
++
++# We need to give the box 30 seconds to get the networking setup or
++# the git clone operation will fail.
++sleep 30
++
++# Temporary [hopefully] workaround to avoid [yet another] bug in NSS.
++export NSS_DISABLE_HW_AES=1
++
++# If the directory is present, remove it so we can clone a fresh copy.
++if [ -d magma-develop ]; then
++  rm --recursive --force magma-develop
++fi
++
++# Use the GitHub repository to clone the Magma source code.
++git clone --quiet https://github.com/lavabit/magma.git magma-develop && \
++  printf "\nMagma repository downloaded.\n" ; error
++cd magma-develop; error
++
++# Setup the bin links, just in case we need to troubleshoot something manually.
++dev/scripts/linkup.sh; error
++
++# Explicitly control the number of build jobs (instead of using nproc).
++[ ! -z "\${MAGMA_JOBS##*[!0-9]*}" ] && export M_JOBS="\$MAGMA_JOBS"
++
++# The unit tests for the bundled dependencies get skipped with quick builds.
++MAGMA_QUICK=\$(echo \$MAGMA_QUICK | tr "[:lower:]" "[:upper:]")
++if [ "\$MAGMA_QUICK" == "YES" ]; then
++  export QUICK=yes
++fi
++
++# Compile the dependencies into a shared library.
++dev/scripts/builders/build.lib.sh all; error
++
++# Reset the sandbox database and storage files.
++dev/scripts/database/schema.reset.sh &> lib/logs/schema.txt && \
++  printf "The Magma database schema installed successfully.\n"; error
++
++# Controls whether ClamAV is enabled, and/or if the signature databases get updated.
++MAGMA_CLAMAV=\$(echo \$MAGMA_CLAMAV | tr "[:lower:]" "[:upper:]")
++MAGMA_CLAMAV_FRESHEN=\$(echo \$MAGMA_CLAMAV_FRESHEN | tr "[:lower:]" "[:upper:]")
++MAGMA_CLAMAV_DOWNLOAD=\$(echo \$MAGMA_CLAMAV_DOWNLOAD | tr "[:lower:]" "[:upper:]")
++if [ "\$MAGMA_CLAMAV" == "YES" ]; then
++  sed -i 's/^[# ]*magma.iface.virus.available[ ]*=.*$/magma.iface.virus.available = true/g' sandbox/etc/magma.sandbox.config
++  ( cp /var/lib/clamav/bytecode.cvd sandbox/virus/ && \
++  cp /var/lib/clamav/daily.cvd sandbox/virus/ && \
++  cp /var/lib/clamav/main.cvd sandbox/virus/ ) || \
++  printf "Unable to setup the system copy of the virus databases.\n" \
++    "A download, or freshen must succeed, or the anti-virus unit tests will fail.\n"
++else
++  sed -i 's/^[# ]*magma.iface.virus.available[ ]*=.*$/magma.iface.virus.available = false/g' sandbox/etc/magma.sandbox.config
++fi
++if [ "\$MAGMA_CLAMAV_DOWNLOAD" == "YES" ]; then
++  ( cd sandbox/virus/ && rm -f main.cvd* daily.cvd* bytecode.cvd* && \
++  curl -LSOs https://github.com/ladar/clamav-data/raw/main/main.cvd.[01-10] \
++  -LSOs https://github.com/ladar/clamav-data/raw/main/main.cvd.sha256 \
++  -LSOs https://github.com/ladar/clamav-data/raw/main/daily.cvd.[01-10] \
++  -LSOs https://github.com/ladar/clamav-data/raw/main/daily.cvd.sha256 \
++  -LSOs https://github.com/ladar/clamav-data/raw/main/bytecode.cvd \
++  -LSOs https://github.com/ladar/clamav-data/raw/main/bytecode.cvd.sha256 && \
++  cat main.cvd.01 main.cvd.02 main.cvd.03 main.cvd.04 main.cvd.05 \
++  main.cvd.06 main.cvd.07 main.cvd.08 main.cvd.09 main.cvd.10 > main.cvd && \
++  cat daily.cvd.01 daily.cvd.02 daily.cvd.03 daily.cvd.04 daily.cvd.05 \
++  daily.cvd.06 daily.cvd.07 daily.cvd.08 daily.cvd.09 daily.cvd.10 > daily.cvd && \
++  sha256sum -c main.cvd.sha256 daily.cvd.sha256 bytecode.cvd.sha256 || \
++  { printf "The ClamAV database download failed. Ignoring.\n" ; ls -alh * ; }
++
++  rm -f main.cvd.sha256 daily.cvd.sha256 bytecode.cvd.sha256 main.cvd.[01-10] daily.cvd.[01-10]
++  cd \$HOME/magma-develop )
++fi
++if [ "\$MAGMA_CLAMAV_FRESHEN" == "YES" ]; then
++  dev/scripts/freshen/freshen.clamav.sh &> lib/logs/freshen.txt && \
++    printf "The ClamAV databases have been updated.\n"; error
++fi
++
++# Ensure the sandbox config uses port 2525 for relays.
++sed -i -e "/magma.relay\[[0-9]*\].name.*/d" sandbox/etc/magma.sandbox.config
++sed -i -e "/magma.relay\[[0-9]*\].port.*/d" sandbox/etc/magma.sandbox.config
++sed -i -e "/magma.relay\[[0-9]*\].secure.*/d" sandbox/etc/magma.sandbox.config
++printf "\n\nmagma.relay[1].name = localhost\nmagma.relay[1].port = 2525\n\n" >> sandbox/etc/magma.sandbox.config
++
++# Bug fix... create the scan directory so ClamAV unit tests work.
++if [ ! -d 'sandbox/spool/scan/' ]; then
++  mkdir -p sandbox/spool/scan/
++fi
++
++# Compile the daemon and then compile the unit tests.
++make -j4 all &> lib/logs/magma.txt && \
++  printf "The Magma code compiled successfully.\n\n"; error
++
++# Change the socket path.
++sed -i -e "s/\/var\/lib\/mysql\/mysql.sock/\/var\/run\/mysqld\/mysqld.sock/g" sandbox/etc/magma.sandbox.config
++
++# Run the unit tests and capture the return code, if they fail, print an error,
++# and then exit using the captured return code.
++dev/scripts/launch/check.run.sh
++RETVAL=\$?
++if [ \$RETVAL -ne 0 ]; then
++  \${TPUT} setaf 1; \${TPUT} bold; printf "Some of the Magma unit tests failed...\n\n"; \${TPUT} sgr0;
++  exit \$RETVAL
++fi
++
++# Additionally, run the unit tests atop Valgrind, note this will take a
++# long time if the anti-virus engine is enabled, but like the normal unit
++# tests above, we capture the return code. If they fail, print an error,
++# and then exit using the captured return code.
++MAGMA_MEMCHECK=\$(echo \$MAGMA_MEMCHECK | tr "[:lower:]" "[:upper:]")
++if [ "\$MAGMA_MEMCHECK" == "YES" ]; then
++  dev/scripts/launch/check.vg.sh
++  RETVAL=\$?
++  if [ \$RETVAL -ne 0 ]; then
++    \${TPUT} setaf 1; \${TPUT} bold; printf "Some of the Magma unit tests failed...\n\n"; \${TPUT} sgr0;
++    exit \$RETVAL
++  fi
++fi
++
++# Uncomment the following lines to have Magma daemonize instead of running in the foreground.
++# sed -i -e "s/magma.output.file = false/magma.output.file = true/g" sandbox/etc/magma.sandbox.config
++# sed -i -e "s/magma.system.daemonize = false/magma.system.daemonize = true/g" sandbox/etc/magma.sandbox.config
++
++# Launch the daemon, and give it time to start before exiting.
++# ./magmad --config magma.system.daemonize=true sandbox/etc/magma.sandbox.config  || exit 1
++# sleep 15
++
++# Ensure we exit with a zero so Vagrant and/or the various CI systems used
++# for testing know everything worked.
++exit 0
++EOF
++
++# Make the script executable.
++if [ -d /home/vagrant/ ]; then
++  chown vagrant:vagrant /home/vagrant/magma-build.sh
++  chmod +x /home/vagrant/magma-build.sh
++else
++  chmod +x /root/magma-build.sh
++fi
++
++# Customize the message of the day
++printf "Magma Daemon Development Environment\nTo download and compile magma, just execute the magma-build.sh script.\n\n" > /etc/motd
+diff --git a/scripts/ubuntu2404/memcached.sh b/scripts/ubuntu2404/memcached.sh
+new file mode 100644
+index 00000000..aafd3522
+--- /dev/null
++++ b/scripts/ubuntu2404/memcached.sh
+@@ -0,0 +1,41 @@
++#!/bin/bash -x
++
++# If the TERM environment variable is set to dumb, tput will generate spurrious error messages.
++[ "$TERM" == "dumb" ] && export TERM="vt100"
++
++retry() {
++  local COUNT=1
++  local DELAY=0
++  local RESULT=0
++  while [[ "${COUNT}" -le 10 ]]; do
++    [[ "${RESULT}" -ne 0 ]] && {
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++      echo -e "\n${*} failed... retrying ${COUNT} of 10.\n" >&2
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++    }
++    "${@}" && { RESULT=0 && break; } || RESULT="${?}"
++    COUNT="$((COUNT + 1))"
++
++    # Increase the delay with each iteration.
++    DELAY="$((DELAY + 10))"
++    sleep $DELAY
++  done
++
++  [[ "${COUNT}" -gt 10 ]] && {
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++    echo -e "\nThe command failed 10 times.\n" >&2
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++  }
++
++  return "${RESULT}"
++}
++
++# To allow for automated installs, we disable interactive configuration steps.
++export DEBIAN_FRONTEND=noninteractive
++export DEBCONF_NONINTERACTIVE_SEEN=true
++
++# The memcached server.
++retry apt-get --assume-yes install memcached libevent-dev
++
++# Setup memcached to start automatically.
++systemctl start memcached.service && systemctl enable memcached.service
+diff --git a/scripts/ubuntu2404/motd.sh b/scripts/ubuntu2404/motd.sh
+new file mode 100644
+index 00000000..28685304
+--- /dev/null
++++ b/scripts/ubuntu2404/motd.sh
+@@ -0,0 +1,28 @@
++#!/bin/bash -eux
++
++sed -i -e "s/motd=\/run\/motd.dynamic/motd=\/etc\/motd/g" /etc/pam.d/sshd
++sed -i -e "s/\(.*pam_motd.so.*noupdate.*\)/# \1/g" /etc/pam.d/sshd
++
++sed -i -e "s/motd=\/run\/motd.dynamic/motd=\/etc\/motd/g" /etc/pam.d/login
++sed -i -e "s/\(.*pam_motd.so.*noupdate.*\)/# \1/g" /etc/pam.d/login
++
++mkdir -p /root/.cache/
++touch /root/.cache/motd.legal-displayed
++
++if [ -d /home/vagrant/ ]; then
++  mkdir -p /home/vagrant/.cache/
++  touch /home/vagrant/.cache/motd.legal-displayed
++  chown vagrant:vagrant /home/vagrant/.cache/
++  chown vagrant:vagrant /home/vagrant/.cache/motd.legal-displayed
++fi
++
++[ -f /etc/apt/apt.conf.d/99update-notifier ] && truncate --size=0 /etc/apt/apt.conf.d/99update-notifier
++[ -f /etc/motd ] && truncate --size=0 /etc/motd
++
++systemctl --quiet is-active update-notifier-motd.timer && systemctl stop update-notifier-motd.timer
++systemctl --quiet is-active motd-news.timer && systemctl stop motd-news.timer
++
++systemctl --quiet is-enabled update-notifier-motd.timer && systemctl disable update-notifier-motd.timer
++systemctl --quiet is-enabled motd-news.timer && systemctl disable motd-news.timer
++
++[ -f /etc/default/motd-news ] && sed -i 's/.*ENABLE.*/ENABLE=0/g' /etc/default/motd-news
+diff --git a/scripts/ubuntu2404/mysql.sh b/scripts/ubuntu2404/mysql.sh
+new file mode 100644
+index 00000000..45001978
+--- /dev/null
++++ b/scripts/ubuntu2404/mysql.sh
+@@ -0,0 +1,48 @@
++#!/bin/bash -x
++
++# If the TERM environment variable is set to dumb, tput will generate spurrious error messages.
++[ "$TERM" == "dumb" ] && export TERM="vt100"
++
++retry() {
++  local COUNT=1
++  local DELAY=0
++  local RESULT=0
++  while [[ "${COUNT}" -le 10 ]]; do
++    [[ "${RESULT}" -ne 0 ]] && {
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++      echo -e "\n${*} failed... retrying ${COUNT} of 10.\n" >&2
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++    }
++    "${@}" && { RESULT=0 && break; } || RESULT="${?}"
++    COUNT="$((COUNT + 1))"
++
++    # Increase the delay with each iteration.
++    DELAY="$((DELAY + 10))"
++    sleep $DELAY
++  done
++
++  [[ "${COUNT}" -gt 10 ]] && {
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++    echo -e "\nThe command failed 10 times.\n" >&2
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++  }
++
++  return "${RESULT}"
++}
++
++# To allow for automated installs, we disable interactive configuration steps.
++export DEBIAN_FRONTEND=noninteractive
++export DEBCONF_NONINTERACTIVE_SEEN=true
++
++# The mysql client and related utilities.
++retry apt-get --assume-yes install mysql-client mysql-server perl libdbi-perl libmysqlclient21 mysql-common libdbd-mysql-perl
++
++# Enable mysql and configure it to automatically start.
++systemctl start mysql.service && systemctl enable mysql.service
++
++# Setup the mysql root account with a random password.
++export PRAND=`openssl rand -base64 18`
++mysqladmin --user=root password "$PRAND"
++
++# Allow the root user to login to mysql as root by saving the randomly generated password.
++printf "\n\n[mysql]\nuser=root\npassword=$PRAND\n\n" >> /root/.my.cnf
+diff --git a/scripts/ubuntu2404/network.sh b/scripts/ubuntu2404/network.sh
+new file mode 100644
+index 00000000..827b5204
+--- /dev/null
++++ b/scripts/ubuntu2404/network.sh
+@@ -0,0 +1,90 @@
++#!/bin/bash -x
++
++# If the TERM environment variable is set to dumb, tput will generate spurrious error messages.
++[ "$TERM" == "dumb" ] && export TERM="vt100"
++
++retry() {
++  local COUNT=1
++  local DELAY=0
++  local RESULT=0
++  while [[ "${COUNT}" -le 10 ]]; do
++    [[ "${RESULT}" -ne 0 ]] && {
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++      echo -e "\n${*} failed... retrying ${COUNT} of 10.\n" >&2
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++    }
++    "${@}" && { RESULT=0 && break; } || RESULT="${?}"
++    COUNT="$((COUNT + 1))"
++
++    # Increase the delay with each iteration.
++    DELAY="$((DELAY + 10))"
++    sleep $DELAY
++  done
++
++  [[ "${COUNT}" -gt 10 ]] && {
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++    echo -e "\nThe command failed 10 times.\n" >&2
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++  }
++
++  return "${RESULT}"
++}
++
++# To allow for automated installs, we disable interactive configuration steps.
++export DEBIAN_FRONTEND=noninteractive
++export DEBCONF_NONINTERACTIVE_SEEN=true
++
++# Disable IPv6 for the current boot.
++sysctl net.ipv6.conf.all.disable_ipv6=1
++
++# Ensure IPv6 stays disabled.
++printf "\nnet.ipv6.conf.all.disable_ipv6 = 1\n" >> /etc/sysctl.conf
++
++# Set the hostname, and then ensure it will resolve properly.
++if [[ "$PACKER_BUILD_NAME" =~ ^generic-ubuntu2304-(vmware|hyperv|libvirt|parallels|virtualbox)-(x64|x32|a64|a32|p64|p32|m64|m32)$ ]]; then
++  printf "ubuntu2304.localdomain\n" > /etc/hostname
++  printf "\n127.0.0.1 ubuntu2304.localdomain\n\n" >> /etc/hosts
++else
++  printf "magma.localdomain\n" > /etc/hostname
++  printf "\n127.0.0.1 magma.localdomain\n\n" >> /etc/hosts
++fi
++
++cat <<-EOF > /etc/netplan/01-netcfg.yaml
++network:
++  version: 2
++  renderer: networkd
++  ethernets:
++    eth0:
++      dhcp4: true
++      dhcp6: false
++      optional: true
++      nameservers:
++        addresses: [4.2.2.1, 4.2.2.2, 208.67.220.220]
++EOF
++
++# Apply the network plan configuration.
++netplan generate
++
++# Ensure a nameserver is being used that won't return an IP for non-existent domain names.
++sed -i -e "s/#DNS=.*/DNS=4.2.2.1 4.2.2.2 208.67.220.220/g" /etc/systemd/resolved.conf
++sed -i -e "s/#FallbackDNS=.*/FallbackDNS=/g" /etc/systemd/resolved.conf
++sed -i -e "s/#Domains=.*/Domains=/g" /etc/systemd/resolved.conf
++sed -i -e "s/#DNSSEC=.*/DNSSEC=yes/g" /etc/systemd/resolved.conf
++sed -i -e "s/#Cache=.*/Cache=yes/g" /etc/systemd/resolved.conf
++sed -i -e "s/#DNSStubListener=.*/DNSStubListener=yes/g" /etc/systemd/resolved.conf
++
++# Install ifplugd so we can monitor and auto-configure nics.
++retry apt-get --assume-yes install ifplugd
++
++# Configure ifplugd to monitor the eth0 interface.
++sed -i -e 's/INTERFACES=.*/INTERFACES="eth0"/g' /etc/default/ifplugd
++
++# Ensure the networking interfaces get configured on boot.
++systemctl enable systemd-networkd.service
++
++# Ensure ifplugd also gets started, so the ethernet interface is monitored.
++systemctl enable ifplugd.service
++
++# Reboot onto the new kernel (if applicable).
++(shutdown -r +1) &
++exit 0
+diff --git a/scripts/ubuntu2404/parallels.sh b/scripts/ubuntu2404/parallels.sh
+new file mode 100644
+index 00000000..d4a0042f
+--- /dev/null
++++ b/scripts/ubuntu2404/parallels.sh
+@@ -0,0 +1,60 @@
++#!/bin/bash -x
++
++# If the TERM environment variable is set to dumb, tput will generate spurrious error messages.
++[ "$TERM" == "dumb" ] && export TERM="vt100"
++
++retry() {
++  local COUNT=1
++  local DELAY=0
++  local RESULT=0
++  while [[ "${COUNT}" -le 10 ]]; do
++    [[ "${RESULT}" -ne 0 ]] && {
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++      echo -e "\n${*} failed... retrying ${COUNT} of 10.\n" >&2
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++    }
++    "${@}" && { RESULT=0 && break; } || RESULT="${?}"
++    COUNT="$((COUNT + 1))"
++
++    # Increase the delay with each iteration.
++    DELAY="$((DELAY + 10))"
++    sleep $DELAY
++  done
++
++  [[ "${COUNT}" -gt 10 ]] && {
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++    echo -e "\nThe command failed 10 times.\n" >&2
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++  }
++
++  return "${RESULT}"
++}
++
++# Needed to check whether we're running atop Parallels.
++export DEBIAN_FRONTEND=noninteractive
++export DEBCONF_NONINTERACTIVE_SEEN=true
++
++retry apt-get --assume-yes install dmidecode
++
++# Bail if we are not running atop Parallels.
++if [[ `dmidecode -s system-product-name` != "Parallels Virtual Platform" ]]; then
++    exit 0
++fi
++
++# Read in the version number.
++PARALLELSVERSION=`cat /root/parallels-tools-version.txt`
++
++echo "Installing the Parallels tools, version $PARALLELSVERSION."
++
++mkdir -p /mnt/parallels/
++mount -o loop /root/parallels-tools-linux.iso /mnt/parallels/
++
++/mnt/parallels/install --install-unattended-with-deps --verbose --progress \
++  || (status="$?" ; echo "Parallels tools installation failed. Error: $status" ; cat /var/log/parallels-tools-install.log ; exit $status)
++
++umount /mnt/parallels/
++rmdir /mnt/parallels/
++
++# Cleanup the guest additions.
++rm --force /root/parallels-tools-linux.iso
++rm --force /root/parallels-tools-version.txt
+diff --git a/scripts/ubuntu2404/profile.sh b/scripts/ubuntu2404/profile.sh
+new file mode 100644
+index 00000000..3d70afa4
+--- /dev/null
++++ b/scripts/ubuntu2404/profile.sh
+@@ -0,0 +1,84 @@
++#!/bin/bash -eux
++
++cd /root/ && patch -p1 <<-EOF
++diff --git a/.bashrc b/.bashrc
++index f6939ee..545eaea 100644
++--- a/.bashrc
+++++ b/.bashrc
++@@ -7,14 +7,14 @@
++
++ # don't put duplicate lines in the history. See bash(1) for more options
++ # ... or force ignoredups and ignorespace
++-HISTCONTROL=ignoredups:ignorespace
+++HISTCONTROL=ignoredups
++
++ # append to the history file, don't overwrite it
++ shopt -s histappend
++
++ # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
++-HISTSIZE=1000
++-HISTFILESIZE=2000
+++HISTSIZE=100000
+++HISTFILESIZE=100000
++
++ # check the window size after each command and, if necessary,
++ # update the values of LINES and COLUMNS.
++@@ -30,7 +30,7 @@ fi
++
++ # set a fancy prompt (non-color, unless we know we "want" color)
++ case "\$TERM" in
++-    xterm-color) color_prompt=yes;;
+++    xterm-color|*-256color) color_prompt=yes;;
++ esac
++
++ # uncomment for a colored prompt, if the terminal has the capability; turned
++@@ -94,6 +94,6 @@ fi
++ # enable programmable completion features (you don't need to enable
++ # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
++ # sources /etc/bash.bashrc).
++-#if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
++-#    . /etc/bash_completion
++-#fi
+++if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+++    . /etc/bash_completion
+++fi
++EOF
++
++cat <<-EOF > /root/.vimrc
++set mouse-=a
++EOF
++
++if [ -d /home/vagrant/ ] && [ -f /home/vagrant/.bashrc ]; then
++cd /home/vagrant/ && patch -p1 <<-EOF
++diff --git a/.bashrc b/.bashrc
++index b488fcc..559370c 100644
++--- a/.bashrc
+++++ b/.bashrc
++@@ -10,14 +10,14 @@ esac
++
++ # don't put duplicate lines or lines starting with space in the history.
++ # See bash(1) for more options
++-HISTCONTROL=ignoreboth
+++HISTCONTROL=ignoredups
++
++ # append to the history file, don't overwrite it
++ shopt -s histappend
++
++ # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
++-HISTSIZE=1000
++-HISTFILESIZE=2000
+++HISTSIZE=100000
+++HISTFILESIZE=100000
++
++ # check the window size after each command and, if necessary,
++ # update the values of LINES and COLUMNS.
++EOF
++chown vagrant:vagrant /home/vagrant/.bashrc
++fi
++
++if [ -d /home/vagrant/ ]; then
++cat <<-EOF > /home/vagrant/.vimrc
++set mouse-=a
++EOF
++chown vagrant:vagrant /home/vagrant/.vimrc
++fi
+\ No newline at end of file
+diff --git a/scripts/ubuntu2404/qemu.sh b/scripts/ubuntu2404/qemu.sh
+new file mode 100644
+index 00000000..8e61ee78
+--- /dev/null
++++ b/scripts/ubuntu2404/qemu.sh
+@@ -0,0 +1,62 @@
++#!/bin/bash -x
++
++# If the TERM environment variable is set to dumb, tput will generate spurrious error messages.
++[ "$TERM" == "dumb" ] && export TERM="vt100"
++
++retry() {
++  local COUNT=1
++  local DELAY=0
++  local RESULT=0
++  while [[ "${COUNT}" -le 10 ]]; do
++    [[ "${RESULT}" -ne 0 ]] && {
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++      echo -e "\n${*} failed... retrying ${COUNT} of 10.\n" >&2
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++    }
++    "${@}" && { RESULT=0 && break; } || RESULT="${?}"
++    COUNT="$((COUNT + 1))"
++
++    # Increase the delay with each iteration.
++    DELAY="$((DELAY + 10))"
++    sleep $DELAY
++  done
++
++  [[ "${COUNT}" -gt 10 ]] && {
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++    echo -e "\nThe command failed 10 times.\n" >&2
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++  }
++
++  return "${RESULT}"
++}
++
++error() {
++        if [ $? -ne 0 ]; then
++                printf "\n\nqemu addons failed to install...\n\n";
++                exit 1
++        fi
++}
++
++
++# Bail if we are not running atop QEMU.
++if [[ `dmidecode -s system-product-name` != "KVM" && `dmidecode -s system-manufacturer` != "QEMU" ]]; then
++    exit 0
++fi
++
++# Install the QEMU using Yum.
++printf "Installing the QEMU Tools.\n"
++
++# To allow for automated installs, we disable interactive configuration steps.
++export DEBIAN_FRONTEND=noninteractive
++export DEBCONF_NONINTERACTIVE_SEEN=true
++
++retry apt-get --assume-yes install qemu-guest-agent; error
++
++# For some reason the VMWare tools are installed on QEMU guest images.
++systemctl disable open-vm-tools.service
++
++# Boosts the available entropy which allows magma to start faster.
++retry apt-get --assume-yes install haveged; error
++
++# Autostart the haveged daemon.
++systemctl enable haveged.service
+diff --git a/scripts/ubuntu2404/vagrant.sh b/scripts/ubuntu2404/vagrant.sh
+new file mode 100644
+index 00000000..d5e4988f
+--- /dev/null
++++ b/scripts/ubuntu2404/vagrant.sh
+@@ -0,0 +1,30 @@
++#!/bin/bash -x
++
++# Create the vagrant user account.
++/usr/sbin/useradd vagrant
++
++# Enable exit/failure on error.
++set -eux
++
++printf "vagrant\nvagrant\n" | passwd vagrant
++cat <<-EOF > /etc/sudoers.d/vagrant
++Defaults:vagrant !fqdn
++Defaults:vagrant !requiretty
++vagrant ALL=(ALL) NOPASSWD: ALL
++EOF
++chmod 0440 /etc/sudoers.d/vagrant
++
++# Create the vagrant user ssh directory.
++mkdir -pm 700 /home/vagrant/.ssh
++
++# Create an authorized keys file and insert the insecure public vagrant key.
++cat <<-EOF > /home/vagrant/.ssh/authorized_keys
++ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
++EOF
++
++# Ensure the permissions are set correct to avoid OpenSSH complaints.
++chmod 0600 /home/vagrant/.ssh/authorized_keys
++chown -R vagrant:vagrant /home/vagrant/.ssh
++
++# Mark the vagrant box build time.
++date --utc > /etc/vagrant_box_build_time
+diff --git a/scripts/ubuntu2404/virtualbox.sh b/scripts/ubuntu2404/virtualbox.sh
+new file mode 100644
+index 00000000..59f486e4
+--- /dev/null
++++ b/scripts/ubuntu2404/virtualbox.sh
+@@ -0,0 +1,81 @@
++#!/bin/bash -x
++
++# If the TERM environment variable is set to dumb, tput will generate spurrious error messages.
++[ "$TERM" == "dumb" ] && export TERM="vt100"
++
++retry() {
++  local COUNT=1
++  local DELAY=0
++  local RESULT=0
++  while [[ "${COUNT}" -le 10 ]]; do
++    [[ "${RESULT}" -ne 0 ]] && {
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++      echo -e "\n${*} failed... retrying ${COUNT} of 10.\n" >&2
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++    }
++    "${@}" && { RESULT=0 && break; } || RESULT="${?}"
++    COUNT="$((COUNT + 1))"
++
++    # Increase the delay with each iteration.
++    DELAY="$((DELAY + 10))"
++    sleep $DELAY
++  done
++
++  [[ "${COUNT}" -gt 10 ]] && {
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++    echo -e "\nThe command failed 10 times.\n" >&2
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++  }
++
++  return "${RESULT}"
++}
++
++error() {
++  if [ $? -ne 0 ]; then
++    printf "\n\nThe VirtualBox install failed...\n\n"
++    exit 1
++  fi
++}
++
++# Bail if we are not running atop VirtualBox.
++if [[ `dmidecode -s system-product-name` != "VirtualBox" ]]; then
++    exit 0
++fi
++
++# Install the Virtual Box Tools from the Linux Guest Additions ISO.
++printf "Installing the Virtual Box Tools.\n"
++
++# To allow for automated installs, we disable interactive configuration steps.
++export DEBIAN_FRONTEND=noninteractive
++export DEBCONF_NONINTERACTIVE_SEEN=true
++
++retry apt-get --assume-yes install virtualbox-guest-utils; error
++
++# Read in the version number.
++export VBOXVERSION=`cat /root/VBoxVersion.txt`
++
++# export DEBIAN_FRONTEND=noninteractive
++# export DEBCONF_NONINTERACTIVE_SEEN=true
++# apt-get --assume-yes install dkms build-essential module-assistant linux-headers-$(uname -r); error
++#
++# # The group vboxsf is needed for shared folder access.
++# getent group vboxsf >/dev/null || groupadd --system vboxsf; error
++# getent passwd vboxadd >/dev/null || useradd --system --gid bin --home-dir /var/run/vboxadd --shell /sbin/nologin vboxadd; error
++#
++# mkdir -p /mnt/virtualbox; error
++# mount -o loop /root/VBoxGuestAdditions.iso /mnt/virtualbox; error
++#
++# # For some reason the vboxsf module fails the first time, but installs
++# # successfully if we run the installer a second time.
++# sh /mnt/virtualbox/VBoxLinuxAdditions.run --nox11 || sh /mnt/virtualbox/VBoxLinuxAdditions.run --nox11; error
++# ln -s /opt/VBoxGuestAdditions-$VBOXVERSION/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions; error
++#
++# umount /mnt/virtualbox; error
++rm -rf /root/VBoxVersion.txt; error
++rm -rf /root/VBoxGuestAdditions.iso; error
++
++# Boosts the available entropy which allows magma to start faster.
++retry apt-get --assume-yes install haveged; error
++
++# Autostart the haveged daemon.
++systemctl enable haveged.service
+diff --git a/scripts/ubuntu2404/vmware.sh b/scripts/ubuntu2404/vmware.sh
+new file mode 100644
+index 00000000..dcfc9d45
+--- /dev/null
++++ b/scripts/ubuntu2404/vmware.sh
+@@ -0,0 +1,76 @@
++#!/bin/bash -x
++
++# If the TERM environment variable is set to dumb, tput will generate spurrious error messages.
++[ "$TERM" == "dumb" ] && export TERM="vt100"
++
++retry() {
++  local COUNT=1
++  local DELAY=0
++  local RESULT=0
++  while [[ "${COUNT}" -le 10 ]]; do
++    [[ "${RESULT}" -ne 0 ]] && {
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++      echo -e "\n${*} failed... retrying ${COUNT} of 10.\n" >&2
++      [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++    }
++    "${@}" && { RESULT=0 && break; } || RESULT="${?}"
++    COUNT="$((COUNT + 1))"
++
++    # Increase the delay with each iteration.
++    DELAY="$((DELAY + 10))"
++    sleep $DELAY
++  done
++
++  [[ "${COUNT}" -gt 10 ]] && {
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput setaf 1
++    echo -e "\nThe command failed 10 times.\n" >&2
++    [ "`which tput 2> /dev/null`" != "" ] && [ -n "$TERM" ] && tput sgr0
++  }
++
++  return "${RESULT}"
++}
++
++error() {
++        if [ $? -ne 0 ]; then
++                printf "\n\nvmware install failed...\n\n";
++                exit 1
++        fi
++}
++
++
++# Bail if we are not running inside VMWare.
++if [[ `dmidecode -s system-product-name` != "VMware Virtual Platform" ]]; then
++    exit 0
++fi
++
++# Install the VMWare Tools from the Linux ISO.
++printf "Installing the VMWare Tools.\n"
++
++# To allow for automated installs, we disable interactive configuration steps.
++export DEBIAN_FRONTEND=noninteractive
++export DEBCONF_NONINTERACTIVE_SEEN=true
++
++retry apt-get --assume-yes install open-vm-tools ethtool libdumbnet1 zerofree
++systemctl enable open-vm-tools.service
++systemctl start open-vm-tools.service
++
++#mkdir -p /mnt/vmware; error
++#mount -o loop /root/linux.iso /mnt/vmware; error
++
++#cd /tmp; error
++#tar xzf /mnt/vmware/VMwareTools-*.tar.gz; error
++
++#umount /mnt/vmware; error
++rm -rf /root/linux.iso; error
++
++#/tmp/vmware-tools-distrib/vmware-install.pl -d; error
++#rm -rf /tmp/vmware-tools-distrib; error
++
++# Boosts the available entropy which allows magma to start faster.
++retry apt-get --assume-yes install haveged; error
++
++# Autostart the haveged daemon.
++systemctl enable haveged.service
++
++# Fix the SSH NAT issue on VMWare systems.
++printf "\nIPQoS lowdelay throughput\n" >> /etc/ssh/sshd_config
+diff --git a/tpl/generic-ubuntu2404.rb b/tpl/generic-ubuntu2404.rb
+new file mode 100644
+index 00000000..cc63a936
+--- /dev/null
++++ b/tpl/generic-ubuntu2404.rb
+@@ -0,0 +1,63 @@
++# -*- mode: ruby -*-
++# vi: set ft=ruby :
++
++Vagrant.configure(2) do |config|
++
++  config.vm.boot_timeout = 1800
++  # config.vm.box = "generic/bazinga"
++  # config.vm.hostname = "bazinga.box"
++  config.vm.synced_folder ".", "/vagrant", disabled: true
++
++  config.vm.box_check_update = true
++
++  # config.vm.post_up_message = ""
++  config.vm.boot_timeout = 1800
++  # config.vm.box_download_checksum = true
++  config.vm.boot_timeout = 1800
++  # config.vm.box_download_checksum_type = "sha256"
++
++  # config.vm.provision "shell", run: "always", inline: <<-SHELL
++  # SHELL
++
++  # Adding a second CPU and increasing the RAM to 2048MB will speed
++  # things up considerably should you decide to do anythinc with this box.
++  config.vm.provider :hyperv do |v, override|
++    v.maxmemory = 2048
++    v.memory = 2048
++    v.cpus = 2
++  end
++
++  config.vm.provider :libvirt do |v, override|
++    v.disk_bus = "virtio"
++    v.driver = "kvm"
++    v.video_vram = 256
++    v.memory = 2048
++    v.cpus = 2
++    v.graphics_type = "none"
++  end
++
++  config.vm.provider :parallels do |v, override|
++    v.customize ["set", :id, "--on-window-close", "keep-running"]
++    v.customize ["set", :id, "--startup-view", "headless"]
++    v.customize ["set", :id, "--memsize", "2048"]
++    v.customize ["set", :id, "--cpus", "2"]
++  end
++
++  config.vm.provider :virtualbox do |v, override|
++    v.customize ["modifyvm", :id, "--memory", 2048]
++    v.customize ["modifyvm", :id, "--vram", 256]
++    v.customize ["modifyvm", :id, "--cpus", 2]
++    v.gui = false
++  end
++
++  ["vmware_fusion", "vmware_workstation", "vmware_desktop"].each do |provider|
++    config.vm.provider provider do |v, override|
++      v.whitelist_verified = true
++      v.gui = false
++      v.vmx["cpuid.coresPerSocket"] = "1"
++      v.vmx["memsize"] = "2048"
++      v.vmx["numvcpus"] = "2"
++    end
++  end
++
++end
+diff --git a/tpl/roboxes-ubuntu2404.rb b/tpl/roboxes-ubuntu2404.rb
+new file mode 100644
+index 00000000..496ce95f
+--- /dev/null
++++ b/tpl/roboxes-ubuntu2404.rb
+@@ -0,0 +1,62 @@
++# -*- mode: ruby -*-
++# vi: set ft=ruby :
++
++Vagrant.configure(2) do |config|
++
++  config.vm.boot_timeout = 1800
++  # config.vm.box = "roboxes/bazinga"
++  # config.vm.hostname = "bazinga.roboxes"
++  config.vm.synced_folder ".", "/vagrant", disabled: true
++
++  config.vm.box_check_update = true
++
++  # config.vm.post_up_message = ""
++  config.vm.boot_timeout = 1800
++  # config.vm.box_download_checksum = true
++  config.vm.boot_timeout = 1800
++  # config.vm.box_download_checksum_type = "sha256"
++
++  # config.vm.provision "shell", run: "always", inline: <<-SHELL
++  # SHELL
++
++  # Adding a second CPU and increasing the RAM to 2048MB will speed
++  # things up considerably should you decide to do anythinc with this box.
++  config.vm.provider :hyperv do |v, override|
++    v.maxmemory = 2048
++    v.memory = 2048
++    v.cpus = 2
++  end
++
++  config.vm.provider :libvirt do |v, override|
++    v.disk_bus = "virtio"
++    v.driver = "kvm"
++    v.video_vram = 256
++    v.memory = 2048
++    v.cpus = 2
++  end
++
++  config.vm.provider :parallels do |v, override|
++    v.customize ["set", :id, "--on-window-close", "keep-running"]
++    v.customize ["set", :id, "--startup-view", "headless"]
++    v.customize ["set", :id, "--memsize", "2048"]
++    v.customize ["set", :id, "--cpus", "2"]
++  end
++
++  config.vm.provider :virtualbox do |v, override|
++    v.customize ["modifyvm", :id, "--memory", 2048]
++    v.customize ["modifyvm", :id, "--vram", 256]
++    v.customize ["modifyvm", :id, "--cpus", 2]
++    v.gui = false
++  end
++
++  ["vmware_fusion", "vmware_workstation", "vmware_desktop"].each do |provider|
++    config.vm.provider provider do |v, override|
++      v.whitelist_verified = true
++      v.gui = false
++      v.vmx["cpuid.coresPerSocket"] = "1"
++      v.vmx["memsize"] = "2048"
++      v.vmx["numvcpus"] = "2"
++    end
++  end
++
++end

@@ -63,7 +63,7 @@ addFilter()
 {
     ip=$1
     domain=$2
-    if sudo nft list ruleset 2>/dev/null | grep "ip saddr $ip " | grep -q "$domain"; then
+    if sudo nft list ruleset 2>/dev/null | grep "ip saddr $ip " | grep -q "\"$domain\""; then
         return
     fi
     hex=`hexDomain $domain`
