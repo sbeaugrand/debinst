@@ -1,0 +1,72 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 961e55a..67b3eb2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,6 +11,10 @@ HunterGate(
+ )
+ 
+ project(libjson-rpc-cpp)
++if(XC)
++    include(../../../makefiles/include.cmake)
++    add_compile_options(-Wno-psabi)
++endif()
+ 
+ # list command no longer ignores empty elements
+ cmake_policy(SET CMP0007 NEW)
+@@ -18,7 +22,7 @@ cmake_policy(SET CMP0012 NEW)
+ 
+ if (${CMAKE_MAJOR_VERSION} GREATER 2)
+     # old policy do not use MACOSX_RPATH
+-    cmake_policy(SET CMP0042 OLD)
++    #cmake_policy(SET CMP0042 OLD)
+ endif()
+ 
+ set(MAJOR_VERSION 1)
+diff --git a/cmake/CMakeDependencies.cmake b/cmake/CMakeDependencies.cmake
+index d355a09..c94ed1a 100644
+--- a/cmake/CMakeDependencies.cmake
++++ b/cmake/CMakeDependencies.cmake
+@@ -38,5 +38,5 @@ if (${REDIS_SERVER} OR ${REDIS_CLIENT})
+     message(STATUS "Hiredis lib   : ${HIREDIS_LIBRARIES}")
+ endif()
+ 
+-find_package(Threads REQUIRED)
+-find_package(Doxygen)
+\ No newline at end of file
++#find_package(Threads REQUIRED)
++find_package(Doxygen)
+diff --git a/cmake/FindArgtable.cmake b/cmake/FindArgtable.cmake
+index 9728dbd..78e83bb 100644
+--- a/cmake/FindArgtable.cmake
++++ b/cmake/FindArgtable.cmake
+@@ -35,6 +35,6 @@ endif()
+ # handle the QUIETLY and REQUIRED arguments and set JSONCPP_FOUND to TRUE
+ # if all listed variables are TRUE, hide their existence from configuration view
+ include(FindPackageHandleStandardArgs)
+-find_package_handle_standard_args(argtable DEFAULT_MSG ARGTABLE_INCLUDE_DIR ARGTABLE_LIBRARY)
++find_package_handle_standard_args(Argtable DEFAULT_MSG ARGTABLE_INCLUDE_DIR ARGTABLE_LIBRARY)
+ mark_as_advanced (ARGTABLE_INCLUDE_DIR ARGTABLE_LIBRARY)
+ 
+diff --git a/cmake/FindJsoncpp.cmake b/cmake/FindJsoncpp.cmake
+index 7b2bf1b..bace9e4 100644
+--- a/cmake/FindJsoncpp.cmake
++++ b/cmake/FindJsoncpp.cmake
+@@ -69,5 +69,5 @@ endif()
+ # handle the QUIETLY and REQUIRED arguments and set JSONCPP_FOUND to TRUE
+ # if all listed variables are TRUE, hide their existence from configuration view
+ include(FindPackageHandleStandardArgs)
+-find_package_handle_standard_args(jsoncpp DEFAULT_MSG JSONCPP_INCLUDE_DIR JSONCPP_LIBRARY)
++find_package_handle_standard_args(Jsoncpp DEFAULT_MSG JSONCPP_INCLUDE_DIR JSONCPP_LIBRARY)
+ mark_as_advanced (JSONCPP_INCLUDE_DIR JSONCPP_LIBRARY)
+diff --git a/cmake/FindMHD.cmake b/cmake/FindMHD.cmake
+index 23e31c4..9ad6c9f 100755
+--- a/cmake/FindMHD.cmake
++++ b/cmake/FindMHD.cmake
+@@ -34,6 +34,6 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+ endif()
+ 
+ include(FindPackageHandleStandardArgs)
+-find_package_handle_standard_args(mhd DEFAULT_MSG MHD_INCLUDE_DIR MHD_LIBRARY)
++find_package_handle_standard_args(MHD DEFAULT_MSG MHD_INCLUDE_DIR MHD_LIBRARY)
+ mark_as_advanced(MHD_INCLUDE_DIR MHD_LIBRARY)
+ 

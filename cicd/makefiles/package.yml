@@ -31,7 +31,7 @@ variables:
   BUILD: Debug
   CMAKE: cmake .. -DCMAKE_BUILD_TYPE=$BUILD
   PROJECT: example
-  VERSION: 1.0
+  VERSION: 1.0.0
   STRIP: strip
   RSYNC: >
          rsync --checksum --delete -a -i

@@ -14,6 +14,7 @@ if(XC)
     set(CMAKE_C_COMPILER ${XC}-gcc)
     set(CMAKE_CXX_COMPILER ${XC}-g++)
     set(CMAKE_SYSROOT ${XCDIR}/${XC}-${XCVER})
+    set(CMAKE_PREFIX_PATH ${CMAKE_SYSROOT}/usr/lib/${XC})
     message("CMAKE_SYSROOT=${CMAKE_SYSROOT}")
     add_compile_options(
         # Try it or comment it
@@ -37,28 +38,6 @@ if(XC)
         ${CMAKE_SYSROOT}/usr/lib/gcc/${XC}/${XCVER}
         ${CMAKE_SYSROOT}/usr/lib/${XC}
     )
-    if(USE_QT)
-        if (NOT TARGET Qt5::qmake)
-            add_executable(Qt5::qmake IMPORTED)
-            set_target_properties(Qt5::qmake PROPERTIES
-                IMPORTED_LOCATION /usr/lib/qt5/bin/qmake
-            )
-        endif()
-        if (NOT TARGET Qt5::moc)
-            add_executable(Qt5::moc IMPORTED)
-            set_target_properties(Qt5::moc PROPERTIES
-                IMPORTED_LOCATION /usr/lib/qt5/bin/moc
-            )
-            # For CMake automoc feature
-            get_target_property(QT_MOC_EXECUTABLE Qt5::moc LOCATION)
-        endif()
-        if (NOT TARGET Qt5::rcc)
-            add_executable(Qt5::rcc IMPORTED)
-            set_target_properties(Qt5::rcc PROPERTIES
-                IMPORTED_LOCATION /usr/lib/qt5/bin/rcc
-            )
-        endif()
-    endif()
 endif()
 
 include(CheckCXXCompilerFlag)
@@ -74,9 +53,3 @@ endif()
 add_compile_options(
     "-Wall" "-Wextra" "-O1" "-D_FORTIFY_SOURCE=2" "-Wfatal-errors"
 )
-
-if(USE_QT)
-    set(CMAKE_AUTOMOC ON)
-    set(CMAKE_AUTORCC ON)
-    set(CMAKE_AUTOUIC ON)
-endif()

@@ -8,8 +8,8 @@ set(PROJECT project-six)
 
 cmake_minimum_required(VERSION 3.18)
 project(${PROJECT})
-set(USE_QT true)
 include(../makefiles/include.cmake)
+include(../makefiles/qt.cmake)
 
 if(XC)
     find_package(Qt5 REQUIRED COMPONENTS WebSockets

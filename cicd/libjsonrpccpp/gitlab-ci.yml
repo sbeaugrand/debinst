@@ -4,12 +4,19 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+stages:
+  - build
+  - package
+  - xbuild
+  - xpackage
 variables:
   PROJECT: libjsonrpccpp
   VERSION: 1.4.1
   URL: https://github.com/cinemast/libjson-rpc-cpp
-include:
-  - local: /../makefiles/package.yml
+  CMAKE: cmake libjson-rpc-cpp
+  BDIR: build
+  XCVER: 12
+  XCDIR: /data
 build:
   stage: build
   script:
@@ -25,11 +32,14 @@ build:
     - >
       test -d /usr/share/doc/libmicrohttpd-dev ||
       sudo apt install libmicrohttpd-dev
-    - mkdir -p build
-    - cd build
+    - mkdir -p $BDIR
+    - cd $BDIR
     - test -d libjson-rpc-cpp || git clone $URL
+    - cd libjson-rpc-cpp
+    - grep -q XC CMakeLists.txt || git apply ../../libjson-rpc-cpp.patch
+    - cd ..
     - >
-      cmake libjson-rpc-cpp
+      $CMAKE
       -DCOMPILE_TESTS=NO
       -DCOMPILE_EXAMPLES=NO
       -DREDIS_SERVER=NO
@@ -42,8 +52,8 @@ package:
   script:
     - export DEBEMAIL=`git config --global --get user.email`
     - export DEBFULLNAME=`git config --global --get user.name`
-    - mkdir -p build/$PROJECT-$VERSION/data
-    - cd build/$PROJECT-$VERSION
+    - mkdir -p $BDIR/$PROJECT-$VERSION/data
+    - cd $BDIR/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
     - test ! -d ../../debian || cp -a ../../debian/* debian/
     - |
@@ -56,9 +66,41 @@ package:
     - cp -a ../libjson-rpc-cpp/src/jsonrpccpp data/
     - find data -type f -not -name "*.h" -exec rm {} \;
     - cp -a ../gen/jsonrpccpp/common/jsonparser.h data/jsonrpccpp/common/
-    - find .. -name "*.so.$VERSION" -exec cp -a {} data/ \;
-    - find .. -name "*.pc" -exec cp -a {} data/ \;
-    - find .. -name "libjson-rpc-cpp*.cmake" -exec cp -a {} data/ \;
-    - find .. -name "jsonrpcstub.1" -exec cp -a {} data/ \;
-    - find .. -name "jsonrpcstub" -exec cp -a {} data/ \;
-    - SOURCE_DATE_EPOCH=`date +%s` dpkg-buildpackage --no-sign
+    - >
+      find .. -name data -prune -false -o
+      -name "*.so.$VERSION" -exec cp -a {} data/ \;
+    - >
+      find .. -name data -prune -false -o
+      -name "*.pc" -exec cp -a {} data/ \;
+    - >
+      find .. -name data -prune -false -o
+      -name "libjson-rpc-cpp*.cmake" -exec cp -a {} data/ \;
+    - >
+      find .. -name data -prune -false -o
+      -name "jsonrpcstub.1" -exec cp -a {} data/ \;
+    - >
+      find .. -name data -prune -false -o
+      -name "jsonrpcstub" -exec cp -a {} data/ \;
+    - SOURCE_DATE_EPOCH=`date +%s` dpkg-buildpackage --no-sign $OPTS
+xbuild:
+  stage: xbuild
+  extends: build
+  variables:
+    XC: aarch64-linux-gnu
+  before_script:
+    - BDIR=build-$XC
+    - CMAKE="$CMAKE -DXC=$XC -DXCVER=$XCVER -DXCDIR=$XCDIR"
+xpackage:
+  stage: xpackage
+  extends: package
+  variables:
+    XC: aarch64-linux-gnu
+  before_script:
+    - BDIR=build-$XC
+    - CONFIG_SITE=/etc/dpkg-cross/cross-config.arm64
+    - test "$XC" != "aarch64-linux-gnu" || OPTS="-aarm64"
+    - test "$XC" != "arm-linux-gnueabihf" || OPTS="-aarmhf"
+    - export DEB_BUILD_OPTIONS=nocheck
+    - export XC=$XC
+    - export XCVER=$XCVER
+    - export XCDIR=$XCDIR
