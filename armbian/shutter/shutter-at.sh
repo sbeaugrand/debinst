@@ -77,7 +77,7 @@ vacation()
         nearVacation 01 01 || \
         nearVacation $D $M || \
         nearVacation $AD $AM || \
-        nearVacation $(AD+1) $AM || \
+        nearVacation $((AD+1)) $AM || \
         nearVacation $PD $PM || \
         nearVacation 01 05 || \
         nearVacation 08 05 || \

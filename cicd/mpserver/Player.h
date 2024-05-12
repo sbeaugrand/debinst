@@ -13,7 +13,7 @@ public:
     const int32_t STATE_UNKNOWN = 0;
     const int32_t STATE_PLAY = 2;
     const int32_t STATE_PAUSE = 3;
-    Player() {}
+    explicit Player(const std::string& path);
     ~Player();
     int init();
     Json::Value currentTitle();
@@ -24,7 +24,7 @@ public:
     void startRel(int pos);
     void pause();
     void stop();
-    void m3u(const char* m3u);
+    void m3u(std::string_view album);
 private:
     int isError(const char* func);
     struct mpd_status* getMPDStatus();
@@ -33,5 +33,6 @@ private:
     void startId(int pos);
     void quit();
 
+    std::string mPath;
     struct mpd_connection* mConn = nullptr;
 };

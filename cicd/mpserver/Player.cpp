@@ -9,6 +9,14 @@
 #include "log.h"
 
 /******************************************************************************!
+ * \fn Player
+ ******************************************************************************/
+Player::Player(const std::string& path)
+    : mPath(path)
+{
+}
+
+/******************************************************************************!
  * \fn ~Player
  ******************************************************************************/
 Player::~Player()
@@ -141,7 +149,7 @@ Player::getPosition()
 
     res = mpd_status_get_song_pos(status);
     mpd_status_free(status);
-    DEBUG("pos = " << res);
+    DEBUG("pos " << res);
 
     return res;
 }
@@ -155,7 +163,6 @@ Player::titleList()
     Json::Value r;
     int32_t playtime;
     int pos;
-    unsigned int duration;
     struct mpd_song* song = NULL;
     int count = 0;
     int length;
@@ -167,10 +174,10 @@ Player::titleList()
     }
 
     pos = mpd_status_get_song_pos(status);
-    DEBUG("pos = " << pos);
+    DEBUG("pos " << pos);
     r["pos"] = pos;
     length = mpd_status_get_queue_length(status);
-    DEBUG("length = " << length);
+    DEBUG("length " << length);
     mpd_status_free(status);
 
     r["song"] = {};
@@ -186,7 +193,7 @@ Player::titleList()
         if (song == NULL) {
             return r;
         }
-        DEBUG("id = " << mpd_song_get_id(song));
+        DEBUG("id " << mpd_song_get_id(song));
 
         tag = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
         if (tag != NULL) {
@@ -196,7 +203,7 @@ Player::titleList()
         if (tag != NULL) {
             s["title"] = tag;
         }
-        duration = mpd_song_get_duration_ms(song);
+        unsigned int duration = mpd_song_get_duration_ms(song);
         duration /= 1000;
         s["duration"] = duration;
         if (count == pos) {
@@ -361,7 +368,7 @@ Player::resume(int milliseconds)
  * \fn m3u
  ******************************************************************************/
 void
-Player::m3u(const char* m3u)
+Player::m3u(std::string_view album)
 {
     bool res;
 
@@ -374,8 +381,9 @@ Player::m3u(const char* m3u)
         ERROR("mpd_run_clear");
     }
 
-    DEBUG("m3u = " << m3u);
-    res = mpd_run_load(mConn, m3u);
+    std::string m3u = mPath + '/' + album.data();
+    DEBUG(m3u);
+    res = mpd_run_load(mConn, m3u.c_str());
     if (this->isError(__FUNCTION__)) {
     }
     if (! res) {

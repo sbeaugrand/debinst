@@ -35,4 +35,5 @@ public:
     List& mList;
     Player& mPlayer;
     std::string mSelect;
+    std::chrono::time_point<std::chrono::steady_clock> mSelectTime;
 };

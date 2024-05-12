@@ -4,6 +4,7 @@
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
+#include <chrono>
 #include <iostream>
 #include "Server.h"
 #include "List.h"
@@ -51,7 +52,8 @@ Json::Value
 Server::rand()
 {
     DEBUG("");
-    mSelect = std::string("file:///data/mp3/") + mList.rand();
+    mSelect = mList.rand();
+    mSelectTime = std::chrono::steady_clock::now();
     Json::Value result;
     result["album"] = mSelect;
     return result;
@@ -65,9 +67,15 @@ Server::ok()
 {
     DEBUG("");
     if (! mSelect.empty()) {
-        mPlayer.m3u(mSelect.c_str());
+        const auto now = std::chrono::steady_clock::now();
+        const std::chrono::duration<double> diff = now - mSelectTime;
+        if (diff.count() < 20) {
+            mPlayer.m3u(mSelect);
+            mList.writeLog(mSelect);
+            return mPlayer.currentTitle();
+        }
     }
-    return mPlayer.currentTitle();
+    return this->pause();
 }
 
 /******************************************************************************!

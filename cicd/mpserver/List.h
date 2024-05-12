@@ -19,10 +19,11 @@ public:
         int size;
         std::list<std::string> list;
     };
-    List(const std::string& path);
+    explicit List(const std::string& path);
     std::string rand() const;
     int readResumeTime() const;
     void writeResumeTime(int ms) const;
+    void writeLog(std::string_view album) const;
 private:
     void push(const std::string& path);
 

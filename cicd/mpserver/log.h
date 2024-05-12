@@ -9,12 +9,13 @@
 # include <iostream>
 #endif
 
-consteval std::string_view method_name(const char* s)
+consteval std::string_view
+method_name(const char* s)
 {
     std::string_view prettyFunction(s);
     size_t bracket = prettyFunction.rfind("(");
     size_t space = prettyFunction.rfind(" ", bracket) + 1;
-    return prettyFunction.substr(space, bracket-space);
+    return prettyFunction.substr(space, bracket - space);
 }
 #define __METHOD__ method_name(__PRETTY_FUNCTION__)
 

@@ -23,7 +23,7 @@ main(int argc, char** argv)
     }
     std::string path(argv[1]);
     List list(path);
-    Player player;
+    Player player(path);
     if (int ms = list.readResumeTime(); ms > 0) {
         player.resume(ms);
     }
