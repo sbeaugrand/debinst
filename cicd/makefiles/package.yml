@@ -71,11 +71,11 @@ package:
     - export DEBEMAIL=$DEBEMAIL
     - export DEBFULLNAME=$DEBFULLNAME
     - >
-      test -n "$DEBFULLNAME" ||
-      export DEBFULLNAME=`git config --global --get user.name`
-    - >
       test -n "$DEBEMAIL" ||
       export DEBEMAIL=`git config --global --get user.email`
+    - >
+      test -n "$DEBFULLNAME" ||
+      export DEBFULLNAME=`git config --global --get user.name`
     - mkdir -p $BDIR/$PROJECT-$VERSION/data
     - cd $BDIR/$PROJECT-$VERSION
     - dh_make --native --single --yes || true

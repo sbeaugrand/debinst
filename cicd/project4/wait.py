@@ -8,7 +8,7 @@
 import sys
 import json
 import requests
-from time import *
+from time import sleep
 
 
 def wait(expression="r['state'] == 'ready'"):

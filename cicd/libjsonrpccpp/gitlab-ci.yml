@@ -50,15 +50,21 @@ build:
 package:
   stage: package
   script:
-    - export DEBEMAIL=`git config --global --get user.email`
-    - export DEBFULLNAME=`git config --global --get user.name`
+    - export DEBEMAIL=$DEBEMAIL
+    - export DEBFULLNAME=$DEBFULLNAME
+    - >
+      test -n "$DEBEMAIL" ||
+      export DEBEMAIL=`git config --global --get user.email`
+    - >
+      test -n "$DEBFULLNAME" ||
+      export DEBFULLNAME=`git config --global --get user.name`
     - mkdir -p $BDIR/$PROJECT-$VERSION/data
     - cd $BDIR/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
     - test ! -d ../../debian || cp -a ../../debian/* debian/
     - |
       sed -i '/^Description: /,${d}' debian/control
-    - cat debian/description >>debian/control
+    - cat debian/control.in >>debian/control
     - |
       sed -i 's/Section: .*/Section: libdevel/' debian/control
     - |
