@@ -103,9 +103,10 @@ xpackage:
     XC: aarch64-linux-gnu
   before_script:
     - BDIR=build-$XC
-    - CONFIG_SITE=/etc/dpkg-cross/cross-config.arm64
-    - test "$XC" != "aarch64-linux-gnu" || OPTS="-aarm64"
-    - test "$XC" != "arm-linux-gnueabihf" || OPTS="-aarmhf"
+    - test "$XC" != "aarch64-linux-gnu" || ARCH=arm64
+    - test "$XC" != "arm-linux-gnueabihf" || ARCH=armhf
+    - CONFIG_SITE=/etc/dpkg-cross/cross-config.$ARCH
+    - OPTS=-a$ARCH
     - export DEB_BUILD_OPTIONS=nocheck
     - export XC=$XC
     - export XCVER=$XCVER

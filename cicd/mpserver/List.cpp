@@ -72,6 +72,7 @@ List::List(const std::string& path)
             mWeightSum += 1;
         }
     }
+    this->readLog();
 }
 
 /******************************************************************************!
@@ -93,7 +94,7 @@ List::rand() const
             r = std::rand() / ((RAND_MAX / it.size) + 1);
             for (auto al : it.list) {
                 if (r == 0) {
-                    return it.name + '/' + al;
+                    return it.name + '/' + al.substr(11);
                 }
                 --r;
             }
@@ -168,7 +169,7 @@ List::push(const std::string& path)
 {
     auto pos = path.find('/');
     auto search = path.substr(0, pos);
-    auto album = path.substr(pos + 1);
+    auto album = std::string("           ") + path.substr(pos + 1);
     if (auto it = std::find_if(std::begin(mList), std::end(mList),
                                [&search](const Part& part) {
         return part.name == search;
@@ -179,4 +180,39 @@ List::push(const std::string& path)
         return;
     }
     mList.push_back(Part{ search, 1, 1, { album } });
+}
+
+/******************************************************************************!
+ * \fn readLog
+ ******************************************************************************/
+void
+List::readLog()
+{
+    if (! std::filesystem::exists(mPath + "/mps.log")) {
+        return;
+    }
+    std::ifstream file(mPath + "/mps.log");
+    std::string line;
+    while (file) {
+        std::getline(file, line);
+        if (line.empty()) {
+            continue;
+        }
+        auto date = line.substr(0, 11);
+        auto path = line.substr(20);
+        auto pos = path.find('/');
+        auto search = path.substr(0, pos);
+        auto album = path.substr(pos + 1);
+        if (auto it = std::find_if(std::begin(mList), std::end(mList),
+                                   [&search](const Part& part) {
+            return part.name == search;
+        });
+            it != std::end(mList)) {
+            for (auto& al : it->list) {
+                if (al.substr(11) == album) {
+                    al = date + al.substr(11);
+                }
+            }
+        }
+    }
 }

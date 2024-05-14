@@ -1,5 +1,3 @@
-Conflicts: libjsonrpccpp-dev, libjsonrpccpp-common0, libjsonrpccpp-client0, libjsonrpccpp-server0, libjsonrpccpp-stub0, libjsonrpccpp-tools
-Replaces: libjsonrpccpp-dev, libjsonrpccpp-common0, libjsonrpccpp-client0, libjsonrpccpp-server0, libjsonrpccpp-stub0, libjsonrpccpp-tools
 Description: development files for JSON-RPC C++ framework
  This package provides all required developer resources like header-files
  and statically linked libraries of the libjson-rpc-cpp framework.
@@ -13,3 +11,5 @@ Description: development files for JSON-RPC C++ framework
   * JSON-RPC Notification invocation
   * Simple Interface for implementing additional Server-Connectors beside HTTP
   * Positional and named parameters
+Conflicts: libjsonrpccpp-dev, libjsonrpccpp-common0, libjsonrpccpp-client0, libjsonrpccpp-server0, libjsonrpccpp-stub0, libjsonrpccpp-tools
+Replaces: libjsonrpccpp-dev, libjsonrpccpp-common0, libjsonrpccpp-client0, libjsonrpccpp-server0, libjsonrpccpp-stub0, libjsonrpccpp-tools

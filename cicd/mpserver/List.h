@@ -26,6 +26,7 @@ public:
     void writeLog(std::string_view album) const;
 private:
     void push(const std::string& path);
+    void readLog();
 
     std::string mPath;
     std::list<Part> mList;
