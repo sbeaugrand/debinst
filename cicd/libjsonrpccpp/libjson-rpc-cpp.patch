@@ -1,18 +1,18 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 961e55a..67b3eb2 100644
+index 961e55a..e8b70c2 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -11,6 +11,10 @@ HunterGate(
+@@ -10,6 +10,10 @@ HunterGate(
+ 	SHA1 "f0c476a3a0f9edd6182936d8c4460811f112189c"
  )
  
- project(libjson-rpc-cpp)
 +if(XC)
-+    include(../../../makefiles/include.cmake)
++    include(../../../makefiles/xc.cmake)
 +    add_compile_options(-Wno-psabi)
 +endif()
+ project(libjson-rpc-cpp)
  
  # list command no longer ignores empty elements
- cmake_policy(SET CMP0007 NEW)
 @@ -18,7 +22,7 @@ cmake_policy(SET CMP0012 NEW)
  
  if (${CMAKE_MAJOR_VERSION} GREATER 2)

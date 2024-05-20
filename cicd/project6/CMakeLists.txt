@@ -7,6 +7,7 @@
 set(PROJECT project-six)
 
 cmake_minimum_required(VERSION 3.18)
+include(../makefiles/xc.cmake)
 project(${PROJECT})
 include(../makefiles/include.cmake)
 include(../makefiles/qt.cmake)

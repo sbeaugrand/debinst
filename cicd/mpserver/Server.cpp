@@ -72,8 +72,10 @@ Server::ok()
         if (diff.count() < 20) {
             mPlayer.m3u(mSelect);
             mList.writeLog(mSelect);
+            mSelect.clear();
             return mPlayer.currentTitle();
         }
+        mSelect.clear();
     }
     return this->pause();
 }

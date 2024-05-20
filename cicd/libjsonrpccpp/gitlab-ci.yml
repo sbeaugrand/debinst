@@ -111,3 +111,4 @@ xpackage:
     - export XC=$XC
     - export XCVER=$XCVER
     - export XCDIR=$XCDIR
+    - export CC=$XC

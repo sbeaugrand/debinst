@@ -410,9 +410,7 @@ Player::currentTitle()
 
     // Status
     status = this->getStatus();
-    if (status == STATE_PAUSE) {
-        r["pause"] = true;
-    }
+    r["pause"] = (status == STATE_PAUSE);
 
     // Position
     pos = this->getPosition();

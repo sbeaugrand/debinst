@@ -10,8 +10,13 @@ BUILD ?= Debug
 all clean: build/Makefile
 	@cd build && make --no-print-directory -j`nproc` $@
 
-build/Makefile:
-	@mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=$(BUILD)
+.PHONY: xc
+xc: build-$(XC)/Makefile
+	@cd build-$(XC) && make --no-print-directory -j`nproc`
+
+%/Makefile:
+	@mkdir -p `dirname $@` &&\
+	 cd `dirname $@` && cmake .. -DCMAKE_BUILD_TYPE=$(BUILD)
 
 .PHONY: cppcheck
 cppcheck:
