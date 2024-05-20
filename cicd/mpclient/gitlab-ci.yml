@@ -1,0 +1,11 @@
+# ---------------------------------------------------------------------------- #
+## \file gitlab-ci.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+variables:
+  PROJECT: mpclient
+  lserver: http://localhost:8383
+include:
+  - local: /../makefiles/package.yml
