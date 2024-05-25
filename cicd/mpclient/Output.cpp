@@ -18,10 +18,6 @@ const unsigned int LCD_ROWS = upm::SSD1306_LCDHEIGHT >> 3;
 const unsigned int LCD_ROWS = 8;
 #endif
 
-char gOutputBuff[LCD_COLS + 1] = {
-    0
-};
-
 /******************************************************************************!
  * \fn Output
  ******************************************************************************/
@@ -62,20 +58,24 @@ Output::open()
         return;
     }
     mOled->clear();
+#   if defined(__arm__) || defined(__aarch64__)
     // SH1106 workarround
     for (unsigned int i = 0; i < LCD_ROWS; ++i) {
         mOled->setCursor(i, LCD_COLS - 2);
         mOled->write("  ");
     }
     mOled->dim(true);
-    gOutputBuff[LCD_COLS] = '\0';
+#   endif
 }
 
 /******************************************************************************!
  * \fn write
  ******************************************************************************/
 void
-Output::write(const char* line1, const char* line2)
+Output::write(std::string_view line1,
+              std::string_view line2,
+              std::string_view line3,
+              std::string_view line4)
 {
     if (mOled == nullptr) {
         return;
@@ -84,10 +84,16 @@ Output::write(const char* line1, const char* line2)
 
     std::string buff;
     buff = std::string(line1).substr(0, LCD_COLS);
-    mOled->setCursor((LCD_ROWS >> 1) - 1, 0);
+    mOled->setCursor(2, 0);
     mOled->write(buff);
     buff = std::string(line2).substr(0, LCD_COLS);
-    mOled->setCursor((LCD_ROWS >> 1) + 1, 0);
+    mOled->setCursor(4, 0);
+    mOled->write(buff);
+    buff = std::string(line3).substr(0, LCD_COLS);
+    mOled->setCursor(6, 0);
+    mOled->write(buff);
+    buff = std::string(line4).substr(0, LCD_COLS);
+    mOled->setCursor(7, 0);
     mOled->write(buff);
     nanoSleep(500000000);
 }

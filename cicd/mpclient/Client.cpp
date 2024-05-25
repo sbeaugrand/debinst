@@ -26,101 +26,128 @@ Client::~Client()
 }
 
 /******************************************************************************!
+ * \fn currentTitle
+ ******************************************************************************/
+void
+Client::currentTitle(const char* method)
+{
+    try {
+        Json::Value params;
+        Json::Value result = mJsonClient.CallMethod(method, params);
+        Json::Value error("error");
+        auto pause = result.get("pause", false).asBool();
+        auto pos = result.get("pos", -1).asInt();
+        auto title = result.get("title", error).asString();
+        auto album = result.get("album", error).asString();
+        auto artist = result.get("artist", error).asString();
+        mOutput.write((pause ? "PAUSE " : "") + artist,
+                      album,
+                      std::to_string(pos),
+                      title);
+    } catch (jsonrpc::JsonRpcException &e) {
+        ERROR(e.what());
+    }
+}
+
+/******************************************************************************!
  * \fn onEvent
  ******************************************************************************/
 State
-Client::onEvent(state::Normal state, const event::Up&)
+Client::onEvent(const state::Normal& state, const event::Up&)
 {
+    this->currentTitle("prev");
     return state;
 }
-
 State
-Client::onEvent(state::Normal state, const event::Down&)
+Client::onEvent(const state::Normal& state, const event::Down&)
 {
+    this->currentTitle("next");
     return state;
 }
-
 State
-Client::onEvent(state::Normal /*state*/, const event::Left&)
+Client::onEvent(const state::Normal&, const event::Left&)
 {
     return state::Album{};
 }
-
 State
-Client::onEvent(state::Normal state, const event::Right&)
+Client::onEvent(const state::Normal& state, const event::Right&)
 {
     // Hour
     return state;
 }
-
 State
-Client::onEvent(state::Normal state, const event::Ok&)
+Client::onEvent(const state::Normal& state, const event::Ok&)
 {
-    try {
-        Json::Value params;
-        Json::Value result = mJsonClient.CallMethod("ok", params);
-        mOutput.write(result["pause"].asBool() ? "PAUSE" : "PLAY", "");
-    } catch (jsonrpc::JsonRpcException &e) {
-        ERROR(e.what());
-    }
+    this->currentTitle("ok");
     return state;
 }
-
 State
-Client::onEvent(state::Normal state, const event::Setup&)
+Client::onEvent(const state::Normal& state, const event::Setup&)
 {
     try {
         Json::Value params;
         Json::Value result = mJsonClient.CallMethod("rand", params);
-        auto path = result["album"].asString();
-        auto pos1 = path.rfind(" - ");
-        auto pos2 = path.rfind('/');
-        auto pos3 = path.rfind(" - ", pos1 - 1);
-        auto pos4 = path.rfind("/", pos3 - 1);
-        auto artist = path.substr(pos4 + 1, pos3 - pos4 - 1);
-        auto album = path.substr(pos1 + 3, pos2 - pos1 - 3);
-        mOutput.write(artist.c_str(), album.c_str());
-    } catch (jsonrpc::JsonRpcException &e) {
+        char dateR[3] = { 0 };
+        if (int d = result["days"].asInt(); d > 0) {
+            int dInit = d;
+            if (d > 9) {
+                d /= 7;
+                if (d > 9) {
+                    d = dInit / 31;
+                    if (d > 9) {
+                        d /= 12;
+                        dateR[1] = 'Y';
+                    } else {
+                        dateR[1] = 'M';
+                    }
+                } else {
+                    dateR[1] = 'W';
+                }
+            } else {
+                dateR[1] = 'D';
+            }
+            dateR[0] = '0' + d;
+        }
+        mOutput.write(result["artist"].asString(),
+                      result["album"].asString(),
+                      result["abrev"].asString(),
+                      dateR);
+    } catch (jsonrpc::JsonRpcException& e) {
         ERROR(e.what());
     }
     return state;
 }
 
 State
-Client::onEvent(state::Album state, const event::Up&)
+Client::onEvent(const state::Album& state, const event::Up&)
 {
     // Todo
     return state;
 }
-
 State
-Client::onEvent(state::Album state, const event::Down&)
+Client::onEvent(const state::Album& state, const event::Down&)
 {
     // Todo
     return state;
 }
-
 State
-Client::onEvent(state::Album /*state*/, const event::Left&)
+Client::onEvent(const state::Album&, const event::Left&)
 {
     // Todo
     return state::Album{};
 }
-
 State
-Client::onEvent(state::Album /*state*/, const event::Right&)
+Client::onEvent(const state::Album&, const event::Right&)
 {
     return state;
 }
-
 State
-Client::onEvent(state::Album  /*state*/, const event::Ok&)
+Client::onEvent(const state::Album&, const event::Ok&)
 {
     return state::Normal{};
 }
-
 State
-Client::onEvent(state::Album state, const event::Setup&)
+Client::onEvent(const state::Album& state, const event::Setup&)
 {
     return state;
 }

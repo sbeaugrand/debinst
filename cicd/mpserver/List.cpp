@@ -17,11 +17,11 @@
 /******************************************************************************!
  * \fn List
  ******************************************************************************/
-List::List(const std::string& path)
+List::List(std::string_view path)
     : mPath(path)
 {
-    if (std::filesystem::exists(path + "/mps.list")) {
-        std::ifstream file(path + "/mps.list");
+    if (std::filesystem::exists(mPath + "/mps.list")) {
+        std::ifstream file(mPath + "/mps.list");
         std::string line;
         while (file) {
             std::getline(file, line);
@@ -30,8 +30,8 @@ List::List(const std::string& path)
             }
         }
     } else {
-        int pathSize = path.size() + 1;
-        std::filesystem::recursive_directory_iterator dir(path);
+        int pathSize = mPath.size() + 1;
+        std::filesystem::recursive_directory_iterator dir(mPath);
         while (dir != std::filesystem::end(dir)) {
             if (dir->path().extension() == ".m3u") {
                 this->push(dir->path().string().substr(pathSize));
@@ -42,7 +42,7 @@ List::List(const std::string& path)
                       const List::Part& b) {
             return a.name < b.name;
         });
-        std::ofstream file(path + "/list");
+        std::ofstream file(mPath + "/list");
         for (auto it : mList) {
             it.list.sort();
             for (auto al : it.list) {
@@ -50,8 +50,8 @@ List::List(const std::string& path)
             }
         }
     }
-    if (std::filesystem::exists(path + "/mps.weights")) {
-        std::ifstream file(path + "/mps.weights");
+    if (std::filesystem::exists(mPath + "/mps.weights")) {
+        std::ifstream file(mPath + "/mps.weights");
         while (file) {
             std::string name;
             std::string weight;
@@ -65,20 +65,53 @@ List::List(const std::string& path)
             }
         }
     } else {
-        std::ofstream file(path + "/mps.weights");
+        std::ofstream file(mPath + "/mps.weights");
         for (auto it : mList) {
             file << it.name << std::endl;
             file << 1 << std::endl;
             mWeightSum += 1;
         }
     }
+    if (std::filesystem::exists(mPath + "/mps.abrev")) {
+        std::ifstream file(mPath + "/mps.abrev");
+        auto it = mList.begin();
+        while (file && it != mList.end()) {
+            file >> it->abrev;
+            ++it;
+        }
+    } else {
+        std::ofstream file(mPath + "/mps.abrev");
+        for (auto it : mList) {
+            file << "XX" << std::endl;
+        }
+    }
     this->readLog();
+}
+
+/******************************************************************************!
+ * \fn timediff
+ ******************************************************************************/
+int
+List::timediff(std::string_view line) const
+{
+    if (line.substr(0, 11) == "           ") {
+        return -86400;
+    }
+    std::tm timeinfo{};
+    std::istringstream ss(line.data());
+    ss >> std::get_time(&timeinfo, "%Y-%m-%d %T ");
+    const std::time_t tt = std::mktime(&timeinfo) + timezone;
+    const auto tp = std::chrono::system_clock::from_time_t(tt);
+    const auto now = std::chrono::system_clock::now();
+    const std::chrono::duration<double> diff = now - tp;
+    DEBUG(diff.count() << " seconds");
+    return diff.count();
 }
 
 /******************************************************************************!
  * \fn rand
  ******************************************************************************/
-std::string
+std::tuple<std::string, std::string, int>
 List::rand() const
 {
     static int r = -1;
@@ -94,13 +127,17 @@ List::rand() const
             r = std::rand() / ((RAND_MAX / it.size) + 1);
             for (auto al : it.list) {
                 if (r == 0) {
-                    return it.name + '/' + al.substr(11);
+                    return {
+                        it.name + '/' + al.substr(11),
+                        it.abrev,
+                        this->timediff(al) / 86400
+                    };
                 }
                 --r;
             }
         }
     }
-    return "error";
+    return { "error", "XX", -1 };
 }
 
 /******************************************************************************!
@@ -138,17 +175,7 @@ List::writeLog(std::string_view album) const
         std::ifstream input(mPath + "/mps.last");
         std::string line;
         std::getline(input, line);
-        //std::chrono::sys_seconds tp;
-        //std::chrono::from_stream(input, "%F %T ", tp);  // c++20
-        std::tm timeinfo{};
-        std::istringstream ss(line);
-        ss >> std::get_time(&timeinfo, "%Y-%m-%d %T ");
-        const std::time_t tt = std::mktime(&timeinfo) + timezone;
-        const auto tp = std::chrono::system_clock::from_time_t(tt);
-        const auto now = std::chrono::system_clock::now();
-        const std::chrono::duration<double> diff = now - tp;
-        DEBUG("last " << diff.count());  // << std::ctime(&tt);
-        if (diff.count() > 300) {
+        if (this->timediff(line) > 300) {
             std::ofstream output{ mPath + "/mps.log", std::ios_base::app };
             output << line << std::endl;
         }
@@ -179,7 +206,7 @@ List::push(const std::string& path)
         ++it->size;
         return;
     }
-    mList.push_back(Part{ search, 1, 1, { album } });
+    mList.push_back(Part{ search, 1, 1, { album }, "XX" });
 }
 
 /******************************************************************************!

@@ -16,6 +16,7 @@ public:
     explicit Player(const std::string& path);
     ~Player();
     int init();
+    Json::Value currentAlbum();
     Json::Value currentTitle();
     void resume(int milliseconds);
     int32_t getPlaytime();

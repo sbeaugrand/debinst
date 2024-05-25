@@ -21,7 +21,10 @@ public:
     explicit Output(const std::string& path);
     ~Output();
     void open();
-    void write(const char* line1, const char* line2);
+    void write(std::string_view line1,
+               std::string_view line2,
+               std::string_view line3,
+               std::string_view line4);
     void close();
     static void screensaver(Output* self);
 

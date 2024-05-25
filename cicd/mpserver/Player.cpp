@@ -400,27 +400,19 @@ Json::Value
 Player::currentTitle()
 {
     Json::Value r;
-    int32_t status;
-    int pos;
-    struct mpd_song* song = NULL;
-    const char* tag;
-#   if defined(__arm__) || defined(__aarch64__)
-    const char* c;
-#   endif
 
     // Status
-    status = this->getStatus();
+    int32_t status = this->getStatus();
     r["pause"] = (status == STATE_PAUSE);
 
     // Position
-    pos = this->getPosition();
+    int pos = this->getPosition();
     if (pos < 0) {
         return r;
     }
     r["pos"] = pos;
 
-    // Title
-    song = mpd_run_get_queue_song_pos(mConn, pos);
+    struct mpd_song* song = mpd_run_get_queue_song_pos(mConn, pos);
     if (this->isError(__FUNCTION__)) {
         if (song != NULL) {
             mpd_song_free(song);
@@ -431,24 +423,23 @@ Player::currentTitle()
         ERROR("mpd_run_get_queue_song_pos");
         return r;
     }
-    tag = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
-#   if defined(__arm__) || defined(__aarch64__)
-    if (tag != NULL) {
-        for (c = tag; *c != '\0'; ++c) {
-            if (c[0] == ' ' &&
-                c[1] == '-' &&
-                c[2] == ' ') {
-                tag = c + 3;
-                break;
-            }
-        }
-    }
-#   endif
-    if (tag != NULL) {
+
+    if (const char* tag = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
+        tag != NULL) {
         r["title"] = tag;
     }
-    mpd_song_free(song);
 
+    if (const char* tag = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
+        tag != NULL) {
+        r["album"] = tag;
+    }
+
+    if (const char* tag = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
+        tag != NULL) {
+        r["artist"] = tag;
+    }
+
+    mpd_song_free(song);
     return r;
 }
 
