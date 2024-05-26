@@ -62,6 +62,7 @@ Server::rand()
     Json::Value result;
     result["artist"] = mSelect.substr(pos1, pos2 - pos1);
     result["album"] = mSelect.substr(pos3, pos4 - pos3);
+    result["date"] = mSelect.substr(pos2 + 3, pos3 - pos2 - 6);
     result["abrev"] = abrev;
     result["days"] = days;
     return result;

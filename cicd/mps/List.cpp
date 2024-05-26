@@ -20,71 +20,9 @@
 List::List(std::string_view path)
     : mPath(path)
 {
-    if (std::filesystem::exists(mPath + "/mps.list")) {
-        std::ifstream file(mPath + "/mps.list");
-        std::string line;
-        while (file) {
-            std::getline(file, line);
-            if (! line.empty()) {
-                this->push(line);
-            }
-        }
-    } else {
-        int pathSize = mPath.size() + 1;
-        std::filesystem::recursive_directory_iterator dir(mPath);
-        while (dir != std::filesystem::end(dir)) {
-            if (dir->path().extension() == ".m3u") {
-                this->push(dir->path().string().substr(pathSize));
-            }
-            ++dir;
-        }
-        mList.sort([](const List::Part& a,
-                      const List::Part& b) {
-            return a.name < b.name;
-        });
-        std::ofstream file(mPath + "/list");
-        for (auto it : mList) {
-            it.list.sort();
-            for (auto al : it.list) {
-                file << it.name << '/' << al << std::endl;
-            }
-        }
-    }
-    if (std::filesystem::exists(mPath + "/mps.weights")) {
-        std::ifstream file(mPath + "/mps.weights");
-        while (file) {
-            std::string name;
-            std::string weight;
-            std::getline(file, name);
-            std::getline(file, weight);
-            for (auto& it : mList) {
-                if (it.name == name) {
-                    it.weight = std::stoi(weight);
-                    mWeightSum += it.weight;
-                }
-            }
-        }
-    } else {
-        std::ofstream file(mPath + "/mps.weights");
-        for (auto it : mList) {
-            file << it.name << std::endl;
-            file << 1 << std::endl;
-            mWeightSum += 1;
-        }
-    }
-    if (std::filesystem::exists(mPath + "/mps.abrev")) {
-        std::ifstream file(mPath + "/mps.abrev");
-        auto it = mList.begin();
-        while (file && it != mList.end()) {
-            file >> it->abrev;
-            ++it;
-        }
-    } else {
-        std::ofstream file(mPath + "/mps.abrev");
-        for (auto it : mList) {
-            file << "XX" << std::endl;
-        }
-    }
+    this->readList();
+    this->readWeights();
+    this->readAbrev();
     this->readLog();
 }
 
@@ -207,6 +145,95 @@ List::push(const std::string& path)
         return;
     }
     mList.push_back(Part{ search, 1, 1, { album }, "XX" });
+}
+
+/******************************************************************************!
+ * \fn readList
+ ******************************************************************************/
+void
+List::readList()
+{
+    if (std::filesystem::exists(mPath + "/mps.list")) {
+        std::ifstream file(mPath + "/mps.list");
+        std::string line;
+        while (file) {
+            std::getline(file, line);
+            if (! line.empty()) {
+                this->push(line);
+            }
+        }
+    } else {
+        int pathSize = mPath.size() + 1;
+        std::filesystem::recursive_directory_iterator dir(mPath);
+        while (dir != std::filesystem::end(dir)) {
+            if (dir->path().extension() == ".m3u") {
+                this->push(dir->path().string().substr(pathSize));
+            }
+            ++dir;
+        }
+        mList.sort([](const List::Part& a,
+                      const List::Part& b) {
+            return a.name < b.name;
+        });
+        std::ofstream file(mPath + "/mps.list");
+        for (auto it : mList) {
+            it.list.sort();
+            for (auto al : it.list) {
+                file << it.name << '/' << al.substr(11) << std::endl;
+            }
+        }
+    }
+}
+
+/******************************************************************************!
+ * \fn readWeights
+ ******************************************************************************/
+void
+List::readWeights()
+{
+    if (std::filesystem::exists(mPath + "/mps.weights")) {
+        std::ifstream file(mPath + "/mps.weights");
+        while (file) {
+            std::string name;
+            std::string weight;
+            std::getline(file, name);
+            std::getline(file, weight);
+            for (auto& it : mList) {
+                if (it.name == name) {
+                    it.weight = std::stoi(weight);
+                    mWeightSum += it.weight;
+                }
+            }
+        }
+    } else {
+        std::ofstream file(mPath + "/mps.weights");
+        for (auto it : mList) {
+            file << it.name << std::endl;
+            file << 1 << std::endl;
+            mWeightSum += 1;
+        }
+    }
+}
+
+/******************************************************************************!
+ * \fn readAbrev
+ ******************************************************************************/
+void
+List::readAbrev()
+{
+    if (std::filesystem::exists(mPath + "/mps.abrev")) {
+        std::ifstream file(mPath + "/mps.abrev");
+        auto it = mList.begin();
+        while (file && it != mList.end()) {
+            file >> it->abrev;
+            ++it;
+        }
+    } else {
+        std::ofstream file(mPath + "/mps.abrev");
+        for (auto it : mList) {
+            file << "XX" << std::endl;
+        }
+    }
 }
 
 /******************************************************************************!

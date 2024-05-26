@@ -136,25 +136,6 @@ Player::getPlaytime()
 }
 
 /******************************************************************************!
- * \fn getPosition
- ******************************************************************************/
-int
-Player::getPosition()
-{
-    unsigned int res;
-    struct mpd_status* status = this->getMPDStatus();
-    if (status == NULL) {
-        return 0;
-    }
-
-    res = mpd_status_get_song_pos(status);
-    mpd_status_free(status);
-    DEBUG("pos " << res);
-
-    return res;
-}
-
-/******************************************************************************!
  * \fn titleList
  ******************************************************************************/
 Json::Value
@@ -401,16 +382,22 @@ Player::currentTitle()
 {
     Json::Value r;
 
-    // Status
-    int32_t status = this->getStatus();
-    r["pause"] = (status == STATE_PAUSE);
-
-    // Position
-    int pos = this->getPosition();
+    struct mpd_status* status = this->getMPDStatus();
+    if (status == NULL) {
+        return r;
+    }
+    int pos = mpd_status_get_song_pos(status);
     if (pos < 0) {
         return r;
     }
     r["pos"] = pos;
+    r["length"] = mpd_status_get_queue_length(status);
+    if (mpd_status_get_state(status) == MPD_STATE_PAUSE) {
+        r["pause"] = true;
+    } else {
+        r["pause"] = false;
+    }
+    mpd_status_free(status);
 
     struct mpd_song* song = mpd_run_get_queue_song_pos(mConn, pos);
     if (this->isError(__FUNCTION__)) {
@@ -437,6 +424,11 @@ Player::currentTitle()
     if (const char* tag = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
         tag != NULL) {
         r["artist"] = tag;
+    }
+
+    if (const char* tag = mpd_song_get_tag(song, MPD_TAG_DATE, 0);
+        tag != NULL) {
+        r["date"] = tag;
     }
 
     mpd_song_free(song);

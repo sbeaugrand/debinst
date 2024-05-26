@@ -4,24 +4,38 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-set(PROJECT mpclient)
-
 cmake_minimum_required(VERSION 3.18)
 include(../makefiles/xc.cmake)
-project(${PROJECT})
+project(mps)
 include(../makefiles/include.cmake)
 
-add_executable(${PROJECT}
-    main.cpp
+add_executable(mpserver
+    mpserver.cpp
+    List.cpp
+    Player.cpp
+    Server.cpp
+)
+target_link_libraries(mpserver
+    mpdclient
+    jsoncpp
+    jsonrpccpp-common
+    jsonrpccpp-server
+)
+
+add_executable(mpclient
+    mpclient.cpp
     Input.cpp
     Output.cpp
     Client.cpp
-    common.cpp
 )
-
-target_link_libraries(${PROJECT} PRIVATE jsoncpp)
-target_link_libraries(${PROJECT} PRIVATE jsonrpccpp-common)
-target_link_libraries(${PROJECT} PRIVATE jsonrpccpp-client)
+target_link_libraries(mpclient
+    jsoncpp
+    jsonrpccpp-common
+    jsonrpccpp-client
+)
 if(XC)
-    target_link_libraries(${PROJECT} PRIVATE "-lupm-lcd")
+    target_link_libraries(mpclient
+        lirc_client
+        upm-lcd
+    )
 endif()

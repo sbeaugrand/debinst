@@ -7,7 +7,6 @@
 #include <filesystem>
 #include <fstream>
 #include "Output.h"
-#include "common.h"
 
 #define DEVICE_ADDRESS 0x3C
 
@@ -75,7 +74,8 @@ void
 Output::write(std::string_view line1,
               std::string_view line2,
               std::string_view line3,
-              std::string_view line4)
+              std::string_view line4,
+              std::string_view line5)
 {
     if (mOled == nullptr) {
         return;
@@ -87,15 +87,18 @@ Output::write(std::string_view line1,
     mOled->setCursor(2, 0);
     mOled->write(buff);
     buff = std::string(line2).substr(0, LCD_COLS);
-    mOled->setCursor(4, 0);
+    mOled->setCursor(4, LCD_COLS - buff.size());
     mOled->write(buff);
     buff = std::string(line3).substr(0, LCD_COLS);
-    mOled->setCursor(6, 0);
+    mOled->setCursor(5, 0);
     mOled->write(buff);
     buff = std::string(line4).substr(0, LCD_COLS);
+    mOled->setCursor(6, LCD_COLS - buff.size());
+    mOled->write(buff);
+    buff = std::string(line5).substr(0, LCD_COLS);
     mOled->setCursor(7, 0);
     mOled->write(buff);
-    nanoSleep(500000000);
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
 
 /******************************************************************************!

@@ -65,4 +65,8 @@ private:
     Output& mOutput;
     jsonrpc::HttpClient mHttpClient;
     jsonrpc::Client mJsonClient;
+    enum {
+        EN,
+        FR
+    } mLang;
 };

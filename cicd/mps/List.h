@@ -28,6 +28,9 @@ public:
     void writeLog(std::string_view album) const;
 private:
     void push(const std::string& path);
+    void readList();
+    void readWeights();
+    void readAbrev();
     void readLog();
     int timediff(std::string_view line) const;
 

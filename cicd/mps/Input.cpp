@@ -5,6 +5,7 @@
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
 #if defined(__arm__) || defined(__aarch64__)
+# include <fcntl.h>
 # include <lirc/lirc_client.h>
 #endif
 #include "Input.h"
@@ -34,11 +35,11 @@ Input::open()
 {
 #   if defined(__arm__) || defined(__aarch64__)
     mLircSocket = lirc_init("irexec", 1);
-    if (gLircSocket == -1) {
+    if (mLircSocket == -1) {
         ERROR("lirc_init");
     }
-    if (fcntl(gLircSocket, F_SETFL,
-              fcntl(gLircSocket, F_GETFL, 0) | O_NONBLOCK) == -1) {
+    if (fcntl(mLircSocket, F_SETFL,
+              fcntl(mLircSocket, F_GETFL, 0) | O_NONBLOCK) == -1) {
         ERROR("fcntl");
     }
 #   endif
@@ -123,7 +124,6 @@ Input::run(Input* self)
             ERROR("KEY_UNDEFINED " << button);
             self->key = KEY_UNDEFINED;
         }
-        DEBUG("key = " << self->key);
         if (self->key != KEY_UNDEFINED) {
             self->hasEvent = true;
             self->hasEvent.notify_one();

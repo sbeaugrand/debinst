@@ -16,6 +16,11 @@ Client::Client(Input& input, Output& output, const std::string& url)
     , mHttpClient(url)
     , mJsonClient(mHttpClient)
 {
+    if (std::string(std::getenv("LANG")).starts_with("fr")) {
+        mLang = FR;
+    } else {
+        mLang = EN;
+    }
 }
 
 /******************************************************************************!
@@ -36,13 +41,16 @@ Client::currentTitle(const char* method)
         Json::Value result = mJsonClient.CallMethod(method, params);
         Json::Value error("error");
         auto pause = result.get("pause", false).asBool();
-        auto pos = result.get("pos", -1).asInt();
+        auto pos = result.get("pos", -1).asInt() + 1;
+        auto length = result.get("length", -1).asInt() + 1;
         auto title = result.get("title", error).asString();
         auto album = result.get("album", error).asString();
         auto artist = result.get("artist", error).asString();
+        auto date = result.get("date", error).asString();
         mOutput.write((pause ? "PAUSE " : "") + artist,
+                      date,
                       album,
-                      std::to_string(pos),
+                      std::to_string(pos) + '/' + std::to_string(length),
                       title);
     } catch (jsonrpc::JsonRpcException &e) {
         ERROR(e.what());
@@ -96,19 +104,20 @@ Client::onEvent(const state::Normal& state, const event::Setup&)
                     d = dInit / 31;
                     if (d > 9) {
                         d /= 12;
-                        dateR[1] = 'Y';
+                        dateR[1] = (mLang == FR) ? 'A' : 'Y';
                     } else {
                         dateR[1] = 'M';
                     }
                 } else {
-                    dateR[1] = 'W';
+                    dateR[1] = (mLang == FR) ? 'S' : 'W';
                 }
             } else {
-                dateR[1] = 'D';
+                dateR[1] =  (mLang == FR) ? 'J' : 'D';
             }
             dateR[0] = '0' + d;
         }
         mOutput.write(result["artist"].asString(),
+                      result["date"].asString(),
                       result["album"].asString(),
                       result["abrev"].asString(),
                       dateR);

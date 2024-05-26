@@ -24,7 +24,8 @@ public:
     void write(std::string_view line1,
                std::string_view line2,
                std::string_view line3,
-               std::string_view line4);
+               std::string_view line4,
+               std::string_view line5);
     void close();
     static void screensaver(Output* self);
 

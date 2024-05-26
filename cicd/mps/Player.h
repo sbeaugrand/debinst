@@ -30,7 +30,6 @@ private:
     int isError(const char* func);
     struct mpd_status* getMPDStatus();
     int32_t getStatus();
-    int getPosition();
     void startId(int pos);
     void quit();
 
