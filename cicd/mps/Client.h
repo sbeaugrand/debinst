@@ -56,7 +56,9 @@ public:
     State onEvent(const state::Album&, const event::Ok&);
     State onEvent(const state::Album&, const event::Setup&);
     void processEvent(const Event& event);
+    static void signalHandler(int signal);
 
+    static inline std::atomic_bool loop = true;
     State state = state::Normal{};
 private:
     void currentTitle(const char* method);

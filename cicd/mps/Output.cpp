@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <fstream>
 #include "Output.h"
+#include "log.h"
 
 #define DEVICE_ADDRESS 0x3C
 
@@ -24,6 +25,7 @@ Output::Output(const std::string& path)
     : mPath(path)
 {
     this->open();
+    mScreensaverThread = std::thread(Output::screensaver, this);
 }
 
 /******************************************************************************!
@@ -31,6 +33,9 @@ Output::Output(const std::string& path)
  ******************************************************************************/
 Output::~Output()
 {
+    DEBUG("");
+    this->loop = false;
+    mScreensaverThread.join();
     this->close();
 }
 
@@ -80,6 +85,7 @@ Output::write(std::string_view line1,
     if (mOled == nullptr) {
         return;
     }
+    this->save = false;
     mOled->clear();
 
     std::string buff;
@@ -126,9 +132,12 @@ Output::screensaver(Output* self)
     static int r = -1;
 
     while (self->loop) {
-        self->save.wait(false);
-        for (int i = 0; i < 20; ++i) {
-            std::this_thread::sleep_for(std::chrono::seconds(1));
+        self->save = true;
+        for (int i = 0; i < 10; ++i) {
+            std::this_thread::sleep_for(std::chrono::seconds(2));
+            if (! self->loop) {
+                return;
+            }
             if (! self->save) {
                 break;
             }

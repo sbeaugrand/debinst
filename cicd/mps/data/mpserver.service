@@ -1,0 +1,16 @@
+# ---------------------------------------------------------------------------- #
+## \file mpserver.service
+# ---------------------------------------------------------------------------- #
+[Unit]
+Description=Music Player Server
+After=mpd.service
+Wants=mpd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mpserver /mnt/mp3/mp3
+ExecStop=curl -d '{"jsonrpc":"2.0","method":"quit"}'
+
+[Install]
+WantedBy=multi-user.target
+WantedBy=shutdown.target

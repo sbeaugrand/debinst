@@ -5,8 +5,11 @@
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
 #include <iostream>
+#include "Input.h"
 #include "Output.h"
 #include "Client.h"
+
+Input gInput;
 
 /******************************************************************************!
  * \fn main
@@ -21,9 +24,8 @@ main(int argc, char** argv)
     std::string path(argv[1]);
     std::string url(argv[2]);
 
-    Input input;
     Output output(path);
 
-    Client client(input, output, url);
+    Client client(gInput, output, url);
     return client.run();
 }

@@ -4,8 +4,11 @@
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
+#include <csignal>
 #include "Client.h"
 #include "log.h"
+
+extern Input gInput;
 
 /******************************************************************************!
  * \fn Client
@@ -21,6 +24,7 @@ Client::Client(Input& input, Output& output, const std::string& url)
     } else {
         mLang = EN;
     }
+    std::signal(SIGINT, Client::signalHandler);
 }
 
 /******************************************************************************!
@@ -28,6 +32,7 @@ Client::Client(Input& input, Output& output, const std::string& url)
  ******************************************************************************/
 Client::~Client()
 {
+    DEBUG("");
 }
 
 /******************************************************************************!
@@ -176,8 +181,11 @@ void Client::processEvent(const Event& event)
  ******************************************************************************/
 int Client::run()
 {
-    for (;;) {
+    while (this->loop) {
         mInput.hasEvent.wait(false);
+        if (! this->loop) {
+            return 0;
+        }
         auto key = mInput.key;
         switch (key) {
         case Input::KEY_UP:
@@ -208,6 +216,17 @@ int Client::run()
             break;
         }
     }
-
     return 0;
+}
+
+/******************************************************************************!
+ * \fn signalHandler
+ ******************************************************************************/
+void Client::signalHandler(int signal)
+{
+    if (signal == SIGINT) {
+        Client::loop = false;
+        gInput.hasEvent = true;
+        gInput.hasEvent.notify_one();
+    }
 }

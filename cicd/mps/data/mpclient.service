@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------- #
+## \file mpclient.service
+# ---------------------------------------------------------------------------- #
+[Unit]
+Description=Music Player Client
+After=mpserver.target
+Wants=mpserver.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mpclient /mnt/mp3/mp3 http://localhost:8383
+ExecStop=pkill -INT mpclient
+TimeoutStopSec=1s
+
+[Install]
+WantedBy=multi-user.target
+WantedBy=shutdown.target
