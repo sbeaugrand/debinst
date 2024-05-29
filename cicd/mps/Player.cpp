@@ -68,6 +68,18 @@ Player::init()
         ERROR("set_keepalive");
         return 3;
     }
+
+    if (! mpd_send_command(mConn, "config", NULL)) {
+        return 4;
+    }
+    struct mpd_pair* pair = mpd_recv_pair_named(mConn, "music_directory");
+    if (pair != NULL) {
+        mPath = pair->value;
+        mpd_return_pair(mConn, pair);
+    }
+    mpd_response_finish(mConn) || mpd_connection_clear_error(mConn);
+    DEBUG(mPath);
+
     return 0;
 }
 

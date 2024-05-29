@@ -4,11 +4,8 @@
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
-#include <csignal>
 #include "Client.h"
 #include "log.h"
-
-extern Input gInput;
 
 /******************************************************************************!
  * \fn Client
@@ -24,7 +21,6 @@ Client::Client(Input& input, Output& output, const std::string& url)
     } else {
         mLang = EN;
     }
-    std::signal(SIGINT, Client::signalHandler);
 }
 
 /******************************************************************************!
@@ -33,6 +29,17 @@ Client::Client(Input& input, Output& output, const std::string& url)
 Client::~Client()
 {
     DEBUG("");
+}
+
+/******************************************************************************!
+ * \fn close
+ ******************************************************************************/
+void
+Client::close()
+{
+    this->loop = false;
+    mInput.hasEvent = true;
+    mInput.hasEvent.notify_one();
 }
 
 /******************************************************************************!
@@ -57,7 +64,7 @@ Client::currentTitle(const char* method)
                       album,
                       std::to_string(pos) + '/' + std::to_string(length),
                       title);
-    } catch (jsonrpc::JsonRpcException &e) {
+    } catch (jsonrpc::JsonRpcException& e) {
         ERROR(e.what());
     }
 }
@@ -117,7 +124,7 @@ Client::onEvent(const state::Normal& state, const event::Setup&)
                     dateR[1] = (mLang == FR) ? 'S' : 'W';
                 }
             } else {
-                dateR[1] =  (mLang == FR) ? 'J' : 'D';
+                dateR[1] = (mLang == FR) ? 'J' : 'D';
             }
             dateR[0] = '0' + d;
         }
@@ -169,17 +176,21 @@ Client::onEvent(const state::Album& state, const event::Setup&)
 /******************************************************************************!
  * \fn processEvent
  ******************************************************************************/
-void Client::processEvent(const Event& event)
+void
+Client::processEvent(const Event& event)
 {
     state = std::visit(
-        [this](const auto& st, const auto& ev) { return onEvent(st, ev); },
+        [this](const auto& st, const auto& ev) {
+        return onEvent(st, ev);
+    },
         state, event);
 }
 
 /******************************************************************************!
  * \fn run
  ******************************************************************************/
-int Client::run()
+int
+Client::run()
 {
     while (this->loop) {
         mInput.hasEvent.wait(false);
@@ -217,16 +228,4 @@ int Client::run()
         }
     }
     return 0;
-}
-
-/******************************************************************************!
- * \fn signalHandler
- ******************************************************************************/
-void Client::signalHandler(int signal)
-{
-    if (signal == SIGINT) {
-        Client::loop = false;
-        gInput.hasEvent = true;
-        gInput.hasEvent.notify_one();
-    }
 }

@@ -1,0 +1,4 @@
+data/mpserver /usr/bin
+data/mpclient /usr/bin
+data/mpserver.service /lib/systemd/system
+data/mpclient.service /lib/systemd/system

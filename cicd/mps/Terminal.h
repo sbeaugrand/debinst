@@ -31,5 +31,5 @@ public:
     void clear() {}
     void dim(bool) {}
 private:
-    int mX;
+    int mX = 0;
 };

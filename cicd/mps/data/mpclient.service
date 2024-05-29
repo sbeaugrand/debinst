@@ -3,11 +3,11 @@
 # ---------------------------------------------------------------------------- #
 [Unit]
 Description=Music Player Client
-After=mpserver.target
-Wants=mpserver.target
+After=mpserver.service
+Wants=mpserver.service
 
 [Service]
-Type=oneshot
+Type=simple
 ExecStart=/usr/bin/mpclient /mnt/mp3/mp3 http://localhost:8383
 ExecStop=pkill -INT mpclient
 TimeoutStopSec=1s

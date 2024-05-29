@@ -27,6 +27,13 @@ prexbuild:
     - >
       test -f abstractstubserver.h ||
       jsonrpcstub ../spec.json --cpp-server=AbstractStubServer
+prepackage:
+  stage: package
+  script:
+    - mkdir -p $BDIR/$PROJECT-$VERSION/data
+    - cd $BDIR/$PROJECT-$VERSION
+    - test ! -f ../mpserver || cp -a ../mpserver data/
+    - test ! -f ../mpclient || cp -a ../mpclient data/
 test1:
   stage: test
   script:

@@ -42,6 +42,7 @@ class Client
 public:
     Client(Input& input, Output& output, const std::string& url);
     ~Client();
+    void close();
     int run();
     State onEvent(const state::Normal&, const event::Up&);
     State onEvent(const state::Normal&, const event::Down&);
@@ -56,9 +57,8 @@ public:
     State onEvent(const state::Album&, const event::Ok&);
     State onEvent(const state::Album&, const event::Setup&);
     void processEvent(const Event& event);
-    static void signalHandler(int signal);
 
-    static inline std::atomic_bool loop = true;
+    std::atomic_bool loop = true;
     State state = state::Normal{};
 private:
     void currentTitle(const char* method);

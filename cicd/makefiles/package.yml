@@ -84,8 +84,8 @@ package:
     - test ! -d ../../data   || cp -L ../../data/*   data/
     - test ! -d ../../share  || cp -a ../../share/*  data/
     - >
-      test ! -f ../$PROJECT || cp -a ../$PROJECT data/$PROJECT &&
-      echo "data/$PROJECT /usr/bin/" >>debian/$PROJECT.install
+      test ! -f ../$PROJECT || (cp -a ../$PROJECT data/$PROJECT &&
+      echo "data/$PROJECT /usr/bin/" >>debian/$PROJECT.install)
     - >
       test ! -f ../../data/$PROJECT.service ||
       echo "data/$PROJECT.service /lib/systemd/system" >>debian/$PROJECT.install
