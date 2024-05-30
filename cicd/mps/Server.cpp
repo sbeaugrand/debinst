@@ -22,7 +22,6 @@ Server::Server(jsonrpc::AbstractServerConnector& conn,
     , mPlayer(player)
 {
     this->StartListening();
-    mPlayer.init();
 }
 
 /******************************************************************************!

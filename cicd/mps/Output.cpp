@@ -21,8 +21,7 @@ const unsigned int LCD_ROWS = 8;
 /******************************************************************************!
  * \fn Output
  ******************************************************************************/
-Output::Output(const std::string& path)
-    : mPath(path)
+Output::Output()
 {
     this->open();
     mScreensaverThread = std::thread(Output::screensaver, this);
@@ -153,7 +152,7 @@ Output::screensaver(Output* self)
 
         std::time_t time = std::time({});
         char timeString[std::size("dd-mm hh:mm")];
-        if ((std::filesystem::status(self->mPath).permissions() &
+        if ((std::filesystem::status(self->musicDirectory).permissions() &
              std::filesystem::perms::owner_read) ==
             std::filesystem::perms::owner_read) {
             std::strftime(std::data(timeString), std::size(timeString),

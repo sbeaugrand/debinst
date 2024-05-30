@@ -12,32 +12,15 @@
 #include "Server.h"
 
 /******************************************************************************!
- * \fn usage
- ******************************************************************************/
-void
-usage(char** argv)
-{
-    std::cerr << "Usage: " << argv[0] << " <dir>" << std::endl;
-}
-
-/******************************************************************************!
  * \fn main
  ******************************************************************************/
 int
-main(int argc, char** argv)
+main(int, char**)
 {
-    if (argc <= 1) {
-        ::usage(argv);
-        return 1;
-    }
-    std::string path(argv[1]);
-    if (! std::filesystem::exists(path)) {
-        ::usage(argv);
-        return 2;
-    }
+    Player player;
+    player.init();
 
-    List list(path);
-    Player player(path);
+    List list(player.musicDirectory);
     if (int ms = list.readResumeTime(); ms > 0) {
         player.resume(ms);
     }

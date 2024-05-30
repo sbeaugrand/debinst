@@ -8,7 +8,7 @@ Wants=mpserver.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/mpclient /mnt/mp3/mp3 http://localhost:8383
+ExecStart=/usr/bin/mpclient http://localhost:8383 /mnt/mp3/mp3
 ExecStop=pkill -INT mpclient
 TimeoutStopSec=1s
 

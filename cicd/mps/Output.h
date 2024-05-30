@@ -18,7 +18,7 @@
 class Output
 {
 public:
-    explicit Output(const std::string& path);
+    Output();
     ~Output();
     void open();
     void write(std::string_view line1,
@@ -31,8 +31,8 @@ public:
 
     std::atomic_bool loop = true;
     std::atomic_bool save = false;
+    std::string musicDirectory;
 private:
-    const std::string mPath;
 #   if defined(__arm__) || defined(__aarch64__)
     upm::SSD1306* mOled = nullptr;
 #   else

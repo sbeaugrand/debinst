@@ -30,7 +30,7 @@ signalHandler(int signal)
 void
 usage(char** argv)
 {
-    std::cerr << "Usage: " << argv[0] << " <dir>" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <url> [dir]" << std::endl;
 }
 
 /******************************************************************************!
@@ -39,19 +39,18 @@ usage(char** argv)
 int
 main(int argc, char** argv)
 {
-    if (argc <= 2) {
+    if (argc <= 1) {
         ::usage(argv);
         return 1;
     }
-    std::string path(argv[1]);
-    std::string url(argv[2]);
-    if (! std::filesystem::exists(path)) {
-        ::usage(argv);
-        return 2;
-    }
+    std::string url(argv[1]);
 
     Input input;
-    Output output(path);
+    Output output;
+    if (argc >= 2 && std::filesystem::exists(argv[2])) {
+        output.musicDirectory = argv[2];
+    }
+
     gClient = std::unique_ptr<Client>(new Client(input, output, url));
 
     std::signal(SIGINT, ::signalHandler);
