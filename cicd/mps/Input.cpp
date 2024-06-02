@@ -103,24 +103,20 @@ Input::run(Input* self)
 #       endif
 
         using namespace std::literals;
-        /*  */ if (button == "KEY_BACK"s) {
-            self->key = KEY_BACK;
+        /*  */ if (button == "KEY_UP"s) {
+            self->key = KEY_UP;
         } else if (button == "KEY_DOWN"s) {
             self->key = KEY_DOWN;
         } else if (button == "KEY_LEFT"s) {
             self->key = KEY_LEFT;
-        } else if (button == "KEY_MODE"s) {
-            self->key = KEY_MODE;
-        } else if (button == "KEY_OK"s) {
-            self->key = KEY_OK;
-        } else if (button == "KEY_PLAYPAUSE"s) {
-            self->key = KEY_PLAYPAUSE;
         } else if (button == "KEY_RIGHT"s) {
             self->key = KEY_RIGHT;
+        } else if (button == "KEY_OK"s) {
+            self->key = KEY_OK;
         } else if (button == "KEY_SETUP"s) {
             self->key = KEY_SETUP;
-        } else if (button == "KEY_UP"s) {
-            self->key = KEY_UP;
+        } else if (button == "KEY_BACK"s) {
+            self->key = KEY_BACK;
         } else {
             ERROR("KEY_UNDEFINED " << button);
             self->key = KEY_UNDEFINED;

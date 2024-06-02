@@ -18,14 +18,20 @@
 class Output
 {
 public:
+#   if defined(__arm__) || defined(__aarch64__)
+    static constexpr unsigned int LCD_ROWS = upm::SSD1306_LCDHEIGHT >> 3;
+#   else
+    static constexpr unsigned int LCD_ROWS = 8;
+#   endif
+    static constexpr unsigned int LCD_COLS = 16;
+    static constexpr int LCD_SHIFT = LCD_COLS >> 1;
     Output();
     ~Output();
     void open();
     void write(std::string_view line1,
                std::string_view line2,
                std::string_view line3,
-               std::string_view line4,
-               std::string_view line5);
+               std::string_view line4);
     void close();
     static void screensaver(Output* self);
 

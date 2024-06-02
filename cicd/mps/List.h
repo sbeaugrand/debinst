@@ -7,6 +7,7 @@
 #include <string>
 #include <list>
 #include <tuple>
+#include <jsoncpp/json/value.h>
 
 /******************************************************************************!
  * \class List
@@ -23,6 +24,7 @@ public:
     };
     explicit List(std::string_view path);
     std::tuple<std::string, std::string, int> rand() const;
+    Json::Value artist(const std::string& search) const;
     int readResumeTime() const;
     void writeResumeTime(int ms) const;
     void writeLog(std::string_view album) const;

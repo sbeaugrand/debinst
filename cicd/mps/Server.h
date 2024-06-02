@@ -22,6 +22,7 @@ public:
            Player& player);
     virtual ~Server();
     virtual Json::Value list() override;
+    virtual Json::Value info() override;
     virtual Json::Value rand() override;
     virtual Json::Value ok() override;
     virtual Json::Value play() override;
@@ -29,6 +30,7 @@ public:
     virtual Json::Value stop() override;
     virtual Json::Value prev() override;
     virtual Json::Value next() override;
+    virtual Json::Value artist() override;
     virtual void quit() override;
 
     std::atomic_bool loop = true;

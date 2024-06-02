@@ -9,8 +9,15 @@ import sys
 import json
 import requests
 
-server = sys.argv[1]
-method = sys.argv[2]
+if len(sys.argv) > 2:
+    server = sys.argv[1]
+    method = sys.argv[2]
+elif len(sys.argv) > 1:
+    server = 'http://localhost:8383'
+    method = sys.argv[1]
+else:
+    server = 'http://localhost:8383'
+    method = 'info'
 
 data = {
     'jsonrpc': '2.0',

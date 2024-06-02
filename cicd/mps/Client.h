@@ -67,6 +67,7 @@ private:
     Output& mOutput;
     jsonrpc::HttpClient mHttpClient;
     jsonrpc::Client mJsonClient;
+    std::string::size_type mShift = 0;
     enum {
         EN,
         FR

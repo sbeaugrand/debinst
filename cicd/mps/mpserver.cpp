@@ -21,12 +21,12 @@ main(int, char**)
     player.init();
 
     List list(player.musicDirectory);
-    if (int ms = list.readResumeTime(); ms > 0) {
-        player.resume(ms);
-    }
+    player.resume(list.readResumeTime());
+
     jsonrpc::HttpServer httpserver(8383, "", "", 2);  // 2 threads
     Server server(httpserver, list, player);
 
     server.loop.wait(true);
+    server.stop();
     return 0;
 }

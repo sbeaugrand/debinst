@@ -25,8 +25,6 @@ public:
         KEY_OK,
         KEY_SETUP,
         KEY_BACK,
-        KEY_MODE,
-        KEY_PLAYPAUSE,
         KEY_UNDEFINED
     };
     Input();

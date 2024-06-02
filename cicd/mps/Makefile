@@ -5,7 +5,14 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 XC = arm-linux-gnueabihf
+
+UN ?= $(USER)
+URI = $(UN)@pi
+SSH = ssh $(URI)
+USERPATH = /home/$(UN)
+
 MDIR = /data/mp3
+
 CPPCHECKINC = --include=build/abstractstubserver.h
 
 include ../makefiles/cmake.mk
@@ -19,9 +26,9 @@ build/abstractstubserver.h: spec.json
 server:
 	@systemctl -q is-active mpd || sudo systemctl start mpd
 	@cd build && make --no-print-directory -j`nproc` mpserver
-	@build/mpserver $(MDIR)
+	@build/mpserver
 
 .PHONY: client
 client:
 	@cd build && make --no-print-directory -j`nproc` mpclient
-	@build/mpclient $(MDIR) http://localhost:8383
+	@build/mpclient http://localhost:8383 $(MDIR)

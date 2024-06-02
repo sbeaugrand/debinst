@@ -10,16 +10,16 @@
 class Player
 {
 public:
-    const int32_t STATE_UNKNOWN = 0;
-    const int32_t STATE_PLAY = 2;
-    const int32_t STATE_PAUSE = 3;
+    const unsigned int STATE_UNKNOWN = 0;
+    const unsigned int STATE_PLAY = 2;
+    const unsigned int STATE_PAUSE = 3;
     Player() {}
     ~Player();
     int init();
     Json::Value currentAlbum();
     Json::Value currentTitle();
     void resume(int milliseconds);
-    int32_t getPlaytime();
+    unsigned int getPlaytime();
     Json::Value titleList();
     void start();
     void startRel(int pos);
@@ -31,7 +31,7 @@ public:
 private:
     int isError(const char* func);
     struct mpd_status* getMPDStatus();
-    int32_t getStatus();
+    unsigned int getStatus();
     void startId(int pos);
     void quit();
 

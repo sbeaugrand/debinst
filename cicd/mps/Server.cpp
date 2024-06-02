@@ -45,6 +45,16 @@ Server::list()
 }
 
 /******************************************************************************!
+ * \fn info
+ ******************************************************************************/
+Json::Value
+Server::info()
+{
+    DEBUG("");
+    return mPlayer.currentTitle();
+}
+
+/******************************************************************************!
  * \fn rand
  ******************************************************************************/
 Json::Value
@@ -117,9 +127,9 @@ Json::Value
 Server::stop()
 {
     DEBUG("");
-    mPlayer.stop();
     auto ms = mPlayer.getPlaytime();
     mList.writeResumeTime(ms);
+    mPlayer.stop();
     Json::Value result;
     result["result"] = "ok";
     return result;
@@ -145,6 +155,17 @@ Server::next()
     DEBUG("");
     mPlayer.startRel(1);
     return mPlayer.currentTitle();
+}
+
+/******************************************************************************!
+ * \fn artist
+ ******************************************************************************/
+Json::Value
+Server::artist()
+{
+    DEBUG("");
+    auto json = mPlayer.currentTitle();
+    return mList.artist(json["artist"].asString());
 }
 
 /******************************************************************************!

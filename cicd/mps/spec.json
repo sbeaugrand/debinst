@@ -4,6 +4,10 @@
     "returns": { }
   },
   {
+    "name": "info",
+    "returns": { }
+  },
+  {
     "name": "rand",
     "returns": { }
   },
@@ -29,6 +33,10 @@
   },
   {
     "name": "next",
+    "returns": { }
+  },
+  {
+    "name": "artist",
     "returns": { }
   },
   {

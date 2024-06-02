@@ -83,7 +83,11 @@ fi
 # done
 
 if which tcpdump >/dev/null 2>&1; then
-    sudo tcpdump -i $wlp -w /var/log/hotspot.pcap -U 'dst 10.66.0.2 and port 53' 2>/dev/null &
+    file=/var/log/hotspot.pcap
+    if [ -f $file ]; then
+        sudo mv $file $file.1
+    fi
+    sudo tcpdump -i $wlp -w $file -U 'dst 10.66.0.2 and port 53' 2>/dev/null &
     tcpdump=$?
 fi
 

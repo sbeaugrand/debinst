@@ -59,9 +59,37 @@ Client::currentTitle(const char* method)
         auto album = result.get("album", error).asString();
         auto artist = result.get("artist", error).asString();
         auto date = result.get("date", error).asString();
+        int diffmax = -Output::LCD_SHIFT;
+        if (mShift > 0) {
+            auto size = album.size();
+            int diff = size - mShift - Output::LCD_COLS;
+            if (diff >= 0) {
+                album = album.substr(mShift);
+            } else if (size > Output::LCD_COLS) {
+                album = album.substr(size - Output::LCD_COLS);
+            }
+            if (diffmax < diff) {
+                diffmax = diff;
+            }
+        }
+        if (mShift > 0) {
+            auto size = title.size();
+            int diff = size - mShift - Output::LCD_COLS;
+            if (diff >= 0) {
+                title = title.substr(mShift);
+            } else if (size > Output::LCD_COLS) {
+                title = title.substr(size - Output::LCD_COLS);
+            }
+            if (diffmax < diff) {
+                diffmax = diff;
+            }
+        }
+        if (mShift > 0 && diffmax <= -Output::LCD_SHIFT) {
+            mShift -= Output::LCD_SHIFT;
+        }
         mOutput.write((pause ? "PAUSE " : "") + artist,
-                      date,
                       album,
+                      date + ' ' +
                       std::to_string(pos) + '/' + std::to_string(length),
                       title);
     } catch (jsonrpc::JsonRpcException& e) {
@@ -87,12 +115,27 @@ Client::onEvent(const state::Normal& state, const event::Down&)
 State
 Client::onEvent(const state::Normal&, const event::Left&)
 {
+    try {
+        Json::Value params;
+        Json::Value result = mJsonClient.CallMethod("artist", params);
+        Json::Value empty("");
+        auto line1 = result.get("artist", empty).asString();
+        auto line2 = result["album"].get(Json::ArrayIndex(0), empty).asString();
+        auto line3 = result["album"].get(Json::ArrayIndex(1), empty).asString();
+        auto line4 = result["album"].get(Json::ArrayIndex(2), empty).asString();
+        mOutput.write(line1,
+                      line2,
+                      line3,
+                      line4);
+    } catch (jsonrpc::JsonRpcException& e) {
+        ERROR(e.what());
+    }
     return state::Album{};
 }
 State
 Client::onEvent(const state::Normal& state, const event::Right&)
 {
-    // Hour
+    this->currentTitle("info");
     return state;
 }
 State
@@ -129,10 +172,9 @@ Client::onEvent(const state::Normal& state, const event::Setup&)
             dateR[0] = '0' + d;
         }
         mOutput.write(result["artist"].asString(),
-                      result["date"].asString(),
                       result["album"].asString(),
-                      result["abrev"].asString(),
-                      dateR);
+                      result["date"].asString(),
+                      result["abrev"].asString() + ' ' + dateR);
     } catch (jsonrpc::JsonRpcException& e) {
         ERROR(e.what());
     }
@@ -160,7 +202,9 @@ Client::onEvent(const state::Album&, const event::Left&)
 State
 Client::onEvent(const state::Album&, const event::Right&)
 {
-    return state;
+    mShift = 0;
+    this->currentTitle("info");
+    return state::Normal{};
 }
 State
 Client::onEvent(const state::Album&, const event::Ok&)
@@ -192,36 +236,47 @@ Client::processEvent(const Event& event)
 int
 Client::run()
 {
+    this->currentTitle("info");
     while (this->loop) {
         mInput.hasEvent.wait(false);
         if (! this->loop) {
             return 0;
         }
         auto key = mInput.key;
+        mInput.hasEvent = false;
         switch (key) {
         case Input::KEY_UP:
+            mShift = 0;
             this->processEvent(event::Up{});
             break;
         case Input::KEY_DOWN:
+            mShift = 0;
             this->processEvent(event::Down{});
             break;
         case Input::KEY_LEFT:
-            this->processEvent(event::Left{});
+            if (mShift > 0) {
+                mShift -= Output::LCD_SHIFT;
+                this->processEvent(event::Right{});
+            } else {
+                mShift = 0;
+                this->processEvent(event::Left{});
+            }
             break;
         case Input::KEY_RIGHT:
+            mShift += Output::LCD_SHIFT;
             this->processEvent(event::Right{});
             break;
         case Input::KEY_OK:
+            mShift = 0;
             this->processEvent(event::Ok{});
             break;
         case Input::KEY_SETUP:
+            mShift = 0;
             this->processEvent(event::Setup{});
             break;
         case Input::KEY_BACK:
-            break;
-        case Input::KEY_MODE:
-            break;
-        case Input::KEY_PLAYPAUSE:
+            mShift = 0;
+            this->currentTitle("info");
             break;
         case Input::KEY_UNDEFINED:
             break;

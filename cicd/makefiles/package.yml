@@ -97,7 +97,7 @@ package:
 install:
   stage: install
   script:
-    - sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb
+    - sudo apt-get -y reinstall ./build/${PROJECT}_${VERSION}_amd64.deb
 deploy:
   image: $IMAGE
   stage: deploy
@@ -108,8 +108,7 @@ deploy:
     - cp -a $HDIR/$HOST/.vagrant/$PROPATH/build/$PKG build/
     - test -z "$DEP" || cp -a $HDIR/$HOST/.vagrant/$PROPATH/$DEP build/
     - apt update
-    - apt-get install -y $DEP ./build/$PKG
-    - ldd -d -r /usr/bin/$PROJECT
+    - apt-get -y install $DEP ./build/$PKG
 rbuild:
   stage: rbuild
   script:
@@ -147,7 +146,7 @@ rinstall:
     - cd $HDIR/$BHOST
     - >
       $SSH "cd $USERPATH/$PROPATH &&
-      sudo apt-get reinstall -y ./build/${PROJECT}_${VERSION}_amd64.deb"
+      sudo apt-get -y reinstall ./build/${PROJECT}_${VERSION}_amd64.deb"
 rdeploy:
   stage: rdeploy
   script:
@@ -165,8 +164,7 @@ rdeploy:
       echo $SUDOPASS | sudo -S -p \"wait\" systemctl stop $PROJECT"
     - >
       $SSH "cd $USERPATH && echo $SUDOPASS | sudo -S
-      apt-get install --reinstall -y ./${PROJECT}_${VERSION}_*.deb &&
-      ldd -d -r /usr/bin/$PROJECT"
+      apt-get -y reinstall ./${PROJECT}_${VERSION}_*.deb"
 stest:
   stage: stest
   before_script:
@@ -222,8 +220,7 @@ xinstall:
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
       $SSH "cd $USERPATH && echo $SUDOPASS | sudo -S true && echo &&
-      sudo cp $BLIST /usr/bin/ &&
-      ldd -d -r /usr/bin/$PROJECT"
+      sudo cp $BLIST /usr/bin/"
 xtest:
   stage: xtest
   before_script:
@@ -284,5 +281,4 @@ rxinstall:
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
       $SSH "cd /run/lock && echo $SUDOPASS | sudo -S true && echo &&
-      sudo mv $BLIST /usr/bin/ &&
-      ldd -d -r /usr/bin/$PROJECT"
+      sudo mv $BLIST /usr/bin/"

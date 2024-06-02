@@ -11,13 +11,6 @@
 
 #define DEVICE_ADDRESS 0x3C
 
-const unsigned int LCD_COLS = 16;
-#if defined(__arm__) || defined(__aarch64__)
-const unsigned int LCD_ROWS = upm::SSD1306_LCDHEIGHT >> 3;
-#else
-const unsigned int LCD_ROWS = 8;
-#endif
-
 /******************************************************************************!
  * \fn Output
  ******************************************************************************/
@@ -78,8 +71,7 @@ void
 Output::write(std::string_view line1,
               std::string_view line2,
               std::string_view line3,
-              std::string_view line4,
-              std::string_view line5)
+              std::string_view line4)
 {
     if (mOled == nullptr) {
         return;
@@ -89,18 +81,15 @@ Output::write(std::string_view line1,
 
     std::string buff;
     buff = std::string(line1).substr(0, LCD_COLS);
-    mOled->setCursor(2, 0);
+    mOled->setCursor(1, 0);
     mOled->write(buff);
     buff = std::string(line2).substr(0, LCD_COLS);
-    mOled->setCursor(4, LCD_COLS - buff.size());
+    mOled->setCursor(3, 0);
     mOled->write(buff);
     buff = std::string(line3).substr(0, LCD_COLS);
     mOled->setCursor(5, 0);
     mOled->write(buff);
     buff = std::string(line4).substr(0, LCD_COLS);
-    mOled->setCursor(6, LCD_COLS - buff.size());
-    mOled->write(buff);
-    buff = std::string(line5).substr(0, LCD_COLS);
     mOled->setCursor(7, 0);
     mOled->write(buff);
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -156,10 +145,10 @@ Output::screensaver(Output* self)
              std::filesystem::perms::owner_read) ==
             std::filesystem::perms::owner_read) {
             std::strftime(std::data(timeString), std::size(timeString),
-                          "%dX%m %H:%M", std::localtime(&time));
+                          "%d-%m %H:%M", std::localtime(&time));
         } else {
             std::strftime(std::data(timeString), std::size(timeString),
-                          "%d-%m %H:%M", std::localtime(&time));
+                          "%dX%m %H:%M", std::localtime(&time));
         }
 
         if (r == -1) {

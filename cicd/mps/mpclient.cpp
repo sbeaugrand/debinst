@@ -47,7 +47,7 @@ main(int argc, char** argv)
 
     Input input;
     Output output;
-    if (argc >= 2 && std::filesystem::exists(argv[2])) {
+    if (argc > 2 && std::filesystem::exists(argv[2])) {
         output.musicDirectory = argv[2];
     }
 

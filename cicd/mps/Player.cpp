@@ -65,7 +65,10 @@ Player::init()
         return 4;
     }
     struct mpd_pair* pair = mpd_recv_pair_named(mConn, "music_directory");
-    if (pair != NULL) {
+    if (pair == NULL) {
+        DEBUG("default music directory");
+        this->musicDirectory = "/mnt/mp3/mp3";
+    } else {
         this->musicDirectory = pair->value;
         mpd_return_pair(mConn, pair);
     }
@@ -101,7 +104,7 @@ Player::getMPDStatus()
 /******************************************************************************!
  * \fn getStatus
  ******************************************************************************/
-int32_t
+unsigned int
 Player::getStatus()
 {
     enum mpd_state res;
@@ -124,7 +127,7 @@ Player::getStatus()
 /******************************************************************************!
  * \fn getPlaytime
  ******************************************************************************/
-int32_t
+unsigned int
 Player::getPlaytime()
 {
     unsigned int res;
@@ -146,7 +149,7 @@ Json::Value
 Player::titleList()
 {
     Json::Value r;
-    int32_t playtime;
+    unsigned int playtime;
     int pos;
     struct mpd_song* song = NULL;
     int count = 0;
@@ -331,7 +334,7 @@ void
 Player::resume(int milliseconds)
 {
     bool res;
-    int32_t status;
+    unsigned int status;
 
     // Status
     status = this->getStatus();
