@@ -98,6 +98,31 @@ Client::currentTitle(const char* method)
 }
 
 /******************************************************************************!
+ * \fn albumList
+ ******************************************************************************/
+void
+Client::albumList()
+{
+    Json::Value empty("");
+    auto line1 = mArtist.get("artist", empty).asString();
+    auto line2 = mArtist["album"].get(Json::ArrayIndex(mAlbumPos - 1),
+                                      empty).asString();
+    auto line3 = mArtist["album"].get(Json::ArrayIndex(mAlbumPos),
+                                      empty).asString();
+    auto line4 = mArtist["album"].get(Json::ArrayIndex(mAlbumPos + 1),
+                                      empty).asString();
+    try {
+        line3.at(4) = '>';
+    } catch (std::out_of_range const& e) {
+        ERROR(e.what());
+    }
+    mOutput.write(line1,
+                  line2,
+                  line3,
+                  line4);
+}
+
+/******************************************************************************!
  * \fn onEvent
  ******************************************************************************/
 State
@@ -117,16 +142,9 @@ Client::onEvent(const state::Normal&, const event::Left&)
 {
     try {
         Json::Value params;
-        Json::Value result = mJsonClient.CallMethod("artist", params);
-        Json::Value empty("");
-        auto line1 = result.get("artist", empty).asString();
-        auto line2 = result["album"].get(Json::ArrayIndex(0), empty).asString();
-        auto line3 = result["album"].get(Json::ArrayIndex(1), empty).asString();
-        auto line4 = result["album"].get(Json::ArrayIndex(2), empty).asString();
-        mOutput.write(line1,
-                      line2,
-                      line3,
-                      line4);
+        mArtist = mJsonClient.CallMethod("artist", params);
+        mAlbumPos = mArtist.get("pos", Json::Value(0)).asInt();
+        this->albumList();
     } catch (jsonrpc::JsonRpcException& e) {
         ERROR(e.what());
     }
@@ -184,13 +202,19 @@ Client::onEvent(const state::Normal& state, const event::Setup&)
 State
 Client::onEvent(const state::Album& state, const event::Up&)
 {
-    // Todo
+    if (mAlbumPos > 0) {
+        --mAlbumPos;
+    }
+    this->albumList();
     return state;
 }
 State
 Client::onEvent(const state::Album& state, const event::Down&)
 {
-    // Todo
+    if (mAlbumPos + 1 < mArtist["album"].size()) {
+        ++mAlbumPos;
+    }
+    this->albumList();
     return state;
 }
 State
@@ -209,6 +233,7 @@ Client::onEvent(const state::Album&, const event::Right&)
 State
 Client::onEvent(const state::Album&, const event::Ok&)
 {
+    this->currentTitle("info");
     return state::Normal{};
 }
 State

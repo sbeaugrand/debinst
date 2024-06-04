@@ -164,8 +164,9 @@ Json::Value
 Server::artist()
 {
     DEBUG("");
-    auto json = mPlayer.currentTitle();
-    return mList.artist(json["artist"].asString());
+    Json::Value json = mPlayer.currentTitle();
+    return mList.artist(json["artist"].asString(),
+                        json["album"].asString());
 }
 
 /******************************************************************************!

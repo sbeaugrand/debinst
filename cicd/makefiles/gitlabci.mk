@@ -23,6 +23,7 @@ endif
 PROJECT ?= $(shell basename `readlink -f .`)
 IMAGE ?= ubuntu:23.04
 BUILD ?= Debug
+NOCLEAN ?= 0
 URI ?= exemple@ip
 SSH ?= vagrant ssh -c
 USERPATH ?= /vagrant/.vagrant
@@ -52,6 +53,7 @@ gitlabci = ~/.local/bin/gitlabci-local\
  -e BHOST=$(BHOST)\
  -e IMAGE=$(IMAGE)\
  -e BUILD=$(BUILD)\
+ -e NOCLEAN=$(NOCLEAN)\
  -e CMAKE="$(NCMAKE)"\
  -e URI=$(URI)\
  -e SSH="$(SSH)"\

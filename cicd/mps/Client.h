@@ -62,12 +62,15 @@ public:
     State state = state::Normal{};
 private:
     void currentTitle(const char* method);
+    void albumList();
 
     Input& mInput;
     Output& mOutput;
     jsonrpc::HttpClient mHttpClient;
     jsonrpc::Client mJsonClient;
     std::string::size_type mShift = 0;
+    Json::Value mArtist;
+    unsigned int mAlbumPos;
     enum {
         EN,
         FR

@@ -82,8 +82,10 @@ List::rand() const
  * \fn artist
  ******************************************************************************/
 Json::Value
-List::artist(const std::string& search) const
+List::artist(const std::string& search,
+             const std::string& current) const
 {
+    int count = 0;
     Json::Value r;
     r["artist"] = search;
     for (auto it : mList) {
@@ -91,10 +93,16 @@ List::artist(const std::string& search) const
             auto path = al.substr(11);
             if (path.starts_with(search + " - ")) {
                 auto pos1 = path.rfind('/');
-                auto pos2 = path.rfind(" - ", pos1 - 1);
-                auto pos3 = path.rfind(" - ", pos2 - 1) + 3;
-                auto album = path.substr(pos3, pos1 - pos3);
-                r["album"].append(album);
+                auto pos2 = path.rfind(" - ", pos1 - 1) + 3;
+                auto pos3 = path.rfind(" - ", pos2 - 4) + 3;
+                auto album = path.substr(pos2, pos1 - pos2);
+                auto date = path.substr(pos3, pos2 - pos3 - 3);
+                r["album"].append(date + "  " + album);
+                if (album == current) {
+                    r["pos"] = count;
+                    DEBUG("pos " << count);
+                }
+                ++count;
             }
         }
     }

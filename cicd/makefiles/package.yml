@@ -29,6 +29,7 @@ variables:
   HOST: lubuntu
   IMAGE: ubuntu:23.04
   BUILD: Debug
+  NOCLEAN: 0
   CMAKE: cmake .. -DCMAKE_BUILD_TYPE=$BUILD
   PROJECT: example
   VERSION: 1.0.0
@@ -51,6 +52,12 @@ variables:
   XCVER: 12
   XCDIR: /data
   PRIVKEY: $HOME/.ssh/id_rsa
+.keychain:
+  script:
+    - >
+      test ! -f $PRIVKEY || test -d /run/lock/.keychain ||
+      TMPDIR=/run/lock keychain --dir /run/lock --nogui $PRIVKEY
+    - test ! -f $PRIVKEY || source /run/lock/.keychain/*-sh
 build:
   stage: build
   except:
@@ -60,7 +67,7 @@ build:
     - mkdir -p build
     - cd build
     - $CMAKE
-    - make --no-print-directory clean
+    - test $NOCLEAN = 1 || make --no-print-directory clean
     - make --no-print-directory -j`nproc`
 package:
   stage: package
@@ -118,7 +125,7 @@ rbuild:
     - cd $HDIR/$BHOST
     - >
       $SSH "cd $USERPATH/$PROPATH &&
-      make build BUILD=$BUILD CMAKE='$CMAKE' &&
+      make build BUILD=$BUILD NOCLEAN=$NOCLEAN CMAKE='$CMAKE' &&
       (test $BUILD = Debug || $STRIP build/$PROJECT)"
 rtest:
   stage: rtest
@@ -153,10 +160,7 @@ rdeploy:
     - PROPATH=$(basename `readlink -f .`)
     - test -n "$XC" || BDIR=.vagrant/$PROPATH/build
     - test -n "$XC" || cd $HDIR/$BHOST
-    - >
-      test ! -f $PRIVKEY || test -d /run/lock/.keychain ||
-      TMPDIR=/run/lock keychain --dir /run/lock --nogui $PRIVKEY
-    - test ! -f $PRIVKEY || source /run/lock/.keychain/*-sh
+    - !reference [.keychain, script]
     - scp $BDIR/${PROJECT}_${VERSION}_*.deb $SCPTARGET
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
@@ -179,7 +183,7 @@ xbuild:
     - mkdir -p build-$XC
     - cd build-$XC
     - $CMAKE -DXC=$XC -DXCVER=$XCVER -DXCDIR=$XCDIR
-    - make --no-print-directory clean
+    - test $NOCLEAN = 1 || make --no-print-directory clean
     - make --no-print-directory -j`nproc`
 xpackage:
   stage: xpackage
@@ -211,10 +215,7 @@ xinstall:
     BLIST: $PROJECT
   script:
     - BDIR=build-$XC
-    - >
-      test ! -f $PRIVKEY || test -d /run/lock/.keychain ||
-      TMPDIR=/run/lock keychain --dir /run/lock --nogui $PRIVKEY
-    - test ! -f $PRIVKEY || source /run/lock/.keychain/*-sh
+    - !reference [.keychain, script]
     - cd $BDIR
     - scp $BLIST $SCPTARGET
     - test -n "$SUDOPASS" || read -s SUDOPASS
@@ -272,10 +273,7 @@ rxinstall:
   script:
     - PROPATH=$(basename `readlink -f .`)
     - BDIR=$HDIR/$BHOST/.vagrant/$PROPATH/build-$XC
-    - >
-      test ! -f $PRIVKEY || test -d /run/lock/.keychain ||
-      TMPDIR=/run/lock keychain --dir /run/lock --nogui $PRIVKEY
-    - test ! -f $PRIVKEY || source /run/lock/.keychain/*-sh
+    - !reference [.keychain, script]
     - cd $BDIR
     - scp $BLIST $URI:/run/lock/
     - test -n "$SUDOPASS" || read -s SUDOPASS
