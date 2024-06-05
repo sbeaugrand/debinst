@@ -61,7 +61,8 @@ public:
     std::atomic_bool loop = true;
     State state = state::Normal{};
 private:
-    void currentTitle(const char* method);
+    void currentTitle(const Json::Value json);
+    void currentAlbum(const Json::Value json);
     void albumList();
 
     Input& mInput;
@@ -70,7 +71,7 @@ private:
     jsonrpc::Client mJsonClient;
     std::string::size_type mShift = 0;
     Json::Value mArtist;
-    unsigned int mAlbumPos;
+    unsigned int mAlbumPos = 0;
     enum {
         EN,
         FR

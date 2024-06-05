@@ -40,6 +40,14 @@
     "returns": { }
   },
   {
+    "name": "album",
+    "params": {
+      "artist": "Ultima Thule",
+      "pos": 0
+    },
+    "returns": { }
+  },
+  {
     "name": "quit"
   }
 ]

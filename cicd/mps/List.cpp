@@ -95,10 +95,10 @@ List::artist(const std::string& search,
                 auto pos1 = path.rfind('/');
                 auto pos2 = path.rfind(" - ", pos1 - 1) + 3;
                 auto pos3 = path.rfind(" - ", pos2 - 4) + 3;
-                auto album = path.substr(pos2, pos1 - pos2);
+                auto albu = path.substr(pos2, pos1 - pos2);
                 auto date = path.substr(pos3, pos2 - pos3 - 3);
-                r["album"].append(date + "  " + album);
-                if (album == current) {
+                r["album"].append(date + "  " + albu);
+                if (albu == current) {
                     r["pos"] = count;
                     DEBUG("pos " << count);
                 }
@@ -107,6 +107,33 @@ List::artist(const std::string& search,
         }
     }
     return r;
+}
+
+/******************************************************************************!
+ * \fn album
+ ******************************************************************************/
+std::string
+List::album(const std::string& search, int pos) const
+{
+    int count = 0;
+    for (auto it : mList) {
+        for (auto al : it.list) {
+            auto path = al.substr(11);
+            if (path.starts_with(search + " - ")) {
+                auto pos1 = path.rfind('/');
+                auto pos3 = path.rfind('/', pos1 - 1) + 1;
+                auto pos2 = path.find(" - ", pos3);
+                auto arti = path.substr(pos3, pos2 - pos3);
+                if (arti == search) {
+                    if (count == pos) {
+                        return it.name + '/' + al.substr(11);
+                    }
+                    ++count;
+                }
+            }
+        }
+    }
+    return "";
 }
 
 /******************************************************************************!
@@ -165,17 +192,17 @@ List::push(const std::string& path)
 {
     auto pos = path.find('/');
     auto search = path.substr(0, pos);
-    auto album = std::string("           ") + path.substr(pos + 1);
+    auto al = std::string("           ") + path.substr(pos + 1);
     if (auto it = std::find_if(std::begin(mList), std::end(mList),
                                [&search](const Part& part) {
         return part.name == search;
     });
         it != std::end(mList)) {
-        it->list.push_back(album);
+        it->list.push_back(al);
         ++it->size;
         return;
     }
-    mList.push_back(Part{ search, 1, 1, { album }, "XX" });
+    mList.push_back(Part{ search, 1, 1, { al }, "XX" });
 }
 
 /******************************************************************************!
@@ -287,14 +314,14 @@ List::readLog()
         auto path = line.substr(20);
         auto pos = path.find('/');
         auto search = path.substr(0, pos);
-        auto album = path.substr(pos + 1);
+        auto albu = path.substr(pos + 1);
         if (auto it = std::find_if(std::begin(mList), std::end(mList),
                                    [&search](const Part& part) {
             return part.name == search;
         });
             it != std::end(mList)) {
             for (auto& al : it->list) {
-                if (al.substr(11) == album) {
+                if (al.substr(11) == albu) {
                     al = date + al.substr(11);
                 }
             }

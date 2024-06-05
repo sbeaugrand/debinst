@@ -30,7 +30,8 @@ Player::isError(const char* func)
             DEBUG("MPD_ERROR_CLOSED || MPD_ERROR_SYSTEM");
             return err;
         }
-        ERROR(func << " " << err << mpd_connection_get_error_message(mConn));
+        ERROR(func << " " <<
+              err << " " << mpd_connection_get_error_message(mConn));
         mpd_connection_clear_error(mConn);
         return -1;
     }
@@ -373,6 +374,7 @@ Player::m3u(std::string_view album)
     DEBUG(m3u);
     res = mpd_run_load(mConn, m3u.c_str());
     if (this->isError(__FUNCTION__)) {
+        ERROR(m3u);
     }
     if (! res) {
         ERROR("mpd_run_load");

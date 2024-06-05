@@ -242,7 +242,7 @@ rxbuild:
     - cd $HDIR/$BHOST
     - >
       $SSH "cd $USERPATH/$PROPATH &&
-      make xbuild BUILD=$BUILD CMAKE='$CMAKE'
+      make xbuild BUILD=$BUILD NOCLEAN=$NOCLEAN CMAKE='$CMAKE'
       XC=$XC XCVER=$XCVER XCDIR=$XCDIR &&
       (test $BUILD = Debug || $STRIP build-$XC/$PROJECT)"
 rxpackage:

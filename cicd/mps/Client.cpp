@@ -46,19 +46,17 @@ Client::close()
  * \fn currentTitle
  ******************************************************************************/
 void
-Client::currentTitle(const char* method)
+Client::currentTitle(const Json::Value json)
 {
     try {
-        Json::Value params;
-        Json::Value result = mJsonClient.CallMethod(method, params);
         Json::Value error("error");
-        auto pause = result.get("pause", false).asBool();
-        auto pos = result.get("pos", -1).asInt() + 1;
-        auto length = result.get("length", -1).asInt() + 1;
-        auto title = result.get("title", error).asString();
-        auto album = result.get("album", error).asString();
-        auto artist = result.get("artist", error).asString();
-        auto date = result.get("date", error).asString();
+        auto pause = json.get("pause", false).asBool();
+        auto pos = json.get("pos", -1).asInt() + 1;
+        auto length = json.get("length", -1).asInt() + 1;
+        auto title = json.get("title", error).asString();
+        auto album = json.get("album", error).asString();
+        auto artist = json.get("artist", error).asString();
+        auto date = json.get("date", error).asString();
         int diffmax = -Output::LCD_SHIFT;
         if (mShift > 0) {
             auto size = album.size();
@@ -98,6 +96,39 @@ Client::currentTitle(const char* method)
 }
 
 /******************************************************************************!
+ * \fn currentAlbum
+ ******************************************************************************/
+void
+Client::currentAlbum(const Json::Value json)
+{
+    char dateR[3] = { 0 };
+    if (int d = json["days"].asInt(); d > 0) {
+        int dInit = d;
+        if (d > 9) {
+            d /= 7;
+            if (d > 9) {
+                d = dInit / 31;
+                if (d > 9) {
+                    d /= 12;
+                    dateR[1] = (mLang == FR) ? 'A' : 'Y';
+                } else {
+                    dateR[1] = 'M';
+                }
+            } else {
+                dateR[1] = (mLang == FR) ? 'S' : 'W';
+            }
+        } else {
+            dateR[1] = (mLang == FR) ? 'J' : 'D';
+        }
+        dateR[0] = '0' + d;
+    }
+    mOutput.write(json["artist"].asString(),
+                  json["album"].asString(),
+                  json["date"].asString(),
+                  json["abrev"].asString() + ' ' + dateR);
+}
+
+/******************************************************************************!
  * \fn albumList
  ******************************************************************************/
 void
@@ -128,13 +159,13 @@ Client::albumList()
 State
 Client::onEvent(const state::Normal& state, const event::Up&)
 {
-    this->currentTitle("prev");
+    this->currentTitle(mJsonClient.CallMethod("prev", Json::Value()));
     return state;
 }
 State
 Client::onEvent(const state::Normal& state, const event::Down&)
 {
-    this->currentTitle("next");
+    this->currentTitle(mJsonClient.CallMethod("next", Json::Value()));
     return state;
 }
 State
@@ -153,13 +184,13 @@ Client::onEvent(const state::Normal&, const event::Left&)
 State
 Client::onEvent(const state::Normal& state, const event::Right&)
 {
-    this->currentTitle("info");
+    this->currentTitle(mJsonClient.CallMethod("info", Json::Value()));
     return state;
 }
 State
 Client::onEvent(const state::Normal& state, const event::Ok&)
 {
-    this->currentTitle("ok");
+    this->currentTitle(mJsonClient.CallMethod("ok", Json::Value()));
     return state;
 }
 State
@@ -167,32 +198,7 @@ Client::onEvent(const state::Normal& state, const event::Setup&)
 {
     try {
         Json::Value params;
-        Json::Value result = mJsonClient.CallMethod("rand", params);
-        char dateR[3] = { 0 };
-        if (int d = result["days"].asInt(); d > 0) {
-            int dInit = d;
-            if (d > 9) {
-                d /= 7;
-                if (d > 9) {
-                    d = dInit / 31;
-                    if (d > 9) {
-                        d /= 12;
-                        dateR[1] = (mLang == FR) ? 'A' : 'Y';
-                    } else {
-                        dateR[1] = 'M';
-                    }
-                } else {
-                    dateR[1] = (mLang == FR) ? 'S' : 'W';
-                }
-            } else {
-                dateR[1] = (mLang == FR) ? 'J' : 'D';
-            }
-            dateR[0] = '0' + d;
-        }
-        mOutput.write(result["artist"].asString(),
-                      result["album"].asString(),
-                      result["date"].asString(),
-                      result["abrev"].asString() + ' ' + dateR);
+        this->currentAlbum(mJsonClient.CallMethod("rand", params));
     } catch (jsonrpc::JsonRpcException& e) {
         ERROR(e.what());
     }
@@ -233,7 +239,14 @@ Client::onEvent(const state::Album&, const event::Right&)
 State
 Client::onEvent(const state::Album&, const event::Ok&)
 {
-    this->currentTitle("info");
+    try {
+        Json::Value params;
+        params["artist"] = mArtist["artist"];
+        params["pos"] = mAlbumPos;
+        this->currentTitle(mJsonClient.CallMethod("album", params));
+    } catch (jsonrpc::JsonRpcException& e) {
+        ERROR(e.what());
+    }
     return state::Normal{};
 }
 State
@@ -261,7 +274,7 @@ Client::processEvent(const Event& event)
 int
 Client::run()
 {
-    this->currentTitle("info");
+    this->currentTitle(mJsonClient.CallMethod("info", Json::Value()));
     while (this->loop) {
         mInput.hasEvent.wait(false);
         if (! this->loop) {
