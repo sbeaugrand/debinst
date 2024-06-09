@@ -45,4 +45,5 @@ private:
     Terminal* mOled = nullptr;
 #   endif
     std::thread mScreensaverThread;
+    std::mutex mMutex;
 };

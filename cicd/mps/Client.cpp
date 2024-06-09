@@ -154,6 +154,52 @@ Client::albumList()
 }
 
 /******************************************************************************!
+ * \fn letters
+ ******************************************************************************/
+void
+Client::letters(int pos)
+{
+    switch (pos) {
+    case 0:
+        mOutput.write(mArtist["artist"].asString(),
+                      "    AE",
+                      "FJ  KO  PT",
+                      "    UY");
+        break;
+    case 1:
+        mOutput.write(mArtist["artist"].asString(),
+                      "   A",
+                      "B  C  D",
+                      "   E");
+        break;
+    case 2:
+        mOutput.write(mArtist["artist"].asString(),
+                      "   F",
+                      "G  H  I",
+                      "   J");
+        break;
+    case 3:
+        mOutput.write(mArtist["artist"].asString(),
+                      "   K",
+                      "L  M  N",
+                      "   O");
+        break;
+    case 4:
+        mOutput.write(mArtist["artist"].asString(),
+                      "   P",
+                      "Q  R  S",
+                      "   T");
+        break;
+    case 5:
+        mOutput.write(mArtist["artist"].asString(),
+                      "   U",
+                      "V  W  Y",
+                      "   Z");
+        break;
+    }
+}
+
+/******************************************************************************!
  * \fn onEvent
  ******************************************************************************/
 State
@@ -226,8 +272,10 @@ Client::onEvent(const state::Album& state, const event::Down&)
 State
 Client::onEvent(const state::Album&, const event::Left&)
 {
-    // Todo
-    return state::Album{};
+    mArtist["artist"] = "";
+    mArtistPos = 0;
+    this->letters(mArtistPos);
+    return state::Artist{};
 }
 State
 Client::onEvent(const state::Album&, const event::Right&)
@@ -255,6 +303,85 @@ Client::onEvent(const state::Album& state, const event::Setup&)
     return state;
 }
 
+State
+Client::onEvent(const state::Artist& state, const event::Up&)
+{
+    if (mArtistPos == 0) {
+        mArtistPos = 1;
+    } else {
+        mArtist["artist"] = mArtist["artist"].asString() +
+            mLetterList.at(mArtistPos - 1);
+        mArtistPos = 0;
+    }
+    this->letters(mArtistPos);
+    return state;
+}
+State
+Client::onEvent(const state::Artist& state, const event::Down&)
+{
+    if (mArtistPos == 0) {
+        mArtistPos = 5;
+    } else {
+        mArtist["artist"] = mArtist["artist"].asString() +
+            mLetterList.at(mArtistPos - 1 + 20);
+        mArtistPos = 0;
+    }
+    this->letters(mArtistPos);
+    return state;
+}
+State
+Client::onEvent(const state::Artist& state, const event::Left&)
+{
+    if (mArtistPos == 0) {
+        mArtistPos = 2;
+    } else {
+        mArtist["artist"] = mArtist["artist"].asString() +
+            mLetterList.at(mArtistPos - 1 + 5);
+        mArtistPos = 0;
+    }
+    this->letters(mArtistPos);
+    return state;
+}
+State
+Client::onEvent(const state::Artist& state, const event::Right&)
+{
+    if (mArtistPos == 0) {
+        mArtistPos = 4;
+    } else {
+        mArtist["artist"] = mArtist["artist"].asString() +
+            mLetterList.at(mArtistPos - 1 + 15);
+        mArtistPos = 0;
+    }
+    this->letters(mArtistPos);
+    return state;
+}
+State
+Client::onEvent(const state::Artist& state, const event::Ok&)
+{
+    if (mArtistPos == 0) {
+        mArtistPos = 3;
+    } else {
+        mArtist["artist"] = mArtist["artist"].asString() +
+            mLetterList.at(mArtistPos - 1 + 10);
+        mArtistPos = 0;
+    }
+    this->letters(mArtistPos);
+    return state;
+}
+State
+Client::onEvent(const state::Artist&, const event::Setup&)
+{
+    try {
+        Json::Value params;
+        params["artist"] = mArtist["artist"];
+        params["pos"] = -1;
+        mJsonClient.CallMethod("album", params);
+    } catch (jsonrpc::JsonRpcException& e) {
+        ERROR(e.what());
+    }
+    return this->onEvent(state::Normal{}, event::Left{});
+}
+
 /******************************************************************************!
  * \fn processEvent
  ******************************************************************************/
@@ -263,7 +390,7 @@ Client::processEvent(const Event& event)
 {
     state = std::visit(
         [this](const auto& st, const auto& ev) {
-        return onEvent(st, ev);
+        return this->onEvent(st, ev);
     },
         state, event);
 }
@@ -274,7 +401,15 @@ Client::processEvent(const Event& event)
 int
 Client::run()
 {
-    this->currentTitle(mJsonClient.CallMethod("info", Json::Value()));
+    for (;;) {
+        try {
+            this->currentTitle(mJsonClient.CallMethod("info", Json::Value()));
+            break;
+        } catch (jsonrpc::JsonRpcException& e) {
+            ERROR(e.what());
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+    }
     while (this->loop) {
         mInput.hasEvent.wait(false);
         if (! this->loop) {

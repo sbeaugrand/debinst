@@ -115,24 +115,43 @@ List::artist(const std::string& search,
 std::string
 List::album(const std::string& search, int pos) const
 {
-    int count = 0;
-    for (auto it : mList) {
-        for (auto al : it.list) {
-            auto path = al.substr(11);
-            if (path.starts_with(search + " - ")) {
+    if (pos < 0) {
+        for (auto it : mList) {
+            for (auto al : it.list) {
+                auto path = al.substr(11);
                 auto pos1 = path.rfind('/');
                 auto pos3 = path.rfind('/', pos1 - 1) + 1;
                 auto pos2 = path.find(" - ", pos3);
                 auto arti = path.substr(pos3, pos2 - pos3);
+                arti = arti.substr(0, search.size());
+                std::transform(arti.begin(), arti.end(),
+                               arti.begin(), ::toupper);
                 if (arti == search) {
-                    if (count == pos) {
-                        return it.name + '/' + al.substr(11);
+                    return it.name + '/' + al.substr(11);
+                }
+            }
+        }
+    } else {
+        int count = 0;
+        for (auto it : mList) {
+            for (auto al : it.list) {
+                auto path = al.substr(11);
+                if (path.starts_with(search + " - ")) {
+                    auto pos1 = path.rfind('/');
+                    auto pos3 = path.rfind('/', pos1 - 1) + 1;
+                    auto pos2 = path.find(" - ", pos3);
+                    auto arti = path.substr(pos3, pos2 - pos3);
+                    if (arti == search) {
+                        if (count == pos) {
+                            return it.name + '/' + al.substr(11);
+                        }
+                        ++count;
                     }
-                    ++count;
                 }
             }
         }
     }
+    ERROR(search);
     return "";
 }
 

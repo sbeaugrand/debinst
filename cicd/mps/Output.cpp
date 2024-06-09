@@ -76,22 +76,25 @@ Output::write(std::string_view line1,
     if (mOled == nullptr) {
         return;
     }
-    this->save = false;
-    mOled->clear();
+    {
+        const std::lock_guard<std::mutex> lock(mMutex);
+        this->save = false;
+        mOled->clear();
 
-    std::string buff;
-    buff = std::string(line1).substr(0, LCD_COLS);
-    mOled->setCursor(1, 0);
-    mOled->write(buff);
-    buff = std::string(line2).substr(0, LCD_COLS);
-    mOled->setCursor(3, 0);
-    mOled->write(buff);
-    buff = std::string(line3).substr(0, LCD_COLS);
-    mOled->setCursor(5, 0);
-    mOled->write(buff);
-    buff = std::string(line4).substr(0, LCD_COLS);
-    mOled->setCursor(7, 0);
-    mOled->write(buff);
+        std::string buff;
+        buff = std::string(line1).substr(0, LCD_COLS);
+        mOled->setCursor(1, 0);
+        mOled->write(buff);
+        buff = std::string(line2).substr(0, LCD_COLS);
+        mOled->setCursor(3, 0);
+        mOled->write(buff);
+        buff = std::string(line3).substr(0, LCD_COLS);
+        mOled->setCursor(5, 0);
+        mOled->write(buff);
+        buff = std::string(line4).substr(0, LCD_COLS);
+        mOled->setCursor(7, 0);
+        mOled->write(buff);
+    }
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
 
@@ -137,42 +140,45 @@ Output::screensaver(Output* self)
         if (self->mOled == nullptr) {
             return;
         }
-        self->mOled->clear();
+        {
+            const std::lock_guard<std::mutex> lock(self->mMutex);
+            self->mOled->clear();
 
-        std::time_t time = std::time({});
-        char timeString[std::size("dd-mm hh:mm")];
-        if ((std::filesystem::status(self->musicDirectory).permissions() &
-             std::filesystem::perms::owner_read) ==
-            std::filesystem::perms::owner_read) {
-            std::strftime(std::data(timeString), std::size(timeString),
-                          "%d-%m %H:%M", std::localtime(&time));
-        } else {
-            std::strftime(std::data(timeString), std::size(timeString),
-                          "%dX%m %H:%M", std::localtime(&time));
-        }
+            std::time_t time = std::time({});
+            char timeString[std::size("dd-mm hh:mm")];
+            if ((std::filesystem::status(self->musicDirectory).permissions() &
+                 std::filesystem::perms::owner_read) ==
+                std::filesystem::perms::owner_read) {
+                std::strftime(std::data(timeString), std::size(timeString),
+                              "%d-%m %H:%M", std::localtime(&time));
+            } else {
+                std::strftime(std::data(timeString), std::size(timeString),
+                              "%dX%m %H:%M", std::localtime(&time));
+            }
 
-        if (r == -1) {
-            srand(time);
-        }
-        r = rand() % ((LCD_COLS - (width - 1)) * (LCD_ROWS - (height - 1)));
-        int x = r % (LCD_COLS - (width - 1));
-        int y = r / (LCD_COLS - (width - 1));
-        if (self->mOled->setCursor(y, x) != mraa::SUCCESS) {
-            return;
-        }
+            if (r == -1) {
+                srand(time);
+            }
+            r = rand() % ((LCD_COLS - (width - 1)) * (LCD_ROWS - (height - 1)));
+            int x = r % (LCD_COLS - (width - 1));
+            int y = r / (LCD_COLS - (width - 1));
+            if (self->mOled->setCursor(y, x) != mraa::SUCCESS) {
+                return;
+            }
 
-        timeString[width] = '\0';
-        self->mOled->write(timeString);
-        self->mOled->setCursor(y + height - 1, x);
-        self->mOled->write(timeString + width + 1);
+            timeString[width] = '\0';
+            self->mOled->write(timeString);
+            self->mOled->setCursor(y + height - 1, x);
+            self->mOled->write(timeString + width + 1);
 
-        if (std::filesystem::exists("/run/shutter.at")) {
-            std::ifstream file("/run/shutter.at");
-            std::string line;
-            std::getline(file, line);
-            if (! line.empty()) {
-                self->mOled->setCursor(y + 2, x);
-                self->mOled->write(line);
+            if (std::filesystem::exists("/run/shutter.at")) {
+                std::ifstream file("/run/shutter.at");
+                std::string line;
+                std::getline(file, line);
+                if (! line.empty()) {
+                    self->mOled->setCursor(y + 2, x);
+                    self->mOled->write(line);
+                }
             }
         }
     }
