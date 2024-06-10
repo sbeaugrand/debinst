@@ -123,10 +123,17 @@ List::album(const std::string& search, int pos) const
                 auto pos3 = path.rfind('/', pos1 - 1) + 1;
                 auto pos2 = path.find(" - ", pos3);
                 auto arti = path.substr(pos3, pos2 - pos3);
-                arti = arti.substr(0, search.size());
-                std::transform(arti.begin(), arti.end(),
-                               arti.begin(), ::toupper);
-                if (arti == search) {
+                auto count = search.size();
+                std::string str;
+                for (const auto c : arti) {
+                    if (c != ' ') {
+                        str.push_back(::toupper(c));
+                        if (--count == 0) {
+                            break;
+                        }
+                    }
+                }
+                if (str == search) {
                     return it.name + '/' + al.substr(11);
                 }
             }

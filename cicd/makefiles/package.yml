@@ -212,8 +212,8 @@ xinstall:
   stage: xinstall
   variables:
     XC: aarch64-linux-gnu
-    BLIST: $PROJECT
   script:
+    - test -n "$BLIST" || BLIST=$PROJECT
     - BDIR=build-$XC
     - !reference [.keychain, script]
     - cd $BDIR
@@ -269,14 +269,14 @@ rxinstall:
   stage: rxinstall
   variables:
     XC: aarch64-linux-gnu
-    BLIST: $PROJECT
   script:
+    - test -n "$BLIST" || BLIST=$PROJECT
     - PROPATH=$(basename `readlink -f .`)
     - BDIR=$HDIR/$BHOST/.vagrant/$PROPATH/build-$XC
     - !reference [.keychain, script]
     - cd $BDIR
-    - scp $BLIST $URI:/run/lock/
+    - scp $BLIST $URI:/run/user/1000/
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
-      $SSH "cd /run/lock && echo $SUDOPASS | sudo -S true && echo &&
+      $SSH "cd /run/user/1000 && echo $SUDOPASS | sudo -S true && echo &&
       sudo mv $BLIST /usr/bin/"

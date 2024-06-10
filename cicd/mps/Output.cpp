@@ -75,8 +75,7 @@ Output::write(std::string_view line1,
 {
     if (mOled == nullptr) {
         return;
-    }
-    {
+    } else {
         const std::lock_guard<std::mutex> lock(mMutex);
         this->save = false;
         mOled->clear();
@@ -139,8 +138,7 @@ Output::screensaver(Output* self)
 
         if (self->mOled == nullptr) {
             return;
-        }
-        {
+        } else {
             const std::lock_guard<std::mutex> lock(self->mMutex);
             self->mOled->clear();
 

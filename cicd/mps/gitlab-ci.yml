@@ -6,6 +6,7 @@
 # ---------------------------------------------------------------------------- #
 variables:
   PROJECT: mps
+  BLIST: mpserver mpclient
   lserver: http://localhost:8383
   musicdir: /data/mp3
   verbose: -v
@@ -30,3 +31,7 @@ test1:
     - make --no-print-directory
     - systemctl -q is-active mpd || sudo systemctl start mpd
     - ./test1.py $lserver $musicdir $verbose
+test2:
+  stage: stest
+  script:
+    - ./client.py http://pi:8383 pause
