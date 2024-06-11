@@ -99,6 +99,9 @@ rbpd:
 	@$(MAKE) --no-print-directory rpackage
 	@$(MAKE) --no-print-directory rdeploy
 
+.PHONY: xbpd
+xbpd: xbuild xpackage xdeploy
+
 .PHONY: xbit
 xbit: xbuild xinstall xtest
 

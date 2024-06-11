@@ -123,7 +123,7 @@ Output::screensaver(Output* self)
 
     while (self->loop) {
         self->save = true;
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < 15; ++i) {
             std::this_thread::sleep_for(std::chrono::seconds(2));
             if (! self->loop) {
                 return;

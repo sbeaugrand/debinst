@@ -8,7 +8,7 @@ XC = arm-linux-gnueabihf
 
 UN ?= $(USER)
 URI = $(UN)@pi
-SSH = ssh $(URI)
+SSH = ssh -t $(URI)
 USERPATH = /home/$(UN)
 
 MDIR = /data/mp3
