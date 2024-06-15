@@ -26,9 +26,13 @@ BUILD ?= Debug
 NOCLEAN ?= 0
 URI ?= exemple@ip
 SSH ?= vagrant ssh -c
+SCP ?= scp
 USERPATH ?= /vagrant/.vagrant
 ifneq ($(XC),)
  OPTS += -e XC=$(XC)
+ REINSTALL = xbpd
+else
+ REINSTALL = rbpd
 endif
 ifneq ($(XCVER),)
  OPTS += -e XCVER=$(XCVER)
@@ -57,6 +61,7 @@ gitlabci = ~/.local/bin/gitlabci-local\
  -e CMAKE="$(NCMAKE)"\
  -e URI=$(URI)\
  -e SSH="$(SSH)"\
+ -e SCP="$(SCP)"\
  -e USERPATH=$(USERPATH)\
  $(OPTS)\
  -c gitlab-ci.yml
@@ -101,6 +106,10 @@ rbpd:
 
 .PHONY: xbpd
 xbpd: xbuild xpackage xdeploy
+
+.PHONY: reinstall
+reinstall:
+	@$(MAKE) --no-print-directory $(REINSTALL) NOCLEAN=1
 
 .PHONY: xbit
 xbit: xbuild xinstall xtest

@@ -33,7 +33,8 @@ public:
                std::string_view line3,
                std::string_view line4);
     void close();
-    static void screensaver(Output* self);
+    void screensaver();
+    static void run(Output* self);
 
     std::atomic_bool loop = true;
     std::atomic_bool save = false;

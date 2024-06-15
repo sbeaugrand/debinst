@@ -68,7 +68,7 @@ public:
     std::atomic_bool loop = true;
     State state = state::Normal{};
 private:
-    const std::string mLetterList=
+    const std::string mLetterList =
         "AFKPU"
         "BGLQV"
         "CHMRW"

@@ -9,6 +9,7 @@
     create: yes
     block: |
       {{ user }} ALL=(root) NOPASSWD:/sbin/halt
+      {{ user }} ALL=(root) NOPASSWD:/sbin/reboot
       {{ user }} ALL=(root) NOPASSWD:/usr/sbin/rtc
       {{ user }} ALL=(root) NOPASSWD:/usr/sbin/shutter-restart.sh
     mode: 0440

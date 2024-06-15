@@ -4,7 +4,10 @@
 	dh $@
 
 override_dh_shlibdeps:
-	dh_shlibdeps -l$(XCDIR)/$(XC)-$(XCVER)/usr/lib:$(XCDIR)/$(XC)-$(XCVER)/usr/lib/$(XC):$(XCDIR)/$(XC)-$(XCVER)/usr/local/lib -Xmpclient
+	dh_shlibdeps -Xmpclient -Xmpssaver -Xoledmesg --\
+     -l$(XCDIR)/$(XC)-$(XCVER)/usr/lib\
+     -l$(XCDIR)/$(XC)-$(XCVER)/usr/lib/$(XC)\
+     -l$(XCDIR)/$(XC)-$(XCVER)/usr/local/lib\
 
 override_dh_installsystemd:
 	dh_installsystemd --no-enable

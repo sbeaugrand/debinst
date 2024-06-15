@@ -44,6 +44,7 @@ variables:
          --exclude=.svn
   URI: example@ip
   SSH: vagrant ssh -c
+  SCP: scp
   USERPATH: /vagrant/.vagrant
   SCPTARGET: $URI:$USERPATH/
   HDIR: ../hosts
@@ -162,7 +163,7 @@ rdeploy:
     - test -n "$XC" || BDIR=.vagrant/$PROPATH/build
     - test -n "$XC" || cd $HDIR/$BHOST
     - !reference [.keychain, script]
-    - scp $BDIR/${PROJECT}_${VERSION}_*.deb $SCPTARGET
+    - $SCP $BDIR/${PROJECT}_${VERSION}_*.deb $SCPTARGET
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
       $SSH "! systemctl -q is-active $PROJECT ||
@@ -218,7 +219,7 @@ xinstall:
     - BDIR=build-$XC
     - !reference [.keychain, script]
     - cd $BDIR
-    - scp $BLIST $SCPTARGET
+    - $SCP $BLIST $SCPTARGET
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
       $SSH "cd $USERPATH && echo $SUDOPASS | sudo -S true && echo &&
@@ -276,7 +277,7 @@ rxinstall:
     - BDIR=$HDIR/$BHOST/.vagrant/$PROPATH/build-$XC
     - !reference [.keychain, script]
     - cd $BDIR
-    - scp $BLIST $URI:/run/user/1000/
+    - $SCP $BLIST $URI:/run/user/1000/
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
       $SSH "cd /run/user/1000 && echo $SUDOPASS | sudo -S true && echo &&

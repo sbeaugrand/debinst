@@ -32,6 +32,13 @@ quit()
 
 sudo -k
 sudo true || quit 1
+if [ "$1" = "1" ]; then
+    ipv4dns $dns1
+    exit 0
+elif [ "$1" = "2" ]; then
+    ipv4dns $dns2
+    exit 0
+fi
 ipv4dns $dns2
 
 trap "echo; quit 0" SIGINT

@@ -39,3 +39,24 @@ if(XC)
         upm-lcd
     )
 endif()
+
+add_executable(mpssaver
+    mpssaver.cpp
+    Input.cpp
+    Output.cpp
+)
+if(XC)
+    target_link_libraries(mpssaver
+        lirc_client
+        upm-lcd
+    )
+endif()
+
+if(XC)
+    add_executable(oledmesg
+        oledmesg.cpp
+    )
+    target_link_libraries(oledmesg
+        upm-lcd
+    )
+endif()

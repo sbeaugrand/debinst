@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------- #
+## \file mpssaver.service
+# ---------------------------------------------------------------------------- #
+[Unit]
+Description=Music Player Screensaver
+After=rtc.service
+Wants=rtc.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/mpssaver /mnt/mp3/mp3
+ExecStop=pkill -INT mpssaver
+TimeoutStopSec=1s
+
+[Install]
+WantedBy=multi-user.target
+WantedBy=shutdown.target

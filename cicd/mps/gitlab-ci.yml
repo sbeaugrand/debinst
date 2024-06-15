@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 variables:
   PROJECT: mps
-  BLIST: mpserver mpclient
+  BLIST: mpserver mpclient mpssaver oledmesg
   lserver: http://localhost:8383
   musicdir: /data/mp3
   verbose: -v

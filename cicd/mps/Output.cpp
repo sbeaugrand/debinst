@@ -17,7 +17,7 @@
 Output::Output()
 {
     this->open();
-    mScreensaverThread = std::thread(Output::screensaver, this);
+    mScreensaverThread = std::thread(Output::run, this);
 }
 
 /******************************************************************************!
@@ -115,12 +115,57 @@ Output::close()
  * \fn screensaver
  ******************************************************************************/
 void
-Output::screensaver(Output* self)
+Output::screensaver()
 {
     const unsigned int width = 5;
     const unsigned int height = 5;
     static int r = -1;
 
+    const std::lock_guard<std::mutex> lock(mMutex);
+    mOled->clear();
+
+    std::time_t time = std::time({});
+    char timeString[std::size("dd-mm hh:mm")];
+    if (std::filesystem::exists(this->musicDirectory)) {
+        std::strftime(std::data(timeString), std::size(timeString),
+                      "%d-%m %H:%M", std::localtime(&time));
+    } else {
+        std::strftime(std::data(timeString), std::size(timeString),
+                      "%dX%m %H:%M", std::localtime(&time));
+    }
+
+    if (r == -1) {
+        srand(time);
+    }
+    r = rand() % ((LCD_COLS - (width - 1)) * (LCD_ROWS - (height - 1)));
+    int x = r % (LCD_COLS - (width - 1));
+    int y = r / (LCD_COLS - (width - 1));
+    if (mOled->setCursor(y, x) != mraa::SUCCESS) {
+        return;
+    }
+
+    timeString[width] = '\0';
+    mOled->write(timeString);
+    mOled->setCursor(y + height - 1, x);
+    mOled->write(timeString + width + 1);
+
+    if (std::filesystem::exists("/run/shutter.at")) {
+        std::ifstream file("/run/shutter.at");
+        std::string line;
+        std::getline(file, line);
+        if (! line.empty()) {
+            mOled->setCursor(y + 2, x);
+            mOled->write(line);
+        }
+    }
+}
+
+/******************************************************************************!
+ * \fn run
+ ******************************************************************************/
+void
+Output::run(Output* self)
+{
     while (self->loop) {
         self->save = true;
         for (int i = 0; i < 15; ++i) {
@@ -139,45 +184,7 @@ Output::screensaver(Output* self)
         if (self->mOled == nullptr) {
             return;
         } else {
-            const std::lock_guard<std::mutex> lock(self->mMutex);
-            self->mOled->clear();
-
-            std::time_t time = std::time({});
-            char timeString[std::size("dd-mm hh:mm")];
-            if ((std::filesystem::status(self->musicDirectory).permissions() &
-                 std::filesystem::perms::owner_read) ==
-                std::filesystem::perms::owner_read) {
-                std::strftime(std::data(timeString), std::size(timeString),
-                              "%d-%m %H:%M", std::localtime(&time));
-            } else {
-                std::strftime(std::data(timeString), std::size(timeString),
-                              "%dX%m %H:%M", std::localtime(&time));
-            }
-
-            if (r == -1) {
-                srand(time);
-            }
-            r = rand() % ((LCD_COLS - (width - 1)) * (LCD_ROWS - (height - 1)));
-            int x = r % (LCD_COLS - (width - 1));
-            int y = r / (LCD_COLS - (width - 1));
-            if (self->mOled->setCursor(y, x) != mraa::SUCCESS) {
-                return;
-            }
-
-            timeString[width] = '\0';
-            self->mOled->write(timeString);
-            self->mOled->setCursor(y + height - 1, x);
-            self->mOled->write(timeString + width + 1);
-
-            if (std::filesystem::exists("/run/shutter.at")) {
-                std::ifstream file("/run/shutter.at");
-                std::string line;
-                std::getline(file, line);
-                if (! line.empty()) {
-                    self->mOled->setCursor(y + 2, x);
-                    self->mOled->write(line);
-                }
-            }
+            self->screensaver();
         }
     }
 }

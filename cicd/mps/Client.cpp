@@ -92,6 +92,8 @@ Client::currentTitle(const Json::Value json)
                       title);
     } catch (jsonrpc::JsonRpcException& e) {
         ERROR(e.what());
+    } catch (const Json::LogicError& e) {
+        ERROR(e.what());
     }
 }
 
@@ -408,6 +410,9 @@ Client::run()
         } catch (jsonrpc::JsonRpcException& e) {
             ERROR(e.what());
             std::this_thread::sleep_for(std::chrono::seconds(1));
+        } catch (const Json::LogicError& e) {
+            ERROR(e.what());
+            std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }
     while (this->loop) {
@@ -449,7 +454,7 @@ Client::run()
             break;
         case Input::KEY_BACK:
             mShift = 0;
-            this->currentTitle("info");
+            this->currentTitle(mJsonClient.CallMethod("info", Json::Value()));
             break;
         case Input::KEY_UNDEFINED:
             break;
