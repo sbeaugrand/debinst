@@ -48,6 +48,13 @@
     "returns": { }
   },
   {
+    "name": "pos",
+    "params": {
+      "pos": 0
+    },
+    "returns": { }
+  },
+  {
     "name": "quit"
   }
 ]

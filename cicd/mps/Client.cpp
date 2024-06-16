@@ -49,7 +49,7 @@ void
 Client::currentTitle(const Json::Value json)
 {
     try {
-        Json::Value error("error");
+        Json::Value error("");
         auto pause = json.get("pause", false).asBool();
         auto pos = json.get("pos", -1).asInt() + 1;
         auto length = json.get("length", -1).asInt() + 1;

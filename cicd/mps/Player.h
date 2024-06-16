@@ -22,6 +22,7 @@ public:
     unsigned int getPlaytime();
     Json::Value titleList();
     void start();
+    void startId(int pos);
     void startRel(int pos);
     void pause();
     void stop();
@@ -32,7 +33,6 @@ private:
     int isError(const char* func);
     struct mpd_status* getMPDStatus();
     unsigned int getStatus();
-    void startId(int pos);
     void quit();
 
     struct mpd_connection* mConn = nullptr;

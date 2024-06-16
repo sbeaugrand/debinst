@@ -266,16 +266,12 @@ Player::startId(int pos)
     }
     mpd_status_free(status);
 
-    if (pos < 0) {
-        res = mpd_run_previous(mConn);
-    } else {
-        res = mpd_run_next(mConn);
-    }
+    res = mpd_run_play_pos(mConn, pos);
     if (this->isError(__FUNCTION__)) {
         return;
     }
     if (! res) {
-        ERROR("mpd_run_ previous next");
+        ERROR("mpd_run_play_pos");
         return;
     }
     this->start();
@@ -420,24 +416,53 @@ Player::currentTitle()
         return r;
     }
 
+    std::string path;
+
     if (const char* tag = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
         tag != NULL) {
         r["title"] = tag;
+    } else if (const char* tag2 = mpd_song_get_tag(song, MPD_TAG_NAME, 0);
+               tag2 != NULL) {
+        std::string name = tag2;
+        auto pos1 = name.find(" - ") + 3;
+        r["title"] = name.substr(pos1);
     }
 
     if (const char* tag = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
         tag != NULL) {
         r["album"] = tag;
+    } else {
+        path = mpd_song_get_uri(song);
+        auto pos1 = path.rfind('/');
+        auto pos2 = path.rfind(" - ", pos1 - 1) + 3;
+        r["album"] = path.substr(pos2, pos1 - pos2);
     }
 
     if (const char* tag = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
         tag != NULL) {
         r["artist"] = tag;
+    } else {
+        if (path.empty()) {
+            path = mpd_song_get_uri(song);
+        }
+        auto pos1 = path.rfind('/');
+        auto pos3 = path.rfind('/', pos1 - 1) + 1;
+        auto pos2 = path.find(" - ", pos3);
+        r["artist"] = path.substr(pos3, pos2 - pos3);
     }
 
     if (const char* tag = mpd_song_get_tag(song, MPD_TAG_DATE, 0);
         tag != NULL) {
         r["date"] = tag;
+    } else {
+        if (path.empty()) {
+            path = mpd_song_get_uri(song);
+        }
+        auto pos1 = path.rfind('/');
+        auto pos4 = path.rfind('/', pos1 - 1) + 1;
+        auto pos3 = path.find(" - ", pos4) + 3;
+        auto pos2 = path.find(" - ", pos3);
+        r["date"] = path.substr(pos3, pos2 - pos3);
     }
 
     mpd_song_free(song);

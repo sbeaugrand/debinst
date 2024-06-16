@@ -15,6 +15,8 @@ MDIR = /data/mp3
 
 CPPCHECKINC = --include=build/abstractstubserver.h
 
+BROWSER = firefox
+
 include ../makefiles/cmake.mk
 include ../makefiles/gitlabci.mk
 include ../makefiles/mermaid.mk
@@ -32,3 +34,16 @@ server:
 client:
 	@cd build && make --no-print-directory -j`nproc` mpclient
 	@build/mpclient http://localhost:8383 $(MDIR)
+
+.PHONY: php
+php:
+	@grep -q "127.0.0.1 $(PROJECT)" /etc/hosts || \
+	echo "127.0.0.1 $(PROJECT)" | sudo /usr/bin/tee -a /etc/hosts >/dev/null
+	@sudo -b php -S $(PROJECT):8090 -f client.php -t $(shell pwd)
+	@sleep 2
+	@$(BROWSER) http://$(PROJECT):8090/client.php &
+	@echo
+	@echo "Type [enter] to quit "
+	@echo
+	@read ret
+	@sudo kill -2 `ps -C "php -S $(PROJECT)" -o pid=`
