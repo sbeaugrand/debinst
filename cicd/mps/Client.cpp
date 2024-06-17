@@ -4,6 +4,7 @@
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
+#include <fstream>
 #include "Client.h"
 #include "log.h"
 
@@ -16,7 +17,8 @@ Client::Client(Input& input, Output& output, const std::string& url)
     , mHttpClient(url)
     , mJsonClient(mHttpClient)
 {
-    if (std::string(std::getenv("LANG")).starts_with("fr")) {
+    std::string tz;
+    if (std::ifstream("/etc/timezone") >> tz; tz == "Europe/Paris") {
         mLang = FR;
     } else {
         mLang = EN;

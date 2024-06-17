@@ -30,9 +30,9 @@ SCP ?= scp
 USERPATH ?= /vagrant/.vagrant
 ifneq ($(XC),)
  OPTS += -e XC=$(XC)
- REINSTALL = xbpd
+ REINSTALL ?= xbpd
 else
- REINSTALL = rbpd
+ REINSTALL ?= rbpd
 endif
 ifneq ($(XCVER),)
  OPTS += -e XCVER=$(XCVER)

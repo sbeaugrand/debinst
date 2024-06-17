@@ -30,6 +30,7 @@ public:
     int readResumeTime() const;
     void writeResumeTime(int ms) const;
     void writeLog(std::string_view album) const;
+    Json::Value dir(const std::string& path) const;
 private:
     void push(const std::string& path);
     void readList();

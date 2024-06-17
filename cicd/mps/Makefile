@@ -35,6 +35,12 @@ client:
 	@cd build && make --no-print-directory -j`nproc` mpclient
 	@build/mpclient http://localhost:8383 $(MDIR)
 
+.PHONY: dir
+dir:
+	@curl -s -d\
+	 '{"jsonrpc":"2.0","method":"dir","params":{"path":"/"},"id":1}'\
+	 http://localhost:8383 | python3 -m json.tool
+
 .PHONY: php
 php:
 	@grep -q "127.0.0.1 $(PROJECT)" /etc/hosts || \

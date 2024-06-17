@@ -27,6 +27,7 @@ print '<a href="?method=play">play</a><br/>';
 print '<a href="?method=pause">pause</a><br/>';
 print '<a href="?method=next">next</a><br/>';
 print '<a href="?method=prev">prev</a><br/>';
+print '<a href="?method=dir&path=/">dir</a><br/>';
 
 $data = array(
     "jsonrpc" => "2.0",
@@ -35,8 +36,10 @@ $data = array(
 if ($method != "quit") {
     $data["id"] = 1;
 }
-if ($method == "pos") {
+/*  */ if ($method == "pos") {
     $data["params"] = array("pos" => intval($_GET['pos']));
+} else if ($method == "dir") {
+    $data["params"] = array("path" => $_GET['path']);
 }
 
 $options = array(

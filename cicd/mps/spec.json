@@ -55,6 +55,13 @@
     "returns": { }
   },
   {
+    "name": "dir",
+    "params": {
+      "path": "/"
+    },
+    "returns": { }
+  },
+  {
     "name": "quit"
   }
 ]

@@ -33,6 +33,7 @@ public:
     virtual Json::Value artist() override;
     virtual Json::Value album(const std::string& artist, int pos) override;
     virtual Json::Value pos(int pos) override;
+    virtual Json::Value dir(const std::string& path) override;
     virtual void quit() override;
 
     std::atomic_bool loop = true;

@@ -211,6 +211,23 @@ List::writeLog(std::string_view album) const
 }
 
 /******************************************************************************!
+ * \fn dir
+ ******************************************************************************/
+Json::Value
+List::dir(const std::string& path) const
+{
+    Json::Value result;
+    std::filesystem::directory_iterator dir(mPath + path);
+    while (dir != std::filesystem::end(dir)) {
+        if (dir->is_directory()) {
+            result["dir"].append(dir->path().filename().string());
+        }
+        ++dir;
+    }
+    return result;
+}
+
+/******************************************************************************!
  * \fn push
  ******************************************************************************/
 void
