@@ -6,6 +6,8 @@
  ******************************************************************************/
 #include <chrono>
 #include <iostream>
+#include <filesystem>
+#include <algorithm>
 #include "Server.h"
 #include "List.h"
 #include "Player.h"
@@ -199,8 +201,17 @@ Server::pos(int pos)
 Json::Value
 Server::dir(const std::string& path)
 {
-    DEBUG("");
-    return mList.dir(path);
+    auto p = path;
+    std::ranges::replace(p, '+', ' ');
+    DEBUG(p);
+    if (std::filesystem::exists(mPlayer.musicDirectory + '/' +
+                                p + "/00.m3u")) {
+        mPlayer.m3u(p + "/00.m3u");
+        mList.writeLog(p + "/00.m3u");
+        return Json::Value{};
+    } else {
+        return mList.dir(p);
+    }
 }
 
 /******************************************************************************!

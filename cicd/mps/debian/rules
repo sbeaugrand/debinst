@@ -10,4 +10,4 @@ override_dh_shlibdeps:
      -l$(XCDIR)/$(XC)-$(XCVER)/usr/local/lib\
 
 override_dh_installsystemd:
-	dh_installsystemd --no-enable
+	dh_installsystemd --no-enable --restart-after-upgrade --no-start

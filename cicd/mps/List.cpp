@@ -217,12 +217,26 @@ Json::Value
 List::dir(const std::string& path) const
 {
     Json::Value result;
-    std::filesystem::directory_iterator dir(mPath + path);
-    while (dir != std::filesystem::end(dir)) {
-        if (dir->is_directory()) {
-            result["dir"].append(dir->path().filename().string());
+    std::list<std::string> list;
+    try {
+        std::filesystem::directory_iterator dir(mPath + '/' + path);
+        while (dir != std::filesystem::end(dir)) {
+            if (dir->is_directory()) {
+                if (path.empty()) {
+                    list.push_back(dir->path().filename().string());
+                } else {
+                    list.push_back(path + '/' +
+                                   dir->path().filename().string());
+                }
+            }
+            ++dir;
         }
-        ++dir;
+    } catch (const std::filesystem::filesystem_error& e) {
+        ERROR(e.what());
+    }
+    list.sort();
+    for (const auto& d : list) {
+        result["dir"].append(d);
     }
     return result;
 }

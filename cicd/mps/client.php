@@ -10,7 +10,7 @@ if (PHP_SAPI === 'cli') {
     $server = $_GET['server'];
     $method = $_GET['method'];
 } else {
-    $server = 'http://pi:8383';
+    $server = 'http://localhost:8383';
     if (! empty($_GET['method'])) {
         $method = $_GET['method'];
     } else {
@@ -27,7 +27,7 @@ print '<a href="?method=play">play</a><br/>';
 print '<a href="?method=pause">pause</a><br/>';
 print '<a href="?method=next">next</a><br/>';
 print '<a href="?method=prev">prev</a><br/>';
-print '<a href="?method=dir&path=/">dir</a><br/>';
+print '<a href="?method=dir&path=">dir</a><br/>';
 
 $data = array(
     "jsonrpc" => "2.0",
@@ -83,6 +83,12 @@ if ($result != null) {
                     print '<a href="?method=pos&pos='.($count - 1).'">'.
                         $line.'</a><br/>';
                 }
+            }
+        } else if ($method == 'dir') {
+            print('<br/>');
+            foreach ($json->result->dir as $d) {
+                print '<a href="?method=dir&path='.
+                    urlencode($d).'">'.$d.'</a><br/>';
             }
         } else {
             print("<pre>");

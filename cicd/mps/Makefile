@@ -3,6 +3,9 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note php usage :
+##       terminal1> ssh $USER@pi -L 8383:127.0.0.1:8383
+##       terminal2> make php
 # ---------------------------------------------------------------------------- #
 XC = arm-linux-gnueabihf
 
@@ -45,9 +48,9 @@ dir:
 php:
 	@grep -q "127.0.0.1 $(PROJECT)" /etc/hosts || \
 	echo "127.0.0.1 $(PROJECT)" | sudo /usr/bin/tee -a /etc/hosts >/dev/null
-	@sudo -b php -S $(PROJECT):8090 -f client.php -t $(shell pwd)
+	@sudo -b php -S $(PROJECT):8888 -f client.php -t $(shell pwd)
 	@sleep 2
-	@$(BROWSER) http://$(PROJECT):8090/client.php &
+	@$(BROWSER) http://$(PROJECT):8888/client.php &
 	@echo
 	@echo "Type [enter] to quit "
 	@echo
