@@ -219,17 +219,17 @@ List::dir(const std::string& path) const
     Json::Value result;
     std::list<std::string> list;
     try {
-        std::filesystem::directory_iterator dir(mPath + '/' + path);
-        while (dir != std::filesystem::end(dir)) {
-            if (dir->is_directory()) {
+        std::filesystem::directory_iterator d(mPath + '/' + path);
+        while (d != std::filesystem::end(d)) {
+            if (d->is_directory()) {
                 if (path.empty()) {
-                    list.push_back(dir->path().filename().string());
+                    list.push_back(d->path().filename().string());
                 } else {
                     list.push_back(path + '/' +
-                                   dir->path().filename().string());
+                                   d->path().filename().string());
                 }
             }
-            ++dir;
+            ++d;
         }
     } catch (const std::filesystem::filesystem_error& e) {
         ERROR(e.what());
@@ -279,12 +279,12 @@ List::readList()
         }
     } else {
         int pathSize = mPath.size() + 1;
-        std::filesystem::recursive_directory_iterator dir(mPath);
-        while (dir != std::filesystem::end(dir)) {
-            if (dir->path().extension() == ".m3u") {
-                this->push(dir->path().string().substr(pathSize));
+        std::filesystem::recursive_directory_iterator d(mPath);
+        while (d != std::filesystem::end(d)) {
+            if (d->path().extension() == ".m3u") {
+                this->push(d->path().string().substr(pathSize));
             }
-            ++dir;
+            ++d;
         }
         mList.sort([](const List::Part& a,
                       const List::Part& b) {

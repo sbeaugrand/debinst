@@ -10,4 +10,9 @@ override_dh_shlibdeps:
      -l$(XCDIR)/$(XC)-$(XCVER)/usr/local/lib\
 
 override_dh_installsystemd:
-	dh_installsystemd --no-enable --restart-after-upgrade --no-start
+	dh_installsystemd\
+	 --restart-after-upgrade --no-start --name=mpserver --no-enable
+	dh_installsystemd\
+	 --restart-after-upgrade --no-start --name=mpclient --no-enable
+	dh_installsystemd\
+	 --restart-after-upgrade --no-start --name=mpssaver

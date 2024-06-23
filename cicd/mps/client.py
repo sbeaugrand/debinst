@@ -26,10 +26,7 @@ data = {
 if method != 'quit':
     data['id'] = 1
 
-try:
-    result = requests.post(server, json=data)
+result = requests.post(server, json=data)
+if method != 'quit':
     j = json.loads(result.text)
-    if method != 'quit':
-        print(json.dumps(j['result'], indent=4))
-except:
-    pass
+    print(json.dumps(j['result'], indent=4))

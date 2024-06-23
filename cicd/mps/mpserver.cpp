@@ -10,15 +10,25 @@
 #include "List.h"
 #include "Player.h"
 #include "Server.h"
+#include "log.h"
 
 /******************************************************************************!
  * \fn main
  ******************************************************************************/
 int
-main(int, char**)
+main(int argc, char** argv)
 {
     Player player;
     player.init();
+    if (player.musicDirectory.empty()) {
+        if (argc > 1) {
+            DEBUG("music_directory from argv");
+            player.musicDirectory = argv[1];
+        } else {
+            ERROR("no music_directory");
+            return 1;
+        }
+    }
 
     List list(player.musicDirectory);
     player.resume(list.readResumeTime());

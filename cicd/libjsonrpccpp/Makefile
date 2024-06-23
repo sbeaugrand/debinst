@@ -8,6 +8,10 @@ XC ?= arm-linux-gnueabihf
 BUILD ?= Release
 CMAKE = cmake libjson-rpc-cpp -DCMAKE_BUILD_TYPE=$(BUILD)
 
+UN ?= $(USER)
+URI = $(UN)@pi
+SSH = ssh -t $(URI)
+
 .PHONY: all
 all:
 	@echo "Usage: make build"

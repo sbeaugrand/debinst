@@ -9,6 +9,7 @@ stages:
   - package
   - xbuild
   - xpackage
+  - xdeploy
 variables:
   PROJECT: libjsonrpccpp
   VERSION: 1.4.1
@@ -17,6 +18,14 @@ variables:
   BDIR: build
   XCVER: 12
   XCDIR: /data
+  PRIVKEY: $HOME/.ssh/id_rsa
+  APT: apt-get -y -o APT::Sandbox::User=root
+.keychain:
+  script:
+    - >
+      test ! -f $PRIVKEY || test -d /run/lock/.keychain ||
+      TMPDIR=/run/lock keychain --dir /run/lock --nogui $PRIVKEY
+    - test ! -f $PRIVKEY || source /run/lock/.keychain/*-sh
 build:
   stage: build
   script:
@@ -112,3 +121,15 @@ xpackage:
     - export XCVER=$XCVER
     - export XCDIR=$XCDIR
     - export CC=$XC
+xdeploy:
+  stage: xdeploy
+  variables:
+    XC: aarch64-linux-gnu
+  script:
+    - !reference [.keychain, script]
+    - BDIR=build-$XC
+    - $SCP $BDIR/${PROJECT}_${VERSION}_*.deb $URI:/run/user/1000/
+    - test -n "$SUDOPASS" || read -s SUDOPASS
+    - >
+      $SSH "cd /run/user/1000 && echo $SUDOPASS | sudo -S true && echo &&
+      $APT reinstall ./${PROJECT}_${VERSION}_*.deb"

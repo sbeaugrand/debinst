@@ -187,11 +187,10 @@ fi
 # at
 # ---------------------------------------------------------------------------- #
 if [ -L $ipath/projects/arm/sompi/remotes/shutter-pr-.txt ]; then
-    hhmm=$hh:$mm
+    echo "$hh^$mm" >/run/shutter.at
 else
-    hhmm="err l"
+    echo "err L" >/run/shutter.at
 fi
-echo $hhmm >/run/shutter.at
 cd $vpath
 systemd-run\
  -u shutter-$pos -d -G --on-calendar "$date $hh:$mm" ./shutter-and-at.sh

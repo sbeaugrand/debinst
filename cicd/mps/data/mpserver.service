@@ -8,7 +8,7 @@ Wants=mpd.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/mpserver
+ExecStart=/usr/bin/mpserver /mnt/mp3/mp3
 ExecStop=curl -d '{"jsonrpc":"2.0","method":"quit"}' http://localhost:8383
 
 [Install]

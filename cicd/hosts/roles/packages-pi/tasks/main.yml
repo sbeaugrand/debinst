@@ -37,4 +37,6 @@
       - libgpiod-dev
       - pkg-config
       - libcpp-httplib-dev
+      - nftables
+      - netfilter-persistent
   become: yes

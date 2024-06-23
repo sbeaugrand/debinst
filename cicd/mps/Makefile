@@ -3,11 +3,8 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note php usage :
-##       terminal1> ssh $USER@pi -L 8383:127.0.0.1:8383
-##       terminal2> make php
 # ---------------------------------------------------------------------------- #
-XC = arm-linux-gnueabihf
+XC ?= arm-linux-gnueabihf
 
 UN ?= $(USER)
 URI = $(UN)@pi
@@ -38,10 +35,14 @@ client:
 	@cd build && make --no-print-directory -j`nproc` mpclient
 	@build/mpclient http://localhost:8383 $(MDIR)
 
+.PHONY: tunnel
+tunnel:
+	@ssh $(URI) -L 8383:127.0.0.1:8383
+
 .PHONY: dir
 dir:
 	@curl -s -d\
-	 '{"jsonrpc":"2.0","method":"dir","params":{"path":"/"},"id":1}'\
+	 '{"jsonrpc":"2.0","method":"dir","params":{"path":"$(path)"},"id":1}'\
 	 http://localhost:8383 | python3 -m json.tool
 
 .PHONY: php

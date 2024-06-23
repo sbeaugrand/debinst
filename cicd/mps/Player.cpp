@@ -66,15 +66,11 @@ Player::init()
         return 4;
     }
     struct mpd_pair* pair = mpd_recv_pair_named(mConn, "music_directory");
-    if (pair == NULL) {
-        DEBUG("default music directory");
-        this->musicDirectory = "/mnt/mp3/mp3";
-    } else {
+    if (pair != NULL) {
         this->musicDirectory = pair->value;
         mpd_return_pair(mConn, pair);
     }
     mpd_response_finish(mConn) || mpd_connection_clear_error(mConn);
-    DEBUG(this->musicDirectory);
 
     return 0;
 }
