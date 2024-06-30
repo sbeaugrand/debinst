@@ -407,7 +407,12 @@ Client::run()
 {
     for (;;) {
         try {
-            this->currentTitle(mJsonClient.CallMethod("info", Json::Value()));
+            auto j = mJsonClient.CallMethod("musicDirectory", Json::Value());
+            if (! j.empty()) {
+                auto d = j.asString();
+                DEBUG(d);
+                mOutput.musicDirectory = d;
+            }
             break;
         } catch (jsonrpc::JsonRpcException& e) {
             ERROR(e.what());
@@ -417,6 +422,7 @@ Client::run()
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }
+    this->currentTitle(mJsonClient.CallMethod("info", Json::Value()));
     while (this->loop) {
         mInput.hasEvent.wait(false);
         if (! this->loop) {

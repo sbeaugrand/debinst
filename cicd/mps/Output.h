@@ -38,7 +38,7 @@ public:
 
     std::atomic_bool loop = true;
     std::atomic_bool save = false;
-    std::string musicDirectory;
+    std::string musicDirectory = "/mnt/mp3/mp3";
 private:
 #   if defined(__arm__) || defined(__aarch64__)
     upm::SSD1306* mOled = nullptr;

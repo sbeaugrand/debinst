@@ -34,6 +34,7 @@ public:
     virtual Json::Value album(const std::string& artist, int pos) override;
     virtual Json::Value pos(int pos) override;
     virtual Json::Value dir(const std::string& path) override;
+    virtual std::string musicDirectory() override;
     virtual void quit() override;
 
     std::atomic_bool loop = true;

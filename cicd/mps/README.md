@@ -1,7 +1,6 @@
 # Install
 [libjsonrpccpp](../libjsonrpccpp/README.md)
 ```sh
-vi data/*.service  # Use music_directory from /etc/mpd.conf
 make xbuild
 make xpackage
 make xdeploy

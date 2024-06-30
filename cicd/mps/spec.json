@@ -63,5 +63,9 @@
   },
   {
     "name": "quit"
+  },
+  {
+    "name": "musicDirectory",
+    "returns": "String"
   }
 ]

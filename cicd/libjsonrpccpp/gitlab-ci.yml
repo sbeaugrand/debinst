@@ -55,6 +55,7 @@ build:
       -DREDIS_CLIENT=NO
       -DFILE_DESCRIPTOR_SERVER=NO
       -DFILE_DESCRIPTOR_CLIENT=NO
+      -DWITH_COVERAGE=NO
     - make
 package:
   stage: package

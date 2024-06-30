@@ -224,3 +224,12 @@ Server::quit()
     this->loop = false;
     loop.notify_one();
 }
+
+/******************************************************************************!
+ * \fn musicDirectory
+ ******************************************************************************/
+std::string
+Server::musicDirectory()
+{
+    return mPlayer.musicDirectory;
+}

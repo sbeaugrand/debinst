@@ -17,6 +17,7 @@ if notGrep "$MP3DIR" $file; then
 
 music_directory    "$MP3DIR/mp3"
 playlist_directory "$MP3DIR/mp3"
+db_file            "$MP3DIR/db"
 state_file         "$MP3DIR/state"
 sticker_file       "$MP3DIR/sticker.sql"
 
