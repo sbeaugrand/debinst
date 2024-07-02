@@ -1,0 +1,18 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: install packages to pbuild libjson-rpc-cpp
+  apt:
+    cache_valid_time: 36000
+    install_recommends: no
+    name:
+      - libargtable2-dev
+      - libcurl4-openssl-dev
+      - libjsoncpp-dev
+      - libmicrohttpd-dev
+      - pbuilder
+      - qemu-user-static
+  become: yes

@@ -18,5 +18,7 @@ all:
 	@echo "       make package"
 	@echo "       make xbuild"
 	@echo "       make xpackage"
+	@echo "       make rpackage"
+	@echo "       make rxpackage"
 
 include ../makefiles/gitlabci.mk

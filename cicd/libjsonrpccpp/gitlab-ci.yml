@@ -10,6 +10,8 @@ stages:
   - xbuild
   - xpackage
   - xdeploy
+  - rpackage
+  - rxpackage
 variables:
   PROJECT: libjsonrpccpp
   VERSION: 1.4.1
@@ -134,3 +136,34 @@ xdeploy:
     - >
       $SSH "cd /run/user/1000 && echo $SUDOPASS | sudo -S true && echo &&
       $APT reinstall ./${PROJECT}_${VERSION}_*.deb"
+rpackage:
+  stage: rpackage
+  variables:
+    SRC: https://salsa.debian.org/debian/libjson-rpc-cpp
+    IP: 192.168.121.112
+    USERPATH: /vagrant/.vagrant
+  script:
+    - mkdir -p build-r
+    - cd build-r
+    - test -d libjson-rpc-cpp || git clone $URL
+    - test -d source || git clone $SRC source
+    - test -d libjson-rpc-cpp/debian || cp -r source/debian libjson-rpc-cpp/
+    - cd libjson-rpc-cpp
+    - grep -q COVERAGE debian/rules || git apply ../../rpackage.patch
+    - cd ..
+    - rsync -a -i libjson-rpc-cpp ../../hosts/debian12/.vagrant/
+    - >
+      ssh vagrant@$IP "cd $USERPATH/libjson-rpc-cpp &&
+      make orig && make package"
+rxpackage:
+  stage: rxpackage
+  variables:
+    IP: 192.168.121.112
+    USERPATH: /vagrant/.vagrant
+  script:
+    - >
+      ssh vagrant@$IP "cd $USERPATH &&
+      export PBUILDFOLDER=$USERPATH/pbuilder &&
+      (test -f $USERPATH/pbuilder/bookworm-arm64-base.tgz ||
+      pbuilder-dist bookworm arm64 create) &&
+      pbuilder-dist bookworm arm64 libjson-rpc-cpp_$VERSION-1.dsc"

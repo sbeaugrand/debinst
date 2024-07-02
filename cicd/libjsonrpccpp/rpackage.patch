@@ -1,0 +1,304 @@
+commit 308353ceb83eaa1a7f3168948eabc85ad05b4e69
+Author: seb <seb@debian12pca1>
+Date:   Mon Jul 1 19:12:11 2024 +0200
+
+    patch
+
+diff --git a/.gitignore b/.gitignore
+index dbc153e..d35e32b 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -57,3 +57,6 @@ lib
+ gen
+ win32-deps
+ **/*.dir/*
++
++.pc
++obj-x86_64-linux-gnu
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 961e55a..22b28db 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -18,7 +18,7 @@ cmake_policy(SET CMP0012 NEW)
+ 
+ if (${CMAKE_MAJOR_VERSION} GREATER 2)
+     # old policy do not use MACOSX_RPATH
+-    cmake_policy(SET CMP0042 OLD)
++    #cmake_policy(SET CMP0042 OLD)
+ endif()
+ 
+ set(MAJOR_VERSION 1)
+diff --git a/Makefile b/Makefile
+index 6a1c449..e14874b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -30,3 +30,16 @@ test: build
+ clean:
+ 	rm -rf build
+ 	rm -rf reports
++
++.PHONY: orig
++orig:
++	@cd .. && tar czf libjson-rpc-cpp_1.4.1.orig.tar.gz\
++	 --exclude=.git\
++	 --exclude=debian\
++	 --exclude=obj-x86_64-linux-gnu\
++	 --exclude=.pc\
++	 libjson-rpc-cpp
++
++.PHONY: package
++package:
++	@dpkg-buildpackage --no-sign
+diff --git a/cmake/CMakeDependencies.cmake b/cmake/CMakeDependencies.cmake
+index d355a09..c94ed1a 100644
+--- a/cmake/CMakeDependencies.cmake
++++ b/cmake/CMakeDependencies.cmake
+@@ -38,5 +38,5 @@ if (${REDIS_SERVER} OR ${REDIS_CLIENT})
+     message(STATUS "Hiredis lib   : ${HIREDIS_LIBRARIES}")
+ endif()
+ 
+-find_package(Threads REQUIRED)
+-find_package(Doxygen)
+\ No newline at end of file
++#find_package(Threads REQUIRED)
++find_package(Doxygen)
+diff --git a/cmake/FindArgtable.cmake b/cmake/FindArgtable.cmake
+index 9728dbd..78e83bb 100644
+--- a/cmake/FindArgtable.cmake
++++ b/cmake/FindArgtable.cmake
+@@ -35,6 +35,6 @@ endif()
+ # handle the QUIETLY and REQUIRED arguments and set JSONCPP_FOUND to TRUE
+ # if all listed variables are TRUE, hide their existence from configuration view
+ include(FindPackageHandleStandardArgs)
+-find_package_handle_standard_args(argtable DEFAULT_MSG ARGTABLE_INCLUDE_DIR ARGTABLE_LIBRARY)
++find_package_handle_standard_args(Argtable DEFAULT_MSG ARGTABLE_INCLUDE_DIR ARGTABLE_LIBRARY)
+ mark_as_advanced (ARGTABLE_INCLUDE_DIR ARGTABLE_LIBRARY)
+ 
+diff --git a/cmake/FindJsoncpp.cmake b/cmake/FindJsoncpp.cmake
+index 7b2bf1b..bace9e4 100644
+--- a/cmake/FindJsoncpp.cmake
++++ b/cmake/FindJsoncpp.cmake
+@@ -69,5 +69,5 @@ endif()
+ # handle the QUIETLY and REQUIRED arguments and set JSONCPP_FOUND to TRUE
+ # if all listed variables are TRUE, hide their existence from configuration view
+ include(FindPackageHandleStandardArgs)
+-find_package_handle_standard_args(jsoncpp DEFAULT_MSG JSONCPP_INCLUDE_DIR JSONCPP_LIBRARY)
++find_package_handle_standard_args(Jsoncpp DEFAULT_MSG JSONCPP_INCLUDE_DIR JSONCPP_LIBRARY)
+ mark_as_advanced (JSONCPP_INCLUDE_DIR JSONCPP_LIBRARY)
+diff --git a/cmake/FindMHD.cmake b/cmake/FindMHD.cmake
+index 23e31c4..9ad6c9f 100755
+--- a/cmake/FindMHD.cmake
++++ b/cmake/FindMHD.cmake
+@@ -34,6 +34,6 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+ endif()
+ 
+ include(FindPackageHandleStandardArgs)
+-find_package_handle_standard_args(mhd DEFAULT_MSG MHD_INCLUDE_DIR MHD_LIBRARY)
++find_package_handle_standard_args(MHD DEFAULT_MSG MHD_INCLUDE_DIR MHD_LIBRARY)
+ mark_as_advanced(MHD_INCLUDE_DIR MHD_LIBRARY)
+ 
+diff --git a/debian/changelog b/debian/changelog
+index 41ec659..7d3a2b3 100644
+--- a/debian/changelog
++++ b/debian/changelog
+@@ -1,3 +1,9 @@
++libjson-rpc-cpp (1.4.1-1) unstable; urgency=medium
++
++  * Non-maintainer upload.
++
++ -- sbeaugrand <sbeaugrand@toto.org>  Thu, 20 Jun 2024 12:12:00 +0200
++
+ libjson-rpc-cpp (0.7.0-2.1) unstable; urgency=medium
+ 
+   * Non-maintainer upload.
+diff --git a/debian/compat b/debian/compat
+index ec63514..f599e28 100644
+--- a/debian/compat
++++ b/debian/compat
+@@ -1 +1 @@
+-9
++10
+diff --git a/debian/control b/debian/control
+index 3132a13..c15f634 100644
+--- a/debian/control
++++ b/debian/control
+@@ -3,7 +3,6 @@ Section: libs
+ Priority: optional
+ Maintainer: Peter Spiess-Knafl <dev@spiessknafl.at>
+ Build-Depends:
+- catch,
+  cmake,
+  debhelper (>= 9),
+  libargtable2-dev,
+diff --git a/debian/patches/0001-Fix-spelling-mistakes.patch b/debian/patches/0001-Fix-spelling-mistakes.patch
+deleted file mode 100644
+index 73f93c1..0000000
+--- a/debian/patches/0001-Fix-spelling-mistakes.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-From 781ed34bee122a9c56fe776420d963be454c94fc Mon Sep 17 00:00:00 2001
+-From: Peter Spiess-Knafl <peter.knafl@gmail.com>
+-Date: Tue, 16 Aug 2016 09:32:26 +0200
+-Subject: [PATCH] Fix spelling mistakes
+-
+----
+- src/jsonrpccpp/client/connectors/unixdomainsocketclient.cpp | 2 +-
+- src/jsonrpccpp/common/specificationparser.cpp               | 2 +-
+- src/jsonrpccpp/server/connectors/httpserver.cpp             | 2 +-
+- 3 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/jsonrpccpp/client/connectors/unixdomainsocketclient.cpp b/src/jsonrpccpp/client/connectors/unixdomainsocketclient.cpp
+-index 585e88d..160ef1b 100644
+---- a/src/jsonrpccpp/client/connectors/unixdomainsocketclient.cpp
+-+++ b/src/jsonrpccpp/client/connectors/unixdomainsocketclient.cpp
+-@@ -44,7 +44,7 @@ void UnixDomainSocketClient::SendRPCMessage(const std::string& message, std::str
+- 	socket_fd = socket(AF_UNIX, SOCK_STREAM, 0);
+- 	if (socket_fd < 0)
+- 	{
+--		throw JsonRpcException(Errors::ERROR_CLIENT_CONNECTOR, "Could not created unix domain socket");
+-+        throw JsonRpcException(Errors::ERROR_CLIENT_CONNECTOR, "Could not create unix domain socket");
+- 	}
+- 
+- 	memset(&address, 0, sizeof(sockaddr_un));
+-diff --git a/src/jsonrpccpp/common/specificationparser.cpp b/src/jsonrpccpp/common/specificationparser.cpp
+-index e900431..29890b7 100644
+---- a/src/jsonrpccpp/common/specificationparser.cpp
+-+++ b/src/jsonrpccpp/common/specificationparser.cpp
+-@@ -44,7 +44,7 @@ vector<Procedure>   SpecificationParser::GetProceduresFromString(const string &c
+-         GetProcedure(val[i], proc);
+-         if (procnames.find(proc.GetProcedureName()) != procnames.end())
+-         {
+--            throw JsonRpcException(Errors::ERROR_SERVER_PROCEDURE_SPECIFICATION_SYNTAX, "Procedurename not uniqe: " + proc.GetProcedureName());
+-+            throw JsonRpcException(Errors::ERROR_SERVER_PROCEDURE_SPECIFICATION_SYNTAX, "Procedurename not unique: " + proc.GetProcedureName());
+-         }
+-         procnames[proc.GetProcedureName()] = proc;
+-         result.push_back(proc);
+-diff --git a/src/jsonrpccpp/server/connectors/httpserver.cpp b/src/jsonrpccpp/server/connectors/httpserver.cpp
+-index 5ec15a2..40d3c5e 100644
+---- a/src/jsonrpccpp/server/connectors/httpserver.cpp
+-+++ b/src/jsonrpccpp/server/connectors/httpserver.cpp
+-@@ -147,7 +147,7 @@ int HttpServer::callback(void *cls, MHD_Connection *connection, const char *url,
+-             if (handler == NULL)
+-             {
+-                 client_connection->code = MHD_HTTP_INTERNAL_SERVER_ERROR;
+--                client_connection->server->SendResponse("No client conneciton handler found", client_connection);
+-+                client_connection->server->SendResponse("No client connection handler found", client_connection);
+-             }
+-             else
+-             {
+--- 
+-2.8.1
+-
+diff --git a/debian/patches/0002-Fix-FTBFS-with-libmicrohttpd-0.9.71.patch b/debian/patches/0002-Fix-FTBFS-with-libmicrohttpd-0.9.71.patch
+deleted file mode 100644
+index 8d8754a..0000000
+--- a/debian/patches/0002-Fix-FTBFS-with-libmicrohttpd-0.9.71.patch
++++ /dev/null
+@@ -1,77 +0,0 @@
+-From: Baptiste Beauplat <lyknode@cilg.org>
+-Date: Thu, 8 Oct 2020 22:44:11 +0200
+-Subject: Fix FTBFS with libmicrohttpd 0.9.71
+-
+-Closes: #964592
+-Bug: https://github.com/cinemast/libjson-rpc-cpp/issues/298
+----
+- src/jsonrpccpp/server/connectors/httpserver.cpp | 2 +-
+- src/jsonrpccpp/server/connectors/httpserver.h   | 2 +-
+- src/test/testhttpserver.cpp                     | 4 ++--
+- src/test/testhttpserver.h                       | 4 ++--
+- 4 files changed, 6 insertions(+), 6 deletions(-)
+-
+-diff --git a/src/jsonrpccpp/server/connectors/httpserver.cpp b/src/jsonrpccpp/server/connectors/httpserver.cpp
+-index 40d3c5e..d1bad41 100644
+---- a/src/jsonrpccpp/server/connectors/httpserver.cpp
+-+++ b/src/jsonrpccpp/server/connectors/httpserver.cpp
+-@@ -119,7 +119,7 @@ void HttpServer::SetUrlHandler(const string &url, IClientConnectionHandler *hand
+-     this->SetHandler(NULL);
+- }
+- 
+--int HttpServer::callback(void *cls, MHD_Connection *connection, const char *url, const char *method, const char *version, const char *upload_data, size_t *upload_data_size, void **con_cls)
+-+MHD_Result HttpServer::callback(void *cls, MHD_Connection *connection, const char *url, const char *method, const char *version, const char *upload_data, size_t *upload_data_size, void **con_cls)
+- {
+-     (void)version;
+-     if (*con_cls == NULL)
+-diff --git a/src/jsonrpccpp/server/connectors/httpserver.h b/src/jsonrpccpp/server/connectors/httpserver.h
+-index 075962c..0f66423 100644
+---- a/src/jsonrpccpp/server/connectors/httpserver.h
+-+++ b/src/jsonrpccpp/server/connectors/httpserver.h
+-@@ -71,7 +71,7 @@ namespace jsonrpc
+- 
+-             std::map<std::string, IClientConnectionHandler*> urlhandler;
+- 
+--            static int callback(void *cls, struct MHD_Connection *connection, const char *url, const char *method, const char *version, const char *upload_data, size_t *upload_data_size, void **con_cls);
+-+            static MHD_Result callback(void *cls, struct MHD_Connection *connection, const char *url, const char *method, const char *version, const char *upload_data, size_t *upload_data_size, void **con_cls);
+- 
+-             IClientConnectionHandler* GetHandler(const std::string &url);
+- 
+-diff --git a/src/test/testhttpserver.cpp b/src/test/testhttpserver.cpp
+-index 7e240a6..c31440a 100644
+---- a/src/test/testhttpserver.cpp
+-+++ b/src/test/testhttpserver.cpp
+-@@ -47,7 +47,7 @@ std::string TestHttpServer::GetHeader(const std::string &key)
+-     return "";
+- }
+- 
+--int TestHttpServer::callback(void *cls, MHD_Connection *connection, const char *url, const char *method, const char *version, const char *upload_data, size_t *upload_data_size, void **con_cls)
+-+MHD_Result TestHttpServer::callback(void *cls, MHD_Connection *connection, const char *url, const char *method, const char *version, const char *upload_data, size_t *upload_data_size, void **con_cls)
+- {
+-     (void)upload_data;
+-     (void)upload_data_size;
+-@@ -73,7 +73,7 @@ int TestHttpServer::callback(void *cls, MHD_Connection *connection, const char *
+-     return MHD_YES;
+- }
+- 
+--int TestHttpServer::header_iterator(void *cls, MHD_ValueKind kind, const char *key, const char *value)
+-+MHD_Result TestHttpServer::header_iterator(void *cls, MHD_ValueKind kind, const char *key, const char *value)
+- {
+-     (void)kind;
+-     TestHttpServer* _this = static_cast<TestHttpServer*>(cls);
+-diff --git a/src/test/testhttpserver.h b/src/test/testhttpserver.h
+-index 5521e11..9545aee 100644
+---- a/src/test/testhttpserver.h
+-+++ b/src/test/testhttpserver.h
+-@@ -36,9 +36,9 @@ namespace jsonrpc {
+-             std::map<std::string,std::string> headers;
+-             std::string response;
+- 
+--            static int callback(void *cls, struct MHD_Connection *connection, const char *url, const char *method, const char *version, const char *upload_data, size_t *upload_data_size, void **con_cls);
+-+            static MHD_Result callback(void *cls, struct MHD_Connection *connection, const char *url, const char *method, const char *version, const char *upload_data, size_t *upload_data_size, void **con_cls);
+- 
+--            static int header_iterator (void *cls, enum MHD_ValueKind kind, const char *key, const char *value);
+-+            static MHD_Result header_iterator (void *cls, enum MHD_ValueKind kind, const char *key, const char *value);
+-     };
+- 
+- } // namespace jsonrpc
+diff --git a/debian/patches/series b/debian/patches/series
+index 473b2b0..e69de29 100644
+--- a/debian/patches/series
++++ b/debian/patches/series
+@@ -1,2 +0,0 @@
+-0001-Fix-spelling-mistakes.patch
+-0002-Fix-FTBFS-with-libmicrohttpd-0.9.71.patch
+diff --git a/debian/rules b/debian/rules
+index bc9fc4e..79040f3 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -9,9 +9,15 @@ override_dh_auto_configure:
+ 		-DCMAKE_INSTALL_PREFIX=/usr \
+ 		-DBUILD_SHARED_LIBS=YES \
+ 		-DBUILD_STATIC_LIBS=YES \
+-		-DCOMPILE_EXAMPLES=YES \
+-		-DCOMPILE_STUBGEN=YES
++		-DCOMPILE_STUBGEN=YES \
++		-DCOMPILE_TESTS=NO \
++		-DCOMPILE_EXAMPLES=NO \
++		-DREDIS_SERVER=NO \
++		-DREDIS_CLIENT=NO \
++		-DFILE_DESCRIPTOR_SERVER=NO \
++		-DFILE_DESCRIPTOR_CLIENT=NO \
++		-DWITH_COVERAGE=NO
+ 
+ override_dh_strip:
+-	dh_strip --dbgsym-migration='libjsonrpccpp-common0-dbg (<< 0.7.0-2~), libjsonrpccpp-server0-dbg (<< 0.7.0-2~), libjsonrpccpp-client0-dbg (<< 0.7.0-2~), libjsonrpccpp-stub0-dbg (<< 0.7.0-2~)'
++	dh_strip --dbgsym-migration='libjsonrpccpp-common0-dbg (<< 1.4.1-1~), libjsonrpccpp-server0-dbg (<< 1.4.1-1~), libjsonrpccpp-client0-dbg (<< 1.4.1-1~), libjsonrpccpp-stub0-dbg (<< 1.4.1-1~)'
+ 
