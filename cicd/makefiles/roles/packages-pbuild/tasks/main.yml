@@ -1,17 +1,15 @@
 # ---------------------------------------------------------------------------- #
-## \file playbook.yml
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- hosts: "{{ host | default('default') }}"
-  gather_facts: no
-  vars:
-    user: vagrant
-    home: /home/{{ user }}
-  roles:
-    - bashrc
-    - screen-remote
-    - packages-dev-libjsonrpccpp
-    - packages-pbuild
+- name: install pbuild
+  apt:
+    cache_valid_time: 36000
+    install_recommends: no
+    name:
+      - ubuntu-dev-tools
+      - pbuilder
+      - qemu-user-static
+  become: yes

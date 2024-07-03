@@ -2,6 +2,28 @@
 ```sh
 make build
 make package
+cd ../hosts/debian12 && make up && cd -
+make rbuild
+make rpackage
+make rxpackage
+```
+
+# Install libjsonrpccpp
+```sh
+cd ../hosts/debian12
+vagrant ssh
+cd pbuilder/bookworm-armhf_result
+cp libjsonrpccpp-client0_1.4.1-1_armhf.deb /vagrant/.vagrant/
+cp libjsonrpccpp-common0_1.4.1-1_armhf.deb /vagrant/.vagrant/
+cp libjsonrpccpp-dev_1.4.1-1_armhf.deb     /vagrant/.vagrant/
+cp libjsonrpccpp-server0_1.4.1-1_armhf.deb /vagrant/.vagrant/
+exit
+user=$USER
+host=pi
+scp .vagrant/*.deb $user@$host:/run/user/1000/
+ssh $user@$host
+cd /run/user/1000
+sudo apt install ./*.deb
 ```
 
 # Sysroot cross compilation installation
@@ -19,14 +41,4 @@ cd usr
 mkdir local
 rsync -a -i $user@$host:/usr/local/include local/
 rsync -a -i $user@$host:/usr/local/lib local/
-```
-```sh
-make xbuild
-make xpackage
-make xdeploy
-```
-```sh
-cd /data
-rsync -a -i $user@$host:/usr/include usr/
-rsync -a -i $user@$host:/usr/lib usr/
 ```

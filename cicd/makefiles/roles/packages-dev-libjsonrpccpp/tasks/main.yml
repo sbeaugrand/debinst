@@ -4,7 +4,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: install packages to pbuild libjson-rpc-cpp
+- name: packages to build libjson-rpc-cpp
   apt:
     cache_valid_time: 36000
     install_recommends: no
@@ -13,6 +13,4 @@
       - libcurl4-openssl-dev
       - libjsoncpp-dev
       - libmicrohttpd-dev
-      - pbuilder
-      - qemu-user-static
   become: yes
