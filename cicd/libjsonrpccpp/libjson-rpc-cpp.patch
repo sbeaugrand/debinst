@@ -1,9 +1,3 @@
-commit 308353ceb83eaa1a7f3168948eabc85ad05b4e69
-Author: seb <seb@debian12pca1>
-Date:   Mon Jul 1 19:12:11 2024 +0200
-
-    patch
-
 diff --git a/.gitignore b/.gitignore
 index dbc153e..d35e32b 100644
 --- a/.gitignore
