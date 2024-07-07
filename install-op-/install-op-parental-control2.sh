@@ -26,7 +26,7 @@ fi
 
 cat <<EOF
 
-Todo:
+Todo :
 adb install Kiwi\ Browser\ -\ Fast\ \&\ Quiet_120.0.6099.116_Apkpure.apk
 adb shell "cd /storage/self/primary/Android/data && mkdir com.github.kiwibrowser"
 adb push kiwictp.user.js manifest.json /storage/self/primary/Android/data/com.github.kiwibrowser/
@@ -69,5 +69,36 @@ adb shell pm uninstall --user 0 com.microsoft.skydrive  # onedrive
 adb shell pm uninstall --user 0 de.axelspringer.yana.zeropage  # upday
 adb shell pm uninstall --user 0 com.android.nfc
 adb shell pm uninstall --user 0 com.android.printspooler
+
+adb install 'Tuner & Metronome_7.16_Apkpure.apk'
+adb install calendar-fdroid-release.apk
+adb install music-player-fdroid-release.apk
+adb install io.timelimit.android.open_216.apk
+
+Timelimit Alowed Apps :
+ Alowed Apps
+ Always On Display
+ Appareil photo
+ Application MTP
+ Calculatrice
+ Calendrier
+ Call+
+ Capture Samsung
+ Contacts
+ Duolingo
+ Decoupage de videos
+ Editeur de photos
+ Fonds d'ecran
+ Galerie
+ Horloge
+ Lecteur de musique
+ Lecteur video
+ Loupe
+ Messages
+ Parametres
+ Samsung Notes
+ Soundcorset accordeur et metronome
+ Selection de sons
+ Ecran d'accueil de Samsung Experience
 
 EOF

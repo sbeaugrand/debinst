@@ -14,4 +14,4 @@
     - bashrc
     - screen-remote
     - packages-dev-libjsonrpccpp
-    - packages-pbuild
+    - packages-pbuilder

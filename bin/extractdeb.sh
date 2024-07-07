@@ -12,6 +12,11 @@ else
     exit 1
 fi
 
+dpkg-deb -c $file
+echo "Todo:"
+echo "dpkg-deb -x $file <dir>"
+exit 0
+
 data=`ar t $file | grep "data.tar"`
 if [ "$data" = "data.tar.xz" ]; then
     ar p $file data.tar.xz | tar tJ | more
