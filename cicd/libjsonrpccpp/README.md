@@ -5,7 +5,8 @@ make package
 cd ../hosts/debian12 && make up && cd -
 make rbuild
 make rpackage
-make rxpackage
+make rxpackage  # or :
+make rxpackage OPTS='-e ARCH=armhf'
 ```
 
 # Install libjsonrpccpp

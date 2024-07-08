@@ -1,0 +1,6 @@
+libmraa (2.2.0-1) UNRELEASED; urgency=medium
+
+  * Add Orange Pi Zero support.
+  * Add NanoPi Neo support.
+
+ -- sbeaugrand <sbeaugrand@toto.fr>  Sat, 06 Jul 2024 11:51:17 +0200

@@ -14,6 +14,7 @@
       - curl
       - dpkg-cross
       - elpa-cmake-mode
+      - elpa-dockerfile-mode
       - elpa-dpkg-dev-el
       - elpa-markdown-mode
       - elpa-systemd
