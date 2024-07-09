@@ -14,9 +14,8 @@ Homepage: https://github.com/sbeaugrand/mraa.git
 Package: libmraa-dev
 Section: libdevel
 Architecture: any
-Multi-Arch: same
 Depends:
- libmraa (= ${binary:Version}),
+ libmraa2 (= ${binary:Version}),
  ${misc:Depends},
 Description: Linux Library for low speed IO Communication
  Linux Library for low speed IO Communication in
@@ -24,9 +23,8 @@ Description: Linux Library for low speed IO Communication
  Supports generic io platforms, as well as Intel
  Edison, Intel Joule, Raspberry Pi and many more.
 
-Package: libmraa
+Package: libmraa2
 Architecture: any
-Multi-Arch: same
 Depends:
  ${shlibs:Depends},
  ${misc:Depends},
@@ -36,11 +34,10 @@ Description: Linux Library for low speed IO Communication
  Supports generic io platforms, as well as Intel
  Edison, Intel Joule, Raspberry Pi and many more.
 
-Package: libmraa-tools
+Package: libmraa2-tools
 Architecture: any
-Multi-Arch: same
 Depends:
- libmraa (= ${binary:Version}),
+ libmraa2 (= ${binary:Version}),
  ${misc:Depends},
  ${shlibs:Depends},
 Description: Linux Library for low speed IO Communication

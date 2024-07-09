@@ -5,13 +5,14 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
+- name: import virtualhost playbook
+  import_playbook: ../../makefiles/virtualhost.yml
+
 - hosts: "{{ host | default('default') }}"
   gather_facts: no
   vars:
     user: vagrant
     home: /home/{{ user }}
   roles:
-    - bashrc
-    - screen-remote
     - packages-dev-libjsonrpccpp
     - packages-pbuilder

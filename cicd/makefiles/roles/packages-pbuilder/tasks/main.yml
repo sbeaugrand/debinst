@@ -12,4 +12,5 @@
       - ubuntu-dev-tools
       - pbuilder
       - qemu-user-static
+      - lintian
   become: yes
