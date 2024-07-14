@@ -1,0 +1,65 @@
+# ---------------------------------------------------------------------------- #
+## \file pbuilder.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+stages:
+  - build
+  - package
+  - rbuild
+  - rpackage
+  - rxpackage
+variables:
+  HDIR: ../hosts
+  RSYNC: rsync --checksum --delete -a -i --exclude=build --exclude=.git
+  SSH: vagrant ssh -c
+  URI: example@ip
+  UPATH: /home/vagrant
+build:
+  stage: build
+  script:
+    - mkdir -p build
+    - cd build
+    - test -d $REPO || git clone $URL
+    - test ! -d ../debian || test -d $REPO/debian || cp -r ../debian $REPO/
+package:
+  stage: package
+  script:
+    - cd build
+    - >
+      tar czf ${REPO}_$VERSION.orig.tar.gz
+      --exclude=.git
+      --exclude=debian
+      --exclude=obj-x86_64-linux-gnu
+      --exclude=.pc
+      $REPO
+    - cd $REPO
+    - dpkg-buildpackage --no-sign
+rbuild:
+  stage: rbuild
+  script:
+    - PROPATH=$(basename `readlink -f .`)
+    - $RSYNC ./ $URI:$UPATH/$PROPATH/
+    - $RSYNC ../makefiles $URI:$UPATH/
+    - cd $HDIR/$BHOST
+    - $SSH "cd $UPATH/$PROPATH && make BHOST=$BHOST build"
+rpackage:
+  stage: rpackage
+  script:
+    - PROPATH=$(basename `readlink -f .`)
+    - cd $HDIR/$BHOST
+    - $SSH "cd $UPATH/$PROPATH && make BHOST=$BHOST package"
+rxpackage:
+  stage: rxpackage
+  variables:
+    ARCH: arm64
+  script:
+    - PROPATH=$(basename `readlink -f .`)
+    - cd $HDIR/$BHOST
+    - test -n "$DIST" || DIST=`lsb_release -s -c 2>/dev/null`
+    - >
+      $SSH "cd $UPATH/$PROPATH/build &&
+      (test -f $UPATH/pbuilder/$DIST-$ARCH-base.tgz ||
+      pbuilder-dist $DIST $ARCH create) &&
+      pbuilder-dist $DIST $ARCH ${PKG}_$VERSION-1.dsc"

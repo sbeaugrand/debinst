@@ -4,69 +4,19 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-stages:
-  - build
-  - package
-  - rbuild
-  - rpackage
-  - rxpackage
 variables:
   REPO: libjson-rpc-cpp
   VERSION: 1.4.1
   URL: https://github.com/cinemast/$REPO.git
   SRC: https://salsa.debian.org/debian/$REPO.git
-  HDIR: ../hosts
-  RSYNC: rsync --checksum --delete -a -i --exclude=build
-  SSH: vagrant ssh -c
-  URI: example@ip
-  UPATH: /home/vagrant
+  PKG: $REPO
+include:
+  - local: /../makefiles/pbuilder.yml
 build:
   stage: build
-  script:
-    - mkdir -p build
+  after_script:
     - cd build
-    - test -d $REPO || git clone $URL
     - test -d source || git clone $SRC source
     - test -d $REPO/debian || cp -r source/debian $REPO/
     - cd $REPO
     - grep -q COVERAGE debian/rules || git apply ../../$REPO.patch
-package:
-  stage: package
-  script:
-    - cd build
-    - >
-      tar czf ${REPO}_$VERSION.orig.tar.gz
-      --exclude=.git
-      --exclude=debian
-      --exclude=obj-x86_64-linux-gnu
-      --exclude=.pc
-      $REPO
-    - cd $REPO
-    - dpkg-buildpackage --no-sign
-rbuild:
-  stage: rbuild
-  script:
-    - PROPATH=$(basename `readlink -f .`)
-    - $RSYNC ./ $URI:$UPATH/$PROPATH/
-    - $RSYNC ../makefiles $URI:$UPATH/
-    - cd $HDIR/$BHOST
-    - $SSH "cd $UPATH/$PROPATH && make BHOST=$BHOST build"
-rpackage:
-  stage: rpackage
-  script:
-    - PROPATH=$(basename `readlink -f .`)
-    - cd $HDIR/$BHOST
-    - $SSH "cd $UPATH/$PROPATH && make BHOST=$BHOST package"
-rxpackage:
-  stage: rxpackage
-  variables:
-    ARCH: arm64
-  script:
-    - PROPATH=$(basename `readlink -f .`)
-    - cd $HDIR/$BHOST
-    - test -n "$DIST" || DIST=`lsb_release -s -c 2>/dev/null`
-    - >
-      $SSH "cd $UPATH/$PROPATH/build &&
-      (test -f $UPATH/pbuilder/$DIST-$ARCH-base.tgz ||
-      pbuilder-dist $DIST $ARCH create) &&
-      pbuilder-dist $DIST $ARCH ${REPO}_$VERSION-1.dsc"
