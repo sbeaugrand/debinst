@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+%:
+	dh $@ --buildsystem=cmake
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		-DBUILDSWIGJAVA=OFF\
+		-DBUILDSWIGNODE=OFF\
+		-DBUILDSWIGPYTHON=OFF\
+		-DBUILDEXAMPLES=OFF\
+		-DBUILDTESTS=OFF\
+		-DWERROR=OFF
