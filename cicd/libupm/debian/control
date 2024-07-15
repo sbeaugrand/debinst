@@ -15,7 +15,7 @@ Package: libupm-dev
 Section: libdevel
 Architecture: any
 Depends:
- libupm2 (= ${binary:Version}),
+ libupm-lcd2 (= ${binary:Version}),
  ${misc:Depends},
 Description: Eclipse UPM Sensor and Actuator Repository
  UPM is a high level repository that provides software
@@ -23,7 +23,7 @@ Description: Eclipse UPM Sensor and Actuator Repository
  actuators. These software drivers interact with the
  underlying hardware platform through calls to MRAA APIs.
 
-Package: libupm2
+Package: libupm-lcd2
 Architecture: any
 Depends:
  ${shlibs:Depends},

@@ -4,9 +4,6 @@
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
-		-DBUILDSWIGJAVA=OFF\
-		-DBUILDSWIGNODE=OFF\
 		-DBUILDSWIGPYTHON=OFF\
-		-DBUILDEXAMPLES=OFF\
-		-DBUILDTESTS=OFF\
-		-DWERROR=OFF
+		-DBUILDSWIGNODE=OFF\
+		-DMODULE_LIST="lcd"

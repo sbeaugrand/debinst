@@ -86,6 +86,7 @@ make extraroles
 
   ```sh
   sudo cryptsetup luksAddKey /dev/sda3 /root/luksKey
+  sudo systemctl start data
   ```
 </details>
 

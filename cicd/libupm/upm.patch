@@ -1,0 +1,28 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 069e4902..1ac4c310 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required (VERSION 2.8.11)
++cmake_minimum_required (VERSION 3.18)
+ project (upm)
+ 
+ # Before going any further, define build options
+@@ -131,7 +131,7 @@ find_package (PkgConfig REQUIRED)
+ 
+ # Force a libmraa search and minimum required version every time a config is generated
+ unset(MRAA_FOUND CACHE)
+-set(MRAA_MINIMUM 2.0.0)
++set(MRAA_MINIMUM 2.2.0)
+ pkg_check_modules (MRAA REQUIRED mraa>=${MRAA_MINIMUM})
+ # Also, get full path to the mraa library
+ find_library(MRAA_LIBRARY NAMES mraa HINTS ${MRAA_LIBDIR})
+@@ -235,7 +235,7 @@ include (GetGitRevisionDescription)
+ git_describe (VERSION "--tags")
+ # If git_describe fails, use a dirty version
+ if (${VERSION} MATCHES -NOTFOUND)
+-  set (VERSION "v1.7.1")
++  set (VERSION "v2.0.0")
+   message (WARNING "Failed to retrieve UPM version with 'git describe' (using "
+       "${VERSION}). Check that git is installed and this is a valid git repo.")
+ endif ()

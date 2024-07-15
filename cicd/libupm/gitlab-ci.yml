@@ -11,3 +11,8 @@ variables:
   PKG: lib$REPO
 include:
   - local: /../makefiles/pbuilder.yml
+build:
+  stage: build
+  after_script:
+    - cd build/$REPO
+    - grep -q 'v2\.0\.0' CMakeLists.txt || git apply ../../$REPO.patch

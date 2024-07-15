@@ -1,0 +1,3 @@
+initial-upload-closes-no-bugs
+shared-library-lacks-prerequisites [usr/lib/*/libupm-interfaces.so.*]
+shared-library-lacks-prerequisites [usr/lib/*/libupm-utilities.so.*]
