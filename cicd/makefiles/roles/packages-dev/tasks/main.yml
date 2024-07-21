@@ -12,6 +12,7 @@
       - build-essential
       - cmake
       - dh-make
+      - dpkg-cross
       - expect
       - gawk
       - git

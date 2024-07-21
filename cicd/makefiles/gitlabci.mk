@@ -26,7 +26,11 @@ BUILD ?= Debug
 NOCLEAN ?= 0
 URI ?= exemple@ip
 SSH ?= vagrant ssh -c
-SCP ?= scp
+ifneq ($(JOIN),)
+ SCP ?= scp $(JOIN)
+else
+ SCP ?= scp
+endif
 USERPATH ?= /vagrant/.vagrant
 ifneq ($(XC),)
  OPTS += -e XC=$(XC)

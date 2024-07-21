@@ -11,7 +11,7 @@ if notWhich scangearmp2; then
     pushd $bdir/scangearmp2/build || return 1
     PATH=$PATH:/usr/share/intltool-debian cmake -DCMAKE_INSTALL_PREFIX=$home/.local .. >>$log 2>&1
     make >>$log 2>&1
-    make >>$log 2>&1 install
+    sudoRoot make install
     popd
 fi
 

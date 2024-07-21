@@ -67,7 +67,7 @@ scangearmp2:\
  $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/libcncpmslld2.so.3.0.0\
  $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/libcncpnet2.so\
  $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/libcncpnet20.so.1.0.0\
- $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/libcncpnet2.so.1.2.4\
+ $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/libcncpnet2.so.1.2.5\
  $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/libcncpnet30.so.1.0.0\
  $(CHROOTDIR)/usr/share/scangearmp2\
  $(CHROOTDIR)/usr/share/scangearmp2/scangearmp2.glade\

@@ -83,6 +83,7 @@ Timelimit Alowed Apps :
  Calculatrice
  Calendrier
  Call+
+ CaptivePortalLogin
  Capture Samsung
  Contacts
  Duolingo
@@ -98,7 +99,9 @@ Timelimit Alowed Apps :
  Parametres
  Samsung Notes
  Soundcorset accordeur et metronome
+ Stockage de medias
  Selection de sons
+ Telephone incallui
  Ecran d'accueil de Samsung Experience
 
 EOF
