@@ -82,11 +82,36 @@ List::rand() const
  * \fn artist
  ******************************************************************************/
 Json::Value
-List::artist(const std::string& search,
-             const std::string& current) const
+List::artist(const std::string& artist,
+             const std::string& album) const
 {
-    int count = 0;
     Json::Value r;
+    std::string search;
+    std::string current;
+
+    if (artist.empty()) {
+        if (! std::filesystem::exists(mPath + "/mps.last")) {
+            return r;
+        }
+        std::ifstream input(mPath + "/mps.last");
+        std::string line;
+        std::getline(input, line);
+        if (line.empty()) {
+            return r;
+        }
+        auto path = line.substr(20);
+        auto pos1 = path.rfind('/');
+        auto pos2 = path.rfind(" - ", pos1 - 1) + 3;
+        auto pos3 = path.rfind(" - ", pos2 - 4);
+        auto pos4 = path.rfind('/', pos3 - 1) + 1;
+        search = path.substr(pos4, pos3 - pos4);
+        current = path.substr(pos2, pos1 - pos2);
+    } else {
+        search = artist;
+        current = album;
+    }
+
+    int count = 0;
     r["artist"] = search;
     for (auto it : mList) {
         for (auto al : it.list) {

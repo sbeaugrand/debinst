@@ -88,17 +88,15 @@ package:
     - mkdir -p $BDIR/$PROJECT-$VERSION/data
     - cd $BDIR/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
+    - rm -f debian/README*
     - cat /dev/null >debian/$PROJECT.install
-    - test ! -d ../../debian || cp -a ../../debian/* debian/
+    - test ! -d ../../debian-nr || cp -a ../../debian-nr/* debian/
     - test ! -d ../../data   || cp -L ../../data/*   data/
     - test ! -d ../../share  || cp -a ../../share/*  data/
     - find .. -maxdepth 1 -type f -executable -exec cp {} data/ \;
     - >
       test ! -f ../$PROJECT ||
       echo "data/$PROJECT /usr/bin/" >>debian/$PROJECT.install
-    - >
-      test ! -f ../../data/$PROJECT.service ||
-      echo "data/$PROJECT.service /lib/systemd/system" >>debian/$PROJECT.install
     - >
       test ! -d ../../share || ls ../../share |
       sed "s#\(.*\)#data/\1 /usr/share/$PROJECT/#" >>debian/$PROJECT.install

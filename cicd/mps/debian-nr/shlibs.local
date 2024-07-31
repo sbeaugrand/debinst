@@ -1,6 +1,7 @@
 libjsonrpccpp-client 1 libjsonrpccpp-client0 (>= 1.4.1-1)
 libjsonrpccpp-common 1 libjsonrpccpp-common0 (>= 1.4.1-1)
 libjsonrpccpp-server 1 libjsonrpccpp-server0 (>= 1.4.1-1)
+libupm-lcd 2 libupm-lcd2 (>= 2.0.0-1)
 libmpdclient 2 libmpdclient-dev (>= 2.20-1)
 libjsoncpp 25 libjsoncpp25 (>= 1.9.5-4)
 liblirc_client 0 liblirc-client0 (>= 0.10.1-7)

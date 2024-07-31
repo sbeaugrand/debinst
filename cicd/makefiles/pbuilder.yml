@@ -11,8 +11,16 @@ stages:
   - rpackage
   - rxpackage
 variables:
+  BUILD: Release
   HDIR: ../hosts
-  RSYNC: rsync --checksum --delete -a -i --exclude=build --exclude=.git
+  RSYNC: >
+         rsync --checksum --delete -a -i
+         --exclude=*~
+         --exclude=build
+         --exclude=build-*
+         --exclude=__pycache__
+         --exclude=.git
+         --exclude=.svn
   SSH: vagrant ssh -c
   URI: example@ip
   UPATH: /home/vagrant
@@ -21,7 +29,8 @@ build:
   script:
     - mkdir -p build
     - cd build
-    - test -d $REPO || git clone $URL
+    - test -z "$URL" || test -d $REPO || git clone $URL
+    - test -n "$URL" || test -d $REPO || $RSYNC -L .. $REPO
     - test ! -d ../debian || test -d $REPO/debian || cp -r ../debian $REPO/
 package:
   stage: package
@@ -43,13 +52,13 @@ rbuild:
     - $RSYNC ./ $URI:$UPATH/$PROPATH/
     - $RSYNC ../makefiles $URI:$UPATH/
     - cd $HDIR/$BHOST
-    - $SSH "cd $UPATH/$PROPATH && make BHOST=$BHOST build"
+    - $SSH "cd $UPATH/$PROPATH && make BHOST=$BHOST BUILD=$BUILD build"
 rpackage:
   stage: rpackage
   script:
     - PROPATH=$(basename `readlink -f .`)
     - cd $HDIR/$BHOST
-    - $SSH "cd $UPATH/$PROPATH && make BHOST=$BHOST package"
+    - $SSH "cd $UPATH/$PROPATH && make BHOST=$BHOST BUILD=$BUILD package"
 rxpackage:
   stage: rxpackage
   variables:
@@ -61,5 +70,6 @@ rxpackage:
     - >
       $SSH "cd $UPATH/$PROPATH/build &&
       (test -f $UPATH/pbuilder/$DIST-$ARCH-base.tgz ||
-      pbuilder-dist $DIST $ARCH create) &&
+      pbuilder-dist $DIST $ARCH create
+      --extrapackages 'cmake debhelper-compat fakeroot pkg-config') &&
       pbuilder-dist $DIST $ARCH ${PKG}_$VERSION-1.dsc"

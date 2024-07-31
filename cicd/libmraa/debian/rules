@@ -4,5 +4,6 @@
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
-        -DENABLEEXAMPLES=NO
+		-DENABLEEXAMPLES=OFF\
+		-DBUILDTESTS=OFF
 

@@ -6,7 +6,7 @@
  ******************************************************************************/
 #include <atomic>
 #include <jsonrpccpp/server/connectors/httpserver.h>
-#include "build/abstractstubserver.h"
+#include "abstractstubserver.h"
 
 class List;
 class Player;

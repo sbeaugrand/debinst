@@ -10,7 +10,9 @@
     install_recommends: no
     name:
       - build-essential
+      - chrpath
       - cmake
+      - chrony
       - dh-make
       - dpkg-cross
       - expect
@@ -19,11 +21,11 @@
       - gdb
       - g++-aarch64-linux-gnu
       - g++-arm-linux-gnueabihf
+      - pkg-config
       - python3-pip
       - systemd-coredump  # coredumpctl debug
       - valgrind
       - vim
-      - chrony
   become: yes
 
 - name: Remove EXTERNALLY-MANAGED file

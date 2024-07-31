@@ -222,10 +222,14 @@ State
 Client::onEvent(const state::Normal&, const event::Left&)
 {
     try {
-        Json::Value params;
-        mArtist = mJsonClient.CallMethod("artist", params);
-        mAlbumPos = mArtist.get("pos", Json::Value(0)).asInt();
-        this->albumList();
+        mArtist = mJsonClient.CallMethod("artist", Json::Value{});
+        int pos = mArtist.get("pos", Json::Value(-1)).asInt();
+        if (pos >= 0) {
+            mAlbumPos = pos;
+            this->albumList();
+        } else {
+            return this->onEvent(state::Album{}, event::Left{});
+        }
     } catch (jsonrpc::JsonRpcException& e) {
         ERROR(e.what());
     }
@@ -247,8 +251,7 @@ State
 Client::onEvent(const state::Normal& state, const event::Setup&)
 {
     try {
-        Json::Value params;
-        this->currentAlbum(mJsonClient.CallMethod("rand", params));
+        this->currentAlbum(mJsonClient.CallMethod("rand", Json::Value{}));
     } catch (jsonrpc::JsonRpcException& e) {
         ERROR(e.what());
     }

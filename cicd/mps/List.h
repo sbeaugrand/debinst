@@ -24,8 +24,8 @@ public:
     };
     explicit List(std::string_view path);
     std::tuple<std::string, std::string, int> rand() const;
-    Json::Value artist(const std::string& search,
-                       const std::string& current) const;
+    Json::Value artist(const std::string& artist,
+                       const std::string& album) const;
     std::string album(const std::string& search, int pos) const;
     int readResumeTime() const;
     void writeResumeTime(int ms) const;

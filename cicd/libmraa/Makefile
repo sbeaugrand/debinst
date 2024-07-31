@@ -8,11 +8,8 @@ BHOST ?= debian12
 
 .PHONY: all
 all:
-	@echo "Usage: make build"
-	@echo "       make package"
-	@echo "       cd ../hosts/debian12 && make up && cd -"
-	@echo "       make rbuild"
-	@echo "       make rpackage"
-	@echo "       make rxpackage [OPTS='-e ARCH=armhf']"
+	@echo
+	@sed -n -e '/# Usage/,/```$$/{/```/!p}' README.md
+	@echo
 
 include ../makefiles/gitlabci.mk

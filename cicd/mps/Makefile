@@ -4,6 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+BHOST = debian12
 XC ?= arm-linux-gnueabihf
 
 UN ?= $(USER)
@@ -57,3 +58,10 @@ php:
 	@echo
 	@read ret
 	@sudo kill -2 `ps -C "php -S $(PROJECT)" -o pid=`
+
+.PHONY: resize
+resize: README-0-1.svg README-0-2.svg
+README-0-1.svg README-0-2.svg: FORCE
+	@sed 's/.*viewBox="\([^"]*\)".*/\1/' $@ |\
+	 awk '{ print "s/"$$0"/"$$1-100" "$$2" "$$3+200" "$$4"/" }' |\
+	 awk '{ system("sed -i \""$$0"\" '$@'") }'

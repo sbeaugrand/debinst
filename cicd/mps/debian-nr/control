@@ -1,0 +1,17 @@
+Source: mps
+Section: sound
+Priority: optional
+Maintainer: sbeaugrand <sbeaugrand@toto.fr>
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+Standards-Version: 4.6.2
+Homepage: https://github.com/sbeaugrand/debinst/tree/master/cicd/mps
+
+Package: mps
+Architecture: any
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: music player server
+ C++ music player server with weighted random album selection

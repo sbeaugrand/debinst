@@ -1,0 +1,4 @@
+data/mpserver /usr/bin
+data/mpclient /usr/bin
+data/mpssaver /usr/bin
+data/oledmesg /usr/bin

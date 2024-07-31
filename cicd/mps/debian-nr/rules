@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+%:
+	dh $@
+
+override_dh_shlibdeps:
+	dh_shlibdeps --\
+     -l$(XCDIR)/$(XC)-$(XCVER)/usr/lib\
+     -l$(XCDIR)/$(XC)-$(XCVER)/usr/lib/$(XC)\
+     -l$(XCDIR)/$(XC)-$(XCVER)/usr/local/lib\
+
+override_dh_installsystemd:
+	dh_installsystemd\
+	 --restart-after-upgrade --no-start --name=mpserver --no-enable
+	dh_installsystemd\
+	 --restart-after-upgrade --no-start --name=mpclient --no-enable
+	dh_installsystemd\
+	 --restart-after-upgrade --no-start --name=mpssaver
+
+override_dh_install:
+	dh_install
+	chrpath -d debian/mps/usr/bin/mpserver
+	chrpath -d debian/mps/usr/bin/mpclient
+	chrpath -d debian/mps/usr/bin/mpssaver
+	chrpath -d debian/mps/usr/bin/oledmesg
+
+override_dh_installdocs:
+	dh_installdocs -X doc-base

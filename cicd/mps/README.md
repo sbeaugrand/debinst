@@ -1,5 +1,9 @@
 # Install
 [libjsonrpccpp](../libjsonrpccpp/README.md)
+
+[libmraa](../libmraa/README.md)
+
+[libupm](../libupm/README.md)
 ```sh
 make xbuild
 make xpackage
@@ -20,7 +24,7 @@ additional_directory :
 to use weights in random selection of albums,
 weights will be in music_directory/mps.weights
 
-# Client state diagram
+# [Client state diagram](README-0.md)
 ```mermaid
 stateDiagram
     direction LR
@@ -34,7 +38,7 @@ stateDiagram
     Artist --> Artist: letter
 ```
 
-# Screensaver state diagram
+# [Screensaver state diagram](README-0.md)
 ```mermaid
 stateDiagram
     direction LR
@@ -49,6 +53,41 @@ stateDiagram
     Hour --> Hour: dir
     Hour --> Normal: ok
 ```
+
+# Release
+```sh
+localhost> cd ../hosts/debian12
+localhost> vagrant ssh
+ vagrant1> cd ~/pbuilder/*_result
+ vagrant1> python3 -m http.server
+ vagrant2> sudo apt install libmpdclient-dev liblircclient-dev
+ vagrant2> cd ~/pbuilder/*_result
+ vagrant2> dpkg-scanpackages . /dev/null >Packages
+ vagrant2> pbuilder-dist bookworm armhf update --extrapackages 'libmpdclient-dev liblircclient-dev' --allow-untrusted --othermirror 'deb [allow-insecure=yes] http://localhost:8000/ ./'
+
+localhost> sudo apt install libmpdclient-dev liblircclient-dev
+localhost> make BUILD=Release build
+localhost> make BUILD=Release package
+
+localhost> make BUILD=Release rbuild
+localhost> make BUILD=Release rpackage
+localhost> make BUILD=Release rxpackage OPTS='-e ARCH=armhf'
+ vagrant2> cp -av libmraa2_2.2.0-1_armhf.deb libmraa2-tools_2.2.0-1_armhf.deb libupm-lcd2_2.0.0-1_armhf.deb libjsonrpccpp-client0_1.4.1-1_armhf.deb libjsonrpccpp-common0_1.4.1-1_armhf.deb libjsonrpccpp-server0_1.4.1-1_armhf.deb mps_1.0.0-1_armhf.deb /vagrant/.vagrant
+localhost> user=$USER
+localhost> host=pi
+localhost> scp .vagrant/*.deb $user@$host:/run/user/1000/
+       pi> cd /run/user/1000
+       pi> sudo apt reinstall ./*.deb
+```
+
+## Update sysroot for cross compilation
+```sh
+ vagrant2> cp -av *-dev_* /vagrant/.vagrant
+localhost> scp .vagrant/*-dev_* $user@$host:/run/user/1000/
+       pi> cd /run/user/1000
+       pi> sudo apt reinstall ./*-dev_*
+```
+[update](../libjsonrpccpp/README.md#sysroot-installation)
 
 # Divers
 
@@ -72,6 +111,16 @@ stateDiagram
   ```sh
   terminal1> make tunnel
   terminal2> make php
+  ```
+</details>
+
+<details>
+  <summary>music_directory update</summary>
+
+  ```sh
+  mpc update
+  rm mps.list
+  sudo systemctl restart mpserver
   ```
 </details>
 

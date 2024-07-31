@@ -1,17 +1,15 @@
 # ---------------------------------------------------------------------------- #
-## \file mpclient.service
+## \file mpserver.service
 # ---------------------------------------------------------------------------- #
 [Unit]
-Description=Music Player Client
-After=mpserver.service
-Wants=mpserver.service
+Description=Music Player Server
+After=mpd.service
+Wants=mpd.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/mpclient http://localhost:8383
-ExecStop=pkill -INT mpclient
-TimeoutStopSec=1s
+ExecStart=/usr/bin/mpserver
+ExecStop=curl -d '{"jsonrpc":"2.0","method":"quit"}' http://localhost:8383
 
 [Install]
 WantedBy=multi-user.target
-WantedBy=shutdown.target

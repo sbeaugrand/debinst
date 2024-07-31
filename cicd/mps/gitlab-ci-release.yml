@@ -1,15 +1,12 @@
 # ---------------------------------------------------------------------------- #
-## \file Makefile
+## \file gitlab-ci.yml
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-BHOST ?= debian12
-
-.PHONY: all
-all:
-	@echo
-	@sed -n -e '/# Usage/,/```$$/{/```/!p}' README.md
-	@echo
-
-include ../makefiles/gitlabci.mk
+variables:
+  REPO: mps
+  VERSION: 1.0.0
+  PKG: $REPO
+include:
+  - local: /../makefiles/pbuilder.yml

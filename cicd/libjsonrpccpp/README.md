@@ -1,15 +1,27 @@
-# Build libjsonrpccpp
+# Usage
 ```sh
 make build
 make package
+sudo apt install ./build/*.deb
+
 cd ../hosts/debian12 && make up && cd -
 make rbuild
 make rpackage
-make rxpackage  # or :
+cd ../hosts/debian12
+vagrant ssh
+vagrant1> sudo apt install ./libjsonrpccpp/build/*.deb
+
 make rxpackage OPTS='-e ARCH=armhf'
+vagrant1> cd ~/pbuilder/*_result
+vagrant1> python3 -m http.server
+vagrant2> cd ~/pbuilder/*_result
+vagrant2> dpkg-scanpackages . /dev/null >Packages
+vagrant2> pbuilder-dist bookworm armhf update --extrapackages 'libjsonrpccpp-common0 libjsonrpccpp-client0 libjsonrpccpp-stub0 libjsonrpccpp-server0 libjsonrpccpp-dev' --allow-untrusted --othermirror 'deb [allow-insecure=yes] http://localhost:8000/ ./'
 ```
 
-# Install libjsonrpccpp
+# Sysroot cross compilation
+
+## Install libjsonrpccpp on remote
 ```sh
 cd ../hosts/debian12
 vagrant ssh
@@ -25,10 +37,10 @@ host=pi
 scp .vagrant/*.deb $user@$host:/run/user/1000/
 ssh $user@$host
 cd /run/user/1000
-sudo apt install ./*.deb
+sudo apt reinstall ./*.deb
 ```
 
-# Sysroot cross compilation installation
+## Sysroot installation
 ```sh
 cd /data
 mkdir aarch64-linux-gnu-12 && cd aarch64-linux-gnu-12  # or :

@@ -14,4 +14,3 @@ TimeoutStopSec=1s
 
 [Install]
 WantedBy=multi-user.target
-WantedBy=shutdown.target

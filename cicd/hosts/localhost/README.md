@@ -78,6 +78,7 @@ make extraroles
   ```sh
   sudo cryptsetup --test-passphrase open /dev/sda3
   sudo cryptsetup luksRemoveKey /dev/sda3 /root/luksKey
+  sudo systemctl disable data.mount
   ```
 </details>
 
@@ -86,16 +87,8 @@ make extraroles
 
   ```sh
   sudo cryptsetup luksAddKey /dev/sda3 /root/luksKey
+  sudo systemctl enable data.mount
   sudo systemctl start data
-  ```
-</details>
-
-<details>
-  <summary>Remove</summary>
-
-  ```shell
-  sudo cryptsetup luksRemoveKey /dev/sda3 /root/luksKey
-  sudo systemctl disable data.mount
   ```
 </details>
 
