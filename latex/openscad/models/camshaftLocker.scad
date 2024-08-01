@@ -6,7 +6,7 @@
  * \note Bloqueur d'arbre à cames pour Zafira A essence
  *       Not tested
  ******************************************************************************/
-dPulley = 115;
+dPulley = 116;
 rPulley = dPulley/2;
 nPulley = 46;
 hPulley = 10;

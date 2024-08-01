@@ -101,7 +101,7 @@
   \ifnum\mois=\vCsmZoneC \ifnum\jourdumois=\vCsdZoneC \global\zoneC=1 \fi \fi
 
   \ifnum\mois=\ascensmois \ifnum\jourdumois=\ascensjour
-    \global\zoneA=1 \global\zoneB=1 \global\zoneC=1 \fi \fi
+    \global\zoneA=1 \global\zoneB=1 \global\zoneC=1 \global\ascens=1 \fi \fi
 
   \ifnum\mois=\vDsmZoneA \ifnum\jourdumois=\vDsdZoneA
     \global\zoneA=1 \global\zoneB=1 \global\zoneC=1 \fi \fi
@@ -133,11 +133,9 @@
   \ifnum\mois=\vCemZoneB \ifnum\jourdumois=\vCedZoneB \global\zoneB=0 \fi \fi
   \ifnum\mois=\vCemZoneC \ifnum\jourdumois=\vCedZoneC \global\zoneC=0 \fi \fi
 
-  \ifnum\mois=\ascensmois
-    \tmp=\ascensjour
-    \advance\tmp3
-    \ifnum\jourdumois=\tmp
-      \global\zoneA=0 \global\zoneB=0 \global\zoneC=0 \fi \fi
+  \ifnum\ascens=1
+    \ifnum\jour=7
+      \global\zoneA=0 \global\zoneB=0 \global\zoneC=0 \global\ascens=0 \fi \fi
 
   \ifnum\mois=\vDemZoneA \ifnum\jourdumois=\vDedZoneA
     \global\zoneA=0 \global\zoneB=0 \global\zoneC=0 \fi \fi
@@ -203,10 +201,8 @@
     \textcolor{tgrey}{1}
   \fi \fi \fi
   % Changements d'heure
-  \ifnum\mois=3  \ifnum\jour=7 \ifnum\jourdumois>24
-    +1h \global\summer=1 \fi \fi \fi
-  \ifnum\mois=10 \ifnum\jour=7 \ifnum\jourdumois>24
-    -1h \global\summer=0 \fi \fi \fi
+  \ifnum\mois=3  \ifnum\jour=7 \ifnum\jourdumois>24 +1h \fi \fi \fi
+  \ifnum\mois=10 \ifnum\jour=7 \ifnum\jourdumois>24 -1h \fi \fi \fi
   % Fêtes païennes
   \ifnum\jourdumois=\winterday \ifnum\mois=12 Jul    \fi \fi
   \ifnum\jourdumois=\springday \ifnum\mois=3  Ostara \fi \fi
@@ -389,7 +385,7 @@
 \newcount\zoneA
 \newcount\zoneB
 \newcount\zoneC
-\newcount\summer
+\newcount\ascens
 \newlength{\dimseme}
 \newlength{\dimmois}
 \newlength{\dimjour}
@@ -400,7 +396,7 @@
 \zoneA=0
 \zoneB=0
 \zoneC=0
-\summer=0
+\ascens=0
 \setlength{\dimseme}{\width}
 \addtolength{\dimseme}{-\margin}
 \addtolength{\dimseme}{-\margin}
