@@ -90,7 +90,7 @@ package:
     - dh_make --native --single --yes || true
     - rm -f debian/README*
     - cat /dev/null >debian/$PROJECT.install
-    - test ! -d ../../debian-nr || cp -a ../../debian-nr/* debian/
+    - test ! -d ../../debian-nr || cp -L ../../debian-nr/* debian/
     - test ! -d ../../data   || cp -L ../../data/*   data/
     - test ! -d ../../share  || cp -a ../../share/*  data/
     - find .. -maxdepth 1 -type f -executable -exec cp {} data/ \;

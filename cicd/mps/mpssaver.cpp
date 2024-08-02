@@ -150,28 +150,28 @@ onEvent(const state::Menu&, const event::Ok&) {
 
 State
 onEvent(const state::Date&, const event::Up&) {
-    if (::system("sudo /usr/sbin/rtc `date --date='+1 hour' +%FT%Tw%w`;"
+    if (::system("sudo /usr/sbin/rtc `date --date='+1 month' +%FT%Tw%w`;"
                  " sudo /usr/sbin/rtc") == 0) {
     }
     return drawDate(1);
 }
 State
 onEvent(const state::Date&, const event::Down&) {
-    if (::system("sudo /usr/sbin/rtc `date --date='-1 hour' +%FT%Tw%w`;"
+    if (::system("sudo /usr/sbin/rtc `date --date='-1 month' +%FT%Tw%w`;"
                  " sudo /usr/sbin/rtc") == 0) {
     }
     return drawDate(1);
 }
 State
 onEvent(const state::Date&, const event::Left&) {
-    if (::system("sudo /usr/sbin/rtc `date --date='-1 min' +%FT%Tw%w`;"
+    if (::system("sudo /usr/sbin/rtc `date --date='-1 day' +%FT%Tw%w`;"
                  " sudo /usr/sbin/rtc") == 0) {
     }
     return drawDate(1);
 }
 State
 onEvent(const state::Date&, const event::Right&) {
-    if (::system("sudo /usr/sbin/rtc `date --date='+1 min' +%FT%Tw%w`;"
+    if (::system("sudo /usr/sbin/rtc `date --date='+1 day' +%FT%Tw%w`;"
                  " sudo /usr/sbin/rtc") == 0) {
     }
     return drawDate(1);
@@ -183,28 +183,28 @@ onEvent(const state::Date&, const event::Ok&) {
 
 State
 onEvent(const state::Hour&, const event::Up&) {
-    if (::system("sudo /usr/sbin/rtc `date --date='+1 month' +%FT%Tw%w`;"
+    if (::system("sudo /usr/sbin/rtc `date --date='+1 hour' +%FT%Tw%w`;"
                  " sudo /usr/sbin/rtc") == 0) {
     }
     return drawDate(0);
 }
 State
 onEvent(const state::Hour&, const event::Down&) {
-    if (::system("sudo /usr/sbin/rtc `date --date='-1 month' +%FT%Tw%w`;"
+    if (::system("sudo /usr/sbin/rtc `date --date='-1 hour' +%FT%Tw%w`;"
                  " sudo /usr/sbin/rtc") == 0) {
     }
     return drawDate(0);
 }
 State
 onEvent(const state::Hour&, const event::Left&) {
-    if (::system("sudo /usr/sbin/rtc `date --date='-1 day' +%FT%Tw%w`;"
+    if (::system("sudo /usr/sbin/rtc `date --date='-1 min' +%FT%Tw%w`;"
                  " sudo /usr/sbin/rtc") == 0) {
     }
     return drawDate(0);
 }
 State
 onEvent(const state::Hour&, const event::Right&) {
-    if (::system("sudo /usr/sbin/rtc `date --date='+1 day' +%FT%Tw%w`;"
+    if (::system("sudo /usr/sbin/rtc `date --date='+1 min' +%FT%Tw%w`;"
                  " sudo /usr/sbin/rtc") == 0) {
     }
     return drawDate(0);
