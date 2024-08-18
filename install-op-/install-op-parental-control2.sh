@@ -76,7 +76,6 @@ adb install music-player-fdroid-release.apk
 adb install io.timelimit.android.open_216.apk
 
 Timelimit Alowed Apps :
- Alowed Apps
  Always On Display
  Appareil photo
  Application MTP
@@ -85,6 +84,7 @@ Timelimit Alowed Apps :
  Call+
  CaptivePortalLogin
  Capture Samsung
+ Clavier Samsung
  Contacts
  Duolingo
  Decoupage de videos
@@ -95,6 +95,7 @@ Timelimit Alowed Apps :
  Lecteur de musique
  Lecteur video
  Loupe
+ Mes fichiers
  Messages
  Parametres
  Samsung Notes
@@ -102,6 +103,7 @@ Timelimit Alowed Apps :
  Stockage de medias
  Selection de sons
  Telephone incallui
+ WhatsApp
  Ecran d'accueil de Samsung Experience
 
 EOF
