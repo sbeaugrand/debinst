@@ -22,8 +22,10 @@ include ../makefiles/cmake.mk
 include ../makefiles/gitlabci.mk
 include ../makefiles/mermaid.mk
 
-build/abstractstubserver.h: spec.json
-	@cd build && jsonrpcstub ../spec.json --cpp-server=AbstractStubServer
+.PHONY: stub
+stub: abstractstubserver.h
+abstractstubserver.h: spec.json
+	@jsonrpcstub $< --cpp-server=AbstractStubServer
 
 .PHONY: server
 server:
@@ -65,3 +67,9 @@ README-0-1.svg README-0-2.svg: FORCE
 	@sed 's/.*viewBox="\([^"]*\)".*/\1/' $@ |\
 	 awk '{ print "s/"$$0"/"$$1-100" "$$2" "$$3+200" "$$4"/" }' |\
 	 awk '{ system("sed -i \""$$0"\" '$@'") }'
+
+.PHONY: release
+release:
+	@echo
+	@sed -n -e '/# Release/,/```$$/{/```/!p}' README.md
+	@echo

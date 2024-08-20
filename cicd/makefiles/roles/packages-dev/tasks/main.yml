@@ -10,9 +10,9 @@
     install_recommends: no
     name:
       - build-essential
+      - chrony
       - chrpath
       - cmake
-      - chrony
       - dh-make
       - dpkg-cross
       - expect

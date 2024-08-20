@@ -4,7 +4,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: emacs.el
+- name: "{{ home }}/.emacs"
   copy:
     src: emacs.el
     dest: "{{ home }}/.emacs"

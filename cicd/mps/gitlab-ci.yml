@@ -12,19 +12,6 @@ variables:
   verbose: -v
 include:
   - local: /../makefiles/package.yml
-.abstractstubserver:
-  script:
-    - mkdir -p build
-    - cd build
-    - >
-      test -f abstractstubserver.h ||
-      jsonrpcstub ../spec.json --cpp-server=AbstractStubServer
-prebuild:
-  stage: build
-  extends: .abstractstubserver
-prexbuild:
-  stage: xbuild
-  extends: .abstractstubserver
 test1:
   stage: test
   script:

@@ -4,7 +4,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: screenrc
+- name: "{{ home }}/.screenrc"
   blockinfile:
     path: "{{ home }}/.screenrc"
     create: yes

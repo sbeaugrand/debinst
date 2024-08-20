@@ -9,7 +9,7 @@ make rbuild
 make rpackage
 cd ../hosts/debian12
 vagrant ssh
-vagrant1> sudo apt install ./libjsonrpccpp/build/*.deb
+vagrant1> sudo apt install ./libmraa/build/*.deb
 
 make rxpackage OPTS='-e ARCH=armhf'
 vagrant1> cd ~/pbuilder/*_result

@@ -4,7 +4,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: Xresources
+- name: "{{ home }}/.Xresources"
   blockinfile:
     path: "{{ home }}/.Xresources"
     create: yes

@@ -4,7 +4,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: bashrc
+- name: "/home/{{ user }}/.bashrc"
   blockinfile:
     path: "/home/{{ user }}/.bashrc"
     create: yes

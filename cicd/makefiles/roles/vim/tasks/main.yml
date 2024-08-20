@@ -4,7 +4,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: vimrc
+- name: "{{ home }}/.vimrc"
   blockinfile:
     create: yes
     path: "{{ home }}/.vimrc"
