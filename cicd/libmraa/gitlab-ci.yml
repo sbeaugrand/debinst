@@ -7,7 +7,7 @@
 variables:
   REPO: mraa
   VERSION: 2.2.0
-  RELEASE: -1
+  REVISION: -1
   URL: https://github.com/sbeaugrand/$REPO.git
   PKG: lib$REPO
 include:

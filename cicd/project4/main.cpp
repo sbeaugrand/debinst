@@ -18,13 +18,16 @@ struct Ready {};
 struct NotReady {};
 struct Exit {};
 }
-using State = std::variant<state::Ready, state::NotReady, state::Exit>;
+using State = std::variant<state::Ready,
+                           state::NotReady,
+                           state::Exit>;
 
 namespace event {
 struct Init {};
 struct Exit {};
 }
-using Event = std::variant<event::Init, event::Exit>;
+using Event = std::variant<event::Init,
+                           event::Exit>;
 
 State
 onEvent(state::Ready state, const event::Init&) {

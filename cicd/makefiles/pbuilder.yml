@@ -72,4 +72,4 @@ rxpackage:
       (test -f $UPATH/pbuilder/$DIST-$ARCH-base.tgz ||
       pbuilder-dist $DIST $ARCH create
       --extrapackages 'cmake debhelper-compat fakeroot pkg-config') &&
-      pbuilder-dist $DIST $ARCH ${PKG}_${VERSION}${RELEASE}.dsc"
+      pbuilder-dist $DIST $ARCH ${PKG}_${VERSION}${REVISION}.dsc"
