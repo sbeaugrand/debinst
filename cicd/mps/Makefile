@@ -61,12 +61,15 @@ php:
 	@read ret
 	@sudo kill -2 `ps -C "php -S $(PROJECT)" -o pid=`
 
+.PHONY: mermaid
+mermaid: README-0.md
+README-0.md: README.md
+	${call mermaid,$<,$@}
+
 .PHONY: resize
 resize: README-0-1.svg README-0-2.svg
 README-0-1.svg README-0-2.svg: FORCE
-	@sed 's/.*viewBox="\([^"]*\)".*/\1/' $@ |\
-	 awk '{ print "s/"$$0"/"$$1-100" "$$2" "$$3+200" "$$4"/" }' |\
-	 awk '{ system("sed -i \""$$0"\" '$@'") }'
+	$(call resize,$@)
 
 .PHONY: release
 release:

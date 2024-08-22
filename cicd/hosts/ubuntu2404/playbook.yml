@@ -5,18 +5,16 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- hosts: pis
+- name: import virtualhost playbook
+  import_playbook: ../../makefiles/virtualhost.yml
+  vars:
+    host: ubuntu2404b
+
+- hosts: ubuntu2404b
   gather_facts: no
   vars:
-    user: "{{ lookup('env', 'user') }}"
+    user: vagrant
     home: /home/{{ user }}
   roles:
-    - sudoers-pi
-    - bashrc-pi
-    - packages-pi
-    - vim
-    - screen-remote
-    - authorized-keys
-    # Optional
-    - projects-pi
-    #- somfi-pi
+    #- packages-dev-examples
+    #- rabbitmq

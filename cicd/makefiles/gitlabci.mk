@@ -5,8 +5,8 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 HDIR ?= ../hosts
-HOST ?= lubuntu
-BHOST ?= lubuntu
+HOST ?= ubuntu2404
+BHOST ?= ubuntu2404
 ifeq (,$(findstring $(MAKECMDGOALS),\
  rbuild\
  rtest\
@@ -77,6 +77,11 @@ gitlabci = ~/.local/bin/gitlabci-local\
 propath = $(shell basename `readlink -f .`)
 
 .SUFFIXES:
+
+.PHONY: version
+version:
+	@(grep ' VERSION:' $(gitlabciyml) || echo ' VERSION: 1.0.0') |\
+	 awk '{ print $$2 }'
 
 .PHONY: \
 build test package install rbuild rtest rpackage rinstall rdeploy stest

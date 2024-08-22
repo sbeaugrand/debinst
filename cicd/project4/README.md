@@ -1,4 +1,4 @@
-# Mermaid class diagram example
+# [Mermaid class diagram example](README-0.md)
 ```mermaid
 %% Mermaid class diagram example
 classDiagram
@@ -26,7 +26,7 @@ M ..|> N : Realization
 O .. P : Link(Dashed)
 ```
 
-# Mermaid state diagram example
+# [Mermaid state diagram example](README-0.md)
 ```mermaid
 %% Mermaid state diagram example
 stateDiagram

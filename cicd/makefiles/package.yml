@@ -26,8 +26,8 @@ stages:
   - rxdeploy  # remote install cross-builded package
   - rxinstall # remote install cross-compiled binary
 variables:
-  HOST: lubuntu
-  IMAGE: ubuntu:23.04
+  HOST: ubuntu2404
+  IMAGE: ubuntu:24.04
   BUILD: Debug
   NOCLEAN: 0
   CMAKE: cmake .. -DCMAKE_BUILD_TYPE=$BUILD

@@ -29,7 +29,7 @@ make umount
 
 # Example 3: to test with vm
 ```sh
-cd ../lubuntu
+cd ../ubuntu2204
 make up
 cd ../../project4
 make build
@@ -52,7 +52,7 @@ make umount
 
 # Example 5: to test remote service with vm
 ```sh
-cd ../lubuntu
+cd ../ubuntu2204
 make up
 cd ../../project6
 make build

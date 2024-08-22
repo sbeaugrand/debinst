@@ -60,7 +60,7 @@ make HOST=remotehost-xc stest
 
 # Sysroot cross build package with old cross compiler
 ```sh
-cd lubuntu  # example with gcc-12
+cd ubuntu2204  # example with gcc-12
 rsync -a -i /data/arm-linux-gnueabihf-12 .vagrant/
 cd project6
 make rbuild  # prebuild

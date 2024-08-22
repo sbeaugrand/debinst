@@ -6,10 +6,10 @@
 # ---------------------------------------------------------------------------- #
 
 # Example to test with vm
--include ../lubuntu/host.mk
--include ../hosts/lubuntu/host.mk
+-include ../ubuntu2204/host.mk
+-include ../hosts/ubuntu2204/host.mk
 URI = vagrant@$(IP)
 SSH = ssh $(URI)
 USERPATH = /vagrant/.vagrant
-BHOST = lubuntu
+BHOST = ubuntu2204
 SUDOPASS = vagrant

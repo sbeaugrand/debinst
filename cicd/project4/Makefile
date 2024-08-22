@@ -32,6 +32,16 @@ status object:
 quit:
 	@$(call notify,$@); true
 
+.PHONY: mermaid
+mermaid: README-0.md
+README-0.md: README.md
+	${call mermaid,$<,$@}
+
+.PHONY: resize
+resize: README-0-1.svg README-0-2.svg
+README-0-1.svg README-0-2.svg: FORCE
+	$(call resize,$@)
+
 .PHONY: doc
 doc: classDiagram.svg
 classDiagram.svg: README.template.md
