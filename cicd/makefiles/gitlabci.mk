@@ -21,7 +21,7 @@ else
 endif
 
 PROJECT ?= $(shell basename `readlink -f .`)
-IMAGE ?= ubuntu:23.04
+IMAGE ?= ubuntu:24.04
 BUILD ?= Debug
 ifeq ($(BUILD),Release)
  gitlabciyml = gitlab-ci-release.yml

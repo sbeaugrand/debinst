@@ -374,8 +374,8 @@ selectScale()
     fi
     if [ -n "$res" ]; then
         if [ -n "$crop" ]; then
-            resx=`echo $res  | cut -d ':' -f 1`
-            resy=`echo $res  | cut -d ':' -f 2`
+            resx=`echo $res | cut -d ':' -f 1`
+            resy=`echo $res | cut -d ':' -f 2`
             width=`echo $crop | cut -d ':' -f 1`
             height=`echo $crop | cut -d ':' -f 2`
             ((resy = resy * 720 * height / 576 / width))
@@ -450,8 +450,12 @@ selectCropAndScale()
     fi
     # Scale
     selectScale
-    echo -e "${blue}crop=$crop$reset"
-    crop="crop=$crop,"
+    if [ "$crop" = "720:576:0:0" ]; then
+        crop=
+    else
+        echo -e "${blue}crop=$crop$reset"
+        crop="crop=$crop,"
+    fi
 }
 
 # ---------------------------------------------------------------------------- #
@@ -879,7 +883,7 @@ Options:
   -g, --subgreylevels=LEVEL  set subgrey levels [$subgreylevels]
   -h, --help                 print this help message
   -i, --dev=DEV              change dvd device [/dev/dvd]
-  -l, --crop=CROP            set crop (ex: 720:576:0:0)
+  -l, --crop=CROP            set crop (ex: 720:576:0:0 = no crop)
   -N, --nbcd=<1-2>           set number of CD
   -n, --normalize            use normalize to maximize volume
   -p, --ipod                 make an ipod video
