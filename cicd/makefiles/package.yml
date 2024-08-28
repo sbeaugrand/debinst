@@ -9,7 +9,6 @@ stages:
   - test      # test build
   - package   # build package
   - install   # install package
-  - deploy    # install package from build host to docker container
   - rbuild    # build on remote (build host)
   - rtest     # test build on remote (build host)
   - rpackage  # build package on remote (build host)
@@ -27,7 +26,6 @@ stages:
   - rxinstall # remote install cross-compiled binary
 variables:
   HOST: ubuntu2404
-  IMAGE: ubuntu:24.04
   BUILD: Debug
   NOCLEAN: 0
   CMAKE: cmake .. -DCMAKE_BUILD_TYPE=$BUILD
@@ -105,17 +103,6 @@ install:
   stage: install
   script:
     - sudo $APT reinstall ./build/${PROJECT}_${VERSION}_amd64.deb
-deploy:
-  image: $IMAGE
-  stage: deploy
-  variables:
-    PKG: ${PROJECT}_${VERSION}_amd64.deb
-  script:
-    - PROPATH=$(basename `readlink -f .`)
-    - cp -a $HDIR/$HOST/.vagrant/$PROPATH/build/$PKG build/
-    - test -z "$DEP" || cp -a $HDIR/$HOST/.vagrant/$PROPATH/$DEP build/
-    - $APT update
-    - $APT install $DEP ./build/$PKG
 rbuild:
   stage: rbuild
   script:

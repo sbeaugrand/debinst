@@ -91,7 +91,7 @@ umount:
 
 .PHONY: ssh
 ssh:
-	@$(call kc,ssh -t $(JOIN) $(URI) $(CMD)); true
+	@$(call kc,ssh -t $(URI) $(CMD)); true
 
 .PHONY: halt
 halt:

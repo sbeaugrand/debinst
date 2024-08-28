@@ -12,5 +12,7 @@
       - ubuntu-dev-tools
       - pbuilder
       - qemu-user-static
+      - arch-test
+      - binfmt-support
       - lintian
   become: yes

@@ -10,10 +10,10 @@ index dbc153e..d35e32b 100644
 +.pc
 +obj-x86_64-linux-gnu
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 961e55a..22b28db 100644
+index 961e55a..a347d9c 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -18,7 +18,7 @@ cmake_policy(SET CMP0012 NEW)
+@@ -18,13 +18,13 @@ cmake_policy(SET CMP0012 NEW)
  
  if (${CMAKE_MAJOR_VERSION} GREATER 2)
      # old policy do not use MACOSX_RPATH
@@ -22,6 +22,13 @@ index 961e55a..22b28db 100644
  endif()
  
  set(MAJOR_VERSION 1)
+ set(MINOR_VERSION 4)
+ set(PATCH_VERSION 1)
+-set(SO_VERSION    1)
++set(SO_VERSION    0)
+ 
+ if(NOT MSVC)
+ 	set(BUILD_SHARED_LIBS YES CACHE BOOL "Build shared libraries")
 diff --git a/cmake/CMakeDependencies.cmake b/cmake/CMakeDependencies.cmake
 index d355a09..c94ed1a 100644
 --- a/cmake/CMakeDependencies.cmake
@@ -103,6 +110,46 @@ index 3132a13..c15f634 100644
   cmake,
   debhelper (>= 9),
   libargtable2-dev,
+diff --git a/debian/libjsonrpccpp-client0.lintian-overrides b/debian/libjsonrpccpp-client0.lintian-overrides
+deleted file mode 100644
+index bd8f98f..0000000
+--- a/debian/libjsonrpccpp-client0.lintian-overrides
++++ /dev/null
+@@ -1,4 +0,0 @@
+-# This is a C++ project, we use .shlibs instead
+-# API/ABI compatibilty is watched tediously upstream since version 0.4
+-# Report: http://upstream.rosalinux.ru/versions/libjson-rpc-cpp.html
+-no-symbols-control-file
+diff --git a/debian/libjsonrpccpp-common0.lintian-overrides b/debian/libjsonrpccpp-common0.lintian-overrides
+deleted file mode 100644
+index bd8f98f..0000000
+--- a/debian/libjsonrpccpp-common0.lintian-overrides
++++ /dev/null
+@@ -1,4 +0,0 @@
+-# This is a C++ project, we use .shlibs instead
+-# API/ABI compatibilty is watched tediously upstream since version 0.4
+-# Report: http://upstream.rosalinux.ru/versions/libjson-rpc-cpp.html
+-no-symbols-control-file
+diff --git a/debian/libjsonrpccpp-server0.lintian-overrides b/debian/libjsonrpccpp-server0.lintian-overrides
+deleted file mode 100644
+index bd8f98f..0000000
+--- a/debian/libjsonrpccpp-server0.lintian-overrides
++++ /dev/null
+@@ -1,4 +0,0 @@
+-# This is a C++ project, we use .shlibs instead
+-# API/ABI compatibilty is watched tediously upstream since version 0.4
+-# Report: http://upstream.rosalinux.ru/versions/libjson-rpc-cpp.html
+-no-symbols-control-file
+diff --git a/debian/libjsonrpccpp-stub0.lintian-overrides b/debian/libjsonrpccpp-stub0.lintian-overrides
+deleted file mode 100644
+index bd8f98f..0000000
+--- a/debian/libjsonrpccpp-stub0.lintian-overrides
++++ /dev/null
+@@ -1,4 +0,0 @@
+-# This is a C++ project, we use .shlibs instead
+-# API/ABI compatibilty is watched tediously upstream since version 0.4
+-# Report: http://upstream.rosalinux.ru/versions/libjson-rpc-cpp.html
+-no-symbols-control-file
 diff --git a/debian/patches/0001-Fix-spelling-mistakes.patch b/debian/patches/0001-Fix-spelling-mistakes.patch
 deleted file mode 100644
 index 73f93c1..0000000

@@ -21,7 +21,6 @@ else
 endif
 
 PROJECT ?= $(shell basename `readlink -f .`)
-IMAGE ?= ubuntu:24.04
 BUILD ?= Debug
 ifeq ($(BUILD),Release)
  gitlabciyml = gitlab-ci-release.yml
@@ -31,11 +30,6 @@ endif
 NOCLEAN ?= 0
 URI ?= exemple@ip
 SSH ?= vagrant ssh -c
-ifneq ($(JOIN),)
- SCP ?= scp $(JOIN)
-else
- SCP ?= scp
-endif
 USERPATH ?= /vagrant/.vagrant
 ifneq ($(XC),)
  OPTS += -e XC=$(XC)
@@ -64,13 +58,11 @@ endif
 gitlabci = ~/.local/bin/gitlabci-local\
  -e HOST=$(HOST)\
  -e BHOST=$(BHOST)\
- -e IMAGE=$(IMAGE)\
  -e BUILD=$(BUILD)\
  -e NOCLEAN=$(NOCLEAN)\
  -e CMAKE="$(NCMAKE)"\
  -e URI=$(URI)\
  -e SSH="$(SSH)"\
- -e SCP="$(SCP)"\
  -e USERPATH=$(USERPATH)\
  $(OPTS)\
  -c $(gitlabciyml)
@@ -92,10 +84,6 @@ build test package install rbuild rtest rpackage rinstall rdeploy stest:
 xbuild xpackage xinstall xdeploy xtest rxbuild rxpackage rxdeploy rxinstall
 xbuild xpackage xinstall xdeploy xtest rxbuild rxpackage rxdeploy rxinstall:
 	@$(gitlabci) -H -R -p $@
-
-.PHONY: deploy
-deploy:
-	@$(gitlabci) -E docker $@
 
 test%:
 	@$(gitlabci) -H -R $@
