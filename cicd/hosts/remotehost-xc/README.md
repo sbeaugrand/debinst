@@ -6,13 +6,13 @@ mkdir arm-linux-gnueabihf-12 && cd arm-linux-gnueabihf-12
 mkdir usr
 user=$USER
 host=pi
-rsync -a -i --delete $user@$host:/usr/include usr/
-rsync -a -i --delete $user@$host:/usr/lib usr/
-rsync -a -i --delete $user@$host:/lib ./
+rsync -a -i --delete --checksum $user@$host:/usr/include usr/
+rsync -a -i --delete --checksum $user@$host:/usr/lib usr/
+rsync -a -i --delete --checksum $user@$host:/lib ./
 cd usr
 mkdir local
-rsync -a -i --delete $user@$host:/usr/local/include local/
-rsync -a -i --delete $user@$host:/usr/local/lib local/
+rsync -a -i --delete --checksum $user@$host:/usr/local/include local/
+rsync -a -i --delete --checksum $user@$host:/usr/local/lib local/
 ```
 
 # Sysroot cross compilation example
@@ -46,7 +46,7 @@ make HOST=armbian xtest
 # Cross build with old cross compiler
 ```sh
 cd ubuntu1804  # example with gcc-7
-rsync -a -i /data/aarch64-linux-gnu-7 .vagrant/
+rsync -a -i --delete --checksum /data/aarch64-linux-gnu-7 .vagrant/
 cd project4
 make BHOST=ubuntu1804 rbuild  # prebuild
 make BHOST=ubuntu1804 rxbit HOST=remotehost-xc  # or :
@@ -61,7 +61,7 @@ make HOST=remotehost-xc stest
 # Sysroot cross build package with old cross compiler
 ```sh
 cd ubuntu2204  # example with gcc-12
-rsync -a -i /data/arm-linux-gnueabihf-12 .vagrant/
+rsync -a -i --delete --checksum /data/arm-linux-gnueabihf-12 .vagrant/
 cd project6
 make rbuild  # prebuild
 make rxbuild

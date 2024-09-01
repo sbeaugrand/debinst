@@ -15,22 +15,22 @@
 - name: shortcuts
   blockinfile:
     path: "{{ home }}/.config/openbox/lxde-rc.xml"
-    marker: '<!-- {mark} KEYBOARD ANSIBLE MANAGED BLOCK -->'
+    marker: '  <!-- {mark} KEYBOARD ANSIBLE MANAGED BLOCK -->'
     insertbefore: "</keyboard>"
     block: |
-        <!-- Toggle audio capture -->
+      <!-- Toggle audio capture -->
         <keybind key="XF86AudioMicMute">
           <action name="Execute"><command>amixer set Capture toggle</command></action>
         </keybind>
-        <!-- Terminal -->
+      <!-- Terminal -->
         <keybind key="C-A-t">
           <action name="Execute"><command>xterm -T mxterm</command></action>
         </keybind>
-        <!-- Restart X Window server -->
+      <!-- Restart X Window server -->
         <keybind key="C-A-BackSpace">
           <action name="Execute"><command>sudo systemctl restart lightdm</command></action>
         </keybind>
-        <!-- Lock screen -->
+      <!-- Lock screen -->
         <keybind key="C-A-l">
           <action name="Execute"><command>xscreensaver-command -lock</command></action>
         </keybind>
@@ -40,9 +40,10 @@
 - name: mxterm
   blockinfile:
     path: "{{ home }}/.config/openbox/lxde-rc.xml"
-    marker: '<!-- {mark} APPLICATIONS ANSIBLE MANAGED BLOCK -->'
+    marker: '  <!-- {mark} APPLICATIONS ANSIBLE MANAGED BLOCK -->'
     insertbefore: "</applications>"
     block: |
+      <!-- Maximized xterm -->
         <application title="mxterm">
           <maximized>yes</maximized>
           <decor>no</decor>
@@ -53,8 +54,9 @@
 - name: Super_L
   lineinfile:
     path: "{{ home }}/.config/openbox/lxde-rc.xml"
-    search_string: '  <keybind key="A-F1">'
-    line: '  <keybind key="Super_L">'
+    regexp: '^( *)<keybind key="A-F1">'
+    line: '\g<1><keybind key="Super_L">'
+    backrefs: yes
   notify:
     - openbox reconfigure
 

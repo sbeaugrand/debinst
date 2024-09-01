@@ -91,13 +91,13 @@ Timelimit Alowed Apps :
  Editeur de photos
  Fonds d'ecran
  Galerie
+ Harmony Music
  Horloge
  Lecteur de musique
  Lecteur video
  Loupe
  Mes fichiers
  Messages
- Parametres
  Samsung Notes
  Soundcorset accordeur et metronome
  Stockage de medias

@@ -25,12 +25,8 @@ vagrant2> pbuilder-dist bookworm armhf update --extrapackages 'libjsonrpccpp-com
 ```sh
 cd ../hosts/debian12
 vagrant ssh
-cd pbuilder/bookworm-arm*_result
-cp libjsonrpccpp-client0_1.4.1-1_arm*.deb /vagrant/.vagrant/
-cp libjsonrpccpp-common0_1.4.1-1_arm*.deb /vagrant/.vagrant/
-cp libjsonrpccpp-dev_1.4.1-1_arm*.deb     /vagrant/.vagrant/
-cp libjsonrpccpp-server0_1.4.1-1_arm*.deb /vagrant/.vagrant/
-cp libjsonrpccpp-stub0_1.4.1-1_arm*.deb   /vagrant/.vagrant/
+cp pbuilder/bookworm-arm*_result/*.deb /vagrant/.vagrant/
+rm -f /vagrant/.vagrant/*dbgsym*.deb
 exit
 user=$USER
 host=pi
@@ -48,11 +44,11 @@ mkdir arm-linux-gnueabihf-12 && cd arm-linux-gnueabihf-12
 mkdir usr
 user=$USER
 host=pi
-rsync -a -i --delete $user@$host:/usr/include usr/
-rsync -a -i --delete $user@$host:/usr/lib usr/
-rsync -a -i --delete $user@$host:/lib ./
+rsync -a -i --delete --checksum $user@$host:/usr/include usr/
+rsync -a -i --delete --checksum $user@$host:/usr/lib usr/
+rsync -a -i --delete --checksum $user@$host:/lib ./
 cd usr
 mkdir local
-rsync -a -i --delete $user@$host:/usr/local/include local/
-rsync -a -i --delete $user@$host:/usr/local/lib local/
+rsync -a -i --delete --checksum $user@$host:/usr/local/include local/
+rsync -a -i --delete --checksum $user@$host:/usr/local/lib local/
 ```

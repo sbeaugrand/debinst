@@ -3,6 +3,7 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note https://support.epson.net/linux/Printer/LSB_less_distribution_pages/en/escpr.php
 # ---------------------------------------------------------------------------- #
 repo=$idir/../repo
 url="https://download.ebz.epson.net/dsc/du/02/DriverDownloadInfo.do?LG2=JA&CN2=US&CTI=176&PRN=Linux%20deb%2064bit%20package&OSC=LX&DL"

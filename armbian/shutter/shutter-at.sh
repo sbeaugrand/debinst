@@ -194,3 +194,6 @@ fi
 cd $vpath
 systemd-run\
  -u shutter-$pos -d -G --on-calendar "$date $hh:$mm" ./shutter-and-at.sh
+if [ $? != 0 ]; then
+    echo "err T" >/run/shutter.at
+fi

@@ -119,7 +119,23 @@ make volume
   <summary>Shutter</summary>
 
   ```sh
+  sudo /usr/sbin/rtc `date +%FT%Tw%w`
   make shutter
+  ```
+  ```sh
+  journalctl -u shutter*
+  sudo systemctl status shutter.service
+  systemctl status shutter-open.timer
+  systemctl status shutter-close.timer
+  ```
+</details>
+
+<details>
+  <summary>Cleanup</summary>
+
+  ```sh
+  sudo journalctl --rotate
+  sudo journalctl --vacuum-time=1s
   ```
 </details>
 

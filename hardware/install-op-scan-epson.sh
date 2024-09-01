@@ -3,6 +3,7 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note https://support.epson.net/linux/en/epsonscan2.php
 # ---------------------------------------------------------------------------- #
 version=6.7.65.0
 repo=$idir/../repo
