@@ -1,4 +1,4 @@
-# Usage
+# Build libmraa
 ```sh
 make build
 make package

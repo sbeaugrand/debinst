@@ -12,7 +12,6 @@
       - aptitude
       - cppcheck
       - curl
-      - dpkg-cross
       - elpa-cmake-mode
       - elpa-dockerfile-mode
       - elpa-dpkg-dev-el
@@ -20,6 +19,7 @@
       - elpa-systemd
       - elpa-yaml-mode
       - emacs-lucid
+      - help2man
       - keychain
       - pv
       - rfkill

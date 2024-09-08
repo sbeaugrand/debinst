@@ -53,8 +53,6 @@ php:
 # ---------------------------------------------------------------------------- #
 # tests
 # ---------------------------------------------------------------------------- #
-MDIR = /data/mp3
-
 .PHONY: server
 server:
 	@systemctl -q is-active mpd || sudo systemctl start mpd
@@ -64,7 +62,7 @@ server:
 .PHONY: client
 client:
 	@cd build && make --no-print-directory -j`nproc` mpclient
-	@build/mpclient http://localhost:8383 $(MDIR)
+	@build/mpclient http://localhost:8383
 
 .PHONY: dir
 dir:
@@ -75,6 +73,17 @@ dir:
 # ---------------------------------------------------------------------------- #
 # doc
 # ---------------------------------------------------------------------------- #
+.PHONY: help2man
+help2man: mpserver.1 mpclient.1 mpssaver.1 oledmesg.1
+mpserver.1: mpserver.cpp
+	help2man -N -o $@ -n 'music player server' build/mpserver
+mpclient.1: mpclient.cpp
+	help2man -N -o $@ -n 'music player client' build/mpclient
+mpssaver.1: mpssaver.cpp
+	help2man -N -o $@ -n 'music player screensaver' build/mpssaver
+oledmesg.1: oledmesg.cpp
+	help2man -N -o $@ -n 'display a message in oled module' build/oledmesg
+
 .PHONY: mermaid
 mermaid: README-0.md
 README-0.md: README.md

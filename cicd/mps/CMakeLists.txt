@@ -41,7 +41,14 @@ add_executable(mpssaver
     Output.cpp
 )
 
-install(TARGETS mpserver mpclient mpssaver)
+add_executable(oledmesg
+    oledmesg.cpp
+)
+target_link_libraries(oledmesg
+    upm-lcd
+)
+
+install(TARGETS mpserver mpclient mpssaver oledmesg)
 
 if(XC
         OR ${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL "aarch64"
@@ -54,11 +61,4 @@ if(XC
         lirc_client
         upm-lcd
     )
-    add_executable(oledmesg
-        oledmesg.cpp
-    )
-    target_link_libraries(oledmesg
-        upm-lcd
-    )
-    install(TARGETS oledmesg)
 endif()

@@ -9,7 +9,7 @@ BHOST ?= debian12
 .PHONY: all
 all:
 	@echo
-	@sed -n -e '/# Usage/,/```$$/{/```/!p}' README.md
+	@sed -n -e '/# Build libmraa/,/```$$/{/```/!p}' README.md
 	@echo
 
 include ../makefiles/gitlabci.mk

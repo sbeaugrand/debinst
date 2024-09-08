@@ -4,22 +4,54 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-xterm
+#
+# from makefiles/roles/packages-localhost
+aptitude
+cppcheck
+curl
+elpa-cmake-mode
+elpa-dockerfile-mode
+elpa-dpkg-dev-el
+elpa-markdown-mode
+elpa-systemd
+elpa-yaml-mode
+emacs-lucid
+help2man
+keychain
+pv
+rfkill
+rsync
 screen
-cryptsetup
+sshfs
+sshpass  # ansible_password
+uncrustify
+xterm
+#
+# from makefiles/roles/packages-dev
+build-essential
+chrony
+chrpath
+cmake
+dh-make
+dpkg-cross
+expect
+fakeroot
+gawk
+git
+gdb
+g++-aarch64-linux-gnu
+g++-arm-linux-gnueabihf
+pkg-config
+python3-pip
+systemd-coredump  # coredumpctl debug
+valgrind
 vim
-gcc
-g++
+#
+cryptsetup
 xvkbd
 libglib2.0-dev
 xorg-dev
-emacs-lucid
-elpa-cmake-mode
-elpa-dpkg-dev-el
-elpa-markdown-mode
 elpa-php-mode
-elpa-systemd
-elpa-yaml-mode
 aspell-fr
 myspell-fr
 indent
@@ -35,16 +67,10 @@ fonts-liberation
 icedax
 wodim
 aespipe
-cmake
-make
 automake
 yasm
 libtool
-gcc-arm-linux-gnueabihf
-g++-arm-linux-gnueabihf
 libc6-dev-armhf-cross
-gcc-aarch64-linux-gnu
-g++-aarch64-linux-gnu
 device-tree-compiler
 u-boot-tools
 libssl-dev  # armbian
@@ -82,7 +108,6 @@ libcairo2-dev  # eeplot
 libgit2-dev  # eeplot
 libgtk-3-dev  # eeplot
 fig2dev  # eeplot
-python3-pip  # kiplot, kivy
 python3-setuptools  # kiplot
 python3-pytest-runner  # kiplot
 python3-yaml  # kiplot
@@ -121,13 +146,8 @@ tuxguitar-alsa:amd64
 fluid-soundfont-gm  # timidity
 lingot
 taptempo
-gdb
 strace
-valgrind
 colordiff
-uncrustify
-cppcheck
-expect
 #wine32
 wine
 cups
@@ -144,7 +164,6 @@ gphotofs
 gphoto2
 gvfs-backends  # thunar + gphoto
 gvfs-fuse  # thunar + gphoto
-keychain
 mutt
 fetchmail
 procmail
@@ -170,9 +189,7 @@ texlive-music
 texlive-metapost  # mfplain.mp
 gv
 ntpdate
-rsync
 hexedit
-curl
 rclone
 icoutils
 famfamfam-silk  # tux.png
@@ -199,9 +216,7 @@ libnode-dev  # camotics
 libqt5opengl5  # camotics
 prusa-slicer
 pstoedit
-pv
 libboost-dev
-aptitude
 anacron
 lame
 libmp3lame-dev  # ffmpeg
@@ -211,7 +226,6 @@ libdvdnav-dev
 libaom-dev  # ffmpeg
 lsdvd
 subversion
-git
 libncurses5-dev
 flex
 bison
@@ -234,7 +248,6 @@ libapache2-mod-php
 php-gd
 php-cli
 php-mysql  # phpmyadmin
-gawk
 xscreensaver
 unzip
 telnet
@@ -256,7 +269,6 @@ network-manager-gnome
 wpasupplicant  # wifi
 polkitd-pkla  # hotspot permissions
 tcpdump
-dh-make  # simple-cdd
 equivs
 mplayer
 mencoder
@@ -277,7 +289,6 @@ qpdf
 mupdf-tools  # mutool
 hplip
 pandoc
-rfkill
 bluez
 bluez-tools
 libbluetooth-dev  # pybluez

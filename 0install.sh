@@ -311,7 +311,7 @@ untar()
     fi
 
     if [ -n "$2" ]; then
-        if notFile $bdir/$2; then
+        if notFile $bdir/$2 && notDir $bdir/$2; then
             dir=`dirname $2`
             if [ -n "$3" ]; then
                 if notDir $bdir/$3; then

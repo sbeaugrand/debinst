@@ -8,7 +8,7 @@ Wants=rtc.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/mpssaver /mnt/mp3/mp3
+ExecStart=/usr/bin/mpssaver -d /mnt/mp3/mp3
 ExecStop=pkill -INT mpssaver
 TimeoutStopSec=1s
 

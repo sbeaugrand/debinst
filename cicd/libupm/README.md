@@ -1,4 +1,4 @@
-# Usage
+# Build libupm
 ```sh
 make build
 make package

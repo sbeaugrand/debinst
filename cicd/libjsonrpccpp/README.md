@@ -1,4 +1,4 @@
-# Usage
+# Build libjsonrpccpp
 ```sh
 make build
 make package
@@ -23,17 +23,16 @@ vagrant2> pbuilder-dist bookworm armhf update --extrapackages 'libjsonrpccpp-com
 
 ## Install libjsonrpccpp on remote
 ```sh
-cd ../hosts/debian12
-vagrant ssh
-cp pbuilder/bookworm-arm*_result/*.deb /vagrant/.vagrant/
-rm -f /vagrant/.vagrant/*dbgsym*.deb
-exit
-user=$USER
-host=pi
-scp .vagrant/*.deb $user@$host:/run/user/1000/
-ssh $user@$host
-cd /run/user/1000
-sudo apt reinstall ./*.deb
+localhost> cd ../hosts/debian12
+localhost> vagrant ssh
+ vagrant1> cp pbuilder/bookworm-arm*_result/*.deb /vagrant/.vagrant/
+ vagrant1> rm -f /vagrant/.vagrant/*dbgsym*.deb
+localhost> user=$USER
+localhost> host=pi
+localhost> ssh $user@$host
+       pi> cd /run/user/1000
+localhost> scp .vagrant/*.deb $user@$host:/run/user/1000/
+       pi> sudo apt reinstall ./*.deb
 ```
 
 ## Sysroot installation

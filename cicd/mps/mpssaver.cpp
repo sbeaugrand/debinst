@@ -8,13 +8,14 @@
 #include <variant>
 #include <csignal>
 #include <stdlib.h>
+#include <argp.h>
 #include "Input.h"
 #include "Output.h"
 #include "log.h"
 
 bool gLoop = true;
-Input gInput;
-Output gOutput;
+std::unique_ptr<Input> gInput;
+std::unique_ptr<Output> gOutput;
 
 /******************************************************************************!
  * \fn signalHandler
@@ -24,8 +25,8 @@ signalHandler(int signal)
 {
     if (signal == SIGINT) {
         gLoop = false;
-        gInput.hasEvent = true;
-        gInput.hasEvent.notify_one();
+        gInput->hasEvent = true;
+        gInput->hasEvent.notify_one();
     }
 }
 
@@ -80,7 +81,7 @@ drawDate(int isDay)
         ::strftime(line2, sizeof(line2), "%H:%M", tmOfTheDay);
         *line1 = '\0';
     }
-    gOutput.write("", line1, line2, "");
+    gOutput->write("", line1, line2, "");
 
     if (isDay) {
         return state::Date{};
@@ -110,24 +111,24 @@ onEvent(const state::Normal& state, const event::Right&) {
 }
 State
 onEvent(const state::Normal&, const event::Ok&) {
-    gOutput.write("",
-                  "     reboot",
-                  "date cancel rtc",
-                  "      halt");
+    gOutput->write("",
+                   "     reboot",
+                   "date cancel rtc",
+                   "      halt");
     return state::Menu{};
 }
 
 State
 onEvent(const state::Menu&, const event::Up&) {
     if (::system("sudo /sbin/reboot") == 0) {
-        gOutput.write("", "reboot", "", "");
+        gOutput->write("", "reboot", "", "");
     }
     return state::Normal{};
 }
 State
 onEvent(const state::Menu&, const event::Down&) {
     if (::system("sudo /sbin/halt") == 0) {
-        gOutput.write("", "halt", "", "");
+        gOutput->write("", "halt", "", "");
     }
     return state::Normal{};
 }
@@ -139,12 +140,12 @@ State
 onEvent(const state::Menu&, const event::Right&) {
     if (::system("sudo /usr/sbin/rtc") == 0) {
     }
-    gOutput.screensaver();
+    gOutput->screensaver();
     return state::Normal{};
 }
 State
 onEvent(const state::Menu&, const event::Ok&) {
-    gOutput.screensaver();
+    gOutput->screensaver();
     return state::Normal{};
 }
 
@@ -211,7 +212,7 @@ onEvent(const state::Hour&, const event::Right&) {
 }
 State
 onEvent(const state::Hour&, const event::Ok&) {
-    gOutput.screensaver();
+    gOutput->screensaver();
     return state::Normal{};
 }
 
@@ -230,26 +231,66 @@ public:
 };
 
 /******************************************************************************!
+ * argp
+ ******************************************************************************/
+const char *argp_program_version =
+    "mpssaver 1.0.0";
+const char *argp_program_bug_address =
+    "<sbeaugrand@toto.fr>";
+static char doc[] =
+    "mpssaver -- "
+    "mps screensaver";
+static struct argp_option options[] = {
+    { "dir", 'd', "DIR", 0, "music_directory", 0 },
+    { 0, 0, 0, 0, 0, 0 }
+};
+struct arguments
+{
+    const char* music_directory;
+};
+static error_t
+parse_opt(int key, char* arg, struct argp_state* state)
+{
+    struct arguments* arguments = static_cast<struct arguments*>(state->input);
+    switch (key) {
+    case 'd':
+        arguments->music_directory = arg;
+        DEBUG("music_directory: " << arguments->music_directory);
+        break;
+    default:
+        return ARGP_ERR_UNKNOWN;
+    }
+    return 0;
+}
+static struct argp argp = { options, parse_opt, 0, doc, 0, 0, 0 };
+
+/******************************************************************************!
  * \fn main
  ******************************************************************************/
 int
 main(int argc, char** argv)
 {
+    struct arguments arguments = { 0 };
+    argp_parse(&argp, argc, argv, 0, 0, &arguments);
+
+    gInput = std::unique_ptr<Input>(new Input);
+    gOutput = std::unique_ptr<Output>(new Output);
+
     Machine machine;
-    if (argc > 1 && std::filesystem::exists(argv[1])) {
-        gOutput.musicDirectory = argv[1];
+    if (arguments.music_directory) {
+        gOutput->musicDirectory = arguments.music_directory;
     }
-    gOutput.screensaver();
+    gOutput->screensaver();
 
     std::signal(SIGINT, ::signalHandler);
 
     while (gLoop) {
-        gInput.hasEvent.wait(false);
+        gInput->hasEvent.wait(false);
         if (! gLoop) {
             return 0;
         }
-        auto key = gInput.key;
-        gInput.hasEvent = false;
+        auto key = gInput->key;
+        gInput->hasEvent = false;
         switch (key) {
         case Input::KEY_UP:
             machine.processEvent(event::Up{});

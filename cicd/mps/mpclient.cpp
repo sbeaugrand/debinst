@@ -7,9 +7,11 @@
 #include <filesystem>
 #include <iostream>
 #include <csignal>
+#include <argp.h>
 #include "Input.h"
 #include "Output.h"
 #include "Client.h"
+#include "log.h"
 
 std::unique_ptr<Client> gClient;
 
@@ -25,13 +27,47 @@ signalHandler(int signal)
 }
 
 /******************************************************************************!
- * \fn usage
+ * argp
  ******************************************************************************/
-void
-usage(char** argv)
+const char *argp_program_version =
+    "mpclient 1.0.0";
+const char *argp_program_bug_address =
+    "<sbeaugrand@toto.fr>";
+static char doc[] =
+    "mpclient -- "
+    "C++ music player client with weighted random album selection";
+static struct argp_option options[] = {
+    { "dir", 'd', "DIR", 0, "music_directory", 0 },
+    { 0, 0, 0, 0, 0, 0 }
+};
+struct arguments
 {
-    std::cerr << "Usage: " << argv[0] << " <url> [dir]" << std::endl;
+    const char* server_url;
+    const char* music_directory;
+};
+static error_t
+parse_opt(int key, char* arg, struct argp_state* state)
+{
+    struct arguments* arguments = static_cast<struct arguments*>(state->input);
+    switch (key) {
+    case 'd':
+        arguments->music_directory = arg;
+        DEBUG("music_directory: " << arguments->music_directory);
+        break;
+    case ARGP_KEY_ARG:
+        arguments->server_url = arg;
+        break;
+    case ARGP_KEY_END:
+        if (! arguments->server_url) {
+            argp_usage(state);
+        }
+        break;
+    default:
+        return ARGP_ERR_UNKNOWN;
+    }
+    return 0;
 }
+static struct argp argp = { options, parse_opt, "SERVER", doc, 0, 0, 0 };
 
 /******************************************************************************!
  * \fn main
@@ -39,16 +75,16 @@ usage(char** argv)
 int
 main(int argc, char** argv)
 {
-    if (argc <= 1) {
-        ::usage(argv);
-        return 1;
-    }
-    std::string url(argv[1]);
+    struct arguments arguments = { 0, 0 };
+    argp_parse(&argp, argc, argv, 0, 0, &arguments);
+
+    std::string url(arguments.server_url);
 
     Input input;
     Output output;
-    if (argc > 2 && std::filesystem::exists(argv[2])) {
-        output.musicDirectory = argv[2];
+    if (arguments.music_directory &&
+        std::filesystem::exists(arguments.music_directory)) {
+        output.musicDirectory = arguments.music_directory;
     }
 
     gClient = std::unique_ptr<Client>(new Client(input, output, url));

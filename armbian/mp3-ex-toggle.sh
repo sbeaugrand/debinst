@@ -1,6 +1,6 @@
 #!/bin/bash
 # ---------------------------------------------------------------------------- #
-## \file mp3-op-toggle.sh
+## \file mp3-ex-toggle.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
@@ -10,7 +10,7 @@ log=/var/log/mp3toggle.log
 
 err()
 {
-    oled-message "err $1" 0 4 >>$log 2>&1
+    oledmesg -m "err $1" -x 0 -y 4 >>$log 2>&1
     exit 1
 }
 
@@ -20,7 +20,7 @@ if ((pid != $$)); then
 fi
 
 if grep -q " /mnt/mp3 " /etc/mtab; then
-    oled-message "umount" 0 5 >>$log 2>&1
+    oledmesg -m "umount" -x 0 -y 5 >>$log 2>&1
     systemctl stop mp3server
     systemctl stop mpd
 
@@ -28,7 +28,7 @@ if grep -q " /mnt/mp3 " /etc/mtab; then
     if [ -x /usr/bin/oscreensaver ]; then
         systemctl start oscreensaver || err "oscreensaver"
     else
-        oled-message
+        oledmesg
     fi
 else
     if [ -x /usr/bin/oscreensaver ]; then
