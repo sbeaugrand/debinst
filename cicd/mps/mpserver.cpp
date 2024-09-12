@@ -25,7 +25,7 @@ static char doc[] =
     "C++ music player server with weighted random album selection";
 static struct argp_option options[] = {
     { "dir", 'd', "DIR", 0, "music_directory", 0 },
-    { 0, 0, 0, 0, 0, 0 }
+    {}
 };
 struct arguments
 {
@@ -53,7 +53,7 @@ static struct argp argp = { options, parse_opt, 0, doc, 0, 0, 0 };
 int
 main(int argc, char** argv)
 {
-    struct arguments arguments = { 0 };
+    struct arguments arguments = {};
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
     Player player;

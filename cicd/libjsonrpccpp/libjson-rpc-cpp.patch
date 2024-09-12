@@ -1,5 +1,5 @@
 diff --git a/.gitignore b/.gitignore
-index dbc153e..d35e32b 100644
+index 53abf74..b69eb15 100644
 --- a/.gitignore
 +++ b/.gitignore
 @@ -57,3 +57,6 @@ lib
@@ -78,11 +78,11 @@ index 23e31c4..9ad6c9f 100755
  mark_as_advanced(MHD_INCLUDE_DIR MHD_LIBRARY)
  
 diff --git a/debian/changelog b/debian/changelog
-index 41ec659..7d3a2b3 100644
+index 41ec659..2797f1a 100644
 --- a/debian/changelog
 +++ b/debian/changelog
 @@ -1,3 +1,9 @@
-+libjson-rpc-cpp (1.4.1-1) unstable; urgency=medium
++libjson-rpc-cpp (1.4.1-1.0) unstable; urgency=medium
 +
 +  * Non-maintainer upload.
 +
@@ -92,24 +92,27 @@ index 41ec659..7d3a2b3 100644
  
    * Non-maintainer upload.
 diff --git a/debian/compat b/debian/compat
-index ec63514..f599e28 100644
+deleted file mode 100644
+index ec63514..0000000
 --- a/debian/compat
-+++ b/debian/compat
-@@ -1 +1 @@
++++ /dev/null
+@@ -1 +0,0 @@
 -9
-+10
 diff --git a/debian/control b/debian/control
-index 3132a13..c15f634 100644
+index 3132a13..7782711 100644
 --- a/debian/control
 +++ b/debian/control
-@@ -3,7 +3,6 @@ Section: libs
+@@ -3,9 +3,8 @@ Section: libs
  Priority: optional
  Maintainer: Peter Spiess-Knafl <dev@spiessknafl.at>
  Build-Depends:
 - catch,
   cmake,
-  debhelper (>= 9),
+- debhelper (>= 9),
++ debhelper-compat (= 12),
   libargtable2-dev,
+  libcurl4-openssl-dev | libcurl4-nss-dev,
+  libjsoncpp-dev,
 diff --git a/debian/libjsonrpccpp-client0.lintian-overrides b/debian/libjsonrpccpp-client0.lintian-overrides
 deleted file mode 100644
 index bd8f98f..0000000
@@ -322,3 +325,112 @@ index bc9fc4e..79040f3 100755
 -	dh_strip --dbgsym-migration='libjsonrpccpp-common0-dbg (<< 0.7.0-2~), libjsonrpccpp-server0-dbg (<< 0.7.0-2~), libjsonrpccpp-client0-dbg (<< 0.7.0-2~), libjsonrpccpp-stub0-dbg (<< 0.7.0-2~)'
 +	dh_strip --dbgsym-migration='libjsonrpccpp-common0-dbg (<< 1.4.1-1~), libjsonrpccpp-server0-dbg (<< 1.4.1-1~), libjsonrpccpp-client0-dbg (<< 1.4.1-1~), libjsonrpccpp-stub0-dbg (<< 1.4.1-1~)'
  
+diff --git a/debian/upstream/metadata b/debian/upstream/metadata
+index dbc219d..beae315 100644
+--- a/debian/upstream/metadata
++++ b/debian/upstream/metadata
+@@ -3,7 +3,5 @@ Bug-Submit: https://github.com/cinemast/libjson-rpc-cpp/issues/new
+ Changelog: https://github.com/cinemast/libjson-rpc-cpp/blob/master/CHANGELOG.md
+ Contact: Peter Spiess-Knafl <psk@autistici.org>
+ Name: libjson-rpc-cpp
+-Homepage: https://github.com/cinemast/libjson-rpc-cpp/
+ Repository: https://github.com/cinemast/libjson-rpc-cpp/
+ Repository-Browse: https://github.com/cinemast/libjson-rpc-cpp/
+-
+diff --git a/debian/upstream/signing-key.asc b/debian/upstream/signing-key.asc
+deleted file mode 100644
+index 529bbdc..0000000
+--- a/debian/upstream/signing-key.asc
++++ /dev/null
+@@ -1,78 +0,0 @@
+------BEGIN PGP PUBLIC KEY BLOCK-----
+-Version: GnuPG v1
+-
+-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
+-24aMG1TFZxwvYNREnwwH/7FxsHVCkrlv6A==
+-=Hb2q
+------END PGP PUBLIC KEY BLOCK-----
+diff --git a/doc/manpage.in b/doc/manpage.in
+index f1d5e23..3a727a1 100644
+--- a/doc/manpage.in
++++ b/doc/manpage.in
+@@ -40,7 +40,7 @@ with their corresponding parameters and return values contained in a top\-level
+ 
+ .PP
+ The literal in each \fB"params"\fP and  \fB"returns"\fP section defines the corresponding type.
+-If the \fb"params"\fP contains an array, the parameters are accepted by position,
++If the \fB"params"\fP contains an array, the parameters are accepted by position,
+ if it contains an object, they are accepted by name.
+ 
+ .SH OPTIONS

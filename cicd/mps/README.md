@@ -71,7 +71,7 @@ localhost> make BUILD=Release package
 localhost> make BUILD=Release rbuild
 localhost> make BUILD=Release rpackage
 localhost> make BUILD=Release rxpackage OPTS='-e ARCH=armhf'
- vagrant2> cp -av libmraa2_2.2.0-1_armhf.deb libupm-lcd2_2.0.0-1_armhf.deb libjsonrpccpp-client0_1.4.1-1_armhf.deb libjsonrpccpp-common0_1.4.1-1_armhf.deb libjsonrpccpp-server0_1.4.1-1_armhf.deb mps_1.0.0_armhf.deb /vagrant/.vagrant
+ vagrant2> cp -av libmraa2_2.2.0-1_armhf.deb libupm-lcd2_2.0.0-1_armhf.deb libjsonrpccpp-client0_1.4.1-1.0_armhf.deb libjsonrpccpp-common0_1.4.1-1.0_armhf.deb libjsonrpccpp-server0_1.4.1-1.0_armhf.deb mps_1.0.0_armhf.deb /vagrant/.vagrant
 localhost> user=$USER
 localhost> host=pi
 localhost> ssh $user@$host

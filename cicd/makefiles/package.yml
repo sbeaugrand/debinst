@@ -262,8 +262,8 @@ rxinstall:
     - BDIR=$HDIR/$BHOST/.vagrant/$PROPATH/build-$XC
     - !reference [.keychain, script]
     - cd $BDIR
-    - $SCP $BLIST $URI:/run/user/1000/
+    - $SCP $BLIST $URI:/tmp/
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
-      $SSH "cd /run/user/1000 && echo $SUDOPASS | sudo -S true && echo &&
+      $SSH "cd /tmp && echo $SUDOPASS | sudo -S true && echo &&
       sudo mv $BLIST /usr/bin/"

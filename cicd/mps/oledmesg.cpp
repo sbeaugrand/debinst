@@ -24,7 +24,7 @@ static struct argp_option options[] = {
     { "message", 'm', "STRING", 0, 0, 0 },
     { "x", 'x', "NUM", 0, 0, 0 },
     { "y", 'y', "NUM", 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 0 }
+    {}
 };
 struct arguments
 {
@@ -62,7 +62,7 @@ static struct argp argp = { options, parse_opt, 0, doc, 0, 0, 0 };
 int
 main(int argc, char** argv)
 {
-    struct arguments arguments = { 0, 0, 0 };
+    struct arguments arguments = {};
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
     upm::SSD1306* oled;
