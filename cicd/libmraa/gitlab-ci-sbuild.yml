@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------- #
-## \file gitlab-ci.yml
+## \file gitlab-ci-sbuild.yml
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
@@ -11,4 +11,4 @@ variables:
   URL: https://github.com/sbeaugrand/$REPO.git
   PKG: lib$REPO
 include:
-  - local: /../makefiles/pbuilder.yml
+  - local: /../makefiles/sbuild.yml

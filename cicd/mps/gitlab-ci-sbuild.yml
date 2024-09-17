@@ -1,0 +1,12 @@
+# ---------------------------------------------------------------------------- #
+## \file gitlab-ci-sbuild.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+variables:
+  REPO: mps
+  VERSION: 1.0.0
+  PKG: $REPO
+include:
+  - local: /../makefiles/pbuilder.yml

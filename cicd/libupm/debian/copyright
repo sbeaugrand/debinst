@@ -6,7 +6,7 @@ Files:
  *
 Copyright:
  2014-2019 Intel Corporation and others
-License: The MIT License (MIT)
+License: MIT
  Permission is hereby granted, free of charge, to any person obtaining
  a copy of this software and associated documentation files (the
  "Software"), to deal in the Software without restriction, including
@@ -30,7 +30,7 @@ Files:
  debian/*
 Copyright:
  2024 sbeaugrand <sbeaugrand@toto.fr>
-License: CeCILL 2.1
+License: CeCILL2.1
  This software is governed by the CeCILL license under French law and
  abiding by the rules of distribution of free software. You can use,
  modify and/or redistribute the software under the terms of the CeCILL

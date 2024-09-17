@@ -15,4 +15,4 @@
     home: /home/{{ user }}
   roles:
     - packages-dev-libjsonrpccpp
-    - packages-pbuilder
+    - packages-sbuild

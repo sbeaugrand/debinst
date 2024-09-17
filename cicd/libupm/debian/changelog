@@ -1,5 +1,5 @@
 libupm (2.0.0-1) UNRELEASED; urgency=medium
 
-  * Non-maintainer upload.
+  * Add debian directory.
 
  -- sbeaugrand <sbeaugrand@toto.fr>  Sat, 13 Jul 2024 09:14:23 +0200

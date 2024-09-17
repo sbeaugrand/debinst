@@ -1,23 +1,19 @@
 # ---------------------------------------------------------------------------- #
-## \file gitlab-ci.yml
+## \file gitlab-ci-pbuilder.yml
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 variables:
-  REPO: libjson-rpc-cpp
-  VERSION: 1.4.1
+  REPO: upm
+  VERSION: 2.0.0
   REVISION: -1
-  URL: https://github.com/cinemast/$REPO.git
-  SRC: https://salsa.debian.org/debian/$REPO.git
-  PKG: $REPO
+  URL: https://github.com/eclipse/$REPO.git
+  PKG: lib$REPO
 include:
   - local: /../makefiles/pbuilder.yml
 build:
   stage: build
   after_script:
-    - cd build
-    - test -d source || git clone $SRC source
-    - test -d $REPO/debian || cp -r source/debian $REPO/
-    - cd $REPO
-    - grep -q COVERAGE debian/rules || git apply ../../$REPO.patch
+    - cd build/$REPO
+    - grep -q 'v2\.0\.0' CMakeLists.txt || git apply ../../$REPO.patch

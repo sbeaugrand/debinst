@@ -35,7 +35,6 @@
       alias grep='grep --color=auto'
       alias rgrep='grep --color=auto -rI --exclude-dir=build --exclude-dir=build-* --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.vagrant --exclude=*.svg'
       alias rfind='find . -type d \( -name build -o -name build-* -o -name .git -name .svn -o -name .vagrant \) -prune -false -o -name'
-      alias sortdu=$'du -b | awk \'{ printf "%12d %s\\n", $1, $2 }\' | LC_ALL=C sort'
 
       bind '"\e[1;5A": history-search-backward'
       bind '"\e[1;5B": history-search-forward'

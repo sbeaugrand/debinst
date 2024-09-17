@@ -1,19 +1,14 @@
 # ---------------------------------------------------------------------------- #
-## \file gitlab-ci.yml
+## \file gitlab-ci-pbuilder.yml
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 variables:
-  REPO: upm
-  VERSION: 2.0.0
+  REPO: mraa
+  VERSION: 2.2.0
   REVISION: -1
-  URL: https://github.com/eclipse/$REPO.git
+  URL: https://github.com/sbeaugrand/$REPO.git
   PKG: lib$REPO
 include:
   - local: /../makefiles/pbuilder.yml
-build:
-  stage: build
-  after_script:
-    - cd build/$REPO
-    - grep -q 'v2\.0\.0' CMakeLists.txt || git apply ../../$REPO.patch

@@ -22,10 +22,10 @@ endif
 
 PROJECT ?= $(shell basename `readlink -f .`)
 BUILD ?= Debug
-ifeq ($(BUILD),Release)
- gitlabciyml = gitlab-ci-release.yml
-else
+ifeq ($(BUILDER),)
  gitlabciyml = gitlab-ci.yml
+else
+ gitlabciyml = gitlab-ci-$(BUILDER).yml
 endif
 NOCLEAN ?= 0
 URI ?= exemple@ip

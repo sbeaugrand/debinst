@@ -7,9 +7,10 @@ Build-Depends:
  debhelper-compat (= 13),
  cmake (>= 3.18),
  libjsonrpccpp-dev (>= 1.4.1),
+ libmraa-dev (>= 2.2.0),
  libupm-dev (>= 2.0.0),
  libmpdclient-dev (>= 2.20),
- liblircclient-dev (>= 0.10.1),
+ liblirc-dev (>= 0.10.1),
 Standards-Version: 4.6.2
 Homepage: https://github.com/sbeaugrand/debinst/tree/master/cicd/mps
 
