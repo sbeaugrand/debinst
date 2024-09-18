@@ -5,5 +5,5 @@ make add-ip
 vagrant halt
 make up
 vagrant provision
-make ssh-copy-id  # for rsync in pbuilder.yml
+make ssh-copy-id  # for rsync in sbuild.yml
 ```

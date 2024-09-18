@@ -58,8 +58,9 @@ stateDiagram
 ```sh
 localhost> cd ../hosts/debian12
 localhost> vagrant ssh
- vagrant1> mkdir ~/.cache/sbuild
- vagrant1> mmdebstrap --variant=buildd --architectures=armhf bookworm ~/.cache/sbuild/bookworm-armhf.tar.zst --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev
+ vagrant1> mkdir ~/sbuild
+ vagrant1> mmdebstrap --variant=buildd --architectures=armhf bookworm ~/sbuild/bookworm-armhf.tar.zst --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev
+ vagrant1> sudo apt install libmpdclient-dev liblirc-dev
 localhost> make BUILDER=sbuild rbuild
 localhost> make BUILDER=sbuild rpackage
 localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
@@ -73,7 +74,7 @@ localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
   localhost> vagrant ssh
    vagrant1> cd ~/pbuilder/*_result
    vagrant1> python3 -m http.server
-   vagrant2> sudo apt install libmpdclient-dev liblircclient-dev
+   vagrant2> sudo apt install libmpdclient-dev liblirc-dev
    vagrant2> cd ~/pbuilder/*_result
    vagrant2> pbuilder-dist bookworm armhf update --extrapackages 'libmpdclient-dev liblircclient-dev' --allow-untrusted --othermirror 'deb [allow-insecure=yes] http://localhost:8000/ ./'
 

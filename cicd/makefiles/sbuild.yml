@@ -72,8 +72,7 @@ rxpackage:
     - cd $HDIR/$BHOST
     - test -n "$DIST" || DIST=`lsb_release -s -c 2>/dev/null`
     - >
-      $SSH "mkdir -p $UPATH/sbuild &&
-      cd $UPATH/$PROPATH/build/$REPO &&
+      $SSH "cd $UPATH/$PROPATH/build/$REPO &&
       sbuild --build=$ARCH --host=$ARCH --chroot-mode=unshare
-      -c $UPATH/.cache/sbuild/$DIST-$ARCH.tar.zst --no-apt-update
+      -c $UPATH/sbuild/$DIST-$ARCH.tar.zst --no-apt-update
       --build-dir=$UPATH/sbuild --extra-package=$UPATH/sbuild"

@@ -14,6 +14,7 @@
       - uidmap
       - binfmt-support
       - qemu-user-static
+      - arch-test
   become: yes
 
 - name: add user to the sbuild group

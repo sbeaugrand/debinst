@@ -7,11 +7,12 @@ sudo apt install ./build/*.deb
 localhost> cd ../hosts/debian12
 localhost> make up
 localhost> vagrant ssh
- vagrant1> mkdir ~/.cache/sbuild
- vagrant1> mmdebstrap --variant=buildd --architectures=arm64 bookworm ~/.cache/sbuild/bookworm-arm64.tar.zst --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian
+ vagrant1> mkdir ~/sbuild
+ vagrant1> mmdebstrap --variant=buildd --architectures=armhf bookworm ~/sbuild/bookworm-armhf.tar.zst --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian
 localhost> make BUILDER=sbuild rbuild
 localhost> make BUILDER=sbuild rpackage
 localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
+ vagrant1> sudo apt install ./libmraa/build/*.deb
 ```
 
 <details>

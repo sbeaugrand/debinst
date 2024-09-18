@@ -9,4 +9,4 @@ variables:
   VERSION: 1.0.0
   PKG: $REPO
 include:
-  - local: /../makefiles/pbuilder.yml
+  - local: /../makefiles/sbuild.yml

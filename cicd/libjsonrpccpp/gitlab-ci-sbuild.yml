@@ -12,7 +12,7 @@ variables:
   SRC: https://salsa.debian.org/debian/$REPO.git
   PKG: $REPO
 include:
-  - local: /../makefiles/pbuilder.yml
+  - local: /../makefiles/sbuild.yml
 build:
   stage: build
   after_script:
