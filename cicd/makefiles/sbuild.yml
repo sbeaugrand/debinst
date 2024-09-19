@@ -70,7 +70,7 @@ rxpackage:
   script:
     - PROPATH=$(basename `readlink -f .`)
     - cd $HDIR/$BHOST
-    - test -n "$DIST" || DIST=`lsb_release -s -c 2>/dev/null`
+    - test -n "$DIST" || DIST="stable"
     - >
       $SSH "cd $UPATH/$PROPATH/build/$REPO &&
       sbuild --build=$ARCH --host=$ARCH --chroot-mode=unshare

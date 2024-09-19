@@ -59,7 +59,8 @@ stateDiagram
 localhost> cd ../hosts/debian12
 localhost> vagrant ssh
  vagrant1> mkdir ~/sbuild
- vagrant1> mmdebstrap --variant=buildd --architectures=armhf bookworm ~/sbuild/bookworm-armhf.tar.zst --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev
+ vagrant1> ARCH=armhf
+ vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH stable ~/sbuild/stable-$ARCH.tar.zst --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev
  vagrant1> sudo apt install libmpdclient-dev liblirc-dev
 localhost> make BUILDER=sbuild rbuild
 localhost> make BUILDER=sbuild rpackage
