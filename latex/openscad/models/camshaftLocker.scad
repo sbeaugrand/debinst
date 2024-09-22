@@ -13,7 +13,7 @@ hPulley = 10;
 LTeeth = 5;
 lTeeth = 3;
 hTeeth = 3;
-entraxe = dPulley+19;
+entraxe = dPulley+18.5;
 tLocker = 29;
 bLocker = 15;
 hLocker = tLocker + bLocker;
@@ -38,7 +38,7 @@ module camshaftLocker() {
         union() {
             translate([0,0,-1]) rotate([0,0,180/nPulley-1]) camshaftPulley();
             translate([entraxe,0,-1]) rotate([0,0,180/nPulley-1]) camshaftPulley();
-            translate([entraxe/2,-bLocker-1,-1]) cube([2,hLocker+2,hPulley/2+1]);
+            translate([entraxe/2-0.5,-bLocker-1,-1]) cube([2.5,hLocker+2,hPulley/2+1]);
             translate([entraxe/2,tLocker+6,-1]) cylinder(h=hPulley+2, r=10, $fn=180);
         }
     }

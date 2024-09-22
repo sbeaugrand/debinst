@@ -18,6 +18,7 @@
     - vim
     # Local roles
     - packages-localhost
+    - uncrustify
     - role: libvirt
       when: ansible_virtualization_role == 'host'
     # Desktop roles

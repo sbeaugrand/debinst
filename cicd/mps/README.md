@@ -99,8 +99,11 @@ localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
 ## Update sysroot for cross compilation
 ```sh
  vagrant2> cp -av *-dev_* /vagrant/.vagrant
-localhost> scp .vagrant/*-dev_* $user@$host:/run/user/1000/
+localhost> user=$USER
+localhost> host=pi
+localhost> ssh $user@$host
        pi> cd /run/user/1000
+localhost> scp .vagrant/*-dev_* $user@$host:/run/user/1000/
        pi> sudo apt reinstall ./*-dev_*
 ```
 [update](../libjsonrpccpp/README.md#sysroot-installation)

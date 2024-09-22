@@ -6,6 +6,12 @@
 ---
 - name: copy uncrustify.cfg
   copy:
-    src: "uncrustify.cfg"
+    src: uncrustify.cfg
     dest: "{{ home }}/.uncrustify.cfg"
     force: no
+
+- name: copy uncrustify.sh
+  copy:
+    src: uncrustify.sh
+    dest: "{{ home }}/.local/bin/"
+    mode: 0755

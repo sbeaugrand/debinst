@@ -82,6 +82,7 @@ Timelimit Alowed Apps :
  Calculatrice
  Calendrier
  Call+
+ CapCut
  CaptivePortalLogin
  Capture Samsung
  Clavier Samsung
@@ -98,6 +99,7 @@ Timelimit Alowed Apps :
  Loupe
  Mes fichiers
  Messages
+ Meteo
  Samsung Notes
  Soundcorset accordeur et metronome
  Stockage de medias

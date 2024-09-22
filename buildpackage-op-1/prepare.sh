@@ -25,6 +25,7 @@ for args in\
  cython\
  pymeeus\
  solidpython\
+ matplotlib\
 ; do
     downloadWheel "$args"
 done
