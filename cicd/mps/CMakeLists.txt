@@ -15,6 +15,7 @@ add_executable(mpserver
     List.cpp
     Player.cpp
     Server.cpp
+    path.cpp
 )
 target_link_libraries(mpserver
     mpdclient

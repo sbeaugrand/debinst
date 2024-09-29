@@ -1,7 +1,7 @@
 # Build libjsonrpccpp
 ```sh
-make build
-make package
+make BUILDER=sbuild build
+make BUILDER=sbuild package
 sudo apt install ./build/*.deb
 
 localhost> cd ../hosts/debian12
@@ -46,9 +46,9 @@ localhost> vagrant ssh
  vagrant1> rm -f /vagrant/.vagrant/*dbgsym*.deb
 localhost> user=$USER
 localhost> host=pi
+localhost> scp .vagrant/*.deb $user@$host:/tmp/
 localhost> ssh $user@$host
-       pi> cd /run/user/1000
-localhost> scp .vagrant/*.deb $user@$host:/run/user/1000/
+       pi> cd /tmp
        pi> sudo apt reinstall ./*.deb
 ```
 

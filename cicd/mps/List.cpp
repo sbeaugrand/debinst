@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "List.h"
+#include "path.h"
 #include "log.h"
 
 /******************************************************************************!
@@ -99,13 +100,8 @@ List::artist(const std::string& artist,
         if (line.empty()) {
             return r;
         }
-        auto path = line.substr(20);
-        auto pos1 = path.rfind('/');
-        auto pos2 = path.rfind(" - ", pos1 - 1) + 3;
-        auto pos3 = path.rfind(" - ", pos2 - 4);
-        auto pos4 = path.rfind('/', pos3 - 1) + 1;
-        search = path.substr(pos4, pos3 - pos4);
-        current = path.substr(pos2, pos1 - pos2);
+        std::string date;
+        std::tie(search, date, current) = ::splitPath(line.substr(20));
     } else {
         search = artist;
         current = album;
@@ -117,11 +113,7 @@ List::artist(const std::string& artist,
         for (auto al : it.list) {
             auto path = al.substr(11);
             if (path.starts_with(search + " - ")) {
-                auto pos1 = path.rfind('/');
-                auto pos2 = path.rfind(" - ", pos1 - 1) + 3;
-                auto pos3 = path.rfind(" - ", pos2 - 4) + 3;
-                auto albu = path.substr(pos2, pos1 - pos2);
-                auto date = path.substr(pos3, pos2 - pos3 - 3);
+                const auto [arti, date, albu] = ::splitPath(path);
                 r["album"].append(date + "  " + albu);
                 if (albu == current) {
                     r["pos"] = count;
@@ -143,11 +135,7 @@ List::album(const std::string& search, int pos) const
     if (pos < 0) {
         for (auto it : mList) {
             for (auto al : it.list) {
-                auto path = al.substr(11);
-                auto pos1 = path.rfind('/');
-                auto pos3 = path.rfind('/', pos1 - 1) + 1;
-                auto pos2 = path.find(" - ", pos3);
-                auto arti = path.substr(pos3, pos2 - pos3);
+                const auto [arti, date, albu] = ::splitPath(al.substr(11));
                 auto count = search.size();
                 std::string str;
                 for (const auto c : arti) {
@@ -169,10 +157,7 @@ List::album(const std::string& search, int pos) const
             for (auto al : it.list) {
                 auto path = al.substr(11);
                 if (path.starts_with(search + " - ")) {
-                    auto pos1 = path.rfind('/');
-                    auto pos3 = path.rfind('/', pos1 - 1) + 1;
-                    auto pos2 = path.find(" - ", pos3);
-                    auto arti = path.substr(pos3, pos2 - pos3);
+                    const auto [arti, date, albu] = ::splitPath(path);
                     if (arti == search) {
                         if (count == pos) {
                             return it.name + '/' + al.substr(11);

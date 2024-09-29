@@ -8,8 +8,6 @@ BHOST = debian12
 HOST = armbian
 XC ?= arm-linux-gnueabihf
 
-CPPCHECKINC = --include=build/abstractstubserver.h
-
 include ../makefiles/cmake.mk
 include ../makefiles/gitlabci.mk
 include ../makefiles/mermaid.mk

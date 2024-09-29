@@ -233,9 +233,9 @@ public:
 /******************************************************************************!
  * argp
  ******************************************************************************/
-const char *argp_program_version =
+const char* argp_program_version =
     "mpssaver 1.0.0";
-const char *argp_program_bug_address =
+const char* argp_program_bug_address =
     "<sbeaugrand@toto.fr>";
 static char doc[] =
     "mpssaver -- "

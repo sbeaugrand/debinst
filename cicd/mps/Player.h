@@ -4,6 +4,7 @@
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
+#pragma once
 #include <jsoncpp/json/value.h>
 #include <mpd/client.h>
 

@@ -1,7 +1,7 @@
 # Build libmraa
 ```sh
-make build
-make package
+make BUILDER=sbuild build
+make BUILDER=sbuild package
 sudo apt install ./build/*.deb
 
 localhost> cd ../hosts/debian12

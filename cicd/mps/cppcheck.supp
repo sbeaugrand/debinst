@@ -1,1 +1,2 @@
-missingInclude:oledmesg.cpp:7 #(information) Include file: "upm/ssd1306.hpp" not found.
+missingInclude:oledmesg.cpp:8 #(information) Include file: "upm/ssd1306.hpp" not found.
+ctuOneDefinitionRuleViolation:mpclient.cpp:43 #(error) The one definition rule is violated, different classes/structs have the same name 'arguments'

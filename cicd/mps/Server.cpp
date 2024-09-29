@@ -11,6 +11,7 @@
 #include "Server.h"
 #include "List.h"
 #include "Player.h"
+#include "path.h"
 #include "log.h"
 
 /******************************************************************************!
@@ -66,14 +67,11 @@ Server::rand()
     const auto [path, abrev, days] = mList.rand();
     mSelect = path;
     mSelectTime = std::chrono::steady_clock::now();
-    auto pos4 = mSelect.rfind('/');
-    auto pos1 = mSelect.rfind('/', pos4 - 1) + 1;
-    auto pos2 = mSelect.find(" - ", pos1);
-    auto pos3 = mSelect.find(" - ", pos2 + 3) + 3;
+    const auto [arti, date, albu] = ::splitPath(path);
     Json::Value result;
-    result["artist"] = mSelect.substr(pos1, pos2 - pos1);
-    result["album"] = mSelect.substr(pos3, pos4 - pos3);
-    result["date"] = mSelect.substr(pos2 + 3, pos3 - pos2 - 6);
+    result["artist"] = arti;
+    result["date"] = date;
+    result["album"] = albu;
     result["abrev"] = abrev;
     result["days"] = days;
     return result;

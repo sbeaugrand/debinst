@@ -107,6 +107,7 @@ rbuild:
   stage: rbuild
   script:
     - PROPATH=$(basename `readlink -f .`)
+    - !reference [.keychain, script]
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
     - $RSYNC ../makefiles $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
@@ -147,7 +148,6 @@ rdeploy:
     - PROPATH=$(basename `readlink -f .`)
     - test -n "$XC" || BDIR=.vagrant/$PROPATH/build
     - test -n "$XC" || cd $HDIR/$BHOST
-    - !reference [.keychain, script]
     - $SCP $BDIR/${PROJECT}_${VERSION}_*.deb $SCPTARGET
     - test -n "$SUDOPASS" || read -s SUDOPASS
     - >
@@ -224,6 +224,7 @@ rxbuild:
     XCDIR: /vagrant/.vagrant
   script:
     - PROPATH=$(basename `readlink -f .`)
+    - !reference [.keychain, script]
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
     - $RSYNC ../makefiles $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
@@ -260,7 +261,6 @@ rxinstall:
     - test -n "$BLIST" || BLIST=$PROJECT
     - PROPATH=$(basename `readlink -f .`)
     - BDIR=$HDIR/$BHOST/.vagrant/$PROPATH/build-$XC
-    - !reference [.keychain, script]
     - cd $BDIR
     - $SCP $BLIST $URI:/tmp/
     - test -n "$SUDOPASS" || read -s SUDOPASS

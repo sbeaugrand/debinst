@@ -6,6 +6,7 @@
  ******************************************************************************/
 #include <iostream>
 #include "Player.h"
+#include "path.h"
 #include "log.h"
 
 /******************************************************************************!
@@ -413,6 +414,9 @@ Player::currentTitle()
     }
 
     std::string path;
+    std::string arti;
+    std::string date;
+    std::string albu;
 
     if (const char* tag = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
         tag != NULL) {
@@ -429,9 +433,8 @@ Player::currentTitle()
         r["album"] = tag;
     } else {
         path = mpd_song_get_uri(song);
-        auto pos1 = path.rfind('/');
-        auto pos2 = path.rfind(" - ", pos1 - 1) + 3;
-        r["album"] = path.substr(pos2, pos1 - pos2);
+        std::tie(arti, date, albu) = ::splitPath(path);
+        r["album"] = albu;
     }
 
     if (const char* tag = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
@@ -440,11 +443,9 @@ Player::currentTitle()
     } else {
         if (path.empty()) {
             path = mpd_song_get_uri(song);
+            std::tie(arti, date, albu) = ::splitPath(path);
         }
-        auto pos1 = path.rfind('/');
-        auto pos3 = path.rfind('/', pos1 - 1) + 1;
-        auto pos2 = path.find(" - ", pos3);
-        r["artist"] = path.substr(pos3, pos2 - pos3);
+        r["artist"] = arti;
     }
 
     if (const char* tag = mpd_song_get_tag(song, MPD_TAG_DATE, 0);
@@ -453,12 +454,9 @@ Player::currentTitle()
     } else {
         if (path.empty()) {
             path = mpd_song_get_uri(song);
+            std::tie(arti, date, albu) = ::splitPath(path);
         }
-        auto pos1 = path.rfind('/');
-        auto pos4 = path.rfind('/', pos1 - 1) + 1;
-        auto pos3 = path.find(" - ", pos4) + 3;
-        auto pos2 = path.find(" - ", pos3);
-        r["date"] = path.substr(pos3, pos2 - pos3);
+        r["date"] = date;
     }
 
     mpd_song_free(song);

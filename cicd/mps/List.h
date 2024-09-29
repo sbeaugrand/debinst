@@ -4,6 +4,7 @@
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
+#pragma once
 #include <string>
 #include <list>
 #include <tuple>

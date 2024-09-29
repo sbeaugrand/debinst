@@ -24,11 +24,19 @@ variables:
   SSH: vagrant ssh -c
   URI: example@ip
   UPATH: /home/vagrant
+  PRIVKEY: $HOME/.ssh/id_rsa
+.keychain:
+  script:
+    - >
+      test ! -f $PRIVKEY || test -d /run/lock/.keychain ||
+      TMPDIR=/run/lock keychain --dir /run/lock --nogui $PRIVKEY
+    - test ! -f $PRIVKEY || source /run/lock/.keychain/*-sh
 build:
   stage: build
   script:
     - mkdir -p build
     - cd build
+    - !reference [.keychain, script]
     - test -z "$URL" || test -d $REPO || git clone $URL
     - test -n "$URL" || test -d $REPO || $RSYNC -L .. $REPO
     - test ! -d ../debian || test -d $REPO/debian || cp -r ../debian $REPO/
@@ -49,6 +57,7 @@ rbuild:
   stage: rbuild
   script:
     - PROPATH=$(basename `readlink -f .`)
+    - !reference [.keychain, script]
     - $RSYNC ./ $URI:$UPATH/$PROPATH/
     - $RSYNC ../makefiles $URI:$UPATH/
     - cd $HDIR/$BHOST

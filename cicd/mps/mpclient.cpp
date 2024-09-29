@@ -29,9 +29,9 @@ signalHandler(int signal)
 /******************************************************************************!
  * argp
  ******************************************************************************/
-const char *argp_program_version =
+const char* argp_program_version =
     "mpclient 1.0.0";
-const char *argp_program_bug_address =
+const char* argp_program_bug_address =
     "<sbeaugrand@toto.fr>";
 static char doc[] =
     "mpclient -- "
