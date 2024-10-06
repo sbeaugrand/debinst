@@ -38,6 +38,7 @@ public:
 
     std::atomic_bool loop = true;
     std::atomic_bool save = false;
+    std::atomic_bool csum = true;
     std::string musicDirectory = "/mnt/mp3/mp3";
 private:
 #   if defined(__arm__) || defined(__aarch64__)

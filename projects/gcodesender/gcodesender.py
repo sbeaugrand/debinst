@@ -35,6 +35,7 @@ elif not path.exists(dev):
 ## \class CNC
 # ---------------------------------------------------------------------------- #
 class CNC:
+
     def __init__(self, dev):
         if not path.exists(dev):
             print("{} not found".format(dev))

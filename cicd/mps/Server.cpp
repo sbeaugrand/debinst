@@ -84,16 +84,21 @@ Json::Value
 Server::ok()
 {
     DEBUG("");
-    if (! mSelect.empty()) {
+    if (! mSelect.empty() && mSelectTime !=
+        std::chrono::time_point<std::chrono::steady_clock>::min()) {
         const auto now = std::chrono::steady_clock::now();
         const std::chrono::duration<double> diff = now - mSelectTime;
         if (diff.count() < 20) {
             mPlayer.m3u(mSelect);
             mList.writeLog(mSelect);
-            mSelect.clear();
-            return mPlayer.currentTitle();
+            mSelectTime =
+                std::chrono::time_point<std::chrono::steady_clock>::min();
+            Json::Value json = mPlayer.currentTitle();
+            json["cs"] = -1;
+            return json;
         }
-        mSelect.clear();
+        mSelectTime =
+            std::chrono::time_point<std::chrono::steady_clock>::min();
     }
     return this->pause();
 }
@@ -230,4 +235,37 @@ std::string
 Server::musicDirectory()
 {
     return mPlayer.musicDirectory;
+}
+
+/******************************************************************************!
+ * \fn checksum
+ ******************************************************************************/
+Json::Value
+Server::checksum()
+{
+    DEBUG("");
+    int cs = 0;
+    std::string path =
+        mPlayer.musicDirectory + '/' +
+        mSelect.substr(0, mSelect.rfind('/') + 1);
+
+    if (std::filesystem::exists(path + ".sha")) {
+        auto cmd = std::string("cd '") + path +
+            "'; /usr/bin/sha1sum -c .sha >/dev/null";
+        if (::system(cmd.c_str()) != 0) {
+            cs = 1;
+            ERROR(cs);
+        }
+    } else {
+        auto cmd = std::string("cd '") + path +
+            "'; /usr/bin/sha1sum * >.sha";
+        if (::system(cmd.c_str()) != 0) {
+            cs = 2;
+            ERROR(cs);
+        }
+    }
+
+    Json::Value json = mPlayer.currentTitle();
+    json["cs"] = cs;
+    return json;
 }

@@ -120,6 +120,7 @@ Output::screensaver()
     const unsigned int width = 5;
     const unsigned int height = 5;
     static int r = -1;
+    bool cs = this->csum;
 
     const std::lock_guard<std::mutex> lock(mMutex);
     mOled->clear();
@@ -144,8 +145,12 @@ Output::screensaver()
         return;
     }
 
-    timeString[width] = '\0';
-    mOled->write(timeString);
+    if (cs) {
+        timeString[width] = '\0';
+        mOled->write(timeString);
+    } else {
+        mOled->write("csErr");
+    }
     mOled->setCursor(y + height - 1, x);
     mOled->write(timeString + width + 1);
 

@@ -27,6 +27,7 @@ class AbstractStubServer : public jsonrpc::AbstractServer<AbstractStubServer>
             this->bindAndAddMethod(jsonrpc::Procedure("dir", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_OBJECT, "path",jsonrpc::JSON_STRING, NULL), &AbstractStubServer::dirI);
             this->bindAndAddNotification(jsonrpc::Procedure("quit", jsonrpc::PARAMS_BY_NAME,  NULL), &AbstractStubServer::quitI);
             this->bindAndAddMethod(jsonrpc::Procedure("musicDirectory", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_STRING,  NULL), &AbstractStubServer::musicDirectoryI);
+            this->bindAndAddMethod(jsonrpc::Procedure("checksum", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_OBJECT,  NULL), &AbstractStubServer::checksumI);
         }
 
         inline virtual void listI(const Json::Value &/*request*/, Json::Value &response)
@@ -89,6 +90,10 @@ class AbstractStubServer : public jsonrpc::AbstractServer<AbstractStubServer>
         {
             response = this->musicDirectory();
         }
+        inline virtual void checksumI(const Json::Value &/*request*/, Json::Value &response)
+        {
+            response = this->checksum();
+        }
         virtual Json::Value list() = 0;
         virtual Json::Value info() = 0;
         virtual Json::Value rand() = 0;
@@ -104,6 +109,7 @@ class AbstractStubServer : public jsonrpc::AbstractServer<AbstractStubServer>
         virtual Json::Value dir(const std::string& path) = 0;
         virtual void quit() = 0;
         virtual std::string musicDirectory() = 0;
+        virtual Json::Value checksum() = 0;
 };
 
 #endif //JSONRPC_CPP_STUB_ABSTRACTSTUBSERVER_H_

@@ -59,6 +59,7 @@ Client::currentTitle(const Json::Value json)
         auto album = json.get("album", error).asString();
         auto artist = json.get("artist", error).asString();
         auto date = json.get("date", error).asString();
+        auto cs = json.get("cs", 0).asInt();
         int diffmax = -Output::LCD_SHIFT;
         if (mShift > 0) {
             auto size = album.size();
@@ -87,11 +88,28 @@ Client::currentTitle(const Json::Value json)
         if (mShift > 0 && diffmax <= -Output::LCD_SHIFT) {
             mShift -= Output::LCD_SHIFT;
         }
+        char csum[4] = {};
+        if (cs < 0) {
+            csum[0] = ' ';
+            csum[1] = 'C';
+            csum[2] = 'S';
+            mOutput.csum = true;
+        } else if (cs > 0) {
+            csum[0] = ' ';
+            csum[1] = 'C';
+            csum[2] = '0' + cs;
+            mOutput.csum = false;
+        }
         mOutput.write((pause ? "PAUSE " : "") + artist,
                       album,
                       date + ' ' +
-                      std::to_string(pos) + '/' + std::to_string(length),
+                      std::to_string(pos) + '/' + std::to_string(length) +
+                      csum,
                       title);
+        if (cs < 0) {
+            this->currentTitle(mJsonClient.CallMethod("checksum",
+                                                      Json::Value()));
+        }
     } catch (jsonrpc::JsonRpcException& e) {
         ERROR(e.what());
     } catch (const Json::LogicError& e) {
@@ -105,7 +123,7 @@ Client::currentTitle(const Json::Value json)
 void
 Client::currentAlbum(const Json::Value json)
 {
-    char dateR[3] = { 0 };
+    char dateR[4] = {};
     if (int d = json["days"].asInt(); d > 0) {
         int dInit = d;
         if (d > 9) {
@@ -114,22 +132,23 @@ Client::currentAlbum(const Json::Value json)
                 d = dInit / 31;
                 if (d > 9) {
                     d /= 12;
-                    dateR[1] = (mLang == FR) ? 'A' : 'Y';
+                    dateR[2] = (mLang == FR) ? 'A' : 'Y';
                 } else {
-                    dateR[1] = 'M';
+                    dateR[2] = 'M';
                 }
             } else {
-                dateR[1] = (mLang == FR) ? 'S' : 'W';
+                dateR[2] = (mLang == FR) ? 'S' : 'W';
             }
         } else {
-            dateR[1] = (mLang == FR) ? 'J' : 'D';
+            dateR[2] = (mLang == FR) ? 'J' : 'D';
         }
-        dateR[0] = '0' + d;
+        dateR[1] = '0' + d;
+        dateR[0] = ' ';
     }
     mOutput.write(json["artist"].asString(),
                   json["album"].asString(),
                   json["date"].asString(),
-                  json["abrev"].asString() + ' ' + dateR);
+                  json["abrev"].asString() + dateR);
 }
 
 /******************************************************************************!

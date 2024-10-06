@@ -91,6 +91,8 @@ Timelimit Alowed Apps :
  Decoupage de videos
  Editeur de photos
  Fonds d'ecran
+ Galaxy Store
+ Galaxy Themes
  Galerie
  Harmony Music
  Horloge

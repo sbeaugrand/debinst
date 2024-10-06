@@ -11,16 +11,20 @@ import os
 import time
 import errno
 
+
 class Cancel(Exception):
     pass
 
+
 class End(Exception):
     pass
+
 
 # ---------------------------------------------------------------------------- #
 ## \class Stub
 # ---------------------------------------------------------------------------- #
 class Stub():
+
     def __init__(self):
         self.ser, self.slv = pty.openpty()
         fcntl.fcntl(self.ser, fcntl.F_SETFL,\
@@ -57,6 +61,7 @@ class Stub():
 
     def write(self, s):
         os.write(self.ser, s)
+
 
 # ---------------------------------------------------------------------------- #
 # main
