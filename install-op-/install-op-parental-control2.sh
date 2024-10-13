@@ -90,6 +90,7 @@ Timelimit Alowed Apps :
  Duolingo
  Decoupage de videos
  Editeur de photos
+ Finder
  Fonds d'ecran
  Galaxy Store
  Galaxy Themes
@@ -99,8 +100,10 @@ Timelimit Alowed Apps :
  Lecteur de musique
  Lecteur video
  Loupe
+ Maintenance de l'appareil
  Mes fichiers
  Messages
+ Mise a jour du logiciel
  Meteo
  Samsung Notes
  Soundcorset accordeur et metronome

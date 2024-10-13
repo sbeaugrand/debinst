@@ -1,0 +1,7 @@
+*~
+.*.swp
+build
+build-*
+__pycache__
+README-*.svg
+README-0.md

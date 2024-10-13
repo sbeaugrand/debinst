@@ -1,0 +1,52 @@
+# ---------------------------------------------------------------------------- #
+## \file docker-compose.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+services:
+  registry:
+    # https://hub.docker.com/_/registry
+    # source https://github.com/distribution/distribution-library-image
+    image: registry:2
+    restart: unless-stopped
+    container_name: registry
+    hostname: registry.toto.fr
+    ports:
+      - 5000:5000
+    volumes:
+      - /mnt/registry:/var/lib/registry
+  gitlab:
+    # https://hub.docker.com/r/gitlab/gitlab-ce
+    # doc https://docs.gitlab.com/ee/install/docker/installation.html
+    # source https://gitlab.com/gitlab-org/gitlab
+    image: gitlab/gitlab-ce:17.4.2-ce.0
+    restart: unless-stopped
+    container_name: gitlab
+    hostname: gitlab.toto.fr
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASSWORD}'
+    ports:
+      - 80:80
+      - 443:443
+      - 2222:22
+    volumes:
+      - /mnt/gitlab-config:/etc/gitlab
+      - /mnt/gitlab-data:/var/opt/gitlab
+      - /mnt/gitlab-logs:/var/log/gitlab
+    shm_size: 256m
+  gitlab-runner:
+    # https://hub.docker.com/r/gitlab/gitlab-runner
+    # doc https://docs.gitlab.com/runner/install/docker.html
+    # source https://gitlab.com/gitlab-org/gitlab-runner
+    image: gitlab/gitlab-runner:ubuntu-v17.4.0
+    restart: unless-stopped
+    container_name: gitlab-runner
+    hostname: gitlab-runner.toto.fr
+    volumes:
+      - /mnt/gitlab-runner:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - registry
+      - gitlab

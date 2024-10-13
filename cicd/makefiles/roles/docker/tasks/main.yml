@@ -18,3 +18,9 @@
     name: "{{ user }}"
     groups: docker
   become: yes
+
+- name: install docker-compose
+  uri:
+    url: https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64
+    dest: "{{ home }}/.local/bin/docker-compose"
+    mode: 0755

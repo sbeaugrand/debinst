@@ -16,5 +16,4 @@
     user: vagrant
     home: /home/{{ user }}
   roles:
-    #- packages-dev-examples
-    #- rabbitmq
+    - docker

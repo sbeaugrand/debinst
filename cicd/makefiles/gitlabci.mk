@@ -23,7 +23,7 @@ endif
 PROJECT ?= $(shell basename `readlink -f .`)
 BUILD ?= Debug
 ifeq ($(BUILDER),)
- gitlabciyml = gitlab-ci.yml
+ gitlabciyml = gitlab-ci-local.yml
 else
  gitlabciyml = gitlab-ci-$(BUILDER).yml
 endif

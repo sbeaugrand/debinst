@@ -1,0 +1,32 @@
+# ---------------------------------------------------------------------------- #
+## \file .gitlab-ci-local.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+build:
+  stage: build
+  script:
+    - cd ..
+    - >
+      tar czf mps_1.0.0.orig.tar.gz
+      --exclude=.git
+      --exclude=debian
+      --exclude=obj-x86_64-linux-gnu
+      --exclude=.pc
+      mps
+    - cd -
+    - dpkg-buildpackage --no-sign
+    - cp -a ../mps_1.0.0_amd64.deb .
+  artifacts:
+    paths:
+      - mps_1.0.0_amd64.deb
+test:
+  stage: test
+  script:
+    - echo "Define your test script"
+deploy:
+  stage: deploy
+  script:
+    - echo "Define your deployment script"
+  environment: staging

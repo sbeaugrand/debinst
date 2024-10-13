@@ -92,12 +92,6 @@ package:
     - test ! -d ../../data   || cp -L ../../data/*   data/
     - test ! -d ../../share  || cp -a ../../share/*  data/
     - find .. -maxdepth 1 -type f -executable -exec cp {} data/ \;
-    - >
-      test ! -f ../$PROJECT ||
-      echo "data/$PROJECT /usr/bin/" >>debian/$PROJECT.install
-    - >
-      test ! -d ../../share || ls ../../share |
-      sed "s#\(.*\)#data/\1 /usr/share/$PROJECT/#" >>debian/$PROJECT.install
     - SOURCE_DATE_EPOCH=`date +%s` dpkg-buildpackage --no-sign $OPTS
 install:
   stage: install
