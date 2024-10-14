@@ -20,9 +20,9 @@ RUN export DEBIAN_FRONTEND=noninteractive\
  && apt-get -y update\
  && apt-get -y install --no-install-recommends\
     build-essential\
-    chrpath\
     cmake\
-    dh-make\
+    debhelper\
+    lintian\
     libmpdclient-dev\
     liblirc-dev\
     ./*.deb

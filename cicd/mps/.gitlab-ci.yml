@@ -1,30 +1,37 @@
 # ---------------------------------------------------------------------------- #
-## \file .gitlab-ci-local.yml
+## \file .gitlab-ci.yml
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+variables:
+  PROJECT: mps
+  PACKAGE: mps
 build:
   stage: build
   script:
+    - VERSION=`head -n 1 debian/changelog | cut -d ')' -f 1 | cut -d '(' -f 2`
     - cd ..
     - >
-      tar czf mps_1.0.0.orig.tar.gz
+      tar czf ${PACKAGE}_${VERSION}.orig.tar.gz
       --exclude=.git
-      --exclude=debian
-      --exclude=obj-x86_64-linux-gnu
-      --exclude=.pc
-      mps
+      --exclude=.gitignore
+      --exclude=.gitlab-ci.yml
+      --exclude=debian*
+      ${PROJECT}
     - cd -
     - dpkg-buildpackage --no-sign
-    - cp -a ../mps_1.0.0_amd64.deb .
+    - cp -a ../${PACKAGE}_${VERSION}_amd64.deb .
   artifacts:
     paths:
-      - mps_1.0.0_amd64.deb
+      - ${PACKAGE}_${VERSION}_amd64.deb
 test:
   stage: test
   script:
-    - echo "Define your test script"
+    - VERSION=`head -n 1 debian/changelog | cut -d ')' -f 1 | cut -d '(' -f 2`
+    - cd ..
+    - lintian --fail-on error,warning ${PACKAGE}_${VERSION}_amd64.deb
+    - lintian --fail-on error,warning ${PACKAGE}_${VERSION}.dsc
 deploy:
   stage: deploy
   script:
