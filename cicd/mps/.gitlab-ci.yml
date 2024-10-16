@@ -7,6 +7,8 @@
 variables:
   PROJECT: mps
   PACKAGE: mps
+  DIST: stable
+  ARCH: armhf
 build:
   stage: build
   script:
@@ -22,9 +24,15 @@ build:
     - cd -
     - dpkg-buildpackage --no-sign
     - cp -a ../${PACKAGE}_${VERSION}_amd64.deb .
+    - >
+      sbuild --build=$ARCH --host=$ARCH --chroot-mode=unshare
+      -c /sbuild/$DIST-$ARCH.tar.zst --no-apt-update
+      --build-dir=/sbuild --extra-package=/sbuild
+    - cp -a /sbuild/${PACKAGE}_${VERSION}_$ARCH.deb .
   artifacts:
     paths:
-      - ${PACKAGE}_${VERSION}_amd64.deb
+      - "${PACKAGE}_*_amd64.deb"
+      - "${PACKAGE}_*_$ARCH.deb"
 test:
   stage: test
   script:

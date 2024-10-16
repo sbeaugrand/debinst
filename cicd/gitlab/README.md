@@ -18,7 +18,11 @@ docker-compose up -d
 sudo vi /etc/hosts +
 192.168.121.124 gitlab.toto.fr
 ```
-http://gitlab.toto.fr user root pass ${GITLAB_ROOT_PASSWORD}
+http://gitlab.toto.fr  # user root pass ${GITLAB_ROOT_PASSWORD}
+
+http://gitlab.toto.fr/admin/users/new
+
+http://gitlab.toto.fr/admin/users/sbeaugrand/edit  # password + sign out + sign in
 
 http://gitlab.toto.fr/-/user_settings/ssh_keys
 
@@ -27,7 +31,12 @@ http://gitlab.toto.fr/-/user_settings/ssh_keys
 scp libjsonrpccpp*_amd64.deb vagrant@gitlab.toto.fr:/home/vagrant/
 scp libmraa*_amd64.deb vagrant@gitlab.toto.fr:/home/vagrant/
 scp libupm*_amd64.deb vagrant@gitlab.toto.fr:/home/vagrant/
+scp libjsonrpccpp*_armhf.deb vagrant@gitlab.toto.fr:/home/vagrant/
+scp libmraa*_armhf.deb vagrant@gitlab.toto.fr:/home/vagrant/
+scp libupm*_armhf.deb vagrant@gitlab.toto.fr:/home/vagrant/
+scp stable-armhf.tar.zst vagrant@gitlab.toto.fr:/home/vagrant/
 vagrant ssh
+sudo apt install docker-buildx
 docker build -t localhost:5000/debian-dev:1.0.0 .
 docker push localhost:5000/debian-dev:1.0.0
 ```
