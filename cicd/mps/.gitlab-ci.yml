@@ -22,16 +22,15 @@ build:
       --exclude=debian*
       ${PROJECT}
     - cd -
-    - dpkg-buildpackage --no-sign
-    - cp -a ../${PACKAGE}_${VERSION}_amd64.deb .
+    - dpkg-source -b .
+    - update-binfmts --enable qemu-arm
     - >
-      sbuild --build=$ARCH --host=$ARCH --chroot-mode=unshare
-      -c /sbuild/$DIST-$ARCH.tar.zst --no-apt-update
+      sbuild -D -v --build=$ARCH --host=$ARCH --chroot-mode=schroot
+      -c $DIST-$ARCH-file --no-apt-update
       --build-dir=/sbuild --extra-package=/sbuild
-    - cp -a /sbuild/${PACKAGE}_${VERSION}_$ARCH.deb .
+    - cp -a ../${PACKAGE}_${VERSION}_$ARCH.deb .
   artifacts:
     paths:
-      - "${PACKAGE}_*_amd64.deb"
       - "${PACKAGE}_*_$ARCH.deb"
 test:
   stage: test

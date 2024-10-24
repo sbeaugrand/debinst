@@ -83,5 +83,5 @@ rxpackage:
     - >
       $SSH "cd $UPATH/$PROPATH/build/$REPO &&
       sbuild --build=$ARCH --host=$ARCH --chroot-mode=unshare
-      -c $UPATH/sbuild/$DIST-$ARCH.tar.zst --no-apt-update
+      -c $UPATH/sbuild/$DIST-$ARCH.tar.xz --no-apt-update
       --build-dir=$UPATH/sbuild --extra-package=$UPATH/sbuild"

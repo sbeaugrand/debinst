@@ -34,7 +34,7 @@ scp libupm*_amd64.deb vagrant@gitlab.toto.fr:/home/vagrant/
 scp libjsonrpccpp*_armhf.deb vagrant@gitlab.toto.fr:/home/vagrant/
 scp libmraa*_armhf.deb vagrant@gitlab.toto.fr:/home/vagrant/
 scp libupm*_armhf.deb vagrant@gitlab.toto.fr:/home/vagrant/
-scp stable-armhf.tar.zst vagrant@gitlab.toto.fr:/home/vagrant/
+scp stable-armhf.tar.xz vagrant@gitlab.toto.fr:/home/vagrant/
 vagrant ssh
 sudo apt install docker-buildx
 docker build -t localhost:5000/debian-dev:1.0.0 .
@@ -43,6 +43,15 @@ docker push localhost:5000/debian-dev:1.0.0
 http://gitlab.toto.fr/group/mps/-/runners/new  # Run untagged jobs
 ```sh
 docker exec -it gitlab-runner gitlab-runner register --url http://gitlab.toto.fr --executor docker --docker-image "localhost:5000/debian-dev:1.0.0" --token ...
+```
+
+# Chroot dans runners.docker
+```sh
+sudo vi /mnt/gitlab-runner/config.toml
+```
+```
+privileged = true
+cap_add = ["SYS_CHROOT"]
 ```
 
 # Git push du projet mps dans group

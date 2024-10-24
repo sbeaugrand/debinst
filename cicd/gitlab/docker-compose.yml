@@ -13,7 +13,7 @@ services:
     container_name: registry
     hostname: registry.toto.fr
     ports:
-      - 5000:5000
+      - 0.0.0.0:5000:5000
     volumes:
       - /mnt/registry:/var/lib/registry
   gitlab:
@@ -28,9 +28,9 @@ services:
       GITLAB_OMNIBUS_CONFIG: |
         gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASSWORD}'
     ports:
-      - 80:80
-      - 443:443
-      - 2222:22
+      - 0.0.0.0:80:80
+      - 0.0.0.0:443:443
+      - 0.0.0.0:2222:22
     volumes:
       - /mnt/gitlab-config:/etc/gitlab
       - /mnt/gitlab-data:/var/opt/gitlab
