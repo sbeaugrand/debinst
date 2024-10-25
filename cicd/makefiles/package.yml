@@ -87,10 +87,7 @@ package:
     - cd $BDIR/$PROJECT-$VERSION
     - dh_make --native --single --yes || true
     - rm -f debian/README*
-    - cat /dev/null >debian/$PROJECT.install
-    - test ! -d ../../debian-nr || cp -L ../../debian-nr/* debian/
-    - test ! -d ../../data   || cp -L ../../data/*   data/
-    - test ! -d ../../share  || cp -a ../../share/*  data/
+    - test ! -d ../../debian-nr || cp -Lr ../../debian-nr/* debian/
     - find .. -maxdepth 1 -type f -executable -exec cp {} data/ \;
     - SOURCE_DATE_EPOCH=`date +%s` dpkg-buildpackage --no-sign $OPTS
 install:

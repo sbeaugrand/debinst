@@ -8,8 +8,9 @@ localhost> cd ../hosts/debian12
 localhost> make up
 localhost> vagrant ssh
  vagrant1> mkdir ~/sbuild
+ vagrant1> DIST=stable
  vagrant1> ARCH=armhf
- vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH stable ~/sbuild/stable-$ARCH.tar.xz --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian
+ vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian
 localhost> make BUILDER=sbuild rbuild
 localhost> make BUILDER=sbuild rpackage
 localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'

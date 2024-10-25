@@ -6,16 +6,6 @@
 # ---------------------------------------------------------------------------- #
 FROM debian:12
 
-#ADD libjsonrpccpp-client0_1.4.1-1.0_amd64.deb .
-#ADD libjsonrpccpp-common0_1.4.1-1.0_amd64.deb .
-#ADD libjsonrpccpp-server0_1.4.1-1.0_amd64.deb .
-#ADD libjsonrpccpp-stub0_1.4.1-1.0_amd64.deb .
-#ADD libjsonrpccpp-dev_1.4.1-1.0_amd64.deb .
-#ADD libmraa2_2.2.0-1_amd64.deb .
-#ADD libmraa-dev_2.2.0-1_amd64.deb .
-#ADD libupm-dev_2.0.0-1_amd64.deb .
-#ADD libupm-lcd2_2.0.0-1_amd64.deb .
-
 ADD libjsonrpccpp-client0_1.4.1-1.0_armhf.deb /sbuild/
 ADD libjsonrpccpp-common0_1.4.1-1.0_armhf.deb /sbuild/
 ADD libjsonrpccpp-server0_1.4.1-1.0_armhf.deb /sbuild/
@@ -29,17 +19,6 @@ ADD libupm-lcd2_2.0.0-1_armhf.deb /sbuild/
 COPY stable-armhf.tar.xz /sbuild/
 COPY stable-armhf-f.conf /etc/schroot/chroot.d/
 
-#RUN export DEBIAN_FRONTEND=noninteractive\
-# && apt-get -y update\
-# && apt-get -y install --no-install-recommends\
-#    build-essential\
-#    cmake\
-#    debhelper\
-#    lintian\
-#    libmpdclient-dev\
-#    liblirc-dev\
-#    ./*_amd64.deb
-
 RUN export DEBIAN_FRONTEND=noninteractive\
  && apt-get -y update\
  && apt-get -y install --no-install-recommends\
@@ -52,5 +31,4 @@ RUN export DEBIAN_FRONTEND=noninteractive\
     binfmt-support\
     qemu-user-static\
     fakeroot\
-    schroot\
- && update-binfmts --enable qemu-arm
+    schroot
