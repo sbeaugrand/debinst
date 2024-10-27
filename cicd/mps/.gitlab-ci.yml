@@ -16,10 +16,12 @@ build:
     - dpkg-source -b .
     - update-binfmts --enable qemu-arm
     - >
-      sbuild -D -v --build=$ARCH --host=$ARCH --chroot-mode=schroot
-      -c $DIST-$ARCH-file --no-apt-update
-      --build-dir=/sbuild --extra-package=/sbuild
-    - cp -a /sbuild/${PACKAGE}_${VERSION}_$ARCH.deb .
+      sbuild --build=$ARCH --host=$ARCH
+      --chroot-mode=schroot -c $DIST-$ARCH-file
+      --no-apt-update
+      --extra-package=/sbuild
+      --build-dir=.
+      --no-run-lintian
   artifacts:
     paths:
       - "${PACKAGE}_*_$ARCH.deb"
@@ -27,9 +29,8 @@ test:
   stage: test
   script:
     - VERSION=`head -n 1 debian/changelog | cut -d ')' -f 1 | cut -d '(' -f 2`
-    - cd ..
-    - lintian --fail-on error,warning ${PACKAGE}_${VERSION}_$ARCH.deb
-    - lintian --fail-on error,warning ${PACKAGE}_${VERSION}.dsc
+    - lintian --fail-on error,warning    ${PACKAGE}_${VERSION}_$ARCH.deb
+    - lintian --fail-on error,warning ../${PACKAGE}_${VERSION}.dsc
 deploy:
   stage: deploy
   script:
