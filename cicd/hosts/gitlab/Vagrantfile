@@ -1,0 +1,18 @@
+# ---------------------------------------------------------------------------- #
+## \file Vagrantfile
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+load "../../makefiles/Vagrantfile"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-24.04"
+  config.vm.define "gitlab"
+  config.vm.hostname = "gitlab"
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.management_network_mac = "52:54:00:00:ab:ce"
+    libvirt.memory = 4096
+    libvirt.cpus = 2
+  end
+end

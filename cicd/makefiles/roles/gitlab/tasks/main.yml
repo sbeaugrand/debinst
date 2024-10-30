@@ -1,0 +1,22 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: mount points
+  file:
+    name: "{{ item }}"
+    state: directory
+  with_items:
+    - /mnt/registry
+    - /mnt/gitlab-config
+    - /mnt/gitlab-data
+    - /mnt/gitlab-logs
+    - /mnt/gitlab-runner
+  become: yes
+
+- name: copy docker-compose.yml
+  copy:
+    src: docker-compose.yml
+    dest: "{{ home }}/"

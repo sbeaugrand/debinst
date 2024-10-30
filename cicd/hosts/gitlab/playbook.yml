@@ -1,0 +1,20 @@
+# ---------------------------------------------------------------------------- #
+## \file playbook.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: import virtualhost playbook
+  import_playbook: ../../makefiles/virtualhost.yml
+  vars:
+    host: gitlab
+
+- hosts: gitlab
+  gather_facts: no
+  vars:
+    user: vagrant
+    home: /home/{{ user }}
+  roles:
+    - docker
+    - gitlab

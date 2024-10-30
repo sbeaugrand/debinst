@@ -16,7 +16,7 @@ build:
     - dpkg-source -b .
     - update-binfmts --enable qemu-arm
     - >
-      sbuild --build=$ARCH --host=$ARCH
+      sbuild -v --build=$ARCH --host=$ARCH
       --chroot-mode=schroot -c $DIST-$ARCH-file
       --no-apt-update
       --extra-package=/sbuild

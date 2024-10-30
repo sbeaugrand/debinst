@@ -1,6 +1,5 @@
 # Installation
 ```sh
-cd ../hosts/ubuntu2404
 make up
 make add-ip
 vagrant halt
@@ -8,17 +7,10 @@ make up
 sudo apt remove ansible
 pip install ansible  # https://github.com/void-linux/void-packages/issues/47483
 vagrant provision
-sudo vi /etc/hosts +  # 192.168.121.124 gitlab.toto.fr
-ssh-copy-id vagrant@gitlab.toto.fr
-rsync -a -i --checksum vagrant@gitlab.toto.fr:/home/vagrant/
-sudo virsh blockresize ubuntu2404_ubuntu2404b /data/libvirt/ubuntu2404_ubuntu2404b.img 64G
-vagrant ssh
-lsblk
-sudo lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
-sudo mkdir -p /mnt
-sudo mkdir /mnt/registry
-sudo mkdir /mnt/gitlab-config /mnt/gitlab-data /mnt/gitlab-logs
-sudo mkdir /mnt/gitlab-runner
+sudo vi /etc/hosts +  # 192.168.121.171 gitlab.toto.fr
+make ssh-copy-id
+make ssh
+export DOMAIN=toto.fr
 export GITLAB_ROOT_PASSWORD=minimum8characters
 docker-compose up -d
 ```
@@ -45,7 +37,7 @@ git push --set-upstream gitlab main
 
 # Création du chroot
 ```sh
-../hosts/debian12
+../debian12
 vagrant ssh
 mkdir ~/sbuild
 DIST=stable
@@ -77,4 +69,14 @@ sudo vi /mnt/gitlab-runner/config.toml +/privileged
 ```yml
 privileged = true
 cap_add = ["SYS_CHROOT"]
+```
+
+# Disk resize
+```sh
+sudo virsh blockresize gitlab_gitlab /data/libvirt/gitlab_gitlab.img 64G
+vagrant ssh
+lsblk
+sudo growpart /dev/vda 3
+df
+sudo lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 ```

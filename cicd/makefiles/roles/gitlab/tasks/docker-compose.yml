@@ -11,7 +11,7 @@ services:
     image: registry:2
     restart: unless-stopped
     container_name: registry
-    hostname: registry.toto.fr
+    hostname: registry.${DOMAIN}
     ports:
       - 0.0.0.0:5000:5000
     volumes:
@@ -23,7 +23,7 @@ services:
     image: gitlab/gitlab-ce:17.4.2-ce.0
     restart: unless-stopped
     container_name: gitlab
-    hostname: gitlab.toto.fr
+    hostname: gitlab.${DOMAIN}
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASSWORD}'
@@ -43,7 +43,7 @@ services:
     image: gitlab/gitlab-runner:ubuntu-v17.4.0
     restart: unless-stopped
     container_name: gitlab-runner
-    hostname: gitlab-runner.toto.fr
+    hostname: gitlab-runner.${DOMAIN}
     volumes:
       - /mnt/gitlab-runner:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
