@@ -54,6 +54,7 @@ int
 main(int argc, char** argv)
 {
     struct arguments arguments = {};
+    ::setenv("ARGP_HELP_FMT", "no-dup-args-note", 0);
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
     Player player;

@@ -129,7 +129,7 @@ List::artist(const std::string& artist,
 /******************************************************************************!
  * \fn album
  ******************************************************************************/
-std::string
+std::tuple<std::string, std::string>
 List::album(const std::string& search, int pos) const
 {
     if (pos < 0) {
@@ -147,7 +147,7 @@ List::album(const std::string& search, int pos) const
                     }
                 }
                 if (str == search) {
-                    return it.name + '/' + al.substr(11);
+                    return { it.name + '/' + al.substr(11), it.abrev };
                 }
             }
         }
@@ -160,7 +160,7 @@ List::album(const std::string& search, int pos) const
                     const auto [arti, date, albu] = ::splitPath(path);
                     if (arti == search) {
                         if (count == pos) {
-                            return it.name + '/' + al.substr(11);
+                            return { it.name + '/' + al.substr(11), it.abrev };
                         }
                         ++count;
                     }
@@ -169,7 +169,7 @@ List::album(const std::string& search, int pos) const
         }
     }
     ERROR(search);
-    return "";
+    return { "", "" };
 }
 
 /******************************************************************************!

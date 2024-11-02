@@ -17,6 +17,8 @@ Client::Client(Input& input, Output& output, const std::string& url)
     , mHttpClient(url)
     , mJsonClient(mHttpClient)
 {
+    mHttpClient.SetTimeout(20000);
+
     std::string tz;
     if (std::ifstream("/etc/timezone") >> tz; tz == "Europe/Paris") {
         mLang = FR;
@@ -60,6 +62,7 @@ Client::currentTitle(const Json::Value json)
         auto artist = json.get("artist", error).asString();
         auto date = json.get("date", error).asString();
         auto cs = json.get("cs", 0).asInt();
+        auto abrev = json.get("abrev", error).asString();
         int diffmax = -Output::LCD_SHIFT;
         if (mShift > 0) {
             auto size = album.size();
@@ -88,23 +91,21 @@ Client::currentTitle(const Json::Value json)
         if (mShift > 0 && diffmax <= -Output::LCD_SHIFT) {
             mShift -= Output::LCD_SHIFT;
         }
-        char csum[4] = {};
+        std::string extra;
         if (cs < 0) {
-            csum[0] = ' ';
-            csum[1] = 'C';
-            csum[2] = 'S';
+            extra = "CS";
             mOutput.csum = true;
         } else if (cs > 0) {
-            csum[0] = ' ';
-            csum[1] = 'C';
-            csum[2] = '0' + cs;
+            extra = std::string("e") + std::to_string(cs);
             mOutput.csum = false;
+        } else {
+            extra = abrev;
         }
         mOutput.write((pause ? "PAUSE " : "") + artist,
                       album,
                       date + ' ' +
                       std::to_string(pos) + '/' + std::to_string(length) +
-                      csum,
+                      ' ' + extra,
                       title);
         if (cs < 0) {
             this->currentTitle(mJsonClient.CallMethod("checksum",
@@ -307,7 +308,7 @@ State
 Client::onEvent(const state::Album&, const event::Right&)
 {
     mShift = 0;
-    this->currentTitle("info");
+    this->currentTitle(mJsonClient.CallMethod("info", Json::Value()));
     return state::Normal{};
 }
 State

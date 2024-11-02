@@ -54,7 +54,9 @@ Json::Value
 Server::info()
 {
     DEBUG("");
-    return mPlayer.currentTitle();
+    Json::Value result = mPlayer.currentTitle();
+    result["abrev"] = mAbrev;
+    return result;
 }
 
 /******************************************************************************!
@@ -67,6 +69,7 @@ Server::rand()
     const auto [path, abrev, days] = mList.rand();
     mSelect = path;
     mSelectTime = std::chrono::steady_clock::now();
+    mAbrev = abrev;
     const auto [arti, date, albu] = ::splitPath(path);
     Json::Value result;
     result["artist"] = arti;
@@ -96,9 +99,11 @@ Server::ok()
             Json::Value json = mPlayer.currentTitle();
             json["cs"] = -1;
             return json;
+        } else {
+            mAbrev.clear();
+            mSelectTime =
+                std::chrono::time_point<std::chrono::steady_clock>::min();
         }
-        mSelectTime =
-            std::chrono::time_point<std::chrono::steady_clock>::min();
     }
     return this->pause();
 }
@@ -111,7 +116,9 @@ Server::play()
 {
     DEBUG("");
     mPlayer.start();
-    return mPlayer.currentTitle();
+    Json::Value result = mPlayer.currentTitle();
+    result["abrev"] = mAbrev;
+    return result;
 }
 
 /******************************************************************************!
@@ -122,7 +129,9 @@ Server::pause()
 {
     DEBUG("");
     mPlayer.pause();
-    return mPlayer.currentTitle();
+    Json::Value result = mPlayer.currentTitle();
+    result["abrev"] = mAbrev;
+    return result;
 }
 
 /******************************************************************************!
@@ -148,7 +157,9 @@ Server::prev()
 {
     DEBUG("");
     mPlayer.startRel(-1);
-    return mPlayer.currentTitle();
+    Json::Value result = mPlayer.currentTitle();
+    result["abrev"] = mAbrev;
+    return result;
 }
 
 /******************************************************************************!
@@ -159,7 +170,9 @@ Server::next()
 {
     DEBUG("");
     mPlayer.startRel(1);
-    return mPlayer.currentTitle();
+    Json::Value result = mPlayer.currentTitle();
+    result["abrev"] = mAbrev;
+    return result;
 }
 
 /******************************************************************************!
@@ -181,10 +194,22 @@ Json::Value
 Server::album(const std::string& artist, int pos)
 {
     DEBUG("");
-    auto path = mList.album(artist, pos);
-    mPlayer.m3u(path);
-    mList.writeLog(path);
-    return mPlayer.currentTitle();
+    const auto [path, abrev] = mList.album(artist, pos);
+    if (! path.empty()) {
+        mPlayer.m3u(path);
+        mSelect = path;
+        mSelectTime =
+            std::chrono::time_point<std::chrono::steady_clock>::min();
+        mAbrev = abrev;
+        mList.writeLog(path);
+    }
+    Json::Value result = mPlayer.currentTitle();
+    if (path.empty()) {
+        result["abrev"] = mAbrev;
+    } else if (pos != -1) {
+        result["cs"] = -1;
+    }
+    return result;
 }
 
 /******************************************************************************!
@@ -195,7 +220,9 @@ Server::pos(int pos)
 {
     DEBUG("");
     mPlayer.startId(pos);
-    return mPlayer.currentTitle();
+    Json::Value result = mPlayer.currentTitle();
+    result["abrev"] = mAbrev;
+    return result;
 }
 
 /******************************************************************************!
@@ -266,6 +293,10 @@ Server::checksum()
     }
 
     Json::Value json = mPlayer.currentTitle();
-    json["cs"] = cs;
+    if (cs) {
+        json["cs"] = cs;
+    } else {
+        json["abrev"] = mAbrev;
+    }
     return json;
 }

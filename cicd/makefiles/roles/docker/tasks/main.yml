@@ -24,3 +24,4 @@
     url: https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64
     dest: "{{ home }}/.local/bin/docker-compose"
     mode: 0755
+    status_code: [200, 304]
