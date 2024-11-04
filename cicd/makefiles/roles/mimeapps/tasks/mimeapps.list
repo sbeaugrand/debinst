@@ -1,0 +1,18 @@
+[Default Applications]
+application/json=org.xfce.mousepad.desktop;
+application/pdf=org.gnome.Evince.desktop;
+application/x-shellscript=mousepad.desktop;
+audio/mpeg=vlc.desktop;
+audio/x-wav=vlc.desktop;
+image/bmp=gpicview.desktop;
+image/jpeg=gpicview.desktop;
+image/png=gpicview.desktop;
+image/svg+xml=gpicview.desktop;
+image/tiff=gpicview.desktop;
+message/rfc822=emacs.desktop;
+text/plain=org.xfce.mousepad.desktop;
+text/x-python=mousepad.desktop;
+video/mp4=vlc.desktop;
+video/mpeg=vlc.desktop;
+video/webm=vlc.desktop;
+video/x-matroska=vlc.desktop;

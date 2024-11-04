@@ -1,13 +1,9 @@
 # ---------------------------------------------------------------------------- #
-## \file ansible.cfg
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-[defaults]
-roles_path = ../roles:../../makefiles/roles
-interpreter_python = auto_silent
-inventory = inventory.yml
-
-[privilege_escalation]
-become_ask_pass = yes
+- name: mimeapps.list
+  copy:
+    src: mimeapps.list
+    dest: "{{ home }}/.config/mimeapps.list"

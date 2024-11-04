@@ -4,6 +4,7 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note For opus files: ffmpeg -i .opus -ab 192k -ar 44100 .mp3
 # ---------------------------------------------------------------------------- #
 convert()
 {

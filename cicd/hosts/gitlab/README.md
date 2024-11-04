@@ -1,8 +1,6 @@
 # Installation
 ```sh
-make up
 make add-ip
-vagrant halt
 make up
 sudo apt remove ansible
 pip install ansible  # https://github.com/void-linux/void-packages/issues/47483
@@ -73,10 +71,11 @@ cap_add = ["SYS_CHROOT"]
 
 # Disk resize
 ```sh
-sudo virsh blockresize gitlab_gitlab /data/libvirt/gitlab_gitlab.img 64G
+# sudo virsh blockresize gitlab_gitlab /data/libvirt/gitlab_gitlab.img 64G
 vagrant ssh
-lsblk
-sudo growpart /dev/vda 3
+# lsblk
+# sudo apt install fdisk
+# sudo growpart /dev/vda 3
 df
-sudo lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+sudo /sbin/lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 ```

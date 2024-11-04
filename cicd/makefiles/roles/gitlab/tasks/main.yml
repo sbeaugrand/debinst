@@ -6,7 +6,7 @@
 ---
 - name: mount points
   file:
-    name: "{{ item }}"
+    path: "{{ item }}"
     state: directory
   with_items:
     - /mnt/registry

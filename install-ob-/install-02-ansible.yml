@@ -16,6 +16,7 @@
     - vim
     - xterm
     - lxde
+    - mimeapps
     - notifications
     - screensaver-on
   handlers:

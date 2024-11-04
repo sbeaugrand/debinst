@@ -1,12 +1,13 @@
 #!/bin/bash
-hmax=${1:-17}
-mmax=${2:-45}
+date=${1:-`date +%H:%M`}
+hmax=${2:-17}
+mmax=${3:-45}
 cmd="DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY notify-send"
 tmp=/tmp/crontab
 
 crontab -l 2>/dev/null | grep -v '#pause' >$tmp
 
-date +%H:%M | awk -F: '
+echo $date | awk -F: '
 {
     h = $1 + 1;
     m = $2 + 0;
