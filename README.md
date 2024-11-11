@@ -151,6 +151,13 @@ pv build/live-image-amd64.hybrid.iso | sudo dd bs=4M oflag=dsync of=/dev/sdb
   ```sh
   ln -s autostart-pc-b1 autostart-pr-symlink
   ln -s user-config-pc-b1.mk user-config-pr-symlink.mk
+  ls -l /lib/modules  # 6.1.0-25-amd64
+  vi Makefile +/config:
+  # --linux-packages linux-image-6.1.0-25\
+  # --linux-packages linux-headers-6.1.0-25\
+  vi ../simplecdd-op-1arch64/list.txt +
+  # linux-image-6.1.0-25-amd64
+  # linux-headers-6.1.0-25-amd64
   ```
 </details>
 

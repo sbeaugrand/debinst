@@ -1,0 +1,37 @@
+# ---------------------------------------------------------------------------- #
+## \file list.txt
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+xterm
+screen
+vim
+sudo
+network-manager-gnome
+make
+firmware-amd-graphics
+firmware-misc-nonfree
+firmware-brcm80211
+firmware-realtek
+firmware-iwlwifi
+live-boot  # live-build
+live-config  # live-build
+live-config-systemd  # live-build
+firmware-linux  # live-build
+squashfs-tools  # live-build
+#shim-signed  # live-build
+grub-efi-amd64-signed  # live-build
+grub-efi-ia32-bin  # live-build
+dpkg  # live-build
+zsync  # live-build
+live-tools  # live-build
+user-setup  # live-build
+eject  # live-build
+live-build
+locales  # live-build
+dctrl-tools
+librsvg2-bin
+shim-signed
+dosfstools
+xorriso

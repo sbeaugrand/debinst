@@ -308,3 +308,5 @@ live-build
 locales  # live-build
 grub-pc-bin
 gnome-boxes
+qemu-utils
+qemu-system-x86
