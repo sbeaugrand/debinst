@@ -2,8 +2,8 @@
 
 ## Création d'un paquet debinst restreint
 ```sh
-cp -a buildpackage-op-2min buildpackage-op-spam
-cp -a simplecdd-op-2min simplecdd-op-spam
+cp -a buildpackage-op-3packer buildpackage-op-spam
+cp -a simplecdd-op-3packer simplecdd-op-spam
 mkdir install-pr-spam
 ln -s ~/install/debinst/install-pr-spam ~/install/spam
 cd install-pr-spam

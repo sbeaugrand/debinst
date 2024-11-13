@@ -30,7 +30,7 @@ updaterepo:
 	 "gitClone " | tee /dev/stderr | sed\
 	 -e 's#.*/##'\
 	 -e 's/ .*//'\
-	 -e 's#^#todo: ./4updaterepo.sh #'\
+	 -e 's#^#todo: ./5updaterepo.sh #'\
 	 -e 's/\.git//'
 
 .PHONY: not-used

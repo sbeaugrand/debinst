@@ -106,14 +106,7 @@ make volume
   ```
 </details>
 
-<details>
-  <summary>Music player</summary>
-
-  ```sh
-  make mp3server  # or :
-  ```
-  [mps](../cicd/mps/README.md)
-</details>
+[Music player](../cicd/mps/README.md)
 
 <details>
   <summary>Shutter</summary>

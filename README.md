@@ -58,10 +58,10 @@ La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 
 # Création d'une debian légère sur clé USB
 ```sh
-./1buildpackage.sh buildpackage-op-3ansible dist
+./1buildpackage.sh buildpackage-op-2ansible dist
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
 sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadata file'  # comment 2 lignes
-./2simplecdd.sh simplecdd-op-3ansible buildpackage-op-3ansible
+./2simplecdd.sh simplecdd-op-2ansible buildpackage-op-2ansible
 ```
 
 # Création d'une debian nouvelle version sur clé USB
@@ -101,13 +101,13 @@ sudo apt remove openssh-server
 Mettre à jour le mirroir local :
 ```sh
 make iso
-cd 5livebuild
+cd 4livebuild
 systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c 'make mirror'
 make http
 ```
 Configurer et créer :
 ```sh
-cd 5livebuild
+cd 4livebuild
 df .  # >21G or: mkdir /data/live && ln -s /data/live build
 make config
 make sync

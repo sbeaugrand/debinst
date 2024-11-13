@@ -122,7 +122,7 @@ check()
         if echo "$f" | grep -q "not-used"; then
             continue
         fi
-        if echo "$f" | grep -q "4updaterepo"; then
+        if echo "$f" | grep -q "5updaterepo"; then
             continue
         fi
         found=n

@@ -1,7 +1,7 @@
 # Création d'une machine virtuelle dans windows
 ```sh
-./1buildpackage.sh buildpackage-op-2min dist
-./2simplecdd.sh simplecdd-op-2min buildpackage-op-2min
+./1buildpackage.sh buildpackage-op-3packer dist
+./2simplecdd.sh simplecdd-op-3packer buildpackage-op-3packer
 cd 3packer && make tar
 ```
 https://www.virtualbox.org/wiki/Downloads

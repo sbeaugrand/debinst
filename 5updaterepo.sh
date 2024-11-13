@@ -1,6 +1,6 @@
 #!/bin/bash
 # ---------------------------------------------------------------------------- #
-## \file 4updaterepo.sh
+## \file 5updaterepo.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license

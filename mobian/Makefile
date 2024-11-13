@@ -23,7 +23,7 @@ all:
 .PHONY: rsync
 rsync:
 	@$(call ipforward)
-	@cd .. && ./mobian.sh
+	@cd .. && mobian/mobian.sh
 
 .PHONY: install
 install:

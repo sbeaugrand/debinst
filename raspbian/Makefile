@@ -21,7 +21,7 @@ ssh:
 
 .PHONY: rsync
 rsync:
-	@cd .. && user=$(user) host=$(host) ./rpi.sh
+	@cd .. && user=$(user) host=$(host) raspbian/raspbian.sh
 
 .PHONY: install
 install:
