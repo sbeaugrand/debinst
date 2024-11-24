@@ -52,6 +52,8 @@ www.filmstreaming.*
 play*.googleapis.com
 play.google.com
 app-measurement.com
+connectivitycheck.gstatic.com
+*analytics*
 *.swypeconnect.com
 EOF
     sudoRoot cp $tmpf $file

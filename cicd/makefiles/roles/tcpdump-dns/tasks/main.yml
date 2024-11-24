@@ -1,0 +1,24 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: tcpdump-dns.service
+  blockinfile:
+    path: /etc/systemd/system/tcpdump-dns.service
+    create: yes
+    block: |
+      [Unit]
+      Description=tcpdump-dns service
+
+      [Service]
+      ExecStart=tcpdump -i {{ iface }} -U 'dst {{ ipdns }} and port 53'
+  register: service
+  become: yes
+
+- name: daemon-reload
+  systemd_service:
+    daemon_reload: yes
+  when: service.changed
+  become: yes

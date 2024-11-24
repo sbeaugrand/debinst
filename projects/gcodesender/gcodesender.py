@@ -16,11 +16,11 @@ RX_BUFFER_SIZE = 128
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--interactive', action='store_true')
-parser.add_argument('-r', '--baudrate', default=115200)
+parser.add_argument('-r', '--baudrate', type=int, default=115200)
 parser.add_argument('-f',
                     '--file',
-                    default=sys.stdin,
-                    type=argparse.FileType('r'))
+                    type=argparse.FileType('r'),
+                    default=sys.stdin)
 args = parser.parse_args()
 
 dev = '/dev/ttyACM0'

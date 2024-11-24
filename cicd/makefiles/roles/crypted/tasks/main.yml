@@ -30,6 +30,7 @@
 
       [Install]
       WantedBy=multi-user.target
+  register: mount
   become: yes
 
 - name: "{{ mnt }}.service"
@@ -51,4 +52,11 @@
 
       [Install]
       RequiredBy={{ mnt }}.mount
+  register: service
+  become: yes
+
+- name: daemon-reload
+  systemd_service:
+    daemon_reload: yes
+  when: mount.changed or service.changed
   become: yes

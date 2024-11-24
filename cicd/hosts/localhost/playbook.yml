@@ -15,6 +15,10 @@
     home: /home/{{ user }}
   roles:
     # Optional
+    - role: tcpdump-dns
+      vars:
+        iface: wlp2s0
+        ipdns: 10.66.0.2
     #- docker
     #- packages-dev-examples
     #- rabbitmq
