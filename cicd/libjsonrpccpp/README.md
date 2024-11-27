@@ -3,14 +3,13 @@
 make BUILDER=sbuild build
 make BUILDER=sbuild package
 sudo apt install ./build/*.deb
+```
 
-localhost> cd ../hosts/debian12
-localhost> make up
-localhost> vagrant ssh
- vagrant1> mkdir ~/sbuild
- vagrant1> DIST=stable
- vagrant1> ARCH=armhf
- vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev
+# Release
+
+[Create chroot](../mps/README.md#create-chroot)
+
+```sh
 localhost> make BUILDER=sbuild rbuild
 localhost> make BUILDER=sbuild rpackage
 localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'

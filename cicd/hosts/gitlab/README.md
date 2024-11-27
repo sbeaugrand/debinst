@@ -33,15 +33,7 @@ git commit -m "Initial commit"
 git push --set-upstream gitlab main
 ```
 
-# Création du chroot
-```sh
-../debian12
-vagrant ssh
-mkdir ~/sbuild
-DIST=stable
-ARCH=armhf
-mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian,dose-distcheck,apt-utils,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev /etc/apt/sources.list
-```
+# [Création du chroot](../../mps/README.md#create-chroot)
 
 # Construction de l'image docker
 ```sh

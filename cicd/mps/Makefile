@@ -23,6 +23,8 @@ abstractstubserver.h: spec.json
 .PHONY: release
 release:
 	@echo
+	@sed -n -e '/# Create chroot/,/```$$/{/```/!p}' README.md
+	@echo
 	@sed -n -e '/# Release/,/```$$/{/```/!p}' README.md
 	@echo
 

@@ -11,5 +11,7 @@ all:
 	@echo
 	@sed -n -e '/# Build libjsonrpccpp/,/```$$/{/```/!p}' README.md
 	@echo
+	@sed -n -e '/# Release/,/```$$/{/```/!p}' README.md
+	@echo
 
 include ../makefiles/gitlabci.mk
