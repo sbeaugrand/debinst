@@ -182,6 +182,7 @@ mtpaint
 texlive-latex-extra
 texlive-lang-french
 texlive-fonts-recommended
+texlive-font-utils  # repstopdf
 texlive-pstricks
 texlive-extra-utils  # pdfjam
 texlive-science  # siunitx

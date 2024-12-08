@@ -1,1 +1,59 @@
-../simplecdd-op-2min/common.postinst
+#!/bin/sh
+# ---------------------------------------------------------------------------- #
+## \file common.postinst
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+log=/var/log/postinst.log
+cat /dev/null >$log
+
+movePackage()
+{
+    name=$1
+    src=/usr/share/$name
+    dst=/home/$user/install/`echo $name | sed 's/^install-//'`
+    if [ ! -d $src ]; then
+        echo "warn: $src not found" >>$log
+        return 1
+    fi
+    if [ -d $dst ]; then
+        echo "warn: $dst already exists" >>$log
+        return 1
+    fi
+    mv $src $dst
+    chown -R $user:$user $dst
+}
+
+# user
+user=`ls /home | tail -n 1`
+if [ -z "$user" ]; then
+    echo "error: user not found" >>$log
+    return 1
+fi
+if [ ! -d /home/$user ]; then
+    echo "error: /home/$user not found" >>$log
+    return 1
+fi
+
+# lpkg
+dir=/home/$user/install
+mkdir $dir
+chown $user:$user $dir
+
+movePackage debinst
+for i in `cat $dir/debinst/LPKG/list.txt`; do
+    if [ $i != "debinst" ]; then
+        movePackage $i
+    fi
+done
+
+# data
+dir=/home/$user/data
+mkdir $dir
+chown $user:$user $dir
+
+# cleanup
+if [ ! -s $log ]; then
+    rm $log
+fi

@@ -277,15 +277,15 @@ Server::checksum()
         mSelect.substr(0, mSelect.rfind('/') + 1);
 
     if (std::filesystem::exists(path + ".sha")) {
-        auto cmd = std::string("cd '") + path +
-            "'; /usr/bin/sha1sum -c .sha >/dev/null";
+        auto cmd = std::string("cd \"") + path +
+            "\"; /usr/bin/sha1sum -c .sha >/dev/null";
         if (::system(cmd.c_str()) != 0) {
             cs = 1;
             ERROR(cs);
         }
     } else {
-        auto cmd = std::string("cd '") + path +
-            "'; /usr/bin/sha1sum * >.sha";
+        auto cmd = std::string("cd \"") + path +
+            "\"; /usr/bin/sha1sum * >.sha";
         if (::system(cmd.c_str()) != 0) {
             cs = 2;
             ERROR(cs);
