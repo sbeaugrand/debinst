@@ -71,3 +71,17 @@ vagrant ssh
 df
 sudo /sbin/lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 ```
+
+# Webhook git-pull
+```sh
+docker build -t git-pull .
+docker run --name git-pull -h git-pull.local.fr -v /mnt/gitlab-repos:/mnt/gitlab-repos -p 0.0.0.0:8000:8000 --restart unless-stopped -d git-pull
+curl -d "" http://192.168.121.171:8000/group/mps
+```
+http://gitlab.local.fr/admin/application_settings/network<br/>
+Outbound requests `Allow requests to the local network from webhooks and integrations`
+
+http://gitlab.local.fr/group/mps/-/hooks<br/>
+URL `http://192.168.121.171:8000/group/mps`<br/>
+Trigger `Push events`<br/>
+SSL verification `disabled`
