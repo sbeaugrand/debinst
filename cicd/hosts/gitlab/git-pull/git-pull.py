@@ -15,7 +15,7 @@ app = FastAPI()
 @app.post('/{group}/{proj}')
 async def post_pull(group: str, proj: str) -> str:
     return subprocess.check_output(
-        f'cd /mnt/gitlab-repos/{group}/{proj} && git pull', shell=True)
+        f'cd /mnt/repos/{group}/{proj} && git pull', shell=True)
 
 
 uvicorn.run(app, host="0.0.0.0", port=8000)

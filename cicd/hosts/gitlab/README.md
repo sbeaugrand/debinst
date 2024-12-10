@@ -73,9 +73,20 @@ sudo /sbin/lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 ```
 
 # Webhook git-pull
+http://gitlab.local.fr/group/mps/-/settings/access_tokens
+
+Role `Developer`<br/>
+Scope `read_repository`
+
 ```sh
+sudo mkdir -p /mnt/repos/group
+cd /mnt/repos/group
+sudo git clone http://sbeaugrand:glpat-...@gitlab.local.fr/group/mps.git
+```
+```sh
+cd /vagrant/.vagrant
 docker build -t git-pull .
-docker run --name git-pull -h git-pull.local.fr -v /mnt/gitlab-repos:/mnt/gitlab-repos -p 0.0.0.0:8000:8000 --restart unless-stopped -d git-pull
+docker run --name git-pull -h git-pull.local.fr -v /mnt/repos:/mnt/repos -p 0.0.0.0:8000:8000 --restart unless-stopped -d git-pull
 curl -d "" http://192.168.121.171:8000/group/mps
 ```
 http://gitlab.local.fr/admin/application_settings/network<br/>
