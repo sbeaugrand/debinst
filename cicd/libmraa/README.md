@@ -9,7 +9,7 @@ sudo apt install ./build/*.deb
 
 [Create chroot](../mps/README.md#create-chroot)
 
-```sh
+```console
 localhost> make BUILDER=sbuild rbuild
 localhost> make BUILDER=sbuild rpackage
 localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
@@ -19,7 +19,7 @@ localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
 <details>
   <summary><s>Build with pbuilder</s></summary>
 
-  ```sh
+  ```console
   localhost> cd ../hosts/debian12 && make up && cd -
   localhost> make BUILDER=pbuilder rbuild
   localhost> make BUILDER=pbuilder rpackage

@@ -55,7 +55,7 @@ stateDiagram
 ```
 
 # Create chroot
-```sh
+```console
 localhost> cd ../hosts/debian12
 localhost> make up
 localhost> vagrant ssh
@@ -66,7 +66,7 @@ localhost> vagrant ssh
 ```
 
 # Release
-```sh
+```console
  vagrant1> sudo apt install libmpdclient-dev liblirc-dev
 localhost> make BUILDER=sbuild rbuild
 localhost> make BUILDER=sbuild rpackage
@@ -76,7 +76,7 @@ localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
 <details>
   <summary><s>Release with pbuilder</s></summary>
 
-  ```sh
+  ```console
   localhost> cd ../hosts/debian12
   localhost> vagrant ssh
    vagrant1> cd ~/pbuilder/*_result
@@ -97,20 +97,20 @@ localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
   localhost> host=pi
   localhost> scp .vagrant/*.deb $user@$host:/tmp/
   localhost> ssh $user@$host
-         pi> cd /tmp
-         pi> sudo apt reinstall ./*.deb
+   remotepi> cd /tmp
+   remotepi> sudo apt reinstall ./*.deb
   ```
 </details>
 
 ## Update sysroot for cross compilation
-```sh
+```console
  vagrant2> cp -av *-dev_* /vagrant/.vagrant
 localhost> user=$USER
 localhost> host=pi
 localhost> ssh $user@$host
-       pi> cd /run/user/1000
+ remotepi> cd /run/user/1000
 localhost> scp .vagrant/*-dev_* $user@$host:/run/user/1000/
-       pi> sudo apt reinstall ./*-dev_*
+ remotepi> sudo apt reinstall ./*-dev_*
 ```
 [update](../libjsonrpccpp/README.md#sysroot-installation)
 
@@ -119,7 +119,7 @@ localhost> scp .vagrant/*-dev_* $user@$host:/run/user/1000/
 <details>
   <summary>Test without arm</summary>
 
-  ```sh
+  ```console
   terminal1> make build
   terminal1> make server
   terminal2> make client  # KEY_SETUP, KEY_OK, ...
@@ -133,7 +133,7 @@ localhost> scp .vagrant/*-dev_* $user@$host:/run/user/1000/
 <details>
   <summary>php usage</summary>
 
-  ```sh
+  ```console
   terminal1> make tunnel
   terminal2> make php
   ```
