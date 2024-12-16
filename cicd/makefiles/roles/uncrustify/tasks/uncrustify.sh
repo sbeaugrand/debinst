@@ -5,6 +5,14 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+if [ "$1" = "-n" ]; then
+    interactive=0
+    shift
+else
+    interactive=1
+fi
+count=0
+
 if [ -z "$1" ]; then
     list=`find . -type d \( -name build -o -name build-* -o -name .vagrant \)\
  -prune -false -o \( -name "*.[ch]" -o -name "*.cpp" \) -print |\
@@ -12,6 +20,7 @@ if [ -z "$1" ]; then
 else
     list="$*"
 fi
+
 for f in $list; do
     dir=`dirname $f`
     path=""
@@ -31,12 +40,22 @@ for f in $list; do
     fi
     uncrustify -q -c ~/.uncrustify.cfg -o $f.tmp -f $f
     if ! diff $f $f.tmp >/dev/null; then
-        diff -y -W 168 $f $f.tmp | colordiff | more
-        echo -n "ecraser ? (o/N) "
-        read ret
-        if [ "$ret" = o ]; then
-            cp $f.tmp $f
+        ((count++))
+        if ((interactive)); then
+            diff -y -W 168 $f $f.tmp | colordiff | more
+            echo -n "ecraser ? (o/N) "
+            read ret
+            if [ "$ret" = o ]; then
+                cp $f.tmp $f
+            fi
+        else
+            diff $f $f.tmp
         fi
     fi
     rm $f.tmp
 done
+
+if ((count > 255)); then
+    count=255
+fi
+exit $count

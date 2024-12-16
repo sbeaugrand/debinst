@@ -27,7 +27,8 @@ http://gitlab.local.fr/-/user_settings/ssh_keys
 git config --global user.name "sbeaugrand"
 git config --global user.email "sbeaugrand@toto.fr"
 git init --initial-branch=main
-git remote add gitlab [git@gitlab.local.fr:2222]:group/mps.git
+export DOMAIN=local.fr
+git remote add gitlab [git@gitlab.$DOMAIN:2222]:group/mps.git
 git add .
 git commit -m "Initial commit"
 git push --set-upstream gitlab main
@@ -37,11 +38,13 @@ git push --set-upstream gitlab main
 
 # Construction de l'image docker
 ```sh
-rsync -a -i --checksum libjsonrpc*   vagrant@gitlab.local.fr:/home/vagrant/
-rsync -a -i --checksum libmraa*      vagrant@gitlab.local.fr:/home/vagrant/
-rsync -a -i --checksum libupm*       vagrant@gitlab.local.fr:/home/vagrant/
-rsync -a -i --checksum stable-armhf* vagrant@gitlab.local.fr:/home/vagrant/
-rsync -a -i --checksum Dockerfile    vagrant@gitlab.local.fr:/home/vagrant/
+export DOMAIN=local.fr
+rsync -a -i --checksum libjsonrpc*   vagrant@gitlab.$DOMAIN:/home/vagrant/
+rsync -a -i --checksum libmraa*      vagrant@gitlab.$DOMAIN:/home/vagrant/
+rsync -a -i --checksum libupm*       vagrant@gitlab.$DOMAIN:/home/vagrant/
+rsync -a -i --checksum stable-armhf* vagrant@gitlab.$DOMAIN:/home/vagrant/
+rsync -a -i --checksum Dockerfile    vagrant@gitlab.$DOMAIN:/home/vagrant/
+rsync -a -i --checksum uncrustify*   vagrant@gitlab.$DOMAIN:/home/vagrant/
 vagrant ssh
 sudo apt install docker-buildx
 docker build -t localhost:5000/debian-dev:1.0.0 .
@@ -51,7 +54,8 @@ docker push localhost:5000/debian-dev:1.0.0
 # Création du runner
 http://gitlab.local.fr/group/mps/-/runners/new  # Run untagged jobs
 ```sh
-docker exec -it gitlab-runner gitlab-runner register --url http://gitlab.local.fr --executor docker --docker-image "localhost:5000/debian-dev:1.0.0" --token ...
+export DOMAIN=local.fr
+docker exec -it gitlab-runner gitlab-runner register --url http://gitlab.$DOMAIN --executor docker --docker-image "localhost:5000/debian-dev:1.0.0" --token ...
 ```
 ```sh
 sudo vi /mnt/gitlab-runner/config.toml +/privileged
@@ -73,6 +77,9 @@ sudo /sbin/lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 ```
 
 # Webhook git-pull
+http://gitlab.local.fr/admin/application_settings/network<br/>
+Outbound requests `Allow requests to the local network from webhooks and integrations`
+
 http://gitlab.local.fr/group/mps/-/settings/access_tokens
 
 Name `ro`<br/>
@@ -83,14 +90,12 @@ Scope `read_repository`
 cp git-pull/* .vagrant/
 vagrant ssh
 cd /vagrant/.vagrant
+export DOMAIN=local.fr
 vi git-pull.py +/local  # DOMAIN
 docker build -t git-pull .
-docker run --name git-pull -h git-pull.local.fr -v /mnt/repos:/mnt/repos -p 0.0.0.0:8000:8000 --restart unless-stopped -d git-pull
+docker run --name git-pull -h git-pull.$DOMAIN -v /mnt/repos:/mnt/repos -p 0.0.0.0:8000:8000 --restart=unless-stopped -d git-pull
 curl -d "" http://192.168.121.171:8000/group/mps?token=glpat-...
 ```
-http://gitlab.local.fr/admin/application_settings/network<br/>
-Outbound requests `Allow requests to the local network from webhooks and integrations`
-
 http://gitlab.local.fr/group/mps/-/hooks<br/>
 URL `http://192.168.121.171:8000/group/mps?token=glpat-...`<br/>
 Trigger `Push events`<br/>

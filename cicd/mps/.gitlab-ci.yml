@@ -31,6 +31,13 @@ test:
     - VERSION=`head -n 1 debian/changelog | cut -d ')' -f 1 | cut -d '(' -f 2`
     - lintian --fail-on error,warning    ${PACKAGE}_${VERSION}_$ARCH.deb
     - lintian --fail-on error,warning ../${PACKAGE}_${VERSION}.dsc
+    - uncrustify.sh -n
+    - >
+      cppcheck -q --enable=all --suppressions-list=cppcheck.supp
+      --template='{id}:{file}:{line} ({severity}) {message}'
+      -i build -i build-*
+      --suppress=missingIncludeSystem
+      .
 deploy:
   stage: deploy
   script:

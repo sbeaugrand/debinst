@@ -18,11 +18,15 @@ ADD libupm-lcd2_2.0.0-1_armhf.deb /sbuild/
 
 COPY stable-armhf.tar.xz /sbuild/
 COPY stable-armhf-f.conf /etc/schroot/chroot.d/
+COPY uncrustify.sh /usr/bin/
+COPY uncrustify.cfg /root/.uncrustify.cfg
 
 RUN export DEBIAN_FRONTEND=noninteractive\
  && apt-get -y update\
  && apt-get -y install --no-install-recommends\
     debhelper\
+    cppcheck\
+    uncrustify\
     lintian
 
 RUN export DEBIAN_FRONTEND=noninteractive\
