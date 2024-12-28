@@ -4,6 +4,20 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
+- name: tcpdump-dns.sh
+  copy:
+    src: tcpdump-dns.sh
+    dest: /sbin/
+    mode: 0755
+  become: yes
+
+- name: tcpdump-pr-dns.sh
+  copy:
+    src: tcpdump-pr-dns.sh
+    dest: /sbin/
+  failed_when: no
+  become: yes
+
 - name: tcpdump-dns.service
   blockinfile:
     path: /etc/systemd/system/tcpdump-dns.service
@@ -13,7 +27,7 @@
       Description=tcpdump-dns service
 
       [Service]
-      ExecStart=tcpdump -i {{ iface }} -U 'dst {{ ipdns }} and port 53'
+      ExecStart=/sbin/tcpdump-dns.sh {{ iface }} {{ ipdns }}
   register: service
   become: yes
 

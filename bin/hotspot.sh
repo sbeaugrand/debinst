@@ -15,7 +15,6 @@
 ##       }
 ##       loop()
 ##       {
-##           sudo pkill -USR2 tcpdump
 ##           addFilterAfter 30 10.66.0.39 game.brawlstarsgame.com "comment"
 ##       }
 # ---------------------------------------------------------------------------- #
