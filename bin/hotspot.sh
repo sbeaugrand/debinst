@@ -88,8 +88,8 @@ addFilterAfter()
     com="$4"
     h=`sudo journalctl -u tcpdump-dns -S today | grep $dom | awk '
 {
-    h = int(substr($6, 1, 2));
-    m = int(substr($6, 4, 2)) + '$min';
+    h = int(substr($3, 1, 2));
+    m = int(substr($3, 4, 2)) + '$min';
     if (m >= 60) {
         m -= 60;
         h += 1;
