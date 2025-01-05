@@ -31,11 +31,3 @@ fi
 if ! groups $user | grep -q "i2c"; then
     /usr/sbin/usermod -a -G i2c $user
 fi
-
-if notWhich oled-message; then
-    pushd $idir/projects/mp3server || return 1
-    sudo -u $user\
-    make C=pi oled-message
-    make C=pi install-oled-message
-    popd
-fi

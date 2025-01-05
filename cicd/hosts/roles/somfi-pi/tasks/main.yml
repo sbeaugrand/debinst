@@ -8,7 +8,7 @@
   import_role:
     name: rsync-pi
   vars:
-    src: "../../projects/arm/sompi"
+    src: "../../../projects/arm/sompi"
     dest: "{{ home }}/install/debinst/projects/arm"
     exclude: 'none'
     times: yes

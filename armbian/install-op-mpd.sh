@@ -5,8 +5,8 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ -z "$MP3DIR" ]; then
-    echo " error: MP3DIR is not set"
-    return 1
+    MP3DIR=/mnt/mp3
+    echo " warn: MP3DIR=$MP3DIR"
 fi
 
 file=/etc/mpd.conf

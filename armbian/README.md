@@ -55,13 +55,20 @@ make ssh
 cd install/debinst/armbian
 make install
 sudo reboot
-make ssh
-cd install/debinst/armbian
-rw
-make volume
 ```
 
 ## Optionnel
+
+<details>
+  <summary>Volume audio</summary>
+
+  ```sh
+  make ssh
+  cd install/debinst/armbian
+  rw
+  make volume
+  ```
+</details>
 
 <details>
   <summary>Infrared receiver - TSOP1838</summary>
@@ -102,16 +109,26 @@ make volume
 
   ```sh
   make oled
-  make oscreensaver
   ```
 </details>
 
-[Music player](../cicd/mps/README.md)
+<details>
+  <summary>Music player</summary>
+
+  ```sh
+  cp install-ex-mps.sh install-pr-mps.sh
+  cp mps-ex-toggle.sh mps-pr-toggle.sh
+  make mps
+  ```
+  [Music player](../cicd/mps/README.md)
+</details>
 
 <details>
   <summary>Shutter</summary>
 
+  [libmraa](../cicd/libmraa/README.md)
   ```sh
+  python3 -c 'import mraa'
   sudo /usr/sbin/rtc `date +%FT%Tw%w`
   make shutter
   ```
@@ -138,7 +155,7 @@ make volume
 |                                       |Nanopi Neo|Orange Pi Zero|Rockpi S|
 |---------------------------------------|----------|--------------|--------|
 |Temps pour monter un disque            |45 s      |45 s          |15 s    |
-|Le disque resiste au débranchement RJ45|X         |              |X       |
+|Le disque résiste au débranchement RJ45|X         |              |X       |
 |RJ45 bien orientée                     |X         |              |X       |
 |Barrette soudée incluse                |X         |              |X       |
 |Volume audio confortable               |X         |X             |        |

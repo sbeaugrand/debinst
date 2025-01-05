@@ -26,6 +26,7 @@ Description: Linux Library for low speed IO Communication
 Package: libmraa2
 Architecture: any
 Depends:
+ python3 (>= 3.11.0),
  ${shlibs:Depends},
  ${misc:Depends},
 Description: Linux Library for low speed IO Communication

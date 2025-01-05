@@ -15,7 +15,7 @@ all:
 	@echo
 	@echo -n "Usage: make [user=$(USER)] [host=pi] [shutter=y] "
 	@echo -n "{ ssh | rsync | install | volume | "
-	@echo "lirc | rtc | oled | oscreensaver | mp3server | shutter }"
+	@echo "lirc | rtc | oled | mps | shutter }"
 	@echo
 
 .PHONY: ssh
@@ -42,11 +42,8 @@ rtc: install-op-rtc.sh
 .PHONY: oled
 oled: install-op-oled.sh
 
-.PHONY: oscreensaver
-oscreensaver: install-op-oscreensaver.sh
-
-.PHONY: mp3server
-mp3server: install-op-mp3server-bin.sh install-op-mp3server-mnt.sh
+.PHONY: mps
+mps: install-op-mps.sh install-pr-mps.sh
 
 .PHONY: shutter
 shutter: install-op-shutter.sh
