@@ -6,33 +6,31 @@
 # ---------------------------------------------------------------------------- #
 FROM debian:12
 
-ADD libjsonrpccpp-client0_1.4.1-1.0_armhf.deb /sbuild/
-ADD libjsonrpccpp-common0_1.4.1-1.0_armhf.deb /sbuild/
-ADD libjsonrpccpp-server0_1.4.1-1.0_armhf.deb /sbuild/
-ADD libjsonrpccpp-stub0_1.4.1-1.0_armhf.deb /sbuild/
-ADD libjsonrpccpp-dev_1.4.1-1.0_armhf.deb /sbuild/
-ADD libmraa2_2.2.0-1_armhf.deb /sbuild/
-ADD libmraa-dev_2.2.0-1_armhf.deb /sbuild/
-ADD libupm-dev_2.0.0-1_armhf.deb /sbuild/
-ADD libupm-lcd2_2.0.0-1_armhf.deb /sbuild/
-
-COPY stable-armhf.tar.xz /sbuild/
-COPY stable-armhf-f.conf /etc/schroot/chroot.d/
-COPY uncrustify.sh /usr/bin/
-COPY uncrustify.cfg /root/.uncrustify.cfg
-
 RUN export DEBIAN_FRONTEND=noninteractive\
  && apt-get -y update\
  && apt-get -y install --no-install-recommends\
     debhelper\
     cppcheck\
     uncrustify\
-    lintian
-
-RUN export DEBIAN_FRONTEND=noninteractive\
- && apt-get -y install --no-install-recommends\
+    lintian\
     sbuild\
     binfmt-support\
     qemu-user-static\
     fakeroot\
     schroot
+
+COPY stable-arm*.tar.xz /sbuild/
+COPY stable-arm*-f.conf /etc/schroot/chroot.d/
+
+COPY libjsonrpccpp-client0_1.4.1-1.0_arm*.deb /sbuild/
+COPY libjsonrpccpp-common0_1.4.1-1.0_arm*.deb /sbuild/
+COPY libjsonrpccpp-server0_1.4.1-1.0_arm*.deb /sbuild/
+COPY libjsonrpccpp-stub0_1.4.1-1.0_arm*.deb /sbuild/
+COPY libjsonrpccpp-dev_1.4.1-1.0_arm*.deb /sbuild/
+COPY libmraa2_2.2.0-1_arm*.deb /sbuild/
+COPY libmraa-dev_2.2.0-1_arm*.deb /sbuild/
+COPY libupm-dev_2.0.0-1_arm*.deb /sbuild/
+COPY libupm-lcd2_2.0.0-1_arm*.deb /sbuild/
+
+COPY uncrustify.sh /usr/bin/
+COPY uncrustify.cfg /root/.uncrustify.cfg

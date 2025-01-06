@@ -14,13 +14,12 @@ make reinstall
 ```
 
 # Structure of album directories
-```
-music_directory/additional_directory/artist - year - album/00.m3u
-```
-music_directory :
+`music_directory/additional_directory/artist - year - album/00.m3u`
+
+`music_directory` :
 from /etc/mpd.conf
 
-additional_directory :
+`additional_directory` :
 to use weights in random selection of albums,
 weights will be in music_directory/mps.weights
 
@@ -61,8 +60,8 @@ localhost> make up
 localhost> vagrant ssh
  vagrant1> mkdir ~/sbuild
  vagrant1> DIST=stable
- vagrant1> ARCH=armhf
- vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian,dose-distcheck,apt-utils,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev,swig,python3-dev /etc/apt/sources.list
+ vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
+ vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian,dose-distcheck,apt-utils,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev,swig,python3-dev
 ```
 
 # Release

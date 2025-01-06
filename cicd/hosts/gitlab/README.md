@@ -39,12 +39,12 @@ git push --set-upstream gitlab main
 # Construction de l'image docker
 ```sh
 export DOMAIN=local.fr
-rsync -a -i --checksum libjsonrpc*   vagrant@gitlab.$DOMAIN:/home/vagrant/
-rsync -a -i --checksum libmraa*      vagrant@gitlab.$DOMAIN:/home/vagrant/
-rsync -a -i --checksum libupm*       vagrant@gitlab.$DOMAIN:/home/vagrant/
-rsync -a -i --checksum stable-armhf* vagrant@gitlab.$DOMAIN:/home/vagrant/
-rsync -a -i --checksum Dockerfile    vagrant@gitlab.$DOMAIN:/home/vagrant/
-rsync -a -i --checksum uncrustify*   vagrant@gitlab.$DOMAIN:/home/vagrant/
+rsync -a -i --checksum libjsonrpc* vagrant@gitlab.$DOMAIN:/home/vagrant/
+rsync -a -i --checksum libmraa*    vagrant@gitlab.$DOMAIN:/home/vagrant/
+rsync -a -i --checksum libupm*     vagrant@gitlab.$DOMAIN:/home/vagrant/
+rsync -a -i --checksum stable-arm* vagrant@gitlab.$DOMAIN:/home/vagrant/
+rsync -a -i --checksum Dockerfile  vagrant@gitlab.$DOMAIN:/home/vagrant/
+rsync -a -i --checksum uncrustify* vagrant@gitlab.$DOMAIN:/home/vagrant/
 vagrant ssh
 sudo apt install docker-buildx
 docker build -t localhost:5000/debian-dev:1.0.0 .

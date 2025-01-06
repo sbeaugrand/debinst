@@ -12,7 +12,7 @@
 ##               case "10.66.0.123" : printf "Papa   %s\n",$8; break;
 ##               case "10.66.0.11." : printf "Papi   %s\n",$8; break;
 ##               case "10.66.0.111" : printf "Papo   %s\n",$8; break;
-##               default : printf "$3 $8"; break;
+##               default : printf "%s %s\n",$3,$8; break;
 ##           }'
 ##       }
 # ---------------------------------------------------------------------------- #
