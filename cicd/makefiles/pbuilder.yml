@@ -37,8 +37,9 @@ build:
     - mkdir -p build
     - cd build
     - !reference [.keychain, script]
-    - test -z "$URL" || test -d $REPO || git clone $URL
-    - test -n "$URL" || test -d $REPO || $RSYNC -L .. $REPO
+    - test -z "$CLONE" || test -d $REPO || $CLONE
+    - test -z "$CLONE" || test -d $REPO || mv $REPO-* $REPO
+    - test -n "$CLONE" || test -d $REPO || $RSYNC -L .. $REPO
     - test ! -d ../debian || test -d $REPO/debian || cp -r ../debian $REPO/
 package:
   stage: package

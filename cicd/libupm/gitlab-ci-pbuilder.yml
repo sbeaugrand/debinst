@@ -8,7 +8,7 @@ variables:
   REPO: upm
   VERSION: 2.0.0
   REVISION: -1
-  URL: https://github.com/eclipse/$REPO.git
+  CLONE: git clone https://github.com/eclipse/$REPO.git
   PKG: lib$REPO
 include:
   - local: /../makefiles/pbuilder.yml

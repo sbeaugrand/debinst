@@ -8,9 +8,9 @@ variables:
   REPO: mraa
   VERSION: 2.2.0
   REVISION: -1
-  URL: https://github.com/sbeaugrand/$REPO.git  # nanopi-neo orange-pi-zero
+  CLONE: git clone https://github.com/sbeaugrand/$REPO.git  # nanopi-neo orange-pi-zero
   #FIXME: rockpi-s
-  #URL: https://github.com/radxa/$REPO.git  # rockpi-s
+  #CLONE: git clone https://github.com/radxa/$REPO.git  # rockpi-s
   # vagrant1> vi libmraa/build/mraa/CMakeLists.txt +/v2  # 2.2.0
   # vagrant1> vi libmraa/build/mraa/include/version.h +/gVERSION  # extern
   PKG: lib$REPO
