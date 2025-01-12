@@ -1,0 +1,58 @@
+# ---------------------------------------------------------------------------- #
+## \file .gitlab-ci.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+variables:
+  PACKAGE: libjsonrpccpp
+  REPO: libjson-rpc-cpp
+  VERSION: 1.4.1
+  DIST: stable
+  #ARCH: arm64
+  ARCH: armhf
+build:
+  stage: build
+  script:
+    - git clone https://github.com/cinemast/$REPO.git
+    - git clone https://salsa.debian.org/debian/$REPO.git source
+    - cp -r source/debian $REPO/
+    - cd $REPO
+    - git apply ../$REPO.patch
+    - cd ..
+    - >
+      tar czf ${REPO}_${VERSION}.orig.tar.gz
+      --exclude=.git
+      --exclude=debian
+      --exclude=obj-x86_64-linux-gnu
+      --exclude=.pc
+      $REPO
+    - cd $REPO
+    - update-binfmts --enable qemu-aarch64
+    - update-binfmts --enable qemu-arm
+    - >
+      sbuild -v --build=$ARCH --host=$ARCH
+      --chroot-mode=schroot -c $DIST-$ARCH-file
+      --no-apt-update
+      --extra-package=/sbuild
+      --build-dir=..
+      --no-run-lintian
+    - cd ..
+    - mv *.dsc *.gz *.xz ..
+  artifacts:
+    paths:
+      - "${PACKAGE}-common0_*_$ARCH.deb"
+      - "${PACKAGE}-server0_*_$ARCH.deb"
+      - "${PACKAGE}-client0_*_$ARCH.deb"
+      - "${PACKAGE}-stub0_*_$ARCH.deb"
+      - "${PACKAGE}-dev_*_$ARCH.deb"
+test:
+  stage: test
+  script:
+    - lintian --fail-on error,warning *.deb
+    - lintian --fail-on error,warning ../*.dsc
+deploy:
+  stage: deploy
+  script:
+    - echo "Define your deployment script"
+  environment: staging
