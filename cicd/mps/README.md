@@ -54,6 +54,7 @@ stateDiagram
 ```
 
 # Create chroot
+
 ```console
 localhost> cd ../hosts/debian12
 localhost> make up
@@ -61,10 +62,11 @@ localhost> vagrant ssh
  vagrant1> mkdir ~/sbuild
  vagrant1> DIST=stable
  vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
- vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=automake,cmake,debhelper,fakeroot,pkg-config,lintian,dose-distcheck,apt-utils,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev,swig,python3-dev
+ vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=cmake,debhelper,fakeroot,help2man,pkg-config,lintian,dose-distcheck,apt-utils,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev,swig,python3-dev
 ```
 
 # Release
+
 ```console
  vagrant1> sudo apt install libmpdclient-dev liblirc-dev
 localhost> make BUILDER=sbuild rbuild

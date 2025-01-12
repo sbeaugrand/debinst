@@ -9,9 +9,9 @@ BHOST ?= debian12
 .PHONY: all
 all:
 	@echo
-	@sed -n -e '/# Build libupm/,/```$$/{/```/!p}' README.md
+	@$(call print-help,Build)
 	@echo
-	@sed -n -e '/# Release/,/```$$/{/```/!p}' README.md
+	@$(call print-help,Release)
 	@echo
 
 include ../makefiles/gitlabci.mk

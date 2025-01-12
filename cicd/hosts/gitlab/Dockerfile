@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive\
     cppcheck\
     uncrustify\
     lintian\
+    git\
     sbuild\
     binfmt-support\
     qemu-user-static\

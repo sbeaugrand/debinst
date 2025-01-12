@@ -19,7 +19,6 @@
       - elpa-systemd
       - elpa-yaml-mode
       - emacs-lucid
-      - help2man
       - keychain
       - pv
       - rfkill

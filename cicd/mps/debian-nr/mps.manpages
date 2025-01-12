@@ -1,4 +1,4 @@
-debian/mpserver.1
-debian/mpclient.1
-debian/mpssaver.1
-debian/oledmesg.1
+../mpserver.1
+../mpclient.1
+../mpssaver.1
+../oledmesg.1

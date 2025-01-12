@@ -52,8 +52,8 @@ target_link_libraries(oledmesg
 install(TARGETS mpserver mpclient mpssaver oledmesg)
 
 if(XC
-        OR ${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL "aarch64"
-        OR ${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL "armv7l")
+        OR ${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL aarch64
+        OR ${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL armv7l)
     target_link_libraries(mpclient
         lirc_client
         upm-lcd
@@ -63,3 +63,37 @@ if(XC
         upm-lcd
     )
 endif()
+
+add_custom_command(
+    OUTPUT mpserver.1
+    COMMAND help2man -N -o mpserver.1 -n 'music player server' ./mpserver
+    DEPENDS mpserver
+)
+add_custom_command(
+    OUTPUT mpclient.1
+    COMMAND help2man -N -o mpclient.1 -n 'music player client' ./mpclient
+    DEPENDS mpclient
+)
+add_custom_command(
+    OUTPUT mpssaver.1
+    COMMAND help2man -N -o mpssaver.1 -n 'music player screensaver' ./mpssaver
+    DEPENDS mpssaver
+)
+add_custom_command(
+    OUTPUT oledmesg.1
+    COMMAND help2man -N -o oledmesg.1 -n 'display a message in oled module' ./oledmesg
+    DEPENDS oledmesg
+)
+
+add_custom_target(mpserver-manpage ALL DEPENDS mpserver.1)
+add_custom_target(mpclient-manpage ALL DEPENDS mpclient.1)
+add_custom_target(mpssaver-manpage ALL DEPENDS mpssaver.1)
+add_custom_target(oledmesg-manpage ALL DEPENDS oledmesg.1)
+
+install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/mpserver.1
+    ${CMAKE_CURRENT_BINARY_DIR}/mpclient.1
+    ${CMAKE_CURRENT_BINARY_DIR}/mpssaver.1
+    ${CMAKE_CURRENT_BINARY_DIR}/oledmesg.1
+    DESTINATION share/man/man1
+)

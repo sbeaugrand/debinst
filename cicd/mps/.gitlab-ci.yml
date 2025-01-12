@@ -5,15 +5,15 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 variables:
-  PROJECT: mps
   PACKAGE: mps
   DIST: stable
+  #ARCH: arm64
   ARCH: armhf
 build:
   stage: build
   script:
-    - VERSION=`head -n 1 debian/changelog | cut -d ')' -f 1 | cut -d '(' -f 2`
     - dpkg-source -b .
+    - update-binfmts --enable qemu-aarch64
     - update-binfmts --enable qemu-arm
     - >
       sbuild -v --build=$ARCH --host=$ARCH

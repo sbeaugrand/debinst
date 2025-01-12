@@ -22,6 +22,7 @@
       - gdb
       - g++-aarch64-linux-gnu
       - g++-arm-linux-gnueabihf
+      - help2man
       - pkg-config
       - python3-pip
       - systemd-coredump  # coredumpctl debug
