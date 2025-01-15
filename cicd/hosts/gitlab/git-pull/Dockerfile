@@ -12,6 +12,8 @@ RUN apt-get -y update\
 COPY requirements.txt .
 RUN pip install -r requirements.txt && rm requirements.txt
 
+RUN git config --global pull.rebase true
+
 COPY git-pull.py .
 
 EXPOSE 8000

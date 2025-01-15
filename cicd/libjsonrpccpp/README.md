@@ -64,8 +64,10 @@ host=pi
 rsync -a -i --delete --checksum $user@$host:/usr/include usr/
 rsync -a -i --delete --checksum $user@$host:/usr/lib usr/
 rsync -a -i --delete --checksum $user@$host:/lib ./
-cd usr
-mkdir local
-rsync -a -i --delete --checksum $user@$host:/usr/local/include local/
-rsync -a -i --delete --checksum $user@$host:/usr/local/lib local/
+```
+```sh
+cd ../hosts/debian12
+rsync -a -i --delete --checksum /data/aarch64-linux-gnu-12 .vagrant/  # or :
+rsync -a -i --delete --checksum /data/arm-linux-gnueabihf-12 .vagrant/
+vagrant provision
 ```

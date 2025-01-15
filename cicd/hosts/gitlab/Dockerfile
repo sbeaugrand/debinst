@@ -14,6 +14,8 @@ RUN export DEBIAN_FRONTEND=noninteractive\
     uncrustify\
     lintian\
     git\
+    curl\
+    unzip\
     sbuild\
     binfmt-support\
     qemu-user-static\

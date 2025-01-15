@@ -80,11 +80,10 @@ sudo /sbin/lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 http://gitlab.local.fr/admin/application_settings/network<br/>
 Outbound requests `Allow requests to the local network from webhooks and integrations`
 
-http://gitlab.local.fr/group/mps/-/settings/access_tokens
+http://gitlab.local.fr/-/user_settings/personal_access_tokens
 
 Name `ro`<br/>
-Role `Developer`<br/>
-Scope `read_repository`
+Scopes `read_api, read_repository`
 
 ```sh
 cp git-pull/* .vagrant/

@@ -23,3 +23,39 @@
     name: "{{ user }}"
     groups: sbuild
   become: yes
+
+- name: mkdir /etc/qemu-binfmt
+  file:
+    dest: /etc/qemu-binfmt
+    state: directory
+  become: yes
+
+- name: find arm sysroot
+  find:
+    paths: /vagrant/.vagrant
+    patterns: 'arm-linux-gnueabihf*'
+    file_type: directory
+  register: output
+
+- name: qemu-binfmt arm link
+  file:
+    src: "{{ item.path }}"
+    dest: /etc/qemu-binfmt/arm
+    state: link
+  with_items: "{{ output.files }}"
+  become: yes
+
+- name: find aarch64 sysroot
+  find:
+    paths: /vagrant/.vagrant
+    patterns: 'aarch64-linux-gnu*'
+    file_type: directory
+  register: output
+
+- name: qemu-binfmt aarch64 link
+  file:
+    src: "{{ item.path }}"
+    dest: /etc/qemu-binfmt/aarch64
+    state: link
+  with_items: "{{ output.files }}"
+  become: yes

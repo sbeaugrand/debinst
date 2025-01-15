@@ -9,12 +9,18 @@ variables:
   DIST: stable
   #ARCH: arm64
   ARCH: armhf
+  GROUP: https://gitlab.local.fr/api/v4/projects/group%2F
 build:
   stage: build
   script:
     - dpkg-source -b .
     - update-binfmts --enable qemu-aarch64
     - update-binfmts --enable qemu-arm
+    #- >
+    #  curl -L -o artifacts.zip -H "PRIVATE-TOKEN: glpat-..."
+    #  ${GROUP}libjsonrpccpp/jobs/artifacts/main/download?job=build
+    #- unzip artifacts.zip -d /sbuild
+    #- ls -l /sbuild
     - >
       sbuild -v --build=$ARCH --host=$ARCH
       --chroot-mode=schroot -c $DIST-$ARCH-file
@@ -37,6 +43,7 @@ test:
       --template='{id}:{file}:{line} ({severity}) {message}'
       -i build -i build-*
       --suppress=missingIncludeSystem
+      --error-exitcode=2
       .
 deploy:
   stage: deploy
