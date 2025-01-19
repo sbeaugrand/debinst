@@ -42,7 +42,9 @@ quit()
         sudo nft delete rule filter FORWARD handle $i
     done
 
-    if [ -n "$tcpdump" ]; then
+    if [ -n "$dnsdump" ]; then
+        sudo systemctl stop tcpdump-dns
+    elif [ -n "$tcpdump" ]; then
         kill -15 $tcpdump
     fi
 

@@ -65,7 +65,9 @@ privileged = true
 cap_add = ["SYS_CHROOT"]
 ```
 
-# Disk resize
+# Optionnel
+
+## Disk resize
 ```sh
 # sudo virsh blockresize gitlab_gitlab /data/libvirt/gitlab_gitlab.img 64G
 vagrant ssh
@@ -76,7 +78,7 @@ df
 sudo /sbin/lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 ```
 
-# Webhook git-pull
+## Webhook git-pull
 http://gitlab.local.fr/admin/application_settings/network<br/>
 Outbound requests `Allow requests to the local network from webhooks and integrations`
 
@@ -99,3 +101,12 @@ http://gitlab.local.fr/group/mps/-/hooks<br/>
 URL `http://192.168.121.171:8000/group/mps?token=glpat-...`<br/>
 Trigger `Push events`<br/>
 SSL verification `disabled`
+
+## Artefacts depuis le projet libjsonrpccpp
+
+http://gitlab.local.fr/group/mps/-/settings/ci_cd
+
+### Variables<br/>
+Environments `*`<br/>
+Key `PRIVATE_TOKEN`<br/>
+Value `glpat-...`
