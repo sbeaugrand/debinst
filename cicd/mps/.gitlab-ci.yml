@@ -7,19 +7,20 @@
 variables:
   PACKAGE: mps
   DIST: stable
-  #ARCH: arm64
-  ARCH: armhf
-  GROUP: http://gitlab.local.fr/api/v4/projects/group%2F
+  RPCLIB: http://gitlab.local.fr/api/v4/projects/group%2Flibjsonrpccpp
+prebuild:
+  stage: build
+  script:
+    - update-binfmts --enable qemu-aarch64
+    - update-binfmts --enable qemu-arm
 build:
   stage: build
   script:
     - dpkg-source -b .
-    - update-binfmts --enable qemu-aarch64
-    - update-binfmts --enable qemu-arm
     - >
       test -z "$PRIVATE_TOKEN" ||
       curl -L -o artifacts.zip -H "PRIVATE-TOKEN: $PRIVATE_TOKEN"
-      ${GROUP}libjsonrpccpp/jobs/artifacts/main/download?job=build
+      ${RPCLIB}/jobs/artifacts/main/download?job=build%3A%20%5B${ARCH}%5D
     - test -z "$PRIVATE_TOKEN" || unzip -o artifacts.zip -d /sbuild
     - ls -l /sbuild
     - >
@@ -29,6 +30,9 @@ build:
       --extra-package=/sbuild
       --build-dir=.
       --no-run-lintian
+  parallel:
+    matrix:
+      - ARCH: [arm64, armhf]
   artifacts:
     paths:
       - "${PACKAGE}_*_$ARCH.deb"
@@ -36,7 +40,7 @@ test:
   stage: test
   script:
     - VERSION=`head -n 1 debian/changelog | cut -d ')' -f 1 | cut -d '(' -f 2`
-    - lintian --fail-on error,warning    ${PACKAGE}_${VERSION}_$ARCH.deb
+    - lintian --fail-on error,warning    ${PACKAGE}_${VERSION}_*.deb
     - lintian --fail-on error,warning ../${PACKAGE}_${VERSION}.dsc
     - uncrustify.sh -n
     - >

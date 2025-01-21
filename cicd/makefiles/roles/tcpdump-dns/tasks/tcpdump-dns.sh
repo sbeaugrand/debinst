@@ -29,4 +29,5 @@ else
     }
 fi
 
-tcpdump -i $iface -l "dst $ipdns and port 53" | sed 's/] /]/' | translate
+#tcpdump -i $iface -l "dst $ipdns and port 53" | sed 's/] /]/' | translate
+tcpdump -i $iface -l "dst $ipdns and port 53"

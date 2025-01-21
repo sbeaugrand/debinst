@@ -9,8 +9,11 @@ variables:
   REPO: libjson-rpc-cpp
   VERSION: 1.4.1
   DIST: stable
-  #ARCH: arm64
-  ARCH: armhf
+prebuild:
+  stage: build
+  script:
+    - update-binfmts --enable qemu-aarch64
+    - update-binfmts --enable qemu-arm
 build:
   stage: build
   script:
@@ -28,8 +31,6 @@ build:
       --exclude=.pc
       $REPO
     - cd $REPO
-    - update-binfmts --enable qemu-aarch64
-    - update-binfmts --enable qemu-arm
     - >
       sbuild -v --build=$ARCH --host=$ARCH
       --chroot-mode=schroot -c $DIST-$ARCH-file
@@ -39,6 +40,9 @@ build:
       --no-run-lintian
     - cd ..
     - mv *.dsc *.gz *.xz ..
+  parallel:
+    matrix:
+      - ARCH: [arm64, armhf]
   artifacts:
     paths:
       - "${PACKAGE}-common0_*_$ARCH.deb"

@@ -64,6 +64,12 @@ sudo vi /mnt/gitlab-runner/config.toml +/privileged
 privileged = true
 cap_add = ["SYS_CHROOT"]
 ```
+```sh
+sudo vi /mnt/gitlab-runner/config.toml +/concurrent
+```
+```yml
+concurrent = 2
+```
 
 # Optionnel
 
