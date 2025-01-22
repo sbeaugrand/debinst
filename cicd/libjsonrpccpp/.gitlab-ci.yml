@@ -43,6 +43,8 @@ build:
   parallel:
     matrix:
       - ARCH: [arm64, armhf]
+  needs:
+    - prebuild
   artifacts:
     paths:
       - "${PACKAGE}-common0_*_$ARCH.deb"

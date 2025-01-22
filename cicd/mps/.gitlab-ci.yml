@@ -6,8 +6,8 @@
 # ---------------------------------------------------------------------------- #
 variables:
   PACKAGE: mps
+  RPCLIBS: http://gitlab.local.fr/api/v4/projects/group%2Flibjsonrpccpp
   DIST: stable
-  RPCLIB: http://gitlab.local.fr/api/v4/projects/group%2Flibjsonrpccpp
 prebuild:
   stage: build
   script:
@@ -20,7 +20,7 @@ build:
     - >
       test -z "$PRIVATE_TOKEN" ||
       curl -L -o artifacts.zip -H "PRIVATE-TOKEN: $PRIVATE_TOKEN"
-      ${RPCLIB}/jobs/artifacts/main/download?job=build%3A%20%5B${ARCH}%5D
+      ${RPCLIBS}/jobs/artifacts/main/download?job=build%3A%20%5B${ARCH}%5D
     - test -z "$PRIVATE_TOKEN" || unzip -o artifacts.zip -d /sbuild
     - ls -l /sbuild
     - >
@@ -33,6 +33,8 @@ build:
   parallel:
     matrix:
       - ARCH: [arm64, armhf]
+  needs:
+    - prebuild
   artifacts:
     paths:
       - "${PACKAGE}_*_$ARCH.deb"

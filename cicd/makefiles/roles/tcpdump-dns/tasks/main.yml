@@ -18,6 +18,13 @@
   failed_when: no
   become: yes
 
+- name: tcpdump-pr-dns.py
+  copy:
+    src: tcpdump-pr-dns.py
+    dest: /sbin/
+  failed_when: no
+  become: yes
+
 - name: tcpdump-dns.service
   blockinfile:
     path: /etc/systemd/system/tcpdump-dns.service
