@@ -11,13 +11,6 @@
     mode: 0755
   become: yes
 
-- name: tcpdump-pr-dns.sh
-  copy:
-    src: tcpdump-pr-dns.sh
-    dest: /sbin/
-  failed_when: no
-  become: yes
-
 - name: tcpdump-pr-dns.py
   copy:
     src: tcpdump-pr-dns.py

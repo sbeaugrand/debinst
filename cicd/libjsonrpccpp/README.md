@@ -69,5 +69,5 @@ rsync -a -i --delete --checksum $user@$host:/lib ./
 cd ../hosts/debian12
 rsync -a -i --delete --checksum /data/aarch64-linux-gnu-12 .vagrant/  # or :
 rsync -a -i --delete --checksum /data/arm-linux-gnueabihf-12 .vagrant/
-vagrant provision
+vagrant provision  # create symlink in /etc/qemu-binfmt
 ```
