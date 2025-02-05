@@ -15,7 +15,6 @@ install-op-/install-op-kiplot.sh
 install-op-/install-op-kitris.sh
 install-op-/install-op-mp3gain.sh
 install-op-/install-op-m4acut.sh
-install-op-/install-op-mraa-xc.sh
 install-op-/install-op-rdm-src.sh
 install-op-/install-op-cppreference.sh
 projects/avr/avrusb.sh

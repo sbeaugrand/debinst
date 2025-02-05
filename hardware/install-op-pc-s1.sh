@@ -13,7 +13,6 @@ install-op-/install-op-fstab.sh
 install-op-/install-op-id3ed.sh
 install-op-/install-op-kiplot.sh
 install-op-/install-op-mp3gain.sh
-install-op-/install-op-mraa-xc.sh
 install-op-/install-op-avidemux.sh
 install-op-/install-op-camotics.sh
 install-pr-/install-pr-alias.sh

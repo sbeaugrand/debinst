@@ -8,7 +8,6 @@
 # from makefiles/roles/packages-localhost
 aptitude
 cppcheck
-curl
 elpa-cmake-mode
 elpa-dockerfile-mode
 elpa-dpkg-dev-el
@@ -20,7 +19,6 @@ help2man
 keychain
 pv
 rfkill
-rsync
 screen
 sshfs
 sshpass  # ansible_password
@@ -28,28 +26,25 @@ uncrustify
 xterm
 #
 # from makefiles/roles/packages-dev
-build-essential
+build-essential  # patch dpkg (live-build)
 chrony
 chrpath
 cmake
-dh-make
+dh-make  # automake libtool
 dpkg-cross
 expect
 fakeroot
-gawk
 git
 gdb
 g++-aarch64-linux-gnu
-g++-arm-linux-gnueabihf
-pkg-config
-python3-pip
+g++-arm-linux-gnueabihf  # libc6-dev-armhf-cross
+python3-pip  # python3-setuptools (kiplot)
 systemd-coredump  # coredumpctl debug
 valgrind
 vim
 #
 cryptsetup
 xvkbd
-libglib2.0-dev
 xorg-dev
 elpa-php-mode
 aspell-fr
@@ -58,7 +53,6 @@ indent
 astyle
 yapf3
 mupdf
-poppler-utils
 evince
 gimp
 imagemagick
@@ -67,57 +61,40 @@ fonts-liberation
 icedax
 wodim
 aespipe
-automake
 yasm
-libtool
-libc6-dev-armhf-cross
 device-tree-compiler
 u-boot-tools
-libssl-dev  # armbian
-patch
-libmpg123-dev
 normalize-audio
 gocr
 #libnetpbm10-dev  # transcode
 #libpng-dev  # subtitleripper
 libx264-dev  # ffmpeg
-libvorbis-dev  # ffmpeg
-libsdl2-dev  # ffplay
 libsdl2-image-dev  # kivy
-libsdl2-mixer-dev  # kivy
+libsdl2-mixer-dev  # libmpg123-dev libreadline-dev libvorbis-dev (ffmpeg) libsdl2-dev (libasound2-dev ffplay) kivy
 libsdl2-ttf-dev  # kivy
-libasound2-dev
-vlc
+vlc  # libmad0
 simplescreenrecorder
-mftrace
-fontforge
-avr-libc
+mftrace  # fontforge
 binutils-avr
-gcc-avr
 avrdude
 #simulavr
 gdb-avr
 arduino-builder  # marlin
-arduino-core-avr  # marlin
+arduino-core-avr  # gcc-avr avr-libc marlin
 sdcc
 kicad
-kicad-symbols
-kicad-libraries
+kicad-libraries  # kicad-symbols
 ngspice
-libcairo2-dev  # eeplot
 libgit2-dev  # eeplot
-libgtk-3-dev  # eeplot
-fig2dev  # eeplot
-python3-setuptools  # kiplot
+libgtk-3-dev  # pkg-config libglib2.0-dev libcairo2-dev (eeplot) gir1.2-gtk-3.0 (pyBar) libjpeg-dev (canon ts5000) eeplot
+fig2dev  # gawk eeplot
 python3-pytest-runner  # kiplot
-python3-yaml  # kiplot
 usbutils
 libusb-dev
 libusb-1.0-0-dev
 libfftw3-dev
 gnuplot
-octave
-octave-signal
+octave-signal  # octave
 alsa-utils
 pulseaudio
 pavucontrol
@@ -125,7 +102,6 @@ pavucontrol
 #xmms2-plugin-musepack
 #xmms2-plugin-ices
 #xmms2-plugin-pulse
-libmad0
 #xmms2-plugin-mad
 #xmms2-plugin-faad
 #xmms2-dev
@@ -137,26 +113,22 @@ sqlite3
 sqlitebrowser
 mpg123
 id3v2
-libreadline-dev
 net-tools  # ipforward.sh
 nftables  # ipforward.sh
 sox
 timidity
-tuxguitar-alsa:amd64
-fluid-soundfont-gm  # timidity
+tuxguitar-alsa:amd64  # fluid-soundfont-gm (timidity)
 lingot
 taptempo
 strace
 colordiff
 #wine32
 wine
-cups
 libusb-0.1-4:i386  # mustekA3
 libtiff6:i386  # mustekA3
 libjpeg62-turbo:i386  # mustekA3
 libieee1284-3:i386  # mustekA3
 sane-utils:i386  # mustekA3
-libjpeg-dev  # canon ts5000
 libsane-dev  # canon ts5000
 thunar
 gtkam
@@ -167,8 +139,7 @@ gvfs-fuse  # thunar + gphoto
 mutt
 fetchmail
 procmail
-w3m
-w3m-el
+w3m-el  # w3m
 xsel  # w3m: 8 ESC M
 qiv
 xli
@@ -181,11 +152,10 @@ gnome-screenshot
 mtpaint
 texlive-latex-extra
 texlive-lang-french
-texlive-fonts-recommended
 texlive-font-utils  # repstopdf
 texlive-pstricks
 texlive-extra-utils  # pdfjam
-texlive-science  # siunitx
+texlive-science  # siunitx texlive-fonts-recommended
 texlive-music
 texlive-metapost  # mfplain.mp
 gv
@@ -200,28 +170,22 @@ morse
 wavbreaker
 debconf-utils
 librsvg2-bin  # pyBar
-gir1.2-gtk-3.0  # pyBar
 python3-keyring  # pigmail
 gir1.2-lfb-0.0  # pigmail
 feedbackd  # pigmail
 python3-svgwrite  # pigmail
 xdotool  # pigmail
 python3-venv
-python3-tk
-python3-scipy
-python3-serial  # cnc
-python3-lxml  # cnc (inkscape gcode text)
-printrun  # cnc
-libnode-dev  # camotics
+python3-scipy  # libboost-dev
+printrun  # python3-tk python3-lxml python3-serial cnc (inkscape gcode text)
+libnode-dev  # libssl-dev (armbian) camotics
 libqt5opengl5  # camotics
 prusa-slicer
 pstoedit
-libboost-dev
 anacron
 lame
 libmp3lame-dev  # ffmpeg
-libdvdread-dev
-libdvdnav-dev
+libdvdnav-dev  # libdvdread-dev
 #libfaac-dev
 libaom-dev  # ffmpeg
 lsdvd
@@ -229,20 +193,18 @@ subversion
 libncurses5-dev
 flex
 bison
-ansible
+ansible  # python3-yaml (kiplot)
 xorriso  # simple-cdd
 isolinux
 nmap
 lm-sensors
 hdparm
-parted
-simple-cdd
+simple-cdd  # curl rsync
 mtools  # simple-cdd
 dosfstools  # simple-cdd
-ntfs-3g
 exfat-fuse
-testdisk
-gnome-disk-utility
+testdisk  # ntfs-3g
+gnome-disk-utility  # parted
 apache2
 libapache2-mod-php
 php-gd
@@ -270,13 +232,10 @@ wpasupplicant  # wifi
 polkitd-pkla  # hotspot permissions
 tcpdump
 equivs
-mplayer
-mencoder
+mencoder  # mplayer
 ffmpeg
 openscad
 cpulimit
-firmware-amd-graphics
-firmware-misc-nonfree  # b1
 firmware-brcm80211  # a1
 firmware-realtek  # a1
 firmware-iwlwifi  # a1
@@ -287,7 +246,7 @@ python3-icu  # gramps
 pdfposter
 qpdf
 mupdf-tools  # mutool
-hplip
+hplip  # cups poppler-utils
 pandoc
 bluez
 bluez-tools
@@ -295,12 +254,11 @@ libbluetooth-dev  # pybluez
 live-boot  # live-build
 live-config  # live-build
 live-config-systemd  # live-build
-firmware-linux  # live-build
+firmware-linux  # live-build firmware-misc-nonfree (b1) firmware-amd-graphics
 squashfs-tools  # live-build
 #shim-signed  # live-build
 grub-efi-amd64-signed  # live-build
 grub-efi-ia32-bin  # live-build
-dpkg  # live-build
 zsync  # live-build
 live-tools  # live-build
 user-setup  # live-build

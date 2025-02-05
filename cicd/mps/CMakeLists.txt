@@ -66,22 +66,22 @@ endif()
 
 add_custom_command(
     OUTPUT mpserver.1
-    COMMAND help2man -N -o mpserver.1 -n 'music player server' ./mpserver
+    COMMAND help2man -N -o mpserver.1 -n 'music player server' ./mpserver || cp ../mpserver.1 .
     DEPENDS mpserver
 )
 add_custom_command(
     OUTPUT mpclient.1
-    COMMAND help2man -N -o mpclient.1 -n 'music player client' ./mpclient
+    COMMAND help2man -N -o mpclient.1 -n 'music player client' ./mpclient || cp ../mpclient.1 .
     DEPENDS mpclient
 )
 add_custom_command(
     OUTPUT mpssaver.1
-    COMMAND help2man -N -o mpssaver.1 -n 'music player screensaver' ./mpssaver
+    COMMAND help2man -N -o mpssaver.1 -n 'music player screensaver' ./mpssaver || cp ../mpssaver.1 .
     DEPENDS mpssaver
 )
 add_custom_command(
     OUTPUT oledmesg.1
-    COMMAND help2man -N -o oledmesg.1 -n 'display a message in oled module' ./oledmesg
+    COMMAND help2man -N -o oledmesg.1 -n 'display a message in oled module' ./oledmesg || cp ../oledmesg.1 .
     DEPENDS oledmesg
 )
 

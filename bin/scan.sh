@@ -97,12 +97,12 @@ fi
 resolution=`echo $ret | awk '{ print $1 }'`
 resize=`echo $ret | awk '{ print $2 }'`
 density=`echo $ret | awk '{ print $3 }'`
-if (($resolution * $resize / 100 != $density)); then
+if ((resolution * resize / 100 != density)); then
     echo "erreur: resolution * resize / 100 != density"
     exit 1
 fi
 ascan="$ascan --resolution $resolution"
-if (($resize < 100)); then
+if ((resize < 100)); then
     aconv="$aconv -resize $resize"
 fi
 aconv="$aconv -density $density"

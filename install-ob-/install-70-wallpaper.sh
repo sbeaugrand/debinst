@@ -14,22 +14,22 @@ if [ -z "$height" ]; then
     height=`xrdb -symbols | grep DHEIGHT | cut -d '=' -f 2`
 fi
 
-if ((3440 * $height == 1440 * $width)); then
+if ((3440 * height == 1440 * width)); then
     w=3440
     h=1440
-elif ((4096 * $height == 2160 * $width)); then
+elif ((4096 * height == 2160 * width)); then
     w=4096
     h=2160
-elif ((3840 * $height == 2160 * $width)); then
+elif ((3840 * height == 2160 * width)); then
     w=3840
     h=2160
-elif ((2560 * $height == 1600 * $width)); then
+elif ((2560 * height == 1600 * width)); then
     w=2560
     h=1600
-elif ((2048 * $height == 1536 * $width)); then
+elif ((2048 * height == 1536 * width)); then
     w=2048
     h=1536
-elif ((2560 * $height == 2048 * $width)); then
+elif ((2560 * height == 2048 * width)); then
     w=2560
     h=2048
 else

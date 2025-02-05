@@ -42,9 +42,9 @@ quit()
         sudo nft delete rule filter FORWARD handle $i
     done
 
-    if [ -n "$dnsdump" ]; then
+    if ((dnsdump)); then
         sudo systemctl stop tcpdump-dns
-    elif [ -n "$tcpdump" ]; then
+    elif ((tcpdump)); then
         kill -15 $tcpdump
     fi
 
@@ -150,7 +150,6 @@ else
       sudo tcpdump -i $wlp -w $file -U "dst $ipdns and port 53" 2>/dev/null &
       tcpdump=$?
     fi
-    dnsdump=0
 fi
 
 file=${0%.*}-pr-.sh
@@ -169,9 +168,9 @@ trap "echo; quit 0" SIGINT
 echo
 echo "logs:"
 echo "cat /var/log/dnscrypt-proxy/query.log"
-if (($dnsdump == 1)); then
+if ((dnsdump)); then
     echo "sudo journalctl -u tcpdump-dns -S today"
-elif [ -n "$tcpdump" ]; then
+elif ((tcpdump)); then
     echo "tcpdump -r /var/log/hotspot.pcap"
 fi
 echo "http://127.0.2.2/log.php"

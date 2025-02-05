@@ -88,7 +88,8 @@ package:
     - rm -f debian/$PROJECT.install
     - dh_make --native --single --yes || true
     - rm -f debian/README*
-    - test ! -d ../../debian-nr || cp -Lr ../../debian-nr/* debian/
+    - test ! -d ../../debian || cp -Lr ../../debian/* debian/
+    - test ! -d ../../debian-$BHOST || cp -Lr ../../debian-$BHOST/* debian/
     - >
       find .. -maxdepth 1 -type f -executable
       -exec echo "{} /usr/bin/" >>debian/$PROJECT.install \;
