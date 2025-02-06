@@ -128,7 +128,7 @@ rpackage:
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
     - $RSYNC -L ../makefiles $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
-    - $SSH "cd $USERPATH/$PROPATH && make package"
+    - $SSH "cd $USERPATH/$PROPATH && make package BHOST=$BHOST"
 rinstall:
   stage: rinstall
   script:
@@ -239,7 +239,7 @@ rxpackage:
     - $RSYNC -L ../makefiles $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
     - $SSH "cd $USERPATH/$PROPATH &&
-      make xpackage XC=$XC XCVER=$XCVER XCDIR=$XCDIR"
+      make xpackage XC=$XC XCVER=$XCVER XCDIR=$XCDIR BHOST=$BHOST"
 rxdeploy:
   stage: rxdeploy
   extends: rdeploy
