@@ -5,18 +5,24 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 ## \note vi ~/install/debinst/bin/hotspot-pr-.sh
-##       setup()
-##       {
-##           for ip in 10.66.0.39 10.66.0.16; do
-##               addFilter $ip m.youtube
-##               addFilter $ip www.youtube
-##               addFilter $ip www.tiktok
-##           done
-##       }
-##       loop()
-##       {
-##           addFilterAfter 30 10.66.0.39 game.brawlstarsgame.com "comment"
-##       }
+##
+##   setup()
+##   {
+##       for ip in 10.66.0.39 10.66.0.16; do
+##           addFilter $ip m.youtube
+##           addFilter $ip www.youtube
+##           addFilter $ip www.tiktok
+##       done
+##       if ! nft.sh list 2>/dev/null | grep -q "comment"; then
+##           nft.sh block 10.66.0.39 "comment"
+##       fi
+##   }
+##   loop()
+##   {
+##       if ! nft.sh list 2>/dev/null | grep -q "comment2"; then
+##           addFilterAfter 30 10.66.0.39 game.brawlstarsgame.com "comment2"
+##       fi
+##   }
 # ---------------------------------------------------------------------------- #
 ipdns=10.66.0.2
 
@@ -176,7 +182,7 @@ fi
 echo "http://127.0.2.2/log.php"
 echo "sudo journalctl -S-1d | grep ctpar"
 echo
-echo -n "Ctrl-c pour fermer "
+echo "Ctrl-c pour fermer "
 
 interval=10
 ((sleep = interval * 60))
@@ -201,5 +207,6 @@ while true; do
         mm=00
     fi
     id=`notify-send -p -r $id "wifi" "hotspot ouvert ${hh}h$mm"`
+    echo "${hh}h$mm"
     sudo true
 done
