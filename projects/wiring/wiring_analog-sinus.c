@@ -25,7 +25,7 @@ void
 analogSetFrequencies(int argc, char* argv[])
 {
     if (argc < 3) {
-        ERROR("Usage: %s <valeurs-par-seconde> <frequence> [frequence]...",
+        ERROR("Usage: %s <valeurs-par-seconde> <frequence>...",
               argv[0]);
         exit(EXIT_FAILURE);
     }

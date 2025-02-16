@@ -9,8 +9,7 @@ import sys
 from PIL import Image
 
 if len(sys.argv) <= 2:
-    print('Usage: {} <png> <foreground.png>'.format(sys.argv[0]),
-          file=sys.stderr)
+    print(f'Usage: {sys.argv[0]} <png> <foreground.png>', file=sys.stderr)
     exit(1)
 srcName = sys.argv[1]
 dstName = sys.argv[2]

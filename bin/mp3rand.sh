@@ -28,7 +28,8 @@ lastdate=$MP3DIR/.mp3date
 if [ "$1" = "-h" ]; then
     cat <<EOF
 
-Usage: ${0##*/} [options]
+Usage: `basename $0` [options]
+
 Options:
 -i [artiste]    informations sur les albmus de l'artiste ou sur le dernier album
 -r              generation de la liste

@@ -240,7 +240,7 @@ firmware-brcm80211  # a1
 firmware-realtek  # a1
 firmware-iwlwifi  # a1
 xserver-xorg-video-intel  # s2
-libcupsimage2  # live b1
+libcupsimage2  # epson et2860 + live b1
 gramps
 python3-icu  # gramps
 pdfposter

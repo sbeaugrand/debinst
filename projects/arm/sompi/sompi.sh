@@ -10,7 +10,7 @@
 # volet 0x123456 12346 close
 # ---------------------------------------------------------------------------- #
 if [ -z "$3" ]; then
-    echo "Usage: `basename $0` <addr> <code> <open|close|stop|register>"
+    echo "Usage: `basename $0` <addr> <code> (open | close | stop | register)"
     echo "Ex:    $0 0x123456 12346 open"
     exit 1
 fi

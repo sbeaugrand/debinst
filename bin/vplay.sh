@@ -22,8 +22,8 @@ while [ -n "$1" ]; do
 done
 
 if [ -z "$1" ]; then
-    echo "Usage: `basename $0` [options] <filename> [1|2]"
-    echo "       `basename $0` [options] <filename>..."
+    echo "Usage: `basename $0` [options] <file> [1 | 2]"
+    echo "       `basename $0` [options] <file>..."
     exit 1
 fi
 file="$1"

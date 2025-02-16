@@ -11,7 +11,7 @@ clear="\033[1A\033[K"
 # options
 # ---------------------------------------------------------------------------- #
 if [ "$1" = "-h" ]; then
-    echo "Usage:  `basename $0` [-u] [-n] [partition] [point de montage]"
+    echo "Usage:  `basename $0` [-u] [-n] [<partition>] [<point-de-montage>]"
     exit 0
 fi
 if [ "$1" = "-u" ]; then

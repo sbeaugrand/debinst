@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ -z "$1" ]; then
-    echo "Usage: `basename $0` [dry] <action> [arg]..."
+    echo "Usage: `basename $0` [dry] <command> [<argument>]..."
     echo "Ex:    nft.sh block 10.66.0.11"
     echo "       nft.sh block 10.66.0.11 \"a comment\""
     echo "       nft.sh block 10.66.0.11 \"a comment\" 12:12"

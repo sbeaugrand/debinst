@@ -6,8 +6,8 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ -z "$1" ]; then
-    echo "Usage: `basename $0` <pdf> [pages] [options]"
-    exit 0
+    echo "Usage: `basename $0` <pdf> [<pages>] [options]"
+    exit 1
 fi
 doc="$1"
 shift

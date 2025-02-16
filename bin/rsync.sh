@@ -14,7 +14,7 @@ quit()
 trap "echo; quit 0" SIGINT
 
 if [ -z "$2" ]; then
-    echo "Usage: `basename $0` <src> <dst> <options>"
+    echo "Usage: `basename $0` <src> <dst> [options]"
     quit 1
 fi
 src=${1%%/}
@@ -50,9 +50,9 @@ if [ "$ret" != p ]; then
 fi
 if [ "$ret" = p ] || [ "$ret" = a ]; then
     if which colordiff >/dev/null 2>&1; then
-        colordiff=colordiff
+        diff=colordiff
     else
-        colordiff=cat
+        diff=diff
     fi
     n=`cat $log | wc -l`
     for ((i = 1; i <= n; ++i)); do
@@ -73,9 +73,9 @@ if [ "$ret" = p ] || [ "$ret" = a ]; then
         f=`echo "$f" | cut -d ' ' -f 2- | awk -F ' -> ' '{ print $1 }'`
         if [ "$ret" = d ]; then
             if [ -d $src ]; then
-                diff "$dst/$f" "$src/$f" | $colordiff
+                $diff "$dst/$f" "$src/$f"
             else
-                diff $dst $src | $colordiff
+                $diff $dst $src
             fi
             echo -n "$f ? [Y/n] "
             read ret

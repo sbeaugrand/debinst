@@ -6,7 +6,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ -z "$2" ]; then
-    echo "Usage: `basename $0` <buildpackage-...> <tar|dist>"
+    echo "Usage: `basename $0` <buildpackage-...> (tar | dist)"
     exit 1
 fi
 buildpackage=$1

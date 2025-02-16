@@ -6,7 +6,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ -z "$1" ]; then
-    echo "Usage: `basename $0` <filename>[:line[:col]]"
+    echo "Usage: `basename $0` <file>[:<line>[:<col>]]"
     exit 1
 fi
 name=`echo $1 | cut -d ':' -f 1`

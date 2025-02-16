@@ -14,7 +14,7 @@ fi
 if [ -n "$1" ]; then
     ti=$1
 else
-    echo "Usage: `basename $0` [-lite] [directory]"
+    echo "Usage: `basename $0` [-lite] [<directory>]"
     exit 1
 fi
 if [ -f places.sqlite ]; then

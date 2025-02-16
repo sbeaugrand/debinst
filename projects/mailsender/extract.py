@@ -37,7 +37,7 @@ def read_file(filename):
 # ---------------------------------------------------------------------------- #
 def extract(dirname):
     if not os.path.isdir(dirname):
-        print('{} not a directory'.format(dirname))
+        print(f'{dirname} not a directory')
         sys.exit(1)
 
     dir = os.listdir(dirname)
@@ -49,9 +49,9 @@ def extract(dirname):
                     re.findall('([\w\.\-]+@[\w\.\-]+)',
                                f.read().replace('=\n', '')))
             except UnicodeDecodeError:
-                print('UnicodeDecodeError: {0}'.format(filename))
+                print(f'UnicodeDecodeError: {filename}')
             except Exception as e:
-                print('{0}: {1}'.format(type(e), filename))
+                print(f'{type(e)}: {filename}')
     new = [x.lower() for x in new]
 
     res = list()
@@ -93,7 +93,7 @@ def extract(dirname):
 # main
 # ---------------------------------------------------------------------------- #
 if len(sys.argv) != 2:
-    print('Usage: {0} <dir>'.format(sys.argv[0]))
+    print(f'Usage: {sys.argv[0]} <directory>')
     sys.exit(1)
 
 cur = read_file('mail-pr-.list')

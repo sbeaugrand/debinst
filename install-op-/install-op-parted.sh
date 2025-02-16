@@ -16,7 +16,7 @@
 # max = 120963071
 # ---------------------------------------------------------------------------- #
 if [ -z "$1" ] || [ ! -b "$1" ]; then
-    echo "Usage: `basename $0` <dev> [size]..."
+    echo "Usage: `basename $0` <dev> [<size>]..."
     exit 1
 fi
 dev=$1

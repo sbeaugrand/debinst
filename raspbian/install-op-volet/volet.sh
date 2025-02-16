@@ -10,7 +10,7 @@ if [ "$1" = "haut" ]; then
 elif [ "$1" = "bas" ]; then
     gpio=23
 else
-    echo "Usage: `basename $0` <haut|bas>"
+    echo "Usage: `basename $0` (haut | bas)"
     exit 1
 fi
 echo $gpio >/sys/class/gpio/export && \

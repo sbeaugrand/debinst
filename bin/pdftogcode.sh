@@ -11,7 +11,7 @@ if [ -d build ]; then
 fi
 
 if [ -z "$1" ]; then
-    echo "Usage: `basename $0` <local-pdf> [metafont-src=metafont-dst]..."
+    echo "Usage: `basename $0` <local-pdf> [<metafont-src>=<metafont-dst>]..."
     echo "Ex:    `basename $0` local.pdf frcr10=frcf10 frcr14=frcf14"
     exit 1
 fi

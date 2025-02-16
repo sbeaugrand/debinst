@@ -6,7 +6,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 if [ -z "$1" ]; then
-    echo "Usage: `basename $0` <name> [branch]"
+    echo "Usage: `basename $0` <name> [<branch>]"
     exit 1
 fi
 name=$1

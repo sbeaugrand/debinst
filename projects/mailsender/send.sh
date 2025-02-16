@@ -11,7 +11,7 @@ else
     duration=15
 fi
 if [ -z "$3" ]; then
-    echo "Usage: $0 <subject> <message> <list> [duration=$duration]"
+    echo "Usage: $0 <subject> <message> <list> [<duration=$duration>]"
     exit 1
 fi
 subject="$1"

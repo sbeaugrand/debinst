@@ -22,7 +22,9 @@ readOptions()
                 book=o ;;
             -h | -help | --help)
                 cat << EOF
-Usage: ${0##*/} [options] <tex-file>
+
+Usage: `basename $0` [options] <tex-file>
+
 Options:
   -b, --book    faire un livret avec le prefixe livret_
   -h, --help    cette aide

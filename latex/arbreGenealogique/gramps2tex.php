@@ -7,7 +7,7 @@
  ******************************************************************************/
 if ($argc != 2 || $argv[1] != 'tests') {
     if ($argc != 6) {
-        print "Usage: $argv[0] <export.csv> <1|2> <lmax>";
+        print "Usage: $argv[0] <export.csv> (1 | 2) <lmax>";
         print " <sibiling-distance> <level-distance>\n";
         exit(1);
     }

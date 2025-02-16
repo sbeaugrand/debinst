@@ -133,7 +133,7 @@ int
 main(int argc, char** argv)
 {
     if (argc != 2 && argc != 3) {
-        printf("Usage: %s <file1> [file2]\n", argv[0]);
+        printf("Usage: %s <file> [<file>]\n", argv[0]);
         return EXIT_FAILURE;
     }
 

@@ -8,7 +8,7 @@
 if [ -n "$1" ]; then
     file=$1
 else
-    echo "Usage: `basename $0` <filename.deb>"
+    echo "Usage: `basename $0` <file>"
     exit 1
 fi
 

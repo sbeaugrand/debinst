@@ -4,14 +4,14 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: tcpdump-dns.sh
+- name: /sbin/tcpdump-dns.sh
   copy:
     src: tcpdump-dns.sh
     dest: /sbin/
     mode: 0755
   become: yes
 
-- name: tcpdump-pr-dns.py
+- name: /sbin/tcpdump-pr-dns.py
   copy:
     src: tcpdump-pr-dns.py
     dest: /sbin/
