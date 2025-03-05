@@ -14,9 +14,22 @@
     - /mnt/gitlab-data
     - /mnt/gitlab-logs
     - /mnt/gitlab-runner
+    - /mnt/nginx
   become: yes
 
 - name: copy docker-compose.yml
   copy:
     src: docker-compose.yml
     dest: "{{ home }}/"
+
+- name: copy proxy.conf
+  copy:
+    src: proxy.conf
+    dest: /mnt/nginx
+  become: yes
+
+- name: copy proxy_params
+  copy:
+    src: proxy_params
+    dest: /mnt/nginx
+  become: yes

@@ -19,7 +19,7 @@ build:
     - dpkg-source -b .
     - >
       test -z "$PRIVATE_TOKEN" ||
-      curl -L -o artifacts.zip -H "PRIVATE-TOKEN: $PRIVATE_TOKEN"
+      curl -k -L -o artifacts.zip -H "PRIVATE-TOKEN: $PRIVATE_TOKEN"
       ${RPCLIBS}/jobs/artifacts/main/download?job=build%3A%20%5B${ARCH}%5D
     - test -z "$PRIVATE_TOKEN" || unzip -o artifacts.zip -d /sbuild
     - ls -l /sbuild

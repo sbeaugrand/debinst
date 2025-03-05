@@ -23,13 +23,11 @@ services:
     image: gitlab/gitlab-ce:17.4.2-ce.0
     restart: unless-stopped
     container_name: gitlab
-    hostname: gitlab.${DOMAIN}
+    hostname: gitlab.internal
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASSWORD}'
     ports:
-      - 0.0.0.0:80:80
-      - 0.0.0.0:443:443
       - 0.0.0.0:2222:22
     volumes:
       - /mnt/gitlab-config:/etc/gitlab
@@ -49,4 +47,20 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - registry
+      - gitlab
+  nginx:
+    # https://hub.docker.com/_/nginx
+    # source https://github.com/nginxinc/docker-nginx
+    image: nginx:1.27.4
+    restart: unless-stopped
+    container_name: nginx
+    hostname: nginx.${DOMAIN}
+    ports:
+      - 0.0.0.0:80:80
+      - 0.0.0.0:443:443
+    volumes:
+      - /mnt/nginx/proxy.conf:/etc/nginx/conf.d/proxy.conf
+      - /mnt/nginx/proxy_params:/etc/nginx/proxy_params
+      - /mnt/nginx/gitlab.local.fr.crt:/etc/ssl/certs/gitlab.local.fr.crt
+    links:
       - gitlab

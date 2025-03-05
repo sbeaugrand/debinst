@@ -8,6 +8,7 @@ vagrant provision
 sudo vi /etc/hosts +  # 192.168.121.171 gitlab.local.fr
 make ssh-copy-id
 make ssh
+sudo /sbin/make-ssl-cert /usr/share/ssl-cert/ssleay.cnf /mnt/nginx/gitlab.local.fr.crt  # gitlab DNS:gitlab.local.fr
 export DOMAIN=local.fr
 export GITLAB_ROOT_PASSWORD=minimum8characters
 docker-compose up -d
@@ -55,7 +56,7 @@ docker push localhost:5000/debian-dev:1.0.0
 http://gitlab.local.fr/group/mps/-/runners/new  # Run untagged jobs
 ```sh
 export DOMAIN=local.fr
-docker exec -it gitlab-runner gitlab-runner register --url http://gitlab.$DOMAIN --executor docker --docker-image "localhost:5000/debian-dev:1.0.0" --token ...
+docker exec -it gitlab-runner gitlab-runner register --url https://gitlab.$DOMAIN --clone-url https://gitlab.$DOMAIN --executor docker --docker-image "localhost:5000/debian-dev:1.0.0" --token ...
 ```
 ```sh
 sudo vi /mnt/gitlab-runner/config.toml +/privileged
