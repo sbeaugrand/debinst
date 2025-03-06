@@ -45,6 +45,7 @@ services:
     volumes:
       - /mnt/gitlab-runner:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/nginx/gitlab.${DOMAIN}.crt:/etc/ssl/certs/gitlab.${DOMAIN}.crt
     depends_on:
       - registry
       - gitlab
@@ -61,6 +62,6 @@ services:
     volumes:
       - /mnt/nginx/proxy.conf:/etc/nginx/conf.d/proxy.conf
       - /mnt/nginx/proxy_params:/etc/nginx/proxy_params
-      - /mnt/nginx/gitlab.local.fr.crt:/etc/ssl/certs/gitlab.local.fr.crt
+      - /mnt/nginx/gitlab.${DOMAIN}.crt:/etc/ssl/certs/gitlab.${DOMAIN}.crt
     links:
       - gitlab

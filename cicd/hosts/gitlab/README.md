@@ -8,9 +8,9 @@ vagrant provision
 sudo vi /etc/hosts +  # 192.168.121.171 gitlab.local.fr
 make ssh-copy-id
 make ssh
-sudo /sbin/make-ssl-cert /usr/share/ssl-cert/ssleay.cnf /mnt/nginx/gitlab.local.fr.crt  # gitlab DNS:gitlab.local.fr
 export DOMAIN=local.fr
 export GITLAB_ROOT_PASSWORD=minimum8characters
+sudo /sbin/make-ssl-cert /usr/share/ssl-cert/ssleay.cnf /mnt/nginx/gitlab.$DOMAIN.crt  # gitlab DNS:gitlab.$DOMAIN
 docker-compose up -d
 ```
 
