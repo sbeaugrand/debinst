@@ -17,4 +17,7 @@
     home: /home/{{ user }}
   roles:
     - docker
-    - gitlab
+    - role: gitlab
+      vars:
+        domain: "{{ lookup('env', 'DOMAIN') }}"
+        passwd: "{{ lookup('env', 'GITLAB_ROOT_PASSWORD') }}"

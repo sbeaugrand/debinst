@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------- #
+## \file docker-compose.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+services:
+  git-pull:
+    image: localhost:5000/git-pull:1.0.0
+    restart: unless-stopped
+    container_name: git-pull
+    hostname: git-pull.{{ domain }}
+    ports:
+      - 0.0.0.0:8000:8000
+    volumes:
+      - /mnt/repos:/mnt/repos
+      - /mnt/nginx/gitlab.{{ domain }}.crt:/etc/ssl/certs/gitlab.{{ domain }}.crt

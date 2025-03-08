@@ -4,6 +4,16 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
+- name: lookup env DOMAIN
+  fail:
+    msg: 'Example: export DOMAIN=local.fr'
+  when: domain == ''
+
+- name: lookup env GITLAB_ROOT_PASSWORD
+  fail:
+    msg: 'Example: export GITLAB_ROOT_PASSWORD=minimum8characters'
+  when: passwd == ''
+
 - name: mount points
   file:
     path: "{{ item }}"
@@ -18,18 +28,25 @@
   become: yes
 
 - name: copy docker-compose.yml
-  copy:
+  template:
     src: docker-compose.yml
     dest: "{{ home }}/"
 
-- name: copy proxy.conf
-  copy:
-    src: proxy.conf
-    dest: /mnt/nginx
+- name: reverse proxy
+  template:
+    src: "{{ item }}"
+    dest: /mnt/nginx/
+  with_items:
+    - proxy.conf
+    - proxy_params
   become: yes
 
-- name: copy proxy_params
-  copy:
-    src: proxy_params
-    dest: /mnt/nginx
-  become: yes
+- name: copy git-pull
+  template:
+    src: "git-pull/{{ item }}"
+    dest: "{{ home }}/git-pull/"
+  with_items:
+    - Dockerfile
+    - git-pull.py
+    - requirements.txt
+    - docker-compose.yml

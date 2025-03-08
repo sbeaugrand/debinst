@@ -11,7 +11,7 @@ services:
     image: registry:2
     restart: unless-stopped
     container_name: registry
-    hostname: registry.${DOMAIN}
+    hostname: registry.{{ domain }}
     ports:
       - 0.0.0.0:5000:5000
     volumes:
@@ -26,7 +26,7 @@ services:
     hostname: gitlab.internal
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASSWORD}'
+        gitlab_rails['initial_root_password'] = '{{ passwd }}'
     ports:
       - 0.0.0.0:2222:22
     volumes:
@@ -41,11 +41,11 @@ services:
     image: gitlab/gitlab-runner:ubuntu-v17.4.0
     restart: unless-stopped
     container_name: gitlab-runner
-    hostname: gitlab-runner.${DOMAIN}
+    hostname: gitlab-runner.{{ domain }}
     volumes:
       - /mnt/gitlab-runner:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/nginx/gitlab.${DOMAIN}.crt:/etc/ssl/certs/gitlab.${DOMAIN}.crt
+      - /mnt/nginx/gitlab.{{ domain }}.crt:/etc/ssl/certs/gitlab.{{ domain }}.crt
     depends_on:
       - registry
       - gitlab
@@ -55,13 +55,13 @@ services:
     image: nginx:1.27.4
     restart: unless-stopped
     container_name: nginx
-    hostname: nginx.${DOMAIN}
+    hostname: nginx.{{ domain }}
     ports:
       - 0.0.0.0:80:80
       - 0.0.0.0:443:443
     volumes:
       - /mnt/nginx/proxy.conf:/etc/nginx/conf.d/proxy.conf
       - /mnt/nginx/proxy_params:/etc/nginx/proxy_params
-      - /mnt/nginx/gitlab.${DOMAIN}.crt:/etc/ssl/certs/gitlab.${DOMAIN}.crt
+      - /mnt/nginx/gitlab.{{ domain }}.crt:/etc/ssl/certs/gitlab.{{ domain }}.crt
     links:
       - gitlab

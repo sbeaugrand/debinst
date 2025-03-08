@@ -21,7 +21,7 @@ async def post_pull(group: str, project: str, token: str) -> str:
     else:
         os.makedirs(f'/mnt/repos/{group}', exist_ok=True)
         return subprocess.check_output(
-            f'cd /mnt/repos/{group} && git clone https://:{token}@gitlab.local.fr/{group}/{project}.git',
+            f'cd /mnt/repos/{group} && git clone https://:{token}@gitlab.{{ domain }}/{group}/{project}.git',
             shell=True)
 
 

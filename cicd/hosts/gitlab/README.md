@@ -4,12 +4,13 @@ make add-ip
 make up
 sudo apt remove ansible
 pip install ansible  # https://github.com/void-linux/void-packages/issues/47483
+export DOMAIN=local.fr
+export GITLAB_ROOT_PASSWORD=minimum8characters
 vagrant provision
 sudo vi /etc/hosts +  # 192.168.121.171 gitlab.local.fr
 make ssh-copy-id
 make ssh
 export DOMAIN=local.fr
-export GITLAB_ROOT_PASSWORD=minimum8characters
 sudo /sbin/make-ssl-cert /usr/share/ssl-cert/ssleay.cnf /mnt/nginx/gitlab.$DOMAIN.crt  # gitlab DNS:gitlab.$DOMAIN
 docker-compose up -d
 ```
@@ -95,13 +96,12 @@ Name `ro`<br/>
 Scopes `read_api, read_repository`
 
 ```sh
-cp git-pull/* .vagrant/
 vagrant ssh
-cd /vagrant/.vagrant
+cd git-pull
+docker build -t localhost:5000/git-pull:1.0.0 .
+docker push localhost:5000/git-pull:1.0.0
 export DOMAIN=local.fr
-vi git-pull.py +/local  # DOMAIN
-docker build -t git-pull .
-docker run --name git-pull -h git-pull.$DOMAIN -v /mnt/repos:/mnt/repos -p 0.0.0.0:8000:8000 --restart=unless-stopped -d git-pull
+docker-compose up -d
 curl -d "" http://192.168.121.171:8000/group/mps?token=glpat-...
 ```
 http://gitlab.local.fr/group/mps/-/hooks<br/>
