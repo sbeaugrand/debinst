@@ -9,7 +9,7 @@
     cache_valid_time: 36000
     install_recommends: no
     name:
-      - docker.io
+      - docker-buildx
       - ssl-cert
   become: yes
 

@@ -30,7 +30,7 @@ git config --global user.name "sbeaugrand"
 git config --global user.email "sbeaugrand@toto.fr"
 git init --initial-branch=main
 export DOMAIN=local.fr
-git remote add gitlab [git@gitlab.$DOMAIN:2222]:group/mps.git
+git remote add origin [git@gitlab.$DOMAIN:2222]:group/mps.git
 git add .
 git commit -m "Initial commit"
 git push --set-upstream gitlab main
@@ -41,14 +41,14 @@ git push --set-upstream gitlab main
 # Construction de l'image docker
 ```sh
 export DOMAIN=local.fr
-rsync -a -i --checksum libjsonrpc* vagrant@gitlab.$DOMAIN:/home/vagrant/
-rsync -a -i --checksum libmraa*    vagrant@gitlab.$DOMAIN:/home/vagrant/
-rsync -a -i --checksum libupm*     vagrant@gitlab.$DOMAIN:/home/vagrant/
-rsync -a -i --checksum stable-arm* vagrant@gitlab.$DOMAIN:/home/vagrant/
-rsync -a -i --checksum Dockerfile  vagrant@gitlab.$DOMAIN:/home/vagrant/
-rsync -a -i --checksum uncrustify* vagrant@gitlab.$DOMAIN:/home/vagrant/
+rsync -a -i --checksum Dockerfile  vagrant@gitlab.$DOMAIN:
+rsync -a -i --checksum stable-arm* vagrant@gitlab.$DOMAIN:
+find ../debian12/.vagrant -maxdepth 1 -name "libjson*" -exec rsync -a -i --checksum {} vagrant@gitlab.$DOMAIN: \;
+find ../debian12/.vagrant -maxdepth 1 -name "libmraa*" -exec rsync -a -i --checksum {} vagrant@gitlab.$DOMAIN: \;
+find ../debian12/.vagrant -maxdepth 1 -name "libupm-*" -exec rsync -a -i --checksum {} vagrant@gitlab.$DOMAIN: \;
+find ../debian12/.vagrant -maxdepth 1 -name "stable-*" -exec rsync -a -i --checksum {} vagrant@gitlab.$DOMAIN: \;
+find ../../makefiles/roles/uncrustify/tasks -name "uncrustify*" -exec rsync -a -i --checksum {} vagrant@gitlab.$DOMAIN: \;
 vagrant ssh
-sudo apt install docker-buildx
 docker build -t localhost:5000/debian-dev:1.0.0 .
 docker push localhost:5000/debian-dev:1.0.0
 ```
