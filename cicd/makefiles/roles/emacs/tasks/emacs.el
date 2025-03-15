@@ -230,7 +230,7 @@
 
 ; Sauvegarde des positions dans les fichiers utilises
 (require 'saveplace)
-(setq-default save-place t)
+(save-place-mode t)
 
 ; Sauvegarde des derniers noms de fichiers utilises
 (defun save-prev-buffer-file-name ()

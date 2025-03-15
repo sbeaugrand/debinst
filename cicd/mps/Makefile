@@ -73,12 +73,20 @@ dir:
 # ---------------------------------------------------------------------------- #
 # doc
 # ---------------------------------------------------------------------------- #
+# Example :
+#   make mermaid
+#   make resize
+#   make resize
+#   make resize
+#   make README-0-3.svg
+# ---------------------------------------------------------------------------- #
 .PHONY: mermaid
 mermaid: README-0.md
 README-0.md: README.md
 	${call mermaid,$<,$@}
 
 .PHONY: resize
-resize: README-0-1.svg README-0-2.svg
-README-0-1.svg README-0-2.svg: FORCE
+resize: README-0-1.svg README-0-2.svg README-0-3.svg
+README-0-1.svg README-0-2.svg README-0-3.svg: FORCE
+	@echo resize $@
 	$(call resize,$@)

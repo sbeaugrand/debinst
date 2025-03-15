@@ -53,6 +53,29 @@ stateDiagram
     Hour --> Normal: ok
 ```
 
+# [Main sequence diagram](README-0.md)
+```mermaid
+sequenceDiagram
+    Participant U as User
+    Participant C as Client
+    Participant S as Server
+    loop
+        U->>C: event "setup"
+        activate C
+        C->>+S: call "rand"
+        S-->>-C: album
+        deactivate C
+    end
+    Note over U,S: Less than 20 seconds
+    U->>C: event "ok"
+    activate C
+    C->>+S: call "ok"
+    S-->>-C: album
+    C->>+S: call "checksum"
+    S-->>-C: album
+    deactivate C
+```
+
 # Create chroot
 
 ```console
