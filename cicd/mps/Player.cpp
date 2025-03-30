@@ -188,6 +188,12 @@ Player::titleList()
         tag = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
         if (tag != NULL) {
             s["title"] = tag;
+        } else if (const char* tag2 = mpd_song_get_tag(song, MPD_TAG_NAME, 0);
+                   tag2 != NULL) {
+            std::string name = tag2;
+            auto pos1 = name.find(" - ");
+            s["artist"] = name.substr(0, pos1);
+            s["title"] = name.substr(pos1 + 3);
         }
         unsigned int duration = mpd_song_get_duration_ms(song);
         duration /= 1000;

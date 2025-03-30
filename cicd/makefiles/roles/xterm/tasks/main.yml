@@ -13,6 +13,9 @@
       xterm*font: 9x15
       xterm*foreground: white
       xterm*background: black
-      xterm*vt100*translations: #override <Key>F9: secure()
+      xterm*color1: chocolate1
+      xterm*color9: chocolate1
+      xterm*color12: lightskyblue
+      xterm*translations: #override <Key>F9: secure()
   notify:
     - xrdb Xresources
