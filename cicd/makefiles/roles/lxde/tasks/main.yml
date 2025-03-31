@@ -22,6 +22,10 @@
         <keybind key="XF86AudioMicMute">
           <action name="Execute"><command>amixer set Capture toggle</command></action>
         </keybind>
+      <!-- Calculator -->
+        <keybind key="XF86Calculator">
+          <action name="Execute"><command>qalculate-gtk</command></action>
+        </keybind>
       <!-- Terminal -->
         <keybind key="C-A-t">
           <action name="Execute"><command>xterm -T mxterm</command></action>

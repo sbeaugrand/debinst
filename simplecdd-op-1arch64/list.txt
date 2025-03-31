@@ -95,6 +95,7 @@ libusb-1.0-0-dev
 libfftw3-dev
 gnuplot
 octave-signal  # octave
+qalculate-gtk
 alsa-utils
 pulseaudio
 pavucontrol

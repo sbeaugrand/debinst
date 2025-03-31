@@ -1,8 +1,14 @@
 #!/bin/bash
+# ---------------------------------------------------------------------------- #
+## \file pause.sh
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
 date=${1:-`date +%H:%M`}
 hmax=${2:-17}
 mmax=${3:-45}
-cmd="DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY notify-send"
+cmd="DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY notify-send -t 0"
 tmp=/tmp/crontab
 
 crontab -l 2>/dev/null | grep -v '#pause' >$tmp
