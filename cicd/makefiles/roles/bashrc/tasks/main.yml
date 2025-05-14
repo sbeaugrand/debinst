@@ -36,8 +36,13 @@
       alias rgrep='grep --color=auto -rI --exclude-dir=build --exclude-dir=build-* --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.vagrant --exclude=*.svg'
       alias rfind='find . -type d \( -name build -o -name build-* -o -name .git -name .svn -o -name .vagrant \) -prune -false -o -name'
 
-      bind '"\e[1;5A": history-search-backward'
-      bind '"\e[1;5B": history-search-forward'
+      if [ $TERM = linux ]; then
+          bind '"\e[5~": history-search-backward'
+          bind '"\e[6~": history-search-forward'
+      else
+          bind '"\e[1;5A": history-search-backward'
+          bind '"\e[1;5B": history-search-forward'
+      fi
       bind 'set bell-style none'
       test -n "$DISPLAY" && xset -b
       test -n "$DISPLAY" && setxkbmap -option "nbsp:none"

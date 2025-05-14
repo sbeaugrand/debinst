@@ -6,7 +6,10 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 dns1=127.0.2.1
-dns2=80.67.169.12,80.67.169.40  # https://www.fdn.fr/actions/dns/
+#dns2=212.27.40.240,212.27.40.241  # Free
+# https://sebsauvage.net/wiki/doku.php?id=dns-alternatifs
+#dns2=80.67.169.12,80.67.169.40  # https://www.fdn.fr/actions/dns/
+dns2=185.222.222.222,45.11.45.11  # https://www.bortzmeyer.org/dns-sb.html
 
 connection=`nmcli -g name,type con show | grep -m 1 ethernet | cut -d ':' -f 1`
 if [ -z "$connection" ]; then

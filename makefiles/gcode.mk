@@ -38,9 +38,11 @@ build/grbl-$(PROJECT).ngc: $(PROJECT).ngc $(GCODE2GRBL)
 
 .PHONY: stick
 stick: stick.ngc
-stick.ngc: build/$(PROJECT).pdf
+stick.ngc: build/$(PROJECT).pdf.ps
 	@pstoedit -q -pta -f gcode $< $@
 	@sed -i 's/G01 Z/G00 Z/' $@
+build/$(PROJECT).pdf.ps: build/$(PROJECT).pdf
+	@pdftops $< $@
 build/$(PROJECT).pdf: $(PROJECT).tex
 	@mkdir -p build && cd build && TEXINPUTS="../font-g:" $(PDFLATEX)
 

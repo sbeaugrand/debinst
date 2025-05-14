@@ -30,7 +30,8 @@ if [ $src -nt $mpsrc ] || [ $0 -nt $mpsrc ]; then
         dstfont=`echo $f | cut -d '=' -f 2`
         awkfonts="$awkfonts font[\"$srcfont.mp;\"] = \"$dstfont.mp;\";"
     done
-    pstoedit -q -pta -nomaptoisolatin1 -f mpost $src $mpsrc.ori
+    pdftops $src $src.ps
+    pstoedit -q -pta -nomaptoisolatin1 -f mpost $src.ps $mpsrc.ori
     sed -e 's/\r/" \& char(13) \& "/'\
      -e "s/^defaultfont[^+]*+\([^\"]*\)\";/input \1.mp;/"\
      -e 's/fontsize defaultfont/font_size/' $mpsrc.ori |\
@@ -69,7 +70,8 @@ mkfont()
     for f in $list; do
         if [ $f -nt $f.mp ]; then
             echo $f
-            pstoedit -q -f mpost $f $f.mp
+            pdftops $f $f.ps
+            pstoedit -q -f mpost $f.ps $f.mp
             modified=y
         fi
     done
@@ -120,6 +122,7 @@ fi
 
 # dst
 if [ $pdfsrc -nt $dst ]; then
-    pstoedit -q -f gcode $pdfsrc $dst
+    pdftops $pdfsrc $pdfsrc.ps
+    pstoedit -q -f gcode $pdfsrc.ps $dst
     sed -i 's/G01 Z/G00 Z/' $dst
 fi
