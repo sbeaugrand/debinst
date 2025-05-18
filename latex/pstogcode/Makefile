@@ -18,7 +18,7 @@ include $(PROROOT)/makefiles/gcode.mk
 ZNGCS = $(addprefix z-,$(wildcard [^z]*.ngc))
 .PHONY: zoom
 zoom: $(ZNGCS)
-z-%.ngc: %.ngc
+z-%.ngc: %.ngc $(MAKEFILE_LIST)
 	@echo $@
 	@sed\
 	 -e 's/^#1003 = 0.0139/#1003 = 0.05/'\

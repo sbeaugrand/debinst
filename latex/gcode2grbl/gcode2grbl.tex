@@ -5,17 +5,26 @@
 %% \copyright CeCILL 2.1 Free Software license
 % ---------------------------------------------------------------------------- %
 \documentclass[a4paper]{article}
-\usepackage{vmargin}
-\setpapersize{custom}{297mm}{210mm}
-\setmarginsrb{10mm}{10mm}{10mm}{10mm}{0mm}{0mm}{0mm}{0mm}
 \usepackage[T1]{fontenc}
+\usepackage{tikz}
 \pagestyle{empty}
-\parindent0pt
-\parskip0pt
 
 \begin{document}
-\fontencoding{T1}\fontfamily{frc}\selectfont
-~
-\Huge
-\fbox{\begin{minipage}{4.4cm}La vérité\\rend libre.\end{minipage}}
+\newlength{\marge}
+\setlength{\marge}{5mm}
+\newlength{\longeur}
+\setlength{\longeur}{76mm}
+\newlength{\hauteur}
+\setlength{\hauteur}{\dimexpr \numexpr \longeur / 2 \relax sp}
+\newlength{\centreX}
+\setlength{\centreX}{\dimexpr \numexpr \longeur / 2 \relax sp}
+\newlength{\centreY}
+\setlength{\centreY}{\dimexpr \numexpr \hauteur / 2 \relax sp}
+\fontencoding{T1}\fontfamily{frc}\fontsize{36pt}{40pt}\selectfont
+\begin{tikzpicture}
+  \draw[blue, very thin] (\longeur,\hauteur-2mm) rectangle (0,0);
+  \draw (\centreX,\centreY-2mm) node {Sébastien};
+  \draw[blue, very thin] (\longeur-\marge,\hauteur-2mm-\marge) circle (1mm);
+  \draw[blue, very thin] (\marge,\hauteur-2mm-\marge) circle (1mm);
+\end{tikzpicture}
 \end{document}

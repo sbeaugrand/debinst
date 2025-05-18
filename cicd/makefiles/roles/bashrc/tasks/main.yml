@@ -37,6 +37,7 @@
       alias rfind='find . -type d \( -name build -o -name build-* -o -name .git -name .svn -o -name .vagrant \) -prune -false -o -name'
 
       if [ $TERM = linux ]; then
+          # bind -p | grep history-search; infocmp linux | grep kpp
           bind '"\e[5~": history-search-backward'
           bind '"\e[6~": history-search-forward'
       else

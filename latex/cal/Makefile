@@ -221,7 +221,7 @@ laser-grbl-sundialTool1.ngc: grbl-sundialTool1.ngc $(MAKEFILE_LIST)
 	 -e 's/G00 Z0.100/M5/'\
 	 -e 's/G00 Z-0.010/M3/'\
 	 $< |\
-	 sed '/(begin2)/,/G01 X0.001 Y0.001/d' |\
+	 sed '/(begin2)/,/G00 X0.001 Y0.001/d' |\
 	 sed '/(begin1)/,/G01 X0.001 Y0.001/d' |\
 	 cat >$@
 laser-grbl-sundialTool2.ngc: grbl-sundialTool2.ngc $(MAKEFILE_LIST)
@@ -231,7 +231,7 @@ laser-grbl-sundialTool2.ngc: grbl-sundialTool2.ngc $(MAKEFILE_LIST)
 	 -e 's/G00 Z0.100/M5/'\
 	 -e 's/G00 Z-0.010/M3/'\
 	 $< |\
-	 sed '/(begin2)/,/G01 X0.001 Y0.001/d' |\
+	 sed '/(begin2)/,/G00 X0.001 Y0.001/d' |\
 	 sed '/(begin1)/,/G01 X0.001 Y0.001/d' |\
 	 cat >$@
 
@@ -253,5 +253,6 @@ TARDEPEND +=\
  bin/pdftogcode.sh\
  bin/gcode2grbl.awk\
  bin/grblsimplify.sh\
+ bin/grblminmax.awk\
  makefiles/gcode.mk
 include $(PROROOT)/makefiles/tar.mk
