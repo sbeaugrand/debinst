@@ -11,9 +11,9 @@
 
 \begin{document}
 \newlength{\marge}
-\setlength{\marge}{5mm}
+\setlength{\marge}{6mm}
 \newlength{\longeur}
-\setlength{\longeur}{76mm}
+\setlength{\longeur}{74mm}
 \newlength{\hauteur}
 \setlength{\hauteur}{\dimexpr \numexpr \longeur / 2 \relax sp}
 \newlength{\centreX}
@@ -22,9 +22,9 @@
 \setlength{\centreY}{\dimexpr \numexpr \hauteur / 2 \relax sp}
 \fontencoding{T1}\fontfamily{frc}\fontsize{36pt}{40pt}\selectfont
 \begin{tikzpicture}
-  \draw[blue, very thin] (\longeur,\hauteur-2mm) rectangle (0,0);
-  \draw (\centreX,\centreY-2mm) node {Sébastien};
-  \draw[blue, very thin] (\longeur-\marge,\hauteur-2mm-\marge) circle (1mm);
-  \draw[blue, very thin] (\marge,\hauteur-2mm-\marge) circle (1mm);
+  \draw[blue, very thin] (\longeur,\hauteur) rectangle (0,0);
+  \draw (\centreX,\centreY) node {Sébastien};
+  %\draw[blue, very thin] (\longeur-\marge,\hauteur-\marge) circle (1mm);
+  %\draw[blue, very thin] (\marge,\hauteur-\marge) circle (1mm);
 \end{tikzpicture}
 \end{document}

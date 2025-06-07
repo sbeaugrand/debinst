@@ -39,5 +39,6 @@ if notGrep hdmi $file; then
 fi
 
 if notWhich chromium; then
-    sudoRoot apt-get -q -y install --no-install-recommends chromium webext-ublock-origin-chromium
+    sudoRoot apt-get -q -y install --no-install-recommends chromium  # webext-ublock-origin-chromium
+    logTodo "chromium https://chromewebstore.google.com/search/ublock-origin-lite"
 fi

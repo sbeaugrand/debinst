@@ -30,7 +30,7 @@
       - vim
   become: yes
 
-- name: Remove EXTERNALLY-MANAGED file
+- name: remove EXTERNALLY-MANAGED file
   file:
     path: /usr/lib/python{{ ansible_python.version.major }}.{{ ansible_python.version.minor }}/EXTERNALLY-MANAGED
     state: absent

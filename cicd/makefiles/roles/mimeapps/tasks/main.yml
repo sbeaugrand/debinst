@@ -3,7 +3,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-- name: mimeapps.list
+- name: "{{ home }}/.config/mimeapps.list"
   copy:
     src: mimeapps.list
     dest: "{{ home }}/.config/mimeapps.list"

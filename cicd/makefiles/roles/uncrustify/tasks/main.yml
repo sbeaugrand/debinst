@@ -4,13 +4,13 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: copy uncrustify.cfg
+- name: "{{ home }}/.uncrustify.cfg"
   copy:
     src: uncrustify.cfg
     dest: "{{ home }}/.uncrustify.cfg"
     force: no
 
-- name: copy uncrustify.sh
+- name: "{{ home }}/.local/bin/uncrustify.sh"
   copy:
     src: uncrustify.sh
     dest: "{{ home }}/.local/bin/"

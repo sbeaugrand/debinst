@@ -1,0 +1,46 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: "/root/.bashrc"
+  blockinfile:
+    path: "/root/.bashrc"
+    create: yes
+    block: |
+      PS1='\u:\w> '
+      PATH={{ home }}/.local/bin:/usr/local/bin:/usr/bin:/bin
+      if [ -d {{ home }}/install/debinst/bin ]; then
+          PATH=$PATH:{{ home }}/install/debinst/bin
+      fi
+      if [ -d {{ home }}/bin ]; then
+          PATH=$PATH:{{ home }}/bin
+      fi
+      export PATH=$PATH:.
+
+      alias l='ls'
+      alias lrt='ls -lrt'
+      alias ls='ls --color=always'
+      alias ll='ls -l'
+      alias cp='cp -i'
+      alias mv='mv -i'
+      alias rm='rm -i'
+      alias df='df -h'
+      alias du='du -h'
+
+      alias purge='rm -f *~'
+      alias rpurge='find . -name \*~ -exec rm {} \;'
+      alias grep='grep --color=auto'
+      alias rgrep='grep --color=auto -rI --exclude-dir=build --exclude-dir=build-* --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.vagrant --exclude=*.svg'
+      alias rfind='find . -type d \( -name build -o -name build-* -o -name .git -name .svn -o -name .vagrant \) -prune -false -o -name'
+
+      if [ $TERM = linux ]; then
+          # bind -p | grep history-search; infocmp linux | grep kpp
+          bind '"\e[5~": history-search-backward'
+          bind '"\e[6~": history-search-forward'
+      else
+          bind '"\e[1;5A": history-search-backward'
+          bind '"\e[1;5B": history-search-forward'
+      fi
+  become: yes

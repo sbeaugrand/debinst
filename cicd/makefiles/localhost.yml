@@ -13,6 +13,7 @@
     - aptsources
     # Common roles
     - bashrc
+    - bashrc-root
     - packages-dev
     - timezone
     - vim
