@@ -67,14 +67,16 @@ Configuration Wizard => Custom Printer => Name Default_Marlin2 => Firmware Marli
 
 ## Update Prusa_i3_Rework
 Print Settings => Save current Print Settings
+
 Filament Settings => Save current Filament Settings
+
 Printer Settings => Save current Printer Settings
 
 ## Save
 ```sh
-colordiff -y -W 160 --suppress-common-lines ~/.config/PrusaSlicer/filament/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/filament/Prusa_i3_Rework.ini
-colordiff -y -W 160 --suppress-common-lines ~/.config/PrusaSlicer/printer/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/printer/Prusa_i3_Rework.ini
-colordiff -y -W 160 --suppress-common-lines ~/.config/PrusaSlicer/print/Default_Marlin2.ini PrusaSlicer-Prusa_i3_Rework/print/Prusa_i3_Rework.ini
+colordiff -y -W 160 --suppress-common-lines ~/.config/PrusaSlicer/filament/Prusa_i3_Rework.ini PrusaSlicer-Prusa_i3_Rework/filament/Prusa_i3_Rework.ini
+colordiff -y -W 160 --suppress-common-lines ~/.config/PrusaSlicer/printer/Prusa_i3_Rework.ini PrusaSlicer-Prusa_i3_Rework/printer/Prusa_i3_Rework.ini
+colordiff -y -W 160 --suppress-common-lines ~/.config/PrusaSlicer/print/Prusa_i3_Rework.ini PrusaSlicer-Prusa_i3_Rework/print/Prusa_i3_Rework.ini
 cp -auv ~/.config/PrusaSlicer/filament/* PrusaSlicer-Prusa_i3_Rework/filament/
 cp -auv ~/.config/PrusaSlicer/printer/* PrusaSlicer-Prusa_i3_Rework/printer/
 cp -auv ~/.config/PrusaSlicer/print/* PrusaSlicer-Prusa_i3_Rework/print/
