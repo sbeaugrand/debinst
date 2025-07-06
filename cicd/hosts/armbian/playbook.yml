@@ -12,7 +12,7 @@
     home: /home/{{ user }}
   roles:
     - sudoers-pi
-    - bashrc-pi
+    - profile-pi
     - packages-pi
     - vim
     - screen-remote

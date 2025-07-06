@@ -4,9 +4,9 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: bashrc
+- name: "{{ home }}/.bash_login"
   blockinfile:
-    path: "{{ home }}/.bashrc"
+    path: "{{ home }}/.bash_login"
     create: yes
     block: |
       export PS1='\u@\h:\w> '
@@ -20,6 +20,9 @@
       alias df='df -h'
       alias du='du -h'
 
+      bind '"\e[1;5A": history-search-backward'
+      bind '"\e[1;5B": history-search-forward'
+
       alias rw='sudo mount -o rw,remount /'
       alias ro='sudo mount -o ro,remount /'
 
@@ -28,3 +31,8 @@
       export XMMS_PATH=unix:///run/xmms-ipc-ip
 
       alias volet='sudo /home/$USER/install/debinst/projects/arm/sompi/sompi.sh'
+
+- name: hostname
+  hostname:
+    name: pi
+  become: yes

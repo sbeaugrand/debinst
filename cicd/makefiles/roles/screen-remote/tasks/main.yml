@@ -4,12 +4,14 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: bashrc
+- name: "{{ home }}/.bash_login"
   lineinfile:
-    path: "{{ home }}/.bashrc"
+    path: "{{ home }}/.bash_login"
     line: 'test $TERM = screen && echo -e "\ek`hostname`\e\\"'
+    create: yes
 
-- name: bash_logout
+- name: "{{ home }}/.bash_logout"
   lineinfile:
     path: "{{ home }}/.bash_logout"
     line: 'test $TERM = screen && echo -e "\eklocalhost\e\\"'
+    create: yes
