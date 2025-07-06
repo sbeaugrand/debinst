@@ -20,6 +20,12 @@ if [ "$1" = "m4a" ]; then
         echo "error: boxdumper not found"
         exit 1
     fi
+elif [ "$1" = "mp4" ]; then
+    ext="mp4"
+    if ! which ffprobe >/dev/null 2>&1; then
+        echo "error: ffprobe not found"
+        exit 1
+    fi
 else
     ext="mp3"
     if ! which id3ed >/dev/null 2>&1; then
@@ -179,10 +185,13 @@ list()
         time=`mpg123 -t "$mp3" 2>&1 | tail -n 1`
         time=`echo $time | cut -d ']' -f 1 | cut -d '[' -f 2 |\
             awk -F ':' '{ print $1 * 60 + $2 }'`
-    else
+    elif [ $ext = "m4a" ]; then
         time=`boxdumper "$mp3" | grep -m 1 duration`
         time=`echo $time | cut -d '.' -f 1 | cut -d '(' -f 2 |\
             awk -F ':' '{ print $1 * 3600 + $2 * 60 + $3 }'`
+    else
+        time=`ffprobe "$mp3" 2>&1 | grep Duration |\
+            awk -F: '{ print $2 * 3600 + $3 * 60 + int($4) }'`
     fi
     if ((time == 0)); then
         echo "warn: time = 0"

@@ -123,6 +123,7 @@ lingot
 taptempo
 strace
 colordiff
+ccze
 #wine32
 wine
 libusb-0.1-4:i386  # mustekA3
