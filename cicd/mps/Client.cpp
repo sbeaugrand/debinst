@@ -188,7 +188,7 @@ Client::letters(int pos)
         mOutput.write(mArtist["artist"].asString(),
                       "    AE",
                       "FJ  KO  PT",
-                      "    UY");
+                      "    UZ");
         break;
     case 1:
         mOutput.write(mArtist["artist"].asString(),
@@ -372,6 +372,7 @@ Client::onEvent(const state::Artist& state, const event::Left&)
 State
 Client::onEvent(const state::Artist& state, const event::Right&)
 {
+    mShift = 0;
     if (mArtistPos == 0) {
         mArtistPos = 4;
     } else {

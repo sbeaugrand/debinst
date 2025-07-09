@@ -19,6 +19,9 @@
       vars:
         iface: wlp2s0
         ipdns: 10.66.0.2
+    - role: packages-sbuild
+      vars:
+        repo: /data
     #- docker
     #- packages-dev-examples
     #- rabbitmq

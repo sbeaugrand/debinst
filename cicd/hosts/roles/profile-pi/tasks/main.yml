@@ -9,6 +9,8 @@
     path: "{{ home }}/.bash_login"
     create: yes
     block: |
+      HISTCONTROL=ignoreboth
+
       export PS1='\u@\h:\w> '
       alias l='ls'
       alias lrt='ls -lrt'

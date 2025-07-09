@@ -15,4 +15,6 @@
     home: /home/{{ user }}
   roles:
     - packages-dev-libjsonrpccpp
-    - packages-sbuild
+    - role: packages-sbuild
+      vars:
+        repo: /vagrant/.vagrant

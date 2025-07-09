@@ -3,6 +3,11 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note CMAKE_OPT example for cross compile without sysroot :
+##       ifeq (xc,$(findstring $(MAKECMDGOALS),xc))
+##         XC = aarch64-linux-gnu
+##         CMAKE_OPT = -DCMAKE_CXX_COMPILER=$(XC)-g++
+##       endif
 # ---------------------------------------------------------------------------- #
 BUILD ?= Debug
 
@@ -16,7 +21,7 @@ xc: build-$(XC)/Makefile
 
 %/Makefile:
 	@mkdir -p `dirname $@` &&\
-	 cd `dirname $@` && cmake .. -DCMAKE_BUILD_TYPE=$(BUILD)
+	 cd `dirname $@` && cmake .. -DCMAKE_BUILD_TYPE=$(BUILD) $(CMAKE_OPT)
 
 .PHONY: cppcheck
 cppcheck:

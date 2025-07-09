@@ -9,6 +9,15 @@
     path: "/home/{{ user }}/.bashrc"
     create: yes
     block: |
+      if [ -f ~/.bash_login ]; then
+          . ~/.bash_login
+      fi
+
+- name: "/home/{{ user }}/.bash_login"
+  blockinfile:
+    path: "/home/{{ user }}/.bash_login"
+    create: yes
+    block: |
       PS1='\u:\w> '
       SCREENDIR={{ home }}/.screen
       PATH={{ home }}/.local/bin:/usr/local/bin:/usr/bin:/bin

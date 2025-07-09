@@ -32,7 +32,7 @@
 
 - name: find arm sysroot
   find:
-    paths: /vagrant/.vagrant
+    paths: "{{ repo }}"
     patterns: 'arm-linux-gnueabihf*'
     file_type: directory
   register: output
@@ -47,7 +47,7 @@
 
 - name: find aarch64 sysroot
   find:
-    paths: /vagrant/.vagrant
+    paths: "{{ repo }}"
     patterns: 'aarch64-linux-gnu*'
     file_type: directory
   register: output
