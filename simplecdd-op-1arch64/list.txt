@@ -141,6 +141,7 @@ gvfs-fuse  # thunar + gphoto
 mutt
 fetchmail
 procmail
+newsboat
 w3m-el  # w3m
 xsel  # w3m: 8 ESC M
 qiv
