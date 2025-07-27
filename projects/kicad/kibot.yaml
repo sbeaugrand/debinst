@@ -1,0 +1,49 @@
+kibot:
+  version: 1
+
+global:
+  filters:
+    - number: 9
+      regex:  'KiCad config without environment.vars section'
+    - number: 10
+      regex:  'Unable to find KiCad 3D models'
+
+preflight:
+  run_drc: false
+  run_erc: false
+  update_qr: false
+  update_xml: false
+
+outputs:
+  - name: schema
+    comment: 'pdf'
+    type: pdf_sch_print
+    options:
+      output: '%f-schema.pdf'
+      frame: false
+  - name: cuivre
+    comment: 'ps'
+    type: ps
+    options:
+      exclude_edge_layer: false
+      plot_footprint_values: false
+      a4_output: false
+    layers:
+      - layer: B.Cu
+        suffix: B_Cu
+      - layer: F.SilkS
+        suffix: F_SilkS
+  - name: pcb
+    comment: 'a4'
+    type: pcb_print
+    options:
+      output_name: '%f-pcb.pdf'
+      plot_sheet_reference: false
+      scaling: 0
+      force_edge_cuts: true
+      forced_edge_cuts_color: '#ffffff'
+      drill_marks: small
+      pages:
+        - layers:
+          - B.Cu
+          - F.Fab

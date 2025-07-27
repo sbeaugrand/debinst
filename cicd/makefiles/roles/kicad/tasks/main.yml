@@ -1,0 +1,37 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: enabled fp libs
+  lineinfile:
+    path: "{{ home }}/.config/kicad/6.0/fp-lib-table"
+    line: '  (lib (name kicad)(type KiCad)(uri $HOME/install/debinst/projects/kicad/mod.pretty)(options "")(descr ""))'
+    search_string: debinst
+    insertbefore: '^\)'
+  ignore_errors: yes
+
+- name: disabled fp libs
+  replace:
+    path: "{{ home }}/.config/kicad/6.0/fp-lib-table"
+    regexp: '"\)\)$'
+    replace: '")(disabled))'
+    before: debinst
+  ignore_errors: yes
+
+- name: enabled sym libs
+  lineinfile:
+    path: "{{ home }}/.config/kicad/6.0/sym-lib-table"
+    line: '  (lib (name kicad)(type KiCad)(uri $HOME/install/debinst/projects/kicad/kicad.kicad_sym)(options "")(descr ""))'
+    search_string: debinst
+    insertbefore: '^\)'
+  ignore_errors: yes
+
+- name: disabled sym libs
+  replace:
+    path: "{{ home }}/.config/kicad/6.0/sym-lib-table"
+    regexp: '"\)\)$'
+    replace: '")(disabled))'
+    before: debinst
+  ignore_errors: yes

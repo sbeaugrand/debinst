@@ -11,7 +11,6 @@ install-op-/install-op-fonts-cursive.sh
 install-op-/install-op-fonts-morse.sh
 install-op-/install-op-gsim.sh
 install-op-/install-op-id3ed.sh
-install-op-/install-op-kiplot.sh
 install-op-/install-op-kitris.sh
 install-op-/install-op-mp3gain.sh
 install-op-/install-op-m4acut.sh

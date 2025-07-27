@@ -22,7 +22,9 @@
     - role: packages-sbuild
       vars:
         repo: /data
-    - newsboat
+    - kicad
+    - kibot
+    #- newsboat
     #- docker
     #- packages-dev-examples
     #- rabbitmq

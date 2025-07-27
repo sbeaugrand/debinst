@@ -1,0 +1,25 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: kibot.gpg
+  get_url:
+    url: https://set-soft.github.io/debian/kibot.gpg
+    dest: /etc/apt/kibot.gpg
+  become: yes
+
+- name: kibot.list
+  apt_repository:
+    repo: deb [signed-by=/etc/apt/kibot.gpg] https://set-soft.github.io/debian/ bullseye main
+  become: yes
+
+- name: install kibot and kiauto
+  apt:
+    cache_valid_time: 36000
+    install_recommends: no
+    name:
+      - kibot
+      - kiauto
+  become: yes

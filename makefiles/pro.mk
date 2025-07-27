@@ -9,6 +9,7 @@ PROJECT   ?= $(shell basename `readlink -f .`)
 
 ifeq ($(wildcard kicad),kicad)
  TARDEPEND += makefiles/kicad.mk
+ TARDEPEND += makefiles/kibot.mk
  TARDEPEND += makefiles/csvtranspose.sh
  TARDEPEND += kicad
 endif

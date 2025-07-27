@@ -139,6 +139,7 @@
 (add-hook    'javascript-mode-hook 'indent2)
 (add-hook 'nxhtml-mumamo-mode-hook 'indent4)
 (add-hook         'cmake-mode-hook 'indent4)
+(add-hook          'html-mode-hook 'indent2)
 (setq cmake-tab-width 4)
 (setq js-indent-level 2)
 
