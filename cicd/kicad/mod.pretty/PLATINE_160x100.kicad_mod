@@ -1,0 +1,12 @@
+(module PLATINE_160x100 (layer F.Cu) (tedit 602E847E)
+  (fp_text reference GR** (at 0 0) (layer F.SilkS) hide
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value PLATINE_160x100 (at 0 -2.54) (layer F.Fab) hide
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_line (start 81.28 -50.8) (end 81.28 50.8) (layer Edge.Cuts) (width 0.15))
+  (fp_line (start -81.28 -50.8) (end -81.28 50.8) (layer Edge.Cuts) (width 0.15))
+  (fp_line (start 81.28 50.8) (end -81.28 50.8) (layer Edge.Cuts) (width 0.15))
+  (fp_line (start -81.28 -50.8) (end 81.28 -50.8) (layer Edge.Cuts) (width 0.15))
+)

@@ -3,18 +3,13 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note pip3 wheel --prefer-binary kibot
+##       pip3 install --no-compile kibot-*.whl
 # ---------------------------------------------------------------------------- #
-CONFIG = $(PROROOT)/kicad/kibot.yaml
+CONFIG = ../../kicad/kibot.yaml
 define kibot
  kibot -c $(CONFIG) $1 | grep -v 'unique warning'
 endef
-
-.PHONY: all
-all:\
- $(PROJECT)Schema.pdf\
- $(PROJECT)-B_Cu.pdf\
- $(PROJECT)-F_SilkS.pdf\
- $(PROJECT)-pcb.pdf
 
 %Schema.pdf: %-schema.pdf
 	pdfcrop $< $@
@@ -37,10 +32,16 @@ all:\
 %-pcb.pdf: %.kicad_pcb $(CONFIG)
 	$(call kibot,-b $<)
 
+%.svg: %.pdf
+	@pdftocairo -svg remoteControlSchema.pdf
+
+portrait-%.pdf: %.pdf
+	@pdfjam -q --angle 90 -o $@ $<
+
 .PHONY: clean
 clean:
 	@$(RM) *~ *-bak
 
 .PHONY: mrproper
 mrproper: clean
-	@$(RM) *.pdf
+	@$(RM) *.pdf *.ps *.svg

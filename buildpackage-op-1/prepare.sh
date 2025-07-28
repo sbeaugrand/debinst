@@ -17,6 +17,7 @@ for args in\
  pymeeus\
  solidpython\
  matplotlib\
+ kibot\
 ; do
     downloadWheel "$args"
 done

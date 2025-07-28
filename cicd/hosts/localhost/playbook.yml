@@ -23,7 +23,6 @@
       vars:
         repo: /data
     - kicad
-    - kibot
     #- newsboat
     #- docker
     #- packages-dev-examples

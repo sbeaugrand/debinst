@@ -1,13 +1,17 @@
+# ---------------------------------------------------------------------------- #
+## \file kiplot.yaml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
 kiplot:
   version: 1
 
 preflight:
-
   check_zone_fills: false
   run_drc: false
 
 outputs:
-
   - name: postscript
     comment: "Postscript files"
     type: ps
@@ -22,7 +26,6 @@ outputs:
       force_plot_invisible_refs_vals: false
       tent_vias: true
       check_zone_fills: true
-
       # PS options
       line_width: 0.15
       drill_marks: full

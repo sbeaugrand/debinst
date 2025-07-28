@@ -1,0 +1,13 @@
+(module BR2 (layer F.Cu) (tedit 5C373FA7)
+  (descr Breaker)
+  (autoplace_cost180 10)
+  (fp_text reference JP3 (at 0 1.27) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value BREAKER2 (at 0 -1.27) (layer F.SilkS) hide
+    (effects (font (size 1.397 1.27) (thickness 0.2032)))
+  )
+  (fp_line (start -2.54 0) (end 2.54 0) (layer F.SilkS) (width 0.8))
+  (pad 1 thru_hole circle (at -2.54 0) (size 1.80086 1.80086) (drill 0.59944) (layers *.Cu *.Mask F.SilkS))
+  (pad 2 thru_hole circle (at 2.54 0) (size 1.80086 1.80086) (drill 0.59944) (layers *.Cu *.Mask F.SilkS))
+)

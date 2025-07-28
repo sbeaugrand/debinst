@@ -53,3 +53,15 @@ outputs:
         - layers:
           - B.Cu
           - F.Fab
+  - name: svg
+    comment: 'svg'
+    type: pcb_print
+    options:
+      format: SVG
+      output_name: '%f-pcb.svg'
+      plot_sheet_reference: false
+      scaling: 0
+      pages:
+        - layers:
+          - B.Cu
+          - F.Fab
