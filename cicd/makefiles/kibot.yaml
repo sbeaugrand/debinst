@@ -22,13 +22,13 @@ preflight:
 
 outputs:
   - name: schema
-    comment: 'pdf'
+    comment: 'sch pdf'
     type: pdf_sch_print
     options:
       output: '%f-schema.pdf'
       frame: false
   - name: cuivre
-    comment: 'ps'
+    comment: 'pcb ps'
     type: ps
     options:
       exclude_edge_layer: false
@@ -40,27 +40,39 @@ outputs:
       - layer: F.SilkS
         suffix: F_SilkS
   - name: pcb
-    comment: 'a4'
+    comment: 'pcb a4'
     type: pcb_print
     options:
       output_name: '%f-pcb.pdf'
       plot_sheet_reference: false
-      scaling: 0
       force_edge_cuts: true
       forced_edge_cuts_color: '#ffffff'
+      scaling: 0
       drill_marks: small
       pages:
         - layers:
           - B.Cu
           - F.Fab
+  - name: light
+    comment: 'sch markdown light'
+    type: svg_sch_print
+    options:
+      output: '%f-light.svg'
+      frame: false
+  - name: dark
+    comment: 'sch markdown dark'
+    type: svg_sch_print
+    options:
+      output: '%f-dark.svg'
+      frame: false
+      color_theme: dark
   - name: svg
-    comment: 'svg'
+    comment: 'pcb markdown'
     type: pcb_print
     options:
       format: SVG
       output_name: '%f-pcb.svg'
       plot_sheet_reference: false
-      scaling: 0
       pages:
         - layers:
           - B.Cu

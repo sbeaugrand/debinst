@@ -11,12 +11,20 @@ all:\
  remoteControl-B_Cu.pdf\
  remoteControl-F_SilkS.pdf\
  remoteControlSchema.pdf\
- remoteControl.pdf
+ remoteControlSchema.svg\
+ remoteControlPcb.svg\
+ remoteControl.pdf\
 
 %.pdf: %.tex
 	@echo TEXINPUTS=$(TEXINPUTS)
 	@mkdir -p build && cd build && export TEXINPUTS=$(TEXINPUTS) &&\
 	 pdflatex --halt-on-error ../$<
 	@mv build/$@ .
+
+%Schema.svg: %-dark.svg
+	$(call scale,2,$@,$<)
+
+%Pcb.svg: %-pcb.svg
+	$(call scale,2,$@,$<)
 
 include ../../makefiles/kibot.mk

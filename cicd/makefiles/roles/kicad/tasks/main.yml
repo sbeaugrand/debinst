@@ -17,3 +17,8 @@
     regexp: '"\)\)$'
     replace: '")(disabled))'
   ignore_errors: yes
+
+- name: dark theme
+  copy:
+    src: dark.json
+    dest: "{{ home }}/.config/kicad/6.0/colors/"

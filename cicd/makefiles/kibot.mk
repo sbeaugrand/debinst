@@ -6,13 +6,19 @@
 ## \note pip3 wheel --prefer-binary kibot
 ##       pip3 install --no-compile kibot-*.whl
 # ---------------------------------------------------------------------------- #
-CONFIG = ../../kicad/kibot.yaml
+CONFIG = ../../makefiles/kibot.yaml
+
 define kibot
  kibot -c $(CONFIG) $1 | grep -v 'unique warning'
 endef
 
+define scale
+ inkscape --actions\
+  "select-all;transform-scale:$1;fit-canvas-to-selection" -o $2 $3
+endef
+
 %Schema.pdf: %-schema.pdf
-	pdfcrop $< $@
+	pdfcrop $< $@ >/dev/null
 
 %.pdf: %.epsi
 	epspdf -b $<
@@ -20,20 +26,11 @@ endef
 %.epsi: %.ps
 	ps2epsi $<
 
-%-schema.pdf: %.kicad_sch $(CONFIG)
+%-schema.pdf %-light.svg %-dark.svg: %.kicad_sch $(CONFIG)
 	$(call kibot,-e $<)
 
-%-B_Cu.ps: %.kicad_pcb $(CONFIG)
+%-B_Cu.ps %-F_SilkS.ps %-pcb.pdf %-pcb.svg: %.kicad_pcb $(CONFIG)
 	$(call kibot,-b $<)
-
-%-F_SilkS.ps: %.kicad_pcb $(CONFIG)
-	$(call kibot,-b $<)
-
-%-pcb.pdf: %.kicad_pcb $(CONFIG)
-	$(call kibot,-b $<)
-
-%.svg: %.pdf
-	@pdftocairo -svg remoteControlSchema.pdf
 
 portrait-%.pdf: %.pdf
 	@pdfjam -q --angle 90 -o $@ $<
