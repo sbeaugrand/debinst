@@ -1,3 +1,0 @@
-(fp_lib_table
-  (lib (name kicad)(type KiCad)(uri $HOME/install/debinst/projects/kicad/mod.pretty)(options "")(descr ""))
-)

@@ -11,21 +11,25 @@ TEXINPUTS = $(shell readlink -f $(PROROOT)/projects/kicad):
 
 include $(PROROOT)/makefiles/livret.mk
 
-$(PROJECT).pdf: kicad/$(PROJECT)Schema.pdf\
+$(PROJECT).pdf:\
+ build\
  build/$(PROJECT)940Meg.dat\
  build/thresholds940Meg.tex\
  build/thresholds20Meg.tex\
  build/thresholds200Meg.tex\
  build/thresholds2g.tex\
 
+build:
+	@mkdir $@
+
 build/%.dat: build/%.data
 	@cat $< |\
 	 awk 'BEGIN { print "Time V/bascule Time V/diviseur Time V/entree Time V/sortie" } { print $$0 }' >$@
 
-build/%.data: build/%.net
+build/%.data: build/%.cir
 	ngspice -b -r dummy $<
 
-build/%.net: %.net
+build/%.cir: %.cir
 	@cat $< | sed\
 	 -e 's/<dst>/$(PROJECT)$(DST_EXT)/'\
 	 | cat >$@

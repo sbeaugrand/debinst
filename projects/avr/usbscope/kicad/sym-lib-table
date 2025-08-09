@@ -1,3 +1,3 @@
 (sym_lib_table
-  (lib (name kicad)(type Legacy)(uri $HOME/install/debinst/projects/kicad/kicad.lib)(options "")(descr ""))
+  (lib (name "common")(type "KiCad")(uri $HOME/install/debinst/cicd/kicad/common.kicad_sym)(options "")(descr ""))
 )

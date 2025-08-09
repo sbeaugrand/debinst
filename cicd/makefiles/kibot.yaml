@@ -24,12 +24,14 @@ outputs:
   - name: schema
     comment: 'sch pdf'
     type: pdf_sch_print
+    dir: build
     options:
       output: '%f-schema.pdf'
       frame: false
   - name: cuivre
     comment: 'pcb ps'
     type: ps
+    dir: build
     options:
       exclude_edge_layer: false
       plot_footprint_values: false
@@ -42,6 +44,7 @@ outputs:
   - name: pcb
     comment: 'pcb a4'
     type: pcb_print
+    dir: build
     options:
       output_name: '%f-pcb.pdf'
       plot_sheet_reference: false
@@ -56,19 +59,22 @@ outputs:
   - name: light
     comment: 'sch markdown light'
     type: svg_sch_print
+    dir: build
     options:
       output: '%f-light.svg'
       frame: false
-  - name: dark
-    comment: 'sch markdown dark'
+  - name: darklight
+    comment: 'sch markdown darklight'
     type: svg_sch_print
+    dir: build
     options:
-      output: '%f-dark.svg'
+      output: '%f-darklight.svg'
       frame: false
-      color_theme: dark
+      color_theme: darklight
   - name: svg
     comment: 'pcb markdown'
     type: pcb_print
+    dir: build
     options:
       format: SVG
       output_name: '%f-pcb.svg'

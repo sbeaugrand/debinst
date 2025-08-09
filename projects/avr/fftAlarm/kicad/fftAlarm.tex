@@ -1,0 +1,39 @@
+% ---------------------------------------------------------------------------- %
+%% \file fftAlarm.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass{kibot}
+
+\begin{document}
+
+\begin{center}
+\titre{Alarme FFT}
+~\\
+~\\
+\scalebox{1.3}{\schema{fftAlarm}}\\
+~\\
+~\\
+\begin{tabular}{ll}
+U1 = ATTINY85-20PU & R1-R4 = 470 \si{\ohm}\\
+U2 = LM7805 & R5-R7 = 10 \si{\kilo\ohm}\\
+C1, C2 = 100 \si{\nano\farad} & R8 = 100 \si{\kilo\ohm}\\
+MK1 = MK976762PC & R9 = 1 \si{\kilo\ohm}\\
+Q1, Q2 = BC337-40\\
+\end{tabular}
+\\
+~\\
+\planche{fftAlarm}{29}{13}
+\\
+~\\
+~\\
+~\\
+Schéma micro électret:
+\texttt{\small https://radioamateur.home.blog/2018/11/26/preampli-micro-electret/}\\
+\vfill
+\scriptsize
+\copyright 2020 Sébastien Beaugrand -- CeCILL 2.1
+\end{center}
+
+\end{document}

@@ -71,7 +71,7 @@ build:
 	@cat $< |\
 	 awk 'BEGIN { print "Time V/sortiemag" } { print $$1/1e6" "$$2 }' >$@
 
-%.data: %.net
+%.data: %.cir
 	@ngspice -b -r dummy $<
 
 %.a80: %.data
@@ -90,7 +90,7 @@ build:
 	 printf('Harmonique: %.1f dbV\\\\\\', f(7000000 * 2));\
 	" >$@
 
-build/chebyshevARRL1981.net: chebyshev5t80m.net
+build/chebyshevARRL1981.cir: chebyshev5t80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/820p/'\
@@ -103,7 +103,7 @@ build/chebyshevARRL1981.net: chebyshev5t80m.net
 	 -e 's/<dst>/chebyshevARRL1981$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshevARRL1990.net: chebyshev5t80m.net
+build/chebyshevARRL1990.cir: chebyshev5t80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/820p/'\
@@ -116,7 +116,7 @@ build/chebyshevARRL1990.net: chebyshev5t80m.net
 	 -e 's/<dst>/chebyshevARRL1990$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5t80m50o.net: chebyshev5t80m.net
+build/chebyshev5t80m50o.cir: chebyshev5t80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/638p/'\
@@ -129,7 +129,7 @@ build/chebyshev5t80m50o.net: chebyshev5t80m.net
 	 -e 's/<dst>/chebyshev5t80m50o$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev6t80m50o.net: chebyshev6t80m.net
+build/chebyshev6t80m50o.cir: chebyshev6t80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/643.73428p/'\
@@ -143,7 +143,7 @@ build/chebyshev6t80m50o.net: chebyshev6t80m.net
 	 -e 's/<dst>/chebyshev6t80m50o$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev6t80m290o.net: chebyshev6t80m.net
+build/chebyshev6t80m290o.cir: chebyshev6t80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/643.73428p/'\
@@ -157,7 +157,7 @@ build/chebyshev6t80m290o.net: chebyshev6t80m.net
 	 -e 's/<dst>/chebyshev6t80m290o$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5t80m560p.net: chebyshev5t80m.net
+build/chebyshev5t80m560p.cir: chebyshev5t80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/560p/'\
@@ -170,7 +170,7 @@ build/chebyshev5t80m560p.net: chebyshev5t80m.net
 	 -e 's/<dst>/chebyshev5t80m560p$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5t80m680p.net: chebyshev5t80m.net
+build/chebyshev5t80m680p.cir: chebyshev5t80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/680p/'\
@@ -183,7 +183,7 @@ build/chebyshev5t80m680p.net: chebyshev5t80m.net
 	 -e 's/<dst>/chebyshev5t80m680p$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5t80m820p.net: chebyshev5t80m.net
+build/chebyshev5t80m820p.cir: chebyshev5t80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/820p/'\
@@ -196,7 +196,7 @@ build/chebyshev5t80m820p.net: chebyshev5t80m.net
 	 -e 's/<dst>/chebyshev5t80m820p$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5t80m1000p.net: chebyshev5t80m.net
+build/chebyshev5t80m1000p.cir: chebyshev5t80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/1000p/'\
@@ -209,7 +209,7 @@ build/chebyshev5t80m1000p.net: chebyshev5t80m.net
 	 -e 's/<dst>/chebyshev5t80m1000p$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5t80m1200p.net: chebyshev5t80m.net
+build/chebyshev5t80m1200p.cir: chebyshev5t80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/1153p/'\
@@ -222,7 +222,7 @@ build/chebyshev5t80m1200p.net: chebyshev5t80m.net
 	 -e 's/<dst>/chebyshev5t80m1200p$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5p80m2700p.net: chebyshev5p80m.net
+build/chebyshev5p80m2700p.cir: chebyshev5p80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/2700p/'\
@@ -235,7 +235,7 @@ build/chebyshev5p80m2700p.net: chebyshev5p80m.net
 	 -e 's/<dst>/chebyshev5p80m2700p$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5p80m2200p.net: chebyshev5p80m.net
+build/chebyshev5p80m2200p.cir: chebyshev5p80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/2200p/'\
@@ -248,7 +248,7 @@ build/chebyshev5p80m2200p.net: chebyshev5p80m.net
 	 -e 's/<dst>/chebyshev5p80m2200p$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5p80m1800p.net: chebyshev5p80m.net
+build/chebyshev5p80m1800p.cir: chebyshev5p80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/1800p/'\
@@ -261,7 +261,7 @@ build/chebyshev5p80m1800p.net: chebyshev5p80m.net
 	 -e 's/<dst>/chebyshev5p80m1800p$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5p80m1500p.net: chebyshev5p80m.net
+build/chebyshev5p80m1500p.cir: chebyshev5p80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/1500p/'\
@@ -274,7 +274,7 @@ build/chebyshev5p80m1500p.net: chebyshev5p80m.net
 	 -e 's/<dst>/chebyshev5p80m1500p$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5p80m1200p.net: chebyshev5p80m.net
+build/chebyshev5p80m1200p.cir: chebyshev5p80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/1200p/'\
@@ -287,7 +287,7 @@ build/chebyshev5p80m1200p.net: chebyshev5p80m.net
 	 -e 's/<dst>/chebyshev5p80m1200p$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5p40m470p.net: chebyshev5p40m.net
+build/chebyshev5p40m470p.cir: chebyshev5p40m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/470p/'\
@@ -300,7 +300,7 @@ build/chebyshev5p40m470p.net: chebyshev5p40m.net
 	 -e 's/<dst>/chebyshev5p40m470p$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5p80mBingo.net: chebyshev5p80m.net
+build/chebyshev5p80mBingo.cir: chebyshev5p80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/820p/'\
@@ -313,7 +313,7 @@ build/chebyshev5p80mBingo.net: chebyshev5p80m.net
 	 -e 's/<dst>/chebyshev5p80mBingo$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev5p80mLibra.net: chebyshev5p80m.net
+build/chebyshev5p80mLibra.cir: chebyshev5p80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/820p/'\
@@ -326,7 +326,7 @@ build/chebyshev5p80mLibra.net: chebyshev5p80m.net
 	 -e 's/<dst>/chebyshev5p80mLibra$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev3t40mPixie.net: chebyshev3t40m.net
+build/chebyshev3t40mPixie.cir: chebyshev3t40m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/820p/'\
@@ -337,7 +337,7 @@ build/chebyshev3t40mPixie.net: chebyshev3t40m.net
 	 -e 's/<dst>/chebyshev3t40mPixie$(DST_EXT)/'\
 	 | cat >$@
 
-build/chebyshev3p80mPixie.net: chebyshev3p80m.net
+build/chebyshev3p80mPixie.cir: chebyshev3p80m.cir
 	@cat $< | sed\
 	 -e 's/<R1>/50/'\
 	 -e 's/<C17>/820p/'\
@@ -348,7 +348,7 @@ build/chebyshev3p80mPixie.net: chebyshev3p80m.net
 	 -e 's/<dst>/chebyshev3p80mPixie$(DST_EXT)/'\
 	 | cat >$@
 
-build/cauer935p.net: cauer.net
+build/cauer935p.cir: cauer.cir
 	@cat $< | sed\
 	 -e 's/<L4>/2.29u/'\
 	 -e 's/<L5>/1.87u/'\
@@ -360,7 +360,7 @@ build/cauer935p.net: cauer.net
 	 -e 's/<dst>/cauer935p$(DST_EXT)/'\
 	 | cat >$@
 
-build/cauer1300p.net: cauer.net
+build/cauer1300p.cir: cauer.cir
 	@cat $< | sed\
 	 -e 's/<L4>/1.5u/'\
 	 -e 's/<L5>/1.3u/'\
@@ -372,7 +372,7 @@ build/cauer1300p.net: cauer.net
 	 -e 's/<dst>/cauer1300p$(DST_EXT)/'\
 	 | cat >$@
 
-build/cauer1200p.net: cauer.net
+build/cauer1200p.cir: cauer.cir
 	@cat $< | sed\
 	 -e 's/<L4>/1.5u/'\
 	 -e 's/<L5>/1.2u/'\

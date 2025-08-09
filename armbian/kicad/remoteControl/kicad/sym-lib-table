@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name kicad)(type Legacy)(uri $HOME/install/debinst/projects/kicad/kicad.lib)(options "")(descr ""))
-)

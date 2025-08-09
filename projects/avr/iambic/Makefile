@@ -12,6 +12,4 @@ ATMEL = attiny45
 LFUSE = 0xe2# oscillateur interne 8 MHz, sans CKDIV8
 include $(PROROOT)/makefiles/avr.mk
 
-include $(PROROOT)/kicad/doc.mk
-
 include $(PROROOT)/makefiles/tar.mk

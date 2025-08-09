@@ -10,9 +10,9 @@
 # ---------------------------------------------------------------------------- #
 vbitrate=900
 abitrate=128
-lavcopts="
-vcodec=mpeg4:vbitrate=$vbitrate:vhq:v4mv:trell:vqmin=2:
-o=luma_elim_threshold=-4:
+lavcopts="\
+vcodec=mpeg4:vbitrate=$vbitrate:vhq:v4mv:trell:vqmin=2:\
+o=luma_elim_threshold=-4:\
 o=chroma_elim_threshold=9:lumi_mask=0.05:dark_mask=0.01"
 vfilters=${vf:-pp=fd,scale=720:400}
 src="$1"

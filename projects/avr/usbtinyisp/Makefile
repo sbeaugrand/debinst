@@ -27,6 +27,4 @@ main.hex: $(BDIR)/usbtinyisp/spi/main.hex
 	 MODE="0666"' | tr -d '\\' | tr -d '\n' | sudo tee $@ >/dev/null
 	@sudo udevadm control --reload-rules
 
-include $(PROROOT)/kicad/doc.mk
-
 include $(PROROOT)/makefiles/tar.mk

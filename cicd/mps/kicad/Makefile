@@ -4,27 +4,23 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-TEXINPUTS = ../../../kicad:
+RDIR = ../..
 
 .PHONY: all
 all:\
- remoteControl-B_Cu.pdf\
- remoteControl-F_SilkS.pdf\
- remoteControlSchema.pdf\
+ build\
+ build/remoteControl-B_Cu.pdf\
+ build/remoteControl-F_SilkS.pdf\
+ build/remoteControlSchema.pdf\
  remoteControlSchema.svg\
  remoteControlPcb.svg\
  remoteControl.pdf\
 
-%.pdf: %.tex
-	@echo TEXINPUTS=$(TEXINPUTS)
-	@mkdir -p build && cd build && export TEXINPUTS=$(TEXINPUTS) &&\
-	 pdflatex --halt-on-error ../$<
-	@mv build/$@ .
-
-%Schema.svg: %-dark.svg
+%Schema.svg: build/%-darklight.svg
 	$(call scale,2,$@,$<)
 
-%Pcb.svg: %-pcb.svg
+%Pcb.svg: build/%-pcb.svg
 	$(call scale,2,$@,$<)
 
-include ../../makefiles/kibot.mk
+TEXINPUTS = $(RDIR)/kicad:
+include $(RDIR)/makefiles/kibot.mk

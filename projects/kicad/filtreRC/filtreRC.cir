@@ -1,0 +1,11 @@
+.title KiCad schematic
+.param period = 1 / 560000
+C1 /sortie GND 470p
+R1 /entree /sortie 470
+VJ1 /entree GND pulse(0 3.3 0 0 0 { period / 2 })
+.control
+tran 0.1u 3u
+run
+wrdata filtreRC.data V(/entree) V(/sortie)
+.endc
+.end

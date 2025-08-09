@@ -37,8 +37,6 @@ build/$(PROJECT): $(OBJECTS)
 start:
 	./build/$(PROJECT) /tmp/1
 
-include $(PROROOT)/kicad/doc.mk
-
 TARDEPEND += makefiles/avr.mk
 TARDEPEND += wiring/*
 include $(PROROOT)/makefiles/tar.mk

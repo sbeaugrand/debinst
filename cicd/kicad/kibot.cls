@@ -41,7 +41,7 @@
 % Schema
 % ---------------------------------------------------------------------------- %
 \newcommand{\schema}[1]{%
- \includegraphics{../#1Schema}
+ \includegraphics{#1Schema}
 }
 
 % ---------------------------------------------------------------------------- %
@@ -50,8 +50,8 @@
 \newcommand{\planche}[3]{%
  \rotatebox{270}{%
   \begin{picture}(#3,0)
-  \leavevmode\makebox(0,0){\put(0,0){\includegraphics{../#1-B_Cu}}}%
-  \leavevmode\makebox(0,0){\put(0,0){\includegraphics{../#1-F_SilkS}}}%
+  \leavevmode\makebox(0,0){\put(0,0){\includegraphics{#1-B_Cu}}}%
+  \leavevmode\makebox(0,0){\put(0,0){\includegraphics{#1-F_SilkS}}}%
   \leavevmode\makebox(0,0){%
    \multiput(1,0)(1,0){#3}{\multiput(0,0)(0,1){#2}{\line(0,0){0.06}}}}
   \end{picture}
@@ -63,8 +63,8 @@
  \advance\count0 by 1
  \rotatebox{270}{%
   \begin{picture}(#3,0)
-  \leavevmode\makebox(0,0){\put(0,#5){\includegraphics{../#1-B_Cu}}}%
-  \leavevmode\makebox(0,0){\put(0,#5){\includegraphics{../#1-F_SilkS}}}%
+  \leavevmode\makebox(0,0){\put(0,#5){\includegraphics{#1-B_Cu}}}%
+  \leavevmode\makebox(0,0){\put(0,#5){\includegraphics{#1-F_SilkS}}}%
   \leavevmode\makebox(0,0){%
    \multiput(\count0,0)(1,0){#3}{\multiput(0,0)(0,1){#2}{\line(0,0){0.06}}}}
   \end{picture}

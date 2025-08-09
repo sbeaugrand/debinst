@@ -18,7 +18,7 @@
     replace: '")(disabled))'
   ignore_errors: yes
 
-- name: dark theme
+- name: darklight theme
   copy:
-    src: dark.json
+    src: darklight.json
     dest: "{{ home }}/.config/kicad/6.0/colors/"

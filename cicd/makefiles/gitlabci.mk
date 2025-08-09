@@ -139,5 +139,11 @@ tar:
 	 --exclude=*~\
 	 --exclude=.*.swp\
 	 --exclude=build\
+	 --exclude=build-*\
+	 --exclude=.git\
+	 --exclude=__pycache__\
+	 --exclude=*-bak\
+	 --exclude=kicad/*.pdf\
+	 --exclude=kicad/*.svg\
 	 makefiles/*.*\
 	 $(propath)

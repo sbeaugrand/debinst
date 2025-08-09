@@ -15,7 +15,7 @@
 \scalebox{0.9}{\schema{remoteControl}}\\
 ~\\
 \begin{tabular}{l}
-C1,C2 = 1000 \si{\micro\F}\\
+C1, C2 = 1000 \si{\micro\F}\\
 R1 = 47 \si{\kohm}\\
 R2 = 1 \si{\kohm}\\
 \end{tabular}
@@ -135,9 +135,13 @@ A = fr.aliexpress.com, B = Bricorama, C = Conrad, E = ebay.fr, F = fr.farnell.co
 \put(65, 19){\makebox[20mm][c]{\O8}}
 \put(80, 19){\makebox[20mm][c]{\O8}}
 \end{picture}
-\\
+\end{center}
+\IfFileExists{../module-pr-.tex}{%
+  \input{../module-pr-.tex}
+}{}
 \vfill
 \scriptsize
+\begin{center}
 \copyright 2021 Sébastien Beaugrand -- CeCILL 2.1
 \end{center}
 
