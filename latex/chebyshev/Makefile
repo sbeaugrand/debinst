@@ -7,9 +7,13 @@
 PROJECT = chebyshev
 PROROOT = ..
 DST_EXT = .data# ngspice revision 30
+RDIR = ../../cicd
 
 .PHONY: all
 all: $(PROJECT).pdf
+
+CONFIG = $(RDIR)/makefiles/kibot.yaml
+include $(RDIR)/makefiles/kibot.mk
 
 $(PROJECT).pdf: chebyshev.tex build\
  chebyshev.m\
@@ -60,12 +64,11 @@ $(PROJECT).pdf: chebyshev.tex build\
  build/cauer1300p.a80\
  build/cauer1200p.dat\
  build/cauer1200p.a80\
+ build/chebyshevSchema.pdf\
+ build/cauerSchema.pdf\
 
 	pdflatex --halt-on-error $<
 	@$(RM) $(PROJECT).aux $(PROJECT).log
-
-build:
-	@mkdir $@
 
 %.dat: %.data
 	@cat $< |\
