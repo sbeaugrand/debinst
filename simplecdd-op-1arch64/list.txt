@@ -162,7 +162,7 @@ texlive-science  # siunitx texlive-fonts-recommended
 texlive-music
 texlive-metapost  # mfplain.mp
 gv
-ntpdate
+ntpsec-ntpdate
 hexedit
 rclone
 icoutils
@@ -180,9 +180,12 @@ python3-svgwrite  # pigmail
 xdotool  # pigmail
 python3-venv
 python3-scipy  # libboost-dev
-printrun  # python3-tk python3-lxml python3-serial cnc (inkscape gcode text)
+#printrun  # python3-tk python3-lxml python3-serial cnc (inkscape gcode text)
+python3-tk
+python3-lxml
+python3-serial
 libnode-dev  # libssl-dev (armbian) camotics
-libqt5opengl5  # camotics
+libqt5opengl5t64  # camotics
 prusa-slicer
 pstoedit
 anacron
@@ -193,7 +196,7 @@ libdvdnav-dev  # libdvdread-dev
 libaom-dev  # ffmpeg
 lsdvd
 subversion
-libncurses5-dev
+#libncurses5-dev
 flex
 bison
 ansible  # python3-yaml (kiplot)
@@ -232,7 +235,7 @@ libc6-i386
 sudo
 network-manager-gnome
 wpasupplicant  # wifi
-polkitd-pkla  # hotspot permissions
+#polkitd-pkla  # hotspot permissions
 tcpdump
 equivs
 mencoder  # mplayer
@@ -243,7 +246,7 @@ firmware-brcm80211  # a1
 firmware-realtek  # a1
 firmware-iwlwifi  # a1
 xserver-xorg-video-intel  # s2
-libcupsimage2  # epson et2860 + live b1
+libcupsimage2t64  # epson et2860 + live b1
 gramps
 python3-icu  # gramps
 pdfposter

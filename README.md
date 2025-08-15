@@ -67,9 +67,14 @@ sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadat
 # Création d'une debian nouvelle version sur clé USB
 https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/
 ```sh
+gpg --keyserver hkps://keyring.debian.org:443 --recv-keys 0xDA87E80D6294BE9B
+gpg --keyserver hkps://keyring.debian.org:443 --recv-keys 0x42468F4009EA8AC3
+gpg --verify SHA512SUMS.sign SHA512SUMS
+grep debian-live-13.0.0-amd64-lxde.iso$ SHA512SUMS >debian-live-13.0.0-amd64-lxde.sha
+sha512sum -c debian-live-13.0.0-amd64-lxde.sha
 sudo apt install openssh-server
 make pkgs
-gnome-boxes debian-live-12.4.0-amd64-lxde.iso
+gnome-boxes debian-live-13.0.0-amd64-lxde.iso
 ```
 ```sh
 # lxterminal
@@ -84,10 +89,13 @@ ln -s /mnt/a1/data /home/user/data
 cd /mnt/a1/home/$user/install/debinst
 rm simplecdd-op-1arch64/amd64/simple-cdd.conf
 rm -fr ~/data/install-build/simplecdd-op-1arch64
-sudo apt-get install -y dh-make dosfstools mtools simple-cdd xorriso
+sudo apt-get install -y dh-make dosfstools mtools simple-cdd xorriso distro-info-data
 sudo vi /usr/share/simple-cdd/tools/build/debian-cd +/rsync  # suppr -a
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
 sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadata file'  # comment 2 lines
+# trixie
+sudo vi /usr/share/simple-cdd/build-simple-cdd +/'For amd64'  # comment 3 lines
+sudo vi /usr/share/debian-cd/tools/boot/trixie/boot-x86 +/'amd64 i386'  # suppr i386
 make iso
 cd
 fusermount3 -u /mnt/a1
