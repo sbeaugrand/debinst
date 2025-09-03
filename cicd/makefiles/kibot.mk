@@ -59,8 +59,14 @@ landscape-%.pdf: %.pdf
 
 .PHONY: check
 check:
-	@cat *.kicad_pcb | \
-	awk '{ if ($$1 == "(segment" && $$3 == $$6 && $$4 == $$7) { print $$0 }; }'
+	@awk '{\
+	    if ($$1 == "(segment") {\
+	        h2 = ($$6 - $$3) * ($$6 - $$3) + ($$7 - $$4) * ($$7 - $$4);\
+	        if (h2 < 1.27) {\
+	            print "vi "FILENAME" +"FNR"  # "h2" ";\
+	        }\
+	    }\
+	}' *.kicad_pcb
 
 .PHONY: clean
 clean:

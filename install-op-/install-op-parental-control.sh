@@ -22,7 +22,7 @@ if notGrep "parental" $file; then
     cat >$tmpf <<EOF
 # Empty listen_addresses to use systemd socket activation
 listen_addresses = []
-server_names = ['sfw.scaleway-fr']
+server_names = ['sfw.scaleway-fr', 'dns0-kids']
 blocked_query_response = 'a:$ipr'
 cloaking_rules = 'cloaking-rules.txt'
 

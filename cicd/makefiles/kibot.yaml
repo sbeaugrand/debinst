@@ -82,4 +82,5 @@ outputs:
       pages:
         - layers:
           - B.Cu
+          - F.SilkS
           - F.Fab
