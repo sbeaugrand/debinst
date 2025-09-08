@@ -12,7 +12,7 @@ if [ -z "$1" ]; then
     echo "       nft.sh list | grep \"a comment\""
     echo "       nft.sh unblock 44"
     echo "       nft.sh unblock \"a comment\""
-    echo "       nft.sh log"
+    echo "       nft.sh log [-f]"
     exit 1
 fi
 
@@ -20,7 +20,7 @@ if [ "$1" = "dry" ]; then
     nft="echo sudo nft"
     shift
 else
-    nft="sudo nft"
+    nft="sudo /sbin/nft"
 fi
 action=$1
 
@@ -40,7 +40,7 @@ elif [ $action = "unblock" ]; then
     if [ -z "${2//[0-9]}" ]; then
         handle=$2
     else
-        handle=`nft.sh list 2>/dev/null | grep "$2" | awk '{ print $NF }'`
+        handle=`$0 list 2>/dev/null | grep "$2" | awk '{ print $NF }'`
     fi
     if ((handle)); then
         $nft delete rule filter input handle $handle
@@ -48,7 +48,8 @@ elif [ $action = "unblock" ]; then
         echo "handle not found"
     fi
 elif [ $action = "log" ]; then
-    sudo journalctl -u tcpdump-dns -S today
+    shift
+    sudo journalctl -u tcpdump-dns -S today $*
 elif [ $action = "ping" ]; then
     ip=$2
     ping -4 -c 1 -W 0.1 $ip | awk -F '[()]' '{ print $2; exit 0 }'

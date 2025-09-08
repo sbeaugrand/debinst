@@ -3,6 +3,7 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note https://eleccelerator.com/fusecalc/fusecalc.php?chip=attiny2313&LOW=EF
 # ---------------------------------------------------------------------------- #
 BDIR    = $(HOME)/data/install-build
 PROROOT = ../..

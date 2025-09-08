@@ -59,14 +59,17 @@ landscape-%.pdf: %.pdf
 
 .PHONY: check
 check:
-	@awk '{\
+	@awk 'BEGIN { min = 999; } {\
 	    if ($$1 == "(segment") {\
 	        h2 = ($$6 - $$3) * ($$6 - $$3) + ($$7 - $$4) * ($$7 - $$4);\
 	        if (h2 < 1.27) {\
 	            print "vi "FILENAME" +"FNR"  # "h2" ";\
 	        }\
+	        if (min > h2) {\
+	            min = h2;\
+	        }\
 	    }\
-	}' *.kicad_pcb
+	} END { print "min="min; }' *.kicad_pcb
 
 .PHONY: clean
 clean:

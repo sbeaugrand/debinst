@@ -13,8 +13,12 @@
 ##           addFilter $ip www.youtube
 ##           addFilter $ip www.tiktok
 ##       done
-##       if ! nft.sh list 2>/dev/null | grep -q "comment"; then
-##           nft.sh block 10.66.0.39 "comment"
+##       # sudo crontab -e
+##       # 00 18 * * * /bin/bash PATH/nft.sh unblock "comment"
+##       if ((`date +%H` < 18)); then
+##           if ! nft.sh list 2>/dev/null | grep -q "comment"; then
+##               nft.sh block 10.66.0.39 "comment"
+##           fi
 ##       fi
 ##   }
 ##   loop()

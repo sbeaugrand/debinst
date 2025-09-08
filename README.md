@@ -47,7 +47,7 @@ cd debinst
 make pkgs
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
 sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadata file'  # comment 2 lignes
-make iso  # or make iso32
+make iso
 pv ~/data/install-build/simplecdd-op-1arch64/images/debian-*-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
 La liste des paquets debian sont dans: simplecdd-op-1arch64/list.txt
