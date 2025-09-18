@@ -39,7 +39,8 @@ all:
 	@echo $(TARGETS)" }"
 	@echo
 
-include $(PROROOT)/makefiles/ccpp.mk
+build:
+	@mkdir $@
 
 .PHONY: hex
 hex: build $(PROJECT).hex checksize

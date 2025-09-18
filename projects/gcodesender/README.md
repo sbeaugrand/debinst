@@ -32,3 +32,12 @@ cat photo.nc | ~/install/debinst/projects/gcodesender/gcodesender.py
 make test
 make itest
 ```
+
+# Z axis test example with M8 screw and 16 microsteps
+```
+$$
+$102=2560 (200x16/1.25 steps/mm)
+$112=120 (mm/min)
+G91 (relative coordinates)
+G1 Z1 F120
+```
