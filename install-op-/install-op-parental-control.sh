@@ -55,6 +55,7 @@ app-measurement.com
 connectivitycheck.gstatic.com
 *analytics*
 *.swypeconnect.com
+*game-mode*
 EOF
     sudoRoot cp $tmpf $file
     rm $tmpf
