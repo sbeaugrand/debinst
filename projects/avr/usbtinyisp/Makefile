@@ -11,7 +11,8 @@ include $(PROROOT)/makefiles/pro.mk
 PROPATH = avr
 
 LFUSE = 0xef# quartz >= 8 MHz
-PROG  = dapa
+#PROG = dapa
+PROG  = avrisp -b 19200 -P /dev/ttyUSB0# ArduinoISP
 include $(PROROOT)/makefiles/avr.mk
 
 .PHONY: install

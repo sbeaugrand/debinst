@@ -24,10 +24,13 @@ if notFile $file; then
     cp $dir/gvalidate.exe $file
 fi
 
-file=$bdir/grbl/grbl.hex
+dir=$bdir/grbl
+file=$dir/grbl.hex
 if notFile $file; then
-    pushd $bdir/grbl || return 1
+    pushd $dir || return 1
     make >>$log 2>&1
-    logTodo "example for ARD-CNC-Kit1: avrdude -c arduino -p atmega328p -D -P /dev/ttyACM0 -U flash:w:grbl.hex"
     popd
 fi
+
+logInfo "cd $dir"
+logTodo "example for ARD-CNC-Kit1: avrdude -c arduino -p m328p -P /dev/ttyACM0 -U flash:w:grbl.hex"

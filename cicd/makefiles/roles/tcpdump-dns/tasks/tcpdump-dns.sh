@@ -9,7 +9,7 @@
 ##       for line in sys.stdin:
 ##           line = line.strip()
 ##           fields = line.split()
-##           if len(fields) < 7 or fields[0][0] not in '012':
+##           if len(fields) <= 7 or fields[0][0] not in '012':
 ##               if len(line) > 0:
 ##                   print(line)
 ##               continue

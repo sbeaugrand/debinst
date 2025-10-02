@@ -11,6 +11,7 @@ OBJECTS ?= $(PROJECT).o
 ATMEL   ?= attiny2313
 EFUSE   ?= 0xff
 HFUSE   ?= 0xdf
+#PROG   ?= avrisp -b 19200 -P /dev/ttyUSB0# ArduinoISP
 PROG    ?= usbtiny
 
 ifneq ($(HARDWARE),)
@@ -49,6 +50,8 @@ $(PROJECT).hex: build/$(PROJECT).elf
 
 build/$(PROJECT).elf: $(OBJECTS)
 	$(LINK.o) -o $@ $^ -Wl,--gc-sections -mmcu=$(ATMEL)
+
+$(OBJECTS): Makefile
 
 .PHONY: checksize
 checksize: build/$(PROJECT).elf

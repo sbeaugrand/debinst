@@ -26,9 +26,10 @@ fi
 dir=$bdir/arduino-$version/examples/ArduinoISP
 if notFile $dir/ArduinoISP.ino.hex; then
     pushd $dir || return 1
-    arduino-builder -hardware /usr/share/arduino/hardware -tools /usr/bin -fqbn arduino:avr:mega:cpu=atmega2560 -verbose ArduinoISP.ino
+    arduino-builder -hardware /usr/share/arduino/hardware -tools /usr/bin -fqbn arduino:avr:uno -verbose ArduinoISP.ino
     cp /tmp/arduino-sketch-*/ArduinoISP.ino.hex . || return 1
     popd
 fi
 
-logTodo "avrdude -c wiring -p ATmega2560 -D -P /dev/ttyACM0 -U flash:w:ArduinoISP.ino.hex"
+logInfo "cd $dir"
+logTodo "avrdude -c arduino -p m328p -P /dev/ttyUSB0 -U flash:w:ArduinoISP.ino.hex"
