@@ -1,0 +1,15 @@
+# ---------------------------------------------------------------------------- #
+## \file Vagrantfile
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+load "../../makefiles/Vagrantfile"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "peru/windows-10-enterprise-x64-eval"
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.memory = 32768
+    libvirt.cpus = 4
+  end
+end
