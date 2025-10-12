@@ -45,7 +45,7 @@ stateDiagram
     Normal --> Menu: ok
     Menu --> Normal: ok = cancel
     Menu --> Normal: right = /usr/bin/rtc
-	Menu --> [*]: up = reboot / down = halt
+    Menu --> [*]: up = reboot / down = halt
     Menu --> Date: left
     Date --> Date: dir
     Date --> Hour: ok
@@ -192,6 +192,44 @@ localhost> scp .vagrant/*-dev_* $user@$host:/run/user/1000/
 </details>
 
 [gitlab](../hosts/gitlab/README.md)
+
+# BOM 2021
+[pdf](http://beaugrand.chez.com/pdf/remoteControl.pdf)
+
+# BOM 2025
+|Article|TTC|Nombre|Total|
+|-------------------------------------------------------------------------------------------------------------|-----:|:-----:|-----:|
+|[Platine sans cuivre 100x160mm](https://www.conrad.fr/fr/search.html?search=529569)                          |  3.99|1      |  3.99|
+|[Connecteur femelle pour CI 32 contacts](https://fr.rs-online.com/web/p/connecteurs-femelles-pour-ci/1803928)| 19.00|39/32/5|  4.63|
+|[Barrette mâle 40 pôles 12.50](https://www.conrad.fr/fr/search.html?search=1390110)                          |  3.80|1/5    |  0.76|
+|[Barrette femelle 20 pôles coudée](https://www.conrad.fr/fr/search.html?search=1560681)                      |  3.99|15/20  |  2.99|
+|[Barrette femelle 36 pôles droite](https://www.conrad.fr/fr/search.html?search=1560794)                      |  4.29|22/36  |  2.62|
+|[Connecteur USB mâle coudé](https://www.conrad.fr/fr/search.html?search=1567163)                             |  3.29|1      |  3.29|
+|[Connecteur USB femelle coudé](https://www.conrad.fr/fr/search.html?search=1567164)                          |  3.29|1      |  3.29|
+|[Entretoise M3 25mm acier galvanisé](https://www.conrad.fr/fr/search.html?search=521678)                     |  2.99|4/10   |  1.20|
+|[Entretoise M3 15mm Polyamide](https://www.conrad.fr/fr/search.html?search=2163259)                          |  3.08|2/7    |  0.88|
+|[Vis M3 6mm Polyamide](https://www.conrad.fr/fr/search.html?search=1817006)                                  |  9.99|8/200  |  0.40|
+|[Module RTC](https://www.conrad.fr/fr/search.html?search=2481842)                                            |  9.99|1/2    |  5.00|
+|[Récepteur infrarouge 1838](https://www.conrad.fr/fr/search.html?search=1572283)                             |  1.79|1/2    |  0.90|
+|[Embase d'alimentation 2.1mm 5.5mm](https://www.conrad.fr/fr/search.html?search=735754)                      |  1.84|1/2    |  0.92|
+|[Bloc d'alimentation 12V 1A](https://www.conrad.fr/fr/search.html?search=3397133)                            | 10.99|1      | 10.99|
+|[Carte SD A1](https://fr.rs-online.com/web/p/cartes-sd/2836581)                                              | 11.68|1      | 11.68|
+|[Condensateur 1000uF 16V 10x16mm](https://www.conrad.fr/fr/search.html?search=443933)                        |  4.00|2/20   |  0.40|
+|[Interrupteur à levier 2 x On/On](https://www.conrad.fr/fr/search.html?search=1589399)                       |  1.99|2      |  3.98|
+|[Patte d'assemblage 100x15x2mm](https://www.bricorama.fr/search?q=3274590517126)                             |  1.10|3      |  3.30|
+|[Patte d'assemblage 60x15x2mm](https://www.bricorama.fr/search?q=3274590517102)                              |  1.10|4      |  4.40|
+|[Charnière 40x25mm entraxe 27mm](https://www.bricorama.fr/search?q=3505391042136)                            |  5.40|1/2    |  2.70|
+|[NanoPi NEO-LTS soldered](https://fr.aliexpress.com/item/1005005383857521.html)                              | 21.55|1      | 21.55|
+|[Ampli XH-M567 TPA3116D2](https://fr.aliexpress.com/item/1005004830515523.html)                              |  3.39|1      |  3.39|
+|[Régulateur de tension LM2596](https://fr.aliexpress.com/item/1005005970782265.html)                         |  1.32|1      |  1.32|
+|[OLED blanc 1.3 i2c gnd](https://fr.aliexpress.com/item/1005006862867338.html)                               |  2.42|1      |  2.42|
+|Total                                                                                                        |136.27|       | 96.99|
+
+|Alternatives|TTC|Nombre|Total|
+|-------------------------------------------------------------------------------------------------------------|-----:|:-----:|-----:|
+|[Connecteur femelle pour CI 36 contacts](https://fr.rs-online.com/web/p/connecteurs-femelles-pour-ci/5490026)| 34.23|8/36/5 |  1.27|
+|[Entretoise filetée 15mm](https://fr.rs-online.com/web/p/entretoises-filetees/1026378)                       |  6.43|4/10   |  2.57|
+|[Vis à tête Cylindrique Cruciforme M3 8mm](https://fr.rs-online.com/web/p/vis-a-metaux/1854437)              |  5.02|8/20   |  2.01|
 
 # License CeCILL 2.1
 
