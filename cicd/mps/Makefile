@@ -79,6 +79,7 @@ dir:
 #   make resize
 #   make resize
 #   make README-0-3.svg
+#   make bom
 # ---------------------------------------------------------------------------- #
 .PHONY: mermaid
 mermaid: README-0.md
@@ -90,3 +91,8 @@ resize: README-0-1.svg README-0-2.svg README-0-3.svg
 README-0-1.svg README-0-2.svg README-0-3.svg: FORCE
 	@echo resize $@
 	$(call resize,$@)
+
+.PHONY: bom
+bom:
+	@../makefiles/bom.awk README.md | tee build/bom.md
+	@cp build/bom.md README.md

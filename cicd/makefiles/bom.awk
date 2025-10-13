@@ -4,8 +4,13 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note ../makefiles/bom.awk README.md | tee bom.md
-##       pandoc bom.md --metadata title=BOM -f markdown -t html -s -o bom.html
+## \note vi Makefile
+##       .PHONY: bom
+##       bom: bom.html
+##       bom.html: bom.md
+##           @../makefiles/bom.awk $< | tee build/$<
+##           @cp build/$< $<
+##           @pandoc $< --metadata title=BOM -f markdown -t html -s -o $@
 # ---------------------------------------------------------------------------- #
 BEGIN {
     FS = "|";
@@ -21,7 +26,7 @@ BEGIN {
         print $0;
     } else if (substr($2, 0, 5) == "Total") {
         state = 2;
-        printf "|%s|%6.2f|%s|%6.2f|\n",$2,$3,$4,t2;
+        printf "|%s|%6.2f|%s|%6.2f|\n",$2,t1,$4,t2;
     } else {
         t1 += $3;
         t = $3;
