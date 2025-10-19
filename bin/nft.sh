@@ -34,16 +34,22 @@ elif [ $action = "block" ]; then
     if [ -n "$4" ]; then
         hour=" hour > \"$4\""
     fi
-    $nft add chain ip filter input { type filter hook input priority 0 \; }
-    $nft add rule filter input ip saddr $ip$hour counter drop$comment
+    $nft add chain ip filter prerouting { type filter hook prerouting priority 0 \; }
+    $nft add rule filter prerouting ip saddr $ip$hour counter drop$comment
 elif [ $action = "unblock" ]; then
     if [ -z "${2//[0-9]}" ]; then
         handle=$2
     else
-        handle=`$0 list 2>/dev/null | grep "$2" | awk '{ print $NF }'`
+        handle=`$0 list 2>/dev/null | grep -m 1 "$2" | awk '{ print $NF }'`
     fi
     if ((handle)); then
-        $nft delete rule filter input handle $handle
+        if $nft -a list chain filter input 2>/dev/null | grep -q "handle $handle$"; then
+            $nft delete rule filter input handle $handle
+        elif $nft -a list chain filter prerouting 2>/dev/null | grep -q "handle $handle$"; then
+            $nft delete rule filter prerouting handle $handle
+        elif $nft -a list chain filter FORWARD 2>/dev/null | grep -q "handle $handle$"; then
+            $nft delete rule filter FORWARD handle $handle
+        fi
     else
         echo "handle not found"
     fi

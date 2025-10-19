@@ -4,29 +4,7 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note vi ~/install/debinst/bin/hotspot-pr-.sh
-##
-##   setup()
-##   {
-##       for ip in 10.66.0.39 10.66.0.16; do
-##           addFilter $ip m.youtube
-##           addFilter $ip www.youtube
-##           addFilter $ip www.tiktok
-##       done
-##       # sudo crontab -e
-##       # 00 18 * * * /bin/bash PATH/nft.sh unblock "comment"
-##       if ((`date +%H` < 18)); then
-##           if ! nft.sh list 2>/dev/null | grep -q "comment"; then
-##               nft.sh block 10.66.0.39 "comment"
-##           fi
-##       fi
-##   }
-##   loop()
-##   {
-##       if ! nft.sh list 2>/dev/null | grep -q "comment2"; then
-##           addFilterAfter 30 10.66.0.39 game.brawlstarsgame.com "comment2"
-##       fi
-##   }
+## \note cp cicd/makefiles/roles/tcpdump-dns/tasks/hotspot-ex-.sh /sbin/hotspot-pr-.sh
 # ---------------------------------------------------------------------------- #
 ipdns=10.66.0.2
 
@@ -85,8 +63,7 @@ addFilter()
     fi
     hex=`hexDomain $dom`
     len=`echo $hex | awk '{ print length() * 4 }'`
-    sudo nft add chain ip filter input { type filter hook input priority 0 \; }
-    sudo nft add rule filter input ip saddr $ip meta l4proto udp udp dport 53 @th,160,$len 0x$hex counter drop comment $dom
+    sudo nft add rule filter prerouting ip saddr $ip meta l4proto udp udp dport 53 @th,160,$len 0x$hex counter drop comment $dom
 }
 
 # ---------------------------------------------------------------------------- #
@@ -96,9 +73,9 @@ addFilterAfter()
 {
     min=$1
     ip="$2"
-    dom=$3
+    dom="$3"
     com="$4"
-    h=`sudo journalctl -u tcpdump-dns -S today | grep $dom | awk '
+    h=`sudo journalctl -u tcpdump-dns -S today | grep "$dom" | awk '
 {
     h = int(substr($3, 1, 2));
     m = int(substr($3, 4, 2)) + '$min';
@@ -119,8 +96,7 @@ addFilterAfter()
     if sudo nft list ruleset 2>/dev/null | grep -q "saddr $ip .*\"$com\""; then
         return
     fi
-    sudo nft add chain ip filter input { type filter hook input priority 0 \; }
-    sudo nft add rule filter input ip saddr $ip hour \> \"$h\" counter drop comment \"$com\"
+    sudo nft add rule filter prerouting ip saddr $ip hour \> \"$h\" counter drop comment \"$com\"
 }
 
 # ---------------------------------------------------------------------------- #
@@ -136,6 +112,12 @@ wlp=`cat /proc/net/dev | cut -d ':' -f 1 | grep -m 1 '^wlp'`
 if sudo nft list chain filter FORWARD 2>/dev/null | grep -q docker; then
     if [ -n "$enp" ] && [ -n "$wlp" ]; then
         if ! sudo nft list chain filter FORWARD 2>/dev/null | grep -q "$wlp"; then
+
+            # Block DNS over TLS (DoT) on port 853
+            if ! sudo nft list chain filter FORWARD 2>/dev/null | grep -q 853; then
+                sudo nft add rule filter FORWARD meta l4proto { tcp, udp } th dport 853 counter drop
+            fi
+
             sudo nft add rule filter FORWARD iifname $wlp oifname $enp counter accept
             sudo nft add rule filter FORWARD iifname $enp oifname $wlp ct state related,established counter accept
         else
@@ -162,11 +144,15 @@ else
     fi
 fi
 
-file=${0%.*}-pr-.sh
+sudo nft add chain ip filter prerouting { type filter hook prerouting priority 0 \; }
+file=/sbin/hotspot-pr-.sh
 if [ -f $file ]; then
     source $file
     if [ "`type -t setup`" = function ]; then
         setup
+        if ! sudo nft list chain filter prerouting 2>/dev/null | grep -q $ipdns; then
+            sudo nft add rule filter prerouting iifname $wlp ip saddr != { 0.0.0.0, $ipdns, $whitelist } counter drop
+        fi
     fi
 fi
 
