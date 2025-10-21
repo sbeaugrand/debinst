@@ -3,11 +3,17 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note CMAKE_OPT example for cross compile without sysroot :
+## \note # CMAKE_OPT example for cross compile without sysroot :
 ##       ifeq (xc,$(findstring $(MAKECMDGOALS),xc))
 ##         XC = aarch64-linux-gnu
 ##         CMAKE_OPT = -DCMAKE_CXX_COMPILER=$(XC)-g++
 ##       endif
+##       # Package without sysroot :
+##       .PHONY: xp
+##       xp:
+##          @CC=aarch64-linux-gnu-gcc\
+##           DEB_BUILD_OPTIONS=crossbuildcanrunhostbinaries\
+##           dpkg-buildpackage --no-sign -aarch64
 # ---------------------------------------------------------------------------- #
 BUILD ?= Debug
 

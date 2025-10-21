@@ -23,6 +23,6 @@ setup()
 loop()
 {
     if ! nft.sh list 2>/dev/null | grep -q "Comment 20"; then
-        addFilterAfter 20 10.66.0.39 "Alias  game.brawlstarsgame.com" "Comment 20"
+        addFilterAfter 21 10.66.0.39 "Alias  game.brawlstarsgame.com" "Comment 20"
     fi
 }
