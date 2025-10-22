@@ -11,7 +11,7 @@
 ##       # Package without sysroot :
 ##       .PHONY: xp
 ##       xp:
-##          @CC=aarch64-linux-gnu-gcc\
+##          @export XC=$(XC) &&\
 ##           DEB_BUILD_OPTIONS=crossbuildcanrunhostbinaries\
 ##           dpkg-buildpackage --no-sign -aarch64
 # ---------------------------------------------------------------------------- #

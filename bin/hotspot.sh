@@ -78,7 +78,7 @@ addFilterAfter()
     h=`sudo journalctl -u tcpdump-dns -S today | grep "$dom" | awk '
 {
     h = int(substr($3, 1, 2));
-    m = int(substr($3, 4, 2)) + '$min';
+    m = int(substr($3, 4, 2)) + '$min' + 1;
     if (m >= 60) {
         m -= 60;
         h += 1;
