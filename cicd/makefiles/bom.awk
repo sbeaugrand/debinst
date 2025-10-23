@@ -8,8 +8,8 @@
 ##       .PHONY: bom
 ##       bom: bom.html
 ##       bom.html: bom.md
-##           @../makefiles/bom.awk $< | tee build/$<
-##           @cp build/$< $<
+##           @../makefiles/bom.awk $< | tee bom.tmp~
+##           @mv bom.tmp~ $<
 ##           @pandoc $< --metadata title=BOM -f markdown -t html -s -o $@
 # ---------------------------------------------------------------------------- #
 BEGIN {

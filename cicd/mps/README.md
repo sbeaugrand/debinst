@@ -174,6 +174,15 @@ localhost> scp .vagrant/*-dev_* $user@$host:/run/user/1000/
 </details>
 
 <details>
+  <summary>manpages update</summary>
+
+  ```sh
+  make
+  cp build/*.1 .
+  ```
+</details>
+
+<details>
   <summary>No apt list update</summary>
 
   ```sh

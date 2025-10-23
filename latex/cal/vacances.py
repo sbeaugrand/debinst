@@ -20,7 +20,7 @@ with open(f'vacances{year}.json', 'r') as f:
     data = json.load(f)
 n = len(data['records'])
 if n != N_RECORDS:
-    print(f'error: {n} records != {N_RECORDS}')
+    print(f'error: {n} records != {N_RECORDS}', file=sys.stderr)
     exit(1)
 
 i = 0

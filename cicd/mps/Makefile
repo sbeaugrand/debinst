@@ -94,5 +94,5 @@ README-0-1.svg README-0-2.svg README-0-3.svg: FORCE
 
 .PHONY: bom
 bom:
-	@../makefiles/bom.awk README.md | tee build/bom.md
-	@cp build/bom.md README.md
+	@../makefiles/bom.awk README.md | tee bom.tmp~
+	@mv bom.tmp~ README.md
