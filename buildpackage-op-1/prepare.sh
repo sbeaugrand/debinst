@@ -18,6 +18,8 @@ for args in\
  solidpython\
  matplotlib\
  kibot\
+ printrun\
+ tikz_python\
 ; do
     downloadWheel "$args"
 done

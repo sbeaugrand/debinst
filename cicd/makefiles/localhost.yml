@@ -25,8 +25,8 @@
     # Desktop roles
     - elpa-markdown
     - emacs
-    - lxde
-    - lxpanel
+    #- lxde  #FIXME: debian 13
+    #- lxpanel  #FIXME: debian 13
     - mimeapps
     - notifications
     - screen

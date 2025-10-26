@@ -22,3 +22,4 @@
   copy:
     src: darklight.json
     dest: "{{ home }}/.config/kicad/6.0/colors/"
+  ignore_errors: yes

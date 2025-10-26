@@ -161,6 +161,7 @@ texlive-extra-utils  # pdfjam
 texlive-science  # siunitx texlive-fonts-recommended
 texlive-music
 texlive-metapost  # mfplain.mp
+latexmk  # tikz-python
 gv
 ntpsec-ntpdate
 hexedit

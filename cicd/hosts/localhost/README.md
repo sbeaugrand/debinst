@@ -19,7 +19,7 @@ make extraroles
 
   https://addons.mozilla.org/en-US/firefox/addon/markdown-viewer-webext
   ```sh
-  make extraroles EXTRAROLES="[\'mime-markdown\']"
+  make extraroles EXTRAROLES=mime-markdown
   firefox about:addons  # Preferences => Custom CSS
   ```
   ```css
@@ -96,7 +96,7 @@ make extraroles
   <summary>Chromium</summary>
 
   ```sh
-  make extraroles EXTRAROLES="[\'notifications-owa\']"
+  make extraroles EXTRAROLES=notifications-owa
   chromium  # Manage extensions => Developer mode => Load unpacked
   ```
 </details>

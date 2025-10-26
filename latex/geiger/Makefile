@@ -17,3 +17,7 @@ all:\
 CONFIG = $(RDIR)/makefiles/kibot.yaml
 TEXINPUTS = $(RDIR)/kicad:
 include $(RDIR)/makefiles/kibot.mk
+
+PROJECT = geiger
+PROROOT = ..
+include $(PROROOT)/makefiles/tar.mk

@@ -72,12 +72,12 @@ remote:
 .PHONY: extraroles
 extraroles:
 	@ansible-playbook ../../makefiles/includeroles.yml $(AARGS)\
-	 --extra-vars list=$(EXTRAROLES)
+	 --extra-vars '{"list":[$(EXTRAROLES)]}'
 
 .PHONY: sudoers
 sudoers:
 	@ansible-playbook ../../makefiles/includeroles.yml $(AARGS)\
-	 --extra-vars list="['sudoers']" --become-method ansible.builtin.su
+	 --extra-vars '{"list":[sudoers]}' --become-method ansible.builtin.su
 
 .PHONY: mount
 mount:
