@@ -1,0 +1,20 @@
+# ---------------------------------------------------------------------------- #
+## \file gitconfig
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+[rebase]
+	autosquash = true
+[core]
+	editor = vim
+[alias]
+	st = status
+	gr = log --graph
+	br = branch -a
+	rprune = remote -v prune origin
+	rmerge = pull origin
+	diffv = difftool -y --extcmd=\"vimdiff\"
+	diffw = diff --color-words
+	diffy = difftool -y --extcmd=\"colordiff -ydw -W$(tput cols)\"
+	alias = ! git config --global --get-regexp alias. | grep -v alias.alias

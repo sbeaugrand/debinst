@@ -12,6 +12,6 @@ ansible-playbook\
  -i $idir/cicd/hosts/localhost/inventory.yml\
  $idir/install-op-/install-op-ansible.yml\
  --ask-become-pass\
- -e list=$list
+ -e "{'list':[$list]}"
 
 unset args

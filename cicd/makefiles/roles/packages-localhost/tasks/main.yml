@@ -12,6 +12,7 @@
       - aptitude
       - cppcheck
       - curl
+      - dconf-cli
       - elpa-cmake-mode
       - elpa-dockerfile-mode
       - elpa-dpkg-dev-el

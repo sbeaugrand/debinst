@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/numlockx on
+X-GNOME-Autostart-enabled=true
+NoDisplay=false
+Hidden=false
+Name[fr_FR]=numlock
+Comment[fr_FR]=on
+X-GNOME-Autostart-Delay=30

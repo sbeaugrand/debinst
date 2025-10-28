@@ -15,6 +15,7 @@
       - binfmt-support
       - qemu-user-static
       - arch-test
+      - lintian
   become: yes
 
 - name: add user to the sbuild group
@@ -27,6 +28,12 @@
 - name: mkdir /etc/qemu-binfmt
   file:
     dest: /etc/qemu-binfmt
+    state: directory
+  become: yes
+
+- name: mkdir /usr/gnemul
+  file:
+    dest: /usr/gnemul
     state: directory
   become: yes
 
@@ -45,6 +52,14 @@
   with_items: "{{ output.files }}"
   become: yes
 
+- name: qemu-binfmt arm link
+  file:
+    src: "{{ item.path }}"
+    dest: /usr/gnemul/arm
+    state: link
+  with_items: "{{ output.files }}"
+  become: yes
+
 - name: find aarch64 sysroot
   find:
     paths: "{{ repo }}"
@@ -56,6 +71,14 @@
   file:
     src: "{{ item.path }}"
     dest: /etc/qemu-binfmt/aarch64
+    state: link
+  with_items: "{{ output.files }}"
+  become: yes
+
+- name: qemu-binfmt aarch64 link
+  file:
+    src: "{{ item.path }}"
+    dest: /usr/gnemul/aarch64
     state: link
   with_items: "{{ output.files }}"
   become: yes

@@ -17,10 +17,3 @@
       EndSection
   when: ansible_product_name == 'Precision 7510'
   become: yes
-
-- name: brightness
-  lineinfile:
-    path: "{{ home }}/.config/lxsession/LXDE/autostart"
-    regexp: 'brightness'
-    line: '@xrandr --output eDP-1 --brightness 0.55'
-  when: ansible_product_name == 'Precision 7510'

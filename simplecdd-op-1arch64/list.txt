@@ -201,6 +201,7 @@ subversion
 flex
 bison
 ansible  # python3-yaml (kiplot)
+dconf-cli  # ansible
 xorriso  # simple-cdd
 isolinux
 nmap

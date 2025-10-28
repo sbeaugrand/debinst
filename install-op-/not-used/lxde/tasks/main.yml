@@ -1,0 +1,77 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: autostart
+  blockinfile:
+    path: "{{ home }}/.config/lxsession/LXDE/autostart"
+    block: |
+      @/usr/bin/numlockx on
+      @amixer -q set Capture nocap
+      @/usr/sbin/rfkill block all
+
+- name: shortcuts
+  blockinfile:
+    path: "{{ home }}/.config/openbox/lxde-rc.xml"
+    marker: '  <!-- {mark} KEYBOARD ANSIBLE MANAGED BLOCK -->'
+    insertbefore: "</keyboard>"
+    block: |
+      <!-- Toggle audio capture -->
+        <keybind key="XF86AudioMicMute">
+          <action name="Execute"><command>amixer set Capture toggle</command></action>
+        </keybind>
+      <!-- Calculator -->
+        <keybind key="XF86Calculator">
+          <action name="Execute"><command>qalculate-gtk</command></action>
+        </keybind>
+      <!-- Terminal -->
+        <keybind key="C-A-t">
+          <action name="Execute"><command>xterm -T mxterm</command></action>
+        </keybind>
+      <!-- Restart X Window server -->
+        <keybind key="C-A-BackSpace">
+          <action name="Execute"><command>sudo systemctl restart lightdm</command></action>
+        </keybind>
+      <!-- Lock screen -->
+        <keybind key="C-A-l">
+          <action name="Execute"><command>xscreensaver-command -lock</command></action>
+        </keybind>
+  notify:
+    - openbox reconfigure
+
+- name: mxterm
+  blockinfile:
+    path: "{{ home }}/.config/openbox/lxde-rc.xml"
+    marker: '  <!-- {mark} APPLICATIONS ANSIBLE MANAGED BLOCK -->'
+    insertbefore: "</applications>"
+    block: |
+      <!-- Maximized xterm -->
+        <application title="mxterm">
+          <maximized>yes</maximized>
+          <decor>no</decor>
+        </application>
+  notify:
+    - openbox reconfigure
+
+- name: Super_L
+  lineinfile:
+    path: "{{ home }}/.config/openbox/lxde-rc.xml"
+    regexp: '^( *)<keybind key="A-F1">'
+    line: '\g<1><keybind key="Super_L">'
+    backrefs: yes
+  notify:
+    - openbox reconfigure
+
+- name: desktop trash
+  lineinfile:
+    path: "{{ home }}/.config/pcmanfm/LXDE/desktop-items-0.conf"
+    regexp: 'show_trash=.*'
+    line: 'show_trash=0'
+
+- name: deskop font
+  lineinfile:
+    path: "{{ home }}/.config/pcmanfm/LXDE/desktop-items-0.conf"
+    regexp: 'desktop_font=.*'
+    line: 'desktop_font=Sans 7'

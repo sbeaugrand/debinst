@@ -1,8 +1,9 @@
 # ---------------------------------------------------------------------------- #
-## \file Makefile
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-EXTRAROLES ?= dell7510,upgrade
-include ../../makefiles/ansible.mk
+- name: "{{ home }}/.config/autostart/brightness.desktop"
+  template:
+    src: brightness.j2
+    dest: "{{ home }}/.config/autostart/brightness.desktop"

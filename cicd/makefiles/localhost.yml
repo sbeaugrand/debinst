@@ -19,14 +19,14 @@
     - vim
     # Local roles
     - packages-localhost
+    - gitconfig
     - uncrustify
     - role: libvirt
       when: ansible_virtualization_role == 'host'
     # Desktop roles
     - elpa-markdown
     - emacs
-    #- lxde  #FIXME: debian 13
-    #- lxpanel  #FIXME: debian 13
+    - lxde
     - mimeapps
     - notifications
     - screen

@@ -2,76 +2,61 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note Cinnamon restart : ctrl+alt+esc
 # ---------------------------------------------------------------------------- #
 ---
-- name: autostart
-  blockinfile:
-    path: "{{ home }}/.config/lxsession/LXDE/autostart"
-    block: |
-      @/usr/bin/numlockx on
-      @amixer -q set Capture nocap
-      @/usr/sbin/rfkill block all
+- name: applets
+  community.general.dconf:
+    key: /org/cinnamon/enabled-applets
+    value: "[
+      'panel1:center:0:menu@cinnamon.org:0',
+      'panel1:center:1:grouped-window-list@cinnamon.org:1',
+      'panel1:right:0:systray@cinnamon.org:2',
+      'panel1:right:1:xapp-status@cinnamon.org:3',
+      'panel1:right:2:notifications@cinnamon.org:4',
+      'panel1:right:3:removable-drives@cinnamon.org:5',
+      'panel1:right:4:network@cinnamon.org:6',
+      'panel1:right:5:sound@cinnamon.org:7',
+      'panel1:right:6:power@cinnamon.org:8',
+      'panel1:right:7:calendar@cinnamon.org:9'
+      ]"
 
-- name: shortcuts
-  blockinfile:
-    path: "{{ home }}/.config/openbox/lxde-rc.xml"
-    marker: '  <!-- {mark} KEYBOARD ANSIBLE MANAGED BLOCK -->'
-    insertbefore: "</keyboard>"
-    block: |
-      <!-- Toggle audio capture -->
-        <keybind key="XF86AudioMicMute">
-          <action name="Execute"><command>amixer set Capture toggle</command></action>
-        </keybind>
-      <!-- Calculator -->
-        <keybind key="XF86Calculator">
-          <action name="Execute"><command>qalculate-gtk</command></action>
-        </keybind>
-      <!-- Terminal -->
-        <keybind key="C-A-t">
-          <action name="Execute"><command>xterm -T mxterm</command></action>
-        </keybind>
-      <!-- Restart X Window server -->
-        <keybind key="C-A-BackSpace">
-          <action name="Execute"><command>sudo systemctl restart lightdm</command></action>
-        </keybind>
-      <!-- Lock screen -->
-        <keybind key="C-A-l">
-          <action name="Execute"><command>xscreensaver-command -lock</command></action>
-        </keybind>
-  notify:
-    - openbox reconfigure
+- name: autohide
+  community.general.dconf:
+    key: /org/cinnamon/panels-autohide
+    value: "['1:true']"
 
-- name: mxterm
-  blockinfile:
-    path: "{{ home }}/.config/openbox/lxde-rc.xml"
-    marker: '  <!-- {mark} APPLICATIONS ANSIBLE MANAGED BLOCK -->'
-    insertbefore: "</applications>"
-    block: |
-      <!-- Maximized xterm -->
-        <application title="mxterm">
-          <maximized>yes</maximized>
-          <decor>no</decor>
-        </application>
-  notify:
-    - openbox reconfigure
+- name: effects
+  community.general.dconf:
+    key: /org/cinnamon/desktop-effects-workspace
+    value: false
 
-- name: Super_L
-  lineinfile:
-    path: "{{ home }}/.config/openbox/lxde-rc.xml"
-    regexp: '^( *)<keybind key="A-F1">'
-    line: '\g<1><keybind key="Super_L">'
-    backrefs: yes
-  notify:
-    - openbox reconfigure
+- name: pinned-apps
+  copy:
+    content: "{{ js | to_nice_json}}"
+    dest: "{{ js_file }}"
+  vars:
+    js: "{{ (lookup('file', js_file) | from_json) |
+      combine({'pinned-apps':{'type':'generic','default':[],'value':[
+      'screen.desktop',
+      'chromium.desktop',
+      'emacsclient.desktop',
+      'thunar.desktop'
+      ]}}) }}"
+    js_file: "{{ home
+    }}/.config/cinnamon/spices/grouped-window-list@cinnamon.org/1.json"
 
-- name: desktop trash
-  lineinfile:
-    path: "{{ home }}/.config/pcmanfm/LXDE/desktop-items-0.conf"
-    regexp: 'show_trash=.*'
-    line: 'show_trash=0'
+- name: nocap
+  copy:
+    src: nocap.desktop
+    dest: "{{ home }}/.config/autostart/"
 
-- name: deskop font
-  lineinfile:
-    path: "{{ home }}/.config/pcmanfm/LXDE/desktop-items-0.conf"
-    regexp: 'desktop_font=.*'
-    line: 'desktop_font=Sans 7'
+- name: rfkill
+  copy:
+    src: rfkill.desktop
+    dest: "{{ home }}/.config/autostart/"
+
+- name: numlock
+  copy:
+    src: numlock.desktop
+    dest: "{{ home }}/.config/autostart/"
