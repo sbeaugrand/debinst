@@ -5,7 +5,21 @@
 # ---------------------------------------------------------------------------- #
 ---
 - name: /etc/gitconfig
-  copy:
-    src: gitconfig
-    dest: /etc/
+  blockinfile:
+    path: /etc/gitconfig
+    block: |
+      [rebase]
+        autosquash = true
+      [core]
+        editor = vim
+      [alias]
+        st = status
+        gr = log --graph
+        br = branch -a
+        rprune = remote -v prune origin
+        rmerge = pull origin
+        diffv = difftool -y --extcmd=\"vimdiff\"
+        diffw = diff --color-words
+        diffy = difftool -y --extcmd=\"colordiff -ydw -W$(tput cols)\"
+        alias = ! git config --global --get-regexp alias. | grep -v alias.alias
   become: yes

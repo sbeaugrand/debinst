@@ -1,0 +1,129 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+## \note Cinnamon restart : ctrl+alt+esc
+# ---------------------------------------------------------------------------- #
+---
+- name: weather
+  ansible.builtin.unarchive:
+    src: https://cinnamon-spices.linuxmint.com/files/applets/weather@mockturtl.zip
+    dest: "{{ home }}/.local/share/cinnamon/applets"
+    remote_src: yes
+
+- name: weather json
+  copy:
+    src: weather-pr-.json
+    dest: "{{ home }}/.config/cinnamon/spices/weather@mockturtl/10.json"
+  ignore_errors: yes
+
+- name: applets
+  community.general.dconf:
+    key: /org/cinnamon/enabled-applets
+    value: "[
+      'panel1:center:0:menu@cinnamon.org:0',
+      'panel1:center:1:grouped-window-list@cinnamon.org:1',
+      'panel1:right:0:systray@cinnamon.org:2',
+      'panel1:right:1:xapp-status@cinnamon.org:3',
+      'panel1:right:2:notifications@cinnamon.org:4',
+      'panel1:right:3:removable-drives@cinnamon.org:5',
+      'panel1:right:4:network@cinnamon.org:6',
+      'panel1:right:5:sound@cinnamon.org:7',
+      'panel1:right:6:power@cinnamon.org:8',
+      'panel1:right:7:calendar@cinnamon.org:9',
+      'panel1:right:8:weather@mockturtl:10'
+      ]"
+
+- name: autohide
+  community.general.dconf:
+    key: /org/cinnamon/panels-autohide
+    value: "['1:true']"
+
+- name: effects
+  community.general.dconf:
+    key: /org/cinnamon/desktop-effects-workspace
+    value: false
+
+- name: pinned-apps
+  copy:
+    content: "{{ js | to_nice_json }}"
+    dest: "{{ js_file }}"
+  vars:
+    js: "{{ (lookup('file', js_file) | from_json) |
+      combine({'pinned-apps':{'type':'generic','default':[],'value':[
+      'screen.desktop',
+      'chromium.desktop',
+      'emacsclient.desktop',
+      'thunar.desktop'
+      ]}}) }}"
+    js_file: "{{ home
+    }}/.config/cinnamon/spices/grouped-window-list@cinnamon.org/1.json"
+
+- name: copy emacsclient.desktop
+  copy:
+    src: /usr/share/applications/emacsclient.desktop
+    dest: "{{ home }}/.local/share/applications/"
+    remote_src: yes
+    force: no
+
+- name: modify emacsclient.desktop
+  replace:
+    path: "{{ home }}/.local/share/applications/emacsclient.desktop"
+    regexp: '^Exec=.*'
+    replace: 'Exec=emacs %F'
+
+- name: keybindings
+  community.general.dconf:
+    key: /org/cinnamon/desktop/keybindings/custom-list
+    value: "['custom0']"
+
+- name: qalculate binding
+  community.general.dconf:
+    key: /org/cinnamon/desktop/keybindings/custom-keybindings/custom0/binding
+    value: "['Calculator']"
+
+- name: qalculate command
+  community.general.dconf:
+    key: /org/cinnamon/desktop/keybindings/custom-keybindings/custom0/command
+    value: "'qalculate'"
+
+- name: qalculate name
+  community.general.dconf:
+    key: /org/cinnamon/desktop/keybindings/custom-keybindings/custom0/name
+    value: "'qalculate'"
+
+#- name: screensaver
+#  community.general.dconf:
+#    key: /org/cinnamon/desktop/screensaver/show-album-art
+#    value: false
+
+- name: nocap
+  copy:
+    src: nocap.desktop
+    dest: "{{ home }}/.config/autostart/"
+
+- name: rfkill
+  copy:
+    src: rfkill.desktop
+    dest: "{{ home }}/.config/autostart/"
+
+- name: numlock
+  copy:
+    src: numlock.desktop
+    dest: "{{ home }}/.config/autostart/"
+
+- name: maximus
+  ansible.builtin.unarchive:
+    src: https://cinnamon-spices.linuxmint.com/files/extensions/cinnamon-maximus@fmete.zip
+    dest: "{{ home }}/.local/share/cinnamon/extensions"
+    remote_src: yes
+
+- name: maximus json
+  copy:
+    src: maximus.json
+    dest: "{{ home }}/.config/cinnamon/spices/cinnamon-maximus@fmete/cinnamon-maximus@fmete.json"
+
+- name: extensions
+  community.general.dconf:
+    key: /org/cinnamon/enabled-extensions
+    value: "['cinnamon-maximus@fmete']"

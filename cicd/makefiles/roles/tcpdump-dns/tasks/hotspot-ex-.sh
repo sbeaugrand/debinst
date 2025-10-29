@@ -14,7 +14,7 @@ setup()
     done
     # sudo crontab -e
     # 00 18 * * * /bin/bash PATH/nft.sh unblock "comment"
-    if ((`date +%H` < 18)); then
+    if ((`date +%H | awk '{ print $0 + 1 }'` < 18)); then
         if ! nft.sh list 2>/dev/null | grep -q "comment"; then
             nft.sh block 10.66.0.39 "comment"
         fi

@@ -6,4 +6,4 @@ NoDisplay=false
 Hidden=false
 Name[fr_FR]=numlock
 Comment[fr_FR]=on
-X-GNOME-Autostart-Delay=30
+X-GNOME-Autostart-Delay=10

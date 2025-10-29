@@ -218,7 +218,7 @@ libapache2-mod-php
 php-gd
 php-cli
 php-mysql  # phpmyadmin
-xscreensaver
+#xscreensaver
 unzip
 telnet
 unrar-free
