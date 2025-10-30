@@ -1,0 +1,52 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: downloads dir
+  file:
+    state: directory
+    path: "{{ home }}/data/Downloads"
+
+- name: downloads link
+  file:
+    state: link
+    src: "{{ home }}/data/Downloads"
+    path: "{{ home }}/Downloads"
+
+- name: ssh dir
+  file:
+    state: directory
+    path: "{{ home }}/data/ssh"
+    mode: 0700
+
+- name: ssh link
+  file:
+    state: link
+    src: "{{ home }}/data/ssh"
+    path: "{{ home }}/.ssh"
+
+- name: gnupg dir
+  file:
+    state: directory
+    path: "{{ home }}/data/gnupg"
+    mode: 0700
+
+- name: gnupg link
+  file:
+    state: link
+    src: "{{ home }}/data/gnupg"
+    path: "{{ home }}/.gnupg"
+
+- name: password-store dir
+  file:
+    state: directory
+    path: "{{ home }}/data/password-store"
+    mode: 0700
+
+- name: password-store link
+  file:
+    state: link
+    src: "{{ home }}/data/password-store"
+    path: "{{ home }}/.password-store"

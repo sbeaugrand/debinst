@@ -7,13 +7,13 @@
 - name: patch
   patch:
     src: markdown-mode.patch
-    dest: /usr/share/emacs/site-lisp/elpa-src/markdown-mode-2.5/markdown-mode.el
+    dest: /usr/share/emacs/site-lisp/elpa-src/markdown-mode-2.7/markdown-mode.el
   register: patch
   become: yes
 
 - name: remove elc
   file:
-    path: /usr/share/emacs/site-lisp/elpa/markdown-mode-2.5/markdown-mode.elc
+    path: /usr/share/emacs/site-lisp/elpa/markdown-mode-2.7/markdown-mode.elc
     state: absent
   when: patch.changed
   become: yes

@@ -1,6 +1,6 @@
---- /usr/share/emacs/site-lisp/elpa-src/markdown-mode-2.5/markdown-mode.el	2022-05-17 13:51:02.000000000 +0200
-+++ /usr/share/emacs/site-lisp/elpa-src/markdown-mode-2.5/markdown-mode.el	2023-12-09 08:26:36.017296965 +0100
-@@ -6487,8 +6487,8 @@
+--- /usr/share/emacs/site-lisp/elpa-src/markdown-mode-2.7/markdown-mode.el	2025-04-06 09:19:39.000000000 +0200
++++ /usr/share/emacs/site-lisp/elpa-src/markdown-mode-2.7/markdown-mode.el	2025-10-30 19:27:44.553151907 +0100
+@@ -6832,8 +6832,8 @@
              (forward-line -1))
            (forward-line))
           ;; List items

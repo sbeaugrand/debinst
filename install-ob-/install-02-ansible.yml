@@ -18,7 +18,6 @@
     - lxde
     - mimeapps
     - notifications
-    - screensaver-on
   handlers:
     - name: openbox reconfigure
       command: openbox --reconfigure

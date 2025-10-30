@@ -8,7 +8,7 @@
 ##       2018-05-24-automatically-mount-luks-encrypted-device-with-systemd.md
 ##
 ##       Usage example :
-##       https://github.com/sbeaugrand/debinst/tree/master/cicd/hosts/localhost
+##       hosts/localhost/README.md
 # ---------------------------------------------------------------------------- #
 ---
 - name: "{{ mnt }}.mount"

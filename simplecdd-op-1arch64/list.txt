@@ -223,7 +223,8 @@ unzip
 telnet
 unrar-free
 p7zip-full
-firefox-esr-l10n-fr
+#firefox-esr-l10n-fr
+firefox-esr
 ftp
 ispell
 lsof

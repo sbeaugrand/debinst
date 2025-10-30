@@ -5,11 +5,20 @@
 ## \note Cinnamon restart : ctrl+alt+esc
 # ---------------------------------------------------------------------------- #
 ---
-- name: weather
-  ansible.builtin.unarchive:
-    src: https://cinnamon-spices.linuxmint.com/files/applets/weather@mockturtl.zip
+- name: weather download
+  uri:
+    url: https://cinnamon-spices.linuxmint.com/files/applets/weather@mockturtl.zip
+    dest: "{{ home }}/.local/share/cinnamon/applets/"
+    creates: "{{ home
+    }}/.local/share/cinnamon/applets/weather@mockturtl.zip"
+
+- name: weather unarchive
+  unarchive:
+    src: "{{ home
+    }}/.local/share/cinnamon/applets/weather@mockturtl.zip"
     dest: "{{ home }}/.local/share/cinnamon/applets"
-    remote_src: yes
+    creates: "{{ home
+    }}/.local/share/cinnamon/applets/weather@mockturtl"
 
 - name: weather json
   copy:
@@ -43,6 +52,11 @@
   community.general.dconf:
     key: /org/cinnamon/desktop-effects-workspace
     value: false
+
+- name: notifications
+  community.general.dconf:
+    key: /org/cinnamon/desktop/notifications/notification-duration
+    value: 3600
 
 - name: pinned-apps
   copy:
@@ -92,10 +106,10 @@
     key: /org/cinnamon/desktop/keybindings/custom-keybindings/custom0/name
     value: "'qalculate'"
 
-#- name: screensaver
-#  community.general.dconf:
-#    key: /org/cinnamon/desktop/screensaver/show-album-art
-#    value: false
+- name: screensaver
+  community.general.dconf:
+    key: /org/cinnamon/desktop/screensaver/show-album-art
+    value: false
 
 - name: nocap
   copy:
@@ -112,11 +126,20 @@
     src: numlock.desktop
     dest: "{{ home }}/.config/autostart/"
 
-- name: maximus
-  ansible.builtin.unarchive:
-    src: https://cinnamon-spices.linuxmint.com/files/extensions/cinnamon-maximus@fmete.zip
+- name: maximus download
+  uri:
+    url: https://cinnamon-spices.linuxmint.com/files/extensions/cinnamon-maximus@fmete.zip
+    dest: "{{ home }}/.local/share/cinnamon/extensions/"
+    creates: "{{ home
+    }}/.local/share/cinnamon/extensions/cinnamon-maximus@fmete.zip"
+
+- name: maximus unarchive
+  unarchive:
+    src: "{{ home
+    }}/.local/share/cinnamon/extensions/cinnamon-maximus@fmete.zip"
     dest: "{{ home }}/.local/share/cinnamon/extensions"
-    remote_src: yes
+    creates: "{{ home
+    }}/.local/share/cinnamon/extensions/cinnamon-maximus@fmete"
 
 - name: maximus json
   copy:

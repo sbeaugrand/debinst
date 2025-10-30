@@ -34,3 +34,4 @@
       Terminal=false
       Type=Application
       Categories=TerminalEmulator;System;Utility;
+      StartupWMClass=XTerm

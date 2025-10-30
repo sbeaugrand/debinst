@@ -68,7 +68,7 @@ make extraroles
   ```shell
   sudo dd if=/dev/random of=/root/luksKey bs=512 count=8
   sudo cryptsetup luksAddKey /dev/sda3 /root/luksKey
-  ansible-playbook ../../makefiles/includeroles.yml -e host=all -e '{"list":[crypted]} -e dev=sda3 -e mnt=data
+  ansible-playbook ../../makefiles/includeroles.yml -e host=all -e '{"list":[crypted,crypted-links]} -e dev=sda3 -e mnt=data
   sudo systemctl enable data.mount
   ```
 </details>

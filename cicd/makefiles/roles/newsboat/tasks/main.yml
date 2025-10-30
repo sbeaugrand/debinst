@@ -10,7 +10,31 @@
     line: https://micronews.debian.org/feeds/feed.rss
     create: yes
 
+- name: unread.sh
+  blockinfile:
+    path: "{{ home }}/.local/bin/unread.sh"
+    block: |
+      if ! which newsboat >/dev/null; then
+          exit 0
+      fi
+      count=`newsboat -x reload -x print-unread`
+      if echo $count | grep -qv '^0 '; then
+          notify-send -t 0 "newsboat" "$count"
+      fi
+    mode: 0755
+    create: yes
+
 - name: autostart
-  lineinfile:
-    path: "{{ home }}/.config/lxsession/LXDE/autostart"
-    line: "@{{ home }}/install/debinst/bin/unread.sh"
+  blockinfile:
+    path: "{{ home }}/.config/autostart/newsboat.desktop"
+    block: |
+      [Desktop Entry]
+      Type=Application
+      Exec={{ home }}/.local/bin/unread.sh
+      X-GNOME-Autostart-enabled=true
+      NoDisplay=false
+      Hidden=false
+      Name[fr_FR]=newsboat
+      Comment[fr_FR]=print unread
+      X-GNOME-Autostart-Delay=10
+    create: yes

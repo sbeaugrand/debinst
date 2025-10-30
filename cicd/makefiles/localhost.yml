@@ -30,7 +30,6 @@
     - mimeapps
     - notifications
     - screen
-    - screensaver-on
     - xterm
     - role: homepage
       vars:
