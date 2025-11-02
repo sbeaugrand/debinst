@@ -4,6 +4,16 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 - name: "{{ home }}/.config/autostart/brightness.desktop"
-  template:
-    src: brightness.j2
-    dest: "{{ home }}/.config/autostart/brightness.desktop"
+  blockinfile:
+    path: "{{ home }}/.config/autostart/brightness.desktop"
+    block: |
+      [Desktop Entry]
+      Type=Application
+      Exec=xrandr --output eDP-1 --brightness {{ value }}
+      X-GNOME-Autostart-enabled=true
+      NoDisplay=false
+      Hidden=false
+      Name[fr_FR]=brightness
+      Comment[fr_FR]={{ value }}
+      X-GNOME-Autostart-Delay=1
+    create: yes

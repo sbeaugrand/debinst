@@ -3,6 +3,17 @@
 #include <QPushButton>
 #include "messagejob.h"
 
+#include <glib-object.h>
+typedef struct _TestGReceiver TestGReceiver;
+struct _TestGReceiver {
+    GObjectClass parent_class;
+    void (*testSlot) (_TestGReceiver* /*receiver*/);
+};
+typedef struct _TestGReceiverClass TestGReceiverClass;
+struct _TestGReceiverClass {
+    GObjectClass parent_class;
+};
+
 namespace Ui {
 class MainWindow;
 }
@@ -21,4 +32,8 @@ private:
 
     QPushButton* mButton;
     mq::MessageJob* mMessageJob;
+
+    void (*testSignal) (TestGReceiver* receiver);
+    guint mSignal;
+    TestGReceiver* mTestGReceiver;
 };

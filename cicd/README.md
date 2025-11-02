@@ -1,6 +1,6 @@
 |Project|Dependancies                     |
 |-------|---------------------------------|
-|   1   |RabbitMQ + Qt widgets            |
+|   1   |RabbitMQ + Qt widgets + g_signal |
 |   2   |SimpleAmqpClient library         |
 |   3   |SimpleAmqpClient                 |
 |   4   |jsonrpccpp + microhttpd + jsoncpp|

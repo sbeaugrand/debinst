@@ -70,11 +70,11 @@ https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/
 gpg --keyserver hkps://keyring.debian.org:443 --recv-keys 0xDA87E80D6294BE9B
 gpg --keyserver hkps://keyring.debian.org:443 --recv-keys 0x42468F4009EA8AC3
 gpg --verify SHA512SUMS.sign SHA512SUMS
-grep debian-live-13.0.0-amd64-lxde.iso$ SHA512SUMS >debian-live-13.0.0-amd64-lxde.sha
-sha512sum -c debian-live-13.0.0-amd64-lxde.sha
+grep debian-live-13.1.0-amd64-lxde.iso$ SHA512SUMS >debian-live-13.1.0-amd64-lxde.sha
+sha512sum -c debian-live-13.1.0-amd64-lxde.sha
 sudo apt install openssh-server
 make pkgs
-gnome-boxes debian-live-13.0.0-amd64-lxde.iso
+gnome-boxes debian-live-13.1.0-amd64-lxde.iso
 ```
 ```sh
 # lxterminal

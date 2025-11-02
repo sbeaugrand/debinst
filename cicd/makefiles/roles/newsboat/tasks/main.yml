@@ -36,5 +36,5 @@
       Hidden=false
       Name[fr_FR]=newsboat
       Comment[fr_FR]=print unread
-      X-GNOME-Autostart-Delay=10
+      X-GNOME-Autostart-Delay=0
     create: yes
