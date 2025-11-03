@@ -47,6 +47,9 @@ cd debinst
 make pkgs
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
 sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadata file'  # comment 2 lignes
+# trixie
+sudo vi /usr/share/simple-cdd/build-simple-cdd +/'For amd64'  # comment 3 lines
+sudo vi /usr/share/debian-cd/tools/boot/trixie/boot-x86 +/'amd64 i386'  # suppr i386
 make iso
 pv ~/data/install-build/simplecdd-op-1arch64/images/debian-*-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
@@ -61,6 +64,9 @@ La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 ./1buildpackage.sh buildpackage-op-2ansible dist
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
 sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadata file'  # comment 2 lignes
+# trixie
+sudo vi /usr/share/simple-cdd/build-simple-cdd +/'For amd64'  # comment 3 lines
+sudo vi /usr/share/debian-cd/tools/boot/trixie/boot-x86 +/'amd64 i386'  # suppr i386
 ./2simplecdd.sh simplecdd-op-2ansible buildpackage-op-2ansible
 ```
 

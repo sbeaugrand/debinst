@@ -53,10 +53,19 @@
     key: /org/cinnamon/desktop-effects-workspace
     value: false
 
-- name: notifications
+- name: notifications duration
   community.general.dconf:
     key: /org/cinnamon/desktop/notifications/notification-duration
     value: 3600
+
+- name: notifications color
+  replace:
+    path: /usr/share/cinnamon/theme/cinnamon.css
+    after: '#notification {'
+    before: '.notification {'
+    regexp: '^  background-color: #242424;'
+    replace: '  background-color: #ffa500;'
+  become: yes
 
 - name: pinned-apps
   copy:

@@ -10,6 +10,8 @@
     install_recommends: no
     name:
       - docker-buildx
+      - docker-cli
+      - docker.io
       - ssl-cert
   become: yes
 

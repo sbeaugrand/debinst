@@ -7,7 +7,6 @@ docker run -v $PWD:/pwd camotics cp CAMotics/camotics_1.3.0_amd64.deb /pwd/
 sudo apt install ./camotics_1.3.0_amd64.deb
 docker container prune
 docker rmi camotics
-docker rmi debian:stable-slim
 ```
 
 # Build without docker

@@ -13,8 +13,8 @@ ipr=127.0.2.2
 # ---------------------------------------------------------------------------- #
 # dnscrypt-proxy
 # ---------------------------------------------------------------------------- #
-if notFile /usr/sbin/dnscrypt-proxy || notWhich lxpolkit; then
-    sudoRoot apt-get -y install dnscrypt-proxy lxpolkit || return 1
+if notFile /usr/sbin/dnscrypt-proxy; then
+    sudoRoot apt-get -y install dnscrypt-proxy || return 1
 fi
 
 file=/etc/dnscrypt-proxy/dnscrypt-proxy.toml
@@ -94,20 +94,16 @@ fi
 if LANG=en nmcli general permissions |\
  grep org.freedesktop.NetworkManager.settings.modify.system | grep -q yes; then
     cat >$tmpf <<EOF
-[settings.modify.system]
-Identity=unix-user:$user
-Action=org.freedesktop.NetworkManager.settings.modify.system
-ResultAny=no
-ResultInactive=no
-ResultActive=auth_admin_keep
+polkit.addRule(function(action, subject) {
+    if (action.id.indexOf("org.freedesktop.NetworkManager.settings.modify.system") == 0) {
+        return polkit.Result.AUTH_ADMIN;
+    }
+});
 EOF
-    dir=/var/lib/polkit-1/localauthority/50-local.d
-    if ! sudo test -d $dir; then
-        sudoRoot mkdir $dir
-    fi
-    file=$dir/10-network-manager.pkla
+    file=/etc/polkit-1/rules.d/50-org.freedesktop.NetworkManager.rules
     if sudo test -f $file; then
-        logWarn "$file already exists"
+        logError "$file already exists"
+        return 1
     else
         sudoRoot cp $tmpf $file
     fi

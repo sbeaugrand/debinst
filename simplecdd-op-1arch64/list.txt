@@ -39,6 +39,7 @@ gdb
 g++-aarch64-linux-gnu
 g++-arm-linux-gnueabihf  # libc6-dev-armhf-cross
 python3-pip  # python3-setuptools (kiplot)
+python3-dev  # pip3 wheel
 systemd-coredump  # coredumpctl debug
 valgrind
 vim
