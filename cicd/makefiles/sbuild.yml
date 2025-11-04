@@ -83,6 +83,7 @@ rxpackage:
     - test -n "$DIST" || DIST="stable"
     - >
       $SSH "cd $UPATH/$PROPATH/build/$REPO &&
+      export TMPDIR=/temp &&
       sbuild --build=$ARCH --host=$ARCH --chroot-mode=unshare
       -c $UPATH/sbuild/$DIST-$ARCH.tar.xz --no-apt-update
       --build-dir=$UPATH/sbuild --extra-package=$UPATH/sbuild"

@@ -16,3 +16,8 @@ variables:
   PKG: lib$REPO
 include:
   - local: /../makefiles/sbuild.yml
+build:
+  stage: build
+  after_script:
+    - cd build/$REPO
+    - grep -q 'VERSION 3.5' CMakeLists.txt || git apply ../../$REPO.patch

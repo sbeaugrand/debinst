@@ -7,10 +7,10 @@
 load "../../makefiles/Vagrantfile"
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "generic/debian12"
+  config.vm.box = "alvistack/debian-13"
   config.vm.define "default"
-  config.vm.hostname = "debian12"
+  config.vm.hostname = "debian13"
   config.vm.provider :libvirt do |libvirt|
-    libvirt.management_network_mac = "52:54:00:00:12:00"
+    libvirt.management_network_mac = "52:54:00:00:13:00"
   end
 end

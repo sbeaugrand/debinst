@@ -79,12 +79,20 @@ sequenceDiagram
 # Create chroot
 
 ```console
-localhost> cd ../hosts/debian12
+localhost> cd ../hosts/debian13
 localhost> make up
+localhost> make add-ip
+localhost> vagrant halt
+localhost> make up
+localhost> vagrant provision
+localhost> make ssh-copy-id  # for rsync in sbuild.yml
 localhost> vagrant ssh
  vagrant1> mkdir ~/sbuild
  vagrant1> DIST=stable
  vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
+ vagrant1> sudo mkdir /temp
+ vagrant1> sudo chmod 777 /temp
+ vagrant1> export TMPDIR=/temp
  vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=cmake,debhelper,fakeroot,help2man,pkg-config,lintian,dose-distcheck,apt-utils,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev,swig,python3-dev
 ```
 
