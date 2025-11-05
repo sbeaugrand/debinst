@@ -15,7 +15,7 @@ index 961e55a..a347d9c 100644
 +++ b/CMakeLists.txt
 @@ -1,4 +1,4 @@
 -cmake_minimum_required(VERSION 3.0)
-+cmake_minimum_required(VERSION 3.5)
++cmake_minimum_required(VERSION 3.22)
  
  # setup directory where we should look for cmake files
  list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")

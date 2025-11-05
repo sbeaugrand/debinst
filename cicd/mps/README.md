@@ -90,9 +90,7 @@ localhost> vagrant ssh
  vagrant1> mkdir ~/sbuild
  vagrant1> DIST=stable
  vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
- vagrant1> sudo mkdir /temp
- vagrant1> sudo chmod 777 /temp
- vagrant1> export TMPDIR=/temp
+ vagrant1> sudo mkdir /temp && sudo chmod 777 /temp && export TMPDIR=/temp
  vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=cmake,debhelper,fakeroot,help2man,pkg-config,lintian,dose-distcheck,apt-utils,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev,swig,python3-dev
 ```
 
@@ -104,35 +102,6 @@ localhost> make BUILDER=sbuild rbuild
 localhost> make BUILDER=sbuild rpackage
 localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
 ```
-
-<details>
-  <summary><s>Release with pbuilder</s></summary>
-
-  ```console
-  localhost> cd ../hosts/debian12
-  localhost> vagrant ssh
-   vagrant1> cd ~/pbuilder/*_result
-   vagrant1> python3 -m http.server
-   vagrant2> sudo apt install libmpdclient-dev liblirc-dev
-   vagrant2> cd ~/pbuilder/*_result
-   vagrant2> pbuilder-dist bookworm armhf update --extrapackages 'libmpdclient-dev liblircclient-dev' --allow-untrusted --othermirror 'deb [allow-insecure=yes] http://localhost:8000/ ./'
-
-  localhost> sudo apt install libmpdclient-dev liblirc-dev
-  localhost> make BUILDER=pbuilder build
-  localhost> make BUILDER=pbuilder package
-
-  localhost> make BUILDER=pbuilder rbuild
-  localhost> make BUILDER=pbuilder rpackage
-  localhost> make BUILDER=pbuilder rxpackage OPTS='-e ARCH=armhf'
-   vagrant2> cp -av libmraa2_2.2.0-1_armhf.deb libupm-lcd2_2.0.0-1_armhf.deb libjsonrpccpp-client0_1.4.1-1.0_armhf.deb libjsonrpccpp-common0_1.4.1-1.0_armhf.deb libjsonrpccpp-server0_1.4.1-1.0_armhf.deb mps_1.0.0_armhf.deb /vagrant/.vagrant
-  localhost> user=$USER
-  localhost> host=pi
-  localhost> scp .vagrant/*.deb $user@$host:/tmp/
-  localhost> ssh $user@$host
-   remotepi> cd /tmp
-   remotepi> sudo apt reinstall ./*.deb
-  ```
-</details>
 
 ## Update sysroot for cross compilation
 ```console

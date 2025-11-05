@@ -1,17 +1,14 @@
 # ---------------------------------------------------------------------------- #
-## \file Makefile
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-BHOST ?= debian13
-
-.PHONY: all
-all:
-	@echo
-	@$(call print-help,Build)
-	@echo
-	@$(call print-help,Release)
-	@echo
-
-include ../makefiles/gitlabci.mk
+---
+- name: packages to build libmraa
+  apt:
+    cache_valid_time: 36000
+    install_recommends: no
+    name:
+      - swig
+      - python3-dev
+  become: yes

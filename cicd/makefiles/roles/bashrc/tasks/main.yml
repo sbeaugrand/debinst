@@ -18,6 +18,9 @@
     path: "/home/{{ user }}/.bash_login"
     create: yes
     block: |
+      if [[ ! "$-" =~ i ]]; then
+          return
+      fi
       PS1='\u:\w> '
       SCREENDIR={{ home }}/.screen
       PATH={{ home }}/.local/bin:/usr/local/bin:/usr/bin:/bin
