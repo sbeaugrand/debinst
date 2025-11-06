@@ -1,4 +1,3 @@
-
 <details>
   <summary><s>Build libjsonrpccpp with pbuilder</s></summary>
 

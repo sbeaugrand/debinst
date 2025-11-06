@@ -7,6 +7,7 @@
 ##       ifeq (xc,$(findstring $(MAKECMDGOALS),xc))
 ##         XC = aarch64-linux-gnu
 ##         CMAKE_OPT = -DCMAKE_CXX_COMPILER=$(XC)-g++
+##         QEMU_LD_PREFIX = /usr/aarch64-linux-gnu
 ##       endif
 ##       # Package without sysroot :
 ##       .PHONY: xp
@@ -23,7 +24,9 @@ all clean: build/Makefile
 
 .PHONY: xc
 xc: build-$(XC)/Makefile
-	@cd build-$(XC) && make --no-print-directory -j`nproc`
+	@cd build-$(XC) &&\
+	 export QEMU_LD_PREFIX=$(QEMU_LD_PREFIX) &&\
+	 make --no-print-directory -j`nproc`
 
 %/Makefile:
 	@mkdir -p `dirname $@` &&\

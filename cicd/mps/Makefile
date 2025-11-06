@@ -7,6 +7,7 @@
 BHOST = debian13
 HOST = armbian
 XC ?= arm-linux-gnueabihf
+XCDIR ?= /data
 
 include ../makefiles/cmake.mk
 include ../makefiles/gitlabci.mk

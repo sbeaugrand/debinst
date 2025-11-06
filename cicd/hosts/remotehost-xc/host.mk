@@ -13,4 +13,4 @@ SSH = ssh $(URI)
 USERPATH = /home/$(user)
 
 XC = arm-linux-gnueabihf# default: aarch64-linux-gnu
-XCVER ?= 10# default: 12
+XCVER ?= 10# default: 14

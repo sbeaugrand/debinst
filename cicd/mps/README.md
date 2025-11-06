@@ -4,6 +4,34 @@
 [libmraa](../libmraa/README.md)
 
 [libupm](../libupm/README.md)
+
+<details>
+  <summary>Sysroot installation from chroot</summary>
+
+  ```sh
+   vagrant1> DIST=stable
+   vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
+   vagrant1> cd ~/sbuild
+   vagrant1> mkdir -p ../pbuilder
+   vagrant1> xz -d -c $DIST-$ARCH.tar.xz | gzip >../pbuilder/$DIST-$ARCH-base.tgz
+   vagrant1> python3 -m http.server
+   vagrant2> DIST=stable
+   vagrant2> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
+   vagrant2> SYSROOT=arm-linux-gnueabihf-14  # aarch64-linux-gnu-
+   vagrant2> cd ~/sbuild
+   vagrant2> dpkg-scanpackages . /dev/null >Packages
+   vagrant2> pbuilder-dist $DIST $ARCH update --extrapackages 'libjsonrpccpp-common0 libjsonrpccpp-client0 libjsonrpccpp-stub0 libjsonrpccpp-server0 libjsonrpccpp-dev libmraa2 libmraa-dev libupm-lcd2 libupm-dev' --allow-untrusted --othermirror 'deb [allow-insecure=yes] http://localhost:8000/ ./'
+   vagrant2> cd ../pbuilder
+   vagrant2> export TMPDIR=/temp
+   vagrant2> mmdebstrap --variant=custom --architectures=$ARCH --skip=update,setup,cleanup,tar-in/mknod --setup-hook="tar-in $DIST-$ARCH-base.tgz /" --customize-hook="copy-out /usr/include /vagrant/.vagrant/$SYSROOT/usr/" $DIST /dev/null
+   vagrant2> mmdebstrap --variant=custom --architectures=$ARCH --skip=update,setup,cleanup,tar-in/mknod --setup-hook="tar-in $DIST-$ARCH-base.tgz /" --customize-hook="copy-out /usr/lib /vagrant/.vagrant/$SYSROOT/usr/" $DIST /dev/null
+  localhost> SYSROOT=arm-linux-gnueabihf-14  # aarch64-linux-gnu-
+  localhost> cd .vagrant/$SYSROOT
+  localhost> ln -s usr/lib
+  localhost> cp -a ../$SYSROOT /data/
+  ```
+</details>
+
 ```sh
 make xbuild
 make xpackage

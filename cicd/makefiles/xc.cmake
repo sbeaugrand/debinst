@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 if(XC)
     if(NOT DEFINED XCVER)
-        set(XCVER 12)
+        set(XCVER 14)
     endif()
     if(NOT DEFINED XCDIR)
         set(XCDIR /data)

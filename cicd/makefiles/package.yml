@@ -48,7 +48,7 @@ variables:
   HDIR: ../hosts
   BDIR: build
   BHOST: $HOST
-  XCVER: 12
+  XCVER: 14
   XCDIR: /data
   PRIVKEY: $HOME/.ssh/id_rsa
   APT: apt-get -y -o APT::Sandbox::User=root
@@ -166,6 +166,7 @@ xbuild:
     - cd build-$XC
     - $CMAKE -DXC=$XC -DXCVER=$XCVER -DXCDIR=$XCDIR
     - test $NOCLEAN = 1 || make --no-print-directory clean
+    - export QEMU_LD_PREFIX=$XCDIR/$XC-$XCVER
     - make --no-print-directory -j`nproc`
 xpackage:
   stage: xpackage

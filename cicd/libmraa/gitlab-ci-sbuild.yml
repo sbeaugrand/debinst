@@ -8,11 +8,7 @@ variables:
   REPO: mraa
   VERSION: 2.2.0
   REVISION: -1
-  CLONE: git clone https://github.com/sbeaugrand/$REPO.git  # nanopi-neo orange-pi-zero
-  #FIXME: rockpi-s
-  #CLONE: git clone https://github.com/radxa/$REPO.git  # rockpi-s
-  # vagrant1> vi libmraa/build/mraa/CMakeLists.txt +/v2  # 2.2.0
-  # vagrant1> vi libmraa/build/mraa/include/version.h +/gVERSION  # extern
+  CLONE: git clone https://github.com/sbeaugrand/$REPO.git
   PKG: lib$REPO
 include:
   - local: /../makefiles/sbuild.yml
@@ -20,4 +16,3 @@ build:
   stage: build
   after_script:
     - cd build/$REPO
-    - grep -q 'VERSION 3.5' CMakeLists.txt || git apply ../../$REPO.patch

@@ -19,3 +19,4 @@
     - role: packages-sbuild
       vars:
         repo: /vagrant/.vagrant
+    - packages-pbuilder
