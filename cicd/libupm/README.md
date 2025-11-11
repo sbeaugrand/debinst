@@ -8,7 +8,7 @@ sudo apt install ./build/*.deb
 
 # Release
 
-[Create chroot](../mps/README.md#create-chroot)
+[Create chroot](../mps/README.md)
 
 ```console
 localhost> make BUILDER=sbuild rbuild

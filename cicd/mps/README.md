@@ -1,14 +1,83 @@
-# Install
+# Build
+
+<details>
+  <summary>Create chroot</summary>
+
+  ```console
+  localhost> cd ../hosts/debian13
+  localhost> make up
+  localhost> make add-ip
+  localhost> vagrant halt
+  localhost> make up
+  localhost> vagrant provision
+  localhost> make ssh-copy-id  # for rsync in sbuild.yml
+  localhost> vagrant ssh
+   vagrant1> mkdir ~/sbuild
+   vagrant1> DIST=stable
+   vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
+   vagrant1> sudo mkdir /temp && sudo chmod 777 /temp && export TMPDIR=/temp
+   vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=cmake,debhelper,fakeroot,help2man,pkg-config,lintian,dose-distcheck,apt-utils,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev,swig,python3-dev
+  ```
+</details>
+
 [libjsonrpccpp](../libjsonrpccpp/README.md)
 
 [libmraa](../libmraa/README.md)
 
 [libupm](../libupm/README.md)
 
-<details>
-  <summary>Sysroot installation from chroot</summary>
 
-  ```sh
+```console
+ vagrant1> sudo apt install libmpdclient-dev liblirc-dev
+localhost> make BUILDER=sbuild rbuild
+localhost> make BUILDER=sbuild rpackage
+localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
+```
+
+# Cross build
+
+<details>
+  <summary>Method 1: sysroot from remote</summary>
+
+  ## Install libs
+  ```console
+  localhost> cd ../hosts/debian13
+  localhost> vagrant ssh
+   vagrant1> cp sbuild/*.deb /vagrant/.vagrant/
+   vagrant1> rm -f /vagrant/.vagrant/*dbgsym*.deb
+  localhost> user=$USER
+  localhost> host=pi
+  localhost> scp .vagrant/*.deb $user@$host:/tmp/
+  localhost> ssh $user@$host
+   remotepi> cd /tmp
+   remotepi> sudo apt reinstall ./*.deb
+  ```
+  ## Create sysroot
+  ```console
+  localhost> cd /data
+  localhost> mkdir aarch64-linux-gnu-14 && cd aarch64-linux-gnu-14  # or :
+  localhost> mkdir arm-linux-gnueabihf-14 && cd arm-linux-gnueabihf-14
+  localhost> mkdir usr
+  localhost> user=$USER
+  localhost> host=pi
+  localhost> rsync -a -i --delete --checksum $user@$host:/usr/include usr/
+  localhost> rsync -a -i --delete --checksum $user@$host:/usr/lib usr/
+  localhost> rsync -a -i --delete --checksum $user@$host:/lib ./
+  localhost> sudo ln -s /data/aarch64-linux-gnu-14 /usr/gnemul/qemu-aarch64  # or:
+  localhost> sudo ln -s /data/arm-linux-gnueabihf-14 /usr/gnemul/qemu-arm
+  ```
+  ## Optional VM sysroot
+  ```console
+  localhost> cd ../hosts/debian13
+  localhost> rsync -a -i --delete --checksum /data/aarch64-linux-gnu-14 .vagrant/  # or :
+  localhost> rsync -a -i --delete --checksum /data/arm-linux-gnueabihf-14 .vagrant/
+  ```
+</details>
+
+<details>
+  <summary>Method 2: sysroot from mmdebstrap</summary>
+
+  ```console
    vagrant1> DIST=stable
    vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
    vagrant1> cd ~/sbuild
@@ -104,45 +173,6 @@ sequenceDiagram
     deactivate C
 ```
 
-# Create chroot
-
-```console
-localhost> cd ../hosts/debian13
-localhost> make up
-localhost> make add-ip
-localhost> vagrant halt
-localhost> make up
-localhost> vagrant provision
-localhost> make ssh-copy-id  # for rsync in sbuild.yml
-localhost> vagrant ssh
- vagrant1> mkdir ~/sbuild
- vagrant1> DIST=stable
- vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
- vagrant1> sudo mkdir /temp && sudo chmod 777 /temp && export TMPDIR=/temp
- vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=cmake,debhelper,fakeroot,help2man,pkg-config,lintian,dose-distcheck,apt-utils,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev,swig,python3-dev
-```
-
-# Release
-
-```console
- vagrant1> sudo apt install libmpdclient-dev liblirc-dev
-localhost> make BUILDER=sbuild rbuild
-localhost> make BUILDER=sbuild rpackage
-localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
-```
-
-## Update sysroot for cross compilation
-```console
- vagrant2> cp -av *-dev_* /vagrant/.vagrant
-localhost> user=$USER
-localhost> host=pi
-localhost> ssh $user@$host
- remotepi> cd /run/user/1000
-localhost> scp .vagrant/*-dev_* $user@$host:/run/user/1000/
- remotepi> sudo apt reinstall ./*-dev_*
-```
-[update](../libjsonrpccpp/README.md#sysroot-installation)
-
 # Divers
 
 <details>
@@ -225,6 +255,7 @@ localhost> scp .vagrant/*-dev_* $user@$host:/run/user/1000/
 |[Vis M3 6mm Polyamide](https://www.conrad.fr/fr/search.html?search=1817006)                                  |  9.99|8/200  |  0.40|
 |[Module RTC](https://www.conrad.fr/fr/search.html?search=2481842)                                            |  9.99|1/2    |  5.00|
 |[Récepteur infrarouge 1838](https://www.conrad.fr/fr/search.html?search=1572283)                             |  1.79|1/2    |  0.90|
+|[Télécommande IRC01](https://www.gotronic.fr/art-telecommande-ir-irc01-19568.htm)                            |  2.90|1      |  2.90|
 |[Embase d'alimentation 2.1mm 5.5mm](https://www.conrad.fr/fr/search.html?search=735754)                      |  1.84|1/2    |  0.92|
 |[Bloc d'alimentation 12V 1A](https://www.conrad.fr/fr/search.html?search=3397133)                            | 10.99|1      | 10.99|
 |[Carte SD A1](https://fr.rs-online.com/web/p/cartes-sd/2836581)                                              | 11.68|1      | 11.68|
@@ -237,10 +268,11 @@ localhost> scp .vagrant/*-dev_* $user@$host:/run/user/1000/
 |[Ampli XH-M567 TPA3116D2](https://fr.aliexpress.com/item/1005004830515523.html)                              |  3.39|1      |  3.39|
 |[Régulateur de tension LM2596](https://fr.aliexpress.com/item/1005005970782265.html)                         |  1.32|1      |  1.32|
 |[OLED blanc 1.3 i2c gnd](https://fr.aliexpress.com/item/1005006862867338.html)                               |  2.42|1      |  2.42|
-|Total                                                                                                        |136.27|       | 96.99|
+|Total                                                                                                        |139.17|       | 99.89|
 
 |Alternatives|TTC|Nombre|Total|
 |-------------------------------------------------------------------------------------------------------------|-----:|:-----:|-----:|
+|[NanoPi NEO2](https://fr.aliexpress.com/item/1005008828046430.html)                                          | 38.88|1      | 38.88|
 |[Connecteur femelle pour CI 36 contacts](https://fr.rs-online.com/web/p/connecteurs-femelles-pour-ci/5490026)| 34.23|8/36/5 |  1.27|
 |[Entretoise filetée 15mm](https://fr.rs-online.com/web/p/entretoises-filetees/1026378)                       |  6.43|4/10   |  2.57|
 |[Vis à tête Cylindrique Cruciforme M3 8mm](https://fr.rs-online.com/web/p/vis-a-metaux/1854437)              |  5.02|8/20   |  2.01|
