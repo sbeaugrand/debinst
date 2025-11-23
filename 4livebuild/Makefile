@@ -74,8 +74,8 @@ build/config/package-lists/amd64.list: ../simplecdd-op-1arch64/list.txt
 	 cat >$@
 build/config/package-lists/base.list:
 	@cat /dev/null >$@
-	@echo task-lxde-desktop >>$@
-	@echo openbox-lxde-session >>$@
+	@echo cinnamon-core >>$@
+	@echo x11-xserver-utils >>$@
 	@echo perl-openssl-defaults >>$@
 	@echo dbus-x11 >>$@
 	@echo libdebian-installer4 >>$@
@@ -83,8 +83,11 @@ build/config/package-lists/base.list:
 .PHONY: skel
 skel: $(SKELDIR)/install\
  $(SKELDIR)/.bashrc\
+ $(SKELDIR)/.bash_login\
+ $(SKELDIR)/.Xresources\
  $(SKELDIR)/.screenrc\
  $(SKELDIR)/.vimrc\
+ $(SKELDIR)/.emacs\
  $(SKELDIR)/.mplayer/config\
  $(SKELDIR)/.xscreensaver\
  $(SKELDIR)/.local/share/applications/screen.desktop\

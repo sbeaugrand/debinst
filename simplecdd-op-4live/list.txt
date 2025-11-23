@@ -20,7 +20,7 @@ live-config  # live-build
 live-config-systemd  # live-build
 firmware-linux  # live-build
 squashfs-tools  # live-build
-#shim-signed  # live-build
+shim-signed  # live-build
 grub-efi-amd64-signed  # live-build
 grub-efi-ia32-bin  # live-build
 dpkg  # live-build
@@ -32,6 +32,5 @@ live-build
 locales  # live-build
 dctrl-tools
 librsvg2-bin
-shim-signed
 dosfstools
 xorriso

@@ -6,7 +6,7 @@
 ---
 - name: copy homepage dir
   copy:
-    src: "{{ src }}"
+    src: homepage
     dest: "{{ home }}/.local/share/"
 
 - name: stat chromium.desktop
@@ -29,3 +29,10 @@
       Exec=/usr/bin/chromium
       -homepage {{ home }}/.local/share/homepage/homepage.html %U
   when: st.stat.exists
+
+- name: cppreference offline
+  unarchive:
+    src: https://github.com/PeterFeicht/cppreference-doc/releases/download/v20250209/html-book-20250209.tar.xz
+    dest: /usr/share/doc/
+    remote_src: yes
+  become: yes

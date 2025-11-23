@@ -37,8 +37,8 @@ define add-extra-package
 endef
 
 define add-extra-packages
-	@echo task-lxde-desktop >>$1
-	@echo openbox-lxde-session >>$1
+	@echo cinnamon-core >>$1
+	@echo x11-xserver-utils >>$1
 	@echo perl-openssl-defaults >>$1
 	@echo dbus-x11 >>$1
 	@echo libdebian-installer4 >>$1

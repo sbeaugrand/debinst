@@ -30,7 +30,7 @@
       Name=Screen
       Comment=Ligne de commande
       Exec=xterm -T mxterm -e "SCREENDIR={{ home }}/.screen screen"
-      Icon=lxterminal
+      Icon=terminal
       Terminal=false
       Type=Application
       Categories=TerminalEmulator;System;Utility;

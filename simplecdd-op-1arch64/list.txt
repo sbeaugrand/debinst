@@ -170,7 +170,6 @@ rclone
 icoutils
 famfamfam-silk  # tux.png
 inkscape
-fractalnow
 morse
 wavbreaker
 debconf-utils
@@ -189,6 +188,8 @@ python3-serial
 libnode-dev  # libssl-dev (armbian) camotics
 libqt5opengl5t64  # camotics
 prusa-slicer
+cura
+#candle  # cnc
 pstoedit
 anacron
 lame
@@ -226,6 +227,7 @@ unrar-free
 p7zip-full
 #firefox-esr-l10n-fr
 firefox-esr
+chromium
 ftp
 ispell
 lsof
@@ -266,7 +268,7 @@ live-config  # live-build
 live-config-systemd  # live-build
 firmware-linux  # live-build firmware-misc-nonfree (b1) firmware-amd-graphics
 squashfs-tools  # live-build
-#shim-signed  # live-build
+shim-signed  # live-build
 grub-efi-amd64-signed  # live-build
 grub-efi-ia32-bin  # live-build
 zsync  # live-build
@@ -279,3 +281,4 @@ grub-pc-bin
 gnome-boxes
 qemu-utils
 qemu-system-x86
+qemu-system-modules-spice

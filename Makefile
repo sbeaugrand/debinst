@@ -11,6 +11,18 @@ PROJECT = debinst
 .PHONY: all
 all:
 
+define print-help
+ sed -n -e '/# $1$$/,/``$$/{/^ *``/!p}' README.md | grep --color -C99 '^#\+ .*'
+endef
+
+.PHONY: live
+live:
+	@echo
+	@$(call print-help,Mettre a jour le mirroir local)
+	@echo
+	@$(call print-help,Configurer et creer)
+	@echo
+
 .PHONY: versions
 versions:
 	@grep --color "^version=" *.sh */*.sh

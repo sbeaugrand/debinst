@@ -159,3 +159,10 @@
   community.general.dconf:
     key: /org/cinnamon/enabled-extensions
     value: "['cinnamon-maximus@fmete']"
+
+- name: disable mpris-proxy service
+  systemd_service:
+    name: mpris-proxy.service
+    enabled: no
+    scope: global
+  become: yes

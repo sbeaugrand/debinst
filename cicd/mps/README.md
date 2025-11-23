@@ -1,5 +1,6 @@
 # Build
 
+## Create chroot
 <details>
   <summary>Create chroot</summary>
 
@@ -20,13 +21,14 @@
   ```
 </details>
 
+## Build libs
 [libjsonrpccpp](../libjsonrpccpp/README.md)
 
 [libmraa](../libmraa/README.md)
 
 [libupm](../libupm/README.md)
 
-
+## Release
 ```console
  vagrant1> sudo apt install libmpdclient-dev liblirc-dev
 localhost> make BUILDER=sbuild rbuild

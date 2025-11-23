@@ -26,7 +26,7 @@ release:
 	@echo
 	@$(call print-help,Create chroot)
 	@echo
-	@$(call print-help,Release)
+	@$(call print-help,Build libs)
 	@echo
 
 # ---------------------------------------------------------------------------- #

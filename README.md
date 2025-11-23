@@ -112,17 +112,20 @@ sudo apt remove openssh-server
 ```
 
 # Création d'une debian live
-Mettre à jour le mirroir local :
+```sh
+make live  # :
+```
+## Mettre a jour le mirroir local
 ```sh
 make iso
 cd 4livebuild
 systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c 'make mirror'
 make http
 ```
-Configurer et créer :
+## Configurer et creer
 ```sh
 cd 4livebuild
-df .  # >21G or: mkdir /data/live && ln -s /data/live build
+df .  # >28G or: mkdir /data/live && ln -s /data/live build
 make config
 make sync
 make clean

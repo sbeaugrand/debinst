@@ -69,7 +69,7 @@ gitlabci = ~/.local/bin/gitlabci-local\
 propath = $(shell basename `readlink -f .`)
 
 define print-help
- sed -n -e '/# $1/,/```$$/{/```/!p}' README.md | grep --color -C99 '^# .*'
+ sed -n -e '/# $1$$/,/``$$/{/^ *``/!p}' README.md | grep --color -C99 '^#\+ .*'
 endef
 
 .SUFFIXES:

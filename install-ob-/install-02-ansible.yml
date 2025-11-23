@@ -15,7 +15,7 @@
     - emacs
     - vim
     - xterm
-    - lxde
+    - cinnamon
     - mimeapps
     - notifications
   handlers:

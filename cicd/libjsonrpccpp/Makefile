@@ -9,7 +9,7 @@ BHOST ?= debian13
 .PHONY: all
 all:
 	@echo
-	@$(call print-help,Build)
+	@$(call print-help,Build libjsonrpccpp)
 	@echo
 	@$(call print-help,Release)
 	@echo
