@@ -20,14 +20,16 @@
       - mpd
       - git
       - subversion
-      - ntp
-      - sntp
-      - ntpdate
+      #- ntp
+      #- sntp
+      #- ntpdate
+      - ntpsec-ntpdate
       - libusb-dev
       - cryptsetup
       - lirc
       - ir-keytable
-      - liblircclient-dev
+      #- liblircclient-dev
+      - liblirc-dev
       - netcat-traditional
       - aptitude
       - i2c-tools

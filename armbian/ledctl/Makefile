@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-SERVICE = ledctl-$(shell uname -n)
+SERVICE = ledctl-$(shell grep BOARD= /etc/armbian-image-release | cut -d= -f2)
 
 .SUFFIXES:
 

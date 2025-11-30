@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-if [ `uname -n` = "rockpi-s" ]; then
+if [ `grep BOARD= /etc/armbian-image-release | cut -d= -f2` = "rockpi-s" ]; then
     amixer -q set 'DAC LINEOUT Right' 100% unmute
     amixer -q set 'DAC LINEOUT Left' 100% unmute
 else

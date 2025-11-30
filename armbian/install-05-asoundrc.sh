@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-if [ `uname -n` = "rockpi-s" ]; then
+if [ `grep BOARD= /etc/armbian-image-release | cut -d= -f2` = "rockpi-s" ]; then
     file=/etc/asound.conf
     if notFile $file; then
         cat >$file <<EOF
@@ -32,7 +32,9 @@ if isFile $file; then
             echo "overlays=analog-codec" >>$file
         fi
         logTodo "sudo reboot" &&\
-        logTodo "sudo mount -o rw,remount /" &&\
-        logTodo "cd install/debinst/armbian && make volume"
+        logTodo "make ssh" &&\
+        logTodo "cd install/debinst/armbian"
+        logTodo "rw" &&\
+        logTodo "make volume"
     fi
 fi

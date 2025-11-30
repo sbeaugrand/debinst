@@ -4,6 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+board=`grep BOARD= /etc/armbian-image-release | cut -d= -f2`
 copyFile()
 {
     file=$1
@@ -26,27 +27,27 @@ file=ir-nec-decoder.ko
 if notFile $dir/$file && notFile $dir/$file.xz; then
     copyFile $file $dir || return 1
 fi
-if notGrep "gpio-ir-recv" /lib/modules/$(uname -r)/modules.dep; then
+if notGrep "gpio-ir-recv" /lib/modules/$board/modules.dep; then
     /sbin/depmod
-elif notGrep "ir-nec-decoder" /lib/modules/$(uname -r)/modules.dep; then
+elif notGrep "ir-nec-decoder" /lib/modules/$board/modules.dep; then
     /sbin/depmod
 fi
 
 file=/boot/armbianEnv.txt
 if [ -f $file ]; then
     if notGrep gpio-ir-recv $file; then
-        if [ `uname -n` = "orangepizero" ]; then
+        if [ $board = "orangepizero" ]; then
             /usr/sbin/armbian-add-overlay lirc/sun8i-h3-gpio-ir-recv.dts
-        elif [ `uname -n` = "nanopineo" ]; then
+        elif [ $board = "nanopineo" ]; then
             /usr/sbin/armbian-add-overlay lirc/nanopineo-gpio-ir-recv.dts
-        elif [ `uname -n` = "rockpi-s" ]; then
+        elif [ $board = "rockpi-s" ]; then
             /usr/sbin/armbian-add-overlay lirc/rk3308-gpio-ir-recv.dts
         fi
         [ $? = 0 ] && logTodo "sudo reboot"
     fi
-elif [ `uname -n` = "rockpi-s" ]; then
+elif [ $board = "rockpi-s" ]; then
     file=/boot/uEnv.txt
-    odir=/boot/dtbs/$(uname -r)/rockchip/overlay
+    odir=/boot/dtbs/$board/rockchip/overlay
     if notGrep rockpis-gpio-ir-recv $file; then
         mount -o remount,rw /boot
         copyFile rockpis-gpio-ir-recv.dtbo $odir || return 1

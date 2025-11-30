@@ -11,8 +11,9 @@
 #include "debug.h"
 
 #define GPIOD_MAX_PIN_COUNT 24
-struct gpiod_chip* chips[GPIOD_MAX_PIN_COUNT] = { NULL };
-struct gpiod_line* lines[GPIOD_MAX_PIN_COUNT] = { NULL };
+struct gpiod_chip*         chips[GPIOD_MAX_PIN_COUNT] = { NULL };
+struct gpiod_line_request* lines[GPIOD_MAX_PIN_COUNT] = { NULL };
+int                        offss[GPIOD_MAX_PIN_COUNT] = { 0 };
 
 #ifndef NDEBUG
 /******************************************************************************!
@@ -26,8 +27,8 @@ debugValues()
 
     n = 0;
     for (i = 0; i < GPIOD_MAX_PIN_COUNT; ++i) {
-        if (lines[i] != NULL) {
-            fprintf(stderr, "%d ", gpiod_line_get_value(lines[i]));
+        if (lines[i]) {
+            fprintf(stderr, "%d ", gpiod_line_get_value(lines[i], offss[i]));
             ++n;
         }
     }
@@ -44,39 +45,78 @@ int
 digitalInit(uint8_t pin, uint8_t mode)
 {
     struct gpiod_chip* chip;
-    struct gpiod_line* line;
+    struct gpiod_line_request* line;
     char buf[6];
+    int offset;
 
+    chip = chips[pin - 1];
     line = lines[pin - 1];
-    if (line == NULL) {
+    offset = offss[pin - 1];
+    if (! line) {
         if (snprintf(buf, 6, "pin%u", pin) >= 6) {
             ERROR("snprintf");
             return 1;
         }
-        line = gpiod_line_find(buf);
-        if (line == NULL) {
-            ERROR("gpiod_line_find");
+        chip = gpiod_chip_open("/dev/gpiochip0");
+        if (! chip) {
+            ERROR("gpiod_chip_open");
             return 2;
         }
-        lines[pin - 1] = line;
-        chip = gpiod_line_get_chip(line);
+        offset = gpiod_chip_get_line_offset_from_name(chip, buf);
+        if (offset < 0) {
+            ERRNO("gpiod_chip_get_line_offset_from_name");
+            return 2;
+        }
         chips[pin - 1] = chip;
     }
 
-    if (gpiod_line_is_requested(line)) {
-        gpiod_line_release(line);
+    //line_info = gpiod_chip_get_line_info(chip, offset);
+    //if (! line_info) {
+    //    ERROR("gpiod_chip_get_line_info");
+    //    return 2;
+    //}
+    //if (gpiod_line_info_is_used(line_info)) {
+    //    gpiod_line_request_release(line);
+    //}
+    struct gpiod_line_settings* settings = gpiod_line_settings_new();
+    if (! settings) {
+        ERRNO("gpiod_line_settings_new");
+        return 3;
     }
     if (mode == INPUT) {
-        if (gpiod_line_request_input(line, "wiring") < 0) {
-            ERRNO("gpiod_line_request_input");
+        if (gpiod_line_settings_set_direction(settings, GPIOD_LINE_DIRECTION_INPUT) < 0) {
+            ERRNO("gpiod_line_settings_set_direction");
             return 3;
         }
     } else {
-        if (gpiod_line_request_output(line, "wiring", 0) < 0) {
-            ERRNO("gpiod_line_request_output");
+        if (gpiod_line_settings_set_direction(settings, GPIOD_LINE_DIRECTION_OUTPUT) < 0) {
+            ERRNO("gpiod_line_settings_set_direction");
             return 3;
         }
     }
+    struct gpiod_line_config* cfg = gpiod_line_config_new();
+    if (! cfg) {
+        ERRNO("gpiod_line_config_new");
+        return 3;
+    }
+    unsigned int offsets = offset;
+    if (gpiod_line_config_add_line_settings(cfg, &offsets, 1, settings) < 0)
+    {
+        ERRNO("gpiod_line_config_add_line_settings");
+        return 3;
+    }
+
+    if (! line) {
+        line = gpiod_chip_request_lines(chip, NULL, cfg);
+        if (! line) {
+            ERRNO("gpiod_chip_request_lines");
+            return 3;
+        }
+        lines[pin - 1] = line;
+        offss[pin - 1] = offset;
+    }
+    gpiod_line_settings_free(settings);
+    gpiod_line_config_free(cfg);
 
     return 0;
 }
@@ -87,21 +127,21 @@ digitalInit(uint8_t pin, uint8_t mode)
 int
 digitalRead(uint8_t pin)
 {
-    struct gpiod_line* line;
+    struct gpiod_line_request* line;
     int val;
 
 #   ifndef NDEBUG
     debugValues();
 #   endif
     line = lines[pin - 1];
-    if (line == NULL) {
+    if (! line) {
         ERROR("line == NULL");
         return -1;
     }
 
-    val = gpiod_line_get_value(line);
+    val = gpiod_line_request_get_value(line, offss[pin - 1]);
     if (val < 0) {
-        ERROR("gpiod_line_get_value");
+        ERROR("gpiod_line_request_get_value");
         return GPIO_ERROR_READ;
     }
     return val;
@@ -113,18 +153,18 @@ digitalRead(uint8_t pin)
 void
 digitalWrite(uint8_t pin, uint8_t val)
 {
-    struct gpiod_line* line;
+    struct gpiod_line_request* line;
 
 #   ifndef NDEBUG
     debugValues();
 #   endif
     line = lines[pin - 1];
-    if (line == NULL) {
+    if (! line) {
         ERROR("line == NULL");
         return;
     }
 
-    gpiod_line_set_value(line, val);
+    gpiod_line_request_set_value(line, offss[pin - 1], val);
 }
 
 /******************************************************************************!
@@ -134,22 +174,22 @@ int
 digitalQuit(uint8_t pin)
 {
     struct gpiod_chip* chip;
-    struct gpiod_line* line;
+    struct gpiod_line_request* line;
     int i;
 
 #   ifndef NDEBUG
     debugValues();
 #   endif
     line = lines[pin - 1];
-    if (line == NULL) {
+    if (! line) {
         ERROR("line == NULL");
         return 1;
     }
-    gpiod_line_release(line);
+    gpiod_line_request_release(line);
     lines[pin - 1] = NULL;
 
     chip = chips[pin - 1];
-    if (chip == NULL) {
+    if (! chip) {
         ERROR("chip == NULL");
         return 2;
     }

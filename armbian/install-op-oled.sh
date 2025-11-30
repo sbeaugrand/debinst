@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 file=/boot/armbianEnv.txt
 if [ -f $file ]; then
-    if [ `uname -n` = "rockpi-s" ]; then
+    if [ `grep BOARD= /etc/armbian-image-release | cut -d= -f2` = "rockpi-s" ]; then
         i2c="i2c1"
     else
         i2c="i2c0"

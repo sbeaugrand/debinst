@@ -7,7 +7,7 @@
 file=/boot/armbianEnv.txt
 [ -f $file ] || return 0
 
-overlay=overlay-`uname -n`
+overlay=overlay-`grep BOARD= /etc/armbian-image-release | cut -d= -f2`
 isFile $overlay.dts || return 0
 
 if notGrep "$overlay" $file; then

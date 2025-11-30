@@ -2,7 +2,7 @@
 ## [Nanopi Neo](https://www.armbian.com/nanopi-neo/)
 ![Nanopi Neo](https://www.armbian.com/wp-content/uploads/2018/02/nanopineo-300x169.png)
 ```sh
-sha256sum -c Armbian_23.5.2_Nanopineo_bookworm_current_6.1.30_minimal.img.xz.sha
+sha256sum -c Armbian_community_26.2.0-trunk.22_Nanopineo_trixie_current_6.12.58_minimal.img.xz.sha
 ```
 
 ## [Orange Pi Zero](https://www.armbian.com/orange-pi-zero/)
@@ -44,10 +44,10 @@ pv Armbian*.img.xz | xz -dc - | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
 Démarrer sur la Pi
 ```sh
 ./find-ip.sh
-cd ../cicd/armbian
+cd ../cicd/hosts/armbian
 vi playbook.yml  # enable somfi-pi
 keychain ~/.ssh/id_rsa
-make ssh user=root [host=pi]  # password: 1234
+make ssh user=root  # [host=pi]  # password: 1234
 exit
 make ssh-copy-id
 make remote
