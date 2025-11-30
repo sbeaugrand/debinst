@@ -18,5 +18,8 @@
     - screen-remote
     - authorized-keys
     # Optional
+    - role: mpd
+      vars:
+        directory: /mnt/mp3
     - projects-pi
     #- somfi-pi

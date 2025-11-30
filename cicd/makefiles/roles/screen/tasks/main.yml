@@ -21,6 +21,17 @@
       bind e stuff 'printf "\eklocalhost\e\\\\"'
       shelltitle "localhost"
 
+- name: "{{ home }}/.bash_maximized"
+  blockinfile:
+    path: "{{ home }}/.bash_maximized"
+    create: yes
+    block: |
+      . ~/.bashrc
+      sleep 0.1
+      xdotool key alt+F10
+      sleep 0.1
+      clear
+
 - name: screen.desktop
   blockinfile:
     path: "{{ home }}/.local/share/applications/screen.desktop"
@@ -29,7 +40,7 @@
       [Desktop Entry]
       Name=Screen
       Comment=Ligne de commande
-      Exec=xterm -T mxterm -e "SCREENDIR={{ home }}/.screen screen"
+      Exec=xterm -maximized -e "SCREENDIR={{ home }}/.screen screen /bin/bash --rcfile ~/.bash_maximized"
       Icon=terminal
       Terminal=false
       Type=Application

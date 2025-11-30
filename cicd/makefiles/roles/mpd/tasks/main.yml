@@ -1,0 +1,41 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: mpd_local.conf
+  blockinfile:
+    path: /etc/mpd_local.conf
+    create: yes
+    block: |
+      music_directory    "{{ directory }}/mp3"
+      playlist_directory "{{ directory }}/mp3"
+      db_file            "{{ directory }}/db"
+      state_file         "{{ directory }}/state"
+      sticker_file       "{{ directory }}/sticker.sql"
+
+      user "{{ user }}"
+
+      bind_to_address "/run/mpd.sock"
+
+      audio_output {
+          type       "alsa"
+          name       "ALSA Device"
+          mixer_type "none"
+      }
+
+      replaygain "track"
+  become: yes
+
+- name: disable mpd service
+  systemd_service:
+    name: mpd.service
+    enabled: no
+  become: yes
+
+- name: disable mpd.socket service
+  systemd_service:
+    name: mpd.socket
+    enabled: no
+  become: yes

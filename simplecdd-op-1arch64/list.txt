@@ -115,6 +115,7 @@ sqlite3
 sqlitebrowser
 mpg123
 id3v2
+rsgain
 net-tools  # ipforward.sh
 nftables  # ipforward.sh
 sox
@@ -178,7 +179,7 @@ python3-keyring  # pigmail
 gir1.2-lfb-0.0  # pigmail
 feedbackd  # pigmail
 python3-svgwrite  # pigmail
-xdotool  # pigmail
+xdotool  # pigmail bash_maximized
 python3-venv
 python3-scipy  # libboost-dev
 #printrun  # python3-tk python3-lxml python3-serial cnc (inkscape gcode text)

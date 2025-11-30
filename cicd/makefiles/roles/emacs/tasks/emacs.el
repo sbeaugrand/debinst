@@ -313,8 +313,6 @@
 
 ; Orthographe
 (setq flyspell-mode nil)
-(unify-8859-on-encoding-mode 1)
-(unify-8859-on-decoding-mode 1)
 (setq ispell-program-name "aspell")
 (setq ispell-dictionary "francais")
 (setq flyspell-large-region 10000)
