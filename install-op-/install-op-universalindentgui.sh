@@ -30,7 +30,7 @@ if notDir $dir; then
 fi
 
 file=$dir/indenters/uigui_uncrustify.ini
-if grep -q "Align Number Left" $file; then
+if ! grep -q "sp_before_tr_cmt" $file; then
     version=`apt show uncrustify 2>/dev/null | grep "Version:" | cut -d ' ' -f 2 | cut -d '+' -f 1`
     download https://github.com/uncrustify/uncrustify/raw/uncrustify-$version/etc/uigui_uncrustify.ini || return 1
     sudoRoot cp $repo/uigui_uncrustify.ini $file

@@ -1,4 +1,7 @@
 # Build
+```sh
+make help  # :
+```
 
 ## Create chroot
 <details>

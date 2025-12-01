@@ -21,8 +21,8 @@ Depends:
  libjsonrpccpp-common0 (>= 1.4.1),
  libjsonrpccpp-server0 (>= 1.4.1),
  libupm-lcd2 (>= 2.0.0),
- libmpdclient2 (>= 2.20),
- liblirc-client0 (>= 0.10.1),
+ libmpdclient2t64 (>= 2.22),
+ liblirc-client0t64 (>= 0.10.2),
  ${shlibs:Depends},
  ${misc:Depends},
 Description: music player server

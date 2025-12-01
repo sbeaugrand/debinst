@@ -21,8 +21,8 @@ stub: abstractstubserver.h
 abstractstubserver.h: spec.json
 	@jsonrpcstub $< --cpp-server=AbstractStubServer
 
-.PHONY: release
-release:
+.PHONY: help
+help:
 	@echo
 	@$(call print-help,Create chroot)
 	@echo

@@ -6,8 +6,8 @@
 # ---------------------------------------------------------------------------- #
 BHOST ?= debian13
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo
 	@$(call print-help,Build libmraa)
 	@echo
