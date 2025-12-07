@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-TARDEPEND += makefiles/arm.mk
+TARDEPEND += makefiles/arm64.mk
 
 ifeq ($(shell uname -m),x86_64)
  CC = aarch64-linux-gnu-gcc

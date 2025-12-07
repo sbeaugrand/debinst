@@ -48,7 +48,7 @@ mps: install-op-mps.sh install-pr-mps.sh
 .PHONY: shutter
 shutter: install-op-shutter.sh
 
-install-op-%.sh: FORCE
+install-%.sh: FORCE
 	@../0install.sh --root $@
 
 .PHONY: FORCE

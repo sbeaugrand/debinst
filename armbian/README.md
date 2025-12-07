@@ -4,11 +4,16 @@
 ```sh
 sha256sum -c Armbian_community_26.2.0-trunk.22_Nanopineo_trixie_current_6.12.58_minimal.img.xz.sha
 ```
+## [Nanopi Neo 2](https://www.armbian.com/nanopi-neo-2/)
+![Nanopi Neo 2](https://cdn.armbian.com/wp-content/uploads/2018/02/nanopineo2-300x169.png)
+```sh
+sha256sum -c Armbian_community_26.2.0-trunk.22_Nanopineo2_trixie_current_6.12.58_minimal.img.xz.sha
+```
 
 ## [Orange Pi Zero](https://www.armbian.com/orange-pi-zero/)
 ![Orange Pi Zero](https://www.armbian.com/wp-content/uploads/2018/02/orangepizero-300x169.png)
 ```sh
-sha256sum -c Armbian_23.5.2_Orangepizero_bookworm_current_6.1.30_minimal.img.xz.sha
+sha256sum -c Armbian_community_26.2.0-trunk.44_Orangepizero_trixie_current_6.12.58_minimal.img.xz.sha
 ```
 
 ## [Rockpi S](https://www.armbian.com/rockpi-s/)
@@ -47,7 +52,7 @@ Démarrer sur la Pi
 cd ../cicd/hosts/armbian
 vi playbook.yml  # enable somfi-pi
 keychain ~/.ssh/id_rsa
-make ssh user=root  # [host=pi]  # password: 1234
+make ssh user=root  # [host=pi]  # password: 1234  # Set user language based on your location? [Y/n] n
 exit
 make ssh-copy-id
 make remote
@@ -128,6 +133,8 @@ sudo reboot
 
   [libmraa](../cicd/libmraa/README.md)
   ```sh
+  # https://docs.python.org/3/reference/expressions.html#private-name-mangling
+  sudo sed -i -e 's/__mraa\./_mraa./g' -e 's/import __mraa$/import __mraa as _mraa/' /usr/lib/python3/dist-packages/mraa.py
   python3 -c 'import mraa'
   sudo /usr/sbin/rtc `date +%FT%Tw%w`
   make shutter
@@ -156,7 +163,8 @@ sudo reboot
 |---------------------------------------|----------|--------------|--------|
 |Temps pour monter un disque            |45 s      |45 s          |15 s    |
 |Le disque résiste au débranchement RJ45|X         |              |X       |
-|RJ45 bien orientée                     |X         |              |X       |
+|RJ45 dans le bon sens                  |X         |              |X       |
+|RJ45 du bon côté                       |X         |X             |        |
 |Barrette soudée incluse                |X         |              |X       |
 |Volume audio confortable               |X         |X             |        |
 

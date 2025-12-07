@@ -55,6 +55,7 @@ astyle
 yapf3
 mupdf
 evince
+mousepad
 gimp
 imagemagick
 libjpeg-turbo-progs  # jpegtran

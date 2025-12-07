@@ -17,9 +17,10 @@ make help  # :
   localhost> make ssh-copy-id  # for rsync in sbuild.yml
   localhost> vagrant ssh
    vagrant1> mkdir ~/sbuild
+   vagrant1> sudo mkdir /temp && sudo chmod 777 /temp
+   vagrant1> export TMPDIR=/temp
    vagrant1> DIST=stable
    vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
-   vagrant1> sudo mkdir /temp && sudo chmod 777 /temp && export TMPDIR=/temp
    vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=cmake,debhelper,fakeroot,help2man,pkg-config,lintian,dose-distcheck,apt-utils,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev,swig,python3-dev
   ```
 </details>
@@ -56,6 +57,8 @@ localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
   localhost> ssh $user@$host
    remotepi> cd /tmp
    remotepi> sudo apt reinstall ./*.deb
+   remotepi> sudo apt install libmpdclient-dev liblirc-dev gcc g++
+   remotepi> sudo apt install libgpiod-dev  # optional ds1302 rtc
   ```
   ## Create sysroot
   ```console
@@ -68,8 +71,8 @@ localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
   localhost> rsync -a -i --delete --checksum $user@$host:/usr/include usr/
   localhost> rsync -a -i --delete --checksum $user@$host:/usr/lib usr/
   localhost> rsync -a -i --delete --checksum $user@$host:/lib ./
-  localhost> sudo ln -s /data/aarch64-linux-gnu-14 /usr/gnemul/qemu-aarch64  # or:
-  localhost> sudo ln -s /data/arm-linux-gnueabihf-14 /usr/gnemul/qemu-arm
+  localhost> sudo ln -sfn /data/aarch64-linux-gnu-14 /usr/gnemul/qemu-aarch64  # or:
+  localhost> sudo ln -sfn /data/arm-linux-gnueabihf-14 /usr/gnemul/qemu-arm
   ```
   ## Optional VM sysroot
   ```console

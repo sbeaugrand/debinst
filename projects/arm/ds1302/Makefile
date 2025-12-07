@@ -9,6 +9,39 @@ PROPATH = arm
 include ${PROROOT}/makefiles/pro.mk
 SERVICE = rtc
 
+ifeq ($(shell uname -m),x86_64)
+ XC = arm-linux-gnueabihf
+ ifneq ($(XC),)
+  XCVER ?= 14
+  XCDIR ?= /data
+  SYSROOT = $(XCDIR)/$(XC)-$(XCVER)
+  CC = $(XC)-gcc
+  CXX = $(XC)-g++
+  CFLAGS = --sysroot=$(SYSROOT) -nostdinc\
+   -I${SYSROOT}/usr/lib/gcc/${XC}/${XCVER}/include\
+   -I$(SYSROOT)/usr/include/$(XC)\
+
+  CXXFLAGS = --sysroot=$(SYSROOT) -nostdinc\
+   -I${SYSROOT}/usr/lib/gcc/${XC}/${XCVER}/include\
+   -I$(SYSROOT)/usr/include/$(XC)\
+
+  CFLAGS +=\
+   -isystem $(SYSROOT)/usr/include\
+   -isystem $(SYSROOT)/usr/local/include\
+
+  CXXFLAGS +=\
+   -isystem $(SYSROOT)/usr/include/c++/$(XCVER)\
+   -isystem $(SYSROOT)/usr/include/$(XC)/c++/$(XCVER)\
+   -isystem $(SYSROOT)/usr/include\
+   -isystem $(SYSROOT)/usr/local/include\
+
+  LDFLAGS = --sysroot=$(SYSROOT)\
+   -L$(SYSROOT)/usr/lib/gcc/$(XC)/$(XCVER)\
+   -L$(SYSROOT)/usr/lib/$(XC)\
+
+ endif
+endif
+
 DEVLIB = $(HOME)/data/install-build/WiringPi/devLib
 OBJECTS = $(DEVLIB)/ds1302.o $(SERVICE).o
 CFLAGS += -I$(DEVLIB) -I. -DNDEBUG
@@ -16,9 +49,10 @@ CFLAGS += -I$(DEVLIB) -I. -DNDEBUG
 .PHONY: all
 all: build build/$(SERVICE)
 
-GPIO = gpiod
+#GPIO = gpiod  #FIXME
+GPIO = mraa
 include $(PROROOT)/wiring/wiring.mk
-include $(PROROOT)/makefiles/arm.mk
+include $(PROROOT)/makefiles/ccpp.mk
 include $(PROROOT)/arm/wiringPi/wiringPi.mk
 include $(PROROOT)/debug/debug.mk
 
