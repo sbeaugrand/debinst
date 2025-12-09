@@ -6,11 +6,12 @@
 # ---------------------------------------------------------------------------- #
 PROROOT = ../..
 PROPATH = arm
-include ${PROROOT}/makefiles/pro.mk
+include $(PROROOT)/makefiles/pro.mk
 SERVICE = rtc
 
 ifeq ($(shell uname -m),x86_64)
- XC = arm-linux-gnueabihf
+ #XC = arm-linux-gnueabihf
+ XC = aarch64-linux-gnu
  ifneq ($(XC),)
   XCVER ?= 14
   XCDIR ?= /data
@@ -49,10 +50,16 @@ CFLAGS += -I$(DEVLIB) -I. -DNDEBUG
 .PHONY: all
 all: build build/$(SERVICE)
 
+ifeq ($(XC),)
+ GPIO = sysfs
+ include $(PROROOT)/wiring/wiring.mk
+ include $(PROROOT)/makefiles/arm64.mk
+else
 #GPIO = gpiod  #FIXME
-GPIO = mraa
-include $(PROROOT)/wiring/wiring.mk
-include $(PROROOT)/makefiles/ccpp.mk
+ GPIO = mraa
+ include $(PROROOT)/wiring/wiring.mk
+ include $(PROROOT)/makefiles/ccpp.mk
+endif
 include $(PROROOT)/arm/wiringPi/wiringPi.mk
 include $(PROROOT)/debug/debug.mk
 

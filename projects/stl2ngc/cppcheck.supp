@@ -1,0 +1,3 @@
+unusedFunction:stl2ngc.cpp:93 #(style) The function 'zigzag_y' is never used.
+unusedFunction:stl2ngc.cpp:112 #(style) The function 'isNearlyEqual' is never used.
+checkersReport

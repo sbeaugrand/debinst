@@ -16,6 +16,6 @@
       xterm*color1: chocolate1
       xterm*color9: chocolate1
       xterm*color12: lightskyblue
-      xterm*translations: #override <Key>F9: secure()
+      xterm*vt100*translations: #override <Key>F9: secure()
   notify:
     - xrdb Xresources
