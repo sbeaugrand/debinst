@@ -19,27 +19,8 @@ sha256sum -c Armbian_community_26.2.0-trunk.44_Orangepizero_trixie_current_6.12.
 ## [Rockpi S](https://www.armbian.com/rockpi-s/)
 ![Rockpi S](https://www.armbian.com/wp-content/uploads/2019/11/rockpi-s-300x169.png)
 ```sh
-sha256sum -c Armbian_23.5.2_Rockpi-s_bookworm_current_6.1.32_minimal.img.xz.sha
+sha256sum -c Armbian_25.8.1_Rockpi-s_trixie_current_6.12.41_minimal.img.xz.sha
 ```
-
-<details>
-  <summary>Without boot from the built-in SDNAND</summary>
-
-  ```sh
-  df .  # 6,7G needed
-  git clone -b v22.08 https://github.com/armbian/build.git armbian-build
-  cd armbian-build
-  sed -i 's/^IDBLOADER_BLOB/#IDBLOADER_BLOB/' config/sources/families/rockpis.conf
-  touch .ignore_changes
-  sudo rm ./cache/sources/u-boot/*/idbloader.bin
-  sudo apt install debootstrap
-  sudo modprobe loop
-  systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './compile.sh BOARD=rockpi-s BRANCH=edge BUILD_MINIMAL=yes BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no CLEAN_LEVEL=, RELEASE=bullseye SKIP_EXTERNAL_TOOLCHAINS=yes EXTRAWIFI=no'
-  cd output/images
-  ls -l Armbian_22.08.2_Rockpi-s_bullseye_edge_5.19.17_minimal.img
-  pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
-  ```
-</details>
 
 ## Installation
 ```sh
@@ -171,6 +152,25 @@ sudo reboot
 <br/>
 
 # Divers
+
+<details>
+  <summary>Rockpi S without boot from the built-in SDNAND</summary>
+
+  ```sh
+  df .  # 6,7G needed
+  git clone -b v22.08 https://github.com/armbian/build.git armbian-build
+  cd armbian-build
+  sed -i 's/^IDBLOADER_BLOB/#IDBLOADER_BLOB/' config/sources/families/rockpis.conf
+  touch .ignore_changes
+  sudo rm ./cache/sources/u-boot/*/idbloader.bin
+  sudo apt install debootstrap
+  sudo modprobe loop
+  systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './compile.sh BOARD=rockpi-s BRANCH=edge BUILD_MINIMAL=yes BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=no CLEAN_LEVEL=, RELEASE=bullseye SKIP_EXTERNAL_TOOLCHAINS=yes EXTRAWIFI=no'
+  cd output/images
+  ls -l Armbian_22.08.2_Rockpi-s_bullseye_edge_5.19.17_minimal.img
+  pv Armbian*.img | sudo dd bs=4M oflag=dsync of=/dev/mmcblk0
+  ```
+</details>
 
 <details>
   <summary>USB to TTL - CH340G</summary>

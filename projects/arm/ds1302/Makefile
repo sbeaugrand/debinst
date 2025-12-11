@@ -8,6 +8,8 @@ PROROOT = ../..
 PROPATH = arm
 include $(PROROOT)/makefiles/pro.mk
 SERVICE = rtc
+DEVLIB = $(HOME)/data/install-build/WiringPi/devLib
+CPPCHECKINC = -I$(DEVLIB)
 
 ifeq ($(shell uname -m),x86_64)
  #XC = arm-linux-gnueabihf
@@ -43,7 +45,6 @@ ifeq ($(shell uname -m),x86_64)
  endif
 endif
 
-DEVLIB = $(HOME)/data/install-build/WiringPi/devLib
 OBJECTS = $(DEVLIB)/ds1302.o $(SERVICE).o
 CFLAGS += -I$(DEVLIB) -I. -DNDEBUG
 
@@ -51,12 +52,11 @@ CFLAGS += -I$(DEVLIB) -I. -DNDEBUG
 all: build build/$(SERVICE)
 
 ifeq ($(XC),)
- GPIO = sysfs
+ GPIO = gpiod
  include $(PROROOT)/wiring/wiring.mk
  include $(PROROOT)/makefiles/arm64.mk
 else
-#GPIO = gpiod  #FIXME
- GPIO = mraa
+ GPIO = gpiod
  include $(PROROOT)/wiring/wiring.mk
  include $(PROROOT)/makefiles/ccpp.mk
 endif

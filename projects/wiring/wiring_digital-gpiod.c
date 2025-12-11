@@ -70,6 +70,15 @@ digitalInit(uint8_t pin, uint8_t mode)
         }
         offset = gpiod_chip_get_line_offset_from_name(chip, buf);
         if (offset < 0) {
+            chip = gpiod_chip_open("/dev/gpiochip1");
+            if (! chip) {
+                ERRNO("gpiod_chip_open");
+                ret = 2;
+                goto finalize;
+            }
+            offset = gpiod_chip_get_line_offset_from_name(chip, buf);
+        }
+        if (offset < 0) {
             ERRNO("gpiod_chip_get_line_offset_from_name");
             ret = 3;
             goto finalize;
@@ -122,7 +131,11 @@ digitalInit(uint8_t pin, uint8_t mode)
     }
 
     if (chip) {
-        line = gpiod_chip_request_lines(chip, NULL, cfg);
+        struct gpiod_request_config* req_cfg = gpiod_request_config_new();
+        if (req_cfg) {
+            gpiod_request_config_set_consumer(req_cfg, __FILE_NAME__);
+        }
+        line = gpiod_chip_request_lines(chip, req_cfg, cfg);
         if (! line) {
             ERRNO("gpiod_chip_request_lines");
             ret = 10;
@@ -130,6 +143,12 @@ digitalInit(uint8_t pin, uint8_t mode)
         }
         gLines[pin - 1] = line;
         gOffsets[pin - 1] = offset;
+    } else {
+        if (gpiod_line_request_reconfigure_lines(line, cfg) < 0) {
+            ERRNO("gpiod_line_request_reconfigure_lines");
+            ret = 11;
+            goto finalize;
+        }
     }
 
 finalize:
