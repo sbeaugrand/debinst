@@ -5,6 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROROOT = ..
+CPPCHECKINC = -I../wiring -I../timer -I../debug
 
 BDIR     = $(HOME)/data/install-build
 HARDWARE = $(BDIR)/arduino-1.0.6/hardware

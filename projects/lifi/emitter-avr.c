@@ -1,13 +1,12 @@
 /******************************************************************************!
- * \file main.c
+ * \file emitter-avr.c
  * \author Sebastien Beaugrand
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  * \note Source: https://github.com/jpiat/arduino
  ******************************************************************************/
 #include <util/atomic.h>
-#include "tinyX5.h"
-#define F_CPU 1000000UL
+#include "Arduino.h"
 #include "timer1.h"
 #include "lifi.h"
 
@@ -26,7 +25,7 @@ unsigned long int manchester_data = 0xFFFFFFFF;
 /******************************************************************************!
  * \fn toManchester
  ******************************************************************************/
-void
+static void
 toManchester(unsigned char data, unsigned long int* data_manchester)
 {
     unsigned int i;
@@ -50,9 +49,9 @@ toManchester(unsigned char data, unsigned long int* data_manchester)
 ISR(TIMER1_COMPA_vect)
 {
     if (manchester_data & 0x01) {
-        digitalWrite(A_PINB0, 1);
+        digitalWrite(PINB0, 1);
     } else {
-        digitalWrite(A_PINB0, 0);
+        digitalWrite(PINB0, 0);
     }
     bit_counter--;
     manchester_data >>= 1;
@@ -97,7 +96,7 @@ write(const char* data, int data_size)
 void
 setup()
 {
-    pinMode(A_PINB0, OUTPUT);
+    pinMode(PINB0, OUTPUT);
 
     // Init frame
     memset(frame_buffer, 0xAA, 3);
@@ -128,7 +127,7 @@ void
 loop()
 {
 #   ifndef MESSAGE
-    static char* msg = "Hello World";
+    static const char* msg = "Hello World";
 
     if (write(msg, 11) < 0) {
     }

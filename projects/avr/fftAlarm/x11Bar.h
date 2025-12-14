@@ -19,9 +19,9 @@ class Bar : public Callback
 {
 public:
     Bar();
-    ~Bar();
+    ~Bar() override;
     void run(Callback * loopObj, int (Callback::* loopFunc)(const Event*));
-    void draw(uint8_t* buff) const;
+    void draw(const uint8_t* buff) const;
     int keyPress(const Event* event);
 
 private:

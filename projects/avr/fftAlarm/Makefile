@@ -9,16 +9,17 @@ PROROOT = ../..
 include $(PROROOT)/makefiles/pro.mk
 PROPATH = avr
 TARGETS += "| tests"
+CPPCHECKINC = -I$(PROROOT) -I.
 
 ATMEL = attiny85
-VARIANT = tinyX5
 ADC = avr
 GPIO = avr
 OBJECTS = fftAlarm.o fix_fft.o
-CFLAGS = -DF_CPU=8000000UL -std=c99
+CFLAGS = -DF_CPU=8000000UL -D$(VARIANT)
 LFUSE = 0xe2# oscillateur interne 8 MHz, sans CKDIV8
 include $(PROROOT)/wiring/wiring.mk
 include $(PROROOT)/makefiles/avr.mk
+CFLAGS += -O1# fix undefined reference to inline FIX_MPY
 
 PHONY: tests
 tests:

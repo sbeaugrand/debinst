@@ -1,7 +1,6 @@
-variableScope
-ConfigurationNotChecked:emitter-avr.c:15
-selfAssignment:../timer/timer1.h:26
-unreadVariable:../timer/timer1.h:26
-unreadVariable:receiver.c:230
-missingInclude
+selfAssignment:../timer/timer1.h:28
+unreadVariable:../timer/timer1.h:28
 *:LiFiReceiver.cpp
+*:LiFiEmitter.cpp
+staticFunction:emitter-avr.c:49 #(style) The function 'ISR' should have static linkage since it is not used outside of its translation unit.
+missingInclude:emitter-avr.c:9 #(information) Include file: "Arduino.h" not found.

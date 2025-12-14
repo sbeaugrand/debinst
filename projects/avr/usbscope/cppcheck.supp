@@ -1,3 +1,5 @@
-unusedFunction:firmware.c:98
-unusedFunction:usbFunctionSetup.c:24
-missingInclude
+unusedFunction:../../x11/*
+unusedFunction:firmware.c:98 #(style) The function 'usbEventResetReady' is never used.
+unusedFunction:usbFunctionSetup.c:24 #(style) The function 'usbFunctionSetup' is never used.
+missingInclude:firmware.c:25 #(information) Include file: "usbdrv.h" not found.
+missingInclude:usbFunctionSetup.c:16 #(information) Include file: "usbdrv.h" not found.

@@ -5,27 +5,24 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 TARDEPEND += avr/arduino
-CPPCHECKINC += -I$(PROROOT)/avr/arduino
 
 ifeq ($(ATMEL),attiny2313)
- VARIANT = tinyX313
+ VARIANT = tinyx313
 endif
 ifeq ($(ATMEL),attiny25)
- VARIANT = tinyX5
+ VARIANT = tinyx5
 endif
 ifeq ($(ATMEL),attiny45)
- VARIANT = tinyX5
+ VARIANT = tinyx5
 endif
 ifeq ($(ATMEL),attiny85)
- VARIANT = tinyX5
+ VARIANT = tinyx5
 endif
 
 BDIR = $(HOME)/data/install-build
-ARDUINO = $(BDIR)/arduino-1.0.6/hardware/arduino/cores/arduino
+ARDUINO = $(BDIR)/ATTinyCore/avr/cores/tiny
 PINS_ARDUINO = $(BDIR)/ATTinyCore/avr/variants/$(VARIANT)
-
-CFLAGS +=\
- -I$(ARDUINO) -I$(PINS_ARDUINO) -I$(PROROOT)/avr/arduino -D$(VARIANT)
+CFLAGS += -I$(ARDUINO) -I$(PINS_ARDUINO)
 
 ifeq ($(GPIO),avr)
  OBJECTS += avr_wiring_digital.o

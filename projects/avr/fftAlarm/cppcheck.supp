@@ -1,6 +1,4 @@
-variableScope
-selfAssignment:sinus.c:29
-unreadVariable:sinus.c:29
-unusedFunction:fix_fft.c:194
-duplicateCondition:fftAlarm.c:165
-missingInclude
+duplicateCondition:fftAlarm.c:166 #(style) The if condition is the same as the previous if condition
+variableScope:fftAlarm.c:71 #(style) The scope of the variable 'adc' can be reduced.
+unusedFunction:../../x11/*
+*:fix_fft*

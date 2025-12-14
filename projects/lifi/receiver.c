@@ -51,7 +51,7 @@ long shift_reg = 0;
                          STOP_SYMBOL)  // STOP/START/16bits/STOP
 #define SYNC_SYMBOL_MANCHESTER (0x6665)
 inline int
-is_a_word(long* manchester_word,
+is_a_word(const long* manchester_word,
           int time_from_last_sync,
           unsigned int* detected_word)
 {
@@ -86,9 +86,9 @@ insert_edge(long* manchester_word,
             unsigned int* detected_word)
 {
     int new_word = 0;
-    int is_a_word_value;
-    int sync_word_detect = 0;
     if (((*manchester_word) & 0x01) != edge) {
+        int is_a_word_value;
+        int sync_word_detect = 0;
         // Make sure we don't have same edge
         if (edge_period > (SAMPLE_PER_SYMBOL + 1)) {
             unsigned char last_bit = (*manchester_word) & 0x01;
@@ -110,7 +110,7 @@ insert_edge(long* manchester_word,
         // Storing edge value in word
         if (edge < 0) {
             // Signal goes down
-            (*manchester_word) = ((*manchester_word) << 1) | 0x00;
+            (*manchester_word) = ((*manchester_word) << 1);
         } else {
             // Signal goes up
             (*manchester_word) = ((*manchester_word) << 1) | 0x01;
@@ -158,8 +158,7 @@ sample_signal_edge()
         edge_val = 0;
     }
     oldValue = sensorValue;
-    if (edge_val == 0 || edge_val == old_edge_val ||
-        (edge_val != old_edge_val && steady_count < 2)) {
+    if (edge_val == 0 || edge_val == old_edge_val || steady_count < 2) {
         if (steady_count < (4 * SAMPLE_PER_SYMBOL)) {
             steady_count++;
         }
@@ -245,11 +244,9 @@ setup()
 void
 loop()
 {
-    int i;
-    unsigned char received_data;
     if (gNewWord == 1) {
-        received_data = 0;
-        for (i = 0; i < 16; i = i + 2) {  // Decoding Manchester
+        unsigned char received_data = 0;
+        for (int i = 0; i < 16; i = i + 2) {  // Decoding Manchester
             received_data = received_data << 1;
             if (((detected_word >> i) & 0x03) == 0x01) {
                 received_data |= 0x01;
@@ -277,7 +274,7 @@ loop()
  * \fn main
  ******************************************************************************/
 int
-main(int argc, char* argv[])
+main(int argc, const char* argv[])
 {
     setup();
     if (argc > 1) {

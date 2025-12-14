@@ -25,7 +25,7 @@ build/$(PROJECT).o: build FORCE
 FORCE:
 
 LFUSE = 0x52# internal 8 MHz / 8
-CFLAGS += -std=c99
+CFLAGS += -DF_CPU=1000000UL
 include $(PROROOT)/makefiles/avr.mk
 include ${PROROOT}/timer/timer.mk
 include $(PROROOT)/makefiles/tar.mk

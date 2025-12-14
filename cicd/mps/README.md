@@ -237,9 +237,9 @@ sequenceDiagram
   <summary>mpc usage for debug</summary>
 
   ```sh
-  mpc --host=/run/mpd.sock clear
-  mpc --host=/run/mpd.sock load 'music_directory/.../00.m3u'
-  mpc --host=/run/mpd.sock play
+  mpc clear
+  mpc load '<[inside_music_directory]>/00.m3u'
+  mpc play
   ```
 </details>
 

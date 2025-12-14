@@ -18,13 +18,12 @@ const char* gTestRef;
 /******************************************************************************!
  * \fn test
  ******************************************************************************/
-void
+static void
 test(const char* testName, double cur, double ref)
 {
-    static char sCur[32];
-    static char sRef[32];
-
     if (cur != ref) {
+        static char sCur[32];
+        static char sRef[32];
         sprintf(sCur, "%.7e", cur);
         sprintf(sRef, "%.7e", ref);
         if (strncmp(sCur, sRef, 32) != 0) {

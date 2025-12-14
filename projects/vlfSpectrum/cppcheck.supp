@@ -1,4 +1,3 @@
-selfAssignment:plot-gnuplot.c:43
-unreadVariable:plot-gnuplot.c:43
-variableScope
-missingIncludeSystem
+constParameterPointer:/usr/local/include/libusb-1.0/libusb.h
+constVariablePointer:/usr/local/include/libusb-1.0/libusb.h
+unusedFunction:/usr/local/include/libusb-1.0/libusb.h

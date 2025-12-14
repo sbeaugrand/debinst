@@ -18,6 +18,7 @@
       - cmake
       - libmpdclient-dev
       - mpd
+      - mpc
       - git
       - subversion
       #- ntp

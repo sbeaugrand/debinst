@@ -18,7 +18,7 @@ class Scope : public Callback
 {
 public:
     Scope();
-    ~Scope();
+    ~Scope() override;
     void run(Callback * loopObj, int (Callback::* loopFunc)(const Event*));
     void drawPoints(double time, double val1, double val2 = -88.0);
     int keyPress(const Event* event);

@@ -86,7 +86,7 @@ operator!=(const Input& i1, const Input& i2)
 /******************************************************************************!
  * \fn Event
  ******************************************************************************/
-Event::Event(Display* display) :
+Event::Event(const Display* display) :
     mCallbackObj(NULL),
     mCallbackFunc(NULL)
 {
@@ -152,9 +152,9 @@ void
 Event::delInput(Window* window)
 {
     std::list<Input>::iterator it;
-    Window* w;
     for (it = mInputList.begin();
          it != mInputList.end();) {
+        Window* w;
         if ((w = (*it).getWindow()) && w->id() == window->id()) {
             it = mInputList.erase(it);
         } else {

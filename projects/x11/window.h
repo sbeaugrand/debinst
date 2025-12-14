@@ -24,8 +24,8 @@ public:
     explicit Window(Display* display);
     Window(Window* parent, int x, int y, int w, int h);
     explicit Window(Window* parent);
-    virtual ~Window();
-    virtual void setSize(int w, int h);
+    virtual ~Window() override;
+    virtual void setSize(int w, int h) override;
     virtual void raise(ULong color);
     Window* getParent() { return mParent; }
     ::Window id() { return mWindow; }
@@ -33,7 +33,7 @@ public:
     void clear(ULong color);
     void addChild(Window* w) { mChilds->push_back(w); }
     void create(ULong color);
-    void setPosition(int x, int y);
+    void setPosition(int x, int y) override;
     void setTitle(const char* title);
     void addInput(ULong mask);
     void delInput(ULong mask);

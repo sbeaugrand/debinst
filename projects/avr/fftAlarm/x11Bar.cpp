@@ -45,7 +45,7 @@ Bar::~Bar()
  * \fn draw
  ******************************************************************************/
 void
-Bar::draw(uint8_t* buff) const
+Bar::draw(const uint8_t* buff) const
 {
     int m = 0;
     int j = -1;

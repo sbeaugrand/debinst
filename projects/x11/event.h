@@ -65,7 +65,7 @@ private:
 class Event
 {
 public:
-    explicit Event(Display* display);
+    explicit Event(const Display* display);
     ~Event();
     const std::list<Input>& getInputList() const { return mInputList; }
     void addWindowWithExposeCB(Window* w);

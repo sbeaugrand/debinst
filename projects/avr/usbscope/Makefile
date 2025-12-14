@@ -10,6 +10,7 @@ PROPATH = avr
 include $(PROROOT)/makefiles/pro.mk
 OBJECTS = $(PROJECT).o x11Scope.o
 FIRMWARE_TARGETS = hex fuse flash verify install
+CPPCHECKINC = -I$(PROROOT) -I$(PROROOT)/wiring
 
 .PHONY: all
 all:

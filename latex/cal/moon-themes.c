@@ -26,7 +26,7 @@ enum sign {
 /******************************************************************************!
  * \fn longitude
  ******************************************************************************/
-double
+static double
 longitude(double jde)
 {
     double t = julianTime(jde);
@@ -43,7 +43,7 @@ longitude(double jde)
 /******************************************************************************!
  * \fn theme
  ******************************************************************************/
-enum sign
+static enum sign
 theme(double l)
 {
     //FIXME: approximatif et suffisant mais pourra quand meme etre ameliore'
@@ -80,7 +80,7 @@ theme(double l)
 /******************************************************************************!
  * \fn printSign
  ******************************************************************************/
-void
+static void
 printSign(enum sign s)
 {
     switch (s) {
@@ -129,7 +129,7 @@ printSign(enum sign s)
 /******************************************************************************!
  * \fn themes
  ******************************************************************************/
-void
+static void
 themes(int year, int month, int day)
 {
     double j1 = julianDay(year, month, day);
@@ -152,10 +152,9 @@ themes(int year, int month, int day)
     if (t2 != t1) {
         double j0 = j1;
         double j = j1;
-        double l;
         while (j2 - j1 > 1.0 / 14400) {
             j = j1 + (j2 - j1) / 2;
-            l = longitude(j);
+            double l = longitude(j);
             if (l < 0 || l > 360 + 34.10) {
                 printf("%d\n", (int) l);
                 return;
@@ -179,7 +178,7 @@ themes(int year, int month, int day)
  * \fn main
  ******************************************************************************/
 int
-main(int argc, char* argv[])
+main(int argc, const char* argv[])
 {
     int year;
     int month;

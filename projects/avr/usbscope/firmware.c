@@ -32,7 +32,7 @@ static uchar adchanel;
 static int adcval1;
 static int adcval2;
 
-PROGMEM const const char usbHidReportDescriptor[
+PROGMEM const char usbHidReportDescriptor[
     USB_CFG_HID_REPORT_DESCRIPTOR_LENGTH] = {  /* USB report descriptor */
     0x05, 0x01,  // USAGE_PAGE (Generic Desktop = 01)
     0x09, 0x05,            // USAGE (Game Pad = 05)
@@ -104,7 +104,8 @@ void usbEventResetReady()
 /******************************************************************************!
  * \fn setup
  ******************************************************************************/
-void setup()
+static void
+setup()
 {
     uchar i;
     uchar calibrationValue;

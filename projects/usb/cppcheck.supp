@@ -1,3 +1,2 @@
-unusedFunction:device.cpp:34
-unusedFunction:device.cpp:76
-missingIncludeSystem
+unusedFunction:device.cpp:35 #(style) The function 'open' is never used.
+unusedFunction:device.cpp:79 #(style) The function 'submit' is never used.

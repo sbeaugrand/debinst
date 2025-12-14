@@ -56,7 +56,7 @@ controlC(int sig)
 /******************************************************************************!
  * \fn initFFT
  ******************************************************************************/
-void
+static void
 initFFT(unsigned int size)
 {
     unsigned int i;
@@ -110,11 +110,8 @@ main(int argc, char* argv[])
     //const unsigned int SAMPLES_SIZE = SAMPLE_SIZE << 3;  // G25: build/adc 13
 
     uint16_t buff[SAMPLES_SIZE >> 1];
-    int pos;
     uint16_t uint2;
-    uint32_t uint4;
     double t;
-    ssize_t len;
     unsigned int samplesPos = 0;
     unsigned int savePos = 0;
     uint32_t count = 0;
@@ -130,11 +127,11 @@ main(int argc, char* argv[])
     initFFT(SAMPLES_SIZE);
 
     for (;;) {
-        len = sockRead((unsigned char*) buff, PACKET_SIZE) >> 1;
-        uint4 =
+        ssize_t len = sockRead((unsigned char*) buff, PACKET_SIZE) >> 1;
+        uint32_t uint4 =
             (buff[0] << 16) +
             (buff[1]);
-        pos = 2;
+        int pos = 2;
         if (count != 0 && uint4 != count + 1) {
             ERROR("paquet voulu: %u, paquet recu:%u\n", count + 1, uint4);
         }

@@ -25,15 +25,14 @@ int gCount;
 
 int16_t buff[N];
 
-void
-sigalarm_handler(int s) {
-    s = s;
+static void
+sigalarm_handler(int /*s*/) {
 }
 
 /******************************************************************************!
  * \fn sampleRate
  ******************************************************************************/
-int
+static int
 sampleRate()
 {
     double t = gTimeval.tv_sec - gOffset.tv_sec +
@@ -44,7 +43,7 @@ sampleRate()
 /******************************************************************************!
  * \fn quit
  ******************************************************************************/
-void
+static void
 quit(int status)
 {
     if (status == EXIT_SUCCESS) {
@@ -56,7 +55,7 @@ quit(int status)
 /******************************************************************************!
  * \fn sigpipe
  ******************************************************************************/
-void
+static void
 sigpipe(int sig)
 {
     if (sig == SIGPIPE) {

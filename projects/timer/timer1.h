@@ -23,11 +23,12 @@ timer1SetPeriod(unsigned long microseconds)
 
 void (* gIsr)() = NULL;
 
-void
+static void
 sigalarm_handler(int s) {
     s = s;
     if (gIsr == NULL) {
         perror("gIsr == NULL");
+        return;
     }
     (*gIsr)();
 }

@@ -18,10 +18,10 @@ class Pixmap : public Drawable
 public:
     Pixmap(Display* dpy, int w, int h);
     explicit Pixmap(Display* dpy);
-    ~Pixmap();
+    ~Pixmap() override;
     void create();
     ::Pixmap id() { return mPixmap; }
-    void setSize(int w, int h);
+    void setSize(int w, int h) override;
     void clear(ULong color);
 
 private:

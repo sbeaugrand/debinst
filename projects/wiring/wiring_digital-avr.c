@@ -4,11 +4,7 @@
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
-#ifdef tinyX313
-# include "tinyX313.h"
-#else
-# include "tinyX5.h"
-#endif
+#include "Arduino.h"
 
 /******************************************************************************!
  * \fn digitalInit

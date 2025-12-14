@@ -10,6 +10,7 @@ include ${PROROOT}/makefiles/pro.mk
 LIB = wiringPi.a
 
 ifeq ($(shell uname -m),x86_64)
+ #CC = aarch64-linux-gnu-gcc
  CC = arm-linux-gnueabihf-gcc
 endif
 

@@ -35,13 +35,11 @@ static FILE* gPlotDebug = NULL;
 /******************************************************************************!
  * \fn threadPlotSamples
  ******************************************************************************/
-void*
-threadPlotSamples(void* arg)
+static void*
+threadPlotSamples(void* /*arg*/)
 {
     static unsigned int last;
     unsigned int pos;
-
-    arg = arg;
 
     for (;;) {
         sem_wait(&gSemSamples);
@@ -70,20 +68,19 @@ threadPlotSamples(void* arg)
 /******************************************************************************!
  * \fn threadPlotFFT
  ******************************************************************************/
-void*
+static void*
 threadPlotFFT(void* arg)
 {
     const unsigned int SAMPLES_SIZE = *((unsigned int*) arg);
     unsigned int samplesPos;
-    double duree;
 
     for (;;) {
         sem_wait(&gSemFFT);
         if (! gLoop) {
             break;
         }
-        duree = (creal(gPlotSamplesFFT[SAMPLES_SIZE - 1]) -
-                 creal(gPlotSamplesFFT[0]));
+        double duree = (creal(gPlotSamplesFFT[SAMPLES_SIZE - 1]) -
+                        creal(gPlotSamplesFFT[0]));
         DEBUG("%d par seconde\n", (int) (SAMPLES_SIZE / duree));
         fprintf(gPlotFileFFT, "plot '-' w l\n");
 #       ifdef PLOT_DEBUG

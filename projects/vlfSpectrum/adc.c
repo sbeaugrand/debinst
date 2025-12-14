@@ -21,7 +21,7 @@
 #define CLOCK CLOCK_REALTIME
 
 #ifdef SINUS
-void analogSetFrequencies(int argc, char* argv[]);
+void analogSetFrequencies(int argc, const char* argv[]);
 #endif
 
 const char* PORT = "4040";
@@ -89,7 +89,7 @@ sockInit(const char* port)
  * \fn main
  ******************************************************************************/
 int
-main(int argc, char* argv[])
+main(int argc, const char* argv[])
 {
     const unsigned int HEADER_SIZE = sizeof(uint32_t) << 1;
     const unsigned int SAMPLE_SIZE = 1 << (int) log2(TCP_MSS_DEFAULT -
@@ -99,8 +99,6 @@ main(int argc, char* argv[])
     struct sockaddr_in addr;
     uint16_t buff[PACKET_SIZE >> 1];
     unsigned int pos;
-    uint16_t uint2;
-    uint32_t uint4;
     socklen_t slen = sizeof(addr);
     uint32_t count;
 
@@ -173,9 +171,9 @@ main(int argc, char* argv[])
             ERRNO("clock_gettime");
             exit(EXIT_FAILURE);
         }
-        uint2 = (uint16_t) (gTimeval.tv_sec - gOffset);
+        uint16_t uint2 = (uint16_t) (gTimeval.tv_sec - gOffset);
         buff[pos++] = uint2;
-        uint4 = (uint32_t) (gTimeval.tv_nsec / 1000);
+        uint32_t uint4 = (uint32_t) (gTimeval.tv_nsec / 1000);
         buff[pos++] = uint4 >> 16;
         buff[pos++] = uint4 & 0xFFFFu;
         buff[pos++] = analogRead(0);

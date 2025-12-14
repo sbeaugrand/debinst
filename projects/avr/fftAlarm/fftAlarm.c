@@ -11,7 +11,7 @@
 #define FPS_O 4
 #define FPS 16  // 2 ^ FPS_O
 
-#ifdef tinyX5
+#ifdef tinyx5
 # include <avr/io.h>
 # include "wiring.h"
 #else
@@ -20,8 +20,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
-const ssize_t BUFF_MEMSIZE = N * sizeof(int16_t);
-const ssize_t OUT_MEMSIZE = N >> 1;
+const size_t BUFF_MEMSIZE = N * sizeof(int16_t);
+const int OUT_MEMSIZE = N >> 1;
 #endif
 
 int16_t fix_fft(int8_t fr[], int8_t fi[], int16_t m, int16_t inverse);
@@ -38,10 +38,10 @@ int gAlarmCount;
 /******************************************************************************!
  * \fn setup
  ******************************************************************************/
-void
+static void
 setup()
 {
-#   ifdef tinyX5
+#   ifdef tinyx5
     analogInit();
     digitalInit(PINB4, OUTPUT);
     digitalInit(PINB2, OUTPUT);
@@ -71,7 +71,7 @@ loop()
     int32_t adc;
     int min;
 
-#   ifdef tinyX5
+#   ifdef tinyx5
     while ((adc = analogRead(PINB3)) < 0) {
         ;
     }
@@ -87,10 +87,9 @@ loop()
         }
     }
 #   else
-    ssize_t t = 0;
-    ssize_t s;
+    size_t t = 0;
     do {
-        s = read(STDIN_FILENO, buff + t, BUFF_MEMSIZE - t);
+        int s = read(0, buff + t, BUFF_MEMSIZE - t);  // STDIN_FILENO = 0
         if (s <= 0) {
             fprintf(stderr, "fftAlarm: EOF\n");
             exit(EXIT_SUCCESS);
@@ -109,7 +108,7 @@ loop()
         return;
     }
     gSkipCount = 0;
-#   ifndef tinyX5
+#   ifndef tinyx5
     fprintf(stderr, ".");
 #   endif
 
@@ -151,12 +150,12 @@ loop()
             max = sum;
             j = i;
         }
-#       ifndef tinyX5
+#       ifndef tinyx5
         data[i] = sqrt(data[i] * data[i] + im[i] * im[i]);
 #       endif
     }
 
-#  ifndef tinyX5
+#  ifndef tinyx5
 #   ifndef NDEBUG
     if (j >= 0) {
         fprintf(stderr, "j=%d, freq=%d-%d, level=%d\n",
@@ -168,7 +167,7 @@ loop()
         j *= RATE >> M;
     }
 
-#   ifdef tinyX5
+#   ifdef tinyx5
     if (gAlarmCount) {
     } else if (j < 0) {
         digitalWrite(PINB2, 0);
@@ -214,7 +213,7 @@ loop()
             // __________------______------______------__________
             //            0.5s  0.5s  0.5s  0.5s  0.5s
             ++gAlarmCount;
-#           ifdef tinyX5
+#           ifdef tinyx5
             if (gAlarmCount == 1 || gAlarmCount == 24) {  // 24 * 2.5s = 60s
                 digitalWrite(PINB4, 1);
             }
@@ -230,7 +229,7 @@ loop()
         }
     } else if (gAlarmPulse > 0) {
         if (gAlarm == 0 && ++gAlarmSpace >= FPS + (FPS >> 1)) {
-#           ifndef tinyX5
+#           ifndef tinyx5
             fprintf(stderr, "Pulse = %d\n", gAlarmPulse);
 #           endif
             gAlarmPulse = 0;
@@ -238,15 +237,15 @@ loop()
         }
     }
 
-#   ifndef tinyX5
-    if (write(STDOUT_FILENO, data, OUT_MEMSIZE) < OUT_MEMSIZE) {
+#   ifndef tinyx5
+    if (write(0, data, OUT_MEMSIZE) < OUT_MEMSIZE) {  // STDOUT_FILENO = 0
         fprintf(stderr, "error: write\n");
         exit(EXIT_FAILURE);
     }
 #   endif
 
     if (gAlarm == 1) {
-#       ifdef tinyX5
+#       ifdef tinyx5
         digitalWrite(PINB4, 0);
 #       else
         fprintf(stderr, "Alarme = %d\n", 0);

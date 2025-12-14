@@ -45,7 +45,7 @@ sockQuit()
 /******************************************************************************!
  * \fn status
  ******************************************************************************/
-void
+static void
 status(const char* str, int code)
 {
     if (code < 0) {
@@ -60,7 +60,7 @@ status(const char* str, int code)
 /******************************************************************************!
  * \fn callback
  ******************************************************************************/
-void
+static void
 callback(struct libusb_transfer* transfer)
 {
     static struct timeval tv;
@@ -87,7 +87,7 @@ callback(struct libusb_transfer* transfer)
  * \fn sockInit
  ******************************************************************************/
 void
-sockInit(int argc, char* argv[])
+sockInit(int argc, const char* argv[])
 {
     int r;
 
@@ -129,7 +129,6 @@ ssize_t
 sockRead(unsigned char* buff, size_t size)
 {
     static uint32_t count = 0;
-    int r;
 
     gBuff = (uint16_t*) buff;
     size = size >> 1;
@@ -138,7 +137,7 @@ sockRead(unsigned char* buff, size_t size)
     gSize = 4;
 
     while (gSize != size) {
-        r = libusb_handle_events(NULL);
+        int r = libusb_handle_events(NULL);
         if (r < 0) {
             status("libusb_handle_events", r);
         }

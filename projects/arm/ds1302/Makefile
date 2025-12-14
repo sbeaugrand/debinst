@@ -12,9 +12,12 @@ DEVLIB = $(HOME)/data/install-build/WiringPi/devLib
 CPPCHECKINC = -I$(DEVLIB)
 
 ifeq ($(shell uname -m),x86_64)
- #XC = arm-linux-gnueabihf
- XC = aarch64-linux-gnu
- ifneq ($(XC),)
+ #XC = aarch64-linux-gnu
+ XC = arm-linux-gnueabihf
+ ifeq ($(XC),)
+  GPIO = sysfs
+ else
+  GPIO = gpiod
   XCVER ?= 14
   XCDIR ?= /data
   SYSROOT = $(XCDIR)/$(XC)-$(XCVER)
@@ -51,15 +54,13 @@ CFLAGS += -I$(DEVLIB) -I. -DNDEBUG
 .PHONY: all
 all: build build/$(SERVICE)
 
-ifeq ($(XC),)
+ifeq ($(GPIO),)
  GPIO = gpiod
- include $(PROROOT)/wiring/wiring.mk
- include $(PROROOT)/makefiles/arm64.mk
-else
- GPIO = gpiod
- include $(PROROOT)/wiring/wiring.mk
- include $(PROROOT)/makefiles/ccpp.mk
 endif
+$(info GPIO = $(GPIO))
+include $(PROROOT)/wiring/wiring.mk
+#include $(PROROOT)/makefiles/arm64.mk
+include $(PROROOT)/makefiles/arm.mk
 include $(PROROOT)/arm/wiringPi/wiringPi.mk
 include $(PROROOT)/debug/debug.mk
 
