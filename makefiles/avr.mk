@@ -55,8 +55,8 @@ $(OBJECTS): Makefile
 
 .PHONY: checksize
 checksize: build/$(PROJECT).elf
-	@avr-size --mcu=$(ATMEL) build/$(PROJECT).elf | sed '/^$$/d'
-	@! avr-size --mcu=$(ATMEL) build/$(PROJECT).elf | grep '([0-9]\{3\} | grep -v '100.0%''
+	@  avr-size --format=avr --mcu=$(ATMEL) build/$(PROJECT).elf | sed '/^$$/d'
+	@! avr-size --format=avr --mcu=$(ATMEL) build/$(PROJECT).elf | grep '([0-9]\{3\} | grep -v '100.0%''
 
 .PHONY: fuse
 fuse:

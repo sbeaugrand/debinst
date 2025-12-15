@@ -12,6 +12,7 @@ if [ -z "$1" ]; then
     echo "       nft.sh list | grep \"a comment\""
     echo "       nft.sh unblock 44"
     echo "       nft.sh unblock \"a comment\""
+    echo "       nft.sh replace \"a comment\"" 21:00
     echo "       nft.sh log [-f]"
     exit 1
 fi
@@ -50,6 +51,16 @@ elif [ $action = "unblock" ]; then
         elif $nft -a list chain filter FORWARD 2>/dev/null | grep -q "handle $handle$"; then
             $nft delete rule filter FORWARD handle $handle
         fi
+    else
+        echo "handle not found"
+    fi
+elif [ $action = "replace" ]; then
+    com="$2"
+    handle=`$0 list 2>/dev/null | grep -m 1 "$com" | awk '{ print $NF }'`
+    if ((handle)); then
+        hour=$3
+        ip=`$0 list 2>/dev/null | grep -m 1 "$com" | awk '{ print $3 }'`
+        $nft replace rule filter prerouting handle $handle ip saddr $ip meta hour \> \"$hour\" counter drop comment \"$com\"
     else
         echo "handle not found"
     fi
