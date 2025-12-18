@@ -11,8 +11,13 @@ variables:
 prebuild:
   stage: build
   script:
-    - update-binfmts --enable qemu-aarch64
-    - update-binfmts --enable qemu-arm
+    - update-binfmts --enable
+    - >
+      update-binfmts --enable qemu-aarch64 ||
+      cat /usr/lib/binfmt.d/qemu-aarch64.conf >/proc/sys/fs/binfmt_misc/register
+    - >
+      update-binfmts --enable qemu-arm ||
+      cat /usr/lib/binfmt.d/qemu-arm.conf >/proc/sys/fs/binfmt_misc/register
 build:
   stage: build
   script:
@@ -30,6 +35,7 @@ build:
       --extra-package=/sbuild
       --build-dir=.
       --no-run-lintian
+      --no-clean-source
   parallel:
     matrix:
       - ARCH: [arm64, armhf]
@@ -49,7 +55,8 @@ test:
       cppcheck -q --enable=all --suppressions-list=cppcheck.supp
       --template='{id}:{file}:{line} ({severity}) {message}'
       -i build -i build-*
-      --suppress=missingIncludeSystem
+      --suppress=missingIncludeSystem --suppress=checkersReport
+      -UNERROR -UNERRNO -UNDEBUG --check-level=exhaustive
       --error-exitcode=2
       .
 deploy:

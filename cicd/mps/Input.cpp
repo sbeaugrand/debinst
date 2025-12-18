@@ -87,7 +87,7 @@ Input::run(Input* self)
         }
         strtok(backup, " ");
         strtok(NULL, " ");
-        char* button = strtok(NULL, " ");
+        const char* button = strtok(NULL, " ");
         if (button == NULL) {
             ERROR("strtok");
             free(backup);

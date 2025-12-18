@@ -20,7 +20,7 @@ services:
     # https://hub.docker.com/r/gitlab/gitlab-ce
     # doc https://docs.gitlab.com/ee/install/docker/installation.html
     # source https://gitlab.com/gitlab-org/gitlab
-    image: gitlab/gitlab-ce:17.4.2-ce.0
+    image: gitlab/gitlab-ce:18.6.2-ce.0
     restart: unless-stopped
     container_name: gitlab
     hostname: gitlab.internal
@@ -38,10 +38,12 @@ services:
     # https://hub.docker.com/r/gitlab/gitlab-runner
     # doc https://docs.gitlab.com/runner/install/docker.html
     # source https://gitlab.com/gitlab-org/gitlab-runner
-    image: gitlab/gitlab-runner:ubuntu-v17.4.0
+    image: gitlab/gitlab-runner:ubuntu-v18.6.6
     restart: unless-stopped
     container_name: gitlab-runner
     hostname: gitlab-runner.{{ domain }}
+    extra_hosts:
+      - "gitlab.{{ domain }}:{{ ipaddr }}"
     volumes:
       - /mnt/gitlab-runner:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock

@@ -20,4 +20,5 @@
     - role: gitlab
       vars:
         domain: "{{ lookup('env', 'DOMAIN') }}"
+        ipaddr: "{{ lookup('env', 'IPADDR') }}"
         passwd: "{{ lookup('env', 'GITLAB_ROOT_PASSWORD') }}"

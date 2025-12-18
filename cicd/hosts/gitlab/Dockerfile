@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-FROM debian:12
+FROM debian:13
 
 RUN export DEBIAN_FRONTEND=noninteractive\
  && apt-get -y update\

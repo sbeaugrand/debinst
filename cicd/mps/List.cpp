@@ -64,7 +64,7 @@ List::rand() const
         max += it.weight;
         if (max > r) {
             r = std::rand() / ((RAND_MAX / it.size) + 1);
-            for (auto al : it.list) {
+            for (const auto& al : it.list) {
                 if (r == 0) {
                     return {
                         it.name + '/' + al.substr(11),
@@ -109,8 +109,8 @@ List::artist(const std::string& artist,
 
     int count = 0;
     r["artist"] = search;
-    for (auto it : mList) {
-        for (auto al : it.list) {
+    for (const auto& it : mList) {
+        for (const auto& al : it.list) {
             auto path = al.substr(11);
             if (path.starts_with(search + " - ")) {
                 const auto [arti, date, albu] = ::splitPath(path);
@@ -133,8 +133,8 @@ std::tuple<std::string, std::string>
 List::album(const std::string& search, int pos) const
 {
     if (pos < 0) {
-        for (auto it : mList) {
-            for (auto al : it.list) {
+        for (const auto& it : mList) {
+            for (const auto& al : it.list) {
                 const auto [arti, date, albu] = ::splitPath(al.substr(11));
                 auto count = search.size();
                 std::string str;
@@ -153,8 +153,8 @@ List::album(const std::string& search, int pos) const
         }
     } else {
         int count = 0;
-        for (auto it : mList) {
-            for (auto al : it.list) {
+        for (const auto& it : mList) {
+            for (const auto& al : it.list) {
                 auto path = al.substr(11);
                 if (path.starts_with(search + " - ")) {
                     const auto [arti, date, albu] = ::splitPath(path);
@@ -301,9 +301,9 @@ List::readList()
             return a.name < b.name;
         });
         std::ofstream file(mPath + "/mps.list");
-        for (auto it : mList) {
+        for (auto& it : mList) {
             it.list.sort();
-            for (auto al : it.list) {
+            for (const auto& al : it.list) {
                 file << it.name << '/' << al.substr(11) << std::endl;
             }
         }
@@ -332,7 +332,7 @@ List::readWeights()
         }
     } else {
         std::ofstream file(mPath + "/mps.weights");
-        for (auto it : mList) {
+        for (const auto& it : mList) {
             file << it.name << std::endl;
             file << 1 << std::endl;
             mWeightSum += 1;
@@ -355,7 +355,7 @@ List::readAbrev()
         }
     } else {
         std::ofstream file(mPath + "/mps.abrev");
-        for (auto it : mList) {
+        for (unsigned int i = 0; i < mList.size(); ++i) {
             file << "XX" << std::endl;
         }
     }
@@ -382,8 +382,8 @@ List::readLog()
         auto pos = path.find('/');
         auto search = path.substr(0, pos);
         auto albu = path.substr(pos + 1);
-        if (auto it = std::find_if(std::begin(mList), std::end(mList),
-                                   [&search](const Part& part) {
+        if (const auto& it = std::find_if(std::begin(mList), std::end(mList),
+                                          [&search](const Part& part) {
             return part.name == search;
         });
             it != std::end(mList)) {

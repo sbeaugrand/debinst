@@ -38,7 +38,8 @@ cppcheck:
 	 `test -f cppcheck.supp && echo --suppressions-list=cppcheck.supp`\
 	 --template='{id}:{file}:{line}\ \({severity}\)\ {message}'\
 	 -i build -i build-*\
-	 --suppress=missingIncludeSystem\
+	 --suppress=missingIncludeSystem --suppress=checkersReport\
+	 -UNERROR -UNERRNO -UNDEBUG --check-level=exhaustive\
 	 $(CPPCHECKINC) .
 
 .PHONY: FORCE

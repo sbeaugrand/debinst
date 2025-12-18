@@ -69,7 +69,7 @@ drawDate(int isDay)
     char line1[6];
     char line2[6];
     time_t tOfTheDay;
-    struct tm* tmOfTheDay;
+    const struct tm* tmOfTheDay;
 
     tOfTheDay = ::time(NULL);
     tmOfTheDay = ::localtime(&tOfTheDay);
