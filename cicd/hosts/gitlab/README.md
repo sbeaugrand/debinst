@@ -86,7 +86,7 @@ git push --set-upstream origin main
 # sudo virsh blockresize gitlab_gitlab /data/libvirt/gitlab_gitlab.img 64G
 vagrant ssh
 # lsblk
-# sudo apt install fdisk
+# sudo apt-get install fdisk
 # sudo growpart /dev/vda 3
 df
 sudo /sbin/lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv

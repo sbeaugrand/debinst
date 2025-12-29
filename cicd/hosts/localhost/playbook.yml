@@ -15,6 +15,7 @@
     home: /home/{{ user }}
   roles:
     # Optional
+    - role: libvirt
     - role: tcpdump-dns
       vars:
         iface: wlp2s0

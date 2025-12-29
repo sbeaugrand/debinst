@@ -22,8 +22,8 @@ RSTYLE = 5
 
 parser = argparse.ArgumentParser(
     epilog='''
-example: pip3 install pymeeus
-         pip3 install solidpython
+example: pip install pymeeus
+         pip install solidpython
          ./sundial3D.py -s sphere     --draft -o ~/sundial3Ds.scad
          ./sundial3D.py -s polyhedron --draft -o ~/sundial3Dp.scad
          ./sundial3D.py -s wall       --draft -o ~/sundial3Dw.scad

@@ -6,8 +6,8 @@
 # ---------------------------------------------------------------------------- #
 setup()
 {
-    whitelist="10.66.0.168, 10.66.0.66, 10.66.0.70, 10.66.0.39, 10.66.0.152"
-    for ip in 10.66.0.39 10.66.0.66; do
+    whitelist="10.66.0.168, 10.66.0.67, 10.66.0.70, 10.66.0.39, 10.66.0.152, 10.66.0.170"
+    for ip in 10.66.0.39 10.66.0.67; do
         addFilter $ip m.youtube
         addFilter $ip www.youtube
         addFilter $ip www.tiktok
@@ -18,6 +18,9 @@ setup()
         if ! nft.sh list 2>/dev/null | grep -q "comment"; then
             nft.sh block 10.66.0.39 "comment"
         fi
+    fi
+    if ! nft.sh list 2>/dev/null | grep -q "comment2"; then
+        sudo nft add rule filter prerouting ip saddr 10.66.0.152 hour \> \"21:00\" counter drop comment \"comment2\"
     fi
 }
 loop()

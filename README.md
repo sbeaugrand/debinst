@@ -11,22 +11,23 @@ cd debinst
 <details>
   <summary>Installations optionnelles</summary>
 
-  ```
+  ```sh
   ./0install.sh hardware/install-op-pc-...
   ./0install.sh install-op-/install-op-...
+  sudo apt install texlive-fonts-extra  # > 700 Mo
   ```
 </details>
 <details>
   <summary>MPlayer</summary>
 
-  ```
+  ```sh
   systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-op-/install-op-mplayer.sh'
   ```
 </details>
 <details>
   <summary>Hotspot</summary>
 
-  ```
+  ```sh
   ./0install.sh hardware/install-op-hotspot.sh
   bin/hotspot
   ```
@@ -34,9 +35,18 @@ cd debinst
 <details>
   <summary>Contrôle parental</summary>
 
-  ```
+  ```sh
   ./0install.sh install-op-/install-op-parental-control.sh
   ./0install.sh install-op-/install-op-parental-control2.sh
+  ```
+</details>
+<details>
+  <summary>Grub install error</summary>
+
+  ```sh
+  # Recovery mode
+  grub-install /dev/sda
+  update-grub
   ```
 </details>
 

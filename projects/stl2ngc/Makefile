@@ -3,13 +3,18 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note sudo apt install libopencamlib-dev libboost-dev
+## \note sudo apt-get install libopencamlib-dev libboost-dev
 ##       # https://www.thingiverse.com/thing:2398719/files
 ##       prusa-slicer claw1.stl
 ##       # Placer sur une face
+##       # Pivoter Z 90
+##       # Taille Z
+##       # Position X 0 Y 0
 ##       # Exporter le plateau en STL
 ##       make test1
 ##       camotics build/claw1-cone.ngc
+##       bCNC build/claw1-cone.ngc
+##       Probe Pos -10 along Z direction
 # ---------------------------------------------------------------------------- #
 OCL_DIR = /usr/lib/x86_64-linux-gnu/opencamlib
 LDFLAGS = -L$(OCL_DIR) -locl

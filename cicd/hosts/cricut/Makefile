@@ -6,7 +6,7 @@
 ## \note Setup:
 ##       vagrant plugin install winrm
 ##       vagrant plugin install winrm-elevated
-##       sudo apt install gnome-connections
+##       sudo apt-get install gnome-connections
 ##       make up
 ##       make cleanup
 ##       make usb

@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 # Debug:
 #
-# pip3 install hunter
+# pip install hunter
 # vi pyBar.py +1 +/--
 #  import hunter
 #  hunter.trace(module='classDrawing', action=hunter.CallPrinter)

@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-# /usr/share/icons/silk/16x16/tux.png : apt install famfamfam-silk
+# /usr/share/icons/silk/16x16/tux.png : sudo apt-get install famfamfam-silk
 # ---------------------------------------------------------------------------- #
 # ftp : rclone config create chezcom ftp host chez.com user beaugrand pass ***
 # ---------------------------------------------------------------------------- #

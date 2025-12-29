@@ -150,6 +150,11 @@
     creates: "{{ home
     }}/.local/share/cinnamon/extensions/cinnamon-maximus@fmete"
 
+- name: maximus spice dir
+  file:
+    path: "{{ home }}/.config/cinnamon/spices/cinnamon-maximus@fmete"
+    state: directory
+
 - name: maximus json
   copy:
     src: maximus.json

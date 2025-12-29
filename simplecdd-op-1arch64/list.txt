@@ -39,7 +39,7 @@ gdb
 g++-aarch64-linux-gnu
 g++-arm-linux-gnueabihf  # libc6-dev-armhf-cross
 python3-pip  # python3-setuptools (kiplot)
-python3-dev  # pip3 wheel
+python3-dev  # pip wheel
 systemd-coredump  # coredumpctl debug
 valgrind
 vim
@@ -182,7 +182,7 @@ feedbackd  # pigmail
 python3-svgwrite  # pigmail
 xdotool  # pigmail bash_maximized
 python3-venv
-python3-scipy  # libboost-dev
+python3-scipy  # libboost-dev (cnc stl2ngc)
 #printrun  # python3-tk python3-lxml python3-serial cnc (inkscape gcode text)
 python3-tk
 python3-lxml
@@ -192,6 +192,12 @@ libqt5opengl5t64  # camotics
 prusa-slicer
 cura
 #candle  # cnc
+bcnc  # cnc
+libopencamlib-dev  # cnc stl2ngc
+libboost-program-options-dev  # cnc millproject
+libgtkmm-2.4-dev  # cnc millproject
+gerbv  # cnc millproject
+librsvg2-dev # cnc millproject
 pstoedit
 anacron
 lame
@@ -217,6 +223,8 @@ dosfstools  # simple-cdd
 exfat-fuse
 testdisk  # ntfs-3g
 gnome-disk-utility  # parted
+e2fsprogs  # fsck
+f3  # f3probe /dev/sdb; f3fix ...; /sbin/mkfs.ext2 /dev/sdb1
 apache2
 libapache2-mod-php
 php-gd
@@ -281,6 +289,7 @@ live-build
 locales  # live-build
 grub-pc-bin
 gnome-boxes
+gnome-connections
 qemu-utils
 qemu-system-x86
 qemu-system-modules-spice

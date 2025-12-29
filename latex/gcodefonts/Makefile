@@ -5,4 +5,4 @@ all:
 
 .PHONY: install
 install:
-	@pip3 install -q -e .
+	@pip install -q -e .

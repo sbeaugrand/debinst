@@ -3,8 +3,8 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note pip3 wheel --prefer-binary kibot
-##       pip3 install --no-compile kibot-*.whl
+## \note pip wheel --prefer-binary kibot
+##       pip install --no-compile kibot-*.whl
 # ---------------------------------------------------------------------------- #
 CONFIG ?= ../../makefiles/kibot.yaml
 

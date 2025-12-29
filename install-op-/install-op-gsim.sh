@@ -10,6 +10,6 @@ gitClone https://github.com/sbeaugrand/gsim.git || return 1
 
 if notWhich gsim; then
     pushd $bdir/gsim || return 1
-    pip3 install -e . >>$log 2>&1
+    pip install -e . >>$log 2>&1
     popd
 fi

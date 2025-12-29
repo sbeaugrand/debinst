@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 ## \note Example: cd ../..
-##                sudo apt install texlive-fonts-extra
+##                sudo apt install texlive-fonts-extra  # > 700 Mo
 ##                ./0install.sh install-op-/install-op-fonts-cursive.sh
 ##                cd -
 ##                make gcode

@@ -24,7 +24,7 @@ fi
 
 if notWhich kiplot; then
     pushd $bdir/kiplot || return 1
-    pip3 install -e . >>$log 2>&1
+    pip install -e . >>$log 2>&1
     popd
 fi
 

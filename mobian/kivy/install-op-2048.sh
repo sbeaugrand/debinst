@@ -6,8 +6,8 @@
 # ---------------------------------------------------------------------------- #
 # For android :
 #   sudo apt install openjdk-11-jdk libltdl-dev zip adb
-#   pip3 install -U buildozer
-#   pip3 install -U cython
+#   pip install -U buildozer
+#   pip install -U cython
 #   buildozer android debug  # 2.1G needed + 3.6G in ~/.buildozer
 #   adb install -r bin/*.apk
 #   Debug :

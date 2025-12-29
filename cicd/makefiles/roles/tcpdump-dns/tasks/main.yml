@@ -15,7 +15,7 @@
   copy:
     src: tcpdump-pr-dns.py
     dest: /sbin/
-  failed_when: no
+  ignore_errors: yes
   become: yes
 
 - name: tcpdump-dns.service
@@ -35,4 +35,19 @@
   systemd_service:
     daemon_reload: yes
   when: service.changed
+  become: yes
+
+- name: /etc/NetworkManager/dnsmasq-shared.d/dnsmask-pr-.conf
+  copy:
+    src: dnsmask-pr-.conf
+    dest: /etc/NetworkManager/dnsmasq-shared.d/
+  ignore_errors: yes
+  register: dnsmask
+  become: yes
+
+- name: restart NetworkManager service
+  systemd_service:
+    name: NetworkManager.service
+    state: restarted
+  when: dnsmask.changed
   become: yes

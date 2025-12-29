@@ -43,7 +43,7 @@ sudo systemctl start apache2
 
 # Certbot renew
 ```sh
-which pip3 || sudo apt-get -y install python3-pip
+which pip || sudo apt-get -y install python3-pip
 which certbot || sudo python3 -m pip install certbot
 sudo vi /etc/cron.weekly/certbot-renew
 ```

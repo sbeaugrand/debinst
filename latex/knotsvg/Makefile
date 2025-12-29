@@ -29,7 +29,7 @@ build/noeud_%.svg: noeud_%.py knotsvg.py $(BEZIER)
 	python3 $< $@
 
 $(BEZIER):
-	pip3 install bezier
+	pip install bezier
 
 .PHONY: landscape
 landscape: landscape.pdf
