@@ -54,6 +54,7 @@ EOF
 \end{document}
 EOF
     pdflatex --halt-on-error papier.tex >>$log 2>&1
+    popd
 fi
 
 cat <<EOF

@@ -7,10 +7,10 @@
 listFile="simplecdd-op-1arch64/list.txt"
 sta=`lsb_release -sc`
 
-if [ "`dpkg --print-architecture`" = "amd64" ] &&
-   [ "`dpkg --print-foreign-architectures`" != "i386" ]; then
-    sudoRoot dpkg --add-architecture i386
-fi
+#if [ "`dpkg --print-architecture`" = "amd64" ] &&
+#   [ "`dpkg --print-foreign-architectures`" != "i386" ]; then
+#    sudoRoot dpkg --add-architecture i386
+#fi
 
 if grep "^deb cdrom" /etc/apt/sources.list; then
     sudoRoot sed -i "'s/^deb cdrom/#deb cdrom/'" /etc/apt/sources.list

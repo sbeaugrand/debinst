@@ -129,11 +129,11 @@ colordiff
 ccze
 #wine32
 wine
-libusb-0.1-4:i386  # mustekA3
-libtiff6:i386  # mustekA3
-libjpeg62-turbo:i386  # mustekA3
-libieee1284-3:i386  # mustekA3
-sane-utils:i386  # mustekA3
+#libusb-0.1-4:i386  # mustekA3
+#libtiff6:i386  # mustekA3
+#libjpeg62-turbo:i386  # mustekA3
+#libieee1284-3:i386  # mustekA3
+#sane-utils:i386  # mustekA3
 libsane-dev  # canon ts5000
 thunar
 gtkam

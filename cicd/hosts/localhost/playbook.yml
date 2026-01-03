@@ -23,6 +23,11 @@
     - role: brightness
       vars:
         value: 0.55
+      when: ansible_system_vendor == 'Dell Inc.'
+    - role: brightness
+      vars:
+        value: 0.75
+      when: ansible_system_vendor == 'ASUSTeK COMPUTER INC.'
     - role: kicad
       vars:
         version: 9.0

@@ -56,10 +56,11 @@ cd debinst
 ```sh
 make pkgs
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
-sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadata file'  # comment 2 lignes
+sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadata file'  # comment 2 lines
 # trixie
 sudo vi /usr/share/simple-cdd/build-simple-cdd +/'For amd64'  # comment 3 lines
 sudo vi /usr/share/debian-cd/tools/boot/trixie/boot-x86 +/'amd64 i386'  # suppr i386
+sudo sed -i 's/standard)"/standard) | Package (== tasksel-data)"/' /usr/lib/python3/dist-packages/simple_cdd/tools/mirror_reprepro.py
 make iso
 pv ~/data/install-build/simplecdd-op-1arch64/images/debian-*-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
@@ -73,10 +74,11 @@ La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 ```sh
 ./1buildpackage.sh buildpackage-op-2ansible dist
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
-sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadata file'  # comment 2 lignes
+sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadata file'  # comment 2 lines
 # trixie
 sudo vi /usr/share/simple-cdd/build-simple-cdd +/'For amd64'  # comment 3 lines
 sudo vi /usr/share/debian-cd/tools/boot/trixie/boot-x86 +/'amd64 i386'  # suppr i386
+sudo sed -i 's/standard)"/standard) | Package (== tasksel-data)"/' /usr/lib/python3/dist-packages/simple_cdd/tools/mirror_reprepro.py
 ./2simplecdd.sh simplecdd-op-2ansible buildpackage-op-2ansible
 ```
 
@@ -112,6 +114,7 @@ sudo vi /usr/share/debian-cd/tools/generate_firmware_patterns +/'missing metadat
 # trixie
 sudo vi /usr/share/simple-cdd/build-simple-cdd +/'For amd64'  # comment 3 lines
 sudo vi /usr/share/debian-cd/tools/boot/trixie/boot-x86 +/'amd64 i386'  # suppr i386
+sudo sed -i 's/standard)"/standard) | Package (== tasksel-data)"/' /usr/lib/python3/dist-packages/simple_cdd/tools/mirror_reprepro.py
 make iso
 cd
 fusermount3 -u /mnt/a1
@@ -123,7 +126,8 @@ sudo apt remove openssh-server
 
 # Création d'une debian live
 ```sh
-make live  # :
+cd 4livebuild
+make  # :
 ```
 ## Mettre a jour le mirroir local
 ```sh
@@ -176,15 +180,7 @@ pv build/live-image-amd64.hybrid.iso | sudo dd bs=4M oflag=dsync of=/dev/sdb
   <summary>Exemple pour une configuration avancée</summary>
 
   ```sh
-  ln -s autostart-pc-b1 autostart-pr-symlink
   ln -s user-config-pc-b1.mk user-config-pr-symlink.mk
-  ls -l /lib/modules  # 6.1.0-25-amd64
-  vi Makefile +/config:
-  # --linux-packages linux-image-6.1.0-25\
-  # --linux-packages linux-headers-6.1.0-25\
-  vi ../simplecdd-op-1arch64/list.txt +
-  # linux-image-6.1.0-25-amd64
-  # linux-headers-6.1.0-25-amd64
   ```
 </details>
 

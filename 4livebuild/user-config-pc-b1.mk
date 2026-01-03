@@ -1,27 +1,15 @@
-KERNEL = $(shell uname -r)
-MODULES = /usr/lib/modules/$(KERNEL)
-
-# SSID WPAK
-include user-config-pr-b1.mk
-
 sync:\
  $(CHROOTDIR)/etc\
  $(CHROOTDIR)/usr\
  $(CHROOTDIR)/usr/bin\
  $(CHROOTDIR)/usr/lib\
- rtl8821\
  ts5000\
  scangearmp2\
- $(SKELDIR)/.config/lxsession/LXDE/autostart
-
-.PHONY: rtl8821
-rtl8821:\
- $(CHROOTDIR)$(MODULES)/updates/dkms\
- $(CHROOTDIR)/etc/modprobe.d\
- $(CHROOTDIR)$(MODULES)/updates/dkms/8821ce.ko\
- $(CHROOTDIR)$(MODULES)/modules.dep\
- $(CHROOTDIR)$(MODULES)/modules.alias\
- $(CHROOTDIR)/etc/modprobe.d/blacklist.conf
+ $(SKELDIR)/.config/autostart\
+ $(SKELDIR)/.config/autostart/cups.desktop\
+ $(CHROOTDIR)/etc/NetworkManager\
+ $(CHROOTDIR)/etc/NetworkManager/system-connections\
+ $(CHROOTDIR)/etc/NetworkManager/system-connections/Livebox-3705.nmconnection
 
 .PHONY: ts5000
 ts5000:\
@@ -82,21 +70,17 @@ $(SKELDIR)/.local/share/applications/scangearmp2.desktop: $(HOME)/.local/share/a
 	@mkdir -p $(SKELDIR)/.local/share/applications
 	@cp $< $@
 
-$(SKELDIR)/.config/lxsession/LXDE/autostart: FORCE
-	@mkdir -p $(SKELDIR)/.config/lxsession/LXDE
-	@echo "cp autostart-pr-symlink $@"
-	@sed\
-	 -e 's/SSID/$(SSID)/g'\
-	 -e 's/WPAK/$(WPAK)/'\
-	 -e 's/KERNEL/$(KERNEL)/'\
-	 autostart-pr-symlink >$@
+$(SKELDIR)/.config/autostart: $(HOME)/.config/autostart
+	@mkdir -p $@
+	@cp $</*.desktop $@/
+
+$(SKELDIR)/.config/autostart/cups.desktop: cups.desktop
+	@cp $< $@
 
  $(CHROOTDIR)/etc\
  $(CHROOTDIR)/usr\
  $(CHROOTDIR)/usr/bin\
  $(CHROOTDIR)/usr/lib\
- $(CHROOTDIR)$(MODULES)/updates/dkms\
- $(CHROOTDIR)/etc/modprobe.d\
  $(CHROOTDIR)/etc/cups/ppd\
  $(CHROOTDIR)/usr/lib/cups/backend\
  $(CHROOTDIR)/usr/lib/cups/filter\
@@ -107,6 +91,8 @@ $(SKELDIR)/.config/lxsession/LXDE/autostart: FORCE
  $(CHROOTDIR)/usr/lib/x86_64-linux-gnu/bjlib\
  $(CHROOTDIR)/usr/share/scangearmp2\
  $(CHROOTDIR)/usr/share/locale/fr/LC_MESSAGES\
+ $(CHROOTDIR)/etc/NetworkManager\
+ $(CHROOTDIR)/etc/NetworkManager/system-connections\
 : FORCE
 	@mkdir -p $@
 

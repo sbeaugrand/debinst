@@ -14,8 +14,17 @@ DST = build/live-image-amd64.hybrid.iso
 
 .SUFFIXES:
 
-.PHONY: all
-all:
+define print-help
+ sed -n -e '/# $1$$/,/``$$/{/^ *``/!p}' ../README.md | grep --color -C99 '^#\+ .*'
+endef
+
+.PHONY: live
+live:
+	@echo
+	@$(call print-help,Mettre a jour le mirroir local)
+	@echo
+	@$(call print-help,Configurer et creer)
+	@echo
 
 -include user-config-pr-symlink.mk
 
@@ -84,12 +93,11 @@ build/config/package-lists/base.list:
 skel: $(SKELDIR)/install\
  $(SKELDIR)/.bashrc\
  $(SKELDIR)/.bash_login\
+ $(SKELDIR)/.bash_maximized\
  $(SKELDIR)/.Xresources\
  $(SKELDIR)/.screenrc\
  $(SKELDIR)/.vimrc\
  $(SKELDIR)/.emacs\
- $(SKELDIR)/.mplayer/config\
- $(SKELDIR)/.xscreensaver\
  $(SKELDIR)/.local/share/applications/screen.desktop\
  $(SKELDIR)/.local/bin\
  $(SKELDIR)/.local/lib/codecs\
@@ -104,14 +112,8 @@ $(SKELDIR)/install: FORCE
 	 ~/install/ $@/
 $(SKELDIR)/.%: $(HOME)/.%
 	@$(RSYNC) $< $@
-$(SKELDIR)/.bashrc: $(HOME)/.bashrc
+$(SKELDIR)/.bash_login: $(HOME)/.bash_login
 	@sed "s@$(HOME)@/home/user@g" $< >$@
-$(SKELDIR)/.mplayer/config: $(HOME)/.mplayer/config
-	@mkdir -p $(SKELDIR)/.mplayer
-	@$(RSYNC) $< $@
-$(SKELDIR)/.xscreensaver:
-	@echo "mode: one" >$@
-	@echo "selected: 21" >>$@
 $(SKELDIR)/.local/share/applications/screen.desktop: $(HOME)/.local/share/applications/screen.desktop
 	@mkdir -p $(SKELDIR)/.local/share/applications
 	@sed "s@$(HOME)@/home/user@g" $< >$@

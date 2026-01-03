@@ -76,6 +76,7 @@
       combine({'pinned-apps':{'type':'generic','default':[],'value':[
       'screen.desktop',
       'chromium.desktop',
+      'firefox-esr.desktop',
       'emacsclient.desktop',
       'thunar.desktop'
       ]}}) }}"
@@ -125,15 +126,42 @@
     src: nocap.desktop
     dest: "{{ home }}/.config/autostart/"
 
-- name: rfkill
-  copy:
-    src: rfkill.desktop
-    dest: "{{ home }}/.config/autostart/"
-
 - name: numlock
   copy:
     src: numlock.desktop
     dest: "{{ home }}/.config/autostart/"
+
+- name: rfkill block all
+  blockinfile:
+    path: "{{ home }}/.config/autostart/rfkill.desktop"
+    create: yes
+    block: |
+      [Desktop Entry]
+      Type=Application
+      Exec=/usr/sbin/rfkill block all
+      X-GNOME-Autostart-enabled=true
+      NoDisplay=false
+      Hidden=false
+      Name[fr_FR]=rfkill
+      Comment[fr_FR]=block all
+      X-GNOME-Autostart-Delay=0
+  when: ansible_system_vendor == 'Dell Inc.'
+
+- name: rfkill block bluetooth
+  blockinfile:
+    path: "{{ home }}/.config/autostart/rfkill.desktop"
+    create: yes
+    block: |
+      [Desktop Entry]
+      Type=Application
+      Exec=/usr/sbin/rfkill block bluetooth
+      X-GNOME-Autostart-enabled=true
+      NoDisplay=false
+      Hidden=false
+      Name[fr_FR]=rfkill
+      Comment[fr_FR]=block bluetooth
+      X-GNOME-Autostart-Delay=0
+  when: ansible_system_vendor == 'ASUSTeK COMPUTER INC.'
 
 - name: maximus download
   uri:
@@ -171,3 +199,8 @@
     enabled: no
     scope: global
   become: yes
+
+- name: background
+  community.general.dconf:
+    key: /org/cinnamon/desktop/background/picture-options
+    value: "'none'"
