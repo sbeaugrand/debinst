@@ -144,6 +144,7 @@ else
     fi
 fi
 
+sudo nft add table ip filter
 sudo nft add chain ip filter prerouting { type filter hook prerouting priority 0 \; }
 file=/sbin/hotspot-pr-.sh
 if [ -f $file ]; then

@@ -22,7 +22,7 @@ hardware/marlin/install-op-marlin-src.sh
 -su
 install-pr-/install-pr-swap.sh
 hardware/install-op-alsa-order.sh
-hardware/install-op-scan-mustekA3.sh
+#hardware/install-op-scan-mustekA3.sh
 "
 
 file=/etc/X11/xorg.conf.d/99-mode.conf

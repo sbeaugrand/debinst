@@ -14,7 +14,7 @@ install-op-/install-op-firefox-cookies.sh
 install-op-/install-op-firefox-automute.sh
 install-op-/install-op-fonts-gcodefonts.sh
 install-op-/install-op-fstab.sh
-install-op-/install-op-kivy.sh
+#install-op-/install-op-kivy.sh
 install-op-/install-op-lingot.sh
 install-op-/install-op-ytdlp.sh
 mobian/kivy/install-op-2048.sh
@@ -27,7 +27,7 @@ hardware/install-op-lp-et2860.sh
 hardware/install-op-scan-epson.sh
 -list=upgrade,uncrustify install-op-/install-op-ansible.sh
 -su
-hardware/install-op-scan-mustekA3.sh
+#hardware/install-op-scan-mustekA3.sh
 "
 
 file=/etc/X11/xorg.conf.d/99-mode.conf

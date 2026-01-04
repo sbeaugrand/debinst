@@ -37,6 +37,13 @@
   when: service.changed
   become: yes
 
+- name: /sbin/hotspot-pr-.sh
+  copy:
+    src: hotspot-pr-.sh
+    dest: /sbin/
+  ignore_errors: yes
+  become: yes
+
 - name: /etc/NetworkManager/dnsmasq-shared.d/dnsmask-pr-.conf
   copy:
     src: dnsmask-pr-.conf

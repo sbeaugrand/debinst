@@ -59,6 +59,7 @@ mousepad
 gimp
 imagemagick
 libjpeg-turbo-progs  # jpegtran
+xfonts-base  # xterm
 fonts-liberation
 icedax
 wodim

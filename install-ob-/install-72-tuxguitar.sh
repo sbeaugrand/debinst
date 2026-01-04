@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-file=`ls $home/.tuxguitar-*/config/tuxguitar.cfg 2>/dev/null`
+file=`ls $home/.config/tuxguitar/config/tuxguitar.cfg 2>/dev/null`
 if [ -z "$file" ]; then
     tuxguitar >>$log 2>&1 &
     sleep 10

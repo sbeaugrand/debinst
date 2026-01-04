@@ -15,7 +15,7 @@
     - emacs
     - vim
     - xterm
-    - cinnamon
+    #- cinnamon
     - mimeapps
     - notifications
   handlers:
