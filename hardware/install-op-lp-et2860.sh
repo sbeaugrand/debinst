@@ -17,6 +17,13 @@ fi
 
 name=EPSON_ET-2860_Series
 
+file=/etc/cups/ppd/$name.ppd
+if notFile $file; then
+    gunzip -c /opt/epson-inkjet-printer-escpr/ppds/Epson/Epson-ET-2860_Series-epson-inkjet-printer-escpr.ppd.gz >$tmpf
+    sudoRoot cp $tmpf $file
+    sudoRoot systemctl restart cups
+fi
+
 sudoRoot lpadmin -p "$name" -E\
  -D "'EPSON ET-2860 Series'"\
  -v "'usb://EPSON/ET-2860%20Series?serial=5843584A3033343353&interface=1'"\

@@ -5,13 +5,15 @@ mkdir data
 mkdir install
 cd install
 git clone https://github.com/sbeaugrand/debinst.git
-cd debinst
-./0install.sh
+cd cicd/hosts/localhost
 ```
+[Ansible](cicd/hosts/localhost/README.md#Installation)
+
 <details>
   <summary>Installations optionnelles</summary>
 
   ```sh
+  ./0install.sh
   ./0install.sh hardware/install-op-pc-...
   ./0install.sh install-op-/install-op-...
   sudo apt install texlive-fonts-extra  # > 700 Mo
@@ -25,32 +27,14 @@ cd debinst
   ```
 </details>
 <details>
-  <summary>Hotspot</summary>
-
-  ```sh
-  ./0install.sh hardware/install-op-hotspot.sh
-  bin/hotspot
-  ```
-</details>
-<details>
   <summary>Contrôle parental</summary>
 
   ```sh
   ./0install.sh install-op-/install-op-parental-control.sh
   ./0install.sh install-op-/install-op-parental-control2.sh
+  bin/hotspot
   ```
 </details>
-<details>
-  <summary>Grub install error</summary>
-
-  ```sh
-  # Recovery mode
-  grub-install /dev/sda
-  update-grub
-  ```
-</details>
-
-# [Installation légère sur une debian existante avec ansible](cicd/hosts/localhost/README.md#Installation)
 
 # Création d'une debian sur clé USB
 ```sh
@@ -69,6 +53,16 @@ La liste des paquets debian sont dans: simplecdd-op-1arch64/list.txt
 La liste des paquets créés sont dans: buildpackage-op-1/build/list.txt
 
 [~~No kernel modules were found~~](doc/no-kernel-modules-were-found.md)
+
+<details>
+  <summary>Grub install error</summary>
+
+  ```sh
+  # Recovery mode
+  grub-install /dev/sda
+  update-grub
+  ```
+</details>
 
 # Création d'une debian légère sur clé USB
 ```sh
@@ -123,6 +117,15 @@ exit
 ```sh
 sudo apt remove openssh-server
 ```
+
+<details>
+  <summary>Update wheels</summary>
+
+  ```sh
+  mv ~/install/wheels-x86_64/*-cp3*-*.whl ~/tmp/
+  make pkgs
+  ```
+</details>
 
 # Création d'une debian live
 ```sh
@@ -186,11 +189,11 @@ pv build/live-image-amd64.hybrid.iso | sudo dd bs=4M oflag=dsync of=/dev/sdb
 
 # [Installation sur ARM (armbian)](armbian/README.md)
 
-# [Installation sur Raspberry Pi (raspbian)](raspbian/README.md)
+# [~~Installation sur Raspberry Pi (raspbian)~~](raspbian/README.md)
 
-# [Installation sur PinePhone (mobian)](mobian/README.md)
+# [~~Installation sur PinePhone (mobian)~~](mobian/README.md)
 
-# [Création d'une machine virtuelle dans windows](3packer/README.md)
+# [~~Création d'une machine virtuelle dans windows~~](3packer/README.md)
 
 # Licence CeCILL 2.1
 

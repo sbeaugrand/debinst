@@ -3,13 +3,26 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+- name: get output name
+  shell:
+    cmd: >
+      grep -m1 " Output .* connected$" /var/log/Xorg.0.log |
+      cut -d'O' -f2 |
+      cut -d' ' -f2
+  register: output
+  changed_when: no
+
+- name: print output name
+  debug:
+    msg: "{{ output.stdout }}"
+
 - name: "{{ home }}/.config/autostart/brightness.desktop"
   blockinfile:
     path: "{{ home }}/.config/autostart/brightness.desktop"
     block: |
       [Desktop Entry]
       Type=Application
-      Exec=xrandr --output eDP-1 --brightness {{ value }}
+      Exec=xrandr --output {{ output.stdout }} --brightness {{ value }}
       X-GNOME-Autostart-enabled=true
       NoDisplay=false
       Hidden=false

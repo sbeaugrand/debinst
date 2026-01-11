@@ -22,13 +22,11 @@ downloadWheel()
     args="$1"
     name=`echo $args | awk '{ print $NF }'`
 
-    if [ `uname -m` = "x86_64" ]; then
-        wheels="$idir/../wheels-amd64"
-    else
-        #wheels="$idir/../wheels-`uname -m`"
+    if [ `uname -m` != "x86_64" ]; then
         logWarn "wheels download is disabled on `uname -m`"
         return
     fi
+    wheels="$idir/../wheels-`uname -m`"
     mkdir -p $wheels
 
     if ls -1 $wheels | grep -q -i "^$name-"; then

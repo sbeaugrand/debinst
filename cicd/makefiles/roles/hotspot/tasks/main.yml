@@ -1,0 +1,106 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+## \note Client ip example : 10.66.0.3 gateway 10.66.0.2
+## \note File transfert example :
+##       server> python3 -m http.server
+##       client> http://10.66.0.2:8000
+# ---------------------------------------------------------------------------- #
+---
+- name: psk
+  include_vars: hotspot-pr-psk.yml
+
+- name: /etc/NetworkManager/system-connections/hotspot.nmconnection
+  blockinfile:
+    path: /etc/NetworkManager/system-connections/hotspot.nmconnection
+    create: yes
+    block: |
+      [connection]
+      id=hotspot
+      uuid={{ lookup('pipe', 'uuidgen') }}
+      type=wifi
+      autoconnect=false
+
+      [wifi]
+      hidden=true
+      mode=ap
+      ssid=hotspot
+
+      [wifi-security]
+      key-mgmt=wpa-psk
+      psk={{ psk }}
+
+      [ipv4]
+      address1={{ ip }}/24
+      gateway={{ gateway }}
+      method=shared
+
+      [ipv6]
+      addr-gen-mode=stable-privacy
+      method=shared
+
+      [proxy]
+  become: yes
+
+- name: /sbin/tcpdump-dns.sh
+  copy:
+    src: tcpdump-dns.sh
+    dest: /sbin/
+    mode: 0755
+  become: yes
+
+- name: /sbin/tcpdump-pr-dns.py
+  copy:
+    src: tcpdump-pr-dns.py
+    dest: /sbin/
+  when: "lookup('fileglob', 'tcpdump-pr-dns.py') != []"
+  become: yes
+
+- name: tcpdump-dns.service
+  blockinfile:
+    path: /etc/systemd/system/tcpdump-dns.service
+    create: yes
+    block: |
+      [Unit]
+      Description=tcpdump-dns service
+
+      [Service]
+      ExecStart=/sbin/tcpdump-dns.sh {{ iface }} {{ ip }}
+  register: service
+  become: yes
+
+- name: daemon-reload
+  systemd_service:
+    daemon_reload: yes
+  when: service.changed
+  become: yes
+
+- name: /sbin/hotspot-pr-.sh
+  copy:
+    src: hotspot-pr-.sh
+    dest: /sbin/
+  when: "lookup('fileglob', 'hotspot-pr-.sh') != []"
+  become: yes
+
+- name: /etc/NetworkManager/dnsmasq-shared.d/dnsmasq-pr-.conf
+  copy:
+    src: dnsmasq-pr-.conf
+    dest: /etc/NetworkManager/dnsmasq-shared.d/
+  when: "lookup('fileglob', 'dnsmasq-pr-.conf') != []"
+  register: dnsmasq
+  become: yes
+
+- name: restart NetworkManager service
+  systemd_service:
+    name: NetworkManager.service
+    state: restarted
+  when: dnsmasq.changed
+  become: yes
+
+- name: start nftables service
+  systemd_service:
+    name: nftables.service
+    enabled: yes
+    state: started
+  become: yes

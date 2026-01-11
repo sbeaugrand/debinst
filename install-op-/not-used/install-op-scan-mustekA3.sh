@@ -3,6 +3,11 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note libusb-0.1-4:i386
+##       libtiff6:i386
+##       libjpeg62-turbo:i386
+##       libieee1284-3:i386
+##       sane-utils:i386
 ## \note Workarround for md5_buffer error :
 ##         mkdir src && cd src && apt source libsane1
 ##         cp sane-backends-1.2.1/include/md5.h .

@@ -20,11 +20,17 @@
     creates: "{{ home
     }}/.local/share/cinnamon/applets/weather@mockturtl"
 
-- name: weather json
+- name: weather-pr-.json
   copy:
     src: weather-pr-.json
     dest: "{{ home }}/.config/cinnamon/spices/weather@mockturtl/10.json"
-  ignore_errors: yes
+  when: "lookup('fileglob', 'weather-pr-.json') != []"
+
+- name: default weather.json
+  copy:
+    src: weather.json
+    dest: "{{ home }}/.config/cinnamon/spices/weather@mockturtl/10.json"
+  when: "lookup('fileglob', 'weather-pr-.json') == []"
 
 - name: applets
   community.general.dconf:
@@ -76,7 +82,6 @@
       combine({'pinned-apps':{'type':'generic','default':[],'value':[
       'screen.desktop',
       'chromium.desktop',
-      'firefox-esr.desktop',
       'emacsclient.desktop',
       'thunar.desktop'
       ]}}) }}"

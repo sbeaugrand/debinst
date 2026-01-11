@@ -13,6 +13,7 @@
       - cppcheck
       - curl
       - dconf-cli
+      - dnsmasq-base  # hotspot + libvirt
       - elpa-cmake-mode
       - elpa-dockerfile-mode
       - elpa-dpkg-dev-el

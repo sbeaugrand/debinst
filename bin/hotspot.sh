@@ -4,7 +4,7 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note cp cicd/makefiles/roles/tcpdump-dns/tasks/hotspot-ex-.sh /sbin/hotspot-pr-.sh
+## \note cp makefiles/roles/hotspot/tasks/hotspot-ex-.sh /sbin/hotspot-pr-.sh
 # ---------------------------------------------------------------------------- #
 ipdns=10.66.0.2
 

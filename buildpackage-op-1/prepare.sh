@@ -35,10 +35,6 @@ sourceList "
 install-op-/install-op-codecs.sh
 install-op-/install-op-ffmpeg-src.sh
 install-op-/install-op-mplayer-src.sh
-#hardware/install-op-lp-hpP1006.sh
-#hardware/install-op-scan-mustekA3.sh
-#hardware/install-op-lp-et2860.sh
-#hardware/install-op-scan-epson.sh
 "
 
 # libdvdcss

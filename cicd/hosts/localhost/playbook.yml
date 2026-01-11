@@ -3,6 +3,13 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note brightness: ansible -m setup localhost | grep ansible_system_vendor
+##       hotspot: cd ../../makefiles/roles/hotspot/tasks
+##                echo "psk: minimum8" >hotspot-pr-psk.yml
+##                cp tcpdump-ex-dns.py tcpdump-pr-dns.py
+##                cp hotspot-ex-.sh hotspot-pr-.sh
+##                cp dnsmasq-ex-.conf dnsmasq-pr-.conf
+##                cd -
 # ---------------------------------------------------------------------------- #
 ---
 - name: import localhost playbook
@@ -14,12 +21,6 @@
     user: "{{ lookup('env', 'USER') }}"
     home: /home/{{ user }}
   roles:
-    # Optional
-    - role: libvirt
-    - role: tcpdump-dns
-      vars:
-        iface: wlp2s0
-        ipdns: 10.66.0.2
     - role: brightness
       vars:
         value: 0.55
@@ -31,10 +32,17 @@
     - role: kicad
       vars:
         version: 9.0
-    - role: packages-sbuild
+    # Optional
+    - role: hotspot
       vars:
-        repo: /data
+        ip: 10.66.0.2
+        iface: wlp2s0
+        gateway: 192.168.0.254
+    #- role: packages-sbuild
+    #  vars:
+    #    repo: /data
     #- newsboat
+    #- libvirt
     #- docker
     #- packages-dev-examples
     #- rabbitmq

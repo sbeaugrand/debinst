@@ -28,8 +28,8 @@ if notFile $file; then
  type wifi\
  con-name $name\
  autoconnect no\
- 802-11-wireless.hidden yes\
- 802-11-wireless.mode ap\
+ wifi.hidden yes\
+ wifi.mode ap\
  ssid $name\
  ipv4.addresses $ip/24\
  ipv4.gateway $gateway\

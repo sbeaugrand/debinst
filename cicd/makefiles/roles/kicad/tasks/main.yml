@@ -4,22 +4,31 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
+- name: fp-lib-table stat
+  stat:
+    path: "{{ home }}/.config/kicad/{{ version }}/fp-lib-table"
+  register: st
+
 - name: disabled fp libs
   replace:
     path: "{{ home }}/.config/kicad/{{ version }}/fp-lib-table"
     regexp: '"\)\)$'
     replace: '")(disabled))'
-  ignore_errors: yes
+  when: st.stat.exists
+
+- name: sym-lib-table stat
+  stat:
+    path: "{{ home }}/.config/kicad/{{ version }}/sym-lib-table"
+  register: st
 
 - name: disabled sym libs
   replace:
     path: "{{ home }}/.config/kicad/{{ version }}/sym-lib-table"
     regexp: '"\)\)$'
     replace: '")(disabled))'
-  ignore_errors: yes
+  when: st.stat.exists
 
 - name: darklight theme
   copy:
     src: darklight.json
     dest: "{{ home }}/.config/kicad/{{ version }}/colors/"
-  ignore_errors: yes

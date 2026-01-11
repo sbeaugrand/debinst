@@ -10,6 +10,6 @@ gitClone https://github.com/sbeaugrand/kitris.git || return 1
 file=$home/.local/share/applications/kitris.desktop
 if notFile $file; then
     pushd $bdir/kitris || return 1
-    make desktop
+    make --no-print-directory desktop
     popd
 fi
