@@ -23,10 +23,10 @@
  *  along with stl2ngc.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <locale>
 #include <string>
 #include <vector>
 #include <iomanip>
+#include <argp.h>
 
 #include <opencamlib/stlsurf.hpp>
 #include <opencamlib/stlreader.hpp>
@@ -41,13 +41,71 @@
 using namespace std;
 using namespace ocl;
 
+/******************************************************************************!
+ * argp
+ ******************************************************************************/
+const char* argp_program_version =
+    "stl2ngc 1.0.0";
+const char* argp_program_bug_address =
+    "<sbeaugrand@toto.fr>";
+static char doc[] =
+    "stl2ngc -- "
+    "convert a STL file to LinuxCNC compatible G-code";
+static struct argp_option options[] = {
+    { "diameter", 'd', "F", 0, "[default: 2 (mm)]", 0 },
+    { "length", 'l', "F", 0, "[default: 6 (mm)]", 0 },
+    { "angle", 'a', "F", 0, "ConeCutter angle [default: 0 (CylCutter)]", 0 },
+    { "zigzag", 'z', "x|y", 0, "[default: x]", 0 },
+    {}
+};
+struct arguments
+{
+    double diameter = 2;
+    double length = 6;
+    double angle = 0;
+    bool zigzag_x = true;
+};
+static error_t
+parse_opt(int key, char* arg, struct argp_state* state)
+{
+    struct arguments* arguments = static_cast<struct arguments*>(state->input);
+    switch (key) {
+    case 'd':
+        arguments->diameter = ::atof(arg);
+        break;
+    case 'l':
+        arguments->length = ::atof(arg);
+        break;
+    case 'a':
+        arguments->angle = ::atof(arg);
+        break;
+    case 'z':
+        if (*arg == 'y') {
+            arguments->zigzag_x = false;
+        }
+        break;
+    default:
+        return ARGP_ERR_UNKNOWN;
+    }
+    return 0;
+}
+static struct argp argp = { options, parse_opt, 0, doc, 0, 0, 0 };
+
+/******************************************************************************!
+ * \fn wstr
+ ******************************************************************************/
 wstring
-wstr(const char* str) {
-    wstring wstr(str, str + strlen(str));
+wstr(const char* str)
+{
+    wstring wstr(str, str + ::strlen(str));
     return wstr;
 }
 
-class APDC : public AdaptivePathDropCutter {
+/******************************************************************************!
+ * \class APDC
+ ******************************************************************************/
+class APDC : public AdaptivePathDropCutter
+{
 public:
     APDC() : AdaptivePathDropCutter() {}
     virtual ~APDC() {}
@@ -56,7 +114,11 @@ public:
     }
 };
 
-class GCodeWriter {
+/******************************************************************************!
+ * \class GCodeWriter
+ ******************************************************************************/
+class GCodeWriter
+{
 public:
     GCodeWriter() {};
     virtual ~GCodeWriter() {};
@@ -70,9 +132,13 @@ public:
     }
 };
 
+/******************************************************************************!
+ * \fn zigzag_x
+ ******************************************************************************/
 Path
 zigzag_x(double minx, double /*dx*/, double maxx,
-         double miny, double dy, double maxy, double z) {
+         double miny, double dy, double maxy, double z)
+{
     Path p;
 
     int rev = 0;
@@ -89,9 +155,13 @@ zigzag_x(double minx, double /*dx*/, double maxx,
     return p;
 }
 
+/******************************************************************************!
+ * \fn zigzag_y
+ ******************************************************************************/
 Path
 zigzag_y(double minx, double dx, double maxx,
-         double miny, double /*dy*/, double maxy, double z) {
+         double miny, double /*dy*/, double maxy, double z)
+{
     Path p;
 
     int rev = 0;
@@ -108,8 +178,12 @@ zigzag_y(double minx, double dx, double maxx,
     return p;
 }
 
+/******************************************************************************!
+ * \fn isNearlyEqual
+ ******************************************************************************/
 bool
-isNearlyEqual(double a, double b) {
+isNearlyEqual(double a, double b)
+{
     int factor = 0.00001;
 
     double min_a = a -
@@ -120,12 +194,17 @@ isNearlyEqual(double a, double b) {
     return min_a <= b && max_a >= b;
 }
 
+/******************************************************************************!
+ * \fn main
+ ******************************************************************************/
 int
-main(int argc, const char* argv[]) {
+main(int argc, char* argv[])
+{
+    struct arguments arguments = {};
+    ::argp_parse(&argp, argc, argv, 0, 0, &arguments);
+
     double zsafe = 5;
     double zstep = 3;
-
-    locale::global(locale("C"));
 
     cerr << "stl2ngc  Copyright (C) 2016 - 2023 Jakob Flierl" << endl;
     cerr << "This program comes with ABSOLUTELY NO WARRANTY;" << endl;
@@ -138,23 +217,16 @@ main(int argc, const char* argv[]) {
     cerr.setf(ios::fixed, ios::floatfield);
     cerr.setf(ios::showpoint);
 
-    double d_cutter;
+    double d_cutter = arguments.diameter;
+    double l_cutter = arguments.length;
     MillingCutter* c;
-    if (argc == 4) {
-        d_cutter = atof(argv[1]);
-        double l_cutter = atof(argv[2]);
-        double a_cutter = atof(argv[3]) * PI / 180;
+    if (arguments.angle > 0) {
+        double a_cutter = arguments.angle * PI / 180;
         c = new ConeCutter(d_cutter, a_cutter / 2, l_cutter);
         cerr << *static_cast<ConeCutter*>(c) << endl;
-    } else if (argc == 3) {
-        d_cutter = atof(argv[1]);
-        double l_cutter = atof(argv[2]);
+    } else {
         c = new CylCutter(d_cutter, l_cutter);
         cerr << *static_cast<CylCutter*>(c) << endl;
-    } else {
-        cerr << "Usage: " << argv[0]
-             << " <diameter> <length> [<angle>]" << endl;
-        return 1;
     }
     double d_overlap = d_cutter * (1 - 0.75);  // step percentage
     double corner = 0;  // d_cutter
@@ -185,7 +257,12 @@ main(int argc, const char* argv[]) {
 
     double dx = d_overlap, dy = d_overlap;
 
-    Path p = zigzag_x(minx, dx, maxx, miny, dy, maxy, z);
+    Path p;
+    if (arguments.zigzag_x) {
+        p = zigzag_x(minx, dx, maxx, miny, dy, maxy, z);
+    } else {
+        p = zigzag_y(minx, dx, maxx, miny, dy, maxy, z);
+    }
     apdc.setPath(&p);
     apdc.setZ(z);
 
@@ -218,7 +295,7 @@ main(int argc, const char* argv[]) {
 
         BOOST_FOREACH(Point cp, pts) {
             if (cp.z < s.bb.minpt.z) {
-                z = 0;
+                z = 1;
             } else {
                 z = -fmin(-cp.z, -zcurr) - s.bb.maxpt.z;
             }

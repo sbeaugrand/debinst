@@ -10,6 +10,7 @@
 ##       # Pivoter Z 90
 ##       # Taille Z
 ##       # Position X 0 Y 0
+##       # Mode expert Imprimantes Forme du plateau Origine x:100 y:100
 ##       # Exporter le plateau en STL
 ##       make test1
 ##       camotics build/claw1-cone.ngc
@@ -20,6 +21,7 @@ OCL_DIR = /usr/lib/x86_64-linux-gnu/opencamlib
 LDFLAGS = -L$(OCL_DIR) -locl
 PROROOT = ..
 include $(PROROOT)/makefiles/pro.mk
+CMD = LD_LIBRARY_PATH=$(OCL_DIR) build/$(PROJECT)
 
 .PHONY: all
 all: build build/$(PROJECT)
@@ -41,9 +43,9 @@ test3: build build/claw1-cyl.ngc
 test4: build build/claw2-cyl.ngc
 
 build/%-cone.ngc: build/%.stl build/$(PROJECT)
-	cat $< | LD_LIBRARY_PATH=$(OCL_DIR) build/$(PROJECT) 3.175 0 30 >$@
+	cat $< | $(CMD) -d 3.175 -l 0 -a 30 -z y >$@
 
 build/%-cyl.ngc: build/%.stl build/$(PROJECT)
-	cat $< | LD_LIBRARY_PATH=$(OCL_DIR) build/$(PROJECT) 2 6 >$@
+	cat $< | $(CMD) >$@
 
 include $(PROROOT)/makefiles/tar.mk

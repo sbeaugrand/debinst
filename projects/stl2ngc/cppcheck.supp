@@ -1,2 +1,2 @@
-unusedFunction:stl2ngc.cpp:93 #(style) The function 'zigzag_y' is never used.
-unusedFunction:stl2ngc.cpp:112 #(style) The function 'isNearlyEqual' is never used.
+unusedFunction:stl2ngc.cpp:186 #(style) The function 'isNearlyEqual' is never used.
+constParameterCallback:stl2ngc.cpp:70 #(style) Parameter 'arg' can be declared as pointer to const. However it seems that 'parse_opt' is a callback function, if 'arg' is declared with const you might also need to cast function pointer(s).
