@@ -36,3 +36,21 @@
     dest: /usr/share/doc/
     remote_src: yes
   become: yes
+
+- name: initial preferences
+  blockinfile:
+    path: /etc/chromium/master_preferences
+    marker_begin: '  "hide_web_store_icon": true,'
+    marker_end: '}'
+    marker: "{mark}"
+    block: |
+      "homepage_is_newtabpage": false,
+      "homepage": "file://{{ home }}/.local/share/homepage/homepage.html"
+  register: prefs
+  become: yes
+
+- name: remove first-run file
+  file:
+    path: "{{ home }}/.config/chromium/First Run"
+    state: absent
+  when: prefs.changed

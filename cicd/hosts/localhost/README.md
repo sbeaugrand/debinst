@@ -84,6 +84,17 @@ make extraroles
 </details>
 
 <details>
+  <summary>Manual mount</summary>
+
+  ```sh
+  sudo /sbin/cryptsetup -d /root/luksKey open /dev/sda3 crypted-data
+  sudo mount /dev/mapper/crypted-data /data
+  sudo /usr/bin/umount /data
+  sudo /sbin/cryptsetup close crypted-data
+  ```
+</details>
+
+<details>
   <summary>Re-enable</summary>
 
   ```sh

@@ -11,14 +11,24 @@
 - name: psk
   include_vars: hotspot-pr-psk.yml
 
+- name: uuid
+  shell:
+    cmd: >
+      grep uuid /etc/NetworkManager/system-connections/hotspot.nmconnection ||
+      uuidgen | sed 's/^/uuid=/'
+  register: uuid
+  changed_when: no
+  become: yes
+
 - name: /etc/NetworkManager/system-connections/hotspot.nmconnection
   blockinfile:
     path: /etc/NetworkManager/system-connections/hotspot.nmconnection
     create: yes
+    mode: 0600
     block: |
       [connection]
       id=hotspot
-      uuid={{ lookup('pipe', 'uuidgen') }}
+      {{ uuid.stdout }}
       type=wifi
       autoconnect=false
 
@@ -41,6 +51,7 @@
       method=shared
 
       [proxy]
+  register: nmconnection
   become: yes
 
 - name: /sbin/tcpdump-dns.sh
@@ -95,7 +106,7 @@
   systemd_service:
     name: NetworkManager.service
     state: restarted
-  when: dnsmasq.changed
+  when: nmconnection.changed or dnsmasq.changed
   become: yes
 
 - name: start nftables service

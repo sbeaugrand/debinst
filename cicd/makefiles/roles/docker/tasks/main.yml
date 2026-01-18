@@ -4,7 +4,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: install docker package
+- name: install docker packages
   apt:
     cache_valid_time: 36000
     install_recommends: no

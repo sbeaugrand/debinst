@@ -32,6 +32,20 @@
     dest: "{{ home }}/.config/cinnamon/spices/weather@mockturtl/10.json"
   when: "lookup('fileglob', 'weather-pr-.json') == []"
 
+- name: "{{ home }}/.local/share/locale/fr/LC_MESSAGES"
+  file:
+    path: "{{ home }}/.local/share/locale/fr/LC_MESSAGES"
+    state: directory
+
+- name: locale/fr/LC_MESSAGES/weather@mockturtl.mo
+  command:
+    creates:
+      "{{ home }}/.local/share/locale/fr/LC_MESSAGES/weather@mockturtl.mo"
+    cmd: >
+      msgfmt -o
+      {{ home }}/.local/share/locale/fr/LC_MESSAGES/weather@mockturtl.mo
+      {{ home }}/.local/share/cinnamon/applets/weather@mockturtl/po/fr.po
+
 - name: applets
   community.general.dconf:
     key: /org/cinnamon/enabled-applets

@@ -132,14 +132,14 @@ sudo apt remove openssh-server
 cd 4livebuild
 make  # :
 ```
-## Mettre a jour le mirroir local
+## Mettre à jour le mirroir local
 ```sh
 make iso
 cd 4livebuild
 systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c 'make mirror'
 make http
 ```
-## Configurer et creer
+## Configurer et créer
 ```sh
 cd 4livebuild
 df .  # >28G or: mkdir /data/live && ln -s /data/live build

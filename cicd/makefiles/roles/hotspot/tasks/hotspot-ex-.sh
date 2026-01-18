@@ -16,9 +16,11 @@ setup()
         if ! nft.sh list 2>/dev/null | grep -q "comment"; then
             nft.sh block 10.66.0.39 "comment"
             tmp=/tmp/crontab
-            crontab -l 2>/dev/null | grep -v "comment" >$tmp
-            echo '30 17 * * * /bin/bash PATH/nft.sh unblock "comment"' >>$tmp
-            crontab $tmp
+            crontab -l 2>/dev/null >$tmp
+            if ! grep -q "comment" $tmp; then
+                echo '30 17 * * * /bin/bash PATH/nft.sh unblock "comment"' >>$tmp
+                crontab $tmp
+            fi
         fi
     fi
     if ! nft.sh list 2>/dev/null | grep -q "comment2"; then
