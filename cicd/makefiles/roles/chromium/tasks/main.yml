@@ -37,15 +37,17 @@
     remote_src: yes
   become: yes
 
+- name: initial bookmarks
+  copy:
+    src: initial_bookmarks.html
+    dest: /usr/share/chromium/
+  register: bookmarks
+  become: yes
+
 - name: initial preferences
-  blockinfile:
-    path: /etc/chromium/master_preferences
-    marker_begin: '  "hide_web_store_icon": true,'
-    marker_end: '}'
-    marker: "{mark}"
-    block: |
-      "homepage_is_newtabpage": false,
-      "homepage": "file://{{ home }}/.local/share/homepage/homepage.html"
+  template:
+    src: master_preferences.j2
+    dest: /etc/chromium/master_preferences
   register: prefs
   become: yes
 
@@ -53,4 +55,4 @@
   file:
     path: "{{ home }}/.config/chromium/First Run"
     state: absent
-  when: prefs.changed
+  when: bookmarks.changed or prefs.changed
