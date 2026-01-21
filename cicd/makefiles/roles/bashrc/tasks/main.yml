@@ -4,18 +4,18 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: "/home/{{ user }}/.bashrc"
+- name: "{{ home }}/.bashrc"
   blockinfile:
-    path: "/home/{{ user }}/.bashrc"
+    path: "{{ home }}/.bashrc"
     create: yes
     block: |
       if [ -f ~/.bash_login ]; then
           . ~/.bash_login
       fi
 
-- name: "/home/{{ user }}/.bash_login"
+- name: "{{ home }}/.bash_login"
   blockinfile:
-    path: "/home/{{ user }}/.bash_login"
+    path: "{{ home }}/.bash_login"
     create: yes
     block: |
       if [[ ! "$-" =~ i ]]; then

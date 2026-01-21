@@ -4,6 +4,11 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
+- name: "{{ home }}/.bash_aliases"
+  copy:
+    src: bash_aliases
+    dest: "{{ home }}/.bash_aliases"
+
 - name: dirs
   file:
     path: "{{ home }}/install/debinst/latex"

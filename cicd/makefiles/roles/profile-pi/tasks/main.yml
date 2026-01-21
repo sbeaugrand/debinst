@@ -1,0 +1,63 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: "{{ home }}/.bash_login"
+  blockinfile:
+    path: "{{ home }}/.bash_login"
+    create: yes
+    block: |
+      HISTCONTROL=ignoreboth
+      PS1='\u@\h:\w> '
+      PATH={{ home }}/.local/bin:/usr/local/bin:/usr/bin:/bin
+      export PATH=$PATH:.
+
+      alias l='ls'
+      alias lrt='ls -lrt'
+      alias ls='ls --color=always'
+      alias ll='ls -l'
+      alias cp='cp -i'
+      alias mv='mv -i'
+      alias rm='rm -i'
+      alias df='df -h'
+      alias du='du -h'
+
+      if [ -f ~/.bash_aliases ]; then
+          . ~/.bash_aliases
+      fi
+
+      if [ $TERM = linux ]; then
+          bind '"\e[5~": history-search-backward'
+          bind '"\e[6~": history-search-forward'
+      else
+          bind '"\e[1;5A": history-search-backward'
+          bind '"\e[1;5B": history-search-forward'
+      fi
+
+- name: hostname
+  hostname:
+    name: pi
+  become: yes
+
+- name: keyboard
+  lineinfile:
+    path: /etc/default/keyboard
+    search_string: 'XKBLAYOUT='
+    line: XKBLAYOUT="fr"
+  become: yes
+
+- name: journalctl --rotate
+  command: journalctl --rotate
+  become: yes
+
+- name: journalctl --vacuum-time=1s
+  command: journalctl --vacuum-time=1s
+  become: yes
+
+- name: "{{ home }}/.bash_history"
+  copy:
+    src: bash-pr-history
+    dest: "{{ home }}/.bash_history"
+  when: "lookup('fileglob', 'bash-pr-history') != []"

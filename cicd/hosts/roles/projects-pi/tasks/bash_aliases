@@ -1,0 +1,7 @@
+alias rw='sudo mount -o rw,remount /'
+alias ro='sudo mount -o ro,remount /'
+
+export MP3DIR=/mnt/mp3
+export LC_ALL=C
+
+alias volet='sudo /home/$USER/install/debinst/projects/arm/sompi/sompi.sh'
