@@ -12,8 +12,14 @@
 int
 analogInit()
 {
-    ADMUX = (1 << REFS2) | (1 << REFS1) |  // Vref = 2.56 V
-        (1 << MUX3) | (1 << MUX2) | (1 << MUX0);  // GND
+    ADMUX = 0
+        | (1 << REFS2)
+        | (1 << REFS1)
+        | (0 << REFS0)  // Vref = 2.56 V
+        | (1 << MUX3)
+        | (1 << MUX2)
+        | (0 << MUX1)
+        | (1 << MUX0);  // 0ref = GND
     ADCSRA = (1 << ADEN);
     if (F_CPU / 200000 > 64) {
         ADCSRA |= 7;

@@ -275,8 +275,8 @@ main(int argc, char* argv[])
 
     GCodeWriter w;
 
-    cout << "G21 F900" << endl;
-    cout << "G64 P0.001" << endl;  // path control mode : constant velocity
+    cout << "G21 F200" << endl;
+    cout << ";G64 P0.001" << endl;  // path control mode : constant velocity
     cout << "M03 S13500" << endl;  // start spindle
 
     cout << "G0" <<
@@ -315,9 +315,7 @@ main(int argc, char* argv[])
 
     cout << "G0Z" << zsafe << endl;
     cout << "M05" << endl;  // stop spindle
-    cout << "G0"
-         << " X" << s.bb.minpt.x
-         << " Y" << s.bb.minpt.y << endl;
+    cout << "G0 X0 Y0" << endl;
     cout << "M2" << endl;
     cout << "%" << endl;
 

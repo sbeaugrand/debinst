@@ -33,6 +33,7 @@
       vars:
         version: 9.0
     # Optional
+    - upgrade
     - role: hotspot
       vars:
         ip: 10.66.0.2

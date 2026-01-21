@@ -13,8 +13,10 @@
 ##       # Mode expert Imprimantes Forme du plateau Origine x:100 y:100
 ##       # Exporter le plateau en STL
 ##       make test1
-##       camotics build/claw1-cone.ngc
-##       bCNC build/claw1-cone.ngc
+##       reduce.awk build/claw1-cone.ngc >build/claw1-cone-r.ngc
+##       camotics build/claw1-cone-r.ngc
+##       bCNC build/claw1-cone-r.ngc
+##       $30=12000
 ##       Probe Pos -10 along Z direction
 # ---------------------------------------------------------------------------- #
 OCL_DIR = /usr/lib/x86_64-linux-gnu/opencamlib
