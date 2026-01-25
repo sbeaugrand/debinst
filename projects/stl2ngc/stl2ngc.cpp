@@ -52,10 +52,10 @@ static char doc[] =
     "stl2ngc -- "
     "convert a STL file to LinuxCNC compatible G-code";
 static struct argp_option options[] = {
-    { "diameter", 'd', "F", 0, "[default: 2 (mm)]", 0 },
-    { "length", 'l', "F", 0, "[default: 6 (mm)]", 0 },
-    { "angle", 'a', "F", 0, "ConeCutter angle [default: 0 (CylCutter)]", 0 },
-    { "zigzag", 'z', "x|y", 0, "[default: x]", 0 },
+    { "diameter", 'd', "F", 0, "[default: 2 (mm)].", 0 },
+    { "length", 'l', "F", 0, "[default: 6 (mm)].", 0 },
+    { "angle", 'a', "F", 0, "ConeCutter angle [default: 0 (CylCutter)].", 0 },
+    { "zigzag", 'z', "x|y", 0, "[default: x].", 0 },
     {}
 };
 struct arguments
