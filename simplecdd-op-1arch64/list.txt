@@ -65,6 +65,7 @@ icedax
 wodim
 aespipe
 yasm
+nasm  # mplayer
 device-tree-compiler
 u-boot-tools
 normalize-audio

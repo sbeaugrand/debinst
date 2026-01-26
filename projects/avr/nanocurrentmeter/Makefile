@@ -14,12 +14,13 @@ ATMEL = attiny45
 CFLAGS += -ffunction-sections
 CFLAGS += -DF_CPU=8000000UL
 LFUSE = 0xe2
+PROG ?= avrisp -b 19200 -P /dev/ttyUSB0# ArduinoISP
 
 BDIR = /data/install-build
 CORE = $(BDIR)/ATTinyCore/avr/cores/tiny
 PINS = $(BDIR)/ATTinyCore/avr/variants/tinyx5
 CFLAGS += -I$(CORE) -I$(PINS)
-CPPCHECKINC = -I$(CORE) -I$(PINS) --force
+CPPCHECKINC = -I$(CORE) -I$(PINS) -DADCSRA
 
 CXXFLAGS := $(CFLAGS)
 CXXFLAGS += -DSOFT_TX_ONLY

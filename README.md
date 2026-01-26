@@ -24,6 +24,10 @@ cd cicd/hosts/localhost
 
   ```sh
   systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-op-/install-op-mplayer.sh'
+  # error: initialization from incompatible pointer type
+  cd /data/install-build/mplayer
+  vi config.mak +/CFLAGS  # -Wno-incompatible-pointer-types
+  make && make install
   ```
 </details>
 <details>

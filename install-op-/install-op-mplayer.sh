@@ -56,9 +56,10 @@ fi
 if notFile $home/.local/bin/ffmpeg; then
     pushd $bdir/$mplayer/ffmpeg
     ./configure --prefix=$home/.local --enable-gpl --enable-libx264\
+     --disable-libdrm --disable-bzlib\
      --enable-libmp3lame --enable-libaom --enable-libvorbis >>$log 2>&1
     make >>$log 2>&1
-    make >>$log 2>&1 install
+    make >>$log 2>&1 install || return 1
     popd
 fi
 
@@ -68,9 +69,10 @@ fi
 if notFile $home/.local/bin/mencoder; then
     pushd $bdir/$mplayer
     ./configure --prefix=$home/.local --disable-ffmpeg_a --enable-ffmpeg_so\
+     --disable-freetype\
      --extra-libs="-L$home/.local/lib -lavdevice -lavfilter -lavformat -lavcodec -lpostproc -lswresample -lswscale -lavutil -laom -lvorbisenc -llzma" >>$log 2>&1
     make >>$log 2>&1
-    make >>$log 2>&1 install
+    make >>$log 2>&1 install || return 1
     popd
 fi
 
