@@ -16,7 +16,7 @@ for line in sys.stdin:
     url = fields[7]
     ip = fields[2]
     match ip[0:11]:
-        case '10.66.0.123': ip = 'Papa  '
-        case '10.66.0.11.': ip = 'Papi  '
-        case '10.66.0.111': ip = 'Papo  '
+        case '10.66.0.123': ip = 'Papa   '
+        case '10.66.0.11.': ip = 'Papi   '
+        case '10.66.0.111': ip = 'Papo   '
     print(f'{ip} {url}')

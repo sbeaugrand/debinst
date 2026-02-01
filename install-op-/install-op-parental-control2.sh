@@ -70,6 +70,9 @@ adb shell pm uninstall --user 0 de.axelspringer.yana.zeropage  # upday
 adb shell pm uninstall --user 0 com.android.nfc
 adb shell pm uninstall --user 0 com.android.printspooler
 
+adb shell pm uninstall --user 0 com.netflix.mediaclient
+adb shell pm uninstall --user 0 com.netflix.partner.activation
+
 adb install 'Tuner & Metronome_7.16_Apkpure.apk'
 adb install calendar-fdroid-release.apk
 adb install music-player-fdroid-release.apk
