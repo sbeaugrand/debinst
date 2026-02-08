@@ -27,7 +27,7 @@ fi
 cat <<EOF
 
 Todo :
-adb install Kiwi\ Browser\ -\ Fast\ \&\ Quiet_120.0.6099.116_Apkpure.apk
+adb install Kiwi\ Browser\ -\ Fast\ \&\ Quiet_139.0.7339.0_APKPure.apk
 adb shell "cd /storage/self/primary/Android/data && mkdir com.github.kiwibrowser"
 adb push kiwictp.user.js manifest.json /storage/self/primary/Android/data/com.github.kiwibrowser/
 adb shell pm list packages | sort

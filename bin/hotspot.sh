@@ -52,9 +52,9 @@ hexDomain()
 }
 
 # ---------------------------------------------------------------------------- #
-## \fn addFilter
+## \fn block
 # ---------------------------------------------------------------------------- #
-addFilter()
+block()
 {
     ip=$1
     dom=$2
@@ -67,14 +67,17 @@ addFilter()
 }
 
 # ---------------------------------------------------------------------------- #
-## fn addFilterAfter
+## fn blockAfter
 # ---------------------------------------------------------------------------- #
-addFilterAfter()
+blockAfter()
 {
     min=$1
     ip="$2"
     dom="$3"
     com="$4"
+    if sudo nft list ruleset 2>/dev/null | grep -q "saddr $ip .*\"$com\""; then
+        return
+    fi
     h=`sudo journalctl -u tcpdump-dns -S today | grep "$dom" | awk '
 {
     h = int(substr($3, 1, 2));
@@ -93,10 +96,32 @@ addFilterAfter()
     if [ -z "$h" ]; then
         return
     fi
-    if sudo nft list ruleset 2>/dev/null | grep -q "saddr $ip .*\"$com\""; then
-        return
-    fi
     sudo nft add rule filter prerouting ip saddr $ip hour \> \"$h\" counter drop comment \"$com\"
+}
+
+# ---------------------------------------------------------------------------- #
+## fn unblockAfter
+# ---------------------------------------------------------------------------- #
+unblockAfter()
+{
+    hh=$1
+    mm=$2
+    ip=$3
+    com="$4"
+    if [ -z "$nfth" ]; then
+        nftsh=$HOME/install/debinst/bin/nft.sh
+    fi
+    if ((`date +%H%M | awk '{ print $0 + 1 }'` < $hh$mm)); then
+        if ! nft.sh list 2>/dev/null | grep -q "$com"; then
+            nft.sh block $ip "$com"
+            tmp=/tmp/crontab
+            sudo crontab -l 2>/dev/null >$tmp
+            if ! grep -q "$com" $tmp; then
+                echo "$mm $hh * * * /bin/bash $nftsh unblock '$com'" >>$tmp
+                sudo crontab $tmp
+            fi
+        fi
+    fi
 }
 
 # ---------------------------------------------------------------------------- #
