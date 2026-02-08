@@ -70,13 +70,30 @@ class CNC:
         return 0
 
     def write(self, line):
+        global dev
         self.length.append(len(line) + 1)
         if not args.interactive:
-            while sum(self.length) >= RX_BUFFER_SIZE - 1 or\
-                  self.ser.in_waiting > 0:
-                self.read()
+            try:
+                while sum(self.length) >= RX_BUFFER_SIZE - 1 or\
+                      self.ser.in_waiting > 0:
+                        self.read()
+            except:
+                print('read exception', file=sys.stderr)
+                self.ser.close()
+                while not path.exists(dev):
+                    time.sleep(1)
+                self.__init__(dev)
             print('send: {}'.format(line))
-        self.ser.write(line.encode() + b'\n')
+        try:
+            self.ser.write(line.encode() + b'\n')
+        except:
+            print('write exception', file=sys.stderr)
+            self.ser.close()
+            while not path.exists(dev):
+                time.sleep(1)
+            self.__init__(dev)
+            print('resend: {}'.format(line), file=sys.stderr)
+            self.ser.write(line.encode() + b'\n')
 
 
 # ---------------------------------------------------------------------------- #

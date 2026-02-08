@@ -13,6 +13,7 @@ BEGIN {
         if ($4 == "Z1.000000") {
             p = 0;
         }
+        l = $0;
     } else if ($4 != "Z1.000000") {
         print l;
         print $0;
