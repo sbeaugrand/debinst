@@ -1,0 +1,38 @@
+--- arduinoISP_bb.svg	2026-02-04 19:43:19.418088682 +0100
++++ arduinoISP.svg	2026-02-04 20:39:03.471050940 +0100
+@@ -1,6 +1,6 @@
+ <?xml version='1.0' encoding='UTF-8' standalone='no'?>
+ <!-- Created with Fritzing (https://fritzing.org/) -->
+-<svg xmlns="http://www.w3.org/2000/svg" x="0in" width="3.46428in" viewBox="0 0 249.428 191.741" version="1.2" y="0in" height="2.66307in"  baseProfile="tiny" xmlns:svg="http://www.w3.org/2000/svg">
++<svg xmlns="http://www.w3.org/2000/svg" x="0in" width="50%" viewBox="0 0 249.428 191.741" version="1.2" y="0in" height="50%"  baseProfile="tiny" xmlns:svg="http://www.w3.org/2000/svg">
+  <g  id="watermark">
+   <g >
+    <g >
+@@ -142,6 +142,7 @@
+     <circle cx="28.8" stroke="#c49c59" r="1.98" cy="144" stroke-width="1.44"  id="connector19003pin" connectorname="3.19" fill="none"/>
+     <circle cx="36" stroke="#c49c59" r="1.98" cy="144" stroke-width="1.44"  id="connector19004pin" connectorname="4.19" fill="none"/>
+     <circle cx="43.2" stroke="#c49c59" r="1.98" cy="144" stroke-width="1.44"  id="connector19005pin" connectorname="5.19" fill="none"/>
++    <text x="4" font-family="OCR-Fritzing-mono" stroke="none" font-size="5.76" y="-1"  id="label" text-anchor="start" fill="#000000">13</text>
+    </g>
+   </g>
+  </g>
+@@ -1690,7 +1691,7 @@
+     <path  id="slot" d="M0.4032,9.7776l0,4.1976c1.0584,-0.1224,1.8864,-1.008,1.8864,-2.1024C2.2896,10.7784,1.4688,9.9,0.4032,9.7776z" fill="#262626"/>
+     <path  id="cover" d="M0.54,3.9312L0.54,8.244c1.7136,0.324,3.0168,1.8216,3.0168,3.6288c0,1.8072,-1.296,3.312,-3.0168,3.636L0.54,15.516l3.6,0L4.14,3.9312L0.54,3.9312z" fill="#303030"/>
+     <circle cx="4.68" r="1.4832" cy="16.8984"  fill="#212121"/>
+-    <text x="4.68" font-family="OCR-Fritzing-mono" stroke="none" font-size="5.76" y="11.88"  id="label" text-anchor="start" fill="#e6e6e6">QUARTZ</text>
++    <text x="20.68" font-family="OCR-Fritzing-mono" stroke="none" font-size="5.76" y="11.88"  id="label" text-anchor="start" fill="#e6e6e6">QUARTZ</text>
+     <rect x="2.52" width="2.16" y="20.6352" height="3.1248"  id="connector0pin" fill="#8C8C8C"/>
+     <g x="2.52" width="2.16" y="21.6" height="2.16"  id="connector0terminal" fill="#8C8C8C"/>
+     <polygon  points="2.52,20.6352,2.52,22.0752,4.68,22.0752,6.12,21.4128,6.12,20.6352" fill="#8C8C8C"/>
+@@ -1749,7 +1750,9 @@
+     <path  id="slot" d="M0.4032,9.7776l0,4.1976c1.0584,-0.1224,1.8864,-1.008,1.8864,-2.1024C2.2896,10.7784,1.4688,9.9,0.4032,9.7776z" fill="#262626"/>
+     <path  id="cover" d="M0.54,3.9312L0.54,8.244c1.7136,0.324,3.0168,1.8216,3.0168,3.6288c0,1.8072,-1.296,3.312,-3.0168,3.636L0.54,15.516l3.6,0L4.14,3.9312L0.54,3.9312z" fill="#303030"/>
+     <circle cx="4.68" r="1.4832" cy="16.8984"  fill="#212121"/>
+-    <text x="4.68" font-family="OCR-Fritzing-mono" stroke="none" font-size="5.76" y="11.88"  id="label" text-anchor="start" fill="#e6e6e6">IC</text>
++    <text x="4.68" font-family="OCR-Fritzing-mono" stroke="none" font-size="5.76" y="11.88"  id="label" text-anchor="start" fill="#e6e6e6">ZIFSOCKET</text>
++    <text x="23.5" font-family="OCR-Fritzing-mono" stroke="none" font-size="5.76" y="18.88"  id="label" text-anchor="start" fill="#e6e6e6">4</text>
++    <text x="65"   font-family="OCR-Fritzing-mono" stroke="none" font-size="5.76" y="18.88"  id="label" text-anchor="start" fill="#e6e6e6">10</text>
+     <rect x="2.52" width="2.16" y="20.6352" height="3.1248"  id="connector0pin" fill="#8C8C8C"/>
+     <rect x="2.52" width="2.16" y="21.6" height="2.16"  id="connector0terminal" fill="#8C8C8C"/>
+     <polygon  points="2.52,20.6352,2.52,22.0752,4.68,22.0752,6.12,21.4128,6.12,20.6352" fill="#8C8C8C"/>
