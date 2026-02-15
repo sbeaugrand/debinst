@@ -15,7 +15,7 @@ weights="8 7 6 5 4 3 2 6 4 2 3 2 1 3 2 1"
 if [ -n "$MP3DIR" ]; then
     dir="$MP3DIR"
 else
-    dir=/data
+    dir=/mnt/mp3
 fi
 list=$dir/mp3/mp3.list
 log=$MP3DIR/.mp3log
