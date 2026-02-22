@@ -1,0 +1,61 @@
+# ---------------------------------------------------------------------------- #
+## \file build.yml
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+name: Build and Test
+on: [push, pull_request]
+env:
+  PACKAGE: mps
+jobs:
+  build:
+    runs-on: debian-dev
+    strategy:
+      matrix:
+        arch: ['arm64', 'armhf']
+    steps:
+      - name: prebuild
+        run: >
+          ARCH=`echo ${{ matrix.arch }} | sed 's/arm64/aarch64/;s/armhf/arm/'`;
+          update-binfmts --enable;
+          update-binfmts --enable qemu-$ARCH ||
+          cat /usr/lib/binfmt.d/qemu-$ARCH.conf
+          >/proc/sys/fs/binfmt_misc/register
+      - uses: actions/checkout@v4
+      - name: build
+        run: >
+          ARCH=${{ matrix.arch }};
+          dpkg-source -b .;
+          ls -l /sbuild;
+          sbuild -v --build=$ARCH --host=$ARCH
+          --chroot-mode=schroot -c stable-$ARCH-file
+          --no-apt-update
+          --extra-package=/sbuild
+          --build-dir=.
+          --no-run-lintian
+          --no-clean-source
+      - name: test
+        run: >
+          VERSION=`head -n 1 debian/changelog | cut -d')' -f1 | cut -d'(' -f2`;
+          ARCH=${{ matrix.arch }};
+          lintian --fail-on error,warning    ${PACKAGE}_${VERSION}_${ARCH}.deb;
+          lintian --fail-on error,warning ../${PACKAGE}_${VERSION}.dsc;
+          uncrustify.sh -n;
+          cppcheck -q --enable=all --suppressions-list=cppcheck.supp
+          --template='{id}:{file}:{line} ({severity}) {message}'
+          -i build -i build-*
+          --suppress=missingIncludeSystem --suppress=checkersReport
+          -UNERROR -UNERRNO -UNDEBUG --check-level=exhaustive
+          --error-exitcode=2
+          .
+      - name: artifacts
+        run: |
+          VERSION=`head -n 1 debian/changelog | cut -d')' -f1 | cut -d'(' -f2`
+          ARCH=${{ matrix.arch }}
+          FILE=${PACKAGE}_${VERSION}_${ARCH}.deb
+          USER=root
+          PASS=minimum8characters
+          URL=http://172.18.0.1:3000/api/packages/$USER/generic
+          curl -v -u $USER:$PASS -X DELETE $PACKAGE/$VERSION/$URL/$FILE
+          curl -v -u $USER:$PASS -T  $FILE $PACKAGE/$VERSION/$URL/$FILE

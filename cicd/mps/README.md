@@ -245,6 +245,8 @@ sequenceDiagram
 
 [gitlab](../hosts/gitlab/README.md)
 
+[forgejo](../hosts/forgejo/README.md)
+
 # BOM 2021
 [pdf](http://beaugrand.chez.com/pdf/remoteControl.pdf)
 

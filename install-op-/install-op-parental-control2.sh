@@ -79,41 +79,6 @@ adb install music-player-fdroid-release.apk
 adb install io.timelimit.android.open_216.apk
 
 Timelimit Alowed Apps :
- Always On Display
- Appareil photo
- Application MTP
- Calculatrice
- Calendrier
- Call+
- CapCut
- CaptivePortalLogin
- Capture Samsung
- Clavier Samsung
- Contacts
- Duolingo
- Decoupage de videos
- Editeur de photos
- Finder
- Fonds d'ecran
- Galaxy Store
- Galaxy Themes
- Galerie
- Harmony Music
- Horloge
- Lecteur de musique
- Lecteur video
- Loupe
- Maintenance de l'appareil
- Mes fichiers
- Messages
- Mise a jour du logiciel
- Meteo
- Samsung Notes
- Soundcorset accordeur et metronome
- Stockage de medias
- Selection de sons
- Telephone incallui
- WhatsApp
- Ecran d'accueil de Samsung Experience
+ Always On Display, Appareil photo, Application MTP, Calculatrice, Calendrier, Call+, CapCut, CaptivePortalLogin, Capture Samsung, Clavier Samsung, Contacts, Duolingo, Decoupage de videos, Editeur de photos, Finder, Fonds d'ecran, Galaxy Store, Galaxy Themes, Galerie, Harmony Music, Horloge, Lecteur de musique, Lecteur video, Loupe, Maintenance de l'appareil, Mes fichiers, Messages, Mise a jour du logiciel, Meteo, Samsung Notes, Soundcorset accordeur et metronome, Stockage de medias, Selection de sons, Telephone incallui, WhatsApp, Ecran d'accueil de Samsung Experience
 
 EOF

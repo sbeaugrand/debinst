@@ -28,6 +28,8 @@ http://gitlab.local.fr/-/user_settings/ssh_keys  # cat ~/.ssh/id_rsa.pub
 
 # [Création du chroot](../../mps/README.md#create-chroot)
 
+# [Construction des librairies](../../mps/README.md#build-libs)
+
 # Construction de l'image docker
 ```sh
 export DOMAIN=local.fr
@@ -69,8 +71,8 @@ concurrent = 2
 
 # Git push du projet mps dans group
 ```sh
-git config --global user.name "sbeaugrand"
-git config --global user.email "sbeaugrand@toto.fr"
+# git config --global user.name "sbeaugrand"
+# git config --global user.email "sbeaugrand@toto.fr"
 git init --initial-branch=main
 export DOMAIN=local.fr
 git remote add origin [git@gitlab.$DOMAIN:2222]:group/mps.git

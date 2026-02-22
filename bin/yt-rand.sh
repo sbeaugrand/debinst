@@ -23,7 +23,7 @@ cp $dir/svenir.list $dir/list
 
 cd /tmp && rm -f UC*
 yt-dlp -s --write-pages https://www.youtube.com/@metallumuniversum8925/videos  # ctrl-c
-cat UC* | sed 's@/watch?v=@\nhttps://www.youtube.com/playlist?list=@g' | grep '^https:' | cut -d'"' -f1 | cut -d'&' -f1 | uniq | tee $dir/metallum.list
+cat UC* | sed 's@/watch?v=@\nhttps://www.youtube.com/watch?v=@g' | grep '^https:' | cut -d'"' -f1 | cut -d'&' -f1 | uniq | tee $dir/metallum.list
 cp $dir/metallum.list $dir/list
 
 EOF
@@ -39,8 +39,9 @@ if [ -z "$line" ]; then
 fi
 echo $line
 chromium $line
-echo -n "retirer ? [o/N] "
+echo -n "retirer de la liste ? [o/N] "
 read ret
 if [ "$ret" = o ]; then
     sed -i ${rand}d $file
 fi
+echo "`cat $file | wc -l` lignes"

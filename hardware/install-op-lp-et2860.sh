@@ -21,6 +21,7 @@ file=/etc/cups/ppd/$name.ppd
 if notFile $file; then
     gunzip -c /opt/epson-inkjet-printer-escpr/ppds/Epson/Epson-ET-2860_Series-epson-inkjet-printer-escpr.ppd.gz >$tmpf
     sudoRoot cp $tmpf $file
+    sudoRoot chown root:lp $file
     sudoRoot systemctl restart cups
 fi
 

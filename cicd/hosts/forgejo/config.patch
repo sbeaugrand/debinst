@@ -1,0 +1,35 @@
+--- build/generated.yml	2026-02-21 18:50:06.547175749 +0100
++++ build/config.yml	2026-02-19 20:51:52.746587588 +0100
+@@ -20,9 +20,9 @@
+ 
+ runner:
+   # Where to store the registration result.
+-  file: .runner
++  file: build/runner
+   # Execute how many tasks concurrently at the same time.
+-  capacity: 1
++  capacity: 2
+   # Extra environment variables to run jobs.
+   envs:
+     A_TEST_ENV_NAME_1: a_test_env_value_1
+@@ -60,7 +60,7 @@
+   # Like: ["macos-arm64:host", "ubuntu-latest:docker://node:20-bookworm", "ubuntu-22.04:docker://node:20-bookworm"]
+   # If it's empty when registering, it will ask for inputting labels.
+   # If it's empty when executing the `daemon`, it will use labels in the `.runner` file.
+-  labels: []
++  labels: ["debian-dev:docker://localhost/debian-dev"]
+ 
+ cache:
+   #
+@@ -184,9 +167,9 @@
+   # Only takes effect if "network" is set to "".
+   enable_ipv6: false
+   # Whether to use privileged mode or not when launching task containers (privileged mode is required for Docker-in-Docker).
+-  privileged: false
++  privileged: true
+   # And other options to be used when the container is started (e.g., --volume /etc/ssl/certs:/etc/ssl/certs:ro).
+-  options:
++  options: "--cap-add SYS_ADMIN"
+   # The parent directory of a job's working directory.
+   # If it's empty, /workspace will be used.
+   workdir_parent:

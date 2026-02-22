@@ -7,7 +7,6 @@
 variables:
   PACKAGE: mps
   RPCLIBS: http://gitlab.local.fr/api/v4/projects/group%2Flibjsonrpccpp
-  DIST: stable
 prebuild:
   stage: build
   script:
@@ -30,7 +29,7 @@ build:
     - ls -l /sbuild
     - >
       sbuild -v --build=$ARCH --host=$ARCH
-      --chroot-mode=schroot -c $DIST-$ARCH-file
+      --chroot-mode=schroot -c stable-$ARCH-file
       --no-apt-update
       --extra-package=/sbuild
       --build-dir=.
@@ -47,7 +46,7 @@ build:
 test:
   stage: test
   script:
-    - VERSION=`head -n 1 debian/changelog | cut -d ')' -f 1 | cut -d '(' -f 2`
+    - VERSION=`head -n 1 debian/changelog | cut -d')' -f1 | cut -d'(' -f2`
     - lintian --fail-on error,warning    ${PACKAGE}_${VERSION}_*.deb
     - lintian --fail-on error,warning ../${PACKAGE}_${VERSION}.dsc
     - uncrustify.sh -n
