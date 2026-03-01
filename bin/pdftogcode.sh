@@ -69,9 +69,8 @@ mkfont()
     # font.[0-9]*.mp
     for f in $list; do
         if [ $f -nt $f.mp ]; then
-            echo $f
-            pdftops $f $f.ps
-            pstoedit -q -f mpost $f.ps $f.mp
+            echo pstoedit -q -f mpost $f $f.mp
+            pstoedit -q -f mpost $f $f.mp
             modified=y
         fi
     done

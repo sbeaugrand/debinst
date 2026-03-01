@@ -8,6 +8,7 @@ install-op-/install-op-imscripts.sh
 install-op-/install-op-diffchar.sh
 install-op-/install-op-fonts-cursive.sh
 install-op-/install-op-fonts-morse.sh
+install-op-/install-op-gcoderipper.sh
 install-op-/install-op-gsim.sh
 install-op-/install-op-id3ed.sh
 install-op-/install-op-kitris.sh

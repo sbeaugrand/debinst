@@ -171,6 +171,7 @@ rclone
 icoutils
 famfamfam-silk  # tux.png
 inkscape
+python3-cssselect  # inkscape (gcoderipper to svg)
 morse
 wavbreaker
 debconf-utils
@@ -271,7 +272,7 @@ hplip  # cups poppler-utils
 pandoc
 bluez
 bluez-tools
-libbluetooth-dev  # pybluez
+python3-bluez  # kitris
 live-boot  # live-build
 live-config  # live-build
 live-config-systemd  # live-build

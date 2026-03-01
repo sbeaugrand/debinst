@@ -27,7 +27,7 @@ $(PROJECT).pdf: $(PROJECT).tex
 .PHONY: gcode
 gcode: $(PROJECT).ngc
 $(PROJECT).ngc: $(PROJECT).pdf $(PDF2GCODE)
-	@$(PDF2GCODE) $< $(FONTS)
+	$(PDF2GCODE) $< $(FONTS)
 
 .PHONY: grbl
 grbl: grbl-$(PROJECT).ngc

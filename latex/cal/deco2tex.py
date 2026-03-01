@@ -26,9 +26,9 @@ marginY = 0.9
 
 with open("build/config.tex") as f:
     for line in f:
-        if line.find('setlength{\sousStylaire') >= 0:
+        if line.find('setlength{\\sousStylaire') >= 0:
             sousStylaire = float(line.split('{')[2].split('c')[0]) * scale
-        if line.find('setlength{\horizon') >= 0:
+        if line.find('setlength{\\horizon') >= 0:
             horizon = float(line.split('{')[2].split('c')[0]) * scale
 
 
@@ -41,8 +41,8 @@ def decorations(hour):
             x, y = [float(x) * scale for x in f.readline().split()]
         except:
             return
-        if x + offsetX >= marginX and x + offsetX < width - marginX and \
-           y + offsetY >= marginY and y + offsetY < height - marginY:
+        if (x + offsetX >= marginX and x + offsetX < width - marginX
+                and y + offsetY >= marginY and y + offsetY < height - marginY):
             print(
                 '\\draw[color=red,very thick] ({},{}) circle (0.5mm);'.format(
                     x, y))

@@ -37,6 +37,17 @@
     remote_src: yes
   become: yes
 
+- name: docs.python.org offline
+  unarchive:
+    src: https://docs.python.org/fr/3/archives/python-3.14-docs-html.tar.bz2
+    dest: /usr/share/doc/
+    remote_src: yes
+    owner: "{{ user }}"
+    extra_opts:
+      - --transform
+      - s/python-3.14-docs-html/python-3-docs-html/
+  become: yes
+
 - name: initial bookmarks
   copy:
     src: initial_bookmarks.html

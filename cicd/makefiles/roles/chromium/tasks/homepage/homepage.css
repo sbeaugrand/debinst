@@ -5,7 +5,8 @@ a {
     color: wheat;
     visited: wheat;
     hover: white;
-    active: red
+    active: red;
+    font-size: 18px;
 }
 table {
     width: 80%;

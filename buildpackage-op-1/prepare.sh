@@ -10,7 +10,6 @@ echo "wheels"
 for args in\
  bezier\
  "--no-binary kivy kivy"\
- pybluez\
  pydbus\
  buildozer\
  cython\
