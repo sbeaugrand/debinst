@@ -11,18 +11,17 @@
 ##       cat /dev/ttyUSB1
 # ---------------------------------------------------------------------------- #
 ATMEL = attiny45
-CFLAGS += -ffunction-sections
-CFLAGS += -DF_CPU=8000000UL
+FLAGS = -DF_CPU=8000000UL
 LFUSE = 0xe2
 PROG ?= avrisp -b 19200 -P /dev/ttyUSB0# ArduinoISP
 
-BDIR = /data/install-build
-CORE = $(BDIR)/ATTinyCore/avr/cores/tiny
-PINS = $(BDIR)/ATTinyCore/avr/variants/tinyx5
-CFLAGS += -I$(CORE) -I$(PINS)
+ARDUINO = /data/install-build/ATTinyCore
+CORE    = $(ARDUINO)/avr/cores/tiny
+PINS    = $(ARDUINO)/avr/variants/tinyx5
+FLAGS  += -I$(CORE) -I$(PINS)
+
 CPPCHECKINC = -I$(CORE) -I$(PINS) -DADCSRA
 
-CXXFLAGS := $(CFLAGS)
 CXXFLAGS += -DSOFT_TX_ONLY
 CXXFLAGS += -Wno-restrict
 
@@ -34,10 +33,4 @@ OBJECTS += core_wiring_digital.o
 OBJECTS += core_wiring_analog.o
 OBJECTS += core_wiring.o
 OBJECTS += core_main.o
-include ../../makefiles/avr.mk
-
-build/core_%.o: $(CORE)/%.c
-	$(COMPILE.c) $(OUTPUT_OPTION) $<
-
-build/core_%.o: $(CORE)/%.cpp
-	$(COMPILE.cpp) $(OUTPUT_OPTION) $<
+include ../../../cicd/makefiles/avr.mk

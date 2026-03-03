@@ -37,6 +37,7 @@ cppcheck:
 	@eval cppcheck -q --enable=all\
 	 `test -f cppcheck.supp && echo --suppressions-list=cppcheck.supp`\
 	 --template='{id}:{file}:{line}\ \({severity}\)\ {message}'\
+	 --inline-suppr\
 	 -i build -i build-*\
 	 --suppress=missingIncludeSystem --suppress=checkersReport\
 	 -UNERROR -UNERRNO -UNDEBUG --check-level=exhaustive\

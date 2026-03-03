@@ -195,6 +195,23 @@
 (autoload 'dired-run-shell-command "dired-aux" nil t)
 (defun purge () (interactive) (dired-run-shell-command "rm -fv *~"))
 (defun make  () (interactive) (dired-run-shell-command "make &"))
+(defun diff  () (interactive)
+  (shell-command "GIT_PAGER=cat git diff" "git.patch")
+  (switch-to-buffer-other-frame "git.patch")
+  (toggle-truncate-lines t)
+  (diff-mode))
+
+; Diff colors
+(defun diff-colors ()
+  (set-face-attribute 'diff-added       nil :foreground "green3")
+  (set-face-attribute 'diff-removed     nil :foreground "chocolate1"
+                                            :background "black")
+  (set-face-attribute 'diff-header      nil :background "black" :weight 'bold)
+  (set-face-attribute 'diff-file-header nil :background "black" :weight 'bold)
+  (set-face-attribute 'diff-hunk-header nil :foreground "cyan3" :weight 'normal)
+)
+(eval-after-load "diff-mode" '(diff-colors))
+(setq diff-refine nil)
 
 ; Web
 (provide 'w3m-e23)
