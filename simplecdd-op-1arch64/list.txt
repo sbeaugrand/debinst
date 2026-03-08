@@ -130,6 +130,7 @@ taptempo
 strace
 colordiff
 ccze
+t3highlight
 #wine32
 wine
 libsane-dev  # canon ts5000

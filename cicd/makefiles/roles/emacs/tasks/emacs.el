@@ -203,7 +203,8 @@
 
 ; Diff colors
 (defun diff-colors ()
-  (set-face-attribute 'diff-added       nil :foreground "green3")
+  (set-face-attribute 'diff-added       nil :foreground "green3"
+                                            :background "black")
   (set-face-attribute 'diff-removed     nil :foreground "chocolate1"
                                             :background "black")
   (set-face-attribute 'diff-header      nil :background "black" :weight 'bold)

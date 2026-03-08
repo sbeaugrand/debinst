@@ -3,7 +3,7 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note Example 1
+## \note Example 1: attiny
 ##
 ##       ATMEL = attiny45
 ##       FLAGS = -DF_CPU=8000000UL
@@ -16,9 +16,11 @@
 ##
 ##       OBJECTS += $(PROJECT).o
 ##       OBJECTS += core_main.o
-##       include avr.mk
+##       OBJECTS += core_wiring.o
+##       OBJECTS += core_wiring_digital.o
+##       include makefiles/avr.mk
 ##
-## \note Example 2
+## \note Example 2: arduino uno
 ##
 ##       ATMEL = atmega328p
 ##       FLAGS = -DF_CPU=16000000L
@@ -29,10 +31,13 @@
 ##       PINS    = $(ARDUINO)/avr/variants/standard
 ##       FLAGS  += -I$(CORE) -I$(PINS)
 ##
+##       CXXFLAGS += -fno-threadsafe-statics
+##
 ##       OBJECTS += $(PROJECT).o
+##       OBJECTS += core_main.o
 ##       OBJECTS += core_wiring.o
 ##       OBJECTS += core_wiring_digital.o
-##       include avr.mk
+##       include makefiles/avr.mk
 ##
 # ---------------------------------------------------------------------------- #
 PROJECT ?= $(shell basename `readlink -f .`)
@@ -68,7 +73,7 @@ all:
 	@echo "HFUSE="$(HFUSE)
 	@echo "LFUSE="$(LFUSE)
 	@echo
-	@echo -n "Usage: make { hex | fuse | flash | verify "
+	@echo -n "Usage: make { hex | fuse | flash | verify | cppcheck "
 	@echo $(TARGETS)" }"
 	@echo
 
@@ -101,7 +106,8 @@ $(OBJECTS): Makefile
 .PHONY: checksize
 checksize: build/$(PROJECT).elf
 	@  avr-size --format=avr --mcu=$(ATMEL) build/$(PROJECT).elf | sed '/^$$/d'
-	@! avr-size --format=avr --mcu=$(ATMEL) build/$(PROJECT).elf | grep '([0-9]\{3\} | grep -v '100.0%''
+	@! avr-size --format=avr --mcu=$(ATMEL) build/$(PROJECT).elf |\
+	 grep '([0-9]\{3\} | grep -v '100.0%''
 
 .PHONY: fuse
 fuse:

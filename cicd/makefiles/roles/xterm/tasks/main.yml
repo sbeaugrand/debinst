@@ -10,12 +10,15 @@
     create: yes
     marker: '! {mark} XTERM ANSIBLE MANAGED BLOCK'
     block: |
+      ! vi /etc/X11/app-defaults/XTerm-color +/Debian
       xterm*font: 9x15
       xterm*foreground: white
       xterm*background: black
       xterm*color1: chocolate1
+      xterm*color4: dodgerblue1
       xterm*color9: chocolate1
-      xterm*color12: lightskyblue
+      xterm*color10: springgreen
+      xterm*color12: steelblue1
       xterm*vt100*translations: #override <Key>F9: secure()
   notify:
     - xrdb Xresources

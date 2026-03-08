@@ -5,10 +5,13 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 # For android :
-#   sudo apt install openjdk-11-jdk libltdl-dev zip adb
+#   sudo apt install openjdk-21-jdk libltdl-dev zip adb
 #   pip install -U buildozer
 #   pip install -U cython
-#   buildozer android debug  # 2.1G needed + 3.6G in ~/.buildozer
+#   buildozer android debug  # __GNUC_PREREQ is not defined
+#   sudo mv /usr/include/x86_64-linux-gnu /usr/include/x86_64-linux-gnu.bak  #FIXME: https://stackoverflow.com/a/79583260
+#   buildozer android debug  # 4.0G needed in ./.buildozer + 3.4G in ~/.buildozer
+#   sudo mv /usr/include/x86_64-linux-gnu.bak /usr/include/x86_64-linux-gnu
 #   adb install -r bin/*.apk
 #   Debug :
 #     adb shell logcat | grep python
