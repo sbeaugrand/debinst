@@ -171,6 +171,7 @@
 (add-to-list 'auto-mode-alist '( ".pro$"    . makefile-mode))
 (add-to-list 'auto-mode-alist '( ".pri$"    . makefile-mode))
 (add-to-list 'auto-mode-alist '( "Makefile" . makefile-mode))
+(add-to-list 'auto-mode-alist '( ".ino$"    . c++-mode))
 
 ; Indent
 (defun indent (pmin pmax)
