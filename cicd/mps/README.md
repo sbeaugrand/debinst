@@ -278,10 +278,9 @@ sequenceDiagram
 |[Ampli XH-M567 TPA3116D2](https://fr.aliexpress.com/item/1005004830515523.html)                              |  3.39|1      |  3.39|
 |[Régulateur de tension LM2596](https://fr.aliexpress.com/item/1005005970782265.html)                         |  1.32|1      |  1.32|
 |[OLED blanc 1.3 i2c gnd](https://fr.aliexpress.com/item/1005006862867338.html)                               |  2.42|1      |  2.42|
-|Total                                                                                                        |139.17|       | 99.89|
-
-|Alternatives|TTC|Nombre|Total|
+|Total                                                                                                        |146.66|       | 99.89|
 |-------------------------------------------------------------------------------------------------------------|-----:|:-----:|-----:|
+|Alternative|TTC|Nombre|Total|
 |[NanoPi NEO2](https://fr.aliexpress.com/item/1005008828046430.html)                                          | 38.88|1      | 38.88|
 |[Connecteur femelle pour CI 36 contacts](https://fr.rs-online.com/web/p/connecteurs-femelles-pour-ci/5490026)| 34.23|8/36/5 |  1.27|
 |[Entretoise filetée 15mm](https://fr.rs-online.com/web/p/entretoises-filetees/1026378)                       |  6.43|4/10   |  2.57|

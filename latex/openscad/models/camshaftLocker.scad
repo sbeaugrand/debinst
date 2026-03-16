@@ -3,8 +3,8 @@
  * \author Sebastien Beaugrand
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
- * \note Bloqueur d'arbre à cames pour Zafira A essence
- *       Not tested
+ * \note Bloqueur d'arbre à cames pour Zafira A 1.8 essence 1999 (moteur X18XE1)
+ *       Tested
  ******************************************************************************/
 dPulley = 116;
 rPulley = dPulley/2;

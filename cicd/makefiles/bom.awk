@@ -28,17 +28,21 @@ BEGIN {
         state = 2;
         printf "|%s|%6.2f|%s|%6.2f|\n",$2,t1,$4,t2;
     } else {
-        t1 += $3;
-        t = $3;
+        m = 1;
         split($4, a, "/", seps)
         for (i in a) {
             if (i == 1) {
-                t *= a[i];
+                m *= a[i];
             } else {
-                t /= a[i];
+                m /= a[i];
             }
         }
-        t2 += t;
-        printf "|%s|%6.2f|%s|%6.2f|\n",$2,$3,$4,t;
+        if (m > 1) {
+            t1 += $3 * m;
+        } else {
+            t1 += $3;
+        }
+        t2 += $3 * m;
+        printf "|%s|%6.2f|%s|%6.2f|\n",$2,$3,$4,$3 * m;
     }
 }
