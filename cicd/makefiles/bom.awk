@@ -29,6 +29,8 @@ BEGIN {
     } else if (substr($2, 0, 7) == "==Total") {
         printf "|%s|%6.2f|%s|%6.2f|\n",$2,t1,$4,t2;
     } else if (substr($2, 0, 13) == "**Alternative") {
+        t1 = 0;
+        t2 = 0;
         print $0;
     } else {
         m = 1;
