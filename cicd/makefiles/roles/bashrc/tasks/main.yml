@@ -22,6 +22,7 @@
           return
       fi
       PS1='\u:\w> '
+      LS_COLORS='ow=30;44'
       SCREENDIR={{ home }}/.screen
       PATH={{ home }}/.local/bin:/usr/local/bin:/usr/bin:/bin
       if [ -d {{ home }}/install/debinst/bin ]; then

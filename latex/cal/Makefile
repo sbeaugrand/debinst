@@ -114,7 +114,7 @@ testEaster:
 
 .PHONY: testSun
 testSun: build build/sun
-	@build/sun `date +%Y-%m-%d` $(LAT) $(LON) $(H0)
+	build/sun $(LAT) $(LON) `date +%Y-%m-%d` $(H0)
 
 .PHONY: azimut
 azimut: build/azimut

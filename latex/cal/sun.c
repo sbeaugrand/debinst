@@ -24,13 +24,13 @@ main(int argc, const char* argv[])
     double h0;
 
     if (argc != 4 && argc != 5 && argc != 6) {
-        printf("Usage: %s <YYYY-MM-DD> <latitude> <longitude> [h0]\n",
+        printf("Usage: %s <latitude> <longitude> <YYYY-mm-dd> [<h0>] [h|m|s]\n",
                argv[0]);
         return EXIT_FAILURE;
     }
-    sscanf(argv[1], "%d-%d-%d", &year, &month, &day);
-    sscanf(argv[2], "%lf", &lat);
-    sscanf(argv[3], "%lf", &lon);
+    sscanf(argv[1], "%lf", &lat);
+    sscanf(argv[2], "%lf", &lon);
+    sscanf(argv[3], "%d-%d-%d", &year, &month, &day);
     // Geometric altitude of the center of the body
     // at the time of apparent rising or setting
     // 34/60 = 0.5667
@@ -138,6 +138,12 @@ main(int argc, const char* argv[])
         printf("%02d", (int) hr0);
     } else if (argc == 6 && *argv[5] == 'm') {
         printf("%02d", mi0);
+    } else if (argc == 6 && *argv[5] == 's') {
+        hr0 = m0 * 24 + gmtoff;
+        int hh = hr0;
+        int mm = (hr0 - hh) * 60;
+        int ss = (hr0 - hh - mm / 60.0) * 3600;
+        printf("%02d:%02d:%02d\n", hh, mm, ss);
     } else {
         printf("%02d:%02d - %02d:%02d\n", (int) hr1, mi1, (int) hr2, mi2);
     }

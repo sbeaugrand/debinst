@@ -3,7 +3,15 @@
  * \author Sebastien Beaugrand
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
- * \note Source: Astronomical algorithms - Jean Meeus - 1991
+ * \note Heure pour mesurer la declinaison d'un mur :
+ *         build/sun 2026-03-20 48.44728 1.48749 -4 s
+ *         13:01:39
+ *       Verifier une declinaison de 10 degres vers l'est :
+ *         echo "12:01:39 12:30:00 14:30:00 16:30:00" | tr ' ' '\n' | xargs -I {} build/azimut 48.44728 1.48749 2026-03-20T{} | grep Azimut | awk '{ declination = -10; printf "%.1f\n", 180 - $3 + declination }'
+ *         -10.0
+ *         -19.5
+ *         -55.3
+ *         -82.5
  ******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,19 +24,22 @@ main(int argc, const char* argv[])
     int year;
     int month;
     int day;
+    int HH;
+    int MM;
+    int SS;
     double lat;
     double lon;
     double hour;
 
-    if (argc != 5) {
-        printf("Usage: %s <YYYY-MM-DD> <latitude> <longitude> <hour>\n",
+    if (argc != 4) {
+        printf("Usage: %s <latitude> <longitude> <YYYY-mm-ddTHH:MM:SS>\n",
                argv[0]);
         return EXIT_FAILURE;
     }
-    sscanf(argv[1], "%d-%d-%d", &year, &month, &day);
-    sscanf(argv[2], "%lf", &lat);
-    sscanf(argv[3], "%lf", &lon);
-    sscanf(argv[4], "%lf", &hour);
+    sscanf(argv[1], "%lf", &lat);
+    sscanf(argv[2], "%lf", &lon);
+    sscanf(argv[3], "%d-%d-%dT%d:%d:%d", &year, &month, &day, &HH, &MM, &SS);
+    hour = HH + MM / 60.0 + SS / 3600.0;
 
     // Julian Ephemeris Day
     double jd = julianDay(year, month, day + hour / 24.0);

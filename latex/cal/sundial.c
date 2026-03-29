@@ -74,14 +74,14 @@ main(int argc, const char* argv[])
     double stylusAngle;  // 0: horizontal sundial, 90: vertical
 
     if (argc != 8) {
-        printf("Usage: %s <YYYY-MM-DD> <latitude> <longitude>"
+        printf("Usage: %s <latitude> <longitude> <YYYY-mm-dd>"
                " <hour> <straight-stylus-length> <declination> <stylus-angle>\n",
                argv[0]);
         return EXIT_FAILURE;
     }
-    sscanf(argv[1], "%d-%d-%d", &year, &month, &day);
-    sscanf(argv[2], "%lf", &lat);
-    sscanf(argv[3], "%lf", &lon);
+    sscanf(argv[1], "%lf", &lat);
+    sscanf(argv[2], "%lf", &lon);
+    sscanf(argv[3], "%d-%d-%d", &year, &month, &day);
     sscanf(argv[4], "%lf", &hour);
     sscanf(argv[5], "%lf", &straightStylusLength);
     sscanf(argv[6], "%lf", &gnomonicDeclination);

@@ -185,7 +185,7 @@ main(int argc, const char* argv[])
     int day;
 
     if (argc != 2) {
-        printf("Usage: %s <YYYY-MM-DD>\n", argv[0]);
+        printf("Usage: %s <YYYY-mm-dd>\n", argv[0]);
         return EXIT_FAILURE;
     }
     sscanf(argv[1], "%d-%d-%d", &year, &month, &day);
