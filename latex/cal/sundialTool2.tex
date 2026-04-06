@@ -23,47 +23,21 @@
 \fi
 \addtolength{\ymin}{\sousStylaire}
 
+\input{analemma}
+
 \newcommand\sundial{
-  \draw[color=black,very thin ] plot file{hiv07_5.dat};
-  \draw[color=black,very thin ] plot file{pri07_5.dat};
-  \draw[color=black,very thin ] plot file{ete07_5.dat};
-  \draw[color=black,very thin ] plot file{aut07_5.dat};
-  \draw[color=black,very thin ] plot file{hiv08_5.dat};
-  \draw[color=black,very thin ] plot file{pri08_5.dat};
-  \draw[color=black,very thin ] plot file{ete08_5.dat};
-  \draw[color=black,very thin ] plot file{aut08_5.dat};
-  \draw[color=black,very thin ] plot file{hiv09_5.dat};
-  \draw[color=black,very thin ] plot file{pri09_5.dat};
-  \draw[color=black,very thin ] plot file{ete09_5.dat};
-  \draw[color=black,very thin ] plot file{aut09_5.dat};
-  \draw[color=black,very thin ] plot file{hiv10_5.dat};
-  \draw[color=black,very thin ] plot file{pri10_5.dat};
-  \draw[color=black,very thin ] plot file{ete10_5.dat};
-  \draw[color=black,very thin ] plot file{aut10_5.dat};
-  \draw[color=black,very thin ] plot file{hiv11_5.dat};
-  \draw[color=black,very thin ] plot file{pri11_5.dat};
-  \draw[color=black,very thin ] plot file{ete11_5.dat};
-  \draw[color=black,very thin ] plot file{aut11_5.dat};
-  \draw[color=black,very thin ] plot file{hiv12_5.dat};
-  \draw[color=black,very thin ] plot file{pri12_5.dat};
-  \draw[color=black,very thin ] plot file{ete12_5.dat};
-  \draw[color=black,very thin ] plot file{aut12_5.dat};
-  \draw[color=black,very thin ] plot file{hiv13_5.dat};
-  \draw[color=black,very thin ] plot file{pri13_5.dat};
-  \draw[color=black,very thin ] plot file{ete13_5.dat};
-  \draw[color=black,very thin ] plot file{aut13_5.dat};
-  \draw[color=black,very thin ] plot file{hiv14_5.dat};
-  \draw[color=black,very thin ] plot file{pri14_5.dat};
-  \draw[color=black,very thin ] plot file{ete14_5.dat};
-  \draw[color=black,very thin ] plot file{aut14_5.dat};
-  \draw[color=black,very thin ] plot file{hiv15_5.dat};
-  \draw[color=black,very thin ] plot file{pri15_5.dat};
-  \draw[color=black,very thin ] plot file{ete15_5.dat};
-  \draw[color=black,very thin ] plot file{aut15_5.dat};
-  \draw[color=black,very thin ] plot file{hiv16_5.dat};
-  \draw[color=black,very thin ] plot file{pri16_5.dat};
-  \draw[color=black,very thin ] plot file{ete16_5.dat};
-  \draw[color=black,very thin ] plot file{aut16_5.dat};
+  \analemmaThin{06_5}
+  \analemmaThin{07_5}
+  \analemmaThin{08_5}
+  \analemmaThin{09_5}
+  \analemmaThin{10_5}
+  \analemmaThin{11_5}
+  \analemmaThin{12_5}
+  \analemmaThin{13_5}
+  \analemmaThin{14_5}
+  \analemmaThin{15_5}
+  \analemmaThin{16_5}
+  \analemmaThin{17_5}
 }
 
 \begin{document}
@@ -74,7 +48,7 @@
   \draw[blue, very thin] (\width/2,\sousStylaire) rectangle (-\width/2,\ymin);
   \sundial
   \input decorations_5
-  \draw (0,\ymin+80) node {La vérité n'a pas d'heure};
+  \draw (0,\ymin+70) node {La vérité n'a pas d'heure};
 \end{tikzpicture}
 
 \end{document}

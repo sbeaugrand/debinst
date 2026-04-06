@@ -6,6 +6,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 import argparse
+from os import path
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-t',
@@ -17,8 +18,8 @@ parser.add_argument('-t',
 args = parser.parse_args()
 
 scale = 1
-hmin = 7
-hmax = 17
+hmin = 6
+hmax = 18
 width = 60
 height = 30
 marginX = 0.9
@@ -41,7 +42,9 @@ def decorations(hour):
             x, y = [float(x) * scale for x in f.readline().split()]
         except:
             return
-        if (x + offsetX >= marginX and x + offsetX < width - marginX
+        if (path.exists('build/aut{}.dat.ok'.format(hour))
+                and path.exists('build/hiv{}.dat.ok'.format(hour))
+                and x + offsetX >= marginX and x + offsetX < width - marginX
                 and y + offsetY >= marginY and y + offsetY < height - marginY):
             print(
                 '\\draw[color=red,very thick] ({},{}) circle (0.5mm);'.format(

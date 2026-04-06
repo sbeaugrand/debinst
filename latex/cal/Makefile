@@ -141,10 +141,10 @@ build/config.tex: $(MAKEFILE_LIST)
 	 awk '{ a=(90-$$1)*3.14159/180; printf "{%fcm}\n",$$2*sin(a)/cos(a) }' >>$@
 
 build/%.dat: sundial.sh build/sundial
-	$< $(YEAR) $(LAT) $(LON)\
-	 $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $(STYLUS_ANGLE) $@
+	$< $(YEAR) $(LAT) $(LON) $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $(STYLUS_ANGLE) $@
 
 DATAS =\
+ build/hiv06.dat build/pri06.dat build/ete06.dat build/aut06.dat\
  build/hiv07.dat build/pri07.dat build/ete07.dat build/aut07.dat\
  build/hiv08.dat build/pri08.dat build/ete08.dat build/aut08.dat\
  build/hiv09.dat build/pri09.dat build/ete09.dat build/aut09.dat\
@@ -155,9 +155,11 @@ DATAS =\
  build/hiv14.dat build/pri14.dat build/ete14.dat build/aut14.dat\
  build/hiv15.dat build/pri15.dat build/ete15.dat build/aut15.dat\
  build/hiv16.dat build/pri16.dat build/ete16.dat build/aut16.dat\
- build/hiv17.dat build/pri17.dat build/ete17.dat build/aut17.dat
+ build/hiv17.dat build/pri17.dat build/ete17.dat build/aut17.dat\
+ build/hiv18.dat build/pri18.dat build/ete18.dat build/aut18.dat\
 
 DATAS_5 =\
+ build/hiv06_5.dat build/pri06_5.dat build/ete06_5.dat build/aut06_5.dat\
  build/hiv07_5.dat build/pri07_5.dat build/ete07_5.dat build/aut07_5.dat\
  build/hiv08_5.dat build/pri08_5.dat build/ete08_5.dat build/aut08_5.dat\
  build/hiv09_5.dat build/pri09_5.dat build/ete09_5.dat build/aut09_5.dat\
@@ -167,21 +169,22 @@ DATAS_5 =\
  build/hiv13_5.dat build/pri13_5.dat build/ete13_5.dat build/aut13_5.dat\
  build/hiv14_5.dat build/pri14_5.dat build/ete14_5.dat build/aut14_5.dat\
  build/hiv15_5.dat build/pri15_5.dat build/ete15_5.dat build/aut15_5.dat\
- build/hiv16_5.dat build/pri16_5.dat build/ete16_5.dat build/aut16_5.dat
+ build/hiv16_5.dat build/pri16_5.dat build/ete16_5.dat build/aut16_5.dat\
+ build/hiv17_5.dat build/pri17_5.dat build/ete17_5.dat build/aut17_5.dat\
 
 $(DATAS): build/config.tex
 
 $(DATAS_5): build/config.tex
 
-sundial.pdf: build/config.tex $(DATAS) $(DATAS_5)
+sundial.pdf: analemma.tex $(DATAS) $(DATAS_5)
 
-pysundialTool1.ngc: build/config.tex $(DATAS)
+pysundialTool1.ngc: $(DATAS)
 
-pysundialTool2.ngc: build/config.tex $(DATAS_5)
+pysundialTool2.ngc: $(DATAS_5)
 
-sundialTool1.pdf: build/config.tex build/decorations.tex
+sundialTool1.pdf: analemma.tex build/decorations.tex
 
-sundialTool2.pdf: build/config.tex build/decorations_5.tex
+sundialTool2.pdf: analemma.tex build/decorations_5.tex
 
 build/decorations.tex: deco2tex.py $(DATAS)
 	@$< -t 1 >$@

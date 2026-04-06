@@ -1,0 +1,55 @@
+% ---------------------------------------------------------------------------- %
+%% \file analemma.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+
+% ---------------------------------------------------------------------------- %
+% analemma
+% ---------------------------------------------------------------------------- %
+\newcommand\analemmaP[3]{
+  \draw[color=black,very thick] plot file{hiv#1.dat};
+  \IfFileExists{pri#1.dat.ok}{%
+    \draw[color=green,very thick] plot file{pri#1.dat}
+    node[color=black,below] {#3};
+  }{%
+    \count0=#2
+    \ifnum\count0<12
+      \draw[color=green,very thick] plot file{pri#1.dat}
+      node[color=black,above right,xshift=5mm] {#3};
+    \else
+      \draw[color=green,very thick] plot file{pri#1.dat}
+      node[color=black,above right] {#3};
+    \fi
+  }
+  \draw[color=red ,very thick] plot file{ete#1.dat};
+  \draw[color=blue,very thick] plot file{aut#1.dat}
+  node[color=black,above] {#2};
+}
+
+\newcommand\analemma[3]{
+  \IfFileExists{aut#1.dat.ok}{%
+    \IfFileExists{hiv#1.dat.ok}{%
+      \analemmaP{#1}{#2}{#3}
+    }{}
+  }{}
+}
+
+% ---------------------------------------------------------------------------- %
+% analemmaThin
+% ---------------------------------------------------------------------------- %
+\newcommand\analemmaThinP[1]{
+  \draw[color=black,very thin ] plot file{hiv#1.dat};
+  \draw[color=black,very thin ] plot file{pri#1.dat};
+  \draw[color=black,very thin ] plot file{ete#1.dat};
+  \draw[color=black,very thin ] plot file{aut#1.dat};
+}
+
+\newcommand\analemmaThin[1]{
+  \IfFileExists{aut#1.dat.ok}{%
+    \IfFileExists{hiv#1.dat.ok}{%
+      \analemmaThinP{#1}
+    }{}
+  }{}
+}

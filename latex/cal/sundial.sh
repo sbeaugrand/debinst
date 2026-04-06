@@ -63,6 +63,27 @@ for ((m = mBegin; m != mEnd + 1; ++m)); do
         esac
     fi
     for ((j = jMin; j <= jMax; ++j)); do
-        build/sundial $lat $lon $y-$m-$j $hour $len $dec $ang >>$file 2>/dev/null
+        build/sundial $lat $lon $y-$m-$j $hour $len $dec $ang\
+                      >>$file 2>/dev/null
     done
+    base=`basename $file`
+    if [ ${base:0:3} = "pri" ]; then
+        # vi /usr/share/texlive/texmf-dist/metafont/base/plain.mf +/28.4527
+        # echo | awk '{ sousStylaire=7.3333; Huge=25;
+        #   print 29.7-1-sousStylaire-Huge/28.4527 }'
+        # 20.488
+        if [ -s $file ] && tail -n 1 $file |
+                   awk '{  if ($2 < -20.4) exit(1) }'; then
+            touch $file.ok
+        else
+            rm -f $file.ok
+        fi
+    else
+        if cat $file |
+                awk 'BEGIN { h=1 } { if ($2 < 0) h=0 } END { exit(h) }'; then
+            touch $file.ok
+        else
+            rm -f $file.ok
+        fi
+    fi
 done
