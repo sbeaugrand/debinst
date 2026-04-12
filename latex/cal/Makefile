@@ -11,6 +11,9 @@ YEAR = 2026
 MOON = build/moon-events
 
 # sundial options
+#SOUS_STYLAIRE=$(shell echo "$(LAT) $(STRAIGHT_STYLUS_LENGTH)" |\
+ awk '{ a = $$1 * 3.14159 / 180; print $$2 * sin(a) / cos(a) }')
+SOUS_STYLAIRE = 3
 #CFLAGS += -DWITH_EQUATION_OF_TIME
 CFLAGS += -DWITH_AZIMUT
 #CFLAGS += -DWITH_DECLINATION
@@ -31,7 +34,7 @@ all:
 	@echo "       make { testAlgos | testEaster | testSun }"
 	@echo "       make sundial"
 	@echo "       make { portrait-sundial.pdf }"
-	@echo "       make { pygcode | gcode | grbl | laser }"
+	@echo "       make { pygcode | gcode | grbl | laser | cnc }"
 	@echo "       make azimut"
 	@echo "       make { testAzimut }"
 	@echo "       make dist-clean"
@@ -128,9 +131,7 @@ sundial dist-sundial: sundial.pdf
 build/config.tex: $(MAKEFILE_LIST)
 	@mkdir -p build
 	@echo "\\\newlength{\sousStylaire}" >$@
-	@echo -n "\setlength{\sousStylaire}" >>$@
-	@echo "$(LAT) $(STRAIGHT_STYLUS_LENGTH)" |\
-	 awk '{ a=$$1*3.14159/180; printf "{%fcm}\n",$$2*sin(a)/cos(a) }' >>$@
+	@echo "\setlength{\sousStylaire}{$(SOUS_STYLAIRE)cm}" >>$@
 	@echo "\\\newlength{\width}" >>$@
 	@echo "\setlength{\width}{$(WIDTH)cm}" >>$@
 	@echo "\\\newlength{\height}" >>$@
@@ -141,7 +142,7 @@ build/config.tex: $(MAKEFILE_LIST)
 	 awk '{ a=(90-$$1)*3.14159/180; printf "{%fcm}\n",$$2*sin(a)/cos(a) }' >>$@
 
 build/%.dat: sundial.sh build/sundial
-	$< $(YEAR) $(LAT) $(LON) $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $(STYLUS_ANGLE) $@
+	$< $(YEAR) $(LAT) $(LON) $(STRAIGHT_STYLUS_LENGTH) $(GNOMONIC_DECLINATION) $(STYLUS_ANGLE) $@ $(SOUS_STYLAIRE)
 
 DATAS =\
  build/hiv06.dat build/pri06.dat build/ete06.dat build/aut06.dat\
@@ -237,6 +238,16 @@ laser-grbl-sundialTool2.ngc: grbl-sundialTool2.ngc $(MAKEFILE_LIST)
 	 sed '/(begin2)/,/G00 X0.001 Y0.001/d' |\
 	 sed '/(begin1)/,/G01 X0.001 Y0.001/d' |\
 	 cat >$@
+
+.PHONY: cnc
+cnc: cnc-grbl-sundial.ngc
+cnc-grbl-sundial.ngc: laser-grbl-sundial.ngc
+	@cat $^ | sed\
+	 -e 's/^F12.0/F6.0/'\
+	 -e 's/^F48.0/F6.0/'\
+	 -e 's/M5/G01 Z0.100/'\
+	 -e 's/M3/G01 Z-0.010/'\
+	 >$@
 
 .PHONY: FORCE
 FORCE:

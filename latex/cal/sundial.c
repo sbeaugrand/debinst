@@ -72,10 +72,13 @@ main(int argc, const char* argv[])
     double straightStylusLength;  // cm
     double gnomonicDeclination;  // west > 0, est < 0
     double stylusAngle;  // 0: horizontal sundial, 90: vertical
+    double sousStylaire;
 
-    if (argc != 8) {
-        printf("Usage: %s <latitude> <longitude> <YYYY-mm-dd>"
-               " <hour> <straight-stylus-length> <declination> <stylus-angle>\n",
+    if (argc != 8 &&
+        argc != 9) {
+        printf("Usage: %s <latitude> <longitude> <YYYY-mm-dd> <hour>"
+               " <straight-stylus-length> <declination> <stylus-angle>"
+               " [<sous-stylaire>]\n",
                argv[0]);
         return EXIT_FAILURE;
     }
@@ -86,6 +89,11 @@ main(int argc, const char* argv[])
     sscanf(argv[5], "%lf", &straightStylusLength);
     sscanf(argv[6], "%lf", &gnomonicDeclination);
     sscanf(argv[7], "%lf", &stylusAngle);
+    if (argc > 8) {
+        sscanf(argv[8], "%lf", &sousStylaire);
+    } else {
+        sousStylaire = straightStylusLength * TAN(lat);
+    }
 
     // Julian Ephemeris Day
     double jd = julianDay(year, month, day + hour / 24.0);
@@ -194,16 +202,22 @@ main(int argc, const char* argv[])
     if (gZ > 0) {
         double x = -straightStylusLength * gX / gZ;
         double y = -straightStylusLength * gY / gZ;
-        double sousStylaire = straightStylusLength * TAN(lat);
-        if (((month >= 3 && month < 6) || (month == 6 && day < 21)) &&
+        if (((month == 3 && day > 21) ||
+             (month == 4) ||
+             (month == 5) ||
+             (month == 6 && day < 21) ||
+             (month == 8 && day > 21 - 0) ||
+             (month == 9 && day < 21 - 7)) &&
             (hour - truncf(hour) < 0.1)) {
-            if (x > -29.5 && x < 29.5 &&
-                y > -28.5 + sousStylaire && y < sousStylaire) {
+            if (x > -30.0 + 1.6 &&
+                x < +30.0 - 1.6 &&
+                y > -29.7 + 1.5 + sousStylaire && y < sousStylaire) {
                 printf("%.7f %.7f\n", x, y);
             }
         } else {
-            if (x > -29.9 && x < 29.9 &&
-                y > -29.5 + sousStylaire && y < sousStylaire) {
+            if (x > -30.0 + 0.5 &&
+                x < +30.0 - 0.5 &&
+                y > -29.7 + 0.5 + sousStylaire && y < sousStylaire) {
                 printf("%.7f %.7f\n", x, y);
             }
         }

@@ -14,13 +14,15 @@
     \draw[color=green,very thick] plot file{pri#1.dat}
     node[color=black,below] {#3};
   }{%
-    \count0=#2
-    \ifnum\count0<12
-      \draw[color=green,very thick] plot file{pri#1.dat}
-      node[color=black,above right,xshift=5mm] {#3};
-    \else
-      \draw[color=green,very thick] plot file{pri#1.dat}
-      node[color=black,above right] {#3};
+    \ifnum\pdffilesize{pri#1.dat}>0
+      \count0=#2
+      \ifnum\count0<12
+        \draw[color=green,very thick] plot file{pri#1.dat}
+        node[color=black,left] {#3};
+      \else
+        \draw[color=green,very thick] plot file{pri#1.dat}
+        node[color=black,right] {#3};
+      \fi
     \fi
   }
   \draw[color=red ,very thick] plot file{ete#1.dat};

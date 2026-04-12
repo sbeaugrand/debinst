@@ -13,6 +13,14 @@ dec=$5
 ang=$6
 file=$7
 hour=`echo $file | sed 's@[a-z/.]*@@g' | sed 's@_@.@'`
+if [ -n "$8" ]; then
+    sousStylaire=$8
+else
+    sousStylaire=`echo "$lat $len" | awk '{
+        a = $1 * 3.14159 / 180;
+        print $2 * sin(a) / cos(a);
+    }'`
+fi
 if [ ${file:6:3} = "hiv" ]; then
     jBegin=21
     mBegin=12
@@ -63,17 +71,16 @@ for ((m = mBegin; m != mEnd + 1; ++m)); do
         esac
     fi
     for ((j = jMin; j <= jMax; ++j)); do
-        build/sundial $lat $lon $y-$m-$j $hour $len $dec $ang\
+        build/sundial $lat $lon $y-$m-$j $hour $len $dec $ang $sousStylaire\
                       >>$file 2>/dev/null
     done
+    if [ `cat $file | wc -l` = 1 ]; then
+        truncate -s 0 $file
+    fi
     base=`basename $file`
     if [ ${base:0:3} = "pri" ]; then
-        # vi /usr/share/texlive/texmf-dist/metafont/base/plain.mf +/28.4527
-        # echo | awk '{ sousStylaire=7.3333; Huge=25;
-        #   print 29.7-1-sousStylaire-Huge/28.4527 }'
-        # 20.488
         if [ -s $file ] && tail -n 1 $file |
-                   awk '{  if ($2 < -20.4) exit(1) }'; then
+                awk '{  if ($1 < -30 + 2.3 || $1 > 30 - 2.3) exit(1) }'; then
             touch $file.ok
         else
             rm -f $file.ok
