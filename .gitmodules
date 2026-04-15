@@ -4,6 +4,3 @@
 [submodule "projects/arm/sompi/SomPi"]
 	path = projects/arm/sompi/SomPi
 	url = https://github.com/the-lazy-fox/SomPi
-[submodule "projects/vlfSpectrum/pico-sdk"]
-	path = projects/arm/pico-sdk
-	url = https://github.com/raspberrypi/pico-sdk

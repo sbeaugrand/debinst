@@ -11,9 +11,8 @@ YEAR = 2026
 MOON = build/moon-events
 
 # sundial options
-#SOUS_STYLAIRE=$(shell echo "$(LAT) $(STRAIGHT_STYLUS_LENGTH)" |\
+SOUS_STYLAIRE = $(shell echo "$(LAT) $(STRAIGHT_STYLUS_LENGTH)" |\
  awk '{ a = $$1 * 3.14159 / 180; print $$2 * sin(a) / cos(a) }')
-SOUS_STYLAIRE = 3
 #CFLAGS += -DWITH_EQUATION_OF_TIME
 CFLAGS += -DWITH_AZIMUT
 #CFLAGS += -DWITH_DECLINATION

@@ -9,3 +9,4 @@ STYLUS_ANGLE = 90# 0: horizontal sundial, 90: vertical
 STRAIGHT_STYLUS_LENGTH = 6.5# cm
 WIDTH := 61.0
 HEIGHT := 29.7
+SOUS_STYLAIRE := 4
