@@ -41,7 +41,7 @@
         gateway: 192.168.0.254
     #- role: packages-sbuild
     #  vars:
-    #    repo: /data
+    #    repo: /data/tmp
     #- newsboat
     #- libvirt
     #- docker

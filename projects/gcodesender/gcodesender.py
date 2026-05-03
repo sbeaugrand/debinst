@@ -40,7 +40,7 @@ class CNC:
         if not path.exists(dev):
             print("{} not found".format(dev))
             exit(1)
-        self.ser = serial.Serial(dev, args.baudrate)
+        self.ser = serial.Serial(dev, args.baudrate, timeout=120)
         self.ser.write(b"\r\n\r\n")
         time.sleep(2)
         self.ser.flushInput()
@@ -58,14 +58,21 @@ class CNC:
             pass
 
     def read(self):
+        timeout = time.time() + self.ser.timeout
         recv = self.ser.readline().decode().strip()
+        if time.time() > timeout:
+            print('timeout', file=sys.stderr)
+            raise ValueError('timeout')
         if args.interactive:
             print(recv)
         else:
             print('recv: {}'.format(recv))
         if recv.find('ok') >= 0 or\
            recv.find('error') >= 0:
-            del self.length[0]
+            if len(self.length):
+                del self.length[0]
+            else:
+                print('empty length', file=sys.stderr)
             return 1
         return 0
 
@@ -79,7 +86,10 @@ class CNC:
                         self.read()
             except:
                 print('read exception', file=sys.stderr)
-                self.ser.close()
+                try:
+                    self.ser.close()
+                except:
+                    print('close exception', file=sys.stderr)
                 while not path.exists(dev):
                     time.sleep(1)
                 self.__init__(dev)
@@ -88,7 +98,10 @@ class CNC:
             self.ser.write(line.encode() + b'\n')
         except:
             print('write exception', file=sys.stderr)
-            self.ser.close()
+            try:
+                self.ser.close()
+            except:
+                print('close exception', file=sys.stderr)
             while not path.exists(dev):
                 time.sleep(1)
             self.__init__(dev)

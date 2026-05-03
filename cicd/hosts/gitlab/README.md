@@ -85,7 +85,7 @@ git push --set-upstream origin main
 
 ## Disk resize
 ```sh
-# sudo virsh blockresize gitlab_gitlab /data/libvirt/gitlab_gitlab.img 64G
+# sudo virsh blockresize gitlab_gitlab /data/tmp/libvirt/gitlab_gitlab.img 64G
 vagrant ssh
 # lsblk
 # sudo apt-get install fdisk

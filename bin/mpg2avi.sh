@@ -7,6 +7,9 @@
 ## \note Example :
 ##       ln -s vlc.avi record.mpg
 ##       vf=crop=360:360:1000:100 mpg2avi.sh record.mpg
+##
+## mkv => wmv
+## ffmpeg -i in.mkv -s 960x540 -qscale 2 -vcodec msmpeg4 -acodec wmav2 out.wmv
 # ---------------------------------------------------------------------------- #
 vbitrate=900
 abitrate=128

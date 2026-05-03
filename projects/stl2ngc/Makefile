@@ -14,10 +14,12 @@
 ##       # Exporter le plateau en STL
 ##       make test1
 ##       reduce.awk build/claw1-cone.ngc >build/claw1-cone-r.ngc
+##       sed -i 's/F900/F200/' build/claw1-cone-r.ngc
 ##       camotics build/claw1-cone-r.ngc
 ##       bCNC build/claw1-cone-r.ngc
-##       $30=12000
-##       Probe Pos -10 along Z direction
+##       # $30=12000
+##       # Probe Pos -10 along Z direction
+##       gcodesender.py -f build/claw1-cone-r.ngc 2> >(tee err.log >&2)
 # ---------------------------------------------------------------------------- #
 OCL_DIR = /usr/lib/x86_64-linux-gnu/opencamlib
 LDFLAGS = -L$(OCL_DIR) -locl

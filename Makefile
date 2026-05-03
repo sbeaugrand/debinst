@@ -93,7 +93,6 @@ tar:
 	 --exclude=*/i386/simple-cdd.conf\
 	 --exclude=__pycache__\
 	 --exclude=*.egg-info\
-	 --exclude=*.7z\
 	 --exclude=README.html\
 	 --exclude=.vagrant\
 	\

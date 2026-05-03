@@ -4,6 +4,11 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
+- name: /data/tmp dir
+  file:
+    state: directory
+    path: "{{ home }}/data/tmp"
+
 - name: data link
   file:
     state: link
@@ -13,12 +18,12 @@
 - name: vagrant dir
   file:
     state: directory
-    path: "{{ home }}/data/vagrant.d"
+    path: "{{ home }}/data/tmp/vagrant.d"
 
 - name: vagrant link
   file:
     state: link
-    src: "{{ home }}/data/vagrant.d"
+    src: "{{ home }}/data/tmp/vagrant.d"
     path: "{{ home }}/.vagrant.d"
 
 - name: install libvirt packages

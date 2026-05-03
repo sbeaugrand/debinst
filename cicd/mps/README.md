@@ -62,7 +62,7 @@ localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
   ```
   ## Create sysroot
   ```console
-  localhost> cd /data
+  localhost> cd /data/tmp
   localhost> mkdir aarch64-linux-gnu-14 && cd aarch64-linux-gnu-14  # or :
   localhost> mkdir arm-linux-gnueabihf-14 && cd arm-linux-gnueabihf-14
   localhost> mkdir usr
@@ -71,14 +71,14 @@ localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
   localhost> rsync -a -i --delete --checksum $user@$host:/usr/include usr/
   localhost> rsync -a -i --delete --checksum $user@$host:/usr/lib usr/
   localhost> rsync -a -i --delete --checksum $user@$host:/lib ./
-  localhost> sudo ln -sfn /data/aarch64-linux-gnu-14 /usr/gnemul/qemu-aarch64  # or:
-  localhost> sudo ln -sfn /data/arm-linux-gnueabihf-14 /usr/gnemul/qemu-arm
+  localhost> sudo ln -sfn /data/tmp/aarch64-linux-gnu-14 /usr/gnemul/qemu-aarch64  # or:
+  localhost> sudo ln -sfn /data/tmp/arm-linux-gnueabihf-14 /usr/gnemul/qemu-arm
   ```
   ## Optional VM sysroot
   ```console
   localhost> cd ../hosts/debian13
-  localhost> rsync -a -i --delete --checksum /data/aarch64-linux-gnu-14 .vagrant/  # or :
-  localhost> rsync -a -i --delete --checksum /data/arm-linux-gnueabihf-14 .vagrant/
+  localhost> rsync -a -i --delete --checksum /data/tmp/aarch64-linux-gnu-14 .vagrant/  # or :
+  localhost> rsync -a -i --delete --checksum /data/tmp/arm-linux-gnueabihf-14 .vagrant/
   ```
 </details>
 
@@ -105,7 +105,7 @@ localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
   localhost> SYSROOT=arm-linux-gnueabihf-14  # aarch64-linux-gnu-
   localhost> cd .vagrant/$SYSROOT
   localhost> ln -s usr/lib
-  localhost> cp -a ../$SYSROOT /data/
+  localhost> cp -a ../$SYSROOT /data/tmp
   ```
 </details>
 

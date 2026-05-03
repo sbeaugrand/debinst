@@ -176,7 +176,7 @@ if [ -f $file ]; then
     source $file
     if [ "`type -t setup`" = function ]; then
         setup
-        if ! sudo nft list chain filter prerouting 2>/dev/null | grep -q $ipdns; then
+        if ! sudo nft list chain filter prerouting 2>/dev/null | grep -q "$ipdns "; then
             sudo nft add rule filter prerouting iifname $wlp ip saddr != { 0.0.0.0, $ipdns, $whitelist } counter drop
         fi
     fi
