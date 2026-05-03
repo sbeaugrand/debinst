@@ -1,0 +1,48 @@
+; ---------------------------------------------------------------------------- ;
+;; \file rc-switch.pio
+;; \author Sebastien Beaugrand
+;; \sa http://beaugrand.chez.com/
+;; \copyright CeCILL 2.1 Free Software license
+; ---------------------------------------------------------------------------- ;
+.pio_version 0
+
+.program rc_switch
+
+.define public LEN 25
+
+.wrap_target
+    pull
+    set x, (LEN - 1)
+  bitloop:
+                     ; Theorical value
+    set pins, 1 [16] ; 10 = 11 - 1
+    out pins, 1 [15] ; 14 = 15 - 1
+    set pins, 0 [2]  ;  6 =  8 - 2
+    jmp x-- bitloop
+.wrap
+
+% c-sdk {
+#include "hardware/clocks.h"
+
+static inline void
+rc_switch_program_init(PIO pio, uint sm, uint offset, uint pin, uint freq) {
+    pio_gpio_init(pio, pin);
+    pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+
+    pio_sm_config c = rc_switch_program_get_default_config(offset);
+    sm_config_set_out_shift(&c,
+                            /* right    = */ false,
+                            /* autopull = */ false,
+                            rc_switch_LEN);
+    sm_config_set_out_pins(&c, pin, 1);
+    sm_config_set_set_pins(&c, pin, 1);
+    sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_TX);
+
+    float div = (float) clock_get_hz(clk_sys) / freq;
+    sm_config_set_clkdiv(&c, div);
+
+    pio_sm_init(pio, sm, offset, &c);
+    pio_sm_set_enabled(pio, sm, true);
+}
+
+%}
