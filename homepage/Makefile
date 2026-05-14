@@ -9,7 +9,7 @@
 # ftp : rclone config create chezcom ftp host chez.com user beaugrand pass ***
 # ---------------------------------------------------------------------------- #
 PROJECT = homepage
-BROWSER = firefox
+BROWSER = chromium
 URL = chez.com
 SRC = $(wildcard src/*)
 HTML = $(addprefix html/,$(addsuffix .html,$(notdir $(SRC))))
