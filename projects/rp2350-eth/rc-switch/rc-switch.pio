@@ -1,8 +1,17 @@
+; vim: set ft=asm : vi ~/.vimrc +  # set modeline
 ; ---------------------------------------------------------------------------- ;
 ;; \file rc-switch.pio
 ;; \author Sebastien Beaugrand
 ;; \sa http://beaugrand.chez.com/
 ;; \copyright CeCILL 2.1 Free Software license
+;; \note https://hoperf.com/uploads/
+;;        AN112_CMT2150A_Configuration_Guideline_1695629627.pdf page 11
+;;       3 Symbols/Bit   __                 _____
+;;                      |  |__|__|         |  |  |__|
+;;       4 Symbols/Bit   __                 ________
+;;                      |  |__|__|__|      |  |  |  |__|
+;;       5 Symbols/Bit   _____              ________
+;;                      |  |  |__|__|__|   |  |  |  |__|__|
 ; ---------------------------------------------------------------------------- ;
 .pio_version 0
 
@@ -14,10 +23,10 @@
     pull
     set x, (LEN - 1)
   bitloop:
-                     ; Theorical value
-    set pins, 1 [16] ; 10 = 11 - 1
-    out pins, 1 [15] ; 14 = 15 - 1
-    set pins, 0 [2]  ;  6 =  8 - 2
+                     ; Theorical value for 150us per bit with 3 symbols
+    set pins, 1 [12] ; 9 = 10 - 1
+    out pins, 1 [12] ; 9 = 10 - 1
+    set pins, 0 [ 2] ; 8 = 10 - 2
     jmp x-- bitloop
 .wrap
 

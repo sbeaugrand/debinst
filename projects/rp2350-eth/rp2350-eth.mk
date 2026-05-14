@@ -10,13 +10,13 @@ DOC = $(PROROOT)/rp2350-eth.md
 .SUFFIXES:
 
 define print-help
- sed -n -e '/# $1$$/,/``$$/{/^ *``/!p}' $(DOC) | grep --color -C99 '^#\+ .*'
+ sed -n '/# $1$$/,/``$$/{/^ *``/!p}' $(DOC) | grep --color -C99 '^#\+ .*'
 endef
 
 .PHONY: help
 help:
 	@echo
-	@$(call print-help,Pico-sdk)
+	@$(call print-help,RP2350-ETH)
 	@echo
 	@$(call print-help,Picotool)
 	@echo

@@ -10,7 +10,7 @@
 #include "CH9120.h"
 
 #define PIN 22
-#define FREQ 250000  // 136 / (11 + 15 + 8) = 4 us
+#define FREQ 200000  // 150 / (10 + 10 + 10) = 5 us
 
 extern UCHAR CH9120_Mode;
 
@@ -19,12 +19,12 @@ uint gSm;
 
 void send(uint32_t k)
 {
-    pio_sm_put_blocking(gPio, gSm, ~k << (32 - rc_switch_LEN));
-    sleep_us(1000 + rc_switch_LEN * 136);
-    pio_sm_put_blocking(gPio, gSm, ~k << (32 - rc_switch_LEN));
-    sleep_us(1000 + rc_switch_LEN * 136);
-    pio_sm_put_blocking(gPio, gSm, ~k << (32 - rc_switch_LEN));
-    sleep_us(1000 + rc_switch_LEN * 136);
+    pio_sm_put_blocking(gPio, gSm, k << (32 - rc_switch_LEN));
+    sleep_us(1000 + rc_switch_LEN * 150);
+    pio_sm_put_blocking(gPio, gSm, k << (32 - rc_switch_LEN));
+    sleep_us(1000 + rc_switch_LEN * 150);
+    pio_sm_put_blocking(gPio, gSm, k << (32 - rc_switch_LEN));
+    sleep_us(1000 + rc_switch_LEN * 150);
 }
 
 int
