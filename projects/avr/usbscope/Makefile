@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-BDIR    = $(HOME)/data/install-build
+BDIR    = $(HOME)/data/tmp/install-build
 PROROOT = ../..
 PROPATH = avr
 include $(PROROOT)/makefiles/pro.mk

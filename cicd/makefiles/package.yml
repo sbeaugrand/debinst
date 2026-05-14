@@ -49,7 +49,7 @@ variables:
   BDIR: build
   BHOST: $HOST
   XCVER: 14
-  XCDIR: /data
+  XCDIR: $HOME/data/tmp
   PRIVKEY: $HOME/.ssh/id_rsa
   APT: apt-get -y -o APT::Sandbox::User=root
 .keychain:

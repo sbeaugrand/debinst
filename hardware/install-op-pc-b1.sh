@@ -15,8 +15,8 @@ hardware/install-op-ipod.sh
 -list=upgrade install-op-/install-op-ansible.sh
 "
 
-if notLink $home/.gramps && isDir /data/gramps; then
-    ln -s /data/gramps $home/.gramps
+if notLink $home/.gramps && isDir ~/data/gramps; then
+    ln -s ~/data/gramps $home/.gramps
 fi
 
 file=$home/.bash_aliases

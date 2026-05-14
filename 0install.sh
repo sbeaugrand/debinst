@@ -28,8 +28,8 @@ fi
 
 [ -z "$home" ] && home=/home/$user
 [ -z "$data" ] && data=$home/data
-[ -z "$repo" ] && repo=$data/install-repo
-[ -z "$bdir" ] && bdir=$data/install-build
+[ -z "$repo" ] && repo=$data/tmp/install-repo
+[ -z "$bdir" ] && bdir=$data/tmp/install-build
 [ -z "$idir" ] && export idir=$(dirname `readlink -f $0`)
 [ -z "$tmpf" ] && tmpf=$XDG_RUNTIME_DIR/debinst.tmp
 

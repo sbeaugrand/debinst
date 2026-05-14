@@ -25,7 +25,7 @@ cd cicd/hosts/localhost
   ```sh
   systemd-run -p CPUQuota=$((`nproc`*50))% --scope bash -c './0install.sh install-op-/install-op-mplayer.sh'
   # error: initialization from incompatible pointer type
-  cd /data/install-build/mplayer
+  cd ~/data/tmp/install-build/mplayer
   vi config.mak +/CFLAGS  # -Wno-incompatible-pointer-types
   make && make install
   ```
@@ -50,7 +50,7 @@ sudo vi /usr/share/simple-cdd/build-simple-cdd +/'For amd64'  # comment 3 lines
 sudo vi /usr/share/debian-cd/tools/boot/trixie/boot-x86 +/'amd64 i386'  # suppr i386
 sudo sed -i 's/standard)"/standard) | Package (== tasksel-data)"/' /usr/lib/python3/dist-packages/simple_cdd/tools/mirror_reprepro.py
 make iso
-pv ~/data/install-build/simplecdd-op-1arch64/images/debian-*-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
+pv ~/data/tmp/install-build/simplecdd-op-1arch64/images/debian-*-amd64-DVD-1.iso | sudo dd bs=4M oflag=dsync of=/dev/sdc
 ```
 La liste des paquets debian sont dans: simplecdd-op-1arch64/list.txt
 
@@ -104,7 +104,7 @@ grep -A15 debinst/README /mnt/a1/home/$user/install/debinst/README.md
 ln -s /mnt/a1/data /home/user/data
 cd /mnt/a1/home/$user/install/debinst
 rm simplecdd-op-1arch64/amd64/simple-cdd.conf
-rm -fr ~/data/install-build/simplecdd-op-1arch64
+rm -fr ~/data/tmp/install-build/simplecdd-op-1arch64
 sudo apt-get install -y dh-make dosfstools mtools simple-cdd xorriso distro-info-data
 sudo vi /usr/share/simple-cdd/tools/build/debian-cd +/rsync  # suppr -a
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034771
@@ -146,7 +146,7 @@ make http
 ## Configurer et créer
 ```sh
 cd 4livebuild
-df .  # >28G or: mkdir /data/live && ln -s /data/live build
+df .  # >28G or: mkdir ~/data/tmp/live && ln -s ~/data/tmp/live build
 make config
 make sync
 make clean

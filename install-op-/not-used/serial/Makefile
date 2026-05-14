@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 PROROOT = ../..
 
-BDIR     = $(HOME)/data/install-build
+BDIR     = $(HOME)/data/tmp/install-build
 HARDWARE = $(BDIR)/arduino-1.0.6/hardware
 ARDUINO  = $(HARDWARE)/arduino
 

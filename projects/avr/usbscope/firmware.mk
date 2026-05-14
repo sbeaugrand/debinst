@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 ## \note https://eleccelerator.com/fusecalc/fusecalc.php?chip=attiny45&LOW=E2&HIGH=DD
 # ---------------------------------------------------------------------------- #
-BDIR    = $(HOME)/data/install-build
+BDIR    = $(HOME)/data/tmp/install-build
 PROJECT = firmware
 PROROOT = ../..
 PROPATH = avr

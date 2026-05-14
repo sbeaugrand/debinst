@@ -13,7 +13,7 @@ ifeq ($(idir),)
 else
  REPO = $(idir)/../repo
 endif
-BDIR  = $(HOME)/data/install-build
+BDIR  = $(HOME)/data/tmp/install-build
 
 $(shell mkdir -p $(REPO))
 $(shell mkdir -p $(BDIR) 2>/dev/null)

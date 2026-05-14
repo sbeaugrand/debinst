@@ -18,7 +18,7 @@
 # ---------------------------------------------------------------------------- #
 PROJECT = arbreGenealogique
 PROROOT = ..
-PHOTOS = /data/arbreGenealogiquePhotos
+PHOTOS = $(HOME)/data/arbreGenealogiquePhotos
 PHOTO_W1 = 1771# 15cm
 PHOTO_H1 = 2480# 21cm
 PHOTO_W2 = 555
@@ -386,7 +386,7 @@ geneanet-pr-gedcom9.ged: export-pr-gedcom9.ged\
 .PHONY: check-medias
 check-medias:
 	@db=`grep '^\[I0000' export-pr-2-9.csv | cut -d ',' -f 2` &&\
-	 ./grampsCheckMedias.py $$db /data/$$db.gpkg.media
+	 ./grampsCheckMedias.py $$db $(HOME)/data/$$db.gpkg.media
 
 .PHONY: clean
 clean:

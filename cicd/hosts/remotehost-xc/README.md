@@ -1,6 +1,6 @@
 # Sysroot cross compilation installation
 ```sh
-cd /data
+cd ~/data/tmp
 mkdir aarch64-linux-gnu-12 && cd aarch64-linux-gnu-12  # or :
 mkdir arm-linux-gnueabihf-12 && cd arm-linux-gnueabihf-12
 mkdir usr
@@ -46,7 +46,7 @@ make HOST=armbian xtest
 # Cross build with old cross compiler
 ```sh
 cd ubuntu1804  # example with gcc-7
-rsync -a -i --delete --checksum /data/tmp/aarch64-linux-gnu-7 .vagrant/
+rsync -a -i --delete --checksum ~/data/tmp/aarch64-linux-gnu-7 .vagrant/
 cd project4
 make BHOST=ubuntu1804 rbuild  # prebuild
 make BHOST=ubuntu1804 rxbit HOST=remotehost-xc  # or :
@@ -61,7 +61,7 @@ make HOST=remotehost-xc stest
 # Sysroot cross build package with old cross compiler
 ```sh
 cd ubuntu2204  # example with gcc-12
-rsync -a -i --delete --checksum /data/tmp/arm-linux-gnueabihf-12 .vagrant/
+rsync -a -i --delete --checksum ~/data/tmp/arm-linux-gnueabihf-12 .vagrant/
 cd project6
 make rbuild  # prebuild
 make rxbuild

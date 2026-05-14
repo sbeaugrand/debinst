@@ -8,7 +8,7 @@ PROROOT = ../..
 PROPATH = arm
 include $(PROROOT)/makefiles/pro.mk
 SERVICE = rtc
-DEVLIB = $(HOME)/data/install-build/WiringPi/devLib
+DEVLIB = $(HOME)/data/tmp/install-build/WiringPi/devLib
 CPPCHECKINC = -I$(DEVLIB)
 
 ifeq ($(shell uname -m),x86_64)
@@ -19,7 +19,7 @@ ifeq ($(shell uname -m),x86_64)
  else
   GPIO = gpiod
   XCVER ?= 14
-  XCDIR ?= /data
+  XCDIR ?= $(HOME)/data/tmp
   SYSROOT = $(XCDIR)/$(XC)-$(XCVER)
   CC = $(XC)-gcc
   CXX = $(XC)-g++

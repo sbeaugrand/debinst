@@ -139,7 +139,7 @@ if isFile $dir/$file; then
     fi
     if isFile $bdir/$file; then
         rsync -i --no-times --checksum\
-         $bdir/$file $uri:/home/$user/data/install-build/$file
+         $bdir/$file $uri:/home/$user/data/tmp/install-build/$file
     fi
 fi
 
@@ -153,5 +153,5 @@ if notFile $bdir/$file.oga; then
 fi
 if isFile $bdir/$file.oga; then
     rsync -i --no-times --checksum\
-     $bdir/$file.oga $uri:/home/$user/data/install-build/$file.oga
+     $bdir/$file.oga $uri:/home/$user/data/tmp/install-build/$file.oga
 fi

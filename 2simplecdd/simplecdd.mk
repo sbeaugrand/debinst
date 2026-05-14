@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 PROJECT = $(shell basename `readlink -f .`)
 BUILDCD = build-simple-cdd --conf simple-cdd.conf --dvd --logfile /tmp/scdd.log
-DATATMP = $(HOME)/data/install-build
+DATATMP = $(HOME)/data/tmp/install-build
 DESTDIR = $(DATATMP)/$(shell basename $(shell pwd))
 ifeq "$(LPKG)" ""
  ERROR="error: LKPG is not set\n"

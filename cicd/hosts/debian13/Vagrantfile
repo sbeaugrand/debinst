@@ -7,7 +7,7 @@
 load "../../makefiles/Vagrantfile"
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "alvistack/debian-13"
+  config.vm.box = "debian/trixie64"
   config.vm.define "default"
   config.vm.hostname = "debian13"
   config.vm.provider :libvirt do |libvirt|

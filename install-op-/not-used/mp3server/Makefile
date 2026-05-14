@@ -38,7 +38,7 @@ CLIENT = mp3client
 
 ifneq ($(XC),)
  XCVER ?= 12
- XCDIR ?= /data
+ XCDIR ?= $(HOME)/data/tmp
  SYSROOT = $(XCDIR)/$(XC)-$(XCVER)
  CC = $(XC)-gcc
  CXX = $(XC)-g++
@@ -96,7 +96,7 @@ ifeq ($(C),pi)
 endif
 ifeq ($(C),rpi)
  DEVOBJ = build/$(CLIENT)-lcd16x2.o build/$(CLIENT)-button.o
- DEVLIB = $(HOME)/data/install-build/WiringPi/devLib
+ DEVLIB = $(HOME)/data/tmp/install-build/WiringPi/devLib
  CFLAGS += -I$(DEVLIB) -DRPI -I/usr/local/include
  OBJECTS = $(DEVLIB)/lcd.o
  CLIENTFLAGS = -lwiringPi -lwiringPiDev -lpthread

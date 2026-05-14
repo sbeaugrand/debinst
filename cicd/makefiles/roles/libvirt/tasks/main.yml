@@ -4,7 +4,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 ---
-- name: /data/tmp dir
+- name: "{{ home }}/data/tmp dir"
   file:
     state: directory
     path: "{{ home }}/data/tmp"

@@ -64,10 +64,10 @@
 
 - name: build dir
   file:
-    path: "{{ home }}/data/install-build"
+    path: "{{ home }}/data/tmp/install-build"
     state: directory
 
 - name: repo dir
   file:
-    path: "{{ home }}/data/install-repo"
+    path: "{{ home }}/data/tmp/install-repo"
     state: directory

@@ -9,11 +9,11 @@ codecs=essential-20071007
 if [ "$args" = "-r" ]; then
     cat <<EOF
 
-rm -fr ~/data/install-build/ffmpeg-\
+rm -fr ~/data/tmp/install-build/ffmpeg-\
 `grep -m 1 version install-op-/install-op-ffmpeg-src.sh | cut -d '=' -f 2`
-rm -fr ~/data/install-build/mplayer-\
+rm -fr ~/data/tmp/install-build/mplayer-\
 `grep -m 1 version install-op-/install-op-mplayer-src.sh | cut -d '=' -f 2`
-rm -f  ~/data/install-build/mplayer
+rm -f  ~/data/tmp/install-build/mplayer
 rm -f ~/.local/bin/ffmpeg
 rm -f ~/.local/bin/ffprobe
 rm -f ~/.local/bin/ffplay

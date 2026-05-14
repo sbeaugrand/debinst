@@ -24,12 +24,12 @@ if notFile $file; then
 [Desktop Entry]
 Name=2048
 Comment=2048 Game with Kivy
-Icon=$home/data/install-build/2048/data/icon.png
-Exec=python3 $home/data/install-build/2048/main.py
+Icon=$home/data/tmp/install-build/2048/data/icon.png
+Exec=python3 $home/data/tmp/install-build/2048/main.py
 Type=Application
 Terminal=false
 Categories=Game;
-Path=$home/data/install-build/2048
+Path=$home/data/tmp/install-build/2048
 StartupNotify=false
 EOF
 fi

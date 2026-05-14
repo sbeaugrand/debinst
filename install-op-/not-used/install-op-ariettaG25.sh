@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 url=https://www.acmesystems.it/download/microsd/Arietta-03aug2017
 dev=/dev/mmcblk0
-repo=~/data/install-repo
+repo=~/data/tmp/install-repo
 
 file=$repo/boot.tar.bz2
 [ -f $file ] || curl -s $url/boot.tar.bz2 -o $file || return 1

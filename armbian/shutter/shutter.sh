@@ -10,7 +10,7 @@ user=`ls /home | tail -n 1`
 
 rollingCode()
 {
-    ref=/home/$user/data/install-build/shutter.txt
+    ref=/home/$user/data/tmp/install-build/shutter.txt
     new=/run/shutter.txt
     secs=`date +%s`
     sref=`stat -c%Y $ref`

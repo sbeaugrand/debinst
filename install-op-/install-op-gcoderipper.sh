@@ -3,9 +3,16 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note Example :
+## \note
+##       # ngc to dxf :
 ##       g-code_ripper.py -g laser-grbl-sundial.ngc  # Export w/o Rapid Moves
-#        inkscape laser-grbl-sundial.dxf
+##
+##       # dxf to svg :
+##       LANG=en inkscape laser-grbl-sundial.dxf
+##        Scaling: Read form file
+##        Document Properties: Scale 0.75
+##        Edit: Resize Page to Selection
+##        View: Zoom Page
 # ---------------------------------------------------------------------------- #
 version=0.26
 repo=$idir/../repo

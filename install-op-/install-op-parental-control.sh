@@ -57,6 +57,9 @@ connectivitycheck.gstatic.com
 *.swypeconnect.com
 *game-mode*
 *snapchat*
+*discord*
+*ikromi*
+*manga*
 EOF
     sudoRoot cp $tmpf $file
     rm $tmpf

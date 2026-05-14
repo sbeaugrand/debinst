@@ -10,7 +10,7 @@ sudo mount /dev/sda1 /mnt/a1
 ln -s /mnt/a1/home/*/data /home/user/data
 cd /mnt/a1/home/*/install/debinst
 rm simplecdd-op-1arch64/amd64/simple-cdd.conf
-rm -fr ~/data/install-build/simplecdd-op-1arch64
+rm -fr ~/data/tmp/install-build/simplecdd-op-1arch64
 sudo apt-get update
 sudo apt-get install dh-make dosfstools mtools simple-cdd xorriso
 sudo passwd

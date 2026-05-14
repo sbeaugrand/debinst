@@ -27,7 +27,7 @@
 # ---------------------------------------------------------------------------- #
 PROJECT = baofeng
 PROROOT = ..
-CHIRP  = $(HOME)/data/install-build/chirp
+CHIRP  = $(HOME)/data/tmp/install-build/chirp
 IMG    = baofeng-pr-uv9r+.img
 PORT   = /dev/ttyUSB0
 RTYPE  = UV-82WP

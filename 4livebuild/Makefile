@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 PROJECT = $(shell basename `readlink -f .`)
 CODENAME = $(shell lsb_release -sc)
-MIRROR = $(HOME)/data/install-build/simplecdd-op-1arch64/tmp/mirror
+MIRROR = $(HOME)/data/tmp/install-build/simplecdd-op-1arch64/tmp/mirror
 CHROOTDIR = build/config/includes.chroot
 SKELDIR = $(CHROOTDIR)/etc/skel
 RSYNC = rsync -aO -i --delete --delete-excluded
@@ -15,15 +15,15 @@ DST = build/live-image-amd64.hybrid.iso
 .SUFFIXES:
 
 define print-help
- sed -n -e '/# $1$$/,/``$$/{/^ *``/!p}' ../README.md | grep --color -C99 '^#\+ .*'
+ sed -n '/# $1$$/,/``$$/{/^ *``/!p}' ../README.md | grep --color -C99 '^#\+ .*'
 endef
 
 .PHONY: live
 live:
 	@echo
-	@$(call print-help,Mettre a jour le mirroir local)
+	@$(call print-help,Mettre . jour le mirroir local)
 	@echo
-	@$(call print-help,Configurer et creer)
+	@$(call print-help,Configurer et cr.er)
 	@echo
 
 -include user-config-pr-symlink.mk
