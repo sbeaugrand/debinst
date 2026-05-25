@@ -56,7 +56,7 @@ apparentSideralTime(double theta0, double nutationInLongitude, double eps);
 double
 altitude(double ra, double dec, double theta0, double lat, double lon);
 double
-azimut(double ra, double dec, double theta0, double lat, double lon);
+azimuth(double ra, double dec, double theta0, double lat, double lon);
 double
 equationOfTime(double L, double ra, double nutationInLongitude, double eps);
 double

@@ -42,16 +42,61 @@
 % analemmaThin
 % ---------------------------------------------------------------------------- %
 \newcommand\analemmaThinP[1]{
-  \draw[color=black,very thin ] plot file{hiv#1.dat};
-  \draw[color=black,very thin ] plot file{pri#1.dat};
-  \draw[color=black,very thin ] plot file{ete#1.dat};
-  \draw[color=black,very thin ] plot file{aut#1.dat};
+  \draw[color=black,very thin] plot file{hiv#1.dat};
+  \draw[color=black,very thin] plot file{pri#1.dat};
+  \draw[color=black,very thin] plot file{ete#1.dat};
+  \draw[color=black,very thin] plot file{aut#1.dat};
 }
 
 \newcommand\analemmaThin[1]{
   \IfFileExists{aut#1.dat.ok}{%
     \IfFileExists{hiv#1.dat.ok}{%
       \analemmaThinP{#1}
+    }{}
+  }{}
+}
+
+% ---------------------------------------------------------------------------- %
+% analemmaThick
+% ---------------------------------------------------------------------------- %
+\newcommand\analemmaThickP[1]{
+  \draw[color=black,very thick] plot file{hiv#1.dat};
+  \draw[color=black,very thick] plot file{pri#1.dat};
+  \draw[color=black,very thick] plot file{ete#1.dat};
+  \draw[color=black,very thick] plot file{aut#1.dat};
+}
+
+\newcommand\analemmaThick[1]{
+  \IfFileExists{aut#1.dat.ok}{%
+    \IfFileExists{hiv#1.dat.ok}{%
+      \analemmaThickP{#1}
+    }{}
+  }{}
+}
+
+% ---------------------------------------------------------------------------- %
+% decorations
+% ---------------------------------------------------------------------------- %
+\newcommand\decorationsP[3]{
+  \IfFileExists{pri#1.dat.ok}{%
+    \draw[draw=none] plot file{pri#1.dat} node[color=black,below] {#3};
+  }{%
+    \ifnum\pdffilesize{pri#1.dat}>0
+      \count0=#2
+      \ifnum\count0<12
+        \draw[draw=none] plot file{pri#1.dat} node[color=black,left] {#3};
+      \else
+        \draw[draw=none] plot file{pri#1.dat} node[color=black,right] {#3};
+      \fi
+    \fi
+  }
+  \draw[draw=none] plot file{aut#1.dat} node[color=black,above] {#2};
+}
+
+\newcommand\decorations[3]{
+  \IfFileExists{aut#1.dat.ok}{%
+    \IfFileExists{hiv#1.dat.ok}{%
+      \decorationsP{#1}{#2}{#3}
     }{}
   }{}
 }

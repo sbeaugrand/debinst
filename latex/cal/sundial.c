@@ -163,8 +163,8 @@ main(int argc, const char* argv[])
                                         nutationInLongitude, eps);
     // Altitude
     double h = altitude(ra, dec, theta0, lat, -lon);
-    // Azimut
-    double a = azimut(ra, dec, theta0, lat, -lon);
+    // Azimuth
+    double a = azimuth(ra, dec, theta0, lat, -lon);
 #   ifndef NDEBUG
     fprintf(stderr,
             "debug: theta0 = %.7f, azi = %.7f, ele = %.7f\n",

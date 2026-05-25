@@ -141,8 +141,8 @@ main()
     test("Altitude",
          altitude(deg(23, 9, 16.641) * 15, deg(-6, -43, -11.61),
                   theta0, deg(38, 55, 17), deg(5, 8, 15.7) * 15), 15.124874);
-    test("Azimut",
-         azimut(deg(23, 9, 16.641) * 15, deg(-6, -43, -11.61),
+    test("Azimuth",
+         azimuth(deg(23, 9, 16.641) * 15, deg(-6, -43, -11.61),
                 theta0, deg(38, 55, 17), deg(5, 8, 15.7) * 15), 68.033694);
 
     // 14.a

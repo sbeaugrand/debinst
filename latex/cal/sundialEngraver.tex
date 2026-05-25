@@ -1,0 +1,89 @@
+% ---------------------------------------------------------------------------- %
+%% \file sundialEngraver.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass[a4paper]{article}
+\pagestyle{empty}
+\usepackage{vmargin}
+\input config.tex
+\setpapersize{custom}{\width}{\height}
+\addtolength\width{-18mm}
+\addtolength\height{-4mm}
+\setmarginsrb{9mm}{2mm}{9mm}{2mm}{0mm}{0mm}{0mm}{0mm}
+\usepackage{tikz}
+\parindent0mm
+
+\newlength{\ymin}
+\setlength{\ymin}{-\height}
+\ifdim\horizon<1cm
+\else
+  \addtolength{\sousStylaire}{\horizon}
+\fi
+\addtolength{\ymin}{\sousStylaire}
+
+\input{analemma}
+
+\newcommand\sundial{
+  \draw (-\width/2+2mm,\horizon) -- (\width/2-2mm,\horizon);
+  \ifdim\horizon<1cm
+    \draw (0,0) -- (0,\sousStylaire);
+    %\draw (-0.1,\sousStylaire) -- (0.1,\sousStylaire);
+  \else
+    \draw (-0.2,0) -- (0.2,0);
+    \draw (0,-0.2) -- (0,0.2);
+  \fi
+  \analemmaThick{06}
+  \analemmaThick{07}
+  \analemmaThick{08}
+  \analemmaThick{09}
+  \analemmaThick{10}
+  \analemmaThick{11}
+  \analemmaThick{12}
+  \analemmaThick{13}
+  \analemmaThick{14}
+  \analemmaThick{15}
+  \analemmaThick{16}
+  \analemmaThick{17}
+  \analemmaThick{18}
+  \analemmaThin{17_5}
+  \analemmaThin{16_5}
+  \analemmaThin{15_5}
+  \analemmaThin{14_5}
+  \analemmaThin{13_5}
+  \analemmaThin{12_5}
+  \analemmaThin{11_5}
+  \analemmaThin{10_5}
+  \analemmaThin{09_5}
+  \analemmaThin{08_5}
+  \analemmaThin{07_5}
+  \analemmaThin{06_5}
+  \decorations{06}{7}{8}
+  \decorations{07}{8}{9}
+  \decorations{08}{9}{10}
+  \decorations{09}{10}{11}
+  \decorations{10}{11}{12}
+  \decorations{11}{12}{13}
+  \decorations{12}{13}{14}
+  \decorations{13}{14}{15}
+  \decorations{14}{15}{16}
+  \decorations{15}{16}{17}
+  \decorations{16}{17}{18}
+  \decorations{17}{18}{19}
+  \decorations{18}{19}{20}
+}
+
+\begin{document}
+\fontencoding{T1}\fontfamily{frc}\selectfont
+\Huge
+\begin{tikzpicture}
+  \clip (-\width/2,\ymin) rectangle (\width/2,\sousStylaire);
+  \draw[blue, very thin] (\width/2,\sousStylaire) rectangle (-\width/2,\ymin);
+  \sundial
+  \input decorations
+  \input decorations_5
+  \draw (0,\ymin+70) node {La vérité n'a pas d'heure};
+\end{tikzpicture}
+
+\end{document}

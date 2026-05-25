@@ -1,5 +1,5 @@
 /******************************************************************************!
- * \file azimut.c
+ * \file azimuth.c
  * \author Sebastien Beaugrand
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
@@ -7,7 +7,7 @@
  *         build/sun 2026-03-20 48.44728 1.48749 -4 s
  *         13:01:39
  *       Verifier une declinaison de 10 degres vers l'est :
- *         echo "12:01:39 12:30:00 14:30:00 16:30:00" | tr ' ' '\n' | xargs -I {} build/azimut 48.44728 1.48749 2026-03-20T{} | grep Azimut | awk '{ declination = -10; printf "%.1f\n", 180 - $3 + declination }'
+ *         echo "12:01:39 12:30:00 14:30:00 16:30:00" | tr ' ' '\n' | xargs -I {} build/azimuth 48.44728 1.48749 2026-03-20T{} | grep Azimuth | awk '{ declination = -10; printf "%.1f\n", 180 - $3 + declination }'
  *         -10.0
  *         -19.5
  *         -55.3
@@ -72,7 +72,7 @@ main(int argc, const char* argv[])
     double theta0 = apparentSideralTime(reduceAngle(sideralTime(jd, t)),
                                         nutationInLongitude, eps);
     double h = altitude(ra, dec, theta0, lat, -lon);
-    double a = azimut(ra, dec, theta0, lat, -lon);
+    double a = azimuth(ra, dec, theta0, lat, -lon);
 
     int hh = ra / 15;
     int mm = (ra - hh * 15) * 60 / 15;
@@ -82,7 +82,7 @@ main(int argc, const char* argv[])
     mm = (dec - hh) * 60;
     ss = ((dec - hh) * 60 - mm) * 60;
     printf("Declinaison = %.7f (%dd %dm %.2fs)\n", dec, hh, mm, ss);
-    printf("Azimut = %.7f\n", a + 180);
+    printf("Azimuth = %.7f\n", a + 180);
     printf("Hauteur = %.7f\n", h);
 
     return EXIT_SUCCESS;

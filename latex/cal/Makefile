@@ -33,9 +33,9 @@ all:
 	@echo "       make { testAlgos | testEaster | testSun }"
 	@echo "       make sundial"
 	@echo "       make { portrait-sundial.pdf }"
-	@echo "       make { pygcode | gcode | grbl | laser | cnc }"
-	@echo "       make azimut"
-	@echo "       make { testAzimut }"
+	@echo "       make { pygcode | gcode | grbl | laser | engraver }"
+	@echo "       make azimuth"
+	@echo "       make { testAzimuth }"
 	@echo "       make dist-clean"
 	@echo "       make { dist-cal | dist-sundial }"
 	@echo "  [WIDTH=61.0 HEIGHT=29.7 STRAIGHT_STYLUS_LENGTH=6.5]"
@@ -118,11 +118,11 @@ testEaster:
 testSun: build build/sun
 	build/sun $(LAT) $(LON) `date +%Y-%m-%d` $(H0)
 
-.PHONY: azimut
-azimut: build/azimut
-.PHONY: testAzimut
-testAzimut: build/azimut
-	@$< 2021-06-21 48.44728 1.48749 7.66666 | diff $@.ref -
+.PHONY: azimuth
+azimuth: build/azimuth
+.PHONY: testAzimuth
+testAzimuth: build/azimuth
+	@$< 48.44728 1.48749 2021-06-21T07:40:00 | diff $@.ref -
 
 .PHONY: sundial dist-sundial
 sundial dist-sundial: sundial.pdf
@@ -186,6 +186,8 @@ sundialTool1.pdf: analemma.tex build/decorations.tex
 
 sundialTool2.pdf: analemma.tex build/decorations_5.tex
 
+sundialEngraver.pdf: analemma.tex build/decorations.tex build/decorations_5.tex
+
 build/decorations.tex: deco2tex.py $(DATAS)
 	@$< -t 1 >$@
 
@@ -238,15 +240,18 @@ laser-grbl-sundialTool2.ngc: grbl-sundialTool2.ngc $(MAKEFILE_LIST)
 	 sed '/(begin1)/,/G01 X0.001 Y0.001/d' |\
 	 cat >$@
 
-.PHONY: cnc
-cnc: cnc-grbl-sundial.ngc
-cnc-grbl-sundial.ngc: laser-grbl-sundial.ngc
-	@cat $^ | sed\
-	 -e 's/^F12.0/F6.0/'\
-	 -e 's/^F48.0/F6.0/'\
-	 -e 's/M5/G01 Z0.100/'\
-	 -e 's/M3/G01 Z-0.010/'\
-	 >$@
+.PHONY: engraver
+engraver: engraver-grbl-sundial.ngc
+engraver-grbl-sundial.ngc: grbl-sundialEngraver.ngc
+	@cat $^ |\
+	 sed 's/G00 Z0.100 F.*/F600.0\n(begin1)\n(begin2)/' |\
+	 sed '/(begin2)/,/G00 X0.001 Y0.001/d' |\
+	 sed '/(begin1)/,/G01 X0.001 Y0.001/d' |\
+	 sed 's/(M9.*/G0 X0 Y0/' |\
+	 cat >$@
+grbl-sundialEngraver.ngc: sundialEngraver.pdf FORCE
+	@$(MAKE) --no-print-directory -f grbl.mk $@ PROJECT=sundialEngraver
+	@grblminmax.awk $@
 
 .PHONY: FORCE
 FORCE:
@@ -257,7 +262,7 @@ portrait-%.pdf: %.pdf
 .PHONY: dist-clean
 dist-clean:
 	@$(RM) *.pdf build/*.tex build/*.dat build/moon-*
-	@$(RM) *.ngc build/*.ngc build/*.pdf
+	@$(RM) *.ngc *.ps build/*.ngc build/*.pdf
 
 PROJECT = cal
 TARDEPEND +=\
