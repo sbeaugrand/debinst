@@ -60,6 +60,8 @@ connectivitycheck.gstatic.com
 *discord*
 *ikromi*
 *manga*
+*linkedin*
+*apkpure*
 EOF
     sudoRoot cp $tmpf $file
     rm $tmpf

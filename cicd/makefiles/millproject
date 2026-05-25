@@ -4,7 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 ## \note sudo apt-get install libboost-program-options-dev libgtkmm-2.4-dev gerbv librsvg2-dev
-##       sudo vi /usr/lib/x86_64-linux-gnu/pkgconfig/libgerbv.pc +/Version:  # 2.9.6
+##       sudo vi /usr/lib/x86_64-linux-gnu/pkgconfig/libgerbv.pc +/Version:  # 2.10.0
 ##       git clone https://github.com/pcb2gcode/pcb2gcode
 ##       cd pcb2gcode
 ##       autoreconf -fvi

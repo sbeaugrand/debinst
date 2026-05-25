@@ -9,8 +9,10 @@
 #include "rc-switch.pio.h"
 #include "CH9120.h"
 
+// 150 us per bit
+// factor(150) = [ 2 3 5 5 ] = 3 symbols per bit, 10 x 5 us per symbol
+#define FREQ 200000  // 5 us
 #define PIN 22
-#define FREQ 200000  // 150 / (10 + 10 + 10) = 5 us
 
 extern UCHAR CH9120_Mode;
 

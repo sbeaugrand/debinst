@@ -20,6 +20,7 @@ setup()
         block $ip m.youtube
         block $ip www.youtube
         block $ip www.tiktok
+        block $ip www.temu
     done
     unblockAfter 18 00 $ipE1a "enfant1"
     unblockAfter 18 00 $ipE2a "enfant2"
