@@ -33,7 +33,7 @@ all:
 	@echo "       make { testAlgos | testEaster | testSun }"
 	@echo "       make sundial"
 	@echo "       make { portrait-sundial.pdf }"
-	@echo "       make { pygcode | gcode | grbl | laser | engraver }"
+	@echo "       make { pygcode | gcode | grbl | laser | engraver | style }"
 	@echo "       make azimuth"
 	@echo "       make { testAzimuth }"
 	@echo "       make dist-clean"
@@ -252,6 +252,10 @@ engraver-grbl-sundial.ngc: grbl-sundialEngraver.ngc
 grbl-sundialEngraver.ngc: sundialEngraver.pdf FORCE
 	@$(MAKE) --no-print-directory -f grbl.mk $@ PROJECT=sundialEngraver
 	@grblminmax.awk $@
+
+.PHONY: style
+style: style.pdf
+style.pdf: style.tex build/lat.tex
 
 .PHONY: FORCE
 FORCE:

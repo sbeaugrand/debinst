@@ -8,7 +8,9 @@
 file=~/.bash_history.bak
 if [ -f $file ]; then
     cp $file ~/.bash_history
-    rm -f ~/.bash_history~
+else
+    rm -f ~/.bash_history
 fi
+rm -f ~/.bash_history~
 sudo journalctl --rotate
 sudo journalctl --vacuum-time=1s

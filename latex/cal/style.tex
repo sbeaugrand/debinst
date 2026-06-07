@@ -1,0 +1,31 @@
+% ---------------------------------------------------------------------------- %
+%% \file style.tex
+%% \author Sebastien Beaugrand
+%% \sa http://beaugrand.chez.com/
+%% \copyright CeCILL 2.1 Free Software license
+% ---------------------------------------------------------------------------- %
+\documentclass[a4paper]{article}
+\usepackage{tikz}
+\pagestyle{empty}
+
+\input{lat.tex}
+\def\styleDroit{6.5}
+\def\marge{5.2}% Mesure de la distance au bord avec le cadre
+\def\cadre{2.2}% Epaisseur du cadre
+
+\begin{document}
+\usetikzlibrary{math}
+\tikzmath{
+  \sousStylaire = \styleDroit * tan(\latitude);
+}
+\begin{tikzpicture}
+\draw (0,0)
+ -- (\styleDroit,0)
+ -- (\styleDroit,\marge)
+ -- ({\styleDroit+\cadre},\marge)
+ -- ({\styleDroit+\cadre},\sousStylaire)
+ -- (\styleDroit,\sousStylaire)
+ -- cycle;
+\draw ({\styleDroit+\cadre/2},{\sousStylaire/2+\marge/2}) circle (3mm);
+\end{tikzpicture}
+\end{document}
