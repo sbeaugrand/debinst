@@ -22,9 +22,4 @@ install-op-/install-op-avidemux.sh
 install-op-/install-op-camotics.sh
 hardware/install-op-grbl-sim.sh
 hardware/marlin/install-op-marlin-src.sh
-install-op-/install-op-ansible-manual.sh
-install-op-/install-op-docopt-manual.sh
-install-op-/install-op-docspython.sh
-install-op-/install-op-markdown-manual.sh
-install-op-/install-op-openscad-manual.sh
 "

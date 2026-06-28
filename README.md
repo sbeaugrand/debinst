@@ -15,6 +15,7 @@ cd cicd/hosts/localhost
   ```sh
   ./0install.sh
   ./0install.sh hardware/install-op-pc-...
+  ./0install.sh hardware/install-op-offline-manuals.sh
   ./0install.sh install-op-/install-op-...
   sudo apt install texlive-fonts-extra  # > 700 Mo
   ```

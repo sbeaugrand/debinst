@@ -9,7 +9,7 @@ export IPADDR=`make get-ip`
 export GITLAB_ROOT_PASSWORD=minimum8characters
 vagrant provision
 make ssh-copy-id
-make ssh
+vagrant ssh
 export DOMAIN=local.fr
 sudo /sbin/make-ssl-cert /usr/share/ssl-cert/ssleay.cnf /mnt/nginx/gitlab.$DOMAIN.crt  # gitlab DNS:gitlab.$DOMAIN
 docker-compose up -d
