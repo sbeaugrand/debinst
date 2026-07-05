@@ -4,17 +4,24 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-PROJECT = fiches
+PROJECT = recettes
 PROROOT = ../..
 
 include $(PROROOT)/makefiles/livret.mk
-%.pdf: build %.tex
 
-$(PROJECT).pdf:\
- $(PROROOT)/projects/avr/iambic/kicad/iambic.pdf\
- $(PROROOT)/latex/geiger/geiger.pdf\
- $(PROROOT)/latex/schmittTrigger/kicad/schmittTrigger.pdf\
- $(PROROOT)/projects/avr/fftAlarm/kicad/fftAlarm.pdf\
+recettes.pdf:\
+ empty.pdf\
+ savon.pdf\
+ pneu.pdf\
 
 	@#pdfjam -q -o $@ $< '{}' $^
 	@pdfjam -q -o $@ $^
+
+empty.pdf\
+ savon.pdf\
+ pneu.pdf\
+: %.pdf: %.tex
+	@echo TEXINPUTS=$(TEXINPUTS)
+	@mkdir -p build && cd build && export TEXINPUTS=$(TEXINPUTS) &&\
+	 pdflatex --halt-on-error ../$<
+	@mv build/$@ .

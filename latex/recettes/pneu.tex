@@ -1,0 +1,90 @@
+\documentclass{livret}
+\usepackage{siunitx}
+
+\def\pression#1#2{%
+    \count0=#2
+    \count1=20
+    \multiply\count0 by 100
+    \multiply\count1 by 100
+    \advance\count0 by 27315
+    \advance\count1 by 27315
+    \multiply\count0 by #1
+    \divide\count0 by \count1
+    \count1=\count0
+    \divide\count1 by 100
+    \number\count1.%
+    \multiply\count1 by 100
+    \advance\count0 by -\count1
+    \ifnum\count0<10 0\number\count0{} \else \number\count0{} \fi
+}
+
+\def\ligne#1{%
+    \pression{#1}{ 0}&
+    \pression{#1}{ 5}&
+    \pression{#1}{10}&
+    \pression{#1}{15}&
+    \textbf{\pression{#1}{20}}&
+    \pression{#1}{25}&
+    \pression{#1}{30}&
+    \pression{#1}{35}&
+    \pression{#1}{40}\\
+}
+
+\begin{document}
+\Large\centerline{PNEU}\normalsize
+~\\
+\large{Pression}\normalsize
+\begin{center}
+\begin{tabular}{|r|r|r|r|r|r|r|r|r|}\hline
+  0\si{\degreeCelsius}&
+  5\si{\degreeCelsius}&
+ 10\si{\degreeCelsius}&
+ 15\si{\degreeCelsius}&
+ 20\si{\degreeCelsius}&
+ 25\si{\degreeCelsius}&
+ 30\si{\degreeCelsius}&
+ 35\si{\degreeCelsius}&
+ 40\si{\degreeCelsius}\\ \hline\hline
+\ligne{220}
+\ligne{230}
+\ligne{240}
+\ligne{250}
+\ligne{260}
+\ligne{280}
+\ligne{300}
+\hline\hline
+\ligne{3200}
+\ligne{3400}
+\ligne{3600}
+\ligne{3800}
+\ligne{4000}
+\ligne{4200}
+\ligne{4400}
+\hline
+\end{tabular}
+\end{center}
+~\\
+\large{Remplacement}\normalsize
+\begin{enumerate}
+\item Décoller les deux flans avec un levier en protègeant la jante
+\item Lubrifier avec du liquide vaisselle et mettre le pneu au sol, face avant visible
+\item Monter sur le pneu pour mettre le flan au niveau du plus petit diamètre de la jante
+\item Utiliser deux barres Ken-Tool ou similaire pour commencer, bosse vers le centre
+\item Continuer avec une des deux barres, bosse vers le haut, en étant toujours sur le pneu
+\item Retourner et mettre le deuxième flan au niveau du plus petit diamètre
+\item Utiliser les deux barres avec les pointes contre la jante pour commencer
+\item Écarter avec une des deux barres, bosse vers le haut, et pousser avec un levier
+\item Couper la valve et la retirer avec un embout de pompe
+\item Enlever les traces de gomme de la jante avec de l'essence et un médiator
+\item Mettre la nouvelle valve avec du liquide vaisselle et un embout de pompe
+\item Lubrifier le nouveau pneu avec du liquide vaisselle
+\item Placer le pneu sur la face avant pour être au plus proche du plus petit diamètre
+\item Vérifier le sens de rotation
+\item Retourner et faire passer le premier flan, bosse vers le centre
+\item Retourner et faire passer le deuxième flan en terminant avec les deux barres
+\item Faire coller les flans avec un compresseur ou une pompe à pied
+\item Décoller un flan et mettre 100 \si{g} de billes d'équilibrage
+\item Gonfler à 3 bars ou 44 psi ou comme indiqué sur le pneu
+\item Dégonfler à la pression voulue
+\end{enumerate}
+\end{document}

@@ -8,7 +8,7 @@ dir=$bdir/gcode-manual
 if notDir $dir; then
     mkdir $dir
     pushd $dir
-    $idir/bin/aspire.sh https://linuxcnc.org/docs/html/gcode.html
+    $idir/bin/aspire.sh -nd https://linuxcnc.org/docs/html/gcode.html
     sed -i 's@"http://linuxcnc.org/docs/devel/html/" + @@' gcode.html
     popd
     logTodo "chromium file://$dir/gcode.html"

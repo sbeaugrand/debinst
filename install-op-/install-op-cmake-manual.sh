@@ -5,11 +5,10 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 dir=$bdir/cmake-manual
-wget="wget -r -k -p -np -E -q --show-progress"
 if notDir $dir; then
     mkdir $dir
     pushd $dir
-    $wget https://cmake.org/cmake/help/latest/
+    $idir/bin/aspire.sh https://cmake.org/cmake/help/latest/
     popd
     logTodo "chromium file://$dir/cmake.org/cmake/help/latest/index.html"
 fi

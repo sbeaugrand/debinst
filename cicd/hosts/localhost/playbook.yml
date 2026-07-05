@@ -32,8 +32,9 @@
     - role: kicad
       vars:
         version: 9.0
-    # Optional
+    - openscad
     - upgrade
+    # Optional
     - role: hotspot
       vars:
         ip: 10.66.0.2

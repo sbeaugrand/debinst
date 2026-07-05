@@ -1,0 +1,121 @@
+\documentclass{livret}
+\usepackage{siunitx}
+
+\def\litresHuile{%
+    \count0=\mHuile
+    \multiply\count0 by 100
+    \divide\count0 by \densite
+    \number\count0{} \si{\ml}%
+}
+
+\def\masseHuile#1{%
+    \count0=#1
+    \multiply\count0 by \densite
+    \divide\count0 by 100
+    \global\mHuile=\count0
+    \number\count0{} \si{\g}%
+}
+
+\def\reduction{%
+    \count0=\mSoude
+    \multiply\count0 by 1000
+    \multiply\count0 by 1000
+    \divide\count0 by \indiceS
+    \divide\count0 by \mHuile
+    \multiply\count0 by -1
+    \advance\count0 by 1000
+    \ifbold \bfseries \fi
+    \count1=\count0
+    \divide\count1 by 10
+    \number\count1.%
+    \multiply\count1 by 10
+    \advance\count0 by -\count1
+    \number\count0{} \%%
+}
+
+\def\eauMin#1{%
+    \count0=#1
+    \multiply\count0 by 260
+    \divide\count0 by 1000
+    \number\count0{} \si{\g}%
+}
+
+\def\eauMoy#1{%
+    \count0=#1
+    \multiply\count0 by 325
+    \divide\count0 by 1000
+    \number\count0{} \si{\g}%
+}
+
+\def\eauMax#1{%
+    \count0=#1
+    \multiply\count0 by 390
+    \divide\count0 by 1000
+    \number\count0{} \si{\g}%
+}
+
+\def\ligneM#1#2{%
+    \global\mHuile=#1
+    \global\mSoude=#2
+    \litresHuile & \number\mHuile{} \si{\g} &
+    \number\mSoude{} \si{\g} & \reduction &
+    \eauMin{\mHuile} & \eauMoy{\mHuile} & \eauMax{\mHuile}\\
+}
+
+\def\ligneV#1#2{%
+    \global\vHuile=#1
+    \global\mSoude=#2
+    \number\vHuile{} \si{\ml} & \masseHuile{\vHuile} &
+    \number\mSoude{} \si{\g} & \reduction &
+    \eauMin{\mHuile} & \eauMoy{\mHuile} & \eauMax{\mHuile}\\
+}
+
+\begin{document}
+\newcount\indiceS
+\newcount\densite
+\global\densite=92
+\newcount\vHuile
+\newcount\mHuile
+\newcount\mSoude
+\newif\ifbold
+\global\boldfalse
+\Large\centerline{SAVON}\normalsize
+~\\
+\begin{center}
+\global\indiceS=135
+\begin{tabular}{|rr|r|r|r|r|r|}\hline
+\multicolumn{2}{|r|}{Huile \number\indiceS{} (olive)} & Soude & Réduction & Eau min & Eau moy & Eau max\\ \hline\hline
+\ligneV{750}{85}\global\boldtrue
+\ligneV{750}{86}\global\boldfalse
+\ligneV{750}{87}\hline\hline
+\ligneV{500}{57}\global\boldtrue
+\ligneV{500}{58}\global\boldfalse
+\ligneV{500}{59}\hline\hline
+\multicolumn{2}{|r|}{\global\indiceS=183 Huile \number\indiceS{} (coco)} & Soude & Réduction & Eau min & Eau moy & Eau max\\ \hline\hline
+\ligneM{230}{38}\global\boldtrue
+\ligneM{230}{39}\global\boldfalse
+\ligneM{230}{40}\hline\hline
+\ligneV{200}{30}\global\boldtrue
+\ligneV{200}{31}\global\boldfalse
+\ligneV{200}{32}\hline
+\end{tabular}
+\end{center}
+~\\
+Exemple pour 750 \si{ml} d'huile d'olive et 250 \si{ml} d'huile de noix de coco:\\
+\begin{tabular}{r@{\hspace{2pt}}l}
+$86+39=$ & \textbf{125 g de soude}\\
+$224+74\simeq$ & \textbf{300 g d'eau}\\
+\end{tabular}
+~\\
+\begin{enumerate}
+\item Mettre l'eau distillée dans un Pyrex
+\item Mettre la soude caustique pure dans l'eau distillée
+\item Attendre une température de 50 degrés et chauffer l'huile à la même température
+\item Mettre la soude dans l'huile
+\item Mettre des lunettes et des gants
+\item Mixer avec des pauses pour le mixeur plongeant et plonger avant d'allumer
+\item Verser dans un moule après une trace franche
+\item Garder au chaud 24 à 48 heures
+\item Démouler avec des gants et laisser sécher pendant 4 semaines
+\end{enumerate}
+\end{document}

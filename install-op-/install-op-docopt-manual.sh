@@ -8,7 +8,7 @@ dir=$bdir/docopt-manual
 if notDir $dir; then
     mkdir $dir
     pushd $dir
-    $idir/bin/aspire.sh http://docopt.org/
+    $idir/bin/aspire.sh -nd http://docopt.org/
     popd
     logTodo "chromium file://$dir/index.html"
 fi

@@ -8,7 +8,7 @@ dir=$bdir/gnumake-manual
 if notDir $dir; then
     mkdir $dir
     pushd $dir
-    $idir/bin/aspire.sh https://www.gnu.org/software/make/manual/make.html
+    $idir/bin/aspire.sh -nd https://www.gnu.org/software/make/manual/make.html
     popd
     logTodo "chromium file://$dir/make.html"
 fi
