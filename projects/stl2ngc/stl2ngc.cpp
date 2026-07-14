@@ -275,6 +275,7 @@ main(int argc, char* argv[])
 
     GCodeWriter w;
 
+    cout << "G92 X0 Y0 Z0" << endl;
     cout << "G21 F200" << endl;
     cout << ";G64 P0.001" << endl;  // path control mode : constant velocity
     cout << "M03 S13500" << endl;  // start spindle
