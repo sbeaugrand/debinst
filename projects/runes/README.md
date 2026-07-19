@@ -1,6 +1,7 @@
 # Installation des fontes
 ```sh
 cd ../..
+vi install-ob-/install-13-fonts/runes/runes.mf +/px  # px 0.65 py 0.55
 ./0install.sh install-ob-/install-13-fonts.sh
 cd -
 ```

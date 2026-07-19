@@ -114,6 +114,7 @@ class CNC:
 # ---------------------------------------------------------------------------- #
 cnc = CNC(dev)
 if not args.interactive:
+    time.sleep(5)  # Temps pour tourner le potentiometre du laser
     start = time.time()
 
 try:

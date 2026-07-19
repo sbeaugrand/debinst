@@ -12,7 +12,7 @@ H=3;    // Hauteur du support
 M=1;    // Marge au bord
 l=15;   // Longueur de la rune
 p=2;    // Profondeur des segments
-h=1.5;  // Hauteur de la rune
+h=1;    // Hauteur de la rune
 m=0.1;  // Marge pour les differences
 $fn=128;
 
@@ -44,13 +44,13 @@ translate([0,0,-H+h/2+m]) difference() {
 hull() {
   r=1;
   l=2;
-  translate([-L/2+r+T,-l/2,-H]) cylinder(H,r=r);
-  translate([-L/2+r+T, l/2,-H]) cylinder(H,r=r);
+  translate([-L/2+r+T,-l/2,-H]) cylinder(h,r=r);
+  translate([-L/2+r+T, l/2,-H]) cylinder(h,r=r);
 }
 
 hull() {
   r=1;
   l=2;
-  translate([L/2-r-T,-l/2,-H]) cylinder(H,r=r);
-  translate([L/2-r-T, l/2,-H]) cylinder(H,r=r);
+  translate([L/2-r-T,-l/2,-H]) cylinder(h,r=r);
+  translate([L/2-r-T, l/2,-H]) cylinder(h,r=r);
 }
