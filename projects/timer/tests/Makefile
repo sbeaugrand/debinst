@@ -20,4 +20,4 @@ test: build build/test-timer2313 build/test-timer45
 build/test-timer%: build/test-timer%.o
 	$(CC) $^ -o $@
 
-include ${PROROOT}/makefiles/ccpp.mk
+include $(PROROOT)/makefiles/ccpp.mk

@@ -9,10 +9,16 @@ host ?= rpi
 
 .SUFFIXES:
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo
-	@echo "Usage: make [user=pi] [host=rpi] { ssh | rsync | install }"
+	@echo "Usage:"
+	@echo "  make (ssh | rsync) [user=<user>] [host=<host>]"
+	@echo "  make install"
+	@echo
+	@echo "Options:"
+	@echo "  user=<user>  User name [default: pi]."
+	@echo "  host=<host>  Host name [default: rpi]."
 	@echo
 
 .PHONY: ssh

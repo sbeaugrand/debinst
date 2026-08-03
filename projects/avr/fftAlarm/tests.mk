@@ -35,8 +35,8 @@ SHELL = /bin/bash
 
 .SUFFIXES:
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo
 	@echo "Tests"
 	@echo "  make -f tests.mk plot"

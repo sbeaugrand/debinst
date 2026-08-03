@@ -9,9 +9,9 @@ contrl = sudo PYTHONPATH=. ./SomPi/controller.py $(remote)
 
 .SUFFIXES:
 
-.PHONY: all
-all:
-	@echo "Usage: make { register | open | close | stop }"
+.PHONY: help
+help:
+	@echo "Usage: make [register | open | close | stop]"
 
 .PHONY: register open close stop
 register open close stop:

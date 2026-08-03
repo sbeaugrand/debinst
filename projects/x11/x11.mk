@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 TARDEPEND += x11
-OBJECTS += ${PROROOT}/x11/libx11pp.a
+OBJECTS += $(PROROOT)/x11/libx11pp.a
 CXXFLAGS += -I$(PROROOT)
 LDFLAGS += -lX11
 

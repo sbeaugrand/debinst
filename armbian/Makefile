@@ -10,12 +10,17 @@ shutter ?= y
 
 .SUFFIXES:
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo
-	@echo -n "Usage: make [user=$(USER)] [host=pi] [shutter=y] "
-	@echo -n "{ ssh | rsync | install | volume | "
-	@echo "lirc | rtc | oled | mps | shutter }"
+	@echo "Usage:"
+	@echo "  make (ssh | rsync) [user=<user>] [host=<host>] [shutter=(y|n)]"
+	@echo "  make (install | volume | lirc | rtc | oled | mps | shutter)"
+	@echo
+	@echo "Options:"
+	@echo "  user=<user>    [default: $(USER)]."
+	@echo "  host=<host>    [default: pi]."
+	@echo "  shutter=(y|n)  [default: y]."
 	@echo
 
 .PHONY: ssh

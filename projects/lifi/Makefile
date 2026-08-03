@@ -11,8 +11,8 @@ T ?= hex
 
 .SUFFIXES:
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo
 	@echo "Emetteur lifi arduino"
 	@echo "  make emi"

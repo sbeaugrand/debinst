@@ -25,20 +25,21 @@ ifneq ($(MAKECMDGOALS),dist-cal)
  endif
 endif
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo
-	@echo "Usage: make cal"
-	@echo "       make { portrait-cal$(YEAR).pdf }"
-	@echo "       make { testAlgos | testEaster | testSun }"
-	@echo "       make sundial"
-	@echo "       make { portrait-sundial.pdf }"
-	@echo "       make { pygcode | gcode | grbl | laser | engraver | style }"
-	@echo "       make azimuth"
-	@echo "       make { testAzimuth }"
-	@echo "       make dist-clean"
-	@echo "       make { dist-cal | dist-sundial }"
-	@echo "  [WIDTH=61.0 HEIGHT=29.7 STRAIGHT_STYLUS_LENGTH=6.5]"
+	@echo "Usage:"
+	@echo "  make (cal | portrait-cal$(YEAR).pdf)"
+	@echo "  make (testAlgos | testEaster | testSun)"
+	@echo "  make (sundial | portrait-sundial.pdf)"
+	@echo "  make (pygcode | gcode | grbl | laser | engraver | style)"
+	@echo "  make (azimuth | testAzimuth)"
+	@echo "  make (dist-clean | dist-cal | dist-sundial)"
+	@echo
+	@echo "Options:"
+	@echo "  WIDTH=<cm>                   [default: 61.0]."
+	@echo "  HEIGHT=<cm>                  [default: 29.7]."
+	@echo "  STRAIGHT_STYLUS_LENGTH=<cm>  [default: 6.5]."
 	@echo
 
 PROROOT = ..

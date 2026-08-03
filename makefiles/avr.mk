@@ -36,8 +36,8 @@ all:
 	@echo "HFUSE="$(HFUSE)
 	@echo "LFUSE="$(LFUSE)
 	@echo
-	@echo -n "Usage: make { hex | fuse | flash | verify "
-	@echo $(TARGETS)" }"
+	@echo -n "Usage: make [hex | fuse | flash | verify "
+	@echo $(TARGETS)"]"
 	@echo
 
 include $(PROROOT)/makefiles/ccpp.mk

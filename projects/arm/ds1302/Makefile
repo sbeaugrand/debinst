@@ -24,11 +24,11 @@ ifeq ($(shell uname -m),x86_64)
   CC = $(XC)-gcc
   CXX = $(XC)-g++
   CFLAGS = --sysroot=$(SYSROOT) -nostdinc\
-   -I${SYSROOT}/usr/lib/gcc/${XC}/${XCVER}/include\
+   -I$(SYSROOT)/usr/lib/gcc/$(XC)/$(XCVER)/include\
    -I$(SYSROOT)/usr/include/$(XC)\
 
   CXXFLAGS = --sysroot=$(SYSROOT) -nostdinc\
-   -I${SYSROOT}/usr/lib/gcc/${XC}/${XCVER}/include\
+   -I$(SYSROOT)/usr/lib/gcc/$(XC)/$(XCVER)/include\
    -I$(SYSROOT)/usr/include/$(XC)\
 
   CFLAGS +=\

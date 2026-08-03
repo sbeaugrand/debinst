@@ -13,6 +13,8 @@ factor = 3.3 / (1 << 12)
 sock = socket.socket(type=socket.SOCK_DGRAM)
 sock.settimeout(1)
 sock.sendto(b'coucou', ('192.168.1.200', 1000))
+shift0 = 8
+shift1 = 0
 
 try:
     for i in range(10):

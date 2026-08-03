@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 PROROOT = ../..
 PROPATH = arm
-include ${PROROOT}/makefiles/pro.mk
+include $(PROROOT)/makefiles/pro.mk
 
 OBJECTS = blink.o
 

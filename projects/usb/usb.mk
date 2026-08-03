@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 TARDEPEND += usb
-OBJECTS += ${PROROOT}/usb/libusbpp.a
+OBJECTS += $(PROROOT)/usb/libusbpp.a
 CXXFLAGS += -I$(PROROOT)
 LDFLAGS += -lusb-1.0
 

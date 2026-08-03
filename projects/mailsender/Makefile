@@ -15,8 +15,8 @@ S ?= mail-pr-.supp
 
 .SUFFIXES:
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo
 	@echo "Extract email addresses :"
 	@echo " ./extract.py ~/Mail/recus/"

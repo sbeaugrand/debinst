@@ -14,8 +14,8 @@
 # ---------------------------------------------------------------------------- #
 DOMAIN = windows-10-enterprise-x64-eval_default
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo "Usage: make up"
 	@echo "       make usb"
 	@echo "       gnome-connections  # 192.168.121.xxx"

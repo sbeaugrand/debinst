@@ -10,8 +10,8 @@ PROPATH = wiki
 
 .SUFFIXES:
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo "Usage: make install"
 
 build:
@@ -21,4 +21,4 @@ build:
 install: build
 	@$(PROROOT)/../0install.sh install-op-$(PROJECT).sh
 
-include ${PROROOT}/makefiles/tar.mk
+include $(PROROOT)/makefiles/tar.mk

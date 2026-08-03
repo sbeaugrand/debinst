@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROROOT = ..
-include ${PROROOT}/makefiles/pro.mk
+include $(PROROOT)/makefiles/pro.mk
 
 CFLAGS += -g $(DEFINES)
 ifneq ($(ADC),)
@@ -20,8 +20,8 @@ ifeq ($(MAKECMDGOALS),fft-usb)
  LDFLAGS += -lusb-1.0
 endif
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo
 	@echo "sinus"
 	@echo "  make adc ADC=sinus"

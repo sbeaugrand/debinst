@@ -5,7 +5,7 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROROOT = ..
-include ${PROROOT}/makefiles/pro.mk
+include $(PROROOT)/makefiles/pro.mk
 
 LIB = libusbpp.a
 CXXFLAGS = -DNDEBUG

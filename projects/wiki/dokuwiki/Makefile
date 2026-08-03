@@ -14,11 +14,11 @@ RSYNC = rsync -ti --checksum --rsync-path="sudo rsync"
 
 .SUFFIXES:
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo "Usage:"
 	@echo "  make install"
-	@echo "  make { rdiff | rsync | rauth | rcert }"
+	@echo "  make (rdiff | rsync | rauth | rcert)"
 	@echo "  make clean"
 
 .PHONY: install
@@ -55,4 +55,4 @@ rcert:
 clean:
 	@sudo ./supprOldRev.sh
 
-include ${PROROOT}/makefiles/tar.mk
+include $(PROROOT)/makefiles/tar.mk

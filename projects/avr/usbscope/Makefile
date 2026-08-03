@@ -12,12 +12,12 @@ OBJECTS = $(PROJECT).o x11Scope.o
 FIRMWARE_TARGETS = hex fuse flash verify install
 CPPCHECKINC = -I$(PROROOT) -I$(PROROOT)/wiring
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo
-	@echo -n "Usage: make { $(addsuffix $(empty) $(empty)|,$(FIRMWARE_TARGETS))"
+	@echo -n "Usage: make [$(addsuffix $(empty) |,$(FIRMWARE_TARGETS))"
 	@echo -n " gui | start "
-	@echo $(TARGETS)" }"
+	@echo $(TARGETS)"]"
 	@echo
 
 include $(PROROOT)/makefiles/ccpp.mk

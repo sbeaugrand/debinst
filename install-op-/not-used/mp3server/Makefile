@@ -27,9 +27,9 @@
 ##   make C=pi XC=arm-linux-gnueabihf XCVER=10 oled-message
 # ---------------------------------------------------------------------------- #
 PROROOT = ..
-include ${PROROOT}/makefiles/pro.mk
+include $(PROROOT)/makefiles/pro.mk
 ifeq ($(C),)
- $(error "Usage: make C=<term|pi|rpi>")
+ $(error "Usage: make C=(term|pi|rpi)")
 endif
 user ?= $(USER)
 
@@ -43,11 +43,11 @@ ifneq ($(XC),)
  CC = $(XC)-gcc
  CXX = $(XC)-g++
  CFLAGS = --sysroot=$(SYSROOT) -nostdinc\
-  -I${SYSROOT}/usr/lib/gcc/${XC}/${XCVER}/include\
+  -I$(SYSROOT)/usr/lib/gcc/$(XC)/$(XCVER)/include\
   -I$(SYSROOT)/usr/include/$(XC)\
 
  CXXFLAGS = --sysroot=$(SYSROOT) -nostdinc\
-  -I${SYSROOT}/usr/lib/gcc/${XC}/${XCVER}/include\
+  -I$(SYSROOT)/usr/lib/gcc/$(XC)/$(XCVER)/include\
   -I$(SYSROOT)/usr/include/$(XC)\
 
  CFLAGS +=\

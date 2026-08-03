@@ -39,7 +39,7 @@ endef
 
 .PHONY: all
 all:
-	@echo "Usage: make { $(TARGETS) }"
+	@echo "Usage: make [$(TARGETS)]"
 
 .PHONY: add-ip
 add-ip:

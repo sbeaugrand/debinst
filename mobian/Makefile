@@ -14,10 +14,10 @@ endef
 
 .SUFFIXES:
 
-.PHONY: all
-all:
+.PHONY: help
+help:
 	@echo
-	@echo "Usage: make { rsync | install | ssh | xssh | contacts | dns | upgrade }"
+	@echo "Usage: make [rsync | install | ssh | xssh | contacts | dns | upgrade]"
 	@echo
 
 .PHONY: rsync

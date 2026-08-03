@@ -13,9 +13,9 @@ all:
 	@echo
 	@echo "PROJECT="$(PROJECT)
 	@echo
-	@echo -n "Usage: make { plot | schema | cuivre | composants | simulation"
+	@echo -n "Usage: make [plot | schema | cuivre | composants | simulation"
 	@echo -n " | check | clean "
-	@echo $(TARGETS)" }"
+	@echo $(TARGETS)"]"
 	@echo
 
 .PHONY: plot

@@ -73,8 +73,8 @@ all:
 	@echo "HFUSE="$(HFUSE)
 	@echo "LFUSE="$(LFUSE)
 	@echo
-	@echo -n "Usage: make { hex | fuse | flash | verify | cppcheck "
-	@echo $(TARGETS)" }"
+	@echo -n "Usage: make [hex | fuse | flash | verify | cppcheck "
+	@echo $(TARGETS)"]"
 	@echo
 
 build:
