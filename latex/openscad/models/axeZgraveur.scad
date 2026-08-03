@@ -21,7 +21,15 @@ module chantPlat(l) {
   color("orange") cube([l,cP,cH]);
 }
 
-module boulonPoelier(l) {
+rD=14;
+module rondelle(d1,d2) {
+  color("gray") difference() {
+    cylinder(1,d=d2);
+    translate([0,0,-1]) cylinder(3,d=d1);
+  }
+}
+
+module boulonPoelier(l,e=0,r=0) {
   d=4;
   dk=10;
   k=2.2;
@@ -30,6 +38,12 @@ module boulonPoelier(l) {
     translate([0,0,-k]) intersection() {
       cylinder(k,d=dk);
       translate([0,0,dk]) sphere(dk);
+    }
+    if (e > 0) {
+      translate([0,0,e]) nutHole(d);
+    }
+    if (r > 0) {
+      translate([0,0,r]) rondelle(d,rD);
     }
   }
 }
@@ -49,10 +63,10 @@ module moteur() {
     translate([0,0, motorWidth()/2+3 ]) rotate([-90,0,0]) patte(60);
   }
   e=patteL1(60)+patteL2(60)/2;
-  translate([-cP/2-e,2+0.1,mZ-e]) rotate([90,0,0]) boulonPoelier(20);
-  translate([-cP/2-e,2+0.1,mZ+e]) rotate([90,0,0]) boulonPoelier(20);
-  translate([-cP/2+e,2+0.1,mZ+e]) rotate([90,0,0]) boulonPoelier(20);
-  translate([-cP/2+e,2+0.1,mZ-e]) rotate([90,0,0]) boulonPoelier(20);
+  translate([-cP/2-e,2+0.1,mZ-e]) rotate([90,0,0]) boulonPoelier(20,cH+2+5);
+  translate([-cP/2-e,2+0.1,mZ+e]) rotate([90,0,0]) boulonPoelier(20,cH+2+5);
+  translate([-cP/2+e,2+0.1,mZ+e]) rotate([90,0,0]) boulonPoelier(20,cH+2+5);
+  translate([-cP/2+e,2+0.1,mZ-e]) rotate([90,0,0]) boulonPoelier(20,cH+2+5);
 }
 moteur();
 
@@ -64,23 +78,23 @@ module glissiere() {
     translate([-cP/2,1,mZ]) rotate([90,0,0]) cylinder(cH+2,d=12);
   }
   color("gray") {
-    translate([               0,0.1,0]) rotate([0,0,90]) equerre(40);
-    translate([-cP+equerreP(40),0.1,0]) rotate([0,0,90]) equerre(40);
+    translate([               0,0,0]) rotate([0,0,90]) equerre(30);
+    translate([-cP+equerreP(40),0,0]) rotate([0,0,90]) equerre(40);
   }
-  translate([-equerreP(40)/2,2,equerreL1(40)+equerreL2(40)])
-    rotate([90,0,0]) boulonPoelier(20);
-  translate([-equerreP(40)/2,2,equerreL1(40)])
-    rotate([90,0,0]) boulonPoelier(20);
+  translate([-equerreP(30)/2,2,equerreL1(30)+equerreL2(30)])
+    rotate([90,0,0]) boulonPoelier(12,cH+2);
+  translate([-equerreP(30)/2,2,equerreL1(30)])
+    rotate([90,0,0]) boulonPoelier(12,cH+2);
   translate([equerreP(40)/2-cP,2,equerreL1(40)+equerreL2(40)])
-    rotate([90,0,0]) boulonPoelier(20);
+    rotate([90,0,0]) boulonPoelier(12,cH+2);
   translate([equerreP(40)/2-cP,2,equerreL1(40)])
-    rotate([90,0,0]) boulonPoelier(20);
+    rotate([90,0,0]) boulonPoelier(12,cH+2);
 }
 glissiere();
 
-module supportLaser() {
+module supportLaserBas() {
   e=52;
-  z=80;
+  z=60;
   echo("support laser",ceil(e*2-cP),"=> 70");  // 67 => 70
   l=70;
   translate([-l/2-cP/2,-cH,z-cP/2]) rotate([90,0,0]) {
@@ -94,35 +108,59 @@ module supportLaser() {
       color("orange") translate([18/2,cP/2,-1]) cylinder(cH+2,d=3);
     }
   }
+  translate([-cP/2-l/2+18+5,-cH*2,z]) rotate([-90,0,0]) boulonPoelier(20,cH*2);
+  translate([-cP/2+l/2-18-5,-cH*2,z]) rotate([-90,0,0]) boulonPoelier(20,cH*2);
 }
-supportLaser();
+supportLaserBas();
 
-pX=30-cH*2-0.1;
+module supportLaserHaut() {
+  x=-60;
+  z=200;
+  z1=z+equerreP(60)/2;
+  z2=z+equerreP(60);
+  ll30=equerreL1(30)+equerreL2(30);
+  ll60=equerreL1(60)+equerreL2(60);
+  color("gray") {
+    translate([x,-cH-0.1,z])
+      rotate([90,0,0]) equerre(60);
+    translate([x+2,-ll60-equerreL1(30)-cH-0.1,z])
+      rotate([90,0,90]) equerre(30);
+    translate([x,equerreL1(30)-equerreL1(60)-cH-0.1,z2])
+      rotate([90,180,0]) equerre(30);
+    translate([x-ll30-(140-patteL2(140))/2,2+0.1,z])
+      rotate([90,0,0]) patte(140);
+  }
+  translate([x-ll30,equerreL1(30)-equerreL1(60)-cH-0.1-2,z1])
+    rotate([-90,0, 0]) boulonPoelier(20,16);
+  translate([x+ll60,-cH-2-0.1,z1])
+    rotate([-90,0, 0]) boulonPoelier(20,cH+4+0.1*2);
+  translate([x+4,-ll60-cH-0.1,z1])
+    rotate([0,-90,0]) boulonPoelier(12,4);
+  translate([x+2,-equerreL1(60)-cH-0.1,z1])
+    rotate([0,-90,0]) boulonPoelier(12,5,4);
+  translate([x+2+ll30,2-ll60-equerreL1(30)-cH-0.1,z1])
+    rotate([90,0,0]) boulonPoelier(20,9,8);
+}
+rotate([0,5,0]) supportLaserHaut();
+
+pX=30-cH*2;
 module batonDeGlace() {
   p=11;
   h=2;
-  color("orange") translate([0,cH*2+0.1+pX,0]) difference() {
-    translate([-cP,-p/2+2,-2]) cube([cP,p,h]);
-    translate([-cP/2,0,-h-1]) cylinder(h=h+2,d=3.5);
+  translate([-cP/2,cH*2+pX,0]) rotate([0,0,-25]) difference() {
+    translate([0,0,-h/2]) cube([40,p,h],center=true);
+    translate([0,0,-h-1]) cylinder(h=h+2,d=3.5);
   }
-  translate([-equerreP(40)/2,equerreL1(40)+equerreL2(40)+0.1,-2])
-    boulonPoelier(20);
-  translate([equerreP(40)/2-cP,equerreL1(40)+equerreL2(40)+0.1,-2])
-    boulonPoelier(20);
+  translate([-equerreP(30)/2,equerreL1(30)+equerreL2(30),-2])
+    boulonPoelier(12,h+2+1,h+2);
+  translate([equerreP(40)/2-cP,equerreL1(40)+equerreL2(40),-2])
+    boulonPoelier(12,h+2+1,h+2);
 }
 batonDeGlace();
 
 /******************************************************************************!
  * Elements mobiles
  ******************************************************************************/
-rD=14;
-module rondelle(d1,d2) {
-  color("gray") difference() {
-    cylinder(1,d=d2);
-    translate([0,0,-1]) cylinder(3,d=d1);
-  }
-}
-
 bD=24;
 module boutonRotatif() {
   translate([-grH/2-1,pX,grB]) rotate([0,90,0]) cylinder(grH+2,d=bD);
@@ -148,9 +186,9 @@ module palier() {
   translate([-cP/2-pL/2, cH,0]) rotate([90,0,0]) chantPlat(pL);
   translate([-cP*2     ,-cH,0]) rotate([90,0,0]) chantPlat(cP*3);
   translate([equerreL1(eq)+equerreL2(eq),cH+2,cP/2])
-    rotate([90,0,0]) boulonPoelier(20);
+    rotate([90,0,0]) boulonPoelier(12,cH+2);
   translate([-equerreL1(eq)-equerreL2(eq)-cP,cH+2,cP/2])
-    rotate([90,0,0]) boulonPoelier(20);
+    rotate([90,0,0]) boulonPoelier(12,cH+2);
 }
 translate([0,0,eZ-cP/2]) palier();
 
@@ -199,22 +237,24 @@ module trapeze() {
 module graveur() {
   iH=133;
   pointe();
-  translate([0,4+0.1,grL]) rotate([-90,0,0]) rondelle(4,rD);
-  translate([0,-cH,grL]) rotate([-90,0,0]) boulonPoelier(20);
+  translate([0,-cH,grL]) rotate([-90,0,0]) boulonPoelier(20,cH);
+  translate([0,3,grL]) rotate([-90,0,0]) rondelle(4,rD);
+  translate([0,5,grL]) rotate([-90,0,0]) rondelle(4,rD);
+  color("silver") translate([0,9,grL]) rotate([90,0,0]) nutHole(4);
   color([0.5,0.5,0.5,0.3]) union() {
     intersection() {
       union() {
         translate([-grH/2,0,pH]) cube([grH,grP,iH]);
-        translate([0,4,grL-rD/2])
-          rotate([90,0,0]) scale([1,1.2,1]) cylinder(4,d=34);
+        translate([0,6,grL-rD/2])
+          rotate([90,0,0]) scale([1,1.2,1]) cylinder(3,d=34);
         boutonRotatif();
       }
-      translate ([0,pX,pH+0.1]) cylinder(grL,d1=21,d2=65);
+      translate ([0,pX,pH]) cylinder(grL,d1=21,d2=65);
     }
     intersection() {
-      translate([-cP/2,0,iH+pH]) rotate([90,0,90]) trapeze();
-      translate([0,grP/2,iH+pH-6]) sphere(27);
+      translate([-cP/2,-3,iH+pH]) rotate([90,0,90]) trapeze();
+      translate([0,grP/2,iH+pH-6]) sphere(23);
     }
   }
 }
-translate([-cP/2,cH*2+0.1,grZ]) graveur();
+translate([-cP/2,cH*2,grZ]) graveur();
