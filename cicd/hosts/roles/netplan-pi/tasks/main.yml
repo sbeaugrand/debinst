@@ -1,0 +1,39 @@
+# ---------------------------------------------------------------------------- #
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+---
+- name: /etc/netplan/armbian.yaml
+  blockinfile:
+    path: /etc/netplan/armbian.yaml
+    create: yes
+    block: |
+      network:
+        version: 2
+        ethernets:
+          controllerROCKPIS:
+            match:
+              name: end*
+            dhcp4: false
+            addresses:
+              - 192.168.0.18/24
+            routes:
+              - to: default
+                via: 192.168.0.254
+            nameservers:
+              addresses:
+                - 8.8.8.8
+                - 8.8.4.4
+    mode: 0600
+  notify:
+    - netplan generate
+  become: yes
+
+- name: remove 10-dhcp-all-interfaces.yaml
+  file:
+    path: /etc/netplan/10-dhcp-all-interfaces.yaml
+    state: absent
+  notify:
+    - netplan generate
+  become: yes

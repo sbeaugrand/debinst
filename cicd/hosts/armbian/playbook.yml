@@ -24,3 +24,8 @@
         directory: /mnt/mp3
     - projects-pi
     #- somfi-pi
+    #- netplan-pi
+  handlers:
+    - name: netplan generate
+      command: netplan generate
+      become: yes
