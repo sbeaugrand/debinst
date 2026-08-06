@@ -6,12 +6,12 @@
 ;; \copyright CeCILL 2.1 Free Software license
 ;; \note https://hoperf.com/uploads/
 ;;        AN112_CMT2150A_Configuration_Guideline_1695629627.pdf page 11
-;;       3 Symbols/Bit   __                 _____
-;;                      |  |__|__|         |  |  |__|
-;;       4 Symbols/Bit   __                 ________
-;;                      |  |__|__|__|      |  |  |  |__|
-;;       5 Symbols/Bit   _____              ________
-;;                      |  |  |__|__|__|   |  |  |  |__|__|
+;;       3 Symbols/Bit      __                    _____
+;;                      1: |  |__|__|         0: |  |  |__|
+;;       4 Symbols/Bit      __                    ________
+;;                      0: |  |__|__|__|      1: |  |  |  |__|
+;;       5 Symbols/Bit      _____                 ________
+;;                      1: |  |  |__|__|__|   0: |  |  |  |__|__|
 ; ---------------------------------------------------------------------------- ;
 .pio_version 0
 

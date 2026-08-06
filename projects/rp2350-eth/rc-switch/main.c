@@ -21,11 +21,11 @@ uint gSm;
 
 void send(uint32_t k)
 {
-    pio_sm_put_blocking(gPio, gSm, k << (32 - rc_switch_LEN));
+    pio_sm_put_blocking(gPio, gSm, ~k << (32 - rc_switch_LEN));
     sleep_us(1000 + rc_switch_LEN * 150);
-    pio_sm_put_blocking(gPio, gSm, k << (32 - rc_switch_LEN));
+    pio_sm_put_blocking(gPio, gSm, ~k << (32 - rc_switch_LEN));
     sleep_us(1000 + rc_switch_LEN * 150);
-    pio_sm_put_blocking(gPio, gSm, k << (32 - rc_switch_LEN));
+    pio_sm_put_blocking(gPio, gSm, ~k << (32 - rc_switch_LEN));
     sleep_us(1000 + rc_switch_LEN * 150);
 }
 
