@@ -1,6 +1,5 @@
 ```console
 localhost> curl -OL https://github.com/torvalds/linux/raw/refs/heads/master/tools/spi/spidev_test.c
-localhost> curl -OL https://github.com/radxa/overlays/raw/refs/heads/main/arch/arm64/boot/dts/rockchip/overlays/rk3308-spi2-spidev.dts
  rockpi-s> ssh $USER@rockpi
  rockpi-s> rw
 localhost> scp *.py *.c *.dts $USER@rockpi:

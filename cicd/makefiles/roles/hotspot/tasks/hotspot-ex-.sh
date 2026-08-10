@@ -10,7 +10,7 @@ ipE1a=10.66.0.113
 ipE1b=10.66.0.152
 ipE2a=10.66.0.39
 ipE2b=10.66.0.170
-ipE3a=10.66.0.67
+ipE3a=10.66.0.212
 ipE3b=10.66.0.70
 
 setup()
@@ -21,6 +21,7 @@ setup()
         block $ip www.youtube
         block $ip www.tiktok
         block $ip www.temu
+        block $ip www.instagram
     done
     unblockAfter 18 00 $ipE1a "enfant1"
     unblockAfter 18 00 $ipE2a "enfant2"
@@ -31,6 +32,14 @@ setup()
 
 loop()
 {
-    blockAfter 40 $ipE1a "Enfant1 game.brawlstarsgame.com" "Enfant1 40"
-    blockAfter 20 $ipE2a "Enfant2 game.brawlstarsgame.com" "Enfant2 20"
+    # 6e  => 20 min
+    # 5e  => 30 min
+    # 4e  => 40 min
+    # 3e  => 50 min
+    # 2nd => 1 h
+    blockAfter 50 $ipE1a "Enfant1 game.brawlstarsgame.com" "Enfant1 50"
+    blockAfter 30 $ipE2a "Enfant2 game.brawlstarsgame.com" "Enfant2 30"
+    blockAfter 30 $ipE2a "Enfant2 poki.com" "Enfant2 30"
+    blockAfter 70 $ipE3a "Enfant3 fr.pinterest.com" "Enfant3 70"
+    blockAfter 70 $ipE3a "Enfant3 anime-sama"       "Enfant3 70"
 }

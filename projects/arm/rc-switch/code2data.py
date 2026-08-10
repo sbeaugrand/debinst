@@ -40,6 +40,8 @@ for i in range(len(data)):
         push(HIGH if data[i] & (1 << j) else LOW)
 if k < 7:
     buff.append(v)
+buff.extend([0] * (-(1000 // -150) * 7 - 12))  # delay 1 ms
+# (1000 us, 150 us per bit, 7 bytes per bit, adjusted by -12 bytes for the loop)
 
 if __name__ == "__main__":
     for v in buff:

@@ -138,8 +138,8 @@ module supportLaserHaut() {
     rotate([0,-90,0]) boulonPoelier(12,4);
   translate([x+2,-equerreL1(60)-cH-0.1,z1])
     rotate([0,-90,0]) boulonPoelier(12,5,4);
-  translate([x+2+ll30,2-ll60-equerreL1(30)-cH-0.1,z1])
-    rotate([90,0,0]) boulonPoelier(20,9,8);
+  translate([x+2+ll30,-7-ll60-equerreL1(30)-cH-0.1,z1])
+    rotate([-90,0,0]) boulonPoelier(20,10,9);
 }
 rotate([0,5,0]) supportLaserHaut();
 
