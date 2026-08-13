@@ -29,20 +29,6 @@
 % sundial
 % ---------------------------------------------------------------------------- %
 \newcommand\sundial{
-  \ifdim\horizon<1cm
-    \draw (-0.1,\sousStylaire) -- (0.1,\sousStylaire);
-    \draw (0,0) -- (0,\sousStylaire);
-  \else
-    \draw (-0.2,0) -- (0.2,0);
-    \draw (0,-0.2) -- (0,0.2);
-  \fi
-  \draw (-\width/2,\horizon) -- (\width/2,\horizon);
-  \ifdim\width>59cm
-    \draw (-\width/2,\ymin) -- (-\width/2,\sousStylaire);
-    \draw (-\width/6,\ymin) -- (-\width/6,\sousStylaire);
-    \draw (\width/6,\ymin) -- (\width/6,\sousStylaire);
-    \draw (\width/2,\ymin) -- (\width/2,\sousStylaire);
-  \fi
   %\clip (-\width/2,\ymin) rectangle (\width/2,0);
   \analemma{06}{7}{8}
   \analemmaThin{06_5}
@@ -79,6 +65,20 @@
 \begin{tikzpicture}
   \clip (-\width/2,\ymin) rectangle (\width/2,\sousStylaire);
   \sundial
+  \ifdim\horizon<1cm
+    \draw (-0.1,\sousStylaire) -- (0.1,\sousStylaire);
+    \draw (0,0) -- (0,\sousStylaire);
+  \else
+    \draw (-0.2,0) -- (0.2,0);
+    \draw (0,-0.2) -- (0,0.2);
+  \fi
+  \draw (-\width/2,\horizon) -- (\width/2,\horizon);
+  \ifdim\width>59cm
+    \draw (-\width/2,\ymin) -- (-\width/2,\sousStylaire);
+    \draw (-\width/6,\ymin) -- (-\width/6,\sousStylaire);
+    \draw (\width/6,\ymin) -- (\width/6,\sousStylaire);
+    \draw (\width/2,\ymin) -- (\width/2,\sousStylaire);
+  \fi
 \end{tikzpicture}
 \ifdim\width>59cm
   \newpage

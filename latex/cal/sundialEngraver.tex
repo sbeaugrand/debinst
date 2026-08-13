@@ -25,15 +25,10 @@
 
 \input{analemma}
 
+% ---------------------------------------------------------------------------- %
+% sundial
+% ---------------------------------------------------------------------------- %
 \newcommand\sundial{
-  \draw (-\width/2+2mm,\horizon) -- (\width/2-2mm,\horizon);
-  \ifdim\horizon<1cm
-    \draw (0,0) -- (0,\sousStylaire);
-    %\draw (-0.1,\sousStylaire) -- (0.1,\sousStylaire);
-  \else
-    \draw (-0.2,0) -- (0.2,0);
-    \draw (0,-0.2) -- (0,0.2);
-  \fi
   \analemmaThick{06}
   \analemmaThick{07}
   \analemmaThick{08}
@@ -74,6 +69,9 @@
   \decorations{18}{19}{20}
 }
 
+% ---------------------------------------------------------------------------- %
+% main
+% ---------------------------------------------------------------------------- %
 \begin{document}
 \fontencoding{T1}\fontfamily{frc}\selectfont
 \Huge
@@ -83,7 +81,17 @@
   \sundial
   \input decorations
   \input decorations_5
-  \draw (0,\ymin+70) node {La vérité n'a pas d'heure};
+  \ifdim\horizon<1cm
+    \draw (0,0) -- (0,\sousStylaire);
+  \else
+    \draw (-0.2,0) -- (0.2,0);
+    \draw (0,-0.2) -- (0,0.2);
+  \fi
+  \draw (-\width/2+2mm,\horizon) -- (\width/2-2mm,\horizon);
+  \draw (0,\ymin+80) node
+    %{La vérité n'a pas d'heure};
+    %{Nunc est bibendum};
+    {Zum Raum wird hier die Zeit};
 \end{tikzpicture}
 
 \end{document}

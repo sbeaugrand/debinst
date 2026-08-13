@@ -25,15 +25,10 @@
 
 \input{analemma}
 
+% ---------------------------------------------------------------------------- %
+% sundial
+% ---------------------------------------------------------------------------- %
 \newcommand\sundial{
-  \draw (-\width/2+2mm,\horizon) -- (\width/2-2mm,\horizon);
-  \ifdim\horizon<1cm
-    \draw (0,0) -- (0,\sousStylaire);
-    \draw (-0.1,\sousStylaire) -- (0.1,\sousStylaire);
-  \else
-    \draw (-0.2,0) -- (0.2,0);
-    \draw (0,-0.2) -- (0,0.2);
-  \fi
   \analemma{06}{7}{8}
   \analemma{07}{8}{9}
   \analemma{08}{9}{10}
@@ -49,6 +44,9 @@
   \analemma{18}{19}{20}
 }
 
+% ---------------------------------------------------------------------------- %
+% main
+% ---------------------------------------------------------------------------- %
 \begin{document}
 \fontencoding{T1}\fontfamily{frc}\selectfont
 \Huge
@@ -57,6 +55,14 @@
   \draw[blue, very thin] (\width/2,\sousStylaire) rectangle (-\width/2,\ymin);
   \sundial
   \input decorations
+  \ifdim\horizon<1cm
+    \draw (0,0) -- (0,\sousStylaire);
+    \draw (-0.1,\sousStylaire) -- (0.1,\sousStylaire);
+  \else
+    \draw (-0.2,0) -- (0.2,0);
+    \draw (0,-0.2) -- (0,0.2);
+  \fi
+  \draw (-\width/2+2mm,\horizon) -- (\width/2-2mm,\horizon);
 \end{tikzpicture}
 
 \end{document}
