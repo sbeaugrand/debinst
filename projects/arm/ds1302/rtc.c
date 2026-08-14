@@ -9,9 +9,9 @@
 #include "ds1302.h"
 #include "wiring.h"
 
-#define PIN_CLK 23
-#define PIN_DAT 21
-#define PIN_RST 19
+#define PIN_CLK 12
+#define PIN_DAT 16
+#define PIN_RST 18
 
 // wiringPi/devLib/ds1302.c
 #define RTC_SECS 0

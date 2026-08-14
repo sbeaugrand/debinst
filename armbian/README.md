@@ -5,7 +5,7 @@
 sha256sum -c Armbian_community_26.2.0-trunk.22_Nanopineo_trixie_current_6.12.58_minimal.img.xz.sha
 ```
 ## [Nanopi Neo 2](https://www.armbian.com/nanopi-neo-2/)
-![Nanopi Neo 2](https://cdn.armbian.com/wp-content/uploads/2018/02/nanopineo2-300x169.png)
+![Nanopi Neo 2](https://armbian.com/api/v1/images/boards/480/nanopineo2.png)
 ```sh
 sha256sum -c Armbian_community_26.2.0-trunk.22_Nanopineo2_trixie_current_6.12.58_minimal.img.xz.sha
 ```

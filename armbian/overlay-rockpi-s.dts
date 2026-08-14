@@ -9,59 +9,20 @@
         __overlay__ {
             gpio-line-names =
                 /* A */ "", "", "", "", "", "", "", "",
-                /* B */ "", "", "", "pin3", "pin5", "", "", "pin11",
+                /* B */ "", "", "", "", "", "", "", "pin11",
                 /* C */ "pin13", "pin15", "", "", "", "", "", "",
                 /* D */ "", "", "", "", "", "", "", "";
         };
     };
 
     fragment@1 {
-        target = <&gpio1>;
-        __overlay__ {
-            gpio-line-names =
-                "", "", "", "", "", "", "", "",
-                "", "", "", "", "", "", "", "",
-                "", "", "", "", "", "", "pin21", "pin19",
-                "pin23", "pin24", "", "", "", "", "", "";
-        };
-    };
-
-    fragment@2 {
         target = <&gpio2>;
         __overlay__ {
             gpio-line-names =
-                "pin10", "pin8", "", "", "pin7", "pin12", "", "pin22",
+                "", "", "", "", "pin7", "pin12", "", "",
                 "", "pin18", "pin16", "", "", "", "", "",
                 "", "", "", "", "", "", "", "",
                 "", "", "", "", "", "", "", "";
-        };
-    };
-
-    fragment@3 {
-        target = <&uart1>;
-        __overlay__ {
-            status = "disabled";
-        };
-    };
-
-    fragment@4 {
-        target = <&uart2>;
-        __overlay__ {
-            status = "disabled";
-        };
-    };
-
-    fragment@5 {
-        target = <&uart4>;
-        __overlay__ {
-            status = "disabled";
-        };
-    };
-
-    fragment@6 {
-        target = <&spi2>;
-        __overlay__ {
-            status = "disabled";
         };
     };
 };

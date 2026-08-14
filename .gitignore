@@ -8,6 +8,7 @@ build-*
 *.dtbo
 *.bck
 *-bak
+*.bak
 *rescue*
 *-cache*
 *.ps
