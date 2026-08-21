@@ -251,6 +251,7 @@ netcat-traditional
 libc6-i386
 sudo
 network-manager-gnome
+lastlog2
 wpasupplicant  # wifi
 #polkitd-pkla  # hotspot permissions
 tcpdump

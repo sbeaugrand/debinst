@@ -4,6 +4,10 @@
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  * \note sudo apt install openscad-mcad
+ *
+ *       Transmission par un brin de paracorde avec :
+ *       - un noeud de chaise cote' graveur;
+ *       - un noeud de cabestan cote' arbre moteur.
  ******************************************************************************/
 include </usr/share/openscad/libraries/MCAD/stepper.scad>;
 include </usr/share/openscad/libraries/MCAD/nuts_and_bolts.scad>;
@@ -53,10 +57,14 @@ module boulonPoelier(l,e=0,r=0) {
  ******************************************************************************/
 mZ=240+motorWidth()/2;
 module moteur() {
-  module arbre() {
-    translate([-cP/2,6.2,mZ]) rotate([-90,0,0]) cylinder(20,d=6.4);
+  module prolongementDArbre() {
+    translate([-cP/2,11.8,mZ]) rotate([-90,0,0]) cylinder(20,d=6.35);
   }
-  color("gray") arbre();
+  color("gray") prolongementDArbre();
+  module tuyau() {  // Tuyau en cahoutchouc d'une pompe
+    translate([-cP/2,0.1,mZ]) rotate([-90,0,0]) cylinder(30,d=11);
+  }
+  color("black") tuyau();
   motor(pos=[-cP/2,-cH-0.1,mZ],orientation=[90,0,0]);
   color("gray") translate([-cP/2-60/2,0.1,mZ]) {
     translate([0,0,-motorWidth()/2+12]) rotate([-90,0,0]) patte(60);

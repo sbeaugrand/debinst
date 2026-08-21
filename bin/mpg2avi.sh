@@ -17,21 +17,25 @@ lavcopts="\
 vcodec=mpeg4:vbitrate=$vbitrate:vhq:v4mv:trell:vqmin=2:\
 o=luma_elim_threshold=-4:\
 o=chroma_elim_threshold=9:lumi_mask=0.05:dark_mask=0.01"
-vfilters=${vf:-pp=fd,scale=720:400}
+vfilters=${vf:-yadif=0,scale=720:400}
 src="$1"
 dst="${1%.*}.avi"
+shift
 
 encode()
 {
     pass=$1
-    aq=$2
+    shift
+    aq=$1
+    shift
     mencoder "$src"\
      -ovc lavc    -lavcopts vpass=$pass:$lavcopts\
      -oac mp3lame -lameopts cbr:br=$abitrate:aq=$aq\
      -ffourcc DIVX\
      -vf $vfilters\
-     -o "$dst"
+     -o "$dst"\
+     $*
 }
 
-encode 1 9
-encode 2 0
+encode 1 9 $*
+encode 2 0 $*

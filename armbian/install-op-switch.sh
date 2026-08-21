@@ -1,30 +1,29 @@
 # ---------------------------------------------------------------------------- #
-## \file install-op-mps.sh
+## \file install-op-switch.sh
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 file=/etc/lirc/irexec.lircrc
-if notGrep "toggle" $file; then
+if notGrep "switch" $file; then
     touch $file
     cat >>$file <<EOF
 begin
     prog   = irexec
-    button = KEY_PLAYPAUSE
-    config = /usr/bin/mps-toggle.sh
+    button = KEY_1
+    config = $home/install/debinst/projects/arm/rc-switch/rc-pr-switch.sh 1
+end
+begin
+    prog   = irexec
+    button = KEY_2
+    config = $home/install/debinst/projects/arm/rc-switch/rc-pr-switch.sh 2
+end
+begin
+    prog   = irexec
+    button = KEY_3
+    config = $home/install/debinst/projects/arm/rc-switch/rc-pr-switch.sh 3
 end
 EOF
-fi
-
-dir=/mnt/mp3
-if notDir $dir; then
-    mkdir $dir
-    chown $user:$user $dir
-fi
-
-file=/usr/bin/mps-toggle.sh
-if notFile $file; then
-    cp mps-pr-toggle.sh $file
 fi
 
 if ! systemctl -q is-enabled irexec 2>>$log; then

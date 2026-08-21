@@ -15,7 +15,8 @@ help:
 	@echo
 	@echo "Usage:"
 	@echo "  make (ssh | rsync) [user=<user>] [host=<host>] [shutter=(y|n)]"
-	@echo "  make (install | volume | lirc | rtc | oled | mps | shutter)"
+	@echo "  make install"
+	@echo "  make (volume | lirc | rtc | oled | mps | shutter | switch)"
 	@echo
 	@echo "Options:"
 	@echo "  user=<user>    [default: $(USER)]."
@@ -52,6 +53,9 @@ mps: install-op-mps.sh install-pr-mps.sh
 
 .PHONY: shutter
 shutter: install-op-shutter.sh
+
+.PHONY: switch
+switch: install-op-switch.sh
 
 install-%.sh: FORCE
 	@../0install.sh --root $@

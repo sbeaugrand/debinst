@@ -129,6 +129,16 @@ sudo reboot
 </details>
 
 <details>
+  <summary>RC-switch</summary>
+
+  ```sh
+  cp ../projects/arm/rc-switch/rc-ex-switch.sh ../projects/arm/rc-switch/rc-pr-switch.sh
+  make switch
+  ```
+  [RC-switch](../projects/arm/rc-switch/README.md)
+</details>
+
+<details>
   <summary>Cleanup</summary>
 
   ```sh

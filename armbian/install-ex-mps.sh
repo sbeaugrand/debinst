@@ -9,8 +9,6 @@ if ! isDir /mnt/mp3/mp3; then
 
 Todo :
 sudo mount /dev/sda1 /mnt/mp3
-../0install.sh install-op-mpd.sh
-sudo umount /mnt/mp3
 
 EOF
 fi
