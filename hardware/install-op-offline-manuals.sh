@@ -12,6 +12,7 @@ install-op-/install-op-cmake-manual.sh
 install-op-/install-op-gcode-manual.sh
 install-op-/install-op-gnumake-manual.sh
 install-op-/install-op-markdown-manual.sh
+install-op-/install-op-matplotlib-manual.sh
 install-op-/install-op-openscad-manual.sh
 install-op-/install-op-tikz-manual.sh
 install-op-/install-op-yaml-manual.sh
