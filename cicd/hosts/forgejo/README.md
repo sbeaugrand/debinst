@@ -52,7 +52,6 @@ gpg --verify forgejo-runner-$VERSION-linux-amd64.asc forgejo-runner-$VERSION-lin
 sudo cp forgejo-runner-$VERSION-linux-amd64 /usr/local/bin/forgejo-runner
 sudo chmod 755 /usr/local/bin/forgejo-runner
 cd -
-make config
 ```
 
 ## Register
@@ -60,6 +59,7 @@ make config
 # https://code.forgejo.org/forgejo/runner/src/branch/main/examples/docker-compose
 SECRET=`openssl rand -hex 20`
 sudo su -c "forgejo forgejo-cli actions register --keep-labels --secret $SECRET" forgejo
+make config
 forgejo-runner create-runner-file -c build/config.yml --connect --instance http://172.18.0.1:3000 --name runner --secret $SECRET
 make
 ```

@@ -6,6 +6,7 @@
  ******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "ds1302.h"
 #include "wiring.h"
 
@@ -102,7 +103,19 @@ main(int argc, char* argv[])
     ds1302setup(PIN_CLK, PIN_DAT, PIN_RST);
 
     if (argc == 2) {
-        ret = setDSclock(argv[1]);
+        if (strcmp(argv[1], "-c") == 0) {
+            int clock[8];
+            ds1302clockRead(clock);
+            fprintf(stdout, "20%02d-%02d-%02dT%02d:%02d\n",
+                    BCD2HEX(clock[RTC_YEAR], 0xFF),
+                    BCD2HEX(clock[RTC_MONTH], 0x1F),
+                    BCD2HEX(clock[RTC_DATE], 0x3F),
+                    BCD2HEX(clock[RTC_HOURS], 0x3F),
+                    BCD2HEX(clock[RTC_MINS], 0x7F));
+            ret = 0;
+        } else {
+            ret = setDSclock(argv[1]);
+        }
     } else {
         ret = setLinuxClock();
     }

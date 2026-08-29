@@ -11,7 +11,7 @@ runner:
 .PHONY: config
 config: build build/config.yml
 build/config.yml: build/generated.yml
-	@patch -p0 -i config.patch
+	@patch -p0 -i config.patch -o $@
 build/generated.yml:
 	@forgejo-runner generate-config >$@
 

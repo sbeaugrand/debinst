@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <variant>
 #include <csignal>
+#include <fstream>
 #include <stdlib.h>
 #include <argp.h>
 #include "Input.h"
@@ -66,8 +67,7 @@ using Event = std::variant<event::Up,
 State
 drawDate(int isDay)
 {
-    char line1[6];
-    char line2[6];
+    char line[6];
     time_t tOfTheDay;
     const struct tm* tmOfTheDay;
 
@@ -75,17 +75,18 @@ drawDate(int isDay)
     tmOfTheDay = ::localtime(&tOfTheDay);
 
     if (isDay) {
-        ::strftime(line1, sizeof(line1), "%dX%m", tmOfTheDay);
-        *line2 = '\0';
-    } else {
-        ::strftime(line2, sizeof(line2), "%H:%M", tmOfTheDay);
-        *line1 = '\0';
-    }
-    gOutput->write("", line1, line2, "");
-
-    if (isDay) {
+        ::strftime(line, sizeof(line), "%dX%m", tmOfTheDay);
+        gOutput->write(line,
+                       "    +1month",
+                       " -1day OK +1day",
+                       "    -1month");
         return state::Date{};
     } else {
+        ::strftime(line, sizeof(line), "%H:%M", tmOfTheDay);
+        gOutput->write(line,
+                       "     +1hour",
+                       " -1min OK +1min",
+                       "     -1hour");
         return state::Hour{};
     }
 }
@@ -212,8 +213,21 @@ onEvent(const state::Hour&, const event::Right&) {
 }
 State
 onEvent(const state::Hour&, const event::Ok&) {
-    gOutput->screensaver();
-    return state::Normal{};
+    if (::system("sudo /usr/sbin/rtc -c >/tmp/rtc.out") == 0) {
+        std::ifstream infile("/tmp/rtc.out");
+        std::string datetime;
+        infile >> datetime;
+        gOutput->write(datetime,
+                       "     reboot",
+                       "date cancel rtc",
+                       "      halt");
+    } else {
+        gOutput->write("error: rtc -c",
+                       "     reboot",
+                       "date cancel rtc",
+                       "      halt");
+    }
+    return state::Menu{};
 }
 
 class Machine

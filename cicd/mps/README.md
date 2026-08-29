@@ -155,7 +155,7 @@ stateDiagram
     Date --> Date: dir
     Date --> Hour: ok
     Hour --> Hour: dir
-    Hour --> Normal: ok
+    Hour --> Menu: ok
 ```
 
 # [Main sequence diagram](README-0.md)
