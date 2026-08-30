@@ -11,7 +11,7 @@
 # ---------------------------------------------------------------------------- #
 if [ -z "$3" ]; then
     echo "Usage: `basename $0` <addr> <code> (open | close | stop | register)"
-    echo "Ex:    $0 0x123456 12346 open"
+    echo "Ex:    $0 0xca61b1 12345 open"
     exit 1
 fi
 addr=$1

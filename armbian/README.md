@@ -123,8 +123,7 @@ sudo reboot
   ```sh
   journalctl -u shutter*
   sudo systemctl status shutter.service
-  systemctl status shutter-open.timer
-  systemctl status shutter-close.timer
+  systemctl status shutter-*.timer
   ```
 </details>
 

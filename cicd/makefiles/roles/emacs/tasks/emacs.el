@@ -38,7 +38,7 @@
 ; Apparence
 (tool-bar-mode 0)
 (defun frame-setup ()
-  ; Résolution
+  ; Resolution
   (setq x-width  (string-to-number (shell-command-to-string
     "xrdb -symbols | grep DWIDTH  | cut -d '=' -f 2")))
   (setq x-height (string-to-number (shell-command-to-string
@@ -142,6 +142,7 @@
 (add-hook          'html-mode-hook 'indent2)
 (add-hook          'scad-mode-hook 'indent2)
 (add-hook           'awk-mode-hook 'indent4)
+(add-hook           'asm-mode-hook 'indent4)
 (setq cmake-tab-width 4)
 (setq js-indent-level 2)
 
@@ -172,6 +173,7 @@
 (add-to-list 'auto-mode-alist '( ".pri$"    . makefile-mode))
 (add-to-list 'auto-mode-alist '( "Makefile" . makefile-mode))
 (add-to-list 'auto-mode-alist '( ".ino$"    . c++-mode))
+(add-to-list 'auto-mode-alist '( ".pio$"    . asm-mode))
 
 ; Indent
 (defun indent (pmin pmax)

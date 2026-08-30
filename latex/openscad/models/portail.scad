@@ -67,7 +67,7 @@ pPivot=5.4;
 hPivot=11.5;
 ePivot=2;
 zPivot=hE-hJoint-hPivot;
-hAxe=1.3;
+hAxe=1;
 hNylon=0.5;
 eS=(100-hS*4)/3;
 pG=3;
@@ -105,7 +105,7 @@ module pivot() {
     cube([0.4,pPivot,hPivot]);
   }
   color("lightgrey")
-    translate([pG+pG/2,pPivot/2,ePivot]) cylinder(hAxe,d=2);
+    translate([pG+pG/2,pPivot/2,ePivot]) cylinder(hAxe,d=2.5,$fn=6);
 }
 
 module portail(l,s) {
@@ -115,9 +115,9 @@ module portail(l,s) {
       translate([pG/2,0,zG+hG-hS-(hS+eS)*i]) solivette(l-pG*2);
   }
   color("black") rotate([0,0,a]) translate([0,0,zG]) {
-    z=hG+hS+eS+hNylon*2;
-    translate([   0,0,100/2-hS-eS-hNylon]) cube([pG,pG,z],center=true);
-    translate([l-pG,0,100/2-hS-eS-hNylon]) cube([pG,pG,z],center=true);
+    h=hG+hS+eS+hNylon*2;
+    translate([   0,0,100/2-hS-eS]) cube([pG,pG,h],center=true);
+    translate([l-pG,0,100/2-hS-eS]) cube([pG,pG,h],center=true);
   }
   translate([-pG-pG/2,-pPivot/2,zPivot]) pivot();
   translate([-pG-pG/2, pPivot/2,hG+zG+ePivot+hAxe+hNylon])

@@ -6,7 +6,6 @@
 # ---------------------------------------------------------------------------- #
 user ?= $(USER)
 host ?= pi
-shutter ?= y
 
 .SUFFIXES:
 
@@ -14,23 +13,18 @@ shutter ?= y
 help:
 	@echo
 	@echo "Usage:"
-	@echo "  make (ssh | rsync) [user=<user>] [host=<host>] [shutter=(y|n)]"
+	@echo "  make ssh [user=<user>] [host=<host>]"
 	@echo "  make install"
 	@echo "  make (volume | lirc | rtc | oled | mps | shutter | switch)"
 	@echo
 	@echo "Options:"
 	@echo "  user=<user>    [default: $(USER)]."
 	@echo "  host=<host>    [default: pi]."
-	@echo "  shutter=(y|n)  [default: y]."
 	@echo
 
 .PHONY: ssh
 ssh:
 	@ssh $(user)@$(host); true
-
-.PHONY: rsync
-rsync:
-	@cd .. && user=$(user) host=$(host) shutter=$(shutter) ./armbian.sh
 
 .PHONY: install
 install:

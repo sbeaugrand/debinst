@@ -1,0 +1,11 @@
+volet 0xca61b1 12345
+mpc update
+rm mps.list
+sudo systemctl restart mpserver
+sudo /usr/sbin/rtc `date +%FT%Tw%w`
+$HOME/install/debinst/projects/arm/rc-switch/rc-pr-switch.sh 1
+journalctl -u shutter*
+sudo systemctl status shutter.service
+systemctl status shutter-*.timer
+cat /run/shutter.at
+history
