@@ -1,1 +1,1 @@
-pigpio-gpio.py
+pigpio-spi.py
