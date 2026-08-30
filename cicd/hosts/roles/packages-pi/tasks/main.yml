@@ -36,7 +36,7 @@
       - i2c-tools
       - swig  # mraa python
       - python3-dev  # mraa python
-      - python3-spidev  # rc-switch
+      - python3-pip  # rc-switch
       - gpiod
       - libgpiod-dev
       - pkg-config
