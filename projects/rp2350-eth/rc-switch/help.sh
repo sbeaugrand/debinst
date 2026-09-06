@@ -1,4 +1,9 @@
-cd ..
+if [ -f `basename $0` ]; then
+    dir=.
+else
+    dir=..
+    cd ..
+fi
 make help
 
 echo "# Test" | grep --color ".*"

@@ -30,13 +30,21 @@
       - vim
   become: yes
 
-- name: remove EXTERNALLY-MANAGED file
+# https://ibug.io/blog/2026/04/python-venv-at-home/
+- name: python venv at home
+  lineinfile:
+    path: "{{ home }}/.local/pyvenv.cfg"
+    line: include-system-site-packages = true
+
+- name: "{{ home }}/.local/bin/python3"
   file:
-    path: /usr/lib/python{{ ansible_facts["python"]["version"]["major"] }}.{{ ansible_facts["python"]["version"]["minor"] }}/EXTERNALLY-MANAGED
-    state: absent
-  become: yes
+    path: "{{ home }}/.local/bin/python3"
+    src: /usr/bin/python3
+    state: link
 
 - name: install python packages
   pip:
     name:
+      - pip
       - gitlabci-local
+    virtualenv: "{{ home }}/.local"

@@ -143,6 +143,7 @@ gvfs-fuse  # thunar + gphoto
 mutt
 fetchmail
 procmail
+systemd-homed  # sudo homectl create mutt
 newsboat
 w3m-el  # w3m
 xsel  # w3m: 8 ESC M

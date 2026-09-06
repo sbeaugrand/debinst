@@ -49,11 +49,10 @@ if isOnline; then
     sudoRoot apt-get -q -y install --no-install-recommends $list
 fi
 
-pyver=`python3 -c '
-import sys
-print("{}.{}".format(sys.version_info.major, sys.version_info.minor))'`
-
-file=/usr/lib/python$pyver/EXTERNALLY-MANAGED
-if isFile $file; then
-    sudoRoot mv $file $file.bak
+# https://ibug.io/blog/2026/04/python-venv-at-home/
+file=$home/.local/pyvenv.cfg
+if notGrep "include-system-site-packages = true" $file; then
+    echo "include-system-site-packages = true" >>$file
+    ln -sfn /usr/bin/python3 $home/.local/bin/python3
+    python3 -m pip install -U pip
 fi
