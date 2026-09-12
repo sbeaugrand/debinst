@@ -17,7 +17,7 @@ add_executable(mpserver
     Server.cpp
     path.cpp
 )
-target_link_libraries(mpserver
+target_link_libraries(mpserver PRIVATE
     mpdclient
     jsoncpp
     jsonrpccpp-common
@@ -30,7 +30,7 @@ add_executable(mpclient
     Output.cpp
     Client.cpp
 )
-target_link_libraries(mpclient
+target_link_libraries(mpclient PRIVATE
     jsoncpp
     jsonrpccpp-common
     jsonrpccpp-client
@@ -45,21 +45,21 @@ add_executable(mpssaver
 add_executable(oledmesg
     oledmesg.cpp
 )
-target_link_libraries(oledmesg
-    upm-lcd
-)
 
 install(TARGETS mpserver mpclient mpssaver oledmesg)
 
 if(XC
         OR ${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL aarch64
         OR ${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL armv7l)
-    target_link_libraries(mpclient
+    target_link_libraries(mpclient PRIVATE
         lirc_client
         upm-lcd
     )
-    target_link_libraries(mpssaver
+    target_link_libraries(mpssaver PRIVATE
         lirc_client
+        upm-lcd
+    )
+    target_link_libraries(oledmesg PRIVATE
         upm-lcd
     )
 endif()

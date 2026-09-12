@@ -62,6 +62,7 @@ connectivitycheck.gstatic.com
 *manga*
 *linkedin*
 *apkpure*
+*rencontre-ados*
 EOF
     sudoRoot cp $tmpf $file
     rm $tmpf

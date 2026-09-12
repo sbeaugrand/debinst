@@ -5,7 +5,11 @@
  * \copyright CeCILL 2.1 Free Software license
  ******************************************************************************/
 #include <argp.h>
-#include "upm/ssd1306.hpp"
+#if defined(__arm__) || defined(__aarch64__)
+# include <upm/ssd1306.hpp>
+#else
+# include "Terminal.h"
+#endif
 #include "log.h"
 
 #define DEVICE_ADDRESS 0x3C
@@ -66,12 +70,16 @@ main(int argc, char** argv)
     ::setenv("ARGP_HELP_FMT", "no-dup-args-note", 0);
     ::argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
+#   if defined(__arm__) || defined(__aarch64__)
     upm::SSD1306* oled;
     try {
         oled = new upm::SSD1306(0, DEVICE_ADDRESS);
     } catch (...) {
         oled = new upm::SSD1306(1, DEVICE_ADDRESS);
     }
+#   else
+    Terminal* oled = new Terminal;
+#   endif
     oled->clear();
 
     if (! arguments.message) {

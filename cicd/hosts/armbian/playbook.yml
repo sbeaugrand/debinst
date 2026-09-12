@@ -6,7 +6,6 @@
 # ---------------------------------------------------------------------------- #
 ---
 - hosts: pis
-  gather_facts: no
   vars:
     user: "{{ lookup('env', 'user') }}"
     home: /home/{{ user }}
@@ -23,6 +22,7 @@
       vars:
         directory: /mnt/mp3
     - projects-pi
+    #- spi-pi
     #- somfi-pi
     #- netplan-pi
   handlers:

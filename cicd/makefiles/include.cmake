@@ -15,5 +15,5 @@ else()
 endif()
 
 add_compile_options(
-    "-Wall" "-Wextra" "-O1" "-D_FORTIFY_SOURCE=2" "-Wfatal-errors"
+    "-Wall" "-Wextra" "-O1" "-D_FORTIFY_SOURCE=2" "-fmax-errors=1"
 )

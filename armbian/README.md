@@ -31,7 +31,7 @@ Démarrer sur la Pi
 ```sh
 ./find-ip.sh
 cd ../cicd/hosts/armbian
-vi playbook.yml  # enable somfi-pi
+vi playbook.yml  # enable spi-pi somfi-pi
 keychain ~/.ssh/id_rsa
 make ssh user=root  # [host=pi]  # password: 1234  # Set user language based on your location? [Y/n] n
 exit

@@ -143,7 +143,7 @@ gvfs-fuse  # thunar + gphoto
 mutt
 fetchmail
 procmail
-systemd-homed  # sudo homectl create mutt
+systemd-homed  # sudo homectl create mutt --disk-size=500M
 newsboat
 w3m-el  # w3m
 xsel  # w3m: 8 ESC M

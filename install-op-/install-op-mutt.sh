@@ -83,6 +83,7 @@ EOF
     if [ -n "$SSLFP" ]; then
         echo " ssl sslfingerprint \"$SSLFP\"" >>$file
         echo " sslcertfile $muttHome/.certs/fetchmail.pem" >>$file
+        echo " sslcertpath /usr/lib/ssl/certs" >>$file
     fi
     if [ -f $muttHome/.fetchmailrc.in ]; then
         cat $muttHome/.fetchmailrc.in >>$file

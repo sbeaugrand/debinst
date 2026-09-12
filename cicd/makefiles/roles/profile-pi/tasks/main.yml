@@ -36,11 +36,6 @@
           bind '"\e[1;5B": history-search-forward'
       fi
 
-- name: hostname
-  hostname:
-    name: pi
-  become: yes
-
 - name: keyboard
   lineinfile:
     path: /etc/default/keyboard

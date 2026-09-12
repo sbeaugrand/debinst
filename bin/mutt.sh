@@ -4,6 +4,12 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note pop.free.fr unable to get issuer certificate
+##       curl -O https://sectigo.tbs-certificats.com/SectigoPublicServerAuthenticationCADVR36.crt
+##       sudo cp SectigoPublicServerAuthenticationCADVR36.crt /usr/share/ca-certificates/
+##       sudo dpkg-reconfigure ca-certificates
+##       openssl verify ~/.certs/fetchmail.pem  # OK
+##       fetchmail -a -m procmail --sslcertfile=.certs/fetchmail.pem --sslcertpath=/usr/lib/ssl/certs
 # ---------------------------------------------------------------------------- #
 keyfile=~mutt/.fetchmailrc.key
  rcfile=~mutt/.fetchmailrc
