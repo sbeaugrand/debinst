@@ -11,11 +11,11 @@ include(include.cmake)
 message(CMAKE_HOST_SYSTEM_PROCESSOR=${CMAKE_HOST_SYSTEM_PROCESSOR})
 
 add_executable(mpserver
-    mpserver.cpp
-    List.cpp
-    Player.cpp
-    Server.cpp
-    path.cpp
+    src/mpserver.cpp
+    src/List.cpp
+    src/Player.cpp
+    src/Server.cpp
+    src/path.cpp
 )
 target_link_libraries(mpserver PRIVATE
     mpdclient
@@ -25,10 +25,10 @@ target_link_libraries(mpserver PRIVATE
 )
 
 add_executable(mpclient
-    mpclient.cpp
-    Input.cpp
-    Output.cpp
-    Client.cpp
+    src/mpclient.cpp
+    src/Input.cpp
+    src/Output.cpp
+    src/Client.cpp
 )
 target_link_libraries(mpclient PRIVATE
     jsoncpp
@@ -37,13 +37,13 @@ target_link_libraries(mpclient PRIVATE
 )
 
 add_executable(mpssaver
-    mpssaver.cpp
-    Input.cpp
-    Output.cpp
+    src/mpssaver.cpp
+    src/Input.cpp
+    src/Output.cpp
 )
 
 add_executable(oledmesg
-    oledmesg.cpp
+    src/oledmesg.cpp
 )
 
 install(TARGETS mpserver mpclient mpssaver oledmesg)

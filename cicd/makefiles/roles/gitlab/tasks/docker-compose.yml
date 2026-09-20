@@ -20,7 +20,7 @@ services:
     # https://hub.docker.com/r/gitlab/gitlab-ce
     # doc https://docs.gitlab.com/ee/install/docker/installation.html
     # source https://gitlab.com/gitlab-org/gitlab
-    image: gitlab/gitlab-ce:18.6.2-ce.0
+    image: gitlab/gitlab-ce:19.3.2-ce.0
     restart: unless-stopped
     container_name: gitlab
     hostname: gitlab.internal
@@ -35,10 +35,10 @@ services:
       - /mnt/gitlab-logs:/var/log/gitlab
     shm_size: 256m
   gitlab-runner:
-    # https://hub.docker.com/r/gitlab/gitlab-runner
+    # https://hub.docker.com/r/gitlab/gitlab-runner/tags?name=ubuntu-v
     # doc https://docs.gitlab.com/runner/install/docker.html
     # source https://gitlab.com/gitlab-org/gitlab-runner
-    image: gitlab/gitlab-runner:ubuntu-v18.6.6
+    image: gitlab/gitlab-runner:ubuntu-v19.3.2
     restart: unless-stopped
     container_name: gitlab-runner
     hostname: gitlab-runner.{{ domain }}
@@ -54,7 +54,7 @@ services:
   nginx:
     # https://hub.docker.com/_/nginx
     # source https://github.com/nginxinc/docker-nginx
-    image: nginx:1.27.4
+    image: nginx:1.31.5
     restart: unless-stopped
     container_name: nginx
     hostname: nginx.{{ domain }}

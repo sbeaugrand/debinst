@@ -17,10 +17,10 @@ err = False
 class Server:
 
     def __init__(self):
-        self.s = pexpect.spawn('build/mpserver {}'.format(musicdir))
+        self.s = pexpect.spawn('build/mpserver -d {}'.format(musicdir))
         if verbose:
             self.s.logfile = sys.stdout.buffer
-        time.sleep(1)
+        time.sleep(2)
 
     def __del__(self):
         if err:
