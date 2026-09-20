@@ -74,18 +74,33 @@ dorsync:
 	 -f'-s_*-pr-*'\
 	 -f'-s_build'\
 	 -f'-s_build-*'\
+	 -f'-s_*.ko'\
+	 -f'-s_*.dtbo'\
+	 -f'-s_*.ps'\
+	 -f'-s_*.ngc'\
+	 -f'-s_*.nc'\
+	 -f'-s_*.hex'\
+	 -f'-s_kicad'\
+	 -f'-s_.git'\
+	 -f'-s_.vagrant'\
+	 -f'-s_amd64'\
 	 -f'-s_debinst/homepage/debinst'\
 	 -f'-s_debinst/homepage/php'\
 	 -f'-s_livret-*.pdf'\
 	 -f'-s_portrait-*.pdf'\
 	 -f'-s_*.a'\
 	 -f'-s_*.7z'\
+	 -f'-s___pycache__'\
+	 -f'-s_*.egg-info'\
 	 -f'-s_debinst/latex/projects'\
 	 -f'-s_debinst/latex/makefiles'\
-	 -f'-s_debinst/latex/kicad'\
+	 -f'-s_debinst/latex/*/*.pdf'\
+	 -f'-s_debinst/latex/*/*/*.pdf'\
 	 -f'-s_debinst/projects/makefiles'\
+	 -f'-s_debinst/projects/*/*/*.pdf'\
 	 -f'-s_debinst/homepage/tgz'\
 	 -f'-s_debinst/homepage/images'\
+	 -f'-s_debinst/latex/arbreGenealogique/*.pdf'\
 	 $(PWD)/ /tmp/$(URL)/
 
 .PHONY: umount
@@ -101,7 +116,6 @@ umount:
 
 .PHONY: tgz
 tgz:\
- tgz/debinst-dist.tgz\
  tgz/cal.tgz\
  tgz/rdm.tgz\
  tgz/arbreGenealogique.tgz\

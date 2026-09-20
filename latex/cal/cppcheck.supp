@@ -1,0 +1,5 @@
+knownConditionTrueFalse:testAlgos.c:172 #(style) Condition 'm0<0' is always true
+knownConditionTrueFalse:testAlgos.c:179 #(style) Condition 'm1<0' is always false
+knownConditionTrueFalse:testAlgos.c:181 #(style) Condition 'm1>=1' is always false
+knownConditionTrueFalse:testAlgos.c:186 #(style) Condition 'm2<0' is always false
+knownConditionTrueFalse:testAlgos.c:188 #(style) Condition 'm2>=1' is always true

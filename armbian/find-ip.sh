@@ -5,7 +5,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-netId=192.168.0
+netId=192.168.1
 i=${1:-11}
 color="\033[33;1m"
 reset="\033[0m"

@@ -25,7 +25,7 @@ findtime = 24h
 bantime  = -1
 maxretry = 1
 EOF
-    # ignoreip = 192.168.0.254
+    # ignoreip = 192.168.1.254
     conf=install-pr-fail2ban.conf
     if [ -f $conf ]; then
         cat $conf >>$file
@@ -43,5 +43,5 @@ fi
 # vi /var/log/apache2/access.log +
 # vi /var/log/fail2ban.log +
 # sudo iptables -L -n
-# sudo fail2ban-client set apache-4xx unbanip 192.168.0.254
+# sudo fail2ban-client set apache-4xx unbanip 192.168.1.254
 # fail2ban-regex --print-all-matched /var/log/apache2/access.log /etc/fail2ban/filter.d/apache-4xx.conf

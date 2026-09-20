@@ -47,7 +47,7 @@ void
 nutation(double t, double* nutationInLongitude, double* nutationInObliquity);
 double
 sideralTime(double jd, double t);
-double
+static double
 moonMeanAnomalyIAU(double t);
 double
 moonMeanAnomalyChapront(double t);
@@ -75,7 +75,7 @@ double
 moonSunMeanAnomaly(double k, double t);
 double
 moonArgumentOfLatitude(double k, double t);
-double
+static double
 moonArgumentOfLatitudeIAU(double t);
 double
 moonArgumentOfLatitudeChapront(double t);

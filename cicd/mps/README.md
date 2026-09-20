@@ -20,7 +20,7 @@ make help  # :
    vagrant1> sudo mkdir /temp && sudo chmod 777 /temp
    vagrant1> export TMPDIR=/temp
    vagrant1> DIST=stable
-   vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
+   vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:armhf rockpi-s:arm64
    vagrant1> mmdebstrap --variant=buildd --architectures=$ARCH $DIST ~/sbuild/$DIST-$ARCH.tar.xz --include=cmake,debhelper,fakeroot,help2man,pkg-config,lintian,dose-distcheck,apt-utils,libargtable2-dev,libcurl4-openssl-dev,libjsoncpp-dev,libmicrohttpd-dev,libmpdclient-dev,liblirc-dev,swig,python3-dev
   ```
 </details>
@@ -87,13 +87,13 @@ localhost> make BUILDER=sbuild rxpackage OPTS='-e ARCH=armhf'
 
   ```console
    vagrant1> DIST=stable
-   vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
+   vagrant1> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:armhf rockpi-s:arm64
    vagrant1> cd ~/sbuild
    vagrant1> mkdir -p ../pbuilder
    vagrant1> xz -d -c $DIST-$ARCH.tar.xz | gzip >../pbuilder/$DIST-$ARCH-base.tgz
    vagrant1> python3 -m http.server
    vagrant2> DIST=stable
-   vagrant2> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:arm64 rockpi-s:arm64
+   vagrant2> ARCH=armhf  # nanopi-neo:armhf orange-pi-zero:armhf rockpi-s:arm64
    vagrant2> SYSROOT=arm-linux-gnueabihf-14  # aarch64-linux-gnu-
    vagrant2> cd ~/sbuild
    vagrant2> dpkg-scanpackages . /dev/null >Packages

@@ -17,10 +17,10 @@
               name: end*
             dhcp4: false
             addresses:
-              - 192.168.0.18/24
+              - 192.168.1.18/24
             routes:
               - to: default
-                via: 192.168.0.254
+                via: 192.168.1.254
             nameservers:
               addresses:
                 - 8.8.8.8

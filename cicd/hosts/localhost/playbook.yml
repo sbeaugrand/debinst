@@ -39,7 +39,7 @@
       vars:
         ip: 10.66.0.2
         iface: wlp2s0
-        gateway: 192.168.0.254
+        gateway: 192.168.1.254
     #- role: packages-sbuild
     #  vars:
     #    repo: "{{ home }}/data/tmp"

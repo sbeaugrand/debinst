@@ -23,7 +23,11 @@ setup()
         block $ip www.temu
         block $ip www.instagram
     done
-    unblockAfter 18 00 $ipE1a "enfant1"
+    if [ `date +%u` = 3 ]; then
+        unblockAfter 17 00 $ipE1a "enfant1"
+    else
+        unblockAfter 18 00 $ipE1a "enfant1"
+    fi
     unblockAfter 18 00 $ipE2a "enfant2"
     if ! nft.sh list 2>/dev/null | grep -q "Enfant1 tablette"; then
         nft.sh block $ipE1b "Enfant1 tablette" 21:00

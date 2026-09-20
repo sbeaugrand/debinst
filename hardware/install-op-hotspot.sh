@@ -12,7 +12,7 @@ name=hotspot
 netId=10.66.0
 client=$netId.3
 ip=$netId.2
-gateway=192.168.0.254
+gateway=192.168.1.254
 # psk
 file=$idir/hardware/install-pr-hotspot.sh
 if isFile $file; then

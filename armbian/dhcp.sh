@@ -29,10 +29,10 @@ if ! grep -q "rockpi" $file; then
 class "rockpi" {
   match if substring (hardware, 1, 3) = 6a:4d:37;
 }
-subnet 192.168.0.0 netmask 255.255.255.0 {
+subnet 192.168.1.0 netmask 255.255.255.0 {
   pool {
     allow members of "rockpi";
-    range 192.168.0.18 192.168.0.18;
+    range 192.168.1.18 192.168.1.18;
   }
 }
 EOF

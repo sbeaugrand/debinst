@@ -33,13 +33,13 @@ help:
 	@echo "  remote> make adc ADC=mraa"
 	@echo "  locale> make fft-tcp"
 	@echo "  remote> build/adc [rate]"
-	@echo "  locale> build/fft-tcp 0 110 192.168.0.??"
+	@echo "  locale> build/fft-tcp 0 110 192.168.1.??"
 	@echo
 	@echo "Raspberry Pi"
 	@echo "  remote> make adc ADC=[bcm|wpi]"
 	@echo "  locale> make fft-tcp"
 	@echo "  remote> build/adc [rate]"
-	@echo "  locale> build/fft-tcp 0 110 192.168.0.??"
+	@echo "  locale> build/fft-tcp 0 110 192.168.1.??"
 	@echo
 	@echo "Arietta G25"
 	@echo "  remote> make adc ADC=g25"
