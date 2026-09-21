@@ -32,12 +32,12 @@ downloadWheel()
     if ls -1 $wheels | grep -q -i "^$name-"; then
         logWarn "wheel $name already exists"
         ls -1 $wheels | grep -i "^$name-" | cut -d '-' -f 2
-        pip install $name== 2>&1 | grep versions |\
+        pip3 install $name== 2>&1 | grep versions |\
             awk '{ print gensub(")", "", 1, $NF) }'
         return
     fi
 
-    pip wheel -w $wheels --prefer-binary $args
+    pip3 wheel -w $wheels --prefer-binary $args
 }
 
 # ---------------------------------------------------------------------------- #

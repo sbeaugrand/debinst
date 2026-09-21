@@ -7,7 +7,7 @@
 dir="$idir/../wheels-`uname -m`"
 pushd $dir || return 1
 if ! ls Kivy-*.whl >/dev/null; then
-    pip wheel --no-binary kivy kivy
+    pip3 wheel --no-binary kivy kivy
 fi
-pip install --no-binary kivy --no-index -f file://$dir Kivy-*.whl
+pip3 install --no-binary kivy --no-index -f file://$dir Kivy-*.whl
 popd

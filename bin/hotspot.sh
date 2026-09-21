@@ -115,9 +115,9 @@ unblockAfter()
         if ! nft.sh list 2>/dev/null | grep -q "$com"; then
             nft.sh block $ip "$com"
             tmp=/tmp/crontab
-            sudo crontab -l 2>/dev/null >$tmp
+            sudo crontab -l 2>/dev/null | grep "\* \* `date +%u` /" >$tmp
             if ! grep -q "$com" $tmp; then
-                echo "$mm $hh * * * /bin/bash $nftsh unblock '$com'" >>$tmp
+                echo "$mm $hh * * `date +%u` /bin/bash $nftsh unblock '$com'" >>$tmp
                 sudo crontab $tmp
             fi
         fi

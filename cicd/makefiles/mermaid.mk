@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------- #
 define mermaid
  @mmdc -i $1 -o $2 -t dark -b transparent
- @sed -i 's/black/#00ff00/g' README-*.svg
+ @sed -i 's/black/#00ff00/g' `dirname $2`/README-*.svg
 endef
 
 define resize

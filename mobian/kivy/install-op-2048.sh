@@ -6,8 +6,8 @@
 # ---------------------------------------------------------------------------- #
 # For android :
 #   sudo apt install openjdk-21-jdk libltdl-dev zip adb
-#   pip install -U buildozer
-#   pip install -U cython
+#   pip3 install -U buildozer
+#   pip3 install -U cython
 #   buildozer android debug  # __GNUC_PREREQ is not defined
 #   sudo mv /usr/include/x86_64-linux-gnu /usr/include/x86_64-linux-gnu.bak  #FIXME: https://stackoverflow.com/a/79583260
 #   buildozer android debug  # 4.0G needed in ./.buildozer + 3.4G in ~/.buildozer

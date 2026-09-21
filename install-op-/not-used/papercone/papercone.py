@@ -4,7 +4,7 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note pip install tikz-python
+## \note pip3 install tikz-python
 ##       sudo apt-get install latexmk
 # ---------------------------------------------------------------------------- #
 from tikzpy import TikzPicture

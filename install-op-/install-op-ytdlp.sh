@@ -15,5 +15,5 @@ print("{}.{}".format(sys.version_info.major, sys.version_info.minor))'`
 
 dir=$home/.local/lib/python$pyver/site-packages/yt_dlp
 if notDir $dir; then
-    pip install --no-deps -U yt-dlp
+    pip3 install --no-deps -U yt-dlp
 fi
