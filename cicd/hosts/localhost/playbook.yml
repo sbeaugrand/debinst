@@ -3,7 +3,7 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note brightness: ansible -m setup localhost | grep ansible_system_vendor
+## \note brightness: ansible -m setup localhost | grep ansible_facts["system_vendor"]
 ##       hotspot: cd ../../makefiles/roles/hotspot/tasks
 ##                echo "psk: minimum8" >hotspot-pr-psk.yml
 ##                cp tcpdump-ex-dns.py tcpdump-pr-dns.py
@@ -24,11 +24,11 @@
     - role: brightness
       vars:
         value: 0.55
-      when: ansible_system_vendor == 'Dell Inc.'
+      when: ansible_facts["system_vendor"] == 'Dell Inc.'
     - role: brightness
       vars:
         value: 0.75
-      when: ansible_system_vendor == 'ASUSTeK COMPUTER INC.'
+      when: ansible_facts["system_vendor"] == 'ASUSTeK COMPUTER INC.'
     - role: kicad
       vars:
         version: 9.0

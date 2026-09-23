@@ -15,5 +15,5 @@
         Option "PreferredMode" "1920x1080_60.00"
         DisplaySize 346 194
       EndSection
-  when: ansible_product_name == 'Precision 7510'
+  when: ansible_facts["product_name"] == 'Precision 7510'
   become: yes

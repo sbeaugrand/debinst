@@ -8,11 +8,11 @@
   copy:
     src: rk3308-spi2-spidev.dts
     dest: "{{ home }}/"
-  when: ansible_hostname == 'rockpi-s'
+  when: ansible_facts["hostname"] == 'rockpi-s'
 
 - name: install rk3308-spi2-spidev.dts
   command: /usr/sbin/armbian-add-overlay rk3308-spi2-spidev.dts
   args:
     creates: /boot/overlay-user/rk3308-spi2-spidev.dtbo
-  when: ansible_hostname == 'rockpi-s'
+  when: ansible_facts["hostname"] == 'rockpi-s'
   become: yes
