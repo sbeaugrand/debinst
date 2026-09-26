@@ -12,14 +12,16 @@
 ##       # Position X 0 Y 0
 ##       # Mode expert Imprimantes Forme du plateau Origine x:100 y:100
 ##       # Exporter le plateau en STL
-##       make test1
-##       reduce.awk build/claw1-cone.ngc >build/claw1-cone-r.ngc
-##       sed -i 's/F900/F200/' build/claw1-cone-r.ngc
+##       make build/claw1-cone-r.ngc
 ##       camotics build/claw1-cone-r.ngc
 ##       bCNC build/claw1-cone-r.ngc
 ##       # $30=12000
 ##       # Probe Pos -10 along Z direction
 ##       gcodesender.py -f build/claw1-cone-r.ngc 2> >(tee err.log >&2)
+##
+##       # cp ../../latex/openscad/models/build/runeDagaz.stl build/
+##       make build/runeDagaz-cyl-r.ngc ARGS="-s 4"
+##       camotics build/runeDagaz-cyl-r.ngc
 # ---------------------------------------------------------------------------- #
 OCL_DIR = /usr/lib/x86_64-linux-gnu/opencamlib
 LDFLAGS = -L$(OCL_DIR) -locl
@@ -35,21 +37,18 @@ include $(PROROOT)/makefiles/ccpp.mk
 build/$(PROJECT): $(OBJECTS)
 	$(CXX) $^ $(LDFLAGS) -o $@
 
-.PHONY: tests
-tests: test1 test2 test3 test4
-.PHONY: test1
-test1: build build/claw1-cone.ngc
-.PHONY: test2
-test2: build build/claw2-cone.ngc
-.PHONY: test3
-test3: build build/claw1-cyl.ngc
-.PHONY: test4
-test4: build build/claw2-cyl.ngc
+build/%-cone-r.ngc: build/%-cone.ngc reduce.awk
+	./reduce.awk $< >$@
+	sed -i 's/F900/F200/' $@
+
+build/%-cyl-r.ngc: build/%-cyl.ngc reduce.awk
+	./reduce.awk $< >$@
+	sed -i 's/F900/F100/' $@
 
 build/%-cone.ngc: build/%.stl build/$(PROJECT)
-	cat $< | $(CMD) -d 3.175 -l 0 -a 30 -z y >$@
+	cat $< | $(CMD) -d 3.175 -l 0 -a 30 -z y $(ARGS) >$@
 
 build/%-cyl.ngc: build/%.stl build/$(PROJECT)
-	cat $< | $(CMD) >$@
+	cat $< | $(CMD) $(ARGS) >$@
 
 include $(PROROOT)/makefiles/tar.mk

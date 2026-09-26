@@ -55,6 +55,7 @@ static struct argp_option options[] = {
     { "diameter", 'd', "F", 0, "[default: 2 (mm)].", 0 },
     { "length", 'l', "F", 0, "[default: 6 (mm)].", 0 },
     { "angle", 'a', "F", 0, "ConeCutter angle [default: 0 (CylCutter)].", 0 },
+    { "step", 's', "F", 0, "Z step [default: 3 (mm)].", 0 },
     { "zigzag", 'z', "x|y", 0, "[default: x].", 0 },
     {}
 };
@@ -63,6 +64,7 @@ struct arguments
     double diameter = 2;
     double length = 6;
     double angle = 0;
+    double step = 3;
     bool zigzag_x = true;
 };
 static error_t
@@ -78,6 +80,9 @@ parse_opt(int key, char* arg, struct argp_state* state)
         break;
     case 'a':
         arguments->angle = ::atof(arg);
+        break;
+    case 's':
+        arguments->step = ::atof(arg);
         break;
     case 'z':
         if (*arg == 'y') {
@@ -204,7 +209,7 @@ main(int argc, char* argv[])
     ::argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
     double zsafe = 5;
-    double zstep = 3;
+    double zstep = arguments.step;
 
     cerr << "stl2ngc  Copyright (C) 2016 - 2023 Jakob Flierl" << endl;
     cerr << "This program comes with ABSOLUTELY NO WARRANTY;" << endl;
