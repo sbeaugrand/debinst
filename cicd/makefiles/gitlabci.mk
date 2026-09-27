@@ -4,6 +4,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+MDIR ?= ../makefiles
 HDIR ?= ../hosts
 HOST ?= ubuntu2404
 BHOST ?= ubuntu2404
@@ -56,6 +57,8 @@ else
 endif
 
 gitlabci = ~/.local/bin/gitlabci-local\
+ -e MDIR=$(MDIR)\
+ -e HDIR=$(HDIR)\
  -e HOST=$(HOST)\
  -e BHOST=$(BHOST)\
  -e BUILD=$(BUILD)\

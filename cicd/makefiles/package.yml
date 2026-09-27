@@ -40,11 +40,13 @@ variables:
          --exclude=__pycache__
          --exclude=.git
          --exclude=.svn
+         --exclude=.vagrant
   URI: example@ip
   SSH: vagrant ssh -c
   SCP: scp
   USERPATH: /vagrant/.vagrant
   SCPTARGET: $URI:$USERPATH/
+  MDIR: ../makefiles
   HDIR: ../hosts
   BDIR: build
   BHOST: $HOST
@@ -104,7 +106,7 @@ rbuild:
     - PROPATH=$(basename `readlink -f .`)
     - !reference [.keychain, script]
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
-    - $RSYNC -L ../makefiles $HDIR/$BHOST/.vagrant/
+    - $RSYNC -L $MDIR $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
     - >
       $SSH "cd $USERPATH/$PROPATH &&
@@ -115,7 +117,7 @@ rtest:
   before_script:
     - PROPATH=$(basename `readlink -f .`)
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
-    - $RSYNC -L ../makefiles $HDIR/$BHOST/.vagrant/
+    - $RSYNC -L $MDIR $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
     - $SSH "cd $USERPATH/$PROPATH && build/$PROJECT" &
     - sleep 1
@@ -126,7 +128,7 @@ rpackage:
   script:
     - PROPATH=$(basename `readlink -f .`)
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
-    - $RSYNC -L ../makefiles $HDIR/$BHOST/.vagrant/
+    - $RSYNC -L $MDIR $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
     - $SSH "cd $USERPATH/$PROPATH && make package BHOST=$BHOST"
 rinstall:
@@ -222,7 +224,7 @@ rxbuild:
     - PROPATH=$(basename `readlink -f .`)
     - !reference [.keychain, script]
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
-    - $RSYNC -L ../makefiles $HDIR/$BHOST/.vagrant/
+    - $RSYNC -L $MDIR $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
     - >
       $SSH "cd $USERPATH/$PROPATH &&
@@ -237,7 +239,7 @@ rxpackage:
   script:
     - PROPATH=$(basename `readlink -f .`)
     - $RSYNC ./ $HDIR/$BHOST/.vagrant/$PROPATH/
-    - $RSYNC -L ../makefiles $HDIR/$BHOST/.vagrant/
+    - $RSYNC -L $MDIR $HDIR/$BHOST/.vagrant/
     - cd $HDIR/$BHOST
     - $SSH "cd $USERPATH/$PROPATH &&
       make xpackage XC=$XC XCVER=$XCVER XCDIR=$XCDIR BHOST=$BHOST"

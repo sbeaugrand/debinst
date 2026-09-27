@@ -3,6 +3,11 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
+## \note Example for cross compile without sysroot :
+##       if(XC)
+##           set(CMAKE_C_COMPILER ${XC}-gcc)
+##           set(CMAKE_CXX_COMPILER ${XC}-g++)
+##       endif()
 # ---------------------------------------------------------------------------- #
 if(XC)
     if(NOT DEFINED XCVER)
