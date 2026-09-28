@@ -38,7 +38,7 @@ cppcheck:
 	 `test -f cppcheck.supp && echo --suppressions-list=cppcheck.supp`\
 	 --template='{id}:{file}:{line}\ \({severity}\)\ {message}'\
 	 --inline-suppr\
-	 -i build -i build-*\
+	 -i build -i build-* -i .vagrant\
 	 --suppress=missingIncludeSystem --suppress=checkersReport\
 	 -UNERROR -UNERRNO -UNDEBUG --check-level=exhaustive\
 	 $(CPPCHECKINC) .

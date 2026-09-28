@@ -1,0 +1,27 @@
+# ---------------------------------------------------------------------------- #
+## \file Dockerfile.arm64
+## \author Sebastien Beaugrand
+## \sa http://beaugrand.chez.com/
+## \copyright CeCILL 2.1 Free Software license
+# ---------------------------------------------------------------------------- #
+FROM debian:13
+
+RUN export DEBIAN_FRONTEND=noninteractive\
+ && dpkg --add-architecture arm64\
+ && apt-get -y update\
+ && apt-get -y install --no-install-recommends\
+    build-essential\
+    chrpath\
+    cmake\
+    debhelper\
+    dh-make\
+    dpkg-cross\
+    fakeroot\
+    g++-aarch64-linux-gnu\
+    help2man\
+    pkg-config\
+    lintian\
+    dose-distcheck\
+    apt-utils\
+    libmpdclient-dev:arm64\
+    liblirc-dev:arm64
