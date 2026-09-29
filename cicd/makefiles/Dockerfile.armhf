@@ -4,7 +4,8 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
-FROM debian:13
+ARG tag=debian:13
+FROM $tag
 
 RUN export DEBIAN_FRONTEND=noninteractive\
  && dpkg --add-architecture armhf\

@@ -6,16 +6,20 @@
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
 PROJECT=$1
+BHOST=${DIST:-debian13}
+
+test "$XC" != "aarch64-linux-gnu"   || ARCH=arm64
+test "$XC" != "arm-linux-gnueabihf" || ARCH=armhf
+echo "xp: ARCH=$ARCH"
+echo "xp: DIST=$BHOST"
+
 export DEBEMAIL=$DEBEMAIL
 export DEBFULLNAME=$DEBFULLNAME
 test -n "$DEBEMAIL"    || export DEBEMAIL=sbeaugrand@toto.fr
 test -n "$DEBFULLNAME" || export DEBFULLNAME=sbeaugrand
 
-BHOST=debian13
 VERSION=`head -n 1 debian/changelog | cut -d')' -f1 | cut -d'(' -f2`
 BDIR=build-$XC
-test "$XC" != "aarch64-linux-gnu"   || ARCH=arm64
-test "$XC" != "arm-linux-gnueabihf" || ARCH=armhf
 CONFIG_SITE=/etc/dpkg-cross/cross-config.$ARCH
 OPTS=-a$ARCH
 export DEB_BUILD_OPTIONS=nocheck

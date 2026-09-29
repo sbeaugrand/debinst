@@ -7,17 +7,22 @@
 # ---------------------------------------------------------------------------- #
 PROJECT=$1
 shift
+DIST=${DIST:-debian13}
 
 test "$XC" != "aarch64-linux-gnu"   || ARCH=arm64
 test "$XC" != "arm-linux-gnueabihf" || ARCH=armhf
+echo "xc: ARCH=$ARCH"
+echo "xc: DIST=$DIST"
+
 if [ -n "$1" ]; then
     docker run -it --rm --volume=$PWD:/tmp/$PROJECT -w /tmp/$PROJECT\
      -e XC=$XC\
-     debian-$ARCH $*
+     -e DIST=$DIST\
+     $DIST-$ARCH $*
 else
     docker run -it --rm --volume=$PWD:/tmp/$PROJECT -w /tmp/$PROJECT\
-     debian-$ARCH make xc XC=$XC CMAKE_OPT="
-     -DCMAKE_C_COMPILER=$XC-gcc
-     -DCMAKE_CXX_COMPILER=$XC-g++
-     -DDOCKER_XC=1"
+     $DIST-$ARCH make xc XC=$XC CMAKE_OPT="\
+      -DCMAKE_C_COMPILER=$XC-gcc\
+      -DCMAKE_CXX_COMPILER=$XC-g++\
+      -DDOCKER_XC=1"
 fi
