@@ -4,6 +4,12 @@
  * \sa http://beaugrand.chez.com/
  * \copyright CeCILL 2.1 Free Software license
  * \note sudo apt install openscad-mcad
+ *
+ *       *dagaz emblematiserait une capacite' a eliminer toute chose ne
+ *       s'integrant pas dans une vision du monde reconduisant au "principe" et,
+ *       consequemment, au "Centre supreme", le lieu fondateur du developpement
+ *       civilisationnel."
+ *       (Paul-Georges Sansonetti, La Cathedrale Polaire des Runes, ACE, p. 28)
  ******************************************************************************/
 T=2;    // Diametre de l'outil
 L=30;   // Longueur du support

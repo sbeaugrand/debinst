@@ -28,5 +28,5 @@
       Hidden=false
       Name[fr_FR]=brightness
       Comment[fr_FR]={{ value }}
-      X-GNOME-Autostart-Delay=1
+      X-GNOME-Autostart-Delay=2
     create: yes

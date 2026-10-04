@@ -19,9 +19,14 @@
 ##       # Probe Pos -10 along Z direction
 ##       gcodesender.py -f build/claw1-cone-r.ngc 2> >(tee err.log >&2)
 ##
-##       # cp ../../latex/openscad/models/build/runeDagaz.stl build/
+##       # cp ../../latex/openscad/models/build/runeDagaz.stl build/
 ##       make build/runeDagaz-cyl-r.ngc ARGS="-s 4"
 ##       camotics build/runeDagaz-cyl-r.ngc
+##       gcodesender.py -f build/runeDagaz-cyl-r.ngc 2> >(tee err.log >&2)
+##       # Accentuer les coins au couteau de precision
+##       # Faire couler 60cm d'etain 97% en bobine de 2mm de diametre (ou 13g)
+##       # Secouer le tasseau a plat pour repartir l'etain
+##       # Vernir les creux en couleur et poncer au 80, 120 puis 400
 # ---------------------------------------------------------------------------- #
 OCL_DIR = /usr/lib/x86_64-linux-gnu/opencamlib
 LDFLAGS = -L$(OCL_DIR) -locl

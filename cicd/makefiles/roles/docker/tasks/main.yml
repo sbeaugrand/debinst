@@ -24,7 +24,7 @@
 
 - name: install docker-compose
   uri:
-    url: https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64
+    url: https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-{{ ansible_architecture }}
     dest: "{{ home }}/.local/bin/docker-compose"
     mode: 0755
     status_code: [200, 304]

@@ -11,18 +11,18 @@ RUN export DEBIAN_FRONTEND=noninteractive\
  && dpkg --add-architecture arm64\
  && apt-get -y update\
  && apt-get -y install --no-install-recommends\
+    apt-utils\
     build-essential\
     chrpath\
     cmake\
     debhelper\
     dh-make\
+    dose-distcheck\
     dpkg-cross\
     fakeroot\
     g++-aarch64-linux-gnu\
     help2man\
-    pkg-config\
-    lintian\
-    dose-distcheck\
-    apt-utils\
+    liblirc-dev:arm64\
     libmpdclient-dev:arm64\
-    liblirc-dev:arm64
+    lintian\
+    pkg-config

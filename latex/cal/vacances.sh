@@ -33,30 +33,30 @@ if [ "$year" = "2026" ]; then
     vFsmZoneA=12; vFsdZoneA=20; vFemZoneA=12; vFedZoneA=31;
     vFsmZoneC=12; vFsdZoneC=20; vFemZoneC=12; vFedZoneC=31;
     vFsmZoneB=12; vFsdZoneB=20; vFemZoneB=12; vFedZoneB=31;
-elif [ "$year" = "2025" ]; then
-    vAsmZoneA=01; vAsdZoneA=01; vAemZoneA=01; vAedZoneA=05;
-    vAsmZoneC=01; vAsdZoneC=01; vAemZoneC=01; vAedZoneC=05;
-    vAsmZoneB=01; vAsdZoneB=01; vAemZoneB=01; vAedZoneB=05;
+elif [ "$year" = "2027" ]; then
+    vAsmZoneA=01; vAsdZoneA=01; vAemZoneA=01; vAedZoneA=03;
+    vAsmZoneC=01; vAsdZoneC=01; vAemZoneC=01; vAedZoneC=03;
+    vAsmZoneB=01; vAsdZoneB=01; vAemZoneB=01; vAedZoneB=03;
 
-    vBsmZoneB=02; vBsdZoneB=09; vBemZoneB=02; vBedZoneB=23;
-    vBsmZoneC=02; vBsdZoneC=16; vBemZoneC=03; vBedZoneC=02;
-    vBsmZoneA=02; vBsdZoneA=23; vBemZoneA=03; vBedZoneA=09;
+    vBsmZoneC=02; vBsdZoneC=07; vBemZoneC=02; vBedZoneC=21;
+    vBsmZoneA=02; vBsdZoneA=14; vBemZoneA=02; vBedZoneA=28;
+    vBsmZoneB=02; vBsdZoneB=21; vBemZoneB=03; vBedZoneB=07;
 
-    vCsmZoneB=04; vCsdZoneB=06; vCemZoneB=04; vCedZoneB=21;
-    vCsmZoneC=04; vCsdZoneC=13; vCemZoneC=04; vCedZoneC=27;
-    vCsmZoneA=04; vCsdZoneA=20; vCemZoneA=05; vCedZoneA=04;
+    vCsmZoneC=04; vCsdZoneC=04; vCemZoneC=04; vCedZoneC=18;
+    vCsmZoneA=04; vCsdZoneA=11; vCemZoneA=04; vCedZoneA=25;
+    vCsmZoneB=04; vCsdZoneB=18; vCemZoneB=05; vCedZoneB=02;
 
-    vDsmZoneA=07; vDsdZoneA=06; vDemZoneA=08; vDedZoneA=31;
-    vDsmZoneB=07; vDsdZoneB=06; vDemZoneB=08; vDedZoneB=31;
-    vDsmZoneC=07; vDsdZoneC=06; vDemZoneC=08; vDedZoneC=31;
+    vDsmZoneB=07; vDsdZoneB=04; vDemZoneB=09; vDedZoneB=01;
+    vDsmZoneC=07; vDsdZoneC=04; vDemZoneC=09; vDedZoneC=01;
+    vDsmZoneA=07; vDsdZoneA=04; vDemZoneA=09; vDedZoneA=01;
 
-    vEsmZoneA=10; vEsdZoneA=19; vEemZoneA=11; vEedZoneA=02;
-    vEsmZoneB=10; vEsdZoneB=19; vEemZoneB=11; vEedZoneB=02;
-    vEsmZoneC=10; vEsdZoneC=19; vEemZoneC=11; vEedZoneC=02;
+    vEsmZoneA=10; vEsdZoneA=24; vEemZoneA=11; vEedZoneA=07;
+    vEsmZoneB=10; vEsdZoneB=24; vEemZoneB=11; vEedZoneB=07;
+    vEsmZoneC=10; vEsdZoneC=24; vEemZoneC=11; vEedZoneC=07;
 
-    vFsmZoneB=12; vFsdZoneB=21; vFemZoneB=12; vFedZoneB=31;
-    vFsmZoneA=12; vFsdZoneA=21; vFemZoneA=12; vFedZoneA=31;
-    vFsmZoneC=12; vFsdZoneC=21; vFemZoneC=12; vFedZoneC=31;
+    vFsmZoneB=12; vFsdZoneB=19; vFemZoneB=12; vFedZoneB=31;
+    vFsmZoneC=12; vFsdZoneC=19; vFemZoneC=12; vFedZoneC=31;
+    vFsmZoneA=12; vFsdZoneA=19; vFemZoneA=12; vFedZoneA=31;
 elif ((`cat /proc/net/arp | wc -l` < 2)); then
     exit 1
 else
