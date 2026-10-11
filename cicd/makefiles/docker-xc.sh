@@ -15,12 +15,12 @@ echo "xc: ARCH=$ARCH"
 echo "xc: DIST=$DIST"
 
 if [ -n "$1" ]; then
-    docker run -it --rm --volume=$PWD:/tmp/$PROJECT -w /tmp/$PROJECT\
+    docker run --rm --volume=$PWD:/tmp/$PROJECT -w /tmp/$PROJECT\
      -e XC=$XC\
      -e DIST=$DIST\
      $DIST-$ARCH $*
 else
-    docker run -it --rm --volume=$PWD:/tmp/$PROJECT -w /tmp/$PROJECT\
+    docker run --rm --volume=$PWD:/tmp/$PROJECT -w /tmp/$PROJECT\
      $DIST-$ARCH make xc XC=$XC CMAKE_OPT="\
       -DCMAKE_C_COMPILER=$XC-gcc\
       -DCMAKE_CXX_COMPILER=$XC-g++\

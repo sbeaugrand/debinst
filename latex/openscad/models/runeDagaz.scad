@@ -11,15 +11,16 @@
  *       civilisationnel."
  *       (Paul-Georges Sansonetti, La Cathedrale Polaire des Runes, ACE, p. 28)
  ******************************************************************************/
-T=2;    // Diametre de l'outil
-L=30;   // Longueur du support
-P=20;   // Profondeur du support
-H=3;    // Hauteur du support
-M=1;    // Marge au bord
-l=15;   // Longueur de la rune
-p=2;    // Profondeur des segments
-h=1;    // Hauteur de la rune
-m=0.1;  // Marge pour les differences
+T=2;     // Diametre de l'outil
+L=20;    // Longueur du support
+P=30;    // Profondeur du support
+H=3;     // Hauteur du support
+M=1;     // Marge au bord
+l=14;    // Longueur de la rune
+p=1.5;   // Profondeur des segments
+e=1;     // Epaisseur des segments
+m=0.01;  // Marge pour les differences
+s=sqrt(2)/2;
 $fn=128;
 
 difference() {
@@ -35,28 +36,26 @@ difference() {
   }
 }
 
-translate([0,0,-H+h/2+m]) difference() {
-  s=sqrt(2)/2;
+translate([0,0,-H+e/2+m]) difference() {
+  h=l+p/s;
+  echo("h = ", h);
   union() {
-    translate([0,-l*s/2-p/2-m,0]) cube([l-2,p+m,h+m],center=true);
-    translate([0, l*s/2+p/2+m,0]) cube([l-2,p+m,h+m],center=true);
-    rotate([0,0, 45]) cube([(l+1)/s,p,h+m],center=true);
-    rotate([0,0,-45]) cube([(l+1)/s,p,h+m],center=true);
+    translate([-l/2+p/2-m,0,0]) cube([p+m*2,h-p/s*2,e],center=true);
+    translate([ l/2-p/2+m,0,0]) cube([p+m*2,h-p/s*2,e],center=true);
+    rotate([0,0, 45]) cube([p,l/s+p,e],center=true);
+    rotate([0,0,-45]) cube([p,l/s+p,e],center=true);
   }
-  translate([0,-l*s/2-p/2-p,0]) cube([l+4,p+m,h+m*2],center=true);
-  translate([0, l*s/2+p/2+p,0]) cube([l+4,p+m,h+m*2],center=true);
+  translate([-l/2-p/2,0,0]) cube([p,h,e+m],center=true);
+  translate([ l/2+p/2,0,0]) cube([p,h,e+m],center=true);
 }
 
-hull() {
-  r=1;
-  l=2;
-  translate([-L/2+r+T,-l/2,-H]) cylinder(h,r=r);
-  translate([-L/2+r+T, l/2,-H]) cylinder(h,r=r);
+module oblong(s) {
+  hull() {
+    r=1;
+    l=2;
+    translate([-l/2,(P/2-r-T)*s,-H]) cylinder(e,r=r);
+    translate([ l/2,(P/2-r-T)*s,-H]) cylinder(e,r=r);
+  }
 }
-
-hull() {
-  r=1;
-  l=2;
-  translate([L/2-r-T,-l/2,-H]) cylinder(h,r=r);
-  translate([L/2-r-T, l/2,-H]) cylinder(h,r=r);
-}
+oblong( 1);
+//oblong(-1);

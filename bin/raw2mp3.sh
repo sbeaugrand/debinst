@@ -71,9 +71,17 @@ if [ -n "$ret" ]; then
     bitrate=$ret
 fi
 
-nbwav=`ls *.wav | wc -l`
+if [ -f "01.wav" ]; then
+    nbwav=`ls ??.wav | wc -l`
+else
+    nbwav=`ls *.wav | wc -l`
+fi
 for ((i = 1; i <= nbwav; ++i)); do
-    wav=`ls *.wav | head -n $i | tail -n 1`
+    if [ -f "01.wav" ]; then
+        wav=`ls ??.wav | head -n $i | tail -n 1`
+    else
+        wav=`ls *.wav | head -n $i | tail -n 1`
+    fi
     if [ -f t.txt ]; then
         j=${wav:0:2}
         k=`echo $j | awk '{ print $0+0 }'`

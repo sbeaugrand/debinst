@@ -1,4 +1,3 @@
-missingInclude:oledmesg.cpp:9 #(information) Include file: "upm/ssd1306.hpp" not found.
-ctuOneDefinitionRuleViolation:mpclient.cpp:43 #(error) The one definition rule is violated, different classes/structs have the same name 'arguments'
-constVariable:List.cpp:217 #(style) Variable 'timeString' can be declared as const array
-knownConditionTrueFalse:Output.cpp:144 #(style) Condition 'mOled->setCursor(y,x)!=mraa::SUCCESS' is always false
+ctuOneDefinitionRuleViolation:src/mpclient.cpp:43 #(error) The one definition rule is violated, different classes/structs have the same name 'arguments'
+constVariable:src/List.cpp:217 #(style) Variable 'timeString' can be declared as const array
+knownConditionTrueFalse:src/Output.cpp:144 #(style) Condition 'mOled->setCursor(y,x)!=mraa::SUCCESS' is always false

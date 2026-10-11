@@ -56,6 +56,7 @@ static struct argp_option options[] = {
     { "length", 'l', "F", 0, "[default: 6 (mm)].", 0 },
     { "angle", 'a', "F", 0, "ConeCutter angle [default: 0 (CylCutter)].", 0 },
     { "step", 's', "F", 0, "Z step [default: 3 (mm)].", 0 },
+    { "overlap", 'o', "F", 0, "[default: 0.5 (mm)].", 0 },
     { "zigzag", 'z', "x|y", 0, "[default: x].", 0 },
     {}
 };
@@ -65,6 +66,7 @@ struct arguments
     double length = 6;
     double angle = 0;
     double step = 3;
+    double overlap = 0.5;
     bool zigzag_x = true;
 };
 static error_t
@@ -83,6 +85,9 @@ parse_opt(int key, char* arg, struct argp_state* state)
         break;
     case 's':
         arguments->step = ::atof(arg);
+        break;
+    case 'o':
+        arguments->overlap = ::atof(arg);
         break;
     case 'z':
         if (*arg == 'y') {
@@ -233,7 +238,7 @@ main(int argc, char* argv[])
         c = new CylCutter(d_cutter, l_cutter);
         cerr << *static_cast<CylCutter*>(c) << endl;
     }
-    double d_overlap = d_cutter * (1 - 0.75);  // step percentage
+    double d_overlap = arguments.overlap;
     double corner = 0;  // d_cutter
 
     STLSurf s;
