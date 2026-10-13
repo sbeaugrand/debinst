@@ -17,9 +17,9 @@ docker-help:
 
 .PHONY: docker-xc
 docker-xc:
-	@XC=$(XC) makefiles/docker-xc.sh $(PROJECT)
+	@XC=$(XC) DIST=$(DIST) makefiles/docker-xc.sh $(PROJECT)
 
 .PHONY: docker-xp
 docker-xp:
-	@XC=$(XC) makefiles/docker-xc.sh $(PROJECT)\
+	@XC=$(XC) DIST=$(DIST) makefiles/docker-xc.sh $(PROJECT)\
 	 makefiles/docker-xp.sh $(PROJECT)

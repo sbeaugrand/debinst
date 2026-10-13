@@ -3,18 +3,26 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note # CMAKE_OPT example for cross compile without sysroot :
+## \note
+##       # CMAKE_OPT example for cross compile without sysroot
 ##       ifeq (xc,$(findstring $(MAKECMDGOALS),xc))
 ##         XC = aarch64-linux-gnu
 ##         CMAKE_OPT = -DCMAKE_CXX_COMPILER=$(XC)-g++
 ##         QEMU_LD_PREFIX = /usr/aarch64-linux-gnu
 ##       endif
+##
 ##       # Package without sysroot :
 ##       .PHONY: xp
 ##       xp:
 ##          @export XC=$(XC) &&\
 ##           DEB_BUILD_OPTIONS=crossbuildcanrunhostbinaries\
 ##           dpkg-buildpackage --no-sign -aarch64
+##
+##       # Example with docker
+##       ifeq (docker-,$(findstring docker-,$(MAKECMDGOALS)))
+##         XC = aarch64-linux-gnu
+##         DIST = ubuntu2404
+##       endif
 # ---------------------------------------------------------------------------- #
 BUILD ?= Debug
 

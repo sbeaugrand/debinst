@@ -1,5 +1,5 @@
---- build/generated.yml	2026-02-21 18:50:06.547175749 +0100
-+++ build/generated.yml	2026-02-19 20:51:52.746587588 +0100
+--- build/generated.yml	2026-10-10 11:18:56.035523648 +0200
++++ build/generated.yml	2026-10-10 11:23:14.798683020 +0200
 @@ -20,9 +20,9 @@
  
  runner:
@@ -12,16 +12,16 @@
    # Extra environment variables to run jobs.
    envs:
      A_TEST_ENV_NAME_1: a_test_env_value_1
-@@ -60,7 +60,7 @@
-   # Like: ["macos-arm64:host", "ubuntu-latest:docker://node:20-bookworm", "ubuntu-22.04:docker://node:20-bookworm"]
-   # If it's empty when registering, it will ask for inputting labels.
-   # If it's empty when executing the `daemon`, it will use labels in the `.runner` file.
+@@ -74,7 +74,7 @@
+   #       backend-options:
+   #         image: ghcr.io/freebsd/freebsd-runtime:15.0
+   #         platform: freebsd/amd64
 -  labels: []
 +  labels: ["debian-dev:docker://localhost/debian-dev"]
  
  cache:
    #
-@@ -184,9 +167,9 @@
+@@ -198,9 +198,9 @@
    # Only takes effect if "network" is set to "".
    enable_ipv6: false
    # Whether to use privileged mode or not when launching task containers (privileged mode is required for Docker-in-Docker).

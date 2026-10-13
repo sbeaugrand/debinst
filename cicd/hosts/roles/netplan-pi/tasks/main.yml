@@ -5,6 +5,11 @@
 # ---------------------------------------------------------------------------- #
 ---
 - name: /etc/netplan/armbian.yaml
+  vars:
+    ip:
+      nanopi: 192.168.1.14
+      orangepizero: 192.168.1.15
+      rockpi-s: 192.168.1.18
   blockinfile:
     path: /etc/netplan/armbian.yaml
     create: yes
@@ -12,12 +17,12 @@
       network:
         version: 2
         ethernets:
-          controllerROCKPIS:
+          controllerPI:
             match:
               name: end*
             dhcp4: false
             addresses:
-              - 192.168.1.18/24
+              - {{ ip[ansible_facts["hostname"]] }}/24
             routes:
               - to: default
                 via: 192.168.1.254

@@ -44,7 +44,7 @@ https://code.forgejo.org/forgejo/runner/releases
 ```sh
 # https://forgejo.org/docs/latest/admin/actions/runner-installation/#downloading-and-installing-the-binary
 cd ~/Downloads
-VERSION=12.7.0
+VERSION=13.2.0
 curl -O https://code.forgejo.org/forgejo/runner/releases/download/v$VERSION/forgejo-runner-$VERSION-linux-amd64
 curl -O https://code.forgejo.org/forgejo/runner/releases/download/v$VERSION/forgejo-runner-$VERSION-linux-amd64.asc
 gpg --keyserver hkps://keys.openpgp.org --recv EB114F5E6C0DC2BCDD183550A4B61A2DC5923710
@@ -61,6 +61,7 @@ SECRET=`openssl rand -hex 20`
 sudo su -c "forgejo forgejo-cli actions register --keep-labels --secret $SECRET" forgejo
 make config
 forgejo-runner create-runner-file -c build/config.yml --connect --instance http://172.18.0.1:3000 --name runner --secret $SECRET
+vi build/config.yml +/debian-dev  # debian-dev:docker://debian-dev
 make
 ```
 

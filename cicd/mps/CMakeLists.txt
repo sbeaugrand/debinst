@@ -41,7 +41,6 @@ add_executable(mpssaver
     src/Input.cpp
     src/Output.cpp
 )
-
 add_executable(oledmesg
     src/oledmesg.cpp
 )
