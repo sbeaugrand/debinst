@@ -15,9 +15,19 @@ keyfile=~mutt/.fetchmailrc.key
  rcfile=~mutt/.fetchmailrc
 
 if [ `whoami` != "mutt" ]; then
-    cat $XAUTHORITY | sudo -u mutt tee ~mutt/.Xauthority >/dev/null
-    sudo XAUTHORITY=~mutt/.Xauthority -u mutt -i $0 $*
-    exit $?
+    if [ -f /home/mutt.home ]; then
+        su mutt -P -c "
+export XAUTHORITY=~/.Xauthority;
+touch ~/.Xauthority;
+echo `xauth nextract - $DISPLAY` | xauth nmerge -;
+bash;
+"
+        exit $?
+    else
+        cat $XAUTHORITY | sudo -u mutt tee ~mutt/.Xauthority >/dev/null
+        sudo XAUTHORITY=~mutt/.Xauthority -u mutt -i $0 $*
+        exit $?
+    fi
 fi
 
 export PYTHONPATH=/usr/lib/python2.7/site-packages  # viewhtmlmsg

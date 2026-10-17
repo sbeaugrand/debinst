@@ -325,9 +325,10 @@ Client::onEvent(const state::Album&, const event::Ok&)
     return state::Normal{};
 }
 State
-Client::onEvent(const state::Album& state, const event::Setup&)
+Client::onEvent(const state::Album&, const event::Setup&)
 {
-    return state;
+    this->currentTitle(mJsonClient.CallMethod("info", Json::Value()));
+    return state::Normal{};
 }
 
 State
@@ -399,6 +400,10 @@ Client::onEvent(const state::Artist& state, const event::Ok&)
 State
 Client::onEvent(const state::Artist&, const event::Setup&)
 {
+    if (mArtist["artist"].isNull()) {
+        this->currentTitle(mJsonClient.CallMethod("info", Json::Value()));
+        return state::Normal{};
+    }
     try {
         Json::Value params;
         params["artist"] = mArtist["artist"];
