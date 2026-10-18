@@ -268,6 +268,7 @@ xserver-xorg-video-intel  # s2
 libcupsimage2t64  # epson et2860 + live b1
 gramps
 python3-icu  # gramps
+python3-requests  # mps/client.py
 pdfposter
 qpdf
 mupdf-tools  # mutool

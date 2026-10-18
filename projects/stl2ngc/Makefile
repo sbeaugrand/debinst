@@ -29,9 +29,8 @@
 ##       gcodesender.py -f build/runeDagaz-cyl-r.ngc 2> >(tee err.log >&2)
 ##       # (Les fibres du bois en direction des y.)
 ##       # Accentuer les coins au couteau de precision
-##       # Faire couler 60cm d'etain 97% en bobine de 2mm de diametre (ou 13g)
+##       # Faire couler 60cm d'etain 97% en bobine de 2mm de diametre (ou 14g)
 ##       # Secouer le tasseau a plat pour repartir l'etain
-##       # Presser avec un autre tasseau par dessus
 ##       # Vernir les creux en couleur et poncer au 80, 120 puis 400
 # ---------------------------------------------------------------------------- #
 OCL_DIR = /usr/lib/x86_64-linux-gnu/opencamlib

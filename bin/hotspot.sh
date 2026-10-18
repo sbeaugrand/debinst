@@ -82,7 +82,7 @@ blockAfter()
 {
     h = int(substr($3, 1, 2));
     m = int(substr($3, 4, 2)) + '$min' + 1;
-    if (m >= 60) {
+    while (m >= 60) {
         m -= 60;
         h += 1;
         if (h > 24) {

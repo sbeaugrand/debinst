@@ -1,3 +1,4 @@
+#!/bin/bash
 # ---------------------------------------------------------------------------- #
 ## \file brightness.sh
 ## \author Sebastien Beaugrand
