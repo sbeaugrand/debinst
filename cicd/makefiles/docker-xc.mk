@@ -7,8 +7,10 @@
 .PHONY: docker-help
 docker-help:
 	@echo
-	@echo "docker build -t debian13-armhf -f makefiles/Dockerfile.armhf ."
-	@echo "docker build -t debian13-arm64 -f makefiles/Dockerfile.arm64 ."
+	@echo "docker build -t debian13-armhf-base -f makefiles/Dockerfile.armhf ."
+	@echo "docker build -t debian13-arm64-base -f makefiles/Dockerfile.arm64 ."
+	@echo "docker build -t debian13-armhf -f Dockerfile.armhf ."
+	@echo "docker build -t debian13-arm64 -f Dockerfile.arm64 ."
 	@echo "make docker-xc XC=arm-linux-gnueabihf"
 	@echo "make docker-xp XC=arm-linux-gnueabihf"
 	@echo "make docker-xc XC=aarch64-linux-gnu"

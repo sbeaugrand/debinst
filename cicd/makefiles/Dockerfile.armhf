@@ -22,7 +22,5 @@ RUN export DEBIAN_FRONTEND=noninteractive\
     fakeroot\
     g++-arm-linux-gnueabihf\
     help2man\
-    liblirc-dev:armhf\
-    libmpdclient-dev:armhf\
     lintian\
     pkg-config
