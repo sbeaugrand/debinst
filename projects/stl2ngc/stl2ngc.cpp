@@ -34,6 +34,8 @@
 #include <opencamlib/conecutter.hpp>
 #include <opencamlib/adaptivepathdropcutter.hpp>
 
+#include "Contour.h"
+
 #ifdef _OPENMP
 # include <omp.h>
 #endif
@@ -58,6 +60,7 @@ static struct argp_option options[] = {
     { "step", 's', "F", 0, "Z step [default: 3 (mm)].", 0 },
     { "overlap", 'o', "F", 0, "[default: 0.5 (mm)].", 0 },
     { "zigzag", 'z', "x|y", 0, "[default: x].", 0 },
+    { "contour", 'c', 0, 0, "Add contour paths to smooth the edges.", 0 },
     {}
 };
 struct arguments
@@ -68,6 +71,7 @@ struct arguments
     double step = 3;
     double overlap = 0.5;
     bool zigzag_x = true;
+    bool contour = false;
 };
 static error_t
 parse_opt(int key, char* arg, struct argp_state* state)
@@ -93,6 +97,9 @@ parse_opt(int key, char* arg, struct argp_state* state)
         if (*arg == 'y') {
             arguments->zigzag_x = false;
         }
+        break;
+    case 'c':
+        arguments->contour = true;
         break;
     default:
         return ARGP_ERR_UNKNOWN;
@@ -322,6 +329,25 @@ main(int argc, char* argv[])
 
         zcurr -= zstep;
         reverse(pts.begin(), pts.end());
+    }
+
+    if (arguments.contour) {
+        double zlast = zcurr + zstep;
+        Contour contour(s, c, arguments.zigzag_x,
+                        arguments.zigzag_x ? miny : minx, d_overlap,
+                        d_overlap / 100);
+        vector<vector<Point> > chains = contour.run(apdc.getPoints());
+        Point curr = pts.empty() ? Point() : pts.front();
+        chains = contour.order(chains, curr);
+        for (vector<Point>& chain : chains) {
+            w.g0(curr.x, curr.y, zsafe);
+            w.g0(chain.front().x, chain.front().y, zsafe);
+            w.g0(chain.front().x, chain.front().y, 0);
+            for (Point& cp : chain) {
+                w.g1(cp.x, cp.y, fmax(cp.z, zlast) - s.bb.maxpt.z);
+            }
+            curr = chain.back();
+        }
     }
 
     cout << "G0Z" << zsafe << endl;

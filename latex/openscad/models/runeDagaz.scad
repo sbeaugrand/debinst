@@ -18,7 +18,7 @@ H=3;     // Hauteur du support
 M=1;     // Marge au bord
 l=14;    // Longueur de la rune
 p=1.5;   // Profondeur des segments
-e=1;     // Epaisseur des segments
+e=1.5;   // Epaisseur des segments
 m=0.01;  // Marge pour les differences
 s=sqrt(2)/2;
 $fn=128;
@@ -26,7 +26,7 @@ $fn=128;
 difference() {
   translate([0,0,-(H+M)/2]) cube([L+M*2,P+M*2,H+M],center=true);
   translate([0,0,-H]) hull() {
-    r=4;
+    r=5;
     x=L/2-r;
     y=P/2-r;
     translate([-x,-y,0]) cylinder(H+m,r=r);
@@ -53,8 +53,8 @@ module oblong(s) {
   hull() {
     r=1;
     l=2;
-    translate([-l/2,(P/2-r-T)*s,-H]) cylinder(e,r=r);
-    translate([ l/2,(P/2-r-T)*s,-H]) cylinder(e,r=r);
+    translate([-l/2,(P/2-r-T-0.2)*s,-H]) cylinder(e,r=r);
+    translate([ l/2,(P/2-r-T-0.2)*s,-H]) cylinder(e,r=r);
   }
 }
 oblong( 1);

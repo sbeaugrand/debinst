@@ -24,7 +24,7 @@
 ##       # Exemple 2
 ##       cd ../../latex/openscad/models && make build/runeDagaz.stl && cd -
 ##       cp ../../latex/openscad/models/build/runeDagaz.stl build/
-##       make build/runeDagaz-cyl-r.ngc ARGS="-z y -s 4 -d 1.99"
+##       make build/runeDagaz-cyl-r.ngc ARGS="-z y -s 4 -d 1.99 -c"
 ##       camotics build/runeDagaz-cyl-r.ngc  # Tool 2mm
 ##       gcodesender.py -f build/runeDagaz-cyl-r.ngc 2> >(tee err.log >&2)
 ##       # (Les fibres du bois en direction des y.)
