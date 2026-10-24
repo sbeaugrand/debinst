@@ -285,9 +285,21 @@ main()
     test("D", D, 329.19299);  // 329.1930
     test("M", M, 274.41853);  // 274.4185
     test("F", F, 184.08526);  // 184.0853
-    test("apogee (error not found)", moonApogee(t, D, M, F), -0.4654);
+    // The book gives -0.4654, hence JDE = 2447442.3537 (20h29m TD),
+    // but it also gives 20h30m TD as the exact value.
+    // With -0.46483: JDE = 2447442.3543 = 20h30m TD.
+    // - moonApogee() checked term by term against table 50.A (p359)
+    // - no single typo in table 50.A (sign, argument or coefficient)
+    //   gives -0.4654
+    // - JM1991 coefficients give the same sum
+    // - p361: largest error for the apogee time is 3 minutes
+    // => the typo is probably in the -0.4654 of example 50.a (p357)
+    test("apogee", moonApogee(t, D, M, F), -0.46483258);  // -0.4654 !
 
     // 48.perigee
+    // Examples p361: "16h.9" and "10h.8" are decimal hours
+    // (16h54m and 10h48m), not 16h09m and 10h08m.
+    // Computed: 16h56m and 10h48m TD
     gTestRef = "48.perigee.1";
     year = 1997;
     month = 12;
@@ -307,7 +319,8 @@ main()
     test("MM", MM, month);
     test("DD", DD, day);
     test("hh", hh, 16 + gmtOffset(YY, MM, DD));
-    test("mm", mm, 9);
+    test("hh.h", round((hh - gmtOffset(YY, MM, DD) + mm / 60.0) * 10) / 10,
+         16.9);  // 16h.9 (decimal hours)
 
     gTestRef = "48.perigee.2";
     year = 1990;
@@ -328,7 +341,8 @@ main()
     test("MM", MM, month);
     test("DD", DD, day);
     test("hh", hh, 10 + gmtOffset(YY, MM, DD));
-    test("mm", mm, 8);
+    test("hh.h", round((hh - gmtOffset(YY, MM, DD) + mm / 60.0) * 10) / 10,
+         10.8);  // 10h.8 (decimal hours)
 
     // 49.a
     gTestRef = "49.a";
