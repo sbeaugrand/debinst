@@ -35,7 +35,7 @@ main(int argc, const char* argv[])
     // at the time of apparent rising or setting
     // 34/60 = 0.5667
     // 0.833 in https://www.esrl.noaa.gov/gmd/grad/solcalc
-    if (argc == 5) {
+    if (argc >= 5) {
         sscanf(argv[4], "%lf", &h0);
     } else {
         h0 = -deg(0, 34, 0);
@@ -139,7 +139,15 @@ main(int argc, const char* argv[])
     } else if (argc == 6 && *argv[5] == 'm') {
         printf("%02d", mi0);
     } else if (argc == 6 && *argv[5] == 's') {
-        hr0 = m0 * 24 + gmtoff;
+        /*  */ if (argv[5][1] == '0') {
+            hr0 = m0 * 24;
+        } else if (argv[5][1] == '1') {
+            hr0 = m1 * 24;
+        } else if (argv[5][1] == '2') {
+            hr0 = m2 * 24;
+        } else {
+            hr0 = m0 * 24 + gmtoff;
+        }
         int hh = hr0;
         int mm = (hr0 - hh) * 60;
         int ss = (hr0 - hh - mm / 60.0) * 3600;
