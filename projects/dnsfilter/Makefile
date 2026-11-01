@@ -3,7 +3,7 @@
 ## \author Sebastien Beaugrand
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
-## \note make S=1w
+## \note make S=1w | tee check-1w.out
 # ---------------------------------------------------------------------------- #
 S ?= 1d
 

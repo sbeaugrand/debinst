@@ -1,2 +1,4 @@
 allow
 deny
+.claude
+check-1w.out

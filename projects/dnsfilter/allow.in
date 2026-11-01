@@ -18,3 +18,375 @@ id.supercell.com
 instagram.com
 poki[-.]
 .pinterest.
+# ---------------------------------------------------------------------------- #
+# Ajouts du 2026-10-25
+# ---------------------------------------------------------------------------- #
+mtalk.google.com # Android : notifications push (FCM)
+android.clients.google.com # Android : enregistrement de l'appareil
+android.apis.google.com
+android.googleapis.com
+www.googleapis.com
+accounts.google.com
+accounts.youtube.com
+myaccount.google.com
+securetoken.googleapis.com # Firebase Auth
+firebaseinstallations.googleapis.com # requis pour les push FCM
+firebaseremoteconfig # configuration des applis
+firestore.googleapis.com
+storage.googleapis.com
+deviceintegritytokens-pa.googleapis.com # Play Integrity (banques, jeux)
+androidattestationvalidation-pa.googleapis.com
+digitalassetlinks.googleapis.com
+safebrowsing.googleapis.com
+android-safebrowsing.google.com
+update.googleapis.com
+clientservices.googleapis.com
+mobileconfiguration-pa.googleapis.com
+notifications-pa.googleapis.com
+instantmessaging-pa # Google Messages (RCS)
+jibe.google.com
+spot-pa.googleapis.com # Localiser mon appareil
+geomobileservices-pa.googleapis.com # localisation
+phonedeviceverification-pa.googleapis.com
+time.android.com
+time.google.com
+stun.l.google.com
+stun1.l.google.com
+stun2.l.google.com
+clients1.google.com
+clients2.google.com
+clients3.google.com
+clients4.google.com
+apis.google.com
+contacts.google.com
+people-pa.googleapis.com
+drive.google.com
+docs.google.com
+maps.google.com
+www.recaptcha.net
+fonts.googleapis.com
+fonts.gstatic.com
+www.gstatic.com
+ssl.gstatic.com
+encrypted-tbn
+encrypted-vtbn
+googleusercontent.com
+ytimg.com
+ggpht.com
+googlevideo.com
+c.youtube.com
+youtube-nocookie.com
+gvt1.com # mises a jour des composants Google
+account.samsung.com
+samsungosp.com
+samsungcloud
+pushmessage.samsung.com
+vas.samsungapps.com # Galaxy Store / mises a jour
+fr-odc.samsungapps.com
+gw.samsungapps.com
+gras.samsungdm.com # mises a jour firmware
+samsungpositioning.com
+samsungweather.com
+samsungsiminfo.com
+internet.apps.samsung.com # Samsung Internet
+smartthings.com
+gateway.icloud.com
+setup.icloud.com
+quota.icloud.com
+icloud-content.com
+mzstatic.com
+quota.fe2.apple-dns.net
+appleiphonecell.com # detection portail captif iOS
+thinkdifferent.us
+airport.us
+ibook.info
+itools.info
+msftconnecttest.com # detection portail captif Windows
+msftncsi.com
+firefox-portal-detection.com
+push.services.mozilla.com
+update.microsoft.com
+delivery.mp.microsoft.com
+login.live.com
+microsoftonline.com
+teams.microsoft.com
+office.net
+officeapps.live.com
+whiteboard
+to-do.microsoft.com
+ocsp.digicert.com
+oneocsp.microsoft.com
+crl2.microsoft.com
+lencr.org
+digicert.com
+sectigo.com
+spotify.com
+spotifycdn.com
+i.scdn.co
+canvaz.scdn.co
+video-fa.scdn.co
+xx.fbcdn.net # medias Instagram / WhatsApp
+fna.fbcdn.net
+cdninstagram.com
+graph.instagram.com
+ecollege78.fr # ENT college
+monlycee.net # ENT lycee
+index-education.net # Pronote
+hisqool.com
+digipad.app
+ladigitale.dev
+mafreebox.freebox.fr
+challenges.cloudflare.com # captcha Cloudflare
+cdnjs.cloudflare.com
+jsdelivr.net
+unpkg.com
+captcha-delivery.com
+datadome.co
+supercell.com
+brawlstars.com
+openai.com
+oaiusercontent.com
+# ---------------------------------------------------------------------------- #
+# Ajouts du 2026-11-01
+# ---------------------------------------------------------------------------- #
+facebook.com # Facebook / Messenger (graph sert aussi au SDK des jeux)
+fbsbx.com
+fbcdn.net
+messenger.com
+metaaivm.com # Meta AI
+meta-ohttp-relay
+weward # WeWard
+prod-weward-echo-assets
+verisoul.ai # anti-fraude, sans doute exige par WeWard
+revenuecat.com # achats integres
+expo.dev # mises a jour d'applis React Native
+wonderpush.com # notifications push
+api.mapbox.com # cartes (events.mapbox.com est bloque)
+config.mapbox.com
+helpshift.com # support dans les applis
+fitness.googleapis.com # Google Fit (podometre WeWard)
+firebaseio.com
+firebase.googleapis.com
+firebaseappcheck.googleapis.com
+cryptauthenrollment.googleapis.com
+remoteprovisioning.googleapis.com
+securitydomain-pa.googleapis.com # cles d'acces (passkeys)
+passwordsleakcheck-pa
+ondevicesafety-pa # detection d'arnaques
+ohttp-relay-safebrowsing # Safe Browsing
+chromesync
+myphonenumbers-pa
+nearbydevices-pa
+nearbysharing-pa # Quick Share
+prod-rcs-eu-keydelivery-pa # RCS
+verifiablecredentials-pa # Google Wallet
+androidplatformbackuprestore-pa # sauvegarde Android
+mmsbackup.pa.googleapis.com
+mapsmobilesdks-pa
+mobilemaps-pa
+userlocation.googleapis.com
+speechs3proto2-pa # saisie vocale
+translate.google
+translate-pa
+translate.googleapis.com
+lens.google.com
+lens.usercontent.google.com
+youtube.googleapis.com
+meetings.googleapis.com
+drive.usercontent.google.com
+drivefrontend-pa
+clients6.google.com
+clients.l.google.com
+www3.l.google.com
+plus.l.google.com
+lh2.l.google.com
+lh3.google.com
+ogs.google.
+news.google.com
+history.google.com
+dl.google.com
+restrictedapps-pa
+subscriptionsfirstparty-pa
+notifications-ueeshp-pa
+geller-pa
+taskassist-pa
+robinfrontend-pa # Gemini
+appsgenaiserver-pa
+c2paregistration
+jnn-pa
+quake-pa
+reach-pa
+infinitedata-pa
+chromeupboarding-pa
+[ ]google.com.$
+[ ]gstatic.com.$
+t[0-9].gstatic.com
+consent.youtube.com
+img.youtube.com
+samsungapps.com # Galaxy Store
+samsungdm.com
+ospserver.net # mises a jour firmware
+samsungmwallet.com # Samsung Wallet
+mpay.ssp.samsung.com
+www.samsung.com
+samsungconsent.com
+hiyaapi.com # Smart Call (identification des appels)
+hiya-dist
+bixby # Bixby / Galaxy AI
+com.samsung.android # noms de paquets envoyes au DNS par erreur
+com.sec.android
+here.com # meteo Samsung
+hereapi.com
+cloud.microsoft # Microsoft 365 / Teams
+office.com
+office365.com
+officeppe.com
+outlook.com
+live.com
+live.net
+msauth.net
+msftauth.net
+sharepoint.com # Office du lycee
+microsoft365.com
+sfx.ms
+windowsupdate.com
+mp.microsoft.com # Store, licences, optimisation de distribution
+static.microsoft
+smartscreen.microsoft.com
+endpoint.security.microsoft.com # Defender
+wdcp.microsoft.com
+signals.urs.microsoft.com
+storequality.microsoft.com
+s-microsoft.com
+services.autopatch.microsoft.com
+appsforoffice.microsoft.com
+officecdn.microsoft.com
+officeclient.microsoft.com
+graph.microsoft.com
+www.microsoft.com
+fs.microsoft.com
+df.cfp.microsoft.com
+edge.microsoft.com
+msedge.api.cdp.microsoft.com
+config.edge.skype.com
+wns.windows.com
+time.windows.com
+blob.core.windows.net
+azurefd.net
+xboxlive.com
+xboxservices.com
+assets.msn.com
+wbd.ms
+www.bing.com
+mozilla.org # Firefox (normandy est bloque)
+mozilla.net
+mozilla.com
+mozgcp.net
+firefox.com
+mozilla.map.fastly.net
+mozilla-download.fastly-edge.com
+libreoffice.org
+ibyteimg.com # ByteDance (CapCut)
+byteoversea.com
+ibytedtos.com
+ttwstatic.com
+tiktokcdn.com
+bytevcloudapi.com
+pipopay.com
+scdn.co # Spotify
+scopely.io # jeux
+loomgames.com
+squadbustersgame.com
+cloudflare.com
+ajax.googleapis.com
+code.jquery.com
+vjs.zencdn.net
+raw.githubusercontent.com
+s3.amazonaws.com
+example.com # tests de connectivite
+example.org
+ipv4only.arpa
+whoami.akamai.net
+cookiebot.com # bandeaux cookies (les bloquer casse des sites)
+usercentrics.eu
+consentmanager.net
+consentframework.com
+cookie-script.com
+cookielaw.org
+onetrust.io
+trustcommander.net
+transcend-cdn.com
+privacy-center.org
+eduscol.education.gouv.fr # scolaire
+erasmus
+europa.eu
+iledefrance.fr
+idfconf
+unowhy.com
+paloaltonetworks.com # securite des PC de la region
+enedis.fr
+ringcentral.com
+boursobank.com
+brsimg.com
+paypal.com
+laposte.net
+webmail.free.fr
+shopify.com
+shop.app
+vinted
+etsy.com
+etsystatic.com
+pinimg.com
+lego.com
+fft.fr # Ten'Up
+tenup.queue-it.net
+prismic.io
+musixmatch.com
+mxmcdn.net
+muziker
+daktela.com
+shenyun.fr
+shazam.com
+canva.com
+wikipedia.org
+wikimedia.org
+berlin.de
+berlinonline-basemap
+geopf.fr
+unsplash.com
+giphy.com
+gravatar.com
+wp.com
+s.w.org
+jwplayer.com
+jwpsrv.com
+mux.com
+datocms-assets.com
+redd.it
+reddit.com
+duckduckgo.com
+qwant.com
+search.yahoo.com
+yandex.
+garnstudio.com
+captive.g.aaplimg.com # detection portail captif iOS
+oaistatic.com # ChatGPT
+friendlycaptcha.eu
+zdassets.com # Zendesk
+grammarly.com
+decathlon.net
+autodoc.de
+auto-doc.fr
+idealo.fr
+boulanger.com
+micromania.fr
+pagesjaunes.fr
+frandroid.com
+phonandroid.com
+macplanete.com
+revuedumobile.com
+lecrabeinfo.net
+futura-sciences.com
+guaranteed-reviews.com
+icons8.com
+customily.com
