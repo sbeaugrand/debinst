@@ -10,7 +10,6 @@ PROROOT = ../..
 include $(PROROOT)/makefiles/livret.mk
 
 recettes.pdf:\
- empty.pdf\
  savon.pdf\
  pneu.pdf\
 

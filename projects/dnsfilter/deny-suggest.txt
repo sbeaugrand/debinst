@@ -652,3 +652,74 @@ kickoffo.site
 grastyup.com
 caseysgiveaway.com
 cadeauplus.com
+# ---------------------------------------------------------------------------- #
+# Ajouts du 2026-11-08 (check-1w du 2026-11-08)
+# ---------------------------------------------------------------------------- #
+# == Decides le 2026-11-08 (a surveiller : verifier que rien ne casse) ==
+cdnws.api.huya.com
+dcg.microsoft.com
+# == Stores d'APK hors Play Store ==
+# Aptoide a servi a installer Fortnite (fortnite-app.fr.aptoide.com)
+aptoide.com
+apkmirror.com
+auroraoss.com
+f-droid.org
+# == Google : publicite (adservice.google.com etait deja bloque) ==
+adservice.google.*
+adsense.google.com
+doubleclick.com
+doubleclickbygoogle.com
+# == Apple / Epic Games : telemetrie ==
+metrics.icloud.com
+tracking.epicgames.com
+datarouter.ol.epicgames.com
+faro-receiver-prod.fbfb.live.use1a.on.epicgames.com
+# == Samsung : telemetrie (comme ureca.samsungapps.com) ==
+ureca-lab.com
+# == Anti-adblock et reinjection de pub ==
+html-load.cc
+ad-delivery.net
+btloader.com
+# == Regies web, encheres (RTB), mediation mobile ==
+mediavine.com
+pub.network
+pro-market.net
+assemblyexchange.com
+mobileadexchange.net
+floors.dev
+scope3.com
+yieldstudio.com
+fuseplatform.net
+primis.tech
+adleadevent.com
+crsspxl.com
+optimise.net
+tradplusad.com
+data4game.com
+# == Mesure d'audience, A/B tests, pistage des e-mails ==
+chartbeat.com
+chartbeat.net
+indicative.com
+conductrics.com
+receptivity.io
+bounceexchange.com
+bouncex.net
+wknd.ai
+config-security.com
+klclick.com
+mjt.lu
+slgnt.eu
+t.eloqua.com
+librato-collector.genius.com
+productmetrics.tech.padam.io
+nel.heroku.com
+# == Domaines jetables / arnaques ==
+cheftoondiligord.site
+travel-sale.live
+# == SDK d'applis inconnus, toujours la apres deux semaines ==
+everestop.io
+api.mossturbo.com
+rqmob.com
+zipoapps.com
+vgamepop.com
+snapplay.com

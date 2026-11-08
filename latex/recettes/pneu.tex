@@ -36,10 +36,35 @@
     \pression{#1}{40}\\
 }
 
+\def\psi#1{%
+    \count0=#1
+    \multiply\count0 by 145038
+    \divide\count0 by 100000
+    \count1=\count0
+    \divide\count1 by 10
+    \number\count1.%
+    \multiply\count1 by 10
+    \advance\count0 by -\count1
+    \number\count0{}
+}
+
+\def\bar#1{%
+    \count0=#1
+    \multiply\count0 by 100000
+    \divide\count0 by 145038
+    \count1=\count0
+    \divide\count1 by 100
+    \number\count1.%
+    \multiply\count1 by 100
+    \advance\count0 by -\count1
+    \ifnum\count0<10 0\number\count0{} \else \number\count0{} \fi
+}
+
 \begin{document}
 \Large\centerline{PNEU}\normalsize
 ~\\
-\large{Pression}\normalsize
+\large{Pression}\normalsize\\
+~\\
 \begin{center}
 \begin{tabular}{|r|r|r|r|r|r|r|r|r|}\hline
   0\si{\degreeCelsius}&
@@ -67,30 +92,80 @@
 \ligne{4200}
 \ligne{4400}
 \hline
-\end{tabular}
-\end{center}
+\end{tabular}\\
 ~\\
-\large{Remplacement}\normalsize
+~\\
+~\\
+\begin{tabular}{|r|r|r|r|r|r|r|r|r|r|}\hline
+bar&\textbf{2.20}&\textbf{2.30}&\textbf{2.40}&\textbf{2.50}&\textbf{2.60}&\textbf{2.70}&\textbf{2.80}&\textbf{2.90}&\textbf{3.00}\\ \hline\hline
+PSI&\psi{220}&\psi{230}&\psi{240}&\psi{250}&\psi{260}&\psi{270}&\psi{280}&\psi{290}&\psi{300}\\ \hline
+\end{tabular}\\
+~\\
+~\\
+\begin{tabular}{|r|r|r|r|r|r|r|r|r|}\hline
+bar&2.25&2.35&2.45&2.55&2.65&2.75&2.85&2.95\\ \hline\hline
+PSI&\psi{225}&\psi{235}&\psi{245}&\psi{255}&\psi{265}&\psi{275}&\psi{285}&\psi{295}\\ \hline
+\end{tabular}\\
+~\\
+~\\
+~\\
+\begin{tabular}{|r|r|r|r|r|r|r|r|}\hline
+PSI&\textbf{32.0}&33.0&\textbf{34.0}&35.0&\textbf{36.0}&37.0&\textbf{38.0}\\ \hline\hline
+bar&\bar{320}&\bar{330}&\bar{340}&\bar{350}&\bar{360}&\bar{370}&\bar{380}\\ \hline
+\end{tabular}\\
+~\\
+~\\
+\begin{tabular}{|r|r|r|r|r|r|r|}\hline
+PSI&32.5&33.5&34.5&35.5&36.5&37.5\\ \hline\hline
+bar&\bar{325}&\bar{335}&\bar{345}&\bar{355}&\bar{365}&\bar{375}\\ \hline
+\end{tabular}\\
+~\\
+~\\
+~\\
+\begin{tabular}{|r|r|r|r|r|r|r|}\hline
+PSI&39.0&\textbf{40.0}&41.0&\textbf{42.0}&43.0&\textbf{44.0}\\ \hline\hline
+bar&\bar{390}&\bar{400}&\bar{410}&\bar{420}&\bar{430}&\bar{440}\\ \hline
+\end{tabular}\\
+~\\
+~\\
+\begin{tabular}{|r|r|r|r|r|r|r|r|}\hline
+PSI&38.5&39.5&40.5&41.5&42.5&43.5&44.5\\ \hline\hline
+bar&\bar{385}&\bar{395}&\bar{405}&\bar{415}&\bar{425}&\bar{435}&\bar{445}\\ \hline
+\end{tabular}\\
+\end{center}
+\newpage
+\large{Remplacement}\normalsize\\
+~\\
 \begin{enumerate}
-\item Décoller les deux flans avec un levier en protègeant la jante
+\item Desserrer les vis de roue
+\item Lever avec un cric hydraulique
+\item Poser légèrement sur une chandelle pour avoir deux points d'appui
+\item Démonter la roue et dégonfler avec un embout d'une vieille pompe à pédale
+\item Se changer et mettre des gants à 1 euro
+\item Décoller les deux flans avec un levier en protégeant la jante
 \item Lubrifier avec du liquide vaisselle et mettre le pneu au sol, face avant visible
 \item Monter sur le pneu pour mettre le flan au niveau du plus petit diamètre de la jante
 \item Utiliser deux barres Ken-Tool ou similaire pour commencer, bosse vers le centre
 \item Continuer avec une des deux barres, bosse vers le haut, en étant toujours sur le pneu
 \item Retourner et mettre le deuxième flan au niveau du plus petit diamètre
-\item Utiliser les deux barres avec les pointes contre la jante pour commencer
-\item Écarter avec une des deux barres, bosse vers le haut, et pousser avec un levier
-\item Couper la valve et la retirer avec un embout de pompe
-\item Enlever les traces de gomme de la jante avec de l'essence et un médiator
+\item Utiliser une des deux barres avec la pointe contre la jante pour commencer
+\item Écarter avec l'autre barre, bosse vers le haut, et pousser avec un levier
+\item Couper la valve au couteau de précision et la retirer avec un embout de pompe
+\item Enlever les traces de gomme de la jante avec un médiator et de l'essence
 \item Mettre la nouvelle valve avec du liquide vaisselle et un embout de pompe
 \item Lubrifier le nouveau pneu avec du liquide vaisselle
 \item Placer le pneu sur la face avant pour être au plus proche du plus petit diamètre
 \item Vérifier le sens de rotation
 \item Retourner et faire passer le premier flan, bosse vers le centre
 \item Retourner et faire passer le deuxième flan en terminant avec les deux barres
-\item Faire coller les flans avec un compresseur ou une pompe à pied
-\item Décoller un flan et mettre 100 \si{g} de billes d'équilibrage
-\item Gonfler à 3 bars ou 44 psi ou comme indiqué sur le pneu
+\item Faire coller un ou deux flans avec un compresseur ou une pompe à pied
+\item Dégonfler et décoller un flan sans être proche de la valve
+\item Mettre 100 \si{g} de billes d'équilibrage avec un entonnoir
+\item Gonfler à 3 bars ou 44 PSI ou comme indiqué sur le pneu
+\item Monter la roue avec les vis de roue graissés
+\item Lever et retirer la chandelle
+\item Retirer le cric
+\item Serrer les vis de roue
 \item Dégonfler à la pression voulue
 \end{enumerate}
 \end{document}

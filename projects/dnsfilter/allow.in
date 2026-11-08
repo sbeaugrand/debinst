@@ -367,7 +367,12 @@ reddit.com
 duckduckgo.com
 qwant.com
 search.yahoo.com
-yandex.
+[ ]yandex.ru.$ # recherche Yandex (pas yandex. : mc.yandex et appmetrica y sont bloques)
+[ ]yandex.com.$
+[ ]ya.ru.$
+familysearch.yandex.
+yastatic.net
+avatars.mds.yandex.net
 garnstudio.com
 captive.g.aaplimg.com # detection portail captif iOS
 oaistatic.com # ChatGPT
@@ -390,3 +395,79 @@ futura-sciences.com
 guaranteed-reviews.com
 icons8.com
 customily.com
+# ---------------------------------------------------------------------------- #
+# Ajouts du 2026-11-08
+# ---------------------------------------------------------------------------- #
+tiktok.com # autorise sur le PC, bloque par nft sur les telephones
+tiktokv.com
+byteeffecttos-g.com # effets CapCut
+in-addr.arpa # resolutions inverses locales
+_dns-sd._udp # decouverte de services sur le reseau local
+sb-ssl.google.com # Safe Browsing
+sb-ssl.l.google.com
+clients5.google.com
+mail.google.com
+consent.google.com
+youtubei.googleapis.com
+cryptauthdevicesync.googleapis.com
+secb2b.com # Samsung Knox
+samsunggeopush.com # Samsung : push
+summary-api.samsunghealth.com # insight.samsunghealth.com reste bloque
+samsungpass.com
+mpay.samsung.com # Samsung Pay
+mcafee.com # antivirus preinstalle Samsung
+.g.aaplimg.com # Apple (pas aaplimg.com : le DoH Apple y est bloque)
+-cdn.v.aaplimg.com
+bag-smoot.v.aaplimg.com
+dsce9.akamaiedge.net # CDN Apple
+store.microsoft.com # Microsoft Store
+bigcatalog-frontdoor-prod.commerce.microsoft.com
+enterpriseregistration.windows.net
+microsoftaik.azure.net # attestation TPM
+nintendo.com # compte et eShop Nintendo
+nintendo.net
+onesignal.com # notifications push des applis
+phraseapp.com # traductions des applis
+peoplefungames.com # Wordscapes
+wordscapes.peoplefun.com
+game-assets.brawlstarsgame.com
+supercell.zendesk.com
+hcaptcha.com # captcha
+cookiepro.com # bandeaux cookies
+geolocation.onetrust.com
+openstreetmap.org # cartes
+openstreetmap.de
+tad-idfm.padam.io # transport a la demande IDFM (productmetrics bloque)
+opendigitaleducation.net # ENT
+next-education.fr
+nexteducation.fr
+illiwap.com # infos de la mairie
+liveffn.com # resultats natation
+doctolib.fr
+chronopost.fr
+carrefour.fr
+www.free.fr
+ssl-images-amazon.com
+media-amazon.com
+www.amazon.fr
+ebaystatic.com
+s.yimg.com
+espncdn.com
+adyen.com # paiement
+fontawesome.com
+bootstrapcdn.com
+shopifycdn.com
+judge.me # avis clients des boutiques
+trustpilot.com
+genius.com # paroles (librato-collector est bloque)
+azlyrics.com
+songlyrics.com
+lrclib.net
+tunefindforfans.com
+milan-jeunesse.com # magazines jeunesse
+bayard.io
+supergurumi.com
+wordscapessolution.com
+epicgames.com # Epic Games / Fortnite (telemetrie bloquee dans deny-suggest)
+epicgames.dev
+unrealengine.com
