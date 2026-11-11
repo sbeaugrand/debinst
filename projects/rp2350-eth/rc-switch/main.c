@@ -8,6 +8,11 @@
 #include <hardware/pio.h>
 #include "rc-switch.pio.h"
 #include "CH9120.h"
+#ifdef NTP_CLOCK
+# include "clock.h"
+# define SYNC_PERIOD_US (24ull * 3600 * 1000000)
+# define SYNC_RETRY_US (60ull * 1000000)
+#endif
 
 // 150 us per bit
 // factor(150) = [ 2 3 5 5 ] = 3 symbols per bit, 10 x 5 us per symbol
@@ -15,6 +20,7 @@
 #define PIN 22
 
 extern UCHAR CH9120_Mode;
+extern UCHAR CH9120_GATEWAY[4];
 
 PIO gPio;
 uint gSm;
@@ -42,9 +48,22 @@ main()
     rc_switch_program_init(gPio, gSm, offset, PIN, FREQ);
 
     CH9120_Mode = TCP_SERVER;
+    CH9120_GATEWAY[3] = 254;
     CH9120_init();
 
+#ifdef NTP_CLOCK
+    clock_init();
+    absolute_time_t nextSync = get_absolute_time();
+#endif
+
     for (;;) {
+#ifdef NTP_CLOCK
+        if (time_reached(nextSync)) {
+            nextSync = make_timeout_time_us(clock_sync() ?
+                                            SYNC_PERIOD_US : SYNC_RETRY_US);
+            k = 0;
+        }
+#endif
         if (uart_is_readable(UART_ID1)) {
             uint8_t c = uart_getc(UART_ID1);
             if (c >= '0' &&

@@ -83,6 +83,7 @@ dorsync:
 	 -f'-s_kicad'\
 	 -f'-s_.git'\
 	 -f'-s_.vagrant'\
+	 -f'-s_.claude'\
 	 -f'-s_amd64'\
 	 -f'-s_debinst/homepage/debinst'\
 	 -f'-s_debinst/homepage/php'\

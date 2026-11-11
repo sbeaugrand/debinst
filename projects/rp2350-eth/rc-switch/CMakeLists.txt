@@ -18,6 +18,12 @@ add_executable(main
 
 target_link_libraries(main CH9120 hardware_pio)
 
+option(NTP_CLOCK "7-segment display of NTP time" OFF)
+if(NTP_CLOCK)
+    target_sources(main PRIVATE clock.c)
+    target_compile_definitions(main PRIVATE NTP_CLOCK)
+endif()
+
 pico_enable_stdio_usb(main 1)
 pico_add_extra_outputs(main)
 

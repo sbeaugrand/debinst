@@ -1,0 +1,61 @@
+% Contours de cartes à jouer à coins arrondis sur une page A4
+%
+% Format bridge (57 x 89 mm) : 11 cartes
+%   2 colonnes de 3 cartes en portrait + 1 colonne de 5 cartes en paysage
+%   largeur : 57 + 57 + 89 = 203 mm <= 210 mm
+%   hauteur : 5 x 57 = 285 mm <= 297 mm
+% Format poker (63 x 88 mm) : 9 cartes (grille 3 x 3)
+%   Avec 63 + 88 = 151 mm on ne peut pas loger une colonne paysage
+%   en plus de 2 colonnes portrait, donc 9 est le maximum pratique.
+%
+% Choisir le format ici :
+\newif\ifbridge
+%\bridgetrue      % 11 cartes bridge
+\bridgefalse    % 9 cartes poker
+
+\documentclass{article}
+\usepackage[a4paper,margin=0mm]{geometry}
+\usepackage{tikz}
+\pagestyle{empty}
+
+\begin{document}
+\begin{tikzpicture}[remember picture,overlay,x=1mm,y=1mm,
+    carte/.style={draw,line width=0.2pt,rounded corners=3mm}]
+  \def\g{0}   % espace entre cartes (mm)
+  \ifbridge
+    \def\W{57}\def\H{89}
+    % origine : coin inférieur gauche de la page
+    \begin{scope}[shift={(current page.south west)}]
+      \pgfmathsetmacro\xo{(210-(2*\W+\H+2*\g))/2}
+      \pgfmathsetmacro\yp{(297-(3*\H+2*\g))/2}
+      \pgfmathsetmacro\yl{(297-(5*\W+4*\g))/2}
+      % 2 colonnes x 3 cartes en portrait
+      \foreach \i in {0,1}
+        \foreach \j in {0,1,2} {
+          \pgfmathsetmacro\x{\xo+\i*(\W+\g)}
+          \pgfmathsetmacro\y{\yp+\j*(\H+\g)}
+          \draw[carte] (\x,\y) rectangle ++(\W,\H);
+        }
+      % 1 colonne x 5 cartes en paysage
+      \foreach \j in {0,...,4} {
+        \pgfmathsetmacro\x{\xo+2*(\W+\g)}
+        \pgfmathsetmacro\y{\yl+\j*(\W+\g)}
+        \draw[carte] (\x,\y) rectangle ++(\H,\W);
+      }
+    \end{scope}
+  \else
+    \def\W{63}\def\H{88}
+    \begin{scope}[shift={(current page.south west)}]
+      \pgfmathsetmacro\xo{(210-(3*\W+2*\g))/2}
+      \pgfmathsetmacro\yo{(297-(3*\H+2*\g))/2}
+      \foreach \i in {0,1,2}
+        \foreach \j in {0,1,2} {
+          \pgfmathsetmacro\x{\xo+\i*(\W+\g)}
+          \pgfmathsetmacro\y{\yo+\j*(\H+\g)}
+          \draw[carte] (\x,\y) rectangle ++(\W,\H);
+        }
+    \end{scope}
+  \fi
+\end{tikzpicture}
+\null
+\end{document}

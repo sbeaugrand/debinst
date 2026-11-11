@@ -5,6 +5,7 @@
 ## \sa http://beaugrand.chez.com/
 ## \copyright CeCILL 2.1 Free Software license
 # ---------------------------------------------------------------------------- #
+plain="open --type plain -c aes-cbc-essiv:sha256 -h ripemd160"
 clear="\033[1A\033[K"
 
 # ---------------------------------------------------------------------------- #
@@ -27,7 +28,8 @@ fi
 # connexion
 # ---------------------------------------------------------------------------- #
 if [ "$skipconn" != 1 ]; then
-    conn=`nmcli -t -f device connection show --active`
+    conn=`nmcli -t -f device connection show --active |\
+ grep -v '^lo$' | grep -v '^br-' | grep -v docker`
     if [ -n "$conn" ]; then
         echo "erreur: connexion active ($conn)"
         exit 1
@@ -151,7 +153,7 @@ if [ ! -e /dev/mapper/$crypted ]; then
         if [ -z "$keysize" ]; then
             keysize=128
         fi
-        cmd="sudo /sbin/cryptsetup -s \$keysize open --type plain $dev $crypted"
+        cmd="sudo /sbin/cryptsetup $plain -s \$keysize $dev $crypted"
     fi
     echo $cmd
     securekbd
