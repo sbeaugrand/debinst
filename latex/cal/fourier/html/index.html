@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!-- ----------------------------------------------------------------------- -->
+<!-- \file index.html                                                        -->
+<!-- \author Sebastien Beaugrand                                             -->
+<!-- \sa http://beaugrand.chez.com/                                          -->
+<!-- \copyright CeCILL 2.1 Free Software license                             -->
+<!-- ----------------------------------------------------------------------- -->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soleil</title>
+<link rel="icon" sizes="192x192" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<style>
+  :root { --bg: #fff; --fg: #222; --dim: #777; --line: #ddd; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #121212; --fg: #eee; --dim: #999; --line: #333; }
+  }
+  body { margin: 0; padding: 16px; background: var(--bg); color: var(--fg);
+         font-family: sans-serif; max-width: 480px; margin-inline: auto; }
+  nav { display: flex; align-items: center; gap: 8px; }
+  nav span { flex: 1; text-align: center; font-size: 1.2em; cursor: pointer; }
+  button { font-size: 1em; padding: 8px 14px; }
+  .row { display: flex; justify-content: space-between; align-items: baseline;
+         padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .row .l { font-size: 1.4em; }
+  .row .t { font-size: 2em; font-variant-numeric: tabular-nums; }
+  #config { margin-top: 12px; }
+  #config p { color: var(--dim); }
+  textarea { width: 100%; box-sizing: border-box; height: 8em;
+             font-family: monospace; font-size: 0.8em; white-space: pre;
+             background: var(--bg); color: var(--fg); }
+  .err { color: #d33; }
+  #toggle { margin-top: 16px; }
+</style>
+</head>
+<body>
+<nav>
+  <button id="prev">&lt;</button>
+  <span id="date" title="Aujourd'hui"></span>
+  <button id="next">&gt;</button>
+</nav>
+<div class="row"><span class="l">Lever</span><span class="t" id="t1"></span></div>
+<div class="row"><span class="l">Méridien</span><span class="t" id="t0"></span></div>
+<div class="row"><span class="l">Coucher</span><span class="t" id="t2"></span></div>
+<button id="toggle">Coefficients</button>
+<div id="config" hidden>
+  <p>Coller la sortie de 'make coeffs' (ou 3 lignes de 7 coefficients :
+     méridien, lever, coucher)</p>
+  <textarea id="edit" spellcheck="false"></textarea>
+  <button id="save">Enregistrer</button>
+  <button id="reset" hidden>Défaut</button>
+  <span id="err" class="err"></span>
+</div>
+<script src="soleil.js"></script>
+<script>
+'use strict';
+const KEY = 'soleil-coeffs';
+// Coefficients integres par 'make COEFFS=...' (vide sinon)
+const DEFAULT = '';
+const $ = id => document.getElementById(id);
+let date = new Date();
+let coeffs = null;
+
+// Les coefficients saisis l'emportent sur ceux integres (bouton Defaut)
+function load() {
+    try { return localStorage.getItem(KEY) || DEFAULT; } catch (e) { return DEFAULT; }
+}
+// Des coefficients identiques a ceux integres ne sont pas enregistres
+function store(text) {
+    try {
+        localStorage.removeItem(KEY + '-default');
+        if (text.trim() === DEFAULT.trim()) {
+            localStorage.removeItem(KEY);
+        } else {
+            localStorage.setItem(KEY, text);
+        }
+    } catch (e) {}
+}
+
+function update() {
+    $('date').textContent = date.toLocaleDateString(undefined, {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const y = date.getFullYear(), m = date.getMonth(), d = date.getDate();
+    for (let i = 0; i < 3; ++i) {
+        $('t' + i).textContent = coeffs ? localTime(coeffs[i], y, m, d) : '--:--';
+    }
+}
+
+function shift(n) {
+    date = new Date(date.getFullYear(), date.getMonth(), date.getDate() + n);
+    update();
+}
+
+$('prev').onclick = () => shift(-1);
+$('next').onclick = () => shift(1);
+$('date').onclick = () => { date = new Date(); update(); };
+$('toggle').onclick = () => { $('config').hidden = !$('config').hidden; };
+$('save').onclick = () => {
+    const text = $('edit').value;
+    const c = parse(text);
+    if (!c) {
+        $('err').textContent = 'Format invalide';
+        return;
+    }
+    $('err').textContent = '';
+    coeffs = c;
+    store(text);
+    $('config').hidden = true;
+    update();
+};
+$('reset').onclick = () => {
+    $('edit').value = DEFAULT;
+    $('save').onclick();
+};
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) update();
+});
+
+$('reset').hidden = DEFAULT === '';
+const text = load();
+$('edit').value = text;
+coeffs = parse(text);
+$('config').hidden = coeffs !== null;
+update();
+</script>
+</body>
+</html>

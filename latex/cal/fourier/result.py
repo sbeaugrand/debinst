@@ -24,7 +24,7 @@ a0, a1, b1, a2, b2, a3, b3 = [float(x) for x in args.file.readline().split()]
 n = datetime.now()
 d = (0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334)[n.month - 1]
 d += n.day
-if n.year % 4 == 0:
+if n.month > 2 and n.year % 4 == 0 and (n.year % 100 != 0 or n.year % 400 == 0):
     d += 1
 w = 2 * 3.141593 / 365.242365
 m = a0

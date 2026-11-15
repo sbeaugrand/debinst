@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Meme dessin que ../../../html/icon.svg ; zone visible garantie : 21..87 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="108dp" android:height="108dp"
+        android:viewportWidth="108" android:viewportHeight="108">
+  <path android:fillColor="#F5A623"
+        android:pathData="M36,61 A18,18 0 0,1 72,61 Z"/>
+  <path android:fillColor="#F5A623"
+        android:pathData="M29.5,63 h49 a1.5,1.5 0 0,1 0,3 h-49 a1.5,1.5 0 0,1 0,-3 Z"/>
+  <path android:strokeColor="#F5A623" android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:pathData="M54,37 L54,29 M70.3,44.7 L75.9,39.1 M37.7,44.7 L32.1,39.1"/>
+</vector>

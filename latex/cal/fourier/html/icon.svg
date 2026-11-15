@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108">
+  <!-- Soleil levant ; zone visible garantie (icone masquee) : 21..87 -->
+  <rect width="108" height="108" fill="#1e3a5f"/>
+  <g fill="#f5a623">
+    <path d="M36,61 A18,18 0 0,1 72,61 Z"/>
+    <rect x="28" y="63" width="52" height="3" rx="1.5"/>
+  </g>
+  <path stroke="#f5a623" stroke-width="4" stroke-linecap="round"
+        d="M54,37 L54,29 M70.3,44.7 L75.9,39.1 M37.7,44.7 L32.1,39.1"/>
+</svg>
