@@ -723,3 +723,67 @@ rqmob.com
 zipoapps.com
 vgamepop.com
 snapplay.com
+# ---------------------------------------------------------------------------- #
+# Ajouts du 2026-11-15 (check-1w du 2026-11-15)
+# ---------------------------------------------------------------------------- #
+# == Contournement du filtre (iCloud Private Relay, mask.icloud.com deja bloque) ==
+mask-api.icloud.com
+# == Ezoic (regie, video Humix/open.video, encheres) ==
+ezoic.net
+ezoic.com
+ezojs.com
+ezodn.com
+open.video
+bidsystem.ai
+# == Telemetrie d'applis et de services ==
+tracking.fortnite.com
+6f74656c.sumup.com
+unagi.amazon.ca
+fls-na.amazon.ca
+bes.gcp.data.bigcommerce.com
+collect.pandahall.com
+urcollect.pandahall.com
+stm.puma.com
+# == Qihoo 360 (antivirus/nettoyeur chinois, souvent adware) ==
+360.cn
+360safe.com
+# == Regies web, affiliation, widgets de partage ==
+outbrainimg.com
+teads-xo.com
+orangeclickmedia.com
+adman.gr
+grxchange.gr
+aniview.com
+adsquirrel.ai
+stay22.com
+sharethis.com
+shareaholic.com
+shareaholic.net
+a8.net
+impactcdn.com
+ojrq.net
+genieshopping.com
+snap.licdn.com
+pushowl.com
+# == Mesure d'audience, A/B tests, pistage des e-mails ==
+hotjar.com
+mixpanel.com
+wysistat.com
+wysistat.net
+ati-host.net
+tracker.metricool.com
+addingwell.com
+flagship.io
+optimizely.com
+featureassets.org
+hello.myfonts.net
+hs-scripts.com
+hs-analytics.net
+hscollectedforms.net
+awstrack.me
+wa.phm.education.gouv.fr
+# == Sondages remuneres et offerwalls ==
+cpx-research.com
+# == Samsung : bloque sans en connaitre le role (a surveiller) ==
+api.mop.apps.samsung.com
+stc.samsungdis.com

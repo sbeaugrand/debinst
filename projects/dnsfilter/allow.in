@@ -471,3 +471,141 @@ wordscapessolution.com
 epicgames.com # Epic Games / Fortnite (telemetrie bloquee dans deny-suggest)
 epicgames.dev
 unrealengine.com
+# ---------------------------------------------------------------------------- #
+# Ajouts du 2026-11-15
+# ---------------------------------------------------------------------------- #
+reminders-pa.googleapis.com # Google Agenda / Tasks
+backup.googleapis.com # sauvegarde Android
+findmydevice-pa.googleapis.com # Localiser mon appareil
+maps.googleapis.com # Google Maps
+maps.gstatic.com
+streetviewpixels-pa.googleapis.com
+pay.google.com
+wallet.google.com
+1.ssiloc.com # Samsung : localisation (a confirmer)
+dvs.samsungmobile.com # Samsung : verification de l'appareil
+www.icloud.com
+caldav.icloud.com # agenda iCloud
+acsegateway.fe2.apple-dns.net
+relay.fbpigeon.com # Messenger
+meta-ohttp-config-prod.fastly-edge.com # Meta (relais OHTTP)
+tiktokcdn-us.com # CapCut
+fortnite.com # Epic Games (tracking.fortnite.com bloque)
+fn.gg
+metahuman.com
+twinmotion.com
+gar.education.fr # GAR : ressources numeriques scolaires
+pearltrees.com # scolaire
+quiziniere.com
+coopmaths.fr
+bruitparif.fr
+inrs.fr
+gatekeeperconsent.com # bandeau cookies Ezoic (Ezoic bloque)
+axept.io # bandeau cookies Axeptio
+axeptio.imgix.net
+pandect.es # bandeau cookies Pandectes (Shopify)
+privacyportal-de.onetrust.com
+privacyportal-eu.onetrust.com
+awswaf.com # captcha AWS
+impervadns.net # CDN Imperva
+checkip.amazonaws.com
+zimperium.com # protection des applis bancaires
+sumup.com # paiement SumUp (6f74656c = OpenTelemetry bloque)
+sumup.net
+sumup.store
+sips-services.com # paiement Worldline
+sips.preprod.giservices.io
+app-wallee.com
+klarna.com
+klarnacdn.net
+sequra
+paypalobjects.com
+ebay.fr
+ebay.com
+ebayimg.com
+amazon.ca
+amazon.com
+amzn.to
+booking.com
+bstatic.com
+eurostar.com
+cultura.com
+funko.com
+funko.my.site.com
+salesforce-scrt.com # chat
+pandahall.com # collect et urcollect bloques
+puma.com # stm bloque
+cdn11.bigcommerce.com
+checkout-sdk.bigcommerce.com
+prestashop3.com
+shopify.ai
+appmate.io
+nfcube.com
+loox.io
+doofinder.com # recherche dans les boutiques
+contentstack.com
+sanity.io
+scene7.com
+flaticon.com
+flickr.com
+typekit.net
+imgix.map.fastly.net
+jsdelivr.map.fastly.net
+openfreemap.org
+auth0.com
+ably.io
+ably-realtime.com
+facil-iti.app # accessibilite
+tawk.to # chat
+oct8ne.com
+zohopublic.eu
+zoho.eu
+zohocdn.com
+cognigy.ai
+getflowbox.com
+hsforms.com # formulaires HubSpot (scripts de suivi bloques)
+hs-banner.com
+cdn.brevo.com
+chimpstatic.com
+photoeditorsdk.com
+zoom.us
+platform.twitter.com # integrations
+syndication.twitter.com
+ccmbg.com # journaldesfemmes
+journaldesfemmes.fr
+athensvoice.gr
+qweekle # reservations
+abcroisiere.com
+franceminiature.fr
+quies
+auditionsante.fr
+fondationpourlaudition.org
+cochlea.eu
+mon-centre-auditif.com
+amplifon.com
+cotral.fr
+movedancewear.com
+sansha.com
+bobolatelier.com
+blogencarton.net
+lesciseauxmagiques.fr
+marches-de-noel.fr
+giphar
+proximis.com
+houzz.fr
+yummly.com
+le-livre.fr
+1001coques.fr
+mode-klein.com
+societe-des-avis-garantis.fr
+tempetedelouest.fr
+crochetpets.shop
+metzner.koeln
+leboncoin.fr
+trustpilot.net
+schemaapp.com # donnees structurees (SEO)
+attraqt.io
+telegram.org # Telegram (autorise le 2026-11-15)
+telegram.me
+t.me
+[ ]d[a-z0-9]\{12,13\}.cloudfront.net.$ # distributions CloudFront anonymes (13 ou 14 caracteres)

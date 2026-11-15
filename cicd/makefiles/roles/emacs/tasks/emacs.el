@@ -89,7 +89,7 @@
 (if (>  x-width 1920) (setq win-ypos 64))
 (if (> win-num 1) (progn
   (setq win-width (+ (* nb-cols win-num) (* win-edge (- win-num 1))))
-  (setq win-height (/ (- x-height 75) y-font))
+  (setq win-height (/ (- x-height 80) y-font))
   (setq win-xpos (- x-width (* (+ win-width (+ win-edge 1)) x-font)))
   (random t)
   (setq win-xpos (random win-xpos))

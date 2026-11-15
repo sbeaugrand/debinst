@@ -35,7 +35,14 @@ Chevauchements restants (motif d'allow.in → nombre d'entrées bloquées qu'il 
 - **SDK d'applis non identifiés** (everestop, mossturbo, rqmob, zipoapps, vgamepop, snapplay) : bloqués le 2026-11-08 après deux semaines de présence. Si une appli ou un jeu ne marche plus, regarder d'abord de ce côté.
 - **Stores d'APK hors Play Store** (Aptoide, APKMirror, Aurora Store, F-Droid) : bloqués. Aptoide a servi à installer Fortnite.
 - **Huya** (`cdnws.api.huya.com`) et **`dcg.microsoft.com`** : bloqués le 2026-11-08 sans en connaître le rôle. Il faut vérifier que rien ne casse (une appli sur les téléphones pour Huya, Windows ou Office sur le PC pour Microsoft).
-- **Bandeaux cookies** (Didomi, Cookiebot, Usercentrics, OneTrust…) : autorisés, car les bloquer casse souvent l'affichage des sites et de certaines applis. Les gestionnaires de balises (TagCommander, Adobe DTM) et LiveRamp (privacymanager.io) sont bloqués.
+- **Ezoic** (`ezoic.net`, `ezojs.com`, `ezodn.com`, vidéo `open.video`, `bidsystem.ai`) : bloqué le 2026-11-15. C'était le premier poste de la semaine (environ 400 requêtes). Son bandeau cookies `gatekeeperconsent.com` reste autorisé, comme les autres bandeaux.
+- **Qihoo 360** (`360.cn`, `360safe.com`) : bloqué le 2026-11-15. Ces requêtes viennent d'un antivirus ou nettoyeur chinois, souvent porteur de pub. Il faut chercher sur quel appareil il est installé.
+- **HubSpot** : les formulaires (`hsforms.com`) et le bandeau (`hs-banner.com`) sont autorisés, le suivi (`hs-scripts.com`, `hs-analytics.net`, `hscollectedforms.net`) est bloqué.
+- **Samsung** : `api.mop.apps.samsung.com` et `stc.samsungdis.com` sont bloqués le 2026-11-15 sans en connaître le rôle, après deux semaines de présence (même règle que pour les SDK inconnus). Si une appli Samsung ne marche plus (Galaxy Store, Samsung Members, thèmes), regarder d'abord de ce côté. `1.ssiloc.com` (localisation probable) et `dvs.samsungmobile.com` sont autorisés.
+- **Telegram** : autorisé le 2026-11-15 (`telegram.org`, `telegram.me`, `t.me`).
+- **CloudFront** : les distributions anonymes (`d` suivi de 12 ou 13 caractères, puis `.cloudfront.net`) sont masquées dans le rapport par un motif ancré d'allow.in, parce qu'on ne peut pas les classer par le nom. Elles n'ont jamais été bloquées. En contrepartie, un traceur hébergé sur CloudFront n'apparaît plus. Les noms personnalisés en `*.cloudfront.net`, s'il y en a, restent visibles.
+- **Paiement et protection des applis bancaires** (SumUp, Worldline Sips, Klarna, Zimperium) : autorisés. `6f74656c.sumup.com` est bloqué : `6f74656c` est « otel » en hexadécimal, c'est-à-dire la télémétrie OpenTelemetry.
+- **Bandeaux cookies** (Didomi, Cookiebot, Usercentrics, OneTrust, Axeptio, Pandectes…) : autorisés, car les bloquer casse souvent l'affichage des sites et de certaines applis. Les gestionnaires de balises (TagCommander, Adobe DTM) et LiveRamp (privacymanager.io) sont bloqués.
 
 ## Historique
 
@@ -44,15 +51,17 @@ Chevauchements restants (motif d'allow.in → nombre d'entrées bloquées qu'il 
 | 2026-10-25 | ~15 500 | ~4 100 (74 % classées) | Première passe : listes de base. |
 | 2026-11-01 | 4 912 (729 noms) | 478 (97 noms, 90 % classées) | Facebook et WeWard autorisés, Snapchat bloqué, sondages bloqués. |
 | 2026-11-08 | 1 064 (341 noms) | 233 (79 noms, 78 % classées) | Stores d'APK bloqués, Epic Games autorisé, Huya, dcg.microsoft et SDK inconnus bloqués, `yandex.` réduit. |
+| 2026-11-15 | 1 468 (344 noms) | 83 (37 noms, 94 % classées) | Ezoic, Qihoo 360, Hotjar, ShareThis, Outbrain (images) bloqués. Telegram, les distributions CloudFront anonymes, beaucoup de sites marchands et de sites sur l'audition autorisés. |
 
 ## À décider ou à identifier
 
-Restants de la semaine du 2026-11-08, par volume (après application des suggestions) :
+Restants de la semaine du 2026-11-15, par volume (après application des suggestions) :
 
-- `api.mop.apps.samsung.com` (22), `stc.samsungdis.com` (7), `1.ssiloc.com` (4), `us-api.mcsvc.samsung.com` (1) : services Samsung mal identifiés.
-- `storage.yandexcloud.net` (8), `metrics.rapidedge.io` (4), `cdnwidget.com`, `cdnbasket.net`, `scriptwrapper.com`, `content-settings.com`, `site-config.com`, `img-cache.net` : rôle inconnu (de la pub ou de l'anti-adblock pour certains).
-- Une trentaine de `*.cloudfront.net` anonymes, dont 4 à plus de 10 requêtes : impossible de les classer par le nom seul.
-- Des sites et des newsletters vus une ou deux fois : à ajouter à allow.in au fil de l'eau.
+- `storage.yandexcloud.net` (9, troisième semaine) : stockage générique, on ne sait pas qui l'utilise.
+- `event-portal.dailyinnovation.biz` (7), `welkit.com` (6), `webservices.mor-hermes.com` (4), `applets.ebxcdn.com` (4), `powl.io` (8), `kimeratechnologies.com` (6) : rôle inconnu, probablement des widgets de boutiques.
+- `voilatile-pa.googleapis.com` (3) : service Google dont on ne connaît pas le rôle.
+- `cdn.pddmoonstatic.com` (Temu), `binfenxie.com`, `ankhx.com`, `pahter.tech`, `solarsmashonline.com` : une ou deux requêtes chacun. À surveiller : ils pourraient venir d'applis ou de jeux douteux.
+- Des noms techniques de CDN (akamai, herokudns, elb/execute-api amazonaws, kxcdn, cdn77) : ce sont les cibles CNAME d'autres noms, on peut les ignorer.
 
 ## Pistes hors de ce répertoire
 
@@ -61,7 +70,7 @@ Restants de la semaine du 2026-11-08, par volume (après application des suggest
 
 ## Procédure pour la prochaine fois
 
-1. Copier dans blocked-names.txt les sections de deny-suggest.txt qui ne s'y trouvent pas encore. deny-suggest.txt ne contient plus que les ajouts du 2026-11-08 : tout le fichier est à copier.
+1. Copier dans blocked-names.txt les sections de deny-suggest.txt qui ne s'y trouvent pas encore. Tout ce qui précède « Ajouts du 2026-11-15 » y est déjà, il ne reste donc que cette dernière section à copier. Pour le vérifier : `grep -v '^#' deny-suggest.txt | grep -vxF -f /etc/dnscrypt-proxy/blocked-names.txt`.
 2. Copier allow-suggest.in à la fin d'allow.in.
 3. Redémarrer dnscrypt-proxy, attendre une semaine, puis lancer `make S=1w > check-1w.out`.
 4. Demander à Claude d'affiner à partir de ce fichier, de `check-1w.out`.
