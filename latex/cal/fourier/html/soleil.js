@@ -52,14 +52,50 @@ function minutes(c, y, m, d) {
         + c[5] * Math.cos(3 * w * j) + c[6] * Math.sin(3 * w * j);
 }
 
+// Calcul avec les coordonnees p = { lat, lon, h0 } en degres (Nord et Est
+// positifs, h0 hauteur du soleil au lever/coucher, -0.833 pour la refraction
+// et le rayon du disque) : minutes UTC du meridien (i = 0), du lever (1) ou
+// du coucher (2), null si le soleil ne se leve ou ne se couche pas.
+// Equation du temps et declinaison : series de Fourier de Spencer (1971)
+// reprises par la NOAA, "General Solar Position Calculations"
+// https://gml.noaa.gov/grad/solcalc/solareqns.PDF
+function coordMinutes(i, p, y, m, d) {
+    const r = Math.PI / 180;
+    const g = 2 * Math.PI / dayOfYear(y, 11, 31) * (dayOfYear(y, m, d) - 1);
+    const eqtime = 229.18 * (0.000075
+        + 0.001868 * Math.cos(g) - 0.032077 * Math.sin(g)
+        - 0.014615 * Math.cos(2 * g) - 0.040849 * Math.sin(2 * g));
+    const decl = 0.006918
+        - 0.399912 * Math.cos(g) + 0.070257 * Math.sin(g)
+        - 0.006758 * Math.cos(2 * g) + 0.000907 * Math.sin(2 * g)
+        - 0.002697 * Math.cos(3 * g) + 0.00148 * Math.sin(3 * g);
+    const noon = 720 - 4 * p.lon - eqtime;
+    if (i === 0) {
+        return noon;
+    }
+    const lat = p.lat * r;
+    const cosH = (Math.sin(p.h0 * r) - Math.sin(lat) * Math.sin(decl))
+        / (Math.cos(lat) * Math.cos(decl));
+    if (!(cosH >= -1 && cosH <= 1)) {
+        return null;
+    }
+    const h = Math.acos(cosH) / r;
+    return i === 1 ? noon - 4 * h : noon + 4 * h;
+}
+
 // Heure locale "HH:MM" (fuseau et heure d'ete du navigateur)
-function localTime(c, y, m, d) {
-    const min = Math.floor(minutes(c, y, m, d));
-    const t = new Date(Date.UTC(y, m, d) + min * 60000);
+// a partir des minutes UTC du jour
+function formatTime(min, y, m, d) {
+    const t = new Date(Date.UTC(y, m, d) + Math.floor(min) * 60000);
     return String(t.getHours()).padStart(2, '0') + ':'
         + String(t.getMinutes()).padStart(2, '0');
 }
 
+function localTime(c, y, m, d) {
+    return formatTime(minutes(c, y, m, d), y, m, d);
+}
+
 if (typeof module !== 'undefined') {
-    module.exports = { parse, dayOfYear, minutes, localTime };
+    module.exports = { parse, dayOfYear, minutes, localTime,
+                       coordMinutes, formatTime };
 }

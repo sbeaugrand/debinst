@@ -32,7 +32,11 @@
              font-family: monospace; font-size: 0.8em; white-space: pre;
              background: var(--bg); color: var(--fg); }
   .err { color: #d33; }
-  #toggle { margin-top: 16px; }
+  #toggle, #ctoggle { margin-top: 16px; display: block; }
+  #coords label { display: flex; justify-content: space-between;
+                  align-items: center; margin: 8px 0; }
+  #coords input { width: 10em; font-size: 1em;
+                  background: var(--bg); color: var(--fg); }
 </style>
 </head>
 <body>
@@ -53,6 +57,18 @@
   <button id="reset" hidden>Défaut</button>
   <span id="err" class="err"></span>
 </div>
+<button id="ctoggle">Coordonnées</button>
+<div id="coords" hidden>
+  <p>Si des coordonnées sont enregistrées, elles remplacent les
+     coefficients (degrés, Nord et Est positifs, h0 hauteur du soleil au
+     lever et au coucher)</p>
+  <label>Latitude <input id="lat" type="number" step="any"></label>
+  <label>Longitude <input id="lon" type="number" step="any"></label>
+  <label>h0 <input id="h0" type="number" step="any" value="-4"></label>
+  <button id="csave">Enregistrer</button>
+  <button id="cclear">Effacer</button>
+  <span id="cerr" class="err"></span>
+</div>
 <script src="soleil.js"></script>
 <script>
 'use strict';
@@ -62,6 +78,29 @@ const DEFAULT = '';
 const $ = id => document.getElementById(id);
 let date = new Date();
 let coeffs = null;
+const CKEY = 'soleil-coords';
+let coords = null;
+
+// Coordonnees { lat, lon, h0 } ou null si absentes ou invalides
+function checkCoords(p) {
+    if (!p || typeof p !== 'object') return null;
+    const v = [p.lat, p.lon, p.h0];
+    if (v.some(x => typeof x !== 'number' || !Number.isFinite(x))) return null;
+    if (Math.abs(p.lat) > 90 || Math.abs(p.lon) > 180 || Math.abs(p.h0) > 90) {
+        return null;
+    }
+    return { lat: p.lat, lon: p.lon, h0: p.h0 };
+}
+function loadCoords() {
+    try { return checkCoords(JSON.parse(localStorage.getItem(CKEY))); }
+    catch (e) { return null; }
+}
+function storeCoords(p) {
+    try {
+        if (p) localStorage.setItem(CKEY, JSON.stringify(p));
+        else localStorage.removeItem(CKEY);
+    } catch (e) {}
+}
 
 // Les coefficients saisis l'emportent sur ceux integres (bouton Defaut)
 function load() {
@@ -84,7 +123,9 @@ function update() {
         weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     const y = date.getFullYear(), m = date.getMonth(), d = date.getDate();
     for (let i = 0; i < 3; ++i) {
-        $('t' + i).textContent = coeffs ? localTime(coeffs[i], y, m, d) : '--:--';
+        const min = coords ? coordMinutes(i, coords, y, m, d)
+            : coeffs ? minutes(coeffs[i], y, m, d) : null;
+        $('t' + i).textContent = min === null ? '--:--' : formatTime(min, y, m, d);
     }
 }
 
@@ -96,7 +137,14 @@ function shift(n) {
 $('prev').onclick = () => shift(-1);
 $('next').onclick = () => shift(1);
 $('date').onclick = () => { date = new Date(); update(); };
-$('toggle').onclick = () => { $('config').hidden = !$('config').hidden; };
+$('toggle').onclick = () => {
+    $('config').hidden = !$('config').hidden;
+    $('coords').hidden = true;
+};
+$('ctoggle').onclick = () => {
+    $('coords').hidden = !$('coords').hidden;
+    $('config').hidden = true;
+};
 $('save').onclick = () => {
     const text = $('edit').value;
     const c = parse(text);
@@ -108,6 +156,28 @@ $('save').onclick = () => {
     coeffs = c;
     store(text);
     $('config').hidden = true;
+    update();
+};
+$('csave').onclick = () => {
+    const num = id => $(id).value.trim() === '' ? NaN : Number($(id).value);
+    const p = checkCoords({ lat: num('lat'), lon: num('lon'), h0: num('h0') });
+    if (!p) {
+        $('cerr').textContent = 'Valeurs invalides';
+        return;
+    }
+    $('cerr').textContent = '';
+    coords = p;
+    storeCoords(p);
+    $('coords').hidden = true;
+    update();
+};
+$('cclear').onclick = () => {
+    coords = null;
+    storeCoords(null);
+    $('lat').value = '';
+    $('lon').value = '';
+    $('h0').value = '-4';
+    $('cerr').textContent = '';
     update();
 };
 $('reset').onclick = () => {
@@ -122,7 +192,13 @@ $('reset').hidden = DEFAULT === '';
 const text = load();
 $('edit').value = text;
 coeffs = parse(text);
-$('config').hidden = coeffs !== null;
+coords = loadCoords();
+if (coords) {
+    $('lat').value = coords.lat;
+    $('lon').value = coords.lon;
+    $('h0').value = coords.h0;
+}
+$('config').hidden = coeffs !== null || coords !== null;
 update();
 </script>
 </body>

@@ -76,6 +76,7 @@ dorsync:
 	 -f'-s_build-*'\
 	 -f'-s_*.ko'\
 	 -f'-s_*.dtbo'\
+	 -f'-s_*.aux'\
 	 -f'-s_*.ps'\
 	 -f'-s_*.ngc'\
 	 -f'-s_*.nc'\
