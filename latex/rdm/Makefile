@@ -9,6 +9,7 @@ PROROOT = ..
 SUBDIRS = \
 rdmpafsym \
 rdmpaf \
+rdmpafsym4a \
 
 PDFS = $(join $(addsuffix /,$(SUBDIRS)),$(addsuffix .pdf,$(SUBDIRS)))
 define submake

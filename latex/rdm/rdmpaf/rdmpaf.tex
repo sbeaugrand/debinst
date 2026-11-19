@@ -20,14 +20,17 @@
 % ---------------------------------------------------------------------------- %
 % Effort tranchant et moment fléchissant
 % ---------------------------------------------------------------------------- %
-\begin{minipage}{9cm}
+\begin{minipage}{9.5cm}
 \centerline{\textbf{Poutre chargée uniformément sur}}
 \centerline{\textbf{deux appuis avec porte-à-faux}}
 ~\\
 ~\\
 Résultante: $R_{(\frac{l + b}{2})} = p(l + b)$\\
+~\\
 Appuis:\\
-$\begin{cases}
+~\\
+~$
+\begin{cases}
 \sum{F} = 0\\
 ~\\
 \sum{M_A} = 0
@@ -41,7 +44,8 @@ R_Bl = p(l + b)\frac{l + b}{2}
 R_A = p\frac{l^2 - b^2}{2l}\\
 ~\\
 R_B = p\frac{(l + b)^2}{2l}
-\end{cases}$
+\end{cases}
+$\\
 ~\\
 ~\\
 \small
@@ -78,7 +82,7 @@ $-p\frac{b^2}{2} + p\frac{b^2}{2} = 0$\\
 \end{tabular}
 \normalsize
 \end{minipage}
-\begin{minipage}{10cm}
+\begin{minipage}{9.5cm}
 \begin{tikzpicture}
 \def\L{6.0}
 \def\a{0}
@@ -152,65 +156,90 @@ $-p\frac{b^2}{2} + p\frac{b^2}{2} = 0$\\
 ~\\
 ~\\
 % ---------------------------------------------------------------------------- %
-% Déformée
+% Déformée entre A et B
 % ---------------------------------------------------------------------------- %
-\begin{minipage}[t]{9cm}
-Déformée entre A et B:\\
+\begin{minipage}[t]{9.5cm}
+Déformée entre $A$ et $B$:\\
 ~\\
-$\frac{y^{''}}{EI_{Gz}} = p\frac{l^2-b^2}{2l}x - p\frac{x^2}{2}$\\
+$EIy^{''} = p\frac{l^2-b^2}{2l}x - p\frac{x^2}{2}$\\
 ~\\
-$\frac{y^{'}}{EI_{Gz}} = -p\frac{x^3}{6} + p\frac{l^2-b^2}{4l}x^2 + c_1$\\
+$EIy^{'} = -p\frac{x^3}{6} + p\frac{l^2-b^2}{4l}x^2 + c_1$\\
 ~\\
-$\frac{y}{EI_{Gz}} = -p\frac{x^4}{24} + p\frac{l^2-b^2}{12l}x^3 + c_1x + c_2$\\
+$EIy = -p\frac{x^4}{24} + p\frac{l^2-b^2}{12l}x^3 + c_1x + c_2$\\
 ~\\
-$\begin{cases}
-y_{A(x=0)} = 0\\
-~\\
-y_{B(x=l)} = 0
+~$
+\begin{cases}
+  y_{A(x=0)} = 0\\~\\
+  y_{B(x=l)} = 0
 \end{cases}
 \begin{cases}
-c_2 = 0\\
+  c_2 = 0\\~\\
+  -p\frac{l^4}{24} + p\frac{l^2-b^2}{12}l^2 + c_1l = 0
+\end{cases}
+$\\
 ~\\
--p\frac{l^4}{24} + p\frac{l^2-b^2}{12}l^2 + c_1l = 0
-\end{cases}$
 ~\\
-$\frac{y^{'}_{B(x=l)}}{EI_{Gz}} =
- -p\frac{l^3}{6} + p\frac{l^2-b^2}{4}l + c_1 = c_3$
+$c_1 = p\frac{l^3}{24} - p\frac{l^2-b^2}{12}l$\\
 \end{minipage}
-\begin{minipage}[t]{10cm}
-Déformée entre B et C:\\
+% ---------------------------------------------------------------------------- %
+% Déformée entre B et C
+% ---------------------------------------------------------------------------- %
+\begin{minipage}[t]{9.5cm}
+Déformée entre $B$ et $C$:\\
 ~\\
-$\frac{y^{''}}{EI_{Gz}} = -p\frac{b^2}{2} + pbx - p\frac{x^2}{2}$\\
+$EIy^{''} =
+- p\frac{b^2}{2}
++ pbx
+- p\frac{x^2}{2}
+$\\
 ~\\
-$\frac{y^{'}}{EI_{Gz}} =
- -p\frac{x^3}{6} + p\frac{b}{2}x^2 - p\frac{b^2}{2}x + c_3$\\
+$EIy^{'} =
+- p\frac{x^3}{6}
++ p\frac{b}{2}x^2
+- p\frac{b^2}{2}x
++ c_3
+$\\
 ~\\
-$\frac{y}{EI_{Gz}} =
- -p\frac{x^4}{24} + p\frac{b}{6}x^3 - p\frac{b^2}{4}x^2 + c_3x + c_4$\\
+$EIy =
+- p\frac{x^4}{24}
++ p\frac{b}{6}x^3
+- p\frac{b^2}{4}x^2
++ c_3x
++ c_4
+$\\
 ~\\
-$\begin{cases}
-y_{B(x=0)} = 0\\
+~$
+\begin{cases}
+  y_{B(x=0)} = 0\\~\\
+  EIy^{'}_{B(x=0)} = -p\frac{l^3}{6} + p\frac{l^2-b^2}{4l}l + c_1
+\end{cases}
+\begin{cases}
+  c_4 = 0\\~\\
+  c_3 = -p\frac{l^3}{8} + p\frac{l^2-b^2}{6}l
+\end{cases}
+$\\
 ~\\
-y^{'}_{B(x=0)} = c_3 = -p\frac{l^3}{6} + p\frac{l^2-b^2}{4}l +
- p\frac{l^3}{24} - p\frac{l^2-b^2}{12}l = p\frac{l^3}{24} - p\frac{b^2l}{6}
-\end{cases}$\\
+~\\
+$c_3 = p\frac{l^3}{24} - p\frac{b^2l}{6}$
 \end{minipage}
+~\\
 ~\\
 ~\\
 % ---------------------------------------------------------------------------- %
 % Flèche
 % ---------------------------------------------------------------------------- %
-\begin{minipage}[t]{9cm}
+\begin{minipage}[t]{9.5cm}
 Flèche en $C(x = b)$:\\
 ~\\
-$\frac{y}{EI_{Gz}} = -p\frac{b^4}{24} + p\frac{b^4}{6} - p\frac{b^4}{4} + c_3b$
+$EIy =
+- p\frac{b^4}{24} + p\frac{b^4}{6} - p\frac{b^4}{4} + c_3b$
 ~\\
-$\phantom{\frac{y}{EI_{Gz}}} =
- -p\frac{3b^4}{24} + p\frac{l^3b}{24} - p\frac{4b^3l}{24}$\\
+$\phantom{EIy} =
+- p\frac{3b^4}{24} + p\frac{l^3b}{24} - p\frac{4b^3l}{24}$\\
 ~\\
-\fbox{$y_C = -\frac{pb(l + b)}{24EI_{Gz}}(3b^2 + lb - l^2)$}
+\fbox{$y_C = -\frac{pb(l + b)}{24EI}(3b^2 + lb - l^2)$}
 \end{minipage}
-\begin{minipage}[t]{10cm}
+\begin{minipage}[t]{9.5cm}
 Calcul de $b$ pour $y_C=0$ et $L=1.25$:\\
 ~\\
 $3b^2 + lb - l^2 = 0$\\
@@ -226,9 +255,9 @@ $b = \frac{-3L + \sqrt{13L^2}}{2} = \frac{\sqrt{13} - 3}{2}L \simeq 0.3785$
 % ---------------------------------------------------------------------------- %
 Déformée avec pyBar:\\
 \begin{center}
-\includegraphics[scale=0.35]{defo1.pdf}\\
-\includegraphics[scale=0.35]{defo2.pdf}\\
-\includegraphics[scale=0.35]{defo3.pdf}
+\includegraphics[scale=0.5]{defo1.pdf}\\
+\includegraphics[scale=0.5]{defo2.pdf}\\
+\includegraphics[scale=0.5]{defo3.pdf}
 \end{center}
 
 \end{document}

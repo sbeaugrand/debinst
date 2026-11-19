@@ -20,7 +20,7 @@
 % ---------------------------------------------------------------------------- %
 % Effort tranchant et moment fléchissant
 % ---------------------------------------------------------------------------- %
-\begin{minipage}{9cm}
+\begin{minipage}{9.5cm}
 \centerline{\textbf{Poutre chargée uniformément sur}}
 \centerline{\textbf{deux appuis avec porte-à-faux symétrique}}
 ~\\
@@ -65,7 +65,7 @@ $-p\frac{a^2}{2} + p\frac{a^2}{2} = 0$\\
 \end{tabular}
 \normalsize
 \end{minipage}
-\begin{minipage}{10cm}
+\begin{minipage}{9.5cm}
 \begin{tikzpicture}
 \def\L{6.0}
 \def\a{1.2}
@@ -141,52 +141,68 @@ $-p\frac{a^2}{2} + p\frac{a^2}{2} = 0$\\
 % ---------------------------------------------------------------------------- %
 % Déformée
 % ---------------------------------------------------------------------------- %
-\begin{minipage}[t]{9cm}
+\begin{minipage}[t]{9.5cm}
 Déformée:\\
 ~\\
-$\frac{y^{''}}{EI_{Gz}} =
+$EIy^{''} =
 - p\frac{a^2}{2}
 + p\frac{l}{2}x
-- p\frac{x^2}{2}$\\
+- p\frac{x^2}{2}
+$\\
 ~\\
-$\frac{y^{'}}{EI_{Gz}} =
+$EIy^{'} =
 - p\frac{x^3}{6}
 + p\frac{l}{4}x^2
-- p\frac{a^2}{2}x + c_1$\\
+- p\frac{a^2}{2}x + c_1
+$\\
 ~\\
-$\frac{y}{EI_{Gz}} =
+$EIy =
 - p\frac{x^4}{24}
 + p\frac{l}{12}x^3
-- p\frac{a^2}{4}x^2 + c_1x + c_2$\\
+- p\frac{a^2}{4}x^2 + c_1x + c_2
+$\\
 ~\\
-$\begin{cases}
-y^{'}_{E(x=\frac{l}{2})} = 0\\
-~\\
-y_{A(x=0)} = 0
+~$
+\begin{cases}
+  y^{'}_{E(x=\frac{l}{2})} = 0\\~\\
+  y_{A(x=0)} = 0
 \end{cases}
 \begin{cases}
-- p\frac{l^3}{48}
-+ p\frac{l^3}{16}
-- p\frac{a^2l}{4} + c_1 = 0\\
+  c_1 = p\frac{l^3}{16\times3} - p\frac{l^3}{16} + p\frac{a^2l}{4}\\~\\
+  c_2 = 0
+\end{cases}
+$\\
 ~\\
-c_2 = 0
-\end{cases}$
+~\\
+$c_1 = -p\frac{2l^3}{16\times3} + p\frac{a^2l}{4}$
 \end{minipage}
 % ---------------------------------------------------------------------------- %
 % Flèche
 % ---------------------------------------------------------------------------- %
-\begin{minipage}[t]{10cm}
+\begin{minipage}[t]{9.5cm}
 Flèche en $E(x=\frac{l}{2})$\\
 ~\\
-$\frac{y}{EI_{Gz}} = -p\frac{l^4}{16\times24}+p\frac{l^4}{16\times6}
- -p\frac{a^2l^2}{16}-p\frac{l^4}{16\times3}+p\frac{a^2l^2}{8}$\\
+$EIy =
+- p\frac{l^4}{16\times24}
++ p\frac{l^4}{16\times6}
+- p\frac{a^2l^2}{16}
+- p\frac{l^4}{16\times3}
++ p\frac{a^2l^2}{8}
+$\\
 ~\\
-$\phantom{\frac{y}{EI_{Gz}}} = -p\frac{5l^4}{16\times24}+p\frac{a^2l^2}{16}$\\
+$\phantom{EIy} =
+- p\frac{5l^4}{16\times24}
++ p\frac{a^2l^2}{16}
+$\\
 ~\\
 \hfill
-\fbox{$y_E = -\frac{pl^4}{16EI_{Gz}}(\frac{5}{24} - \frac{a^2}{l^2})$}\\
+\fbox{$y_E = -\frac{pl^4}{16EI}(\frac{5}{24} - \frac{a^2}{l^2})$}\\
 ~\\
-$y_E=0$ pour $L=2$ et $l=\frac{L}{1+2\sqrt\frac{5}{24}} \simeq 1.0455$
+~\\
+~\\
+Calcul de $l$ pour $y_E=0$ et $L=2$:\\
+~\\
+$l=\frac{L}{1+2\sqrt\frac{5}{24}} \simeq 1.0455$
 \end{minipage}
 ~\\
 ~\\
@@ -196,9 +212,9 @@ $y_E=0$ pour $L=2$ et $l=\frac{L}{1+2\sqrt\frac{5}{24}} \simeq 1.0455$
 % ---------------------------------------------------------------------------- %
 Déformée avec pyBar:\\
 \begin{center}
-\includegraphics[scale=0.35]{defo1.pdf}\\
-\includegraphics[scale=0.35]{defo2.pdf}\\
-\includegraphics[scale=0.35]{defo3.pdf}
+\includegraphics[scale=0.5]{defo1.pdf}\\
+\includegraphics[scale=0.5]{defo2.pdf}\\
+\includegraphics[scale=0.5]{defo3.pdf}
 \end{center}
 
 \end{document}
