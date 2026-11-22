@@ -15,6 +15,7 @@ VERSION_NAME = 1.0
 SDK ?= $(HOME)/Android/Sdk
 BUILD_TOOLS ?= $(SDK)/build-tools/$(BUILD_TOOLS_VERSION)
 ANDROID_JAR ?= $(SDK)/platforms/android-$(TARGET_SDK)/android.jar
+CMDLINE_TOOLS_ZIP ?= commandlinetools-linux-11076708_latest.zip
 KEYSTORE ?= $(HOME)/.android/debug.keystore
 BDIR ?= build
 HTML = ../../html
@@ -28,10 +29,26 @@ all: $(BDIR)/$(APP).apk
 .PHONY: help
 help:
 	@echo
-	@echo "make sdk (cf. ../native)"
+	@echo "sudo apt install default-jdk-headless"
+	@echo "make sdk"
 	@echo "make [COEFFS=../../../build/coeffs2026-2033]"
 	@echo "make install"
 	@echo
+
+# SDK minimal : build-tools + platform (sans Android Studio ni Gradle)
+.PHONY: sdk
+sdk: $(BUILD_TOOLS)/d8 $(ANDROID_JAR)
+$(SDK)/cmdline-tools/latest/bin/sdkmanager:
+	@mkdir -p $(SDK)/cmdline-tools
+	cd $(SDK)/cmdline-tools &&\
+	 wget -q https://dl.google.com/android/repository/$(CMDLINE_TOOLS_ZIP) &&\
+	 unzip -q $(CMDLINE_TOOLS_ZIP) && $(RM) $(CMDLINE_TOOLS_ZIP) &&\
+	 mv cmdline-tools latest
+$(BUILD_TOOLS)/d8 $(ANDROID_JAR) &: $(SDK)/cmdline-tools/latest/bin/sdkmanager
+	yes | $< --sdk_root=$(SDK) --licenses >/dev/null
+	$< --sdk_root=$(SDK)\
+	 "build-tools;$(BUILD_TOOLS_VERSION)" "platforms;android-$(TARGET_SDK)"
+	@touch $(BUILD_TOOLS)/d8 $(ANDROID_JAR)
 
 # Page HTML autonome (coefficients integres, cf. ../../html/Makefile) :
 # reprise telle quelle, regeneree seulement si absente ou si COEFFS est donne

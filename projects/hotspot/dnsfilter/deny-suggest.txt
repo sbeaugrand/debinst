@@ -787,3 +787,72 @@ cpx-research.com
 # == Samsung : bloque sans en connaitre le role (a surveiller) ==
 api.mop.apps.samsung.com
 stc.samsungdis.com
+# ---------------------------------------------------------------------------- #
+# Ajouts du 2026-11-22 (check-1w du 2026-11-22)
+# ---------------------------------------------------------------------------- #
+# == Gestionnaires de balises et GTM cote serveur (comme TagCommander) ==
+tiqcdn.com
+stapecdn.com
+fk8hd6gcc.centrakor.com
+load.admin.dbzboutique.fr
+ggl.boutique-dragon-ball.com
+analytik.bebeboutik-prive.fr
+# == Telemetrie d'applis et de services ==
+browser-intake-datadoghq.com
+events.launchdarkly.com
+statsigapi.net
+hightouch-events.com
+mparticle.weather.com
+eu.klarnaevt.com
+collect.quickcep.com
+network-eu-a.bazaarvoice.com
+datalayer.orange.fr
+pdata.orange.fr
+# == Sondes reseau Microsoft (comme netseer/traffic-nts pour Facebook) ==
+footprintdns.com
+fp.msedge.net
+# == Enregistrement de sessions ==
+smartlook.com
+smartlook.cloud
+# == Regies web, affiliation, identifiants publicitaires ==
+dstillery.com
+media6degrees.com
+pw.adn.cloud
+hrzn-nxt.com
+advertising.a2z.com
+vibe.co
+ebayrtm.com
+tracking-pixel.omegatheme.com
+go.twenga.fr
+utiq.com
+utiqcontent.com
+p-n.io
+# == Liens de suivi (Branch, deja bloque via branch.io) et e-mails (Mailjet) ==
+app.link
+bnc.lt
+mj.am
+# == Anti-adblock et domaines a noms aleatoires ==
+toucanmaple.biz
+gracefulpony.info
+freshcoffee.pro
+splendidlinen.com
+charmingkite.com
+casualcitrus.biz
+betterviolet.org
+boldpasta.me
+neatpiano.com
+clearparcel.info
+gracefulbucket.com
+trailwind.pro
+mowell.tech
+qwrtftox.com
+# == Domaines jetables / arnaques ==
+jsdeliver.cloud
+news24trusty.com
+vitalgrowgumm.com
+lifealigned.site
+# == Bloques sans en connaitre le role, deux semaines ou plus (a surveiller) ==
+binfenxie.com
+ankhx.com
+dailyinnovation.biz
+storage.yandexcloud.net

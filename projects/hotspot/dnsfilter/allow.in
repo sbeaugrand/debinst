@@ -609,3 +609,82 @@ telegram.org # Telegram (autorise le 2026-11-15)
 telegram.me
 t.me
 [ ]d[a-z0-9]\{12,13\}.cloudfront.net.$ # distributions CloudFront anonymes (13 ou 14 caracteres)
+# ---------------------------------------------------------------------------- #
+# Ajouts du 2026-11-22
+# ---------------------------------------------------------------------------- #
+kahoot.it # scolaire
+jamfcloud.com # MDM des iPad scolaires (Jamf School)
+ws-school.v.aaplimg.com
+okta.com # authentification (SSO)
+oktacdn.com
+finances.gouv.fr # impots
+orange.fr # portail, mail, jeux Orange (datalayer et pdata y sont bloques)
+assets.orange.com
+woopic.com # CDN Orange
+freefr-fixed.mno.link # Free (operateur)
+vvm.proxad.net # Free : messagerie vocale visuelle
+samsungiotcloud.com # SmartThings
+samsungcareplus.com
+cryptauthvault.googleapis.com # Google : synchronisation des cles
+[ ]messages.google.com # Google Messages (pas fundingchoicesmessages)
+services.google.com
+gdmf.v.aaplimg.com # Apple : mises a jour iOS
+iprofiles.v.aaplimg.com # Apple : profils MDM
+kt-prod.v.aaplimg.com
+humb.v.aaplimg.com
+aidc.v.aaplimg.com
+gateway.fe2.apple-dns.net
+[ ]a[0-9]\{1,5\}.[a-z0-9]*.akamai.net.$ # noms techniques Akamai (cibles CNAME)
+prodregistryv2.org # Microsoft 365
+discover.aadrm.com # Microsoft : protection des documents Office
+aps.prod.windows.com
+-ring.msedge.net # Microsoft (s-ring, t-ring, spo-ring)
+-tunicast.msedge.net
+edge-consumer-static.azureedge.net
+ocsp.comodoca.com
+app.launchdarkly.com # options des applis (events.launchdarkly.com y est bloque)
+clientstream.launchdarkly.com
+klarnaservices.com # Klarna : widget de paiement
+skeepers.io # avis clients des boutiques
+avis-verifies.com
+apps.bazaarvoice.com # avis clients (network-eu-a y est bloque)
+chat.quickcep.com # chat des boutiques (collect.quickcep.com y est bloque)
+chata.quickcep.com
+front-assets.quickcep.com
+quicki18n.quickcep.com
+visitorim.quickcep.com
+cdn.privacy-mgmt.com # bandeau cookies Sourcepoint
+[ ]weather.com # meteo (mparticle.weather.com y est bloque)
+w-x.co
+www.boursorama.com # (pix.boursorama.com y est bloque)
+bour.so
+leboncoin.info
+lineup7-platform.fr # carte de fidelite Cultura
+cdn.pddmoonstatic.com # Temu
+woosmap.com # cartes des magasins
+icecat.biz # fiches produits
+dynamsoftonline.com # lecture de codes-barres
+ebaydesc.com
+shrinetheme.com # themes Shopify
+pawwalls.com
+myshopline.com
+motive.co # recherche dans les boutiques
+api.parental-controls.com # TimeLimit (timelimit.io, controle parental)
+iesnare.com # anti-fraude des paiements (iovation)
+siftscience.com # anti-fraude des paiements
+ipinfo.io # geolocalisation par IP
+api.country.is
+ga.jspm.io
+cdn.plyr.io
+cdn.iconscout.com
+images.dmca.com
+gamecash.fr
+www.centrakor.com
+[ ]dbzboutique.fr
+www.boutique-dragon-ball.com
+bebeboutik.fr
+img.bebeboutik-prive.fr
+poshmark.com
+posh.mk
+joliechoses.com
+customchic.co.uk

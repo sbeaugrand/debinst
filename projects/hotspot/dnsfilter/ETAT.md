@@ -32,7 +32,7 @@ Chevauchements restants (motif d'allow.in → nombre d'entrées bloquées qu'il 
 - **CapCut** est autorisé, donc les CDN ByteDance (ibyteimg, byteoversea, tiktokcdn…) le sont aussi.
 - **TikTok** est autorisé sur le PC et bloqué sur les téléphones par nft, pas par le DNS. Il ne figure donc pas dans blocked-names.txt, et `tiktok.com` et `tiktokv.com` sont dans allow.in.
 - **Epic Games / Fortnite** : autorisé (`epicgames.com`, `epicgames.dev`, `unrealengine.com`). Sa télémétrie (tracking, datarouter, faro-receiver) reste bloquée.
-- **SDK d'applis non identifiés** (everestop, mossturbo, rqmob, zipoapps, vgamepop, snapplay) : bloqués le 2026-11-08 après deux semaines de présence. Si une appli ou un jeu ne marche plus, regarder d'abord de ce côté.
+- **SDK d'applis non identifiés** (everestop, mossturbo, rqmob, zipoapps, vgamepop, snapplay) : bloqués le 2026-11-08 après deux semaines de présence. Le 2026-11-22, même règle pour `binfenxie.com`, `ankhx.com`, `dailyinnovation.biz` et `storage.yandexcloud.net` (troisième semaine). Si une appli ou un jeu ne marche plus, regarder d'abord de ce côté.
 - **Stores d'APK hors Play Store** (Aptoide, APKMirror, Aurora Store, F-Droid) : bloqués. Aptoide a servi à installer Fortnite.
 - **Huya** (`cdnws.api.huya.com`) et **`dcg.microsoft.com`** : bloqués le 2026-11-08 sans en connaître le rôle. Il faut vérifier que rien ne casse (une appli sur les téléphones pour Huya, Windows ou Office sur le PC pour Microsoft).
 - **Ezoic** (`ezoic.net`, `ezojs.com`, `ezodn.com`, vidéo `open.video`, `bidsystem.ai`) : bloqué le 2026-11-15. C'était le premier poste de la semaine (environ 400 requêtes). Son bandeau cookies `gatekeeperconsent.com` reste autorisé, comme les autres bandeaux.
@@ -42,7 +42,16 @@ Chevauchements restants (motif d'allow.in → nombre d'entrées bloquées qu'il 
 - **Telegram** : autorisé le 2026-11-15 (`telegram.org`, `telegram.me`, `t.me`).
 - **CloudFront** : les distributions anonymes (`d` suivi de 12 ou 13 caractères, puis `.cloudfront.net`) sont masquées dans le rapport par un motif ancré d'allow.in, parce qu'on ne peut pas les classer par le nom. Elles n'ont jamais été bloquées. En contrepartie, un traceur hébergé sur CloudFront n'apparaît plus. Les noms personnalisés en `*.cloudfront.net`, s'il y en a, restent visibles.
 - **Paiement et protection des applis bancaires** (SumUp, Worldline Sips, Klarna, Zimperium) : autorisés. `6f74656c.sumup.com` est bloqué : `6f74656c` est « otel » en hexadécimal, c'est-à-dire la télémétrie OpenTelemetry.
-- **Bandeaux cookies** (Didomi, Cookiebot, Usercentrics, OneTrust, Axeptio, Pandectes…) : autorisés, car les bloquer casse souvent l'affichage des sites et de certaines applis. Les gestionnaires de balises (TagCommander, Adobe DTM) et LiveRamp (privacymanager.io) sont bloqués.
+- **Bandeaux cookies** (Didomi, Cookiebot, Usercentrics, OneTrust, Axeptio, Pandectes, Sourcepoint…) : autorisés, car les bloquer casse souvent l'affichage des sites et de certaines applis. Les gestionnaires de balises (TagCommander, Adobe DTM, Tealium `tiqcdn.com`, puis le GTM côté serveur Stape et les sous-domaines du type `load.`, `ggl.`, `analytik.` sur les boutiques) et LiveRamp (privacymanager.io) sont bloqués.
+- **École** : Kahoot, Jamf School (`jamfcloud.com`, MDM des iPad) et Okta (SSO) sont autorisés le 2026-11-22.
+- **Opérateurs** : `orange.fr` et son CDN `woopic.com` sont autorisés (portail, mail, jeux), sauf `datalayer.orange.fr` et `pdata.orange.fr` (bloqués, donc recouverts par le motif). Utiq (`utiq.com`, `utiqcontent.com`), l'identifiant publicitaire fourni par les opérateurs, est bloqué. Free (`mno.link`, messagerie vocale `vvm.proxad.net`) est autorisé.
+- **Anti-adblock à noms aléatoires** : des domaines de la forme `mot.adjectifnom.tld` (`hose.boldpasta.me`, `chow.trailwind.pro`, `meal.gracefulbucket.com`…) sont bloqués le 2026-11-22. Ils changent souvent : il en reviendra de nouveaux chaque semaine.
+- **`shopify.jsdeliver.cloud`** : imite `jsdelivr` (CDN légitime) sur une boutique Shopify. Bloqué comme probable script malveillant (vol de carte bancaire ou redirection).
+- **Microsoft** : les sondes réseau (`footprintdns.com`, `fp.msedge.net`) sont bloquées, comme celles de Facebook. Les autres noms `msedge.net` (`s-ring`, `t-ring`, `tunicast`) restent autorisés car Office et Teams s'en servent.
+- **Feature flags** : on ne bloque que la télémétrie (`events.launchdarkly.com`, `statsigapi.net`, cohérent avec `featureassets.org`). `app` et `clientstream.launchdarkly.com` restent autorisés pour ne pas casser les applis.
+- **Liens de suivi** : `app.link` et `bnc.lt` (Branch, `branch.io` était déjà bloqué) et `mj.am` (Mailjet, comme `awstrack.me`) sont bloqués le 2026-11-22. Conséquence : les liens de certains e-mails ou SMS ne s'ouvrent plus. Si c'est trop gênant, retirer ces lignes.
+- **TimeLimit** (`api.parental-controls.com`, contrôle parental timelimit.io) : autorisé le 2026-11-22. Le bloquer empêcherait l'appli de synchroniser ses règles.
+- **Anti-fraude des paiements** (iovation `iesnare.com`, Sift) : autorisés, comme Zimperium.
 
 ## Historique
 
@@ -52,16 +61,16 @@ Chevauchements restants (motif d'allow.in → nombre d'entrées bloquées qu'il 
 | 2026-11-01 | 4 912 (729 noms) | 478 (97 noms, 90 % classées) | Facebook et WeWard autorisés, Snapchat bloqué, sondages bloqués. |
 | 2026-11-08 | 1 064 (341 noms) | 233 (79 noms, 78 % classées) | Stores d'APK bloqués, Epic Games autorisé, Huya, dcg.microsoft et SDK inconnus bloqués, `yandex.` réduit. |
 | 2026-11-15 | 1 468 (344 noms) | 83 (37 noms, 94 % classées) | Ezoic, Qihoo 360, Hotjar, ShareThis, Outbrain (images) bloqués. Telegram, les distributions CloudFront anonymes, beaucoup de sites marchands et de sites sur l'audition autorisés. |
+| 2026-11-22 | 430 (184 noms) | 26 (17 noms, 94 % classées, simulé) | Tealium et GTM côté serveur, Utiq, Smartlook, sondes Microsoft, anti-adblock à noms aléatoires, Branch/Mailjet, faux jsdelivr bloqués. École (Kahoot, Jamf, Okta), Orange, Free et boutiques autorisés. |
 
 ## À décider ou à identifier
 
-Restants de la semaine du 2026-11-15, par volume (après application des suggestions) :
+Restants de la semaine du 2026-11-22 (simulation avec les suggestions appliquées) :
 
-- `storage.yandexcloud.net` (9, troisième semaine) : stockage générique, on ne sait pas qui l'utilise.
-- `event-portal.dailyinnovation.biz` (7), `welkit.com` (6), `webservices.mor-hermes.com` (4), `applets.ebxcdn.com` (4), `powl.io` (8), `kimeratechnologies.com` (6) : rôle inconnu, probablement des widgets de boutiques.
-- `voilatile-pa.googleapis.com` (3) : service Google dont on ne connaît pas le rôle.
-- `cdn.pddmoonstatic.com` (Temu), `binfenxie.com`, `ankhx.com`, `pahter.tech`, `solarsmashonline.com` : une ou deux requêtes chacun. À surveiller : ils pourraient venir d'applis ou de jeux douteux.
-- Des noms techniques de CDN (akamai, herokudns, elb/execute-api amazonaws, kxcdn, cdn77) : ce sont les cibles CNAME d'autres noms, on peut les ignorer.
+- `voilatile-pa.googleapis.com` (5, deuxième semaine), `voledevice-pa.googleapis.com`, `ulp1p-pa.googleapis.com` : services Google dont on ne connaît pas le rôle. Pas bloqués malgré la règle des deux semaines, car un service Google système qui casse est difficile à diagnostiquer. À bloquer la semaine prochaine s'ils sont toujours là.
+- `www.eliteapp.channel`, `dl.listdl.com`, `www.mczbf.com`, `static.qovani.com`, `builder-sdks.bryj.ai`, `static.tblcontent.com`, `pdscrb.com` (ipv4, verifi) : rôle inconnu, une ou deux requêtes. À bloquer s'ils reviennent.
+- `data.amazon.fr` (2) : peut-être de la télémétrie Amazon (comme `unagi` et `fls`), pas confirmé.
+- Des noms techniques (execute-api amazonaws, `img-cache.net`, `as8677.net`, `crossdesk.com`) : on peut les ignorer.
 
 ## Pistes hors de ce répertoire
 
@@ -70,7 +79,7 @@ Restants de la semaine du 2026-11-15, par volume (après application des suggest
 
 ## Procédure pour la prochaine fois
 
-1. Copier dans blocked-names.txt les sections de deny-suggest.txt qui ne s'y trouvent pas encore. Tout ce qui précède « Ajouts du 2026-11-15 » y est déjà, il ne reste donc que cette dernière section à copier. Pour le vérifier : `grep -v '^#' deny-suggest.txt | grep -vxF -f /etc/dnscrypt-proxy/blocked-names.txt`.
+1. Copier dans blocked-names.txt les sections de deny-suggest.txt qui ne s'y trouvent pas encore. Tout ce qui précède « Ajouts du 2026-11-22 » y est déjà, il ne reste donc que cette dernière section à copier. Pour le vérifier : `grep -v '^#' deny-suggest.txt | grep -vxF -f /etc/dnscrypt-proxy/blocked-names.txt`.
 2. Copier allow-suggest.in à la fin d'allow.in.
 3. Redémarrer dnscrypt-proxy, attendre une semaine, puis lancer `make S=1w > check-1w.out`.
 4. Demander à Claude d'affiner à partir de ce fichier, de `check-1w.out`.
