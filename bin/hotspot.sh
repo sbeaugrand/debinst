@@ -207,6 +207,8 @@ if [ -z "$max" ]; then
     max=600
 fi
 minutes=0
+hh=0
+mm=00
 id=0
 while true; do
     if [ "`type -t loop`" = function ]; then
@@ -223,6 +225,8 @@ while true; do
         mm=00
     fi
     id=`notify-send -p -r $id "wifi" "hotspot ouvert ${hh}h$mm"`
-    echo "${hh}h$mm"
+    if [ ! -e /sbin/actif-restant.sh ]; then
+        echo "${hh}h$mm"
+    fi
     sudo true
 done

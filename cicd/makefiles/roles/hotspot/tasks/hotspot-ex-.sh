@@ -46,4 +46,14 @@ loop()
     blockAfter 30 $ipE2a "Enfant2 poki.com" "Enfant2 30"
     blockAfter 70 $ipE3a "Enfant3 fr.pinterest.com" "Enfant3 70"
     blockAfter 70 $ipE3a "Enfant3 anime-sama"       "Enfant3 70"
+    # sudo cp projects/hotspot/actif-restant.sh /sbin/
+    if [ -e /sbin/actif-restant.sh ]; then
+        r=`sudo /sbin/actif-restant.sh 50`
+        if ((r == 0)); then
+            if ! nft.sh list 2>/dev/null | grep -q "enfant1 actif"; then
+                nft.sh block $ipE1a "enfant1 actif"
+            fi
+        fi
+        echo "${hh}h$mm E:$r/50"
+    fi
 }

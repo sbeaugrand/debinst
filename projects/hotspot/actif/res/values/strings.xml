@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Actif</string>
+    <!-- Nom d'hote interroge (requete DNS) a chaque allumage de l'ecran puis
+         chaque minute tant que l'ecran reste allume. {t} est remplace par
+         l'heure (HHmmss) : le nom change a chaque fois, ce qui evite le cache
+         DNS et garantit que chaque requete apparait dans tcpdump (meme si le
+         nom n'existe pas). -->
+    <string name="host" translatable="false">actif-{t}.example.com</string>
+</resources>

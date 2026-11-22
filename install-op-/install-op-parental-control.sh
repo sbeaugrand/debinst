@@ -48,6 +48,7 @@ fi
 file=/etc/dnscrypt-proxy/blocked-names.txt
 if notFile $file; then
     cat >$tmpf <<EOF
+actif-*.example.com
 www.filmstreaming.*
 play*.googleapis.com
 play.google.com

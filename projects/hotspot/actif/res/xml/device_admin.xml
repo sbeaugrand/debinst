@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Politiques d'administration demandees. Aucune n'est utilisee : l'admin
+     ne sert qu'a bloquer la desinstallation tant qu'il est actif. -->
+<device-admin xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-policies/>
+</device-admin>
