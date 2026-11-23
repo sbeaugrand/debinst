@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Nœud (knotsvg)</name>
+  <id>fr.chez.beaugrand.knotsvg</id>
+  <param name="tab" type="notebook">
+    <page name="options" gui-text="Paramètres">
+      <param name="depth" type="string" gui-text="Profondeurs (depth) :"
+             gui-description="Une valeur par segment de Bézier, dans l'ordre : 1 = dessus, -1 = dessous. Ex. : 1 -1 1 1 -1"></param>
+      <param name="xscale" type="float" min="0.01" max="100" precision="3" gui-text="Échelle X (xscale) :">1.0</param>
+      <param name="yscale" type="float" min="0.01" max="100" precision="3" gui-text="Échelle Y (yscale) :">1.0</param>
+      <param name="unit" type="float" min="0.001" max="1000" precision="3" gui-text="Unité knotsvg (en unités du document) :"
+             gui-description="Longueur du document correspondant à une unité des chemins de knotsvg.py. 1 = chemins dessinés avec les coordonnées des fichiers noeud_*.py. Un toron fait 0,5 unité de large.">1.0</param>
+      <param name="title" type="string" gui-text="Titre (title) :"
+             gui-description="Plusieurs lignes séparées par |, ex. : Nœud|d'écoute|gansé"></param>
+      <param name="title_insert" type="string" gui-text="Position du titre (title_insert) :"
+             gui-description="x,y en unités knotsvg (comme title_insert de knotsvg.py), une position par ligne séparées par ; (ex. : 3.8,-1.5)">0,0</param>
+      <separator/>
+      <param name="strands" type="string" gui-text="Sens des torons (strands) :"
+             gui-description="Un signe par chemin, dans l'ordre d'empilement : + ou -. Ex. : nœud plat = + +, nœud de pêcheur = + -. Valeur manquante = +"></param>
+      <param name="show_index" type="bool" gui-text="Afficher les numéros de segments">false</param>
+    </page>
+    <page name="help" gui-text="Aide">
+      <label>Sélectionnez un ou plusieurs chemins. Ils sont parcourus dans l'ordre d'empilement (z-order), puis segment de Bézier par segment de Bézier dans le sens du chemin.</label>
+      <label>depth contient une valeur par segment : positive = brin au-dessus, négative = brin en dessous. Cochez « Afficher les numéros de segments » pour voir la numérotation (bleu = dessus, rouge = dessous, gris = valeur manquante).</label>
+      <label>Les sous-chemins d'un même objet ont le même sens de toron. Le sens de chaque objet est donné par « Sens des torons » (+ ou -). Dans knotsvg.py le sens s'inverse à chaque élément de la liste, chaînes vides '' comprises : ['A', '', 'B'] donne + +, ['A', 'B'] donne + -.</label>
+      <label>Les chemins se dessinent avec les mêmes coordonnées que dans knotsvg.py (1 unité knotsvg = « Unité knotsvg » unités du document ; un toron fait 0,5 unité knotsvg de large) ; xscale et yscale s'appliquent depuis l'origine, comme dans knotsvg.py. Utilisez « Aperçu en direct » puis Appliquer ; le résultat est un groupe « knotsvg » enregistrable avec Fichier › Enregistrer ou exportable en SVG via Fichier › Exporter (sélection).</label>
+    </page>
+  </param>
+  <effect>
+    <object-type>path</object-type>
+    <effects-menu>
+      <submenu name="Render"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">knotsvg_inkscape.py</command>
+  </script>
+</inkscape-extension>

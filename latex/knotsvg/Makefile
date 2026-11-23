@@ -10,8 +10,7 @@ PDFOBJECTS = $(patsubst %.py,%.pdf,$(wildcard noeud_*.py))
 PDFOBJECTS := $(addprefix build/,$(PDFOBJECTS))
 SIZE = $(words $(PDFOBJECTS))
 COUNT = 0
-PYVER = $(shell python3 -c 'import sys; print("{}.{}".format(sys.version_info.major, sys.version_info.minor))')
-BEZIER = $(HOME)/.local/lib/python$(PYVER)/site-packages/bezier
+INKEXT = $(HOME)/.config/inkscape/extensions
 
 include $(PROROOT)/makefiles/livret.mk
 
@@ -25,11 +24,15 @@ $(PROJECT).pdf: $(PDFOBJECTS)
 build/noeud_%.pdf: build/noeud_%.svg
 	@inkscape -D $^ -o $@
 
-build/noeud_%.svg: noeud_%.py knotsvg.py $(BEZIER)
+build/noeud_%.svg: noeud_%.py knotsvg.py
 	python3 $< $@
 
-$(BEZIER):
-	pip3 install bezier
+.PHONY: inkscape
+inkscape:
+	@mkdir -p $(INKEXT)
+	@ln -sf $(CURDIR)/inkscape/knotsvg_inkscape.py $(INKEXT)/
+	@ln -sf $(CURDIR)/inkscape/knotsvg.inx $(INKEXT)/
+	@ln -sf $(CURDIR)/knotsvg.py $(INKEXT)/
 
 .PHONY: landscape
 landscape: landscape.pdf

@@ -8,7 +8,6 @@
 # wheels
 echo "wheels"
 for args in\
- bezier\
  "--no-binary kivy kivy"\
  pydbus\
  buildozer\
