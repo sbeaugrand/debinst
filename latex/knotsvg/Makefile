@@ -34,6 +34,10 @@ inkscape:
 	@ln -sf $(CURDIR)/inkscape/knotsvg.inx $(INKEXT)/
 	@ln -sf $(CURDIR)/knotsvg.py $(INKEXT)/
 
+.PHONY: svg
+svg:
+	@python3 inkscape/gensvg.py
+
 .PHONY: landscape
 landscape: landscape.pdf
 landscape.pdf: $(PROJECT).pdf

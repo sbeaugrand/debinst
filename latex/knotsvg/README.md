@@ -51,8 +51,28 @@ Les paramètres sont ceux de `knotsvg.py`, plus :
 - **Afficher les numéros de segments** : aide à remplir `depth`
   (bleu = dessus, rouge = dessous, gris = valeur manquante).
 
-`inkscape/noeud-plat.svg` est un exemple : sélectionner les deux chemins et
-utiliser `depth` = `1 -1 1 1 -1 1 -1 1 -1 -1 1 -1`, yscale = `0.8`.
+### Tester l'extension
+Les fichiers de test ne sont pas dans le dépôt, il faut d'abord les générer :
+```sh
+make svg         # inkscape/noeud-*.svg à partir des noeud_*.py
+```
+Chaque `inkscape/noeud-*.svg` contient les chemins du `noeud_*.py`
+correspondant (le deuxième chemin éventuel en rouge). Pour tester
+l'extension : ouvrir le fichier,
+sélectionner tous les chemins et reprendre `depth`, `xscale`, `yscale` et
+`title` du `noeud_*.py` correspondant. Par exemple pour
+`inkscape/noeud-plat.svg` : `depth` = `1 -1 1 1 -1 1 -1 1 -1 -1 1 -1`,
+yscale = `0.8`.
+
+Le **Sens des torons** se déduit de la liste `paths` du `noeud_*.py` : le
+chemin à la position *i* de la liste (en comptant les chaînes vides `''`, à
+partir de 0) prend `+` si *i* est pair et `-` si *i* est impair. Exemples :
+
+| `paths` dans `noeud_*.py` | Sens des torons |
+|---|---|
+| `['A']` | `+` |
+| `['A', '', 'B']` (nœud plat) | `+ +` |
+| `['A', 'B']` (nœud de pêcheur) | `+ -` |
 
 ## Fichiers
 | Fichier | Rôle |
@@ -61,3 +81,5 @@ utiliser `depth` = `1 -1 1 1 -1 1 -1 1 -1 -1 1 -1`, yscale = `0.8`.
 | `noeud_*.py` | description de chaque nœud |
 | `knotsvg.tex` | mise en page du livret |
 | `inkscape/knotsvg_inkscape.py`, `inkscape/knotsvg.inx` | extension Inkscape, qui importe `knotsvg.py` |
+| `inkscape/gensvg.py` | génère `inkscape/noeud-*.svg` (chemins et `sodipodi:nodetypes` des `noeud_*.py`) |
+| `inkscape/noeud-*.svg` | chemins des nœuds, pour tester l'extension (générés par `make svg`, non versionnés) |
