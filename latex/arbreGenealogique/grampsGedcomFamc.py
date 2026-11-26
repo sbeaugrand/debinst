@@ -9,6 +9,7 @@ import sys
 from gramps.gen.db import open_database
 from os import path
 
+
 # ---------------------------------------------------------------------------- #
 ## \fn checkParent
 # ---------------------------------------------------------------------------- #
@@ -16,6 +17,7 @@ def checkParent(handle, level, depth):
     if db.has_person_handle(handle):
         return checkPerson(db.get_person_from_handle(handle), level + 1, depth)
     return 0
+
 
 # ---------------------------------------------------------------------------- #
 ## \fn checkPerson
@@ -30,6 +32,7 @@ def checkPerson(person, level, depth):
             return
         checkParent(family.get_father_handle(), level, depth)
         checkParent(family.get_mother_handle(), level, depth)
+
 
 # ---------------------------------------------------------------------------- #
 # main

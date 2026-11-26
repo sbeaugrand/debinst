@@ -104,11 +104,11 @@ $(PROJECT).pdf: $(PROJECT).tex\
  build/I0032I0035.png\
  build/I0000I0009.png\
 
-export-pr-H%.tex: export-pr-%.csv gramps2tex.php randomColor.php
-	php gramps2tex.php $< 1 8 576 50 >$@
+export-pr-H%.tex: export-pr-%.csv gramps2tex.py randomColor.py
+	./gramps2tex.py $< 1 8 576 50 >$@
 
-export-pr-F%.tex: export-pr-%.csv gramps2tex.php randomColor.php
-	php gramps2tex.php $< 2 8 576 50 >$@
+export-pr-F%.tex: export-pr-%.csv gramps2tex.py randomColor.py
+	./gramps2tex.py $< 2 8 576 50 >$@
 
 build/ellipse1.png:
 	@convert -size $(PHOTO_W1)x$(PHOTO_H1) xc:white -fill black\
@@ -343,8 +343,8 @@ testRGB.pdf: testRGB.tex
 	@pdflatex --halt-on-error $<
 	@$(RM) testRGB.aux testRGB.log
 
-testRGB.tex: testRGB.php randomColor.php
-	@php $< >$@
+testRGB.tex: testRGB.py randomColor.py
+	@./$< >$@
 
 .PHONY: check-notes
 check-notes:

@@ -11,7 +11,7 @@ PROROOT = ..
 
 $(PROJECT).pdf: page.tex
 
-page.tex: liste.tex liste2page.awk
+page.tex: liste-pr-.tex liste2page.awk
 	@cat $< | ./liste2page.awk - $(L) >$@
 
 include $(PROROOT)/makefiles/pdf.mk

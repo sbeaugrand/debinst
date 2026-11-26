@@ -23,9 +23,8 @@ with DbTxn("Replace notes", db, batch=True) as transaction:
             count += 1
             print(text.replace("\n", " "))
         elif text.find("https://consultation.archives-loiret.fr/") >= 0:
-            text = text.replace(
-                "https://consultation.archives-loiret.fr/",
-                "https://archives-loiret.fr/")
+            text = text.replace("https://consultation.archives-loiret.fr/",
+                                "https://archives-loiret.fr/")
             obj.set(text)
             db.commit_note(obj, transaction)
             count += 1

@@ -9,12 +9,14 @@ import sys
 from gramps.gen.db import open_database
 from gramps.gen.db.txn import DbTxn
 
+
 def is_int(value):
     try:
         tempVal = int(value)
         return True
     except:
         return False
+
 
 db = open_database(sys.argv[1], force_unlock=True)
 count = 0

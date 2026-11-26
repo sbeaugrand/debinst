@@ -26,4 +26,3 @@ if count > 0:
     print(count)
 if len(medias) > 0:
     print(medias)
-
